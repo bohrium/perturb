@@ -15,6 +15,7 @@
 
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 \newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
 
 \usepackage{icml2019}
 %\usepackage[accepted]{icml2019}
@@ -48,8 +49,6 @@
 \newcommand{\dia}[1] {\begin{gathered}\includegraphics[scale=0.2 ]{../diagrams/#1.png}\end{gathered}}
 \newcommand{\mdia}[1]{\begin{gathered}\includegraphics[scale=0.16]{../diagrams/#1.png}\end{gathered}}
 \newcommand{\sdia}[1]{\begin{gathered}\includegraphics[scale=0.12]{../diagrams/#1.png}\end{gathered}}
-
-    
 
 \newcommand{\half}{\frac{1}{2}}
 \newcommand{\sixth}{\frac{1}{6}}
@@ -118,6 +117,7 @@
 %==============================================================================
 %    INTRODUCTION    
 %==============================================================================
+
 \section{Introduction}
     Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
     performing discrete-time steepest descent on noisy estimates of $l$.  A key
@@ -148,6 +148,61 @@
     qualitative conclusions as well, for instance that to order $\eta^2$, {\bf
     inter-epoch} shuffling does not affect expected test loss.
 
+
+%==============================================================================
+%    RELATED WORK    
+%==============================================================================
+
+\subsection{Related Work}
+    It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
+    stochastic approximation \citep{ro51}, invented SGD.  Since the development
+    of back-propagation for efficient differentiation \citep{we74}, SGD and its
+    variants have been used to train connectionist models including neural
+    networks \citep{bo91}, in recent years to remarkable success \citep{le15}.
+
+    Several lines of work predict the overfitting of SGD-trained networks
+    \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
+    complexity of deep hypothesis classes, leading to generalization bounds
+    that are post hoc or optimizer-agnostic.  However, since deep networks
+    trained via SGD generalize despite their seeming ability to shatter large
+    sets \citep{zh17}, one infers that generalization arises from the aptness
+    to data of not only architecture but also optimization \citep{ne17b}.
+    Others have focused on the implicit regularization of SGD itself, for
+    instance by modeling descent via stochastic differential equations (e.g.
+    \citet{ch18}).  However, as explained by \citet{ya19}, such continuous-time
+    analyses cannot treat covariance correctly, and so they err when
+    interpreting results about SDEs as results about SGD.
+
+    Following \citet{ro18}, we avoid making a continuous-time approximation by
+    instead Taylor-expanding around the learning rate $\eta=0$.  In fact, we
+    develop a diagrammatic language for evaluating each Taylor term that is
+    similar to and inspired by the field theory methods popularized by
+    \citet{dy49a}.  Using this technique, we quantify the overfitting effects
+    of batch size and epoch number, and based on this analysis, propose a
+    regularizing term that causes large-batch GD to emulate small-batch SGD,
+    thus establishing a precise version of the
+    Covariance-BatchSize-Generalization relationship conjectured in
+    \citet{ja18}.  
+    
+    While we make rigorous, architecture-agnostic predictions of learning
+    curves, these predictions become vacuous for large $\eta$.  Other
+    discrete-time dynamical analyses allow large $\eta$ by treating neural
+    generalization phenomenologically, whether by fitting to an
+    empirically-determined correlate of Rademacher bounds \citep{li18}, by
+    exhibiting generalization of local minima {\bf flat} with respect to the
+    standard metric (see \citet{ho17}, \citet{ke17}, citet{wa18}), or by
+    exhibiting generalization of local minima {\bf sharp} with respect to the
+    standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
+    which makes explicit the dependence of generalization on the underlying
+    metric and on the form of noise present, provides a framework to reconcile
+    those latter, seemingly clashing claims.
+    
+    {\color{red} TODO: COMPARE TO CHAUDHARI!}
+    
+    {\color{red} TODO: COMPARE TO DYER and WEINAN E!}
+
+    \lorem{3}
+
 %==============================================================================
 %    BACKGROUND AND NOTATION
 %==============================================================================
@@ -162,18 +217,21 @@
     displacement (column vector).
 
     Then SGD with learning rate $\eta^{\mu\nu}$ decreases an objective $l$ by
-    updating on a sequence of smooth, unbiased i.i.d.  estimates $(l_n: 0\leq
+    updating on a sequence of smooth, unbiased i.i.d. estimates $(l_n: 0\leq
     n<N)$ of $l$:
-    \begin{equation}\label{eq:sgdstep} \theta_{t+1} \coloneqq \theta_t -
+    \begin{equation}\label{eq:sgdstep}
+        \theta_{t+1} \coloneqq
+        \theta_t -
         \eta^{\mu\nu} \nabla_\mu l_t(\theta_t)~~~~~~~~~~~~~(0\leq t<T=N)
     \end{equation}
+    This 1-epoch, size-1 batch formulation we call {\bf vanilla SGD}.
+    When we later generalize to GD or multi-epoch SGD, the $l_n$ but not the
+    $l_t$ will be independent.
 
-    \lorem{3}
+    We assume throughout that every polynomial of derivatives of the $l_n$,
+    considered as random function on weight space, is smooth. 
 
 \subsection{Motivating Example}
-    Gradient descent makes a first order approximation
-    {\color{red} FILL IN}
-
     Intuitively, each descent step displaces $\theta$ by $-\eta \nabla l$ and
     hence decreases the loss $l(\theta)$ by $\eta (\nabla l)^2$; thus, we
     expect after $T$ steps a net decrease of $T \eta (\nabla l)^2$:
@@ -183,8 +241,13 @@
     This intuition fails to capture two crucial facts: {\bf curvature} --- that
     as $\theta$ changes during training, so may $\nabla l(\theta)$ --- and {\bf
     noise} --- that $l_n$ and $l$ may differ.
-    %
-    We may account for curvature, i.e. $\nabla \theta$'s evolution, in analogy
+
+    To account for noise, we should replace each $(\nabla l_t)(\nabla l)$ by
+    an expectation.  If we are interested in train instead of test loss, 
+    We get some expectations of the form $(\nabla l_t)(\nabla l_t)$, and hence
+    obtain a different result than for test loss.
+
+    We may account for curvature, i.e. $\nabla l(\theta)$'s evolution, in analogy
     with (\ref{eq:motone})'s estimate of $l(\theta)$'s evolution: each step
     displaces $\theta$ by $-\eta(\nabla l)$ and hence changes $\nabla
     l(\theta)$ by $-\eta (\nabla^2 l) (\nabla l)$; thus, we expect that $\nabla
@@ -202,12 +265,11 @@
                   +& T \wrap{T-\frac{1}{2}} \cdot \eta^2 \cdot \nabla^2 l (\nabla l)^2
     \end{align}
     So far, we have essentially recovered Theorem 2.1.14 of \citet{ne04}.
-    
-    After establishing some general-purpose results, we will be able to
-    {\color{red} FILL IN}. 
-    
-    The more complicated the direct computation, the greater the savings of
-    using diagrams.
+
+    After establishing some general-purpose results, we will be able to derive
+    these and analogous results simply, clearly, and harmoniously, using
+    diagrams.  The more complicated the direct computation, the greater the
+    savings of using diagrams.
         
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
@@ -298,13 +360,13 @@
     partition of nodes (induced by the fuzzy ties).  If a diagram's nodes
     partition into $P$ sets of size $(d_p: 0\leq p < P)$, then the Taylor
     coefficient on that diagram's isomorphism class is
-    $$
+    \begin{equation}\label{eq:sgdcoef}
         \frac{(-\eta)^d}{d!} {T \choose P} {d \choose d_0, \cdots, d_{P-1}}
         \cdot 
         K_{D \to [d+1]}
         \in
         \Theta\left((\eta T)^d T^{P-d-1}\right)
-    $$
+    \end{equation}
     where $K_{D \to [d+1]}$ counts the total orders that extend the partial
     order of $D$ and in which each of the $P$ parts appears as a contiguous
     segment.  For example, at order $(-\eta)^3 {T \choose 3}$ there are two
@@ -366,10 +428,19 @@
     to SGD, while $P\leq d$ terms give us the effect of time-discretization and hence noise on SGD test loss.
     For Gaussian gradients,
     $\sdia{(012-3)(03-13-23)} = 3 \sdia{(01-2-3)(03-13-23)} - 2 \sdia{(0-1-2-3)(03-13-23)}$
-    in expectation, but above, we make no such assumption.
+    in expectation, but above, we make no such assumption.  Indeed:
+    \begin{thm}
+        Up to an error term whose Taylor series in $\eta$ vanishes, the test
+        loss of vanilla SGD is given by a sum of diagrams with coefficients
+        given in equation (\ref{eq:sgdcoef}).
+    \end{thm}
 
 \subsection{Renormalization}
-    \lorem{3}
+    An important idea is that of renormalization, i.e. the summarization of  
+    myriad small-scale interactions into an effective large-scale theory. 
+    We can use this two ways:
+        ({\bf A}) to refine our computations if we know the hessian;  
+        ({\bf B}) to refine our computations if we know the ``effective propagator''.
     \lorem{3}
     \lorem{3}
 
@@ -389,12 +460,13 @@
 %    PREDICTIONS AND APPLICATIONS
 %==============================================================================
 
-\section{Predictions and Applications}
+\section{Consequences and Applications}
 
 \subsection{Vanilla SGD}
-    For single-epoch SGD with singleton batches, we sum all relevant diagrams through order $3$; the 
-    coefficients $4, 2; 2, 2, 3; 1$ come from counting the elements of Table \ref{tab:scatthree}, and 
-    the other coefficients come from analogous tables.  This yields:
+    For single-epoch SGD with singleton batches, we sum all relevant diagrams
+    through order $3$; the coefficients $4, 2; 2, 2, 3; 1$ come from counting
+    the elements of Table \ref{tab:scatthree}, and the other coefficients come
+    from analogous tables.  This yields:
     \begin{align*}
             &\mathcal{L}^{\text{SGD}}_\text{test}(T, \eta) \in                   
         \\ 
@@ -466,9 +538,19 @@
     \end{figure}
 
 \subsection{Analyzing Second Order Methods}
+    We demonstrate how our approach extends to more sophisticated optimizers by
+    analyzing momentum and a hessian-based method. 
+
     \lorem{3}
     momentum
-    \lorem{3}
+
+    Now consider a hessian-based update parameterized by a scalar $\lambda$: 
+    $$
+        \theta \leftsquigarrow
+        \theta -
+        (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1} \nabla l_t(\theta)
+    $$
+
     invhess
     \begin{figure}[h!]
         \centering
@@ -515,82 +597,34 @@
         \plotplace{net theta vs time: ours, chaudhari, naive}
         \caption{\lorem{2}}
     \end{figure}
+    We constructed a counter-intuitive loss landscape wherein, for arbitrarily
+    small learning rates, SGD cycles counterclockwise around a circle of
+    minima.  Our mechanism differs from that discovered by \citet{ch18}
+    {\color{red}  discuss the thermodynamic significance of both}
 
-%==============================================================================
-%    RELATED WORK    
-%==============================================================================
 
-\section{Related Work}
-    It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
-    stochastic approximation \citep{ro51}, invented SGD.  Since the development
-    of back-propagation for efficient differentiation \citep{we74}, SGD and its
-    variants have been used to train connectionist models including neural
-    networks \citep{bo91}, in recent years to remarkable success \citep{le15}.
-
-    Several lines of work predict the overfitting of SGD-trained networks
-    \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
-    complexity of deep hypothesis classes, leading to generalization bounds
-    that are post hoc or optimizer-agnostic.  However, since deep networks
-    trained via SGD generalize despite their seeming ability to shatter large
-    sets \citep{zh17}, one infers that generalization arises from the aptness
-    to data of not only architecture but also optimization \citep{ne17b}.
-    Others have focused on the implicit regularization of SGD itself, for
-    instance by modeling descent via stochastic differential equations (e.g.
-    \citet{ch18}).  However, as explained by \citet{ya19}, such continuous-time
-    analyses cannot treat covariance correctly, and so they err when
-    interpreting results about SDEs as results about SGD.
-
-    Following \citet{ro18}, we avoid making a continuous-time approximation by
-    instead Taylor-expanding around the learning rate $\eta=0$.  In fact, we
-    develop a diagrammatic language for evaluating each Taylor term that is
-    similar to and inspired by the field theory methods popularized by
-    \citet{dy49a}.  Using this technique, we quantify the overfitting effects
-    of batch size and epoch number, and based on this analysis, propose a
-    regularizing term that causes large-batch GD to emulate small-batch SGD,
-    thus establishing a precise version of the
-    Covariance-BatchSize-Generalization relationship conjectured in
-    \citet{ja18}.  
-    
-    While we make rigorous, architecture-agnostic predictions of learning
-    curves, these predictions become vacuous for large $\eta$.  Other
-    discrete-time dynamical analyses allow large $\eta$ by treating neural
-    generalization phenomenologically, whether by fitting to an
-    empirically-determined correlate of Rademacher bounds \citep{li18}, by
-    exhibiting generalization of local minima {\bf flat} with respect to the
-    standard metric (see \citet{ho17}, \citet{ke17}, citet{wa18}), or by
-    exhibiting generalization of local minima {\bf sharp} with respect to the
-    standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
-    which makes explicit the dependence of generalization on the underlying
-    metric and on the form of noise present, provides a framework to reconcile
-    those latter, seemingly clashing claims.
-    
-    {\color{red} TODO: COMPARE TO CHAUDHARI!}
-    
-    {\color{red} TODO: COMPARE TO DYER!}
-
-    \lorem{3}
-    \lorem{3}
 %==============================================================================
 %    CONCLUSION      
 %==============================================================================
 
 \section{Conclusion}
+    We presented a novel diagrammatic tool for analyzing gradient-based
+    descent.  By presenting a new regularizing term, we showed that {\bf
+    large-batch GD can be made to emulate small-batch SGD}, thus completing a
+    project suggested by \citet{ro18}.  This is significant because, while
+    small batch sizes can lead to better generalization \citep{bo91}, modern
+    infrastructure increasingly rewards large batch sizes \citep{go18}.      
+    We showed also that in multi-epoch SGD, inter-epoch shuffling induces only
+    a $3$rd order effect on test loss.  Intuitively, we proved that {\bf the
+    hessian matters asymptotically more than  shuffling order}.
 
-    Applying this formalism, we propose a regularizing term that {\bf causes
-    large-batch GD to emulate small-batch SGD}, thus completing a project
-    suggested by \citet{ro18}.  This is significant because, while small batch
-    sizes can lead to better generalization \citep{bo91}, modern infrastructure
-    increasingly rewards large batch sizes \citep{go18}.  We verify the
-    correctness and practicality of this regularizer on typical smooth CIFAR-10
-    and MNIST architectures.  We also present a model-selection heuristic that
-    depends only on statistics measured before any optimization.  Finally, we
-    construct a counter-intuitive loss landscape wherein, for arbitrarily small
-    learning rates, SGD cycles counterclockwise around a circle of minima.  Our
-    mechanism differs from that discovered by \citet{ch18}, and we discuss the
-    thermodynamic significance of both.
-
-\subsection{Role of Covariance and New Questions}
-    \lorem{3}
+    The diagram method is also a rich source of intuitions and physical
+    analogies.  For example, it offers a clearer understanding of the
+    empirically verified limit cycles found in Chaudhari.  As our physical
+    analogy emphasizes the underlying metric, it reconciles competing views
+    of whether sharp or flat minima generalize.  Further exploration of this
+    bridge to particle physics, especially within the framework of
+    renormalization theory, pose a promising direction for future research.
 
 %==============================================================================
 %    ACKNOWLEDGEMENTS
@@ -702,51 +736,4 @@
     \lorem{3}
 
 \end{document}
-
-
-
-    %\begin{figure}[h!]
-    %    \centering
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-lenet-07-poly}
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-lenet-long-06-ode} \\
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/gene-lenet-02-poly} 
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-loss-converged} \\
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-loss}
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/gen-gap}
-    %    \caption{
-    %        MNIST-10 LeNet mean losses vs $\eta$ for $T=100$.   Vertical
-    %        spreads denote $95\%$ confidence intervals.
-    %        {\bf \ofsix{0}:} Test loss, polynomial fit.
-    %        {\bf \ofsix{1}:} Test loss for larger $T=1000$, autonomous-ODE fit.
-    %        {\bf \ofsix{2}:} Gen gap for a Xavier init.
-    %        {\bf \ofsix{3}:} Test loss decrease for multiple inits near minima: actual vs predicted. 
-    %        {\bf \ofsix{4}:} Test loss for multiple Xavier inits: actual vs predicted.
-    %        {\bf \ofsix{5}:} Gen gap for multiple Xavier inits: actual vs predicted. {\color{red} axes transposed?!}
-    %    }
-    %    \label{fig:basic}
-    %\end{figure}
-
-
-
-
-    %\begin{figure}[h!]
-    %    \centering
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/model-selection-acc}
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/model-selection-loss} \\
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/batchmatch-06} 
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-loss} \\
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-loss} 
-    %    \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{../plots/test-loss-bm}
-    %    \caption{
-    %        Applications illustrated on MNIST LeNet.  Top row's vertical spreads denote $95\%$
-    %        confidence intervals.
-    %        {\bf \ofsix{0}:} Ranking architectures for high {\bf accuracy} by predicting optimized loss from init statistics.
-    %        {\bf \ofsix{1}:} Ranking architectures for low {\bf loss} by predicting optimized loss from init statistics.
-    %        {\bf \ofsix{2}:} Batch matching for a Xavier init.
-    %        {\bf \ofsix{3}:} {\color{red} FILL IN!}
-    %        {\bf \ofsix{4}:} {\color{red} FILL IN!}
-    %        {\bf \ofsix{5}:} Batch matching for multiple Xavier inits: actual vs predicted.
-    %    }
-    %    \label{fig:basic}
-    %\end{figure}
 
