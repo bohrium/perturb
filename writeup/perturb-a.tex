@@ -36,6 +36,29 @@
 \newcommand{\mdia}[1]{\begin{gathered}\includegraphics[scale=0.16]{../diagrams/#1.png}\end{gathered}}
 \newcommand{\sdia}[1]{\begin{gathered}\includegraphics[scale=0.12]{../diagrams/#1.png}\end{gathered}}
 
+    
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\sixth}{\frac{1}{6}}
+
+\newcommand{\ofsix}[1]{
+    {\tiny $\substack{
+        \ifthenelse{\equal{#1}{0}}{\blacksquare}{\square}
+        \ifthenelse{\equal{#1}{1}}{\blacksquare}{\square}
+        \ifthenelse{\equal{#1}{2}}{\blacksquare}{\square}\\
+        \ifthenelse{\equal{#1}{3}}{\blacksquare}{\square}
+        \ifthenelse{\equal{#1}{4}}{\blacksquare}{\square}
+        \ifthenelse{\equal{#1}{5}}{\blacksquare}{\square}
+    }$}
+}
+
+
+\newcommand{\lorem}[1]{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit...\\
+    \nopagebreak\vspace{#1cm} \ \\
+    ...sunt in culpa qui officia deserunt mollit anim id est laborum.
+}
+
 
 \begin{document}
 
@@ -118,6 +141,7 @@
 
 \section{Background and Notation}
 
+\subsection*{Gradient-Based Optimization and Generalization}
     We adopt the standard summation notation for Greek but not Roman indices,
     suppressing indices when convenient and clear.  To expedite dimensional
     analysis, we follow \cite{bo13} in considering the learning rate as an
@@ -125,19 +149,17 @@
     displacement (column vector).
 
     Then SGD with learning rate $\eta^{\mu\nu}$ decreases an objective $l$ by
-    updating on a sequence of smooth, identically distributed unbiased
-    estimates $(l_n: 0\leq n<N)$ of $l$:
+    updating on a sequence of smooth, unbiased i.i.d.  estimates $(l_n: 0\leq
+    n<N)$ of $l$:
     \begin{equation}\label{eq:sgdstep} \theta_{t+1} \coloneqq \theta_t -
         \eta^{\mu\nu} \nabla_\mu l_t(\theta_t)~~~~~~~~~~~~~(0\leq t<T=N)
     \end{equation}
-    The $l_n$ are typically not independent, and our framework will model this.
 
-\subsection*{Gradient-Based Optimization and Generalization}
-
-\subsection*{Perturbative Scattering Theory}
+    \lorem{5}
 
 \subsection*{Motivating Example}
-    Gradient descent makes a first order approximation  
+    Gradient descent makes a first order approximation
+    {\color{red} FILL IN}
 
     Intuitively, each descent step displaces $\theta$ by $-\eta \nabla l$ and
     hence decreases the loss $l(\theta)$ by $\eta (\nabla l)^2$; thus, we
@@ -174,12 +196,14 @@
     The more complicated the direct computation, the greater the savings of
     using diagrams.
         
+\subsection*{Physical Dictionary}
 
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
 %==============================================================================
 
 \section{Diagram Calculus for SGD}
+\subsection*{Role of Diagrams}
     Suppose $s$ is smooth on weight space; for example, $s$ may be a test or
     train loss.  We may track $s(\theta)$ as $\theta$ is updated by SGD as
     follows:
@@ -202,18 +226,13 @@
     to different factorizations and hence to potentially different
     generalization behavior at each order of $\eta$.
 
-    The book keeping
-
-\subsection*{Physical Dictionary}
-
-\subsection*{Evaluating Diagrams}
     An instance of the above product (for $s=l_a$ drawn from a test set and
     $0\leq c\leq b<T$) is \begin{align*}
         \eta^3 (\nabla l_c \nabla)^2 (\nabla l_b \nabla) l_a
-        = & (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla_\mu \nabla^\nu l_b) (\nabla_\nu l_a) \\
-        + & (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla^\nu l_b) (\nabla_\mu \nabla_\nu l_a) \\
-        + & (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\mu \nabla^\nu l_b) (\nabla_\lambda \nabla_\nu l_a) \\
-        + & (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla^\nu l_b) (\nabla_\lambda \nabla_\mu \nabla_\nu l_a)
+        = & & (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla_\mu \nabla^\nu l_b) (\nabla_\nu l_a) \\
+          &+& (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla^\nu l_b) (\nabla_\mu \nabla_\nu l_a) \\
+          &+& (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\mu \nabla^\nu l_b) (\nabla_\lambda \nabla_\nu l_a) \\
+          &+& (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla^\nu l_b) (\nabla_\lambda \nabla_\mu \nabla_\nu l_a)
     \end{align*}
     where we use $\eta$ to raise indices.  To reduce clutter, we adapt the
     string notation of \citet{pe71}.  Then, in expectation over $(l_c, l_b,
@@ -221,7 +240,7 @@
     \begin{align*}
         \cdots
         &= 
-            \sdia{(01-2-3)(02-12-23)}
+             \sdia{(01-2-3)(02-12-23)}
             +\sdia{(01-2-3)(02-13-23)}
             +\sdia{(01-2-3)(03-12-23)}
             +\sdia{(01-2-3)(03-13-23)} \\
@@ -342,8 +361,12 @@
     in expectation, but above, we make no such assumption.
 
 \subsection*{Crossing Symmetries and Renormalization}
+    \lorem{5}
+    \lorem{5}
 
 \subsection*{Descent as Scattering: Experimental}
+    \lorem{5}
+    \lorem{5}
 
 %==============================================================================
 %    PREDICTIONS AND APPLICATIONS
@@ -351,18 +374,125 @@
 
 \section{Predictions and Applications}
 
+    For single-epoch SGD with singleton batches, we sum all relevant diagrams through order $3$; the 
+    coefficients $4, 2; 2, 2, 3; 1$ come from counting the elements of Table \ref{tab:scatthree}, and 
+    the other coefficients come from analogous tables.  This yields:
+    \begin{align*}
+            &\mathcal{L}^{\text{SGD}}_\text{test}(T, \eta) \in                   
+        \\ 
+               \sdia{(0)()}
+            &- \frac{\eta}{1!}   {T \choose 1} \wrap{\sdia{(0-1)(01)}}
+        \\
+            &+ \frac{\eta^2}{1!1!} {T \choose 2} \wrap{2 \sdia{(0-1-2)(01-12)}} 
+             + \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(01-2)(02-12)}}
+        \\
+            &- \frac{\eta^3}{1!1!1!} {T \choose 3} \wrap{
+                       4 \sdia{(0-1-2-3)(01-12-23)}+
+                       2 \sdia{(0-1-2-3)(03-13-23)}
+                   }
+        \\
+            &- \frac{\eta^3}{2!1!} {T \choose 2} \wrap{
+                       2         \sdia{(01-2-3)(03-12-23)}+
+                       2    \sdia{(0-12-3)(02-13-23)}+
+                       3     \sdia{(01-2-3)(02-12-23)}
+                   }
+        \\
+            &- \frac{\eta^3}{3!} {T \choose 1} \wrap{\sdia{(012-3)(03-13-23)}}
+            + o(\eta^3)\footnotemark
+    \end{align*}
+    \footnotetext{
+        We use little-$o(\eta^d)$ instead of big-$O(\eta^{d+1})$ to avoid specializing to analytic functions.
+        Error terms depend on the loss landscape and on $T$.  When gradients are uniformly bounded,
+        the $T$ dependence is at most linear.
+    }
+    By contrast, the generalization gap $\mathcal{L}^{\text{SGD}}_\text{gen} =
+    \mathcal{L}^{\text{SGD}}_\text{test} -
+    \mathcal{L}^{\text{SGD}}_\text{train}$ is suppressed by a factor $1/N$ ($N
+    \leq T$):
+    \begin{align*}
+        &N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \in
+        \\
+        &+ \eta   {T \choose 1} \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} 
+        - \eta^2 {T \choose 2} \wrap{\sdia{(01-2)(01-12)} + \sdia{(02-1)(01-12)}- 2\sdia{(0-1-2)(01-12)}} \\
+        &- \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(012)(02-12)} - \sdia{(01-2)(02-12)}} 
+         + o(\eta^2) 
+        %\\
+        %=&+ \eta^{\lambda \mu} {T \choose 1} C_{\lambda \mu} 
+        %- \eta^{\lambda \mu} \eta^{\nu \xi} {T \choose 2} \wrap{ \frac{1}{2} G_\lambda \nabla_\mu C_{\nu \xi} + C_{\mu \nu} H_{\xi \lambda} }
+        %\\
+        %&- \frac{\eta^{\lambda \mu} \eta^{\nu \xi}}{2!} {T \choose 1} \wrap{ \wang{l_\lambda l_\nu l_{\mu \xi}} - (G_{\mu}G_{\nu} + C_{\mu\nu})H_{\xi \lambda} }
+        % + o(\eta^2) \\
+    \end{align*}
+    The leading order term is $N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \approx \eta T \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} = T \cdot \eta^{\lambda\mu} C_{\lambda\mu}$,
+    where $C$ is the covariance of gradients.  We thus recover a main result of \citet{ro18}.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-lenet-07-poly}
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-lenet-long-06-ode} \\
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{gene-lenet-02-poly} 
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-loss-converged} \\
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-loss}
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{gen-gap}
+        \caption{
+            MNIST-10 LeNet mean losses vs $\eta$ for $T=100$.   Top row's vertical spreads denote $95\%$
+            confidence intervals.
+            {\bf \ofsix{0}:} Test loss, polynomial fit.
+            {\bf \ofsix{1}:} Test loss for larger $T=1000$, autonomous-ODE fit.
+            {\bf \ofsix{2}:} Gen gap for a Xavier init.
+            {\bf \ofsix{3}:} Test loss decrease for multiple inits near minima: actual vs predicted. 
+            {\bf \ofsix{4}:} Test loss for multiple Xavier inits: actual vs predicted.
+            {\bf \ofsix{5}:} Gen gap for multiple Xavier inits: actual vs predicted. {\color{red} axes transposed?!}
+        }
+        \label{fig:basic}
+    \end{figure}
+    \lorem{5}
+       
+
 \subsection*{Emulating Small Batches with Large Ones}
+    \lorem{5}
+    \lorem{5}
 
 \subsection*{Analyzing Second Order Methods}
+    \lorem{5}
+    \lorem{5}
 
 \subsection*{Epochs and Overfitting}
+    \lorem{5}
+    \lorem{5}
 
 \subsection*{Myopic Model Selection}
+    \lorem{3}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{model-selection-acc}
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{model-selection-loss} \\
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{batchmatch-06} 
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-loss} \\
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-loss} 
+        \includegraphics[width=4.0cm, trim={0 0 0 1.0cm}, clip]{test-loss-bm}
+        \caption{
+            Applications illustrated on MNIST LeNet.  Top row's vertical spreads denote $95\%$
+            confidence intervals.
+            {\bf \ofsix{0}:} Ranking architectures for high {\bf accuracy} by predicting optimized loss from init statistics.
+            {\bf \ofsix{1}:} Ranking architectures for low {\bf loss} by predicting optimized loss from init statistics.
+            {\bf \ofsix{2}:} Batch matching for a Xavier init.
+            {\bf \ofsix{3}:} {\color{red} FILL IN!}
+            {\bf \ofsix{4}:} {\color{red} FILL IN!}
+            {\bf \ofsix{5}:} Batch matching for multiple Xavier inits: actual vs predicted.
+        }
+        \label{fig:basic}
+    \end{figure}
+    \lorem{5}
+    \lorem{5}
 
 \subsection*{Comparison to Continuous Time}
+    \lorem{5}
+    \lorem{5}
 
 \subsection*{Thermodynamic Engine}
     We clarify  
+    \lorem{5}
+    \lorem{5}
 
 %==============================================================================
 %    RELATED WORK    
@@ -416,6 +546,8 @@
     
     {\color{red} TODO: COMPARE TO DYER!}
 
+    \lorem{5}
+
 %==============================================================================
 %    CONCLUSION      
 %==============================================================================
@@ -452,9 +584,8 @@
     small learning rates, SGD cycles counterclockwise around a circle of
     minima.  Our mechanism differs from that discovered by \citet{ch18}, and we
     discuss the thermodynamic significance of both.
-\subsection*{Role of Covariance}
-
-\subsection*{New Questions}
+\subsection*{Role of Covariance and New Questions}
+    \lorem{5}
 
 %==============================================================================
 %    ACKNOWLEDGEMENTS
@@ -477,6 +608,9 @@
 \section*{References}
     \bibliography{perturb}
     \bibliographystyle{icml2019}
+
+    \lorem{5}
+    \lorem{5}
 
 %==============================================================================
 %    APPENDICES      
@@ -521,11 +655,29 @@
         \left(\prod_{0 \leq t < T} \frac{(\nabla l_t(\theta) \nabla)^{d_t}}{d_t!}\right) s (\theta_0)
     \end{equation}
 
+    \lorem{5}
+    \lorem{5}
+    \lorem{5}
+
 
 \section*{B. Tutorial on Diagram Rules}
+    \lorem{5}
+    \lorem{5}
+    \lorem{5}
 
-\section*{C. Diagram Rules vs Direct Perturbation}
+\section*{C. Derivations of Perturbative Results}
+    \lorem{5}
+    \lorem{5}
+    \lorem{5}
 
-\section*{D. The $\eta$-Series' Domain of Convergence}
+\section*{D. Diagram Rules vs Direct Perturbation}
+    \lorem{5}
+    \lorem{5}
+    \lorem{5}
+
+\section*{E. The $\eta$-Series' Domain of Convergence}
+    \lorem{5}
+    \lorem{5}
+    \lorem{5}
 
 \end{document}
