@@ -375,6 +375,11 @@
     will see, the diagrammatic form of a tensor expression offers us physical
     intuition and guides us toward constructing unbiased estimators of the
     statistics they represent.  
+
+    We define a diagram with fuzzy outlines instead of fuzzy ties to be the
+    difference between the fuzzy tied version and the completely untied
+    version: $\sdia{c(01-2)(01-12)} =
+    \sdia{(01-2)(01-12)}-\sdia{(0-1-2)(01-12)}$. 
     
     The recipes for writing down test (or train) losses of SGD and its variants
     are straight-forward in the diagram notation because they reduce the
@@ -385,7 +390,7 @@
     of SGD.
 
 \subsection{Recipe for the Test Loss of SGD}
-    Our results all follow from the next theorem and its close analogues:
+    Our results all follow from this theorem and its analogues:
     \begin{thm}
         The order $\eta^d$ contribution to the expected test loss of SGD is:
         \begin{equation}\label{eq:sgdcoef}
@@ -422,12 +427,12 @@
         For one-epoch SGD on singleton batches through fixed physical time $T$:
         the order $N^{-1}$ deviation of SGD's test loss from ODE's is
         $
-            \frac{T^2 N^{-1}}{2} \wrap{\sdia{(01-2)(02-12)}-\sdia{(0-1-2)(02-12)}}
+            \frac{T^2 N^{-1}}{2} \dia{c(01-2)(02-12)}
         $.
         The order $N^{-2}$ deviation of SGD's test loss due to non-gaussian
         noise is
         $
-            \frac{T^3 N^{-2}}{6} \wrap{\sdia{(012-3)(03-13-23)} - 3 \sdia{(01-2-3)(03-13-23)} + 2 \sdia{(0-1-2-3)(03-13-23)}}
+            \frac{T^3 N^{-2}}{6} \wrap{\sdia{c(012-3)(03-13-23)} - 3 \sdia{c(01-2-3)(03-13-23)}}
         $.
     \end{cor}
     For finite $N$, these effects make SDE different from SGD.  SDE also fails
@@ -483,7 +488,6 @@
         }
         \label{tab:scatthree}
     \end{table}
-
     
     \begin{prop}
         To second order in $\eta$, the test loss of SGD --- on $N$
@@ -491,11 +495,11 @@
         shuffling scheme --- has expectation
         {\small
         \begin{align*}
-                                                          \dia{(0)()}
-            &-  MN                                         \dia{(0-1)(01)}
-             + MN\wrap{M(N-1) - \frac{1-\frac{1}{B}}{2}}  \dia{(0-1-2)(01-12)} \\
-            &+ MN\wrap{\frac{M}{2}}                       \dia{(01-2)(02-12)}  
-             + MN\wrap{\frac{M-\frac{1}{B}}{2}}           \dia{(01-2)(01-12)}
+                                                    \dia{(0)()}
+            &- MN                                   \dia{(0-1)(01)}
+             + MN\wrap{MN - \frac{1}{2}}            \dia{(0-1-2)(01-12)} \\
+            &+ MN\wrap{\frac{M}{2}}                 \dia{c(01-2)(02-12)}  
+             + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \dia{c(01-2)(01-12)}
         \end{align*}
         }
     \end{prop}
@@ -506,17 +510,26 @@
     \end{cor}
 
     \begin{cor}
+        To second order in $\eta$, one-epoch SGD has 
+        $
+             \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}} \mdia{c(01-2)(01-12)}
+        $
+        less test loss than $M$-epoch SGD with learning rate $\eta/M$. 
+    \end{cor}
+
+    Given an unbiased estimator $\hat{C}$ of gradient covariance, we may get
+    GD to mimic SGD:
+    \begin{cor}
         The expected test loss of pure SGD is, to second order in $\eta$,
-        less than that of pure GD by:
-        $$
-              \frac{M(N-1)}{2N} (\dia{(01-2)(01-12)} - \dia{(0-1-2)(01-12)})
-        $$
+        less than that of pure GD by
+        $
+              \wrap{\frac{M}{2}} \wrap{\frac{N-1}{N}} \sdia{c(01-2)(01-12)}
+        $.
         Moreover, GD on a modified loss 
-        $$
-            \tilde l_n = l_n + \frac{N-1}{4N^2} \hat{C}_\nu^\nu(\theta)
-        $$
+        $
+            \tilde l_n = l_n + \wrap{\frac{N-1}{4N^2}} \hat{C}_\nu^\nu(\theta)
+        $
         has an expected test loss that agrees with SGD's to second order.
-        Here, $\hat{C}$ is any unbiased estimator of gradient covariance.
     \end{cor}
 
 \subsection{Renormalization}
@@ -820,6 +833,13 @@
     \end{align}
 
     \lorem{3}
+
+\section*{G. Generalized Bessel Factors}
+    \lorem{3}
+    \lorem{3}
+    \lorem{3}
+
+
 
 \end{document}
 

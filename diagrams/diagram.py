@@ -36,7 +36,7 @@ def draw_arc_aa(img, row, col_a, col_b, curve):
         img[rr, cc, :] = np.minimum(img[rr, cc, :], 1.0 - np.expand_dims(val, 2))
         old_r, old_c = int(r), int(c)
 
-def draw_blob_aa(img, row, col_a, col_b, curve, thick = 16):
+def draw_blob_aa(img, row, col_a, col_b, curve, thick = 16, outline=False):
     cent_r = int(row - abs(col_a - col_b)/curve)
     cent_c = int((col_a+col_b)/2.0)
     radius = int(((cent_r-row)**2 + (cent_c-col_a)**2)**0.5)
@@ -46,6 +46,11 @@ def draw_blob_aa(img, row, col_a, col_b, curve, thick = 16):
         rr, cc = circle(r, c, thick)
         img[rr, cc, :] = np.maximum(0.1, 0.995 * img[rr, cc, :])
 
+    if not outline: return
+    for c in list(np.arange(col_a, col_b, 0.5)) + [col_b]:
+        r = cent_r + (radius**2 - (c-cent_c)**2)**0.5 
+        rr, cc = circle(r, c, thick/2)
+        img[rr, cc, :] = np.minimum(1.0, 1.01 * img[rr, cc, :]) 
 
 black = (0.0, 0.0, 0.0)
 red   = (0.8, 0.2, 0.2)
@@ -78,7 +83,7 @@ def get_all_trees(nb_nodes):
             new_trees.append([(0,j)] + ggg)
     return new_trees
 
-def draw(parts, arcs, filename): 
+def draw(parts, arcs, filename, outline): 
     assert len(parts) <= len(colors)
 
     nb_nodes = sum(len(p) for p in parts)
@@ -89,7 +94,7 @@ def draw(parts, arcs, filename):
     img = np.ones((height, width, 3), dtype=np.float32)
     for p,color in zip(parts, colors):
         for s,e in zip(p, p[1:]):
-            draw_blob_aa(img, baseline, 30+80*s, 30+80*e, abs(s-e))
+            draw_blob_aa(img, baseline, 30+80*s, 30+80*e, abs(s-e), outline=outline)
         for i in p:
             R, C = baseline, 30+80*i
             draw_disk_aa(img, R, C, RADIN, color)
@@ -98,10 +103,11 @@ def draw(parts, arcs, filename):
 
     plt.imsave(filename, img)
 
-for nb_nodes in [1, 2, 3, 4]:
-    for pp in get_all_partitions(nb_nodes):
-        for gg in get_all_trees(nb_nodes):
-            nm = '(%s)(%s)' % ('-'.join(''.join(str(s) for s in p) for p in pp), '-'.join(''.join(str(s) for s in g) for g in gg))
-            print(nm)
-            draw(parts=pp, arcs=gg, filename='%s.png'%nm)
+for outline in [False, True]:
+    for nb_nodes in [1, 2, 3, 4]:
+        for pp in get_all_partitions(nb_nodes):
+            for gg in get_all_trees(nb_nodes):
+                nm = ('c' if outline else '') + '(%s)(%s)' % ('-'.join(''.join(str(s) for s in p) for p in pp), '-'.join(''.join(str(s) for s in g) for g in gg))
+                print(nm)
+                draw(parts=pp, arcs=gg, filename='%s.png'%nm, outline=outline)
 
