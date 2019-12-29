@@ -127,6 +127,10 @@
 %    INTRODUCTION    
 %==============================================================================
 
+IDEA: ASCENT?
+
+Fashion Mnist and CIFAR 10
+
 \section{Introduction}
     Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
     performing discrete-time steepest descent on noisy estimates of $l$.  A key
@@ -177,10 +181,11 @@
     sets \citep{zh17}, one infers that generalization arises from the aptness
     to data of not only architecture but also optimization \citep{ne17b}.
     Others have focused on the implicit regularization of SGD itself, for
-    instance by modeling descent via stochastic differential equations (e.g.
-    \citet{ch18}).  However, as explained by \citet{ya19}, such continuous-time
-    analyses cannot treat covariance correctly, and so they err when
-    interpreting results about SDEs as results about SGD.
+    instance by modeling descent via stochastic differential equations (SDEs)
+    (e.g.  \citet{ch18}).  However, as explained by \citet{ya19}, such
+    continuous-time analyses cannot treat covariance correctly, and so they err
+    when interpreting results about SDEs as results about SGD for finite
+    trainset sizes.
 
     Following \citet{ro18}, we avoid making a continuous-time approximation by
     instead Taylor-expanding around the learning rate $\eta=0$.  In fact, we
@@ -194,26 +199,33 @@
     \citet{ja18}.  
     
     While we make rigorous, architecture-agnostic predictions of learning
-    curves, these predictions become vacuous for large $\eta$.  Other
-    discrete-time dynamical analyses allow large $\eta$ by treating neural
-    generalization phenomenologically, whether by fitting to an
-    empirically-determined correlate of Rademacher bounds \citep{li18}, by
-    exhibiting generalization of local minima {\bf flat} with respect to the
-    standard metric (see \citet{ho17}, \citet{ke17}, citet{wa18}), or by
-    exhibiting generalization of local minima {\bf sharp} with respect to the
-    standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
-    which makes explicit the dependence of generalization on the underlying
-    metric and on the form of noise present, provides a framework to reconcile
-    those latter, seemingly clashing claims.
+    curves, these predictions become vacuous for large $\eta$.  In particular,
+    while our work does not assume convexity of the loss landscape, it also is
+    blind to large-$\eta T$ convergence of SGD.  Other discrete-time dynamical
+    analyses allow large $\eta$ by treating deep generalization
+    phenomenologically, whether by fitting to an empirically-determined
+    correlate of Rademacher bounds \citep{li18}, by exhibiting generalization
+    of local minima {\bf flat} with respect to the standard metric (see
+    \citet{ho17}, \citet{ke17}, citet{wa18}), or by exhibiting generalization
+    of local minima {\bf sharp} with respect to the standard metric (see
+    \citet{st56}, \citet{di17}, \citet{wu18}).  Our work, which makes explicit
+    the dependence of generalization on the underlying metric and on the form
+    of gradient noise, reconciles those latter, seemingly clashing claims.
     
-    {\color{red} TODO: COMPARE TO CHAUDHARI!}
-    
-    {\color{red} TODO: COMPARE TO DYER and WEINAN E!}
-
-    \lorem{3}
-
-
-    IDEA: ASCENT?
+    Others have imported the perturbative methods of physics to analyze descent
+    dynamics:  \citet{dy19} perturb in inverse network width, employing 't
+    Hooft diagrams to compute deviations of non-infinitely-wide deep learning
+    from Gaussian processes.  Meanwhile, \cite{ch18} and \citet{li17} perturb
+    in learning rate to second order by approximating noise between updates as
+    gaussian and uncorrelated.  This approach does not generalize to higher
+    orders, and, because correlations and heavy tails are essential obstacles
+    to concentration of measure and hence of generalization, it does not model
+    the generalization behavior of SGD.  By contrast, we use Penrose diagrams
+    to compute test and train losses to arbitrary order in learning rate,
+    quantifying the effect of non-gaussian and correlated noise.  We hence
+    extend \citet{ro18} beyond leading order and beyond $2$ time steps,
+    allowing us to compare, for instance, the expected test losses of
+    multi-epoch and single-epoch SGD.
 
 %==============================================================================
 %    BACKGROUND AND NOTATION
@@ -341,7 +353,7 @@
     }
     To reduce clutter, we adapt the string notation of \citet{pe71}.  Then, in
     expectation over $(l_c, l_b, l_a)$ drawn i.i.d.:
-    \begin{align*}
+    \begin{align}
         \cdots
         &= 
              \sdia{(01-2-3)(02-12-23)}
@@ -356,7 +368,7 @@
             \underbrace{2\sdia{(01-2-3)(02-13-23)}}_{
                 2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla \nabla l}}~\expct{{\color{moob}\nabla \nabla l}}
             }
-    \end{align*}
+    \end{align}
     Above, each node corresponds to a loss function (here, red for $l_c$, green
     for $l_b$, blue for $l_a$), differentiated $d$ times for a degree-$d$ node
     (for instance, $l_b$ is differentiated thrice in the first diagram and
@@ -365,16 +377,16 @@
     identical loss functions (here, $l_c$ with $l_c$): nodes not connected by a
     path of fuzzy ties are independent.  The colors are redundant with the
     fuzzy ties and used only so that we may concisely refer to a specific node
-    in prose.  Crucially, for a fixed, i.i.d. distribution over $(l_c, l_b,
-    l_a)$, {\bf the topology of a diagram determines its expected value}.  For
-    instance, $\expc \sdia{(01-2-3)(02-12-23)} = \expc
+    in prose.  The value of a diagram is the expected value of the
+    corresponding tensor expression.  Crucially, for a fixed, i.i.d.
+    distribution over $(l_c, l_b, l_a)$, {\bf the topology of a diagram
+    determines its value}.  For instance, $\sdia{(01-2-3)(02-12-23)} =
     \sdia{(01-2-3)(03-13-23)}$ because both are trees with two leaves tied.
     Thus follows the simplification on the second line above.  As shown with
     braces, we may convert back to explicit tensor expressions, invoking
     independence between untied nodes to factor the expression.  However, as we
-    will see, the diagrammatic form of a tensor expression offers us physical
-    intuition and guides us toward constructing unbiased estimators of the
-    statistics they represent.  
+    will see, the diagrams offer physical intuition, streamline computations,
+    and determine useful unbiased estimators of the statistics they represent.  
 
     We define a diagram with fuzzy outlines instead of fuzzy ties to be the
     difference between the fuzzy tied version and the completely untied
@@ -420,9 +432,9 @@
     time} of optimization, and $1/N$ measures {\bf coarseness} of time
     discretization.  More precisely, we have a double-series in $(\eta N)^d
     N^{P-d-1}$, where $d$ counts thin edges and $d+1-P$ counts fuzzy ties; the
-    $P=d+1$ terms give us a discretization-agnostic (hence continuous-time,
-    noiseless) ODE approximation to SGD, while $P\leq d$ gives correction terms
-    modeling time-discretization and hence noise.  
+    $P=d+1$ terms correspond to a discretization-agnostic (hence
+    continuous-time, noiseless) ODE approximation to SGD, while $P\leq d$ gives
+    correction terms modeling time-discretization and hence noise.  
     \begin{cor}
         For one-epoch SGD on singleton batches through fixed physical time $T$:
         the order $N^{-1}$ deviation of SGD's test loss from ODE's is
@@ -560,58 +572,6 @@
 \section{Consequences and Applications}
 
 \subsection{Vanilla SGD}
-    For single-epoch SGD with singleton batches, we sum all relevant diagrams
-    through order $3$; the coefficients $4, 2; 2, 2, 3; 1$ come from counting
-    the elements of Table \ref{tab:scatthree}, and the other coefficients come
-    from analogous tables.  This yields:
-    \begin{align*}
-            &\mathcal{L}^{\text{SGD}}_\text{test}(T, \eta) \in                   
-        \\ 
-               \sdia{(0)()}
-            &- \frac{\eta}{1!}   {T \choose 1} \wrap{\sdia{(0-1)(01)}}
-        \\
-            &+ \frac{\eta^2}{1!1!} {T \choose 2} \wrap{2 \sdia{(0-1-2)(01-12)}} 
-             + \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(01-2)(02-12)}}
-        \\
-            &- \frac{\eta^3}{1!1!1!} {T \choose 3} \wrap{
-                       4 \sdia{(0-1-2-3)(01-12-23)}+
-                       2 \sdia{(0-1-2-3)(03-13-23)}
-                   }
-        \\
-            &- \frac{\eta^3}{2!1!} {T \choose 2} \wrap{
-                       2         \sdia{(01-2-3)(03-12-23)}+
-                       2    \sdia{(0-12-3)(02-13-23)}+
-                       3     \sdia{(01-2-3)(02-12-23)}
-                   }
-        \\
-            &- \frac{\eta^3}{3!} {T \choose 1} \wrap{\sdia{(012-3)(03-13-23)}}
-            + o(\eta^3)\footnotemark
-    \end{align*}
-    \footnotetext{
-        We use little-$o(\eta^d)$ instead of big-$O(\eta^{d+1})$ to avoid specializing to analytic functions.
-        Error terms depend on the loss landscape and on $T$.  When gradients are uniformly bounded,
-        the $T$ dependence is at most linear.
-    }
-    By contrast, the generalization gap $\mathcal{L}^{\text{SGD}}_\text{gen} =
-    \mathcal{L}^{\text{SGD}}_\text{test} -
-    \mathcal{L}^{\text{SGD}}_\text{train}$ is suppressed by a factor $1/N$ ($N
-    \leq T$):
-    \begin{align*}
-        &N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \in
-        \\
-        &+ \eta   {T \choose 1} \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} 
-        - \eta^2 {T \choose 2} \wrap{\sdia{(01-2)(01-12)} + \sdia{(02-1)(01-12)}- 2\sdia{(0-1-2)(01-12)}} \\
-        &- \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(012)(02-12)} - \sdia{(01-2)(02-12)}} 
-         + o(\eta^2) 
-        %\\
-        %=&+ \eta^{\lambda \mu} {T \choose 1} C_{\lambda \mu} 
-        %- \eta^{\lambda \mu} \eta^{\nu \xi} {T \choose 2} \wrap{ \frac{1}{2} G_\lambda \nabla_\mu C_{\nu \xi} + C_{\mu \nu} H_{\xi \lambda} }
-        %\\
-        %&- \frac{\eta^{\lambda \mu} \eta^{\nu \xi}}{2!} {T \choose 1} \wrap{ \wang{l_\lambda l_\nu l_{\mu \xi}} - (G_{\mu}G_{\nu} + C_{\mu\nu})H_{\xi \lambda} }
-        % + o(\eta^2) \\
-    \end{align*}
-    The leading order term is $N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \approx \eta T \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} = T \cdot \eta^{\lambda\mu} C_{\lambda\mu}$,
-    where $C$ is the covariance of gradients.  We thus recover a main result of \citet{ro18}.
     \lorem{3}
     \lorem{3}
     \begin{figure}[h!]
@@ -706,7 +666,7 @@
 
 \section{Conclusion}
     We presented a novel diagrammatic tool for analyzing gradient-based
-    descent.  By presenting a new regularizing term, we showed that {\bf
+    descent.  Via a new regularizing term, we showed that {\bf
     large-batch GD can be made to emulate small-batch SGD}, thus completing a
     project suggested by \citet{ro18}.  This is significant because, while
     small batch sizes can lead to better generalization \citep{bo91}, modern
@@ -804,6 +764,60 @@
     \lorem{3}
 
 \section*{C. Derivations of Perturbative Results}
+
+    For single-epoch SGD with singleton batches, we sum all relevant diagrams
+    through order $3$; the coefficients $4, 2; 2, 2, 3; 1$ come from counting
+    the elements of Table \ref{tab:scatthree}, and the other coefficients come
+    from analogous tables.  This yields:
+    \begin{align*}
+            &\mathcal{L}^{\text{SGD}}_\text{test}(T, \eta) \in                   
+        \\ 
+               \sdia{(0)()}
+            &- \frac{\eta}{1!}   {T \choose 1} \wrap{\sdia{(0-1)(01)}}
+        \\
+            &+ \frac{\eta^2}{1!1!} {T \choose 2} \wrap{2 \sdia{(0-1-2)(01-12)}} 
+             + \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(01-2)(02-12)}}
+        \\
+            &- \frac{\eta^3}{1!1!1!} {T \choose 3} \wrap{
+                       4 \sdia{(0-1-2-3)(01-12-23)}+
+                       2 \sdia{(0-1-2-3)(03-13-23)}
+                   }
+        \\
+            &- \frac{\eta^3}{2!1!} {T \choose 2} \wrap{
+                       2         \sdia{(01-2-3)(03-12-23)}+
+                       2    \sdia{(0-12-3)(02-13-23)}+
+                       3     \sdia{(01-2-3)(02-12-23)}
+                   }
+        \\
+            &- \frac{\eta^3}{3!} {T \choose 1} \wrap{\sdia{(012-3)(03-13-23)}}
+            + o(\eta^3)\footnotemark
+    \end{align*}
+    \footnotetext{
+        We use little-$o(\eta^d)$ instead of big-$O(\eta^{d+1})$ to avoid specializing to analytic functions.
+        Error terms depend on the loss landscape and on $T$.  When gradients are uniformly bounded,
+        the $T$ dependence is at most linear.
+    }
+    By contrast, the generalization gap $\mathcal{L}^{\text{SGD}}_\text{gen} =
+    \mathcal{L}^{\text{SGD}}_\text{test} -
+    \mathcal{L}^{\text{SGD}}_\text{train}$ is suppressed by a factor $1/N$ ($N
+    \leq T$):
+    \begin{align*}
+        &N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \in
+        \\
+        &+ \eta   {T \choose 1} \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} 
+        - \eta^2 {T \choose 2} \wrap{\sdia{(01-2)(01-12)} + \sdia{(02-1)(01-12)}- 2\sdia{(0-1-2)(01-12)}} \\
+        &- \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(012)(02-12)} - \sdia{(01-2)(02-12)}} 
+         + o(\eta^2) 
+        %\\
+        %=&+ \eta^{\lambda \mu} {T \choose 1} C_{\lambda \mu} 
+        %- \eta^{\lambda \mu} \eta^{\nu \xi} {T \choose 2} \wrap{ \frac{1}{2} G_\lambda \nabla_\mu C_{\nu \xi} + C_{\mu \nu} H_{\xi \lambda} }
+        %\\
+        %&- \frac{\eta^{\lambda \mu} \eta^{\nu \xi}}{2!} {T \choose 1} \wrap{ \wang{l_\lambda l_\nu l_{\mu \xi}} - (G_{\mu}G_{\nu} + C_{\mu\nu})H_{\xi \lambda} }
+        % + o(\eta^2) \\
+    \end{align*}
+    The leading order term is $N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \approx \eta T \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} = T \cdot \eta^{\lambda\mu} C_{\lambda\mu}$,
+    where $C$ is the covariance of gradients.  We thus recover a main result of \citet{ro18}.
+
     \lorem{3}
     \lorem{3}
     \lorem{3}
