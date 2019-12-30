@@ -45,10 +45,10 @@
 \newcommand{\wive}[1]{\left\llbracket #1 \right\rrbracket}
 \newcommand{\worm}[1]{\left\| #1 \right\|}
 
-\newcommand{\plotplace}[1]{
-    \begin{overpic}[width=4.0cm]{../plots/blank.png}
+\newcommand{\plotplace}[3]{
+    \begin{overpic}[width=#2, height=#3]{../plots/blank.png}
         \put( 5, 85){
-            \begin{tabular}{p{3.0cm}}
+            \begin{tabular}{p{#2-1.0cm}}
                 #1
             \end{tabular}
         }
@@ -131,6 +131,8 @@
 IDEA: ASCENT?
 
 Fashion Mnist and CIFAR 10
+
+Correct Thm 1 to address nonconstant batch size 
 
 \section{Introduction}
     Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
@@ -419,9 +421,9 @@ Fashion Mnist and CIFAR 10
             \frac{1}{N} \sum_{p \in (D\setminus \max D)/\sim_D} v(D_p)
         $$
         replacing $v(D)$.
-        Here, $p$ ranges through non-maximal equivalance classes of $D$ and
-        $D_p$ is the diagram with a fuzzy outline connecting $D$'s maximal node
-        with $p$.
+        Here, $p$ ranges through non-maximal equivalance classes of $D$, and
+        $D_p$ is $D$ with a fuzzy outline connecting $D$'s maximal node
+        to $p$.
     \end{thm}
 
     In the special case of $B=1, M=1$:
@@ -514,11 +516,12 @@ Fashion Mnist and CIFAR 10
         \label{tab:scatthree}
     \end{table}
 
+    A quick combinatorial argument shows:
     \begin{cor}
         To order $\eta^2$, inter-epoch shuffling doesn't affect SGD's
         expected test loss.
     \end{cor}
-    
+    Indeed, the following holds for any inter-epoch shuffling scheme: 
     \begin{prop}
         To order $\eta^2$, the test loss of SGD --- on $N$
         samples for $M$ epochs with batch size $B$ dividing $N$ and with any
@@ -571,10 +574,10 @@ Fashion Mnist and CIFAR 10
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{space time with some diagrams}
-        \plotplace{one diagram, many embeddings}
-        \plotplace{interepoch shuffling}
-        \plotplace{multiepoch vs gd}
+        \plotplace{space time with some diagrams}{4.0cm}{4.0cm} 
+        \plotplace{one diagram, many embeddings}{4.0cm}{4.0cm} \\
+        \plotplace{interepoch shuffling}{4.0cm}{4.0cm}
+        \plotplace{multiepoch vs gd}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -589,8 +592,8 @@ Fashion Mnist and CIFAR 10
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{small T: eta curve} \plotplace{test loss decrease near minimum} \\
-        \plotplace{small T gen gap: actual vs predicted} \plotplace{nongaussian example}
+        \plotplace{small T: eta curve}{4.0cm}{4.0cm} \plotplace{test loss decrease near minimum}{4.0cm}{4.0cm} \\
+        \plotplace{small T gen gap: actual vs predicted}{4.0cm}{4.0cm} \plotplace{nongaussian example}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -600,10 +603,10 @@ Fashion Mnist and CIFAR 10
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{batch matching over one init}
-        \plotplace{batch matching over multiple inits} \\
-        \plotplace{scan over betas} 
-        \plotplace{summary over many models}
+        \plotplace{batch matching over one init}{4.0cm}{4.0cm}
+        \plotplace{batch matching over multiple inits}{4.0cm}{4.0cm} \\
+        \plotplace{scan over betas}{4.0cm}{4.0cm}
+        \plotplace{long time comparison}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -624,8 +627,8 @@ Fashion Mnist and CIFAR 10
     invhess
     \begin{figure}[h!]
         \centering
-        \plotplace{momentum} 
-        \plotplace{invhess}
+        \plotplace{momentum}{4.0cm}{4.0cm} 
+        \plotplace{invhess}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -633,8 +636,8 @@ Fashion Mnist and CIFAR 10
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{multiepoch vs sgd limit}
-        \plotplace{multiepoch vs gd limit}
+        \plotplace{multiepoch vs sgd limit}{4.0cm}{4.0cm}
+        \plotplace{multiepoch vs gd limit}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -642,8 +645,8 @@ Fashion Mnist and CIFAR 10
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{rankings: actual vs predicted}
-        \plotplace{architecture vs optimization ease}
+        \plotplace{rankings: actual vs predicted}{4.0cm}{4.0cm}
+        \plotplace{architecture vs optimization ease}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -653,8 +656,8 @@ Fashion Mnist and CIFAR 10
     Also, sgd interepoch correlations
     \begin{figure}[h!]
         \centering
-        \plotplace{distinguishing landscape}
-        \plotplace{ode vs sde vs sgd performance on landscape}
+        \plotplace{distinguishing landscape}{4.0cm}{4.0cm}
+        \plotplace{ode vs sde vs sgd performance on landscape}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -663,8 +666,8 @@ Fashion Mnist and CIFAR 10
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{loss landscape: mean and covariance}
-        \plotplace{net theta vs time: ours, chaudhari, naive}
+        \plotplace{loss landscape: mean and covariance}{4.0cm}{4.0cm}
+        \plotplace{net theta vs time: ours, chaudhari, naive}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
     We constructed a counter-intuitive loss landscape wherein, for arbitrarily
