@@ -55,7 +55,8 @@
     \end{overpic}
 }
 \newcommand{\plotmoo}[3]{
-    \includegraphics[width=#2, height=#3]{../#1.png}
+    %\includegraphics[width=#2, height=#3]{../#1.png}
+    \includegraphics[width=#2           ]{../#1.png}
 }
 
 \newcommand{\bdia}[1]{\begin{gathered}\includegraphics[scale=0.22]{../diagrams/#1.png}\end{gathered}}
@@ -580,16 +581,18 @@ Correct Thm 1 to address nonconstant batch size
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotmoo{diagrams/spacetime}{4.0cm}{4.0cm} 
+        \plotmoo{diagrams/spacetime}{8.0cm}{3.0cm} 
         %\plotplace{one diagram, many embeddings}{4.0cm}{4.0cm} \\
         %\plotplace{interepoch shuffling}{4.0cm}{4.0cm}
         %\plotplace{multiepoch vs gd}{4.0cm}{4.0cm}
         \caption{
-            {\bf a} Some diagrams embedded in pure GD's spacetime.  Top three
-                    give order $\eta^3$, $\eta^5$, and $\eta^1$ contributions.
-                    Bottom three all give identical order $\eta^2$
-                    contributions to test loss, including the bottom-most,
-                    by crossing symmetry.
+            {\bf a} Some diagrams embedded in spacetime.  Left four 
+                    give order $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$
+                    contributions to GD's test loss.  Right four each contribute $\eta^2
+                    \expct{\nabla^2} \expct{\nabla}^2$; their
+                    equivalence demonstrates crossing symmetry.  Only diagrams
+                    whose nodes fall within shaded diagonals contribute to
+                    SGD's test loss (with an extra factor $N$ per edge). 
             {\bf b}   
             {\bf c} 
             {\bf d} 
