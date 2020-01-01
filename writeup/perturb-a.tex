@@ -46,7 +46,6 @@
 \newcommand{\worm}[1]{\left\| #1 \right\|}
 
 \newcommand{\plotplace}[3]{
-    %\begin{overpic}[width=#2, height=#3]{../plots/blank.png}
     \begin{overpic}[width=#2, height=#3]{../diagrams/spacetime.png}
         \put( 5, 85){
             \begin{tabular}{p{#2-1.0cm}}
@@ -54,6 +53,9 @@
             \end{tabular}
         }
     \end{overpic}
+}
+\newcommand{\plotmoo}[3]{
+    \includegraphics[width=#2, height=#3]{../#1.png}
 }
 
 \newcommand{\bdia}[1]{\begin{gathered}\includegraphics[scale=0.22]{../diagrams/#1.png}\end{gathered}}
@@ -578,11 +580,20 @@ Correct Thm 1 to address nonconstant batch size
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{space time with some diagrams}{4.0cm}{4.0cm} 
-        \plotplace{one diagram, many embeddings}{4.0cm}{4.0cm} \\
-        \plotplace{interepoch shuffling}{4.0cm}{4.0cm}
-        \plotplace{multiepoch vs gd}{4.0cm}{4.0cm}
-        \caption{\lorem{2}}
+        \plotmoo{diagrams/spacetime}{4.0cm}{4.0cm} 
+        %\plotplace{one diagram, many embeddings}{4.0cm}{4.0cm} \\
+        %\plotplace{interepoch shuffling}{4.0cm}{4.0cm}
+        %\plotplace{multiepoch vs gd}{4.0cm}{4.0cm}
+        \caption{
+            {\bf a} Some diagrams embedded in pure GD's spacetime.  Top three
+                    give order $\eta^3$, $\eta^5$, and $\eta^1$ contributions.
+                    Bottom three all give identical order $\eta^2$
+                    contributions to test loss, including the bottom-most,
+                    by crossing symmetry.
+            {\bf b}   
+            {\bf c} 
+            {\bf d} 
+        }
     \end{figure}
 
 %==============================================================================
