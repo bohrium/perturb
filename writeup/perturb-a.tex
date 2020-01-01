@@ -33,7 +33,7 @@
 \newcommand{\Forg}{\mathcal{G}}
 \newcommand{\Mod}{\mathcal{M}}
 \newcommand{\Hom}{\text{\textnormal{Hom}}}
-\newcommand{\image}{\text{\textnormal{image}}}
+\newcommand{\image}{\text{\textnormal{im}}}
 \newcommand{\Ss}{\mathcal{S}}
 \newcommand{\Pp}{\mathcal{P}}
 \newcommand{\SGD}{\text{\textnormal{SGD}}}
@@ -238,19 +238,17 @@ Correct Thm 1 to address nonconstant batch size
 
 \subsection{A Smooth Stage: Tensor Conventions}
     We adopt summation notation for Greek but not Roman indices, suppressing
-    indices when convenient and clear.  To expedite dimensional analysis, we
-    follow \cite{bo13} in considering the learning rate as an inverse metric
-    $\eta^{\mu\nu}$ that converts a gradient (row vector) into a displacement
-    (column vector).  Viewing $\eta^{-1}$ as the only available flat metric, we
-    will use $\eta$ to raise indices; for example, with $C$ denoting the
-    covariance of gradients, its ``trace'' will be $C^{\mu}_{\mu} =
-    \eta^{\mu\nu} C_{\mu\nu}$.  The standard syntactic constraints on indexed
-    expressions then give a strong check on which expressions transform
-    naturally with respect to optimization dynamics.
+    indices when clear.  To expedite dimensional analysis, we follow
+    \cite{bo13} in regarding the learning rate as an inverse metric
+    $\eta^{\mu\nu}$ that converts a gradient into a displacement.  We will use
+    $\eta$ to raise indices; for example, with $C$ denoting the covariance of
+    gradients, its ``trace'' will be $C^{\mu}_{\mu} = \eta^{\mu\nu}
+    C_{\mu\nu}$.  Standard syntactic constraints then make manifest which
+    expressions transform naturally with respect to optimization dynamics.
     
-    We assume that every all moments of the $0$th and higher derivatives of the
-    losses $l_n$, considered as random functions on weight space, exist and are
-    infinitely differentiable.
+    We assume that all polynomials of the $0$th and higher derivatives of the
+    losses $l_n$, considered as random functions on weight space, have
+    infinitely differentiable expectations.
     
     Kol\'{a}\u{r} gives a careful introduction to these differential geometric
     ideas \yrcite{ko93}.
@@ -258,7 +256,7 @@ Correct Thm 1 to address nonconstant batch size
 \subsection{Combinatorial Costumes: Structure Sets}
     We make use of \emph{structure sets}, i.e.  sets $S$ equipped with a
     preorder $\leq$ and an equivalence relation $\sim$.  The morphisms of
-    structure sets are  non-decreasing maps that preserve $\sim$ and its
+    structure sets are strictly increasing maps that preserve $\sim$ and its
     negation.  A structure set is \emph{pointed} if it has a unique maximum
     element and this element forms a singleton $\sim$-class.  The categories
     $\Ss$ of structure sets and $\Pp$ of pointed structure sets enjoy a
@@ -270,7 +268,8 @@ Correct Thm 1 to address nonconstant batch size
     reading the tree as a Hasse graph, we see that each diagram $D$ induces a
     structure set, by abuse of notation also named $D$.  An $\Ss$-map from $D$
     to $[P]=(\Forg\circ\Free)^P(\text{empty diagram})$ is an \emph{ordering} of
-    $D$; they only exist when $P$ counts $D$'s equivalence classes.
+    $D$, where $P$ counts $D$'s equivalence classes.
+    Let, $o(D)$ count orderings of $D$.
 
     Fong gives a swift introduction to these category theoretic and
     diagrammatic ideas \yrcite{fo19}.
@@ -323,33 +322,33 @@ Correct Thm 1 to address nonconstant batch size
     Suppose $s$ is smooth on weight space; e.g. $s$ may be a test
     loss.  We track $s(\theta)$ as $\theta$ evolves by SGD:
     \begin{klem}
-        The formal Maclaurin series of $s(\theta_T)$ with respect to $\eta$ is:
-        \begin{equation*}\label{eq:dyson}
-            \sum_{0\leq d < \infty} (-\eta)^d \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+        The Maclaurin series of $s(\theta_T)$ with respect to $\eta$ is:
+        \begin{equation}\label{eq:dyson}
+            \sum_{(d_t: 0\leq t<T)}
+            (-\eta)^{\sum_t d_t}
             \left(
                 \prod_{0 \leq t < T}
                     \left.  \frac{(g \nabla)^{d_t}}{d_t!} \right|_{g=\nabla l_t(\theta)}
             \right)
-            s (\theta_0)
-        \end{equation*}
+            (s) (\theta_0)
+        \end{equation}
     \end{klem}
-    In averaging over training sets (and hence over the sequence $(l_t: 0\leq
-    t<T)$ considered as a random variable), we may factor the expectation of
-    the above product according to independence relations between the $l_t$.
-    We view various training procedures (e.g. GD, SGD with(out) inter-epoch
-    shuffling) as {\bf prescribing different independence relations} that lead
-    to different factorizations and hence to potentially different
-    generalization behavior at each order of $\eta$.
+    In averaging over training sets $(l_t: 0\leq t<T)$ we may factor the
+    expectation of the above product according to independence relations
+    between the $l_t$.  We view various training procedures (e.g. pure GD, pure
+    SGD) as {\bf prescribing different independence relations} that lead to
+    different factorizations and hence to potentially different generalization
+    behavior at each order of $\eta$.
 
     An instance of the above product (for $s=l_a$ drawn from a test set and
     $0\leq c\leq b<T$) is
-    $\eta^3 (\nabla l_c \nabla)^2 (\nabla l_b \nabla) l_a$, which is
+    $-\eta^3 (\nabla l_c \nabla)^2 (\nabla l_b \nabla) l_a$, which is
     {\small
     \begin{align*}
-          (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla_\mu \nabla^\nu l_b) (\nabla_\nu l_a)   
-        + (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla^\nu l_b) (\nabla_\mu \nabla_\nu l_a) \\
-        + (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\mu \nabla^\nu l_b) (\nabla_\lambda \nabla_\nu l_a)   
-        + (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla^\nu l_b) (\nabla_\lambda \nabla_\mu \nabla_\nu l_a)
+        - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla_\mu \nabla^\nu l_b) (\nabla_\nu l_a)   
+        - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla^\nu l_b) (\nabla_\mu \nabla_\nu l_a) \\
+        - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\mu \nabla^\nu l_b) (\nabla_\lambda \nabla_\nu l_a)   
+        - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla^\nu l_b) (\nabla_\lambda \nabla_\mu \nabla_\nu l_a)
     \end{align*}
     }
     To reduce clutter, we adapt the string notation of \citet{pe71}.  Then, in
@@ -364,22 +363,21 @@ Correct Thm 1 to address nonconstant batch size
             \label{eq:simpl}
         &=
             \underbrace{2\sdia{(01-2-3)(02-12-23)}}_{
-                2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla\nabla\nabla l}}~\expct{{\color{moob} \nabla l}}
+               -2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla\nabla\nabla l}}~\expct{{\color{moob} \nabla l}}
             }
             +
             \underbrace{2\sdia{(01-2-3)(02-13-23)}}_{
-                2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla \nabla l}}~\expct{{\color{moob}\nabla \nabla l}}
+               -2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla \nabla l}}~\expct{{\color{moob}\nabla \nabla l}}
             }
     \end{align}
     Above, each node corresponds to an $l_n$ (here, red for $l_c$, green
     for $l_b$, blue for $l_a$), differentiated $g$ times for a degree-$g$ node
     (for instance, $l_b$ is differentiated thrice in the first diagram and
-    twice in the second).  Thin \emph{edges} mark contractions by $\eta$.
+    twice in the second).  Thin \emph{edges} mark contractions by $-\eta$.
     Fuzzy \emph{ties} denote correlations by connecting identical loss
     functions (here, $l_c$ with $l_c$).  The colors are redundant with the
     fuzzy ties.  The value $v(D)$ of a diagram $D$ is the expected value of the
-    corresponding tensor expression; by abuse of notation, we will conflate $D$
-    and $v(D)$.
+    corresponding tensor expression.
     
     Crucially, for a fixed, i.i.d.  distribution over $(l_c, l_b, l_a)$, {\bf
     the topology of a diagram determines its value}.  For instance,
@@ -406,25 +404,31 @@ Correct Thm 1 to address nonconstant batch size
     Our results all follow from this theorem and its analogues.
     Throughout, the $d$-edged diagrams give the order $\eta^d$ terms. 
     \begin{thm} \label{thm:test}
-        The expected test loss of SGD has this Maclaurin series in $\eta$:
+        SGD's expected test loss has a Maclaurin series
+        given as a weighted sum of diagrams:
         \begin{equation}\label{eq:sgdcoef}
-            \sum_{D \in \image(\Free)} (-1)^{e(D)} v(D) \sum_{f: D\to\Free(S)}
-            \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
+            \sum_{D \in \image(\Free)}
+            \left(
+                \sum_{f: D\to\Free(S)}
+                \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
+            \right)
+            v(D) 
         \end{equation}
         Here, $D$ is (an isomorphism class of) a diagram of form
         $\Free(T)$, $e(D)$ counts $D$'s edges, and $f$ is a  
         morphism in $\Pp$.
     \end{thm}
     \begin{thm}
-        SGD's expected generalization gap (test minus train loss) has the same
-        series as in Theorem \ref{thm:test} with 
-        $$
-            \frac{1}{N} \sum_{p \in (D\setminus \max D)/\sim_D} v(D_p)
-        $$
-        replacing $v(D)$.
-        Here, $p$ ranges through non-maximal equivalance classes of $D$, and
-        $D_p$ is $D$ with a fuzzy outline connecting $D$'s maximal node
-        to $p$.
+        SGD's expected generalization gap (test loss minus train loss) is
+        formula \ref{eq:sgdcoef} with $v(D)$ replaced by
+        %\begin{equation}
+        $
+            \sum_{p \in D/\sim_D} v(D_p)/N
+        $.
+        %\end{equation}
+        Here, $p$ ranges through equivalance classes of $D$, and $D_p$ is $D$
+        with a fuzzy outline connecting $D$'s maximal node to $p$,
+        e.g. $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} = \sdia{c(01)(01)}$.
     \end{thm}
 
     In the special case of $B=1, M=1$:
@@ -437,16 +441,15 @@ Correct Thm 1 to address nonconstant batch size
             v(D)
         \end{equation}
         where $D$ ranges over $d$-edged diagrams whose equivalence classes
-        are each totally disconnected and have
-        sizes $d_p: 0\leq p\leq P$, with $d_P=1$.
-        Here, $o(D)$ counts orderings of $D$.
+        have sizes $d_p: 0\leq p\leq P$, with $d_P=1$
+        and, without loss, are each antichains.
     \end{prop}
     A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta N)^d
     N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
-    third order, and they have $(4+2)+(2+2+3)+(1)$ many orderings.  See Table
+    third order, and they have $(4+2)+(2+2+3)+(1)$ many orderings --- see Table
     \ref{tab:scatthree}.  Intuitively, $\eta N$ measures the {\bf physical
-    time} of optimization, and $1/N$ measures {\bf coarseness} of time
-    discretization.  More precisely, we have a double-series in $(\eta N)^d
+    time} of descent, and $1/N$ measures {\bf coarseness} of time
+    discretization.  So we have a double-series in $(\eta N)^d
     N^{P-d-1}$, where $d$ counts thin edges and $d+1-P$ counts fuzzy ties; the
     $P=d+1$ terms correspond to a discretization-agnostic (hence
     continuous-time, noiseless) ODE approximation to SGD, while $P\leq d$ gives
@@ -455,12 +458,12 @@ Correct Thm 1 to address nonconstant batch size
         For one-epoch SGD on singleton batches through fixed physical time $T$:
         the order $N^{-1}$ deviation of SGD's test loss from ODE's is
         $
-            \frac{T^2 N^{-1}}{2} \dia{c(01-2)(02-12)}
+            ({{T^2 N^{-1}}/{2}}) \sdia{c(01-2)(02-12)}
         $.
         The order $N^{-2}$ deviation of SGD's test loss due to non-gaussian
         noise is
         $
-            \frac{T^3 N^{-2}}{6} \wrap{\sdia{c(012-3)(03-13-23)} - 3 \sdia{c(01-2-3)(03-13-23)}}
+            -({{T^3 N^{-2}}/{6}}) (\sdia{c(012-3)(03-13-23)} - 3 \sdia{c(01-2-3)(03-13-23)})
         $.
     \end{cor}
     For finite $N$, these effects make SDE different from SGD.  SDE also fails
@@ -522,7 +525,7 @@ Correct Thm 1 to address nonconstant batch size
         To order $\eta^2$, inter-epoch shuffling doesn't affect SGD's
         expected test loss.
     \end{cor}
-    Indeed, the following holds for any inter-epoch shuffling scheme: 
+    Indeed, for any inter-epoch shuffling scheme: 
     \begin{prop}
         To order $\eta^2$, the test loss of SGD --- on $N$
         samples for $M$ epochs with batch size $B$ dividing $N$ and with any
@@ -530,7 +533,7 @@ Correct Thm 1 to address nonconstant batch size
         {\small
         \begin{align*}
                                                     \dia{(0)()}
-            &- MN                                   \dia{(0-1)(01)}
+            &+ MN                                   \dia{(0-1)(01)}
              + MN\wrap{MN - \frac{1}{2}}            \dia{(0-1-2)(01-12)} \\
             &+ MN\wrap{\frac{M}{2}}                 \dia{c(01-2)(02-12)}  
              + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \dia{c(01-2)(01-12)}
@@ -804,23 +807,23 @@ Correct Thm 1 to address nonconstant batch size
                 &\mathcal{L}^{\text{SGD}}_\text{test}(T, \eta) \in                   
             \\ 
                    \sdia{(0)()}
-                &- \frac{\eta}{1!}   {T \choose 1} \wrap{\sdia{(0-1)(01)}}
+                &+ \frac{\eta}{1!}   {T \choose 1} \wrap{\sdia{(0-1)(01)}}
             \\
                 &+ \frac{\eta^2}{1!1!} {T \choose 2} \wrap{2 \sdia{(0-1-2)(01-12)}} 
                  + \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(01-2)(02-12)}}
             \\
-                &- \frac{\eta^3}{1!1!1!} {T \choose 3} \wrap{
+                &+ \frac{\eta^3}{1!1!1!} {T \choose 3} \wrap{
                            4 \sdia{(0-1-2-3)(01-12-23)}+
                            2 \sdia{(0-1-2-3)(03-13-23)}
                        }
             \\
-                &- \frac{\eta^3}{2!1!} {T \choose 2} \wrap{
+                &+ \frac{\eta^3}{2!1!} {T \choose 2} \wrap{
                            2         \sdia{(01-2-3)(03-12-23)}+
                            2    \sdia{(0-12-3)(02-13-23)}+
                            3     \sdia{(01-2-3)(02-12-23)}
                        }
             \\
-                &- \frac{\eta^3}{3!} {T \choose 1} \wrap{\sdia{(012-3)(03-13-23)}}
+                &+ \frac{\eta^3}{3!} {T \choose 1} \wrap{\sdia{(012-3)(03-13-23)}}
                 + o(\eta^3)\footnotemark
         \end{align*}
         \footnotetext{
@@ -843,14 +846,14 @@ Correct Thm 1 to address nonconstant batch size
             &N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \in
             \\
             &+ \eta   {T \choose 1} \sdia{c(01)(01)} 
-            - \eta^2 {T \choose 2} \wrap{\sdia{c(01-2)(01-12)} + \sdia{c(02-1)(01-12)}} \\
-            &- \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(012)(02-12)} - \sdia{(01-2)(02-12)}} 
+            + \eta^2 {T \choose 2} \wrap{\sdia{c(01-2)(01-12)} + \sdia{c(02-1)(01-12)}} \\
+            &+ \frac{\eta^2}{2!} {T \choose 1} \wrap{\sdia{(012)(02-12)} - \sdia{(01-2)(02-12)}} 
              + o(\eta^2) 
             \\
             =&+ \eta^{\lambda \mu} {T \choose 1} C_{\lambda \mu} 
-            - \eta^{\lambda \mu} \eta^{\nu \xi} {T \choose 2} \wrap{ \frac{1}{2} G_\lambda \nabla_\mu C_{\nu \xi} + C_{\mu \nu} H_{\xi \lambda} }
+            + \eta^{\lambda \mu} \eta^{\nu \xi} {T \choose 2} \wrap{ \frac{1}{2} G_\lambda \nabla_\mu C_{\nu \xi} + C_{\mu \nu} H_{\xi \lambda} }
             \\
-            &- \frac{\eta^{\lambda \mu} \eta^{\nu \xi}}{2!} {T \choose 1} \wrap{ \wang{l_\lambda l_\nu l_{\mu \xi}} - (G_{\mu}G_{\nu} + C_{\mu\nu})H_{\xi \lambda} }
+            &+ \frac{\eta^{\lambda \mu} \eta^{\nu \xi}}{2!} {T \choose 1} \wrap{ \wang{l_\lambda l_\nu l_{\mu \xi}} - (G_{\mu}G_{\nu} + C_{\mu\nu})H_{\xi \lambda} }
              + o(\eta^2)
         \end{align*}
         The leading order term is $N \cdot \mathcal{L}^{\text{SGD}}_\text{gen}(T, \eta) \approx \eta T \wrap{\sdia{(01)(01)} - \sdia{(0-1)(01)}} = T \cdot \eta^{\lambda\mu} C_{\lambda\mu}$,
