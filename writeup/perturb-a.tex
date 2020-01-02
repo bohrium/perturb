@@ -55,7 +55,6 @@
     \end{overpic}
 }
 \newcommand{\plotmoo}[3]{
-    %\includegraphics[width=#2, height=#3]{../#1.png}
     \includegraphics[width=#2           ]{../#1.png}
 }
 
@@ -163,75 +162,11 @@ Correct Thm 1 to address nonconstant batch size
     depict how individual SGD updates influence each other before affecting a
     final test loss.  In fact, we import from physics tools such as {\bf
     crossing symmetries} (see \citet{dy49b}) and {\bf re-normalization} (see
-    \citet{ge54}) to simplify our calculations and refine our estimates.
-    The diagrams' combinatorial properties immediately yield several precise
-    qualitative conclusions as well, for instance that to order $\eta^2$, {\bf
-    inter-epoch} shuffling does not affect expected test loss.
+    \citet{ge54}) to simplify our calculations and refine our estimates.  The
+    diagrams' combinatorial properties yield precise qualitative conclusions as
+    well, for instance that to order $\eta^2$, {\bf inter-epoch} shuffling does
+    not affect expected test loss.
 
-
-%==============================================================================
-%    RELATED WORK    
-%==============================================================================
-
-\subsection{Related Work}
-    It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
-    stochastic approximation \citep{ro51}, invented SGD.  Since the development
-    of back-propagation for efficient differentiation \citep{we74}, SGD and its
-    variants have been used to train connectionist models including neural
-    networks \citep{bo91}, in recent years to remarkable success \citep{le15}.
-
-    Several lines of work quantify the overfitting of SGD-trained networks
-    \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
-    complexity of deep hypothesis classes, leading to generalization bounds
-    that are post hoc or optimizer-agnostic.  However, since deep networks
-    trained via SGD generalize despite their seeming ability to shatter large
-    sets \citep{zh17}, one infers that generalization arises from the aptness
-    to data of not only architecture but also optimization \citep{ne17b}.
-    Others have focused on the implicit regularization of SGD itself, for
-    instance by modeling descent via stochastic differential equations (SDEs)
-    (e.g.  \citet{ch18}).  However, as explained by \citet{ya19}, such
-    continuous-time analyses cannot treat covariance correctly, and so they err
-    when interpreting results about SDEs as results about SGD for finite
-    trainset sizes.
-
-    Following \citet{ro18}, we avoid making a continuous-time approximation by
-    instead Taylor-expanding around the learning rate $\eta=0$.  In fact, we
-    develop a diagrammatic method for evaluating each Taylor term that is
-    inspired by the field theory methods popularized by \citet{dy49a}.  Using
-    this technique, we quantify the overfitting effects of batch size and epoch
-    number, and based on this analysis, propose a regularizing term that causes
-    large-batch GD to emulate small-batch SGD, thus establishing a precise
-    version of the Covariance-BatchSize-Generalization relationship conjectured
-    in \citet{ja18}.  
-    
-    While we make rigorous, architecture-agnostic predictions of learning
-    curves, these predictions become vacuous for large $\eta$.  In particular,
-    while our work does not assume convexity of the loss landscape, it also is
-    blind to large-$\eta T$ convergence of SGD.  Other discrete-time dynamical
-    analyses allow large $\eta$ by treating deep generalization
-    phenomenologically, whether by fitting to an empirically-determined
-    correlate of Rademacher bounds \citep{li18}, by exhibiting generalization
-    of local minima {\bf flat} with respect to the standard metric (see
-    \citet{ho17}, \citet{ke17}, citet{wa18}), or by exhibiting generalization
-    of local minima {\bf sharp} with respect to the standard metric (see
-    \citet{st56}, \citet{di17}, \citet{wu18}).  Our work, which makes explicit
-    the dependence of generalization on the underlying metric and on the form
-    of gradient noise, reconciles those latter, seemingly clashing claims.
-    
-    Others have imported the perturbative methods of physics to analyze descent
-    dynamics:  \citet{dy19} perturb in inverse network width, employing 't
-    Hooft diagrams to compute deviations of non-infinitely-wide deep learning
-    from Gaussian processes.  Meanwhile, \cite{ch18} and \citet{li17} perturb
-    in learning rate to second order by approximating noise between updates as
-    gaussian and uncorrelated.  This approach does not generalize to higher
-    orders, and, because correlations and heavy tails are essential obstacles
-    to concentration of measure and hence of generalization, it does not model
-    the generalization behavior of SGD.  By contrast, we use Penrose diagrams
-    to compute test and train losses to arbitrary order in learning rate,
-    quantifying the effect of non-gaussian and correlated noise.  We hence
-    extend \citet{ro18} beyond leading order and beyond $2$ time steps,
-    allowing us to compare, for instance, the expected test losses of
-    multi-epoch and single-epoch SGD.
 
 %==============================================================================
 %    BACKGROUND AND NOTATION
@@ -529,17 +464,17 @@ Correct Thm 1 to address nonconstant batch size
         expected test loss.
     \end{cor}
     Indeed, for any inter-epoch shuffling scheme: 
-    \begin{prop}
+    \begin{prop}\label{prop:ordtwo}
         To order $\eta^2$, the test loss of SGD --- on $N$
         samples for $M$ epochs with batch size $B$ dividing $N$ and with any
         shuffling scheme --- has expectation
         {\small
         \begin{align*}
-                                                    \dia{(0)()}
-            &+ MN                                   \dia{(0-1)(01)}
-             + MN\wrap{MN - \frac{1}{2}}            \dia{(0-1-2)(01-12)} \\
-            &+ MN\wrap{\frac{M}{2}}                 \dia{c(01-2)(02-12)}  
-             + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \dia{c(01-2)(01-12)}
+                                                    \mdia{(0)()}
+            &+ MN                                   \mdia{(0-1)(01)}
+             + MN\wrap{MN - \frac{1}{2}}            \mdia{(0-1-2)(01-12)} \\
+            &+ MN\wrap{\frac{M}{2}}                 \mdia{c(01-2)(02-12)}  
+             + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \mdia{c(01-2)(01-12)}
         \end{align*}
         }
     \end{prop}
@@ -580,22 +515,32 @@ Correct Thm 1 to address nonconstant batch size
     \lorem{3}
     \lorem{3}
     \begin{figure}[h!]
-        \centering
-        \plotmoo{diagrams/spacetime}{8.0cm}{3.0cm} 
-        %\plotplace{one diagram, many embeddings}{4.0cm}{4.0cm} \\
-        %\plotplace{interepoch shuffling}{4.0cm}{4.0cm}
-        %\plotplace{multiepoch vs gd}{4.0cm}{4.0cm}
+        \centering%
+        \begin{tabular}{l}
+            \plotmoo{diagrams/spacetime}{7.0cm}{3.0cm}\\
+            \plotmoo{diagrams/spacetime-b}{7.0cm}{3.0cm}
+        \end{tabular}
         \caption{
-            {\bf a} Some diagrams embedded in spacetime.  Left four 
-                    give order $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$
-                    contributions to GD's test loss.  Right four each contribute $\eta^2
-                    \expct{\nabla^2} \expct{\nabla}^2$; their
-                    equivalence demonstrates crossing symmetry.  Only diagrams
-                    whose nodes fall within shaded diagonals contribute to
-                    SGD's test loss (with an extra factor $N$ per edge). 
-            {\bf b}   
-            {\bf c} 
-            {\bf d} 
+            {\bf above}
+                Some diagrams embedded in spacetime.  The left four diagrams
+                give order
+                $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$ contributions to
+                GD's test loss.  The right four each contribute $\eta^2
+                \expct{\nabla^2} \expct{\nabla}^2$; their equivalence
+                demonstrates crossing symmetry.  Only diagrams whose nodes fall
+                within shaded diagonals contribute to SGD's test loss (with an
+                extra factor $N$ per edge). 
+            {\bf below}
+                Comparison of diagrams in pure GD's vs pure SGD's spacetime. 
+                At order $\eta^2$, we may normalize every inter-epoch GD 
+                diagram and every $GGH$ GD diagram to an equivalent inter-epoch
+                or $GGH$ SGD diagram by horizontal shifts (see left three
+                diagrams).  We may normalize the remaining by vertical shifts
+                (see right three diagrams).  This changes the value of
+                $M{N\choose 2}$ many $\sdia{(01-2)(01-12)}$s into
+                $\sdia{(0-1-2)(01-12)}$.  So pure GD's test loss exceeds pure
+                SGD's test loss by $M ((N-1)/2N) \sdia{c(01-2)(01-12)}$.  This
+                argument generalizes to yield proposition \ref{prop:ordtwo}. 
         }
     \end{figure}
 
@@ -692,6 +637,71 @@ Correct Thm 1 to address nonconstant batch size
     small learning rates, SGD cycles counterclockwise around a circle of
     minima.  Our mechanism differs from that discovered by \citet{ch18}
     {\color{red}  discuss the thermodynamic significance of both}
+
+%==============================================================================
+%    RELATED WORK    
+%==============================================================================
+
+\section{Related Work}
+    It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
+    stochastic approximation \citep{ro51}, invented SGD.  Since the development
+    of back-propagation for efficient differentiation \citep{we74}, SGD and its
+    variants have been used to train connectionist models including neural
+    networks \citep{bo91}, in recent years to remarkable success \citep{le15}.
+
+    Several lines of work quantify the overfitting of SGD-trained networks
+    \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
+    complexity of deep hypothesis classes, leading to generalization bounds
+    that are post hoc or optimizer-agnostic.  However, since deep networks
+    trained via SGD generalize despite their seeming ability to shatter large
+    sets \citep{zh17}, one infers that generalization arises from the aptness
+    to data of not only architecture but also optimization \citep{ne17b}.
+    Others have focused on the implicit regularization of SGD itself, for
+    instance by modeling descent via stochastic differential equations (SDEs)
+    (e.g.  \citet{ch18}).  However, as explained by \citet{ya19}, such
+    continuous-time analyses cannot treat covariance correctly, and so they err
+    when interpreting results about SDEs as results about SGD for finite
+    trainset sizes.
+
+    Following \citet{ro18}, we avoid making a continuous-time approximation by
+    instead Taylor-expanding around the learning rate $\eta=0$.  In fact, we
+    develop a diagrammatic method for evaluating each Taylor term that is
+    inspired by the field theory methods popularized by \citet{dy49a}.  Using
+    this technique, we quantify the overfitting effects of batch size and epoch
+    number, and based on this analysis, propose a regularizing term that causes
+    large-batch GD to emulate small-batch SGD, thus establishing a precise
+    version of the Covariance-BatchSize-Generalization relationship conjectured
+    in \citet{ja18}.  
+    
+    While we make rigorous, architecture-agnostic predictions of learning
+    curves, these predictions become vacuous for large $\eta$.  In particular,
+    while our work does not assume convexity of the loss landscape, it also is
+    blind to large-$\eta T$ convergence of SGD.  Other discrete-time dynamical
+    analyses allow large $\eta$ by treating deep generalization
+    phenomenologically, whether by fitting to an empirically-determined
+    correlate of Rademacher bounds \citep{li18}, by exhibiting generalization
+    of local minima {\bf flat} with respect to the standard metric (see
+    \citet{ho17}, \citet{ke17}, citet{wa18}), or by exhibiting generalization
+    of local minima {\bf sharp} with respect to the standard metric (see
+    \citet{st56}, \citet{di17}, \citet{wu18}).  Our work, which makes explicit
+    the dependence of generalization on the underlying metric and on the form
+    of gradient noise, reconciles those latter, seemingly clashing claims.
+    
+    Others have imported the perturbative methods of physics to analyze descent
+    dynamics:  \citet{dy19} perturb in inverse network width, employing 't
+    Hooft diagrams to compute deviations of non-infinitely-wide deep learning
+    from Gaussian processes.  Meanwhile, \cite{ch18} and \citet{li17} perturb
+    in learning rate to second order by approximating noise between updates as
+    gaussian and uncorrelated.  This approach does not generalize to higher
+    orders, and, because correlations and heavy tails are essential obstacles
+    to concentration of measure and hence of generalization, it does not model
+    the generalization behavior of SGD.  By contrast, we use Penrose diagrams
+    to compute test and train losses to arbitrary order in learning rate,
+    quantifying the effect of non-gaussian and correlated noise.  We hence
+    extend \citet{ro18} beyond leading order and beyond $2$ time steps,
+    allowing us to compare, for instance, the expected test losses of
+    multi-epoch and single-epoch SGD.
+
 
 
 %==============================================================================
