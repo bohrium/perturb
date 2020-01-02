@@ -46,7 +46,7 @@
 \newcommand{\worm}[1]{\left\| #1 \right\|}
 
 \newcommand{\plotplace}[3]{
-    \begin{overpic}[width=#2, height=#3]{../diagrams/spacetime.png}
+    \begin{overpic}[width=#2, height=#3]{../plots/blank.png}
         \put( 5, 85){
             \begin{tabular}{p{#2-1.0cm}}
                 #1
@@ -175,13 +175,13 @@ Correct Thm 1 to address nonconstant batch size
 \section{Background and Notation}
 
 \subsection{A Smooth Stage: Tensor Conventions}
-    We adopt summation notation for Greek but not Roman indices, suppressing
-    indices when clear.  To expedite dimensional analysis, we follow
-    \cite{bo13} in regarding the learning rate as an inverse metric
-    $\eta^{\mu\nu}$ that converts a gradient into a displacement.  We will use
-    $\eta$ to raise indices; for example, with $C$ denoting the covariance of
+    We adopt summation notation for Greek, suppressing
+    indices when clear.  To expedite dimensional analysis, we 
+    regard the learning rate as an inverse metric $\eta^{\mu\nu}$ that
+    converts a gradient into a displacement (\cite{bo13}).  We use $\eta$
+    to raise indices; for example, with $C$ denoting the covariance of
     gradients, its ``trace'' will be $C^{\mu}_{\mu} = \eta^{\mu\nu}
-    C_{\mu\nu}$.  Standard syntactic constraints then make manifest which
+    C_{\mu\nu}$.  Standard syntactic constraints make manifest which
     expressions transform naturally with respect to optimization dynamics.
     
     We assume that all polynomials of the $0$th and higher derivatives of the
@@ -192,7 +192,7 @@ Correct Thm 1 to address nonconstant batch size
     ideas \yrcite{ko93}.
 
 \subsection{Combinatorial Costumes: Structure Sets}
-    We make use of \emph{structure sets}, i.e.  sets $S$ equipped with a
+    We make use of \emph{structure sets}, i.e. sets $S$ equipped with a
     preorder $\leq$ and an equivalence relation $\sim$.  The morphisms of
     structure sets are strictly increasing maps that preserve $\sim$ and its
     negation.  A structure set is \emph{pointed} if it has a unique maximum
@@ -200,14 +200,14 @@ Correct Thm 1 to address nonconstant batch size
     $\Ss$ of structure sets and $\Pp$ of pointed structure sets enjoy a
     free-forgetful adjunction $\Free, \Forg$.
 
-    A \emph{diagram} is a rooted tree equipped with an equivalence relation on
-    nodes.  We draw the tree of $\leq$ by thin edges, with the root at the far
-    right, and we draw the equivalence relation $\sim$ by fuzzy ties.  By
-    reading the tree as a Hasse graph, we see that each diagram $D$ induces a
-    structure set, by abuse of notation also named $D$.  An $\Ss$-map from $D$
-    to $[P]=(\Forg\circ\Free)^P(\text{empty diagram})$ is an \emph{ordering} of
-    $D$, where $P$ counts $D$'s equivalence classes.
-    Let, $o(D)$ count orderings of $D$.
+    A \emph{diagram} is a rooted tree equipped with an equivalence relation
+    $\sim$ on nodes.  We draw the tree with thin edges, with the root at the
+    far right, and we indicate $\sim$ with fuzzy ties.  By reading the tree as
+    a Hasse graph, we see that each diagram $D$ induces a structure set, by
+    abuse of notation also named $D$.  An $\Ss$-map from $D$ to
+    $[P]=(\Forg\circ\Free)^P(\text{empty set})$ is an \emph{ordering} of $D$,
+    where $P$ counts $D$'s equivalence classes.  Let $o(D)$ count orderings of
+    $D$.
 
     Fong gives a swift introduction to these category theoretic and
     diagrammatic ideas \yrcite{fo19}.
@@ -215,8 +215,9 @@ Correct Thm 1 to address nonconstant batch size
 \subsection{The Parameterized \emph{Personae}: Forms of SGD}
     SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
     estimates $(l_n: 0\leq n<N)$ of $l$.  The pattern of updates is determined
-    by a structure set $\S$ whose preorder is a total preorder: for a map $\pi:S\to
-    [N]$ that induces $\sim$, we define SGD inductively as
+    by a structure set $S$ whose preorder is a total preorder with element $i$ 
+    inside strongly connected component $C(i)$: for a map
+    $\pi:S\to [N]$ that induces $\sim$, we define SGD inductively as
     $\text{SGD}_{S}(\theta) = \theta$ when $S$ is empty and otherwise
     $$
         \SGD_S(\theta) =
@@ -233,23 +234,23 @@ Correct Thm 1 to address nonconstant batch size
     shuffling scheme}.  The cases $B=1$ and $B=N$ we call \emph{pure SGD} and
     \emph{pure GD}.
 
-\subsection{The Tempting Tool: Taylor Series}
-    Intuitively, each descent step displaces $\theta$ by $-\eta \nabla l$ and
-    hence decreases the loss $l(\theta)$ by $\eta (\nabla l)^2$; thus, we
-    expect after $T$ steps a net decrease of $T \eta (\nabla l)^2$:
-    \begin{equation} \label{eq:motone}
-        l(\theta_T) \approx l(\theta_0) - T \cdot \eta \cdot (\nabla l(\theta_0))^2
-    \end{equation}
-    This intuition fails to capture two crucial facts: {\bf curvature} --- that
-    as $\theta$ changes during training, so may $\nabla l(\theta)$ --- and {\bf
-    noise} --- that $l_n$ and $l$ may differ.
-
-    To account for noise, we should replace each $(\nabla l_t)(\nabla l)$ by
-    an expectation.  If we are interested in train instead of test loss, 
-    We get some expectations of the form $(\nabla l_t)(\nabla l_t)$, and hence
-    obtain a different result than for test loss.
-
-    To account for curvature, {\color{red} FILL IN}
+%\subsection{The Tempting Tool: Taylor Series}
+%    Intuitively, each descent step displaces $\theta$ by $-\eta \nabla l$ and
+%    hence decreases the loss $l(\theta)$ by $\eta (\nabla l)^2$; thus, we
+%    expect after $T$ steps a net decrease of $T \eta (\nabla l)^2$:
+%    \begin{equation} \label{eq:motone}
+%        l(\theta_T) \approx l(\theta_0) - T \cdot \eta \cdot (\nabla l(\theta_0))^2
+%    \end{equation}
+%    This intuition fails to capture two crucial facts: {\bf curvature} --- that
+%    as $\theta$ changes during training, so may $\nabla l(\theta)$ --- and {\bf
+%    noise} --- that $l_n$ and $l$ may differ.
+%
+%    To account for noise, we should replace each $(\nabla l_t)(\nabla l)$ by
+%    an expectation.  If we are interested in train instead of test loss, 
+%    We get some expectations of the form $(\nabla l_t)(\nabla l_t)$, and hence
+%    obtain a different result than for test loss.
+%
+%    To account for curvature, {\color{red} FILL IN}
        
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
@@ -348,13 +349,12 @@ Correct Thm 1 to address nonconstant batch size
             \sum_{D \in \image(\Free)}
             \left(
                 \sum_{f: D\to\Free(S)}
-                \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
+                \prod_{i\in S} \frac{|C(i)|^{|f^{-1}(i)|}}{|f^{-1}(i)|!}
             \right)
             v(D) 
         \end{equation}
         Here, $D$ is (an isomorphism class of) a diagram of form
-        $\Free(T)$, $e(D)$ counts $D$'s edges, and $f$ is a  
-        morphism in $\Pp$.
+        $\Free(T)$ and $f$ is a morphism in $\Pp$.
     \end{thm}
     \begin{thm}
         SGD's expected generalization gap (test loss minus train loss) is
@@ -512,42 +512,54 @@ Correct Thm 1 to address nonconstant batch size
     \lorem{3}
 
 \subsection{Descent as Scattering}
-    \lorem{3}
-    \lorem{3}
-    \begin{figure}[h!]
-        \centering%
-        \begin{tabular}{l}
-            \plotmoo{diagrams/spacetime}{7.0cm}{3.0cm}\\
-            \plotmoo{diagrams/spacetime-b}{7.0cm}{3.0cm}
-        \end{tabular}
+    In sum, SGD's test loss is a weighted sum of diagrams, each $d$-edged
+    diagram contributing to order $\eta^d$.  We depict the $\Ss$-maps of
+    $f:D\to S$ Theorem \ref{thm:test} as an embedding of the graph $D$ into
+    the structure set or ``spacetime'' $S$.  Thus, SGD's test loss is a sum
+    over all embeddings in spacetime; see Figure (\ref{fig:spacetime}).  This
+    loss depends on the shape of spacetime, which in encodes correlations
+    between updates.  To compute a test loss, we simply count embeddings.
+    For instance, the order $\eta^2$ diagrams in (\ref{fig:spacetime}) all 
+    contribute the same amount to test loss, so we just need to find out how
+    many such embedded diagrams there are.   
+    \begin{figure}[h!] \label{fig:spacetime}
+        \centering  
+        \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
         \caption{
-            {\bf above}
-                Some diagrams embedded in spacetime.  The left four diagrams
-                give order
-                $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$ contributions to
-                GD's test loss.  The right four each contribute $\eta^2
-                \expct{\nabla^2} \expct{\nabla}^2$; their equivalence
-                demonstrates crossing symmetry.  Only diagrams whose nodes fall
-                within shaded diagonals contribute to SGD's test loss (with an
-                extra factor $N$ per edge). 
-            {\bf below}
-                Comparison of diagrams in pure GD's vs pure SGD's spacetime. 
-                At order $\eta^2$, we may normalize every inter-epoch GD 
-                diagram and every $GGH$ GD diagram to an equivalent inter-epoch
-                or $GGH$ SGD diagram by horizontal shifts (see left three
-                diagrams).  We may normalize the remaining by vertical shifts
-                (see right three diagrams).  This changes the value of
-                $M{N\choose 2}$ many $\sdia{(01-2)(01-12)}$s into
-                $\sdia{(0-1-2)(01-12)}$.  So pure GD's test loss exceeds pure
-                SGD's test loss by $M ((N-1)/2N) \sdia{c(01-2)(01-12)}$.  This
-                argument generalizes to yield proposition \ref{prop:ordtwo}. 
+            Some diagrams embedded in spacetime.  The left four diagrams
+            give order $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$
+            contributions to pure GD's test loss.  The right four each
+            contribute $\eta^2 \expct{\nabla^2} \expct{\nabla}^2$; their
+            equivalence demonstrates crossing symmetry.  Only diagrams
+            whose nodes fall within shaded diagonals contribute to pure SGD's
+            test loss (with an extra factor $N$ per edge). 
         }
     \end{figure}
+    \begin{figure}[h!] \label{fig:vsmulti}
+        \centering  
+        \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
+        \caption{
+            Comparison of pure GD's vs pure SGD's test loss.  We may
+            normalize almost every order $\eta^2$ GD diagram to an
+            equivalent SGD diagram by horizontal or vertical shifts (see
+            left five diagrams).  By contrast, $M{N\choose 2}$ many
+            $\sdia{(01-2)(01-12)}$s turn into $\sdia{(0-1-2)(01-12)}$s (see
+            rightmost diagram).  So pure GD's test loss exceeds pure SGD's
+            test loss by $M ((N-1)/2N) \sdia{c(01-2)(01-12)}$.
+        }
+    \end{figure}
+    Likewise, as shown in Figure
+    (\ref{fig:vsmulti}), the order $\eta^2$ diagrams of pure GD
+    and pure SGD are nearly in correspondence, except for a discrepancy that
+    shows the two test losses differ by $M ((N-1)/2N) \sdia{c(01-2)(01-12)}$.
+    %This argument generalizes to yield proposition \ref{prop:ordtwo}.
+
 
 %==============================================================================
 %    PREDICTIONS AND APPLICATIONS
 %==============================================================================
 
+\pagebreak
 \section{Consequences and Applications}
 
 \subsection{Vanilla SGD}
@@ -645,23 +657,22 @@ Correct Thm 1 to address nonconstant batch size
 \section{Related Work}
     It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
     stochastic approximation \citep{ro51}, invented SGD.  Since the development
-    of back-propagation for efficient differentiation \citep{we74}, SGD and its
-    variants have been used to train connectionist models including neural
+    of back-propagation for efficient differentiation \citep{we74}, SGD
+    has been used to train connectionist models including neural
     networks \citep{bo91}, in recent years to remarkable success \citep{le15}.
 
     Several lines of work quantify the overfitting of SGD-trained networks
     \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
     complexity of deep hypothesis classes, leading to generalization bounds
-    that are post hoc or optimizer-agnostic.  However, since deep networks
-    trained via SGD generalize despite their seeming ability to shatter large
-    sets \citep{zh17}, one infers that generalization arises from the aptness
-    to data of not only architecture but also optimization \citep{ne17b}.
-    Others have focused on the implicit regularization of SGD itself, for
-    instance by modeling descent via stochastic differential equations (SDEs)
-    (e.g.  \citet{ch18}).  However, as explained by \citet{ya19}, such
-    continuous-time analyses cannot treat covariance correctly, and so they err
-    when interpreting results about SDEs as results about SGD for finite
-    trainset sizes.
+    that are optimizer-agnostic.  However, since networks trained via SGD
+    generalize despite their seeming ability to shatter large sets
+    \citep{zh17}, one infers that generalization arises from the aptness to
+    data of not only architecture but also optimization \citep{ne17b}.  Others
+    have focused on the implicit regularization of SGD itself, for instance by
+    modeling descent via stochastic differential equations (SDEs) (e.g.
+    \citet{ch18}).  However, per \citet{ya19}, such continuous-time analyses
+    cannot treat covariance correctly, and so they err when interpreting
+    results about SDEs as results about SGD for finite trainsets.
 
     Following \citet{ro18}, we avoid making a continuous-time approximation by
     instead Taylor-expanding around the learning rate $\eta=0$.  In fact, we
@@ -709,15 +720,15 @@ Correct Thm 1 to address nonconstant batch size
 %==============================================================================
 
 \section{Conclusion}
-    We presented a novel diagrammatic tool for analyzing gradient-based
-    descent.  Via a new regularizing term, we showed that {\bf
-    large-batch GD can be made to emulate small-batch SGD}, thus completing a
+    We presented a novel diagrammatic tool for analyzing gradient
+    descent.  We introduced a novel regularizing term, thus showing that {\bf
+    large-batch GD can be made to emulate small-batch SGD} and completing a
     project suggested by \citet{ro18}.  This is significant because, while
     small batch sizes can lead to better generalization \citep{bo91}, modern
     infrastructure increasingly rewards large batch sizes \citep{go18}.      
     We showed also that in multi-epoch SGD, inter-epoch shuffling induces only
     a $3$rd order effect on test loss.  Intuitively, we proved that {\bf the
-    hessian matters asymptotically more than  shuffling order}.
+    hessian matters asymptotically more than shuffling order}.
 
     The diagram method is also a rich source of intuitions and physical
     analogies.  For example, it offers a clearer understanding of the
@@ -727,7 +738,7 @@ Correct Thm 1 to address nonconstant batch size
     bridge to particle physics, especially within the framework of
     renormalization theory, pose a promising direction for future research.
 
-    Variances
+    VARIANCES
 
 %==============================================================================
 %    ACKNOWLEDGEMENTS
