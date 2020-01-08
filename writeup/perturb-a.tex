@@ -488,7 +488,7 @@ Correct Thm 1 to address nonconstant batch size
     \begin{cor}
         To order $\eta^2$, one-epoch SGD has 
         $
-             \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}} \mdia{c(01-2)(01-12)}
+             \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}} \sdia{c(01-2)(01-12)}
         $
         less test loss than $M$-epoch SGD with learning rate $\eta/M$. 
     \end{cor}
@@ -499,11 +499,11 @@ Correct Thm 1 to address nonconstant batch size
         The expected test loss of pure SGD is, to order $\eta^2$,
         less than that of pure GD by
         $
-              \wrap{\frac{M}{2}} \wrap{\frac{N-1}{N}} \sdia{c(01-2)(01-12)}
+              \wrap{\frac{M(N-1)}{2}} \sdia{c(01-2)(01-12)}
         $.
         Moreover, GD on a modified loss 
         $
-            \tilde l_n = l_n + \wrap{\frac{N-1}{4N^2}} \hat{C}_\nu^\nu(\theta)
+            \tilde l_n = l_n + \wrap{\frac{N-1}{4N}} \hat{C}_\nu^\nu(\theta)
         $
         has an expected test loss that agrees with SGD's to second order.
     \end{cor}
@@ -882,11 +882,11 @@ Correct Thm 1 to address nonconstant batch size
     problems.
 
     \subsection*{Effect of Batch Size}
-        Let's compare the test losses of pure SGD and pure GD.  Because pure
+        We compare the test losses of pure SGD and pure GD.  Because pure
         SGD and pure GD differ in how samples are correlated, their test loss
         difference involves a covariance and hence occurs at order $\eta^2$.  
 
-        \textsc{Diagram Method} ---
+        \subsubsection*{Diagram Method}
         Since SGD and GD agree on noiseless landscapes, we consider only
         diagrams with fuzzy ties.  Since we are working to second order, we
         consider only two-edged diagrams.  There are only two such diagrams,
@@ -917,7 +917,7 @@ Correct Thm 1 to address nonconstant batch size
 
         See Figure FILL IN for a visualization.
 
-        \textsc{Direct Perturbation} ---
+        \subsubsection*{Direct Perturbation} 
         We compute the displacement $\theta_T-\theta_0$ to order $\eta^2$ 
         for pure SGD and separately for pure GD.  Writing
         $
@@ -1035,7 +1035,75 @@ Correct Thm 1 to address nonconstant batch size
             G \nabla C 
         $$
 
-    \subsection*{Effect of Nongaussian Noise}
+    \subsection*{Effect of Nongaussian Noise at a Minimum}
+        We consider pure SGD initialized at a local minimum of the test loss.
+        One expects $\theta$ to diffuse around that minimum according to
+        gradient noise.  We compute the effect on test loss of nongaussian
+        diffusion.  Specifically, we compare SGD test loss on the loss
+        landscape to SGD test loss on a different loss landscape defined as a
+        Gaussian process whose every covariance agrees with the original
+        landscape's.  We work to order $\eta^3$ because at lower orders,
+        gaussian and nongaussian landscapes will by definition match. 
+
+        \subsubsection*{Diagram Method}
+        Because $\expct{\nabla l}$ vanishes at the initialization, all diagrams
+        with a degree-one vertex that is a singleton vanish.  Because we work
+        at order $\eta^3$, we consider $3$-edged diagrams.
+        Finally, because all expectatations and covariances of gradients
+        match the two landscapes, we consider only diagrams with at least one
+        partition of size at least $3$.
+        The only such test diagram is $\sdia{(012-3)(03-13-23)}$.
+
+        \subsubsection*{Direct Perturbation}
+
+
+    \subsection*{Generalization Gap vs Curvature and Covariance}
+        We relate the generalization gap of vanilla SGD to the ambient curvature
+        and gradient noise.  Prior work has alternatingly claimed that sharp
+        minima generalize better (after all, $l^2$ regularization increases
+        curvature) and that flat minima generalize better (after all, small
+        displacements have smaller costs near flat minima). 
+        We resolve this seeming conflict.
+
+        \subsubsection*{Diagram Method}
+            The generalization gap of vanilla SGD is 
+            \begin{align*}
+                \frac{1}{N} (
+                \eta N \sdia{c(01)(01)} 
+                &-
+                \eta^2 {N \choose 2} \wrap{
+                    \sdia{c(0-12)(01-12)} + 
+                    \sdia{c(02-1)(01-12)} + 
+                    \sdia{c(0-12)(02-12)} + 
+                    \sdia{c(02-1)(02-12)}   
+                } \\
+                &- 
+                \eta^2 N \frac{1}{2} \wrap{
+                    \sdia{(012)(02-12)} -
+                    \sdia{(01-2)(02-12)}
+                })
+                + o(\eta^2) \\
+                =
+                \eta \sdia{c(01)(01)} 
+                &-
+                \eta^2 \frac{N-1}{2} \wrap{
+                    3\sdia{c(0-12)(01-12)} + 
+                    \sdia{c(02-1)(01-12)} 
+                } \\
+                &- 
+                \eta^2 \frac{1}{2} \wrap{
+                    \sdia{(012)(02-12)} -
+                    \sdia{(01-2)(02-12)}
+                }
+                + o(\eta^2)
+            \end{align*}
+
+        \subsubsection*{Direct Perturbation}
+
+    \subsection*{Sample Complexity}
+        \subsubsection*{Diagram Method}
+        \subsubsection*{Direct Perturbation}
+
 
 %    \subsection*{Vanilla SGD Test Loss to 3rd Order}
 %        For single-epoch SGD with singleton batches, we sum all relevant
