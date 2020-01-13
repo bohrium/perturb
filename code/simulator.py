@@ -145,7 +145,7 @@ def simulate_lenet(idxs, T, N, I=100, eta_step=0.025, eta_max=0.25,
     '''
     '''
     LC = model()
-    LC.load_from(in_nm)
+    LC.load_from(in_nm, nb_inits=6, seed=0)
     for idx in tqdm.tqdm(idxs):
         ol = OptimLog()
         for eta in tqdm.tqdm(np.arange(eta_step, eta_max+eta_step/2, eta_step)):
