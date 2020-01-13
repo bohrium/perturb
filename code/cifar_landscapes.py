@@ -16,8 +16,11 @@ import torch
 from torch import conv2d, matmul, tanh
 from torch.nn.functional import log_softmax, nll_loss 
 from torchvision import datasets, transforms
+import torchvision
 
-
+pre(str(torchvision.__version__) in ('0.2.1', '0.3.0'), 
+    'torchvision version should be 0.2.1 or 0.3.0'
+)
 
 #=============================================================================#
 #           0. CIFAR as a DATASET                                             #
@@ -63,24 +66,38 @@ class CIFAR(PointedLandscape):
             )
             for train_flag in (True, False) 
         )
-        self.imgs = np.concatenate([
-            train_set.train_data  , test_set.test_data
-        ], axis=0) / 255.0
-        self.lbls = np.concatenate([
-            train_set.train_labels, test_set.test_labels
-        ], axis=0)
+        if str(torchvision.__version__)=='0.3.0':
+            pre(train_set.classes == test_set.classes,
+                'test and train class index-name correspondences should agree!'
+            )
+        self.imgs = np.concatenate(
+            [train_set.data , test_set.data]
+            if str(torchvision.__version__) == '0.3.0' else
+            [train_set.train_data , test_set.test_data]
+        , axis=0) / 255.0
+        self.lbls = np.concatenate(
+            [train_set.targets, test_set.targets]
+            if str(torchvision.__version__) == '0.3.0' else
+            [train_set.train_labels, test_set.test_labels]
+        , axis=0)
 
         #---------------------------------------------------------------------#
         #           0.1. filter for requested classes                         #
         #---------------------------------------------------------------------#
 
+        class_nm_from_lbl = (
+            train_set.classes
+            if str(torchvision.__version__)=='0.3.0' else
+            CIFAR.CLASS_NMS
+        )
+
         idxs_to_keep = np.array([
             i for i, lbl in enumerate(self.lbls)
-            if CIFAR.CLASS_NMS[lbl] in class_nms
+            if class_nm_from_lbl[lbl] in class_nms
         ]) 
         self.imgs = torch.Tensor(self.imgs[idxs_to_keep]).view(-1, 3, 32, 32)
         self.lbls = torch.Tensor([
-            class_nms.index(CIFAR.CLASS_NMS[l]) 
+            class_nms.index(class_nm_from_lbl[l]) 
             for l in self.lbls[idxs_to_keep]
         ]).view(-1).long()
 
@@ -351,7 +368,7 @@ if __name__=='__main__':
     ML.load_from(file_nm, nb_inits=6, seed=0)
     ML.switch_to(model_idx)
 
-    D = ML.sample_data(N=N) 
+    D = ML.sample_data(N=N, seed=0) 
     for t in range(TIME):
         #---------------------------------------------------------------------#
         #           3.2 perform one descent step                              #
@@ -368,7 +385,7 @@ if __name__=='__main__':
         if (t+1)%200: continue
 
         L_train= ML.get_loss_stalk(D)
-        data = ML.sample_data(N=3000)
+        data = ML.sample_data(N=3000, seed=0)
         L_test = ML.get_loss_stalk(data[:1500])
         L_test_= ML.get_loss_stalk(data[1500:])
         acc = ML.get_accuracy(data)
