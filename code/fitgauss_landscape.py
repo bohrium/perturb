@@ -114,6 +114,7 @@ if __name__=='__main__':
     #-------------------------------------------------------------------------#
 
     ML = FitGauss(seed=0)
+    ML.load_from('saved-weights/fitgauss.npy', nb_inits=1, seed=0)
 
     D = ML.sample_data(N=N, seed=22) 
     for t in range(TIME):

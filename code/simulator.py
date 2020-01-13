@@ -12,6 +12,7 @@ from landscape import PointedLandscape
 #from mnist_landscapes import MnistLogistic, MnistLeNet, MnistMLP
 from cifar_landscapes import CifarLogistic, CifarLeNet
 #from quad_landscapes import Quadratic
+from fitgauss_landscape import FitGauss
 import torch
 import tqdm
 
@@ -151,8 +152,15 @@ def simulate_lenet(idxs, T, N, I=100, eta_d=0.025, eta_max=0.25,
 if __name__=='__main__':
     import sys
     T = int(sys.argv[1])
+
     simulate_lenet(
-        range(6), T=T, N=T, I=int(50000/T),
+        [0], T=T, N=T, I=int(50000/T),
         eta_d=0.025, eta_max=0.25,
-        out_nm=lambda idx:'ol-cifar-lenet-T{}-{:02d}.data'.format(T, idx)
+        model=FitGauss, in_nm='saved-weights/fitgauss.npy',
+        out_nm=lambda idx:'ol-fitgauss-T{}-{:02d}.data'.format(T, idx)
     )
+    #simulate_lenet(
+    #    range(6), T=T, N=T, I=int(50000/T),
+    #    eta_d=0.025, eta_max=0.25,
+    #    out_nm=lambda idx:'ol-cifar-lenet-T{}-{:02d}.data'.format(T, idx)
+    #)
