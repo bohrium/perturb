@@ -130,9 +130,8 @@ def test_on_quad_landscape(T=100):
 #                   1.1 lenet                                                 #
 #-----------------------------------------------------------------------------#
 
-def simulate_lenet(idxs, T, N, I=100, eta_d=0.025, eta_max=0.25,
-                   model=CifarLeNet, in_nm='saved-weights/cifar-lenet.npy',
-                   out_nm=lambda idx:'ol-cifar-lenet-{:02d}.data'.format(idx)):
+def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, in_nm,
+                   out_nm_by_idx):
     '''
     '''
     LC = model()
@@ -146,21 +145,33 @@ def simulate_lenet(idxs, T, N, I=100, eta_d=0.025, eta_max=0.25,
                     opts=[('SGD', None)]
                 ))
 
-        with open(out_nm(idx), 'w') as f:
+        with open(out_nm_by_idx(idx), 'w') as f:
             f.write(str(ol))
 
 if __name__=='__main__':
     import sys
     T = int(sys.argv[1])
+    model_nm = sys.argv[2]
+    model, in_nm, out_nm, I, idxs = {
+        'cifar-lenet': (
+            CifarLeNet,
+            'saved-weights/cifar-lenet.npy',
+            'ol-cifar-lenet-T{}-{:02d}.data',
+            int(50000/T),
+            range(6)
+        ),
+        'fit-gauss':   (
+            FitGauss,
+            'saved-weights/fitgauss.npy',
+            'ol-fitgauss-T{}-{:02d}.data',
+            int(1000/T),
+            range(1)
+        ),
+    }[model_nm]
 
     simulate_lenet(
-        [0], T=T, N=T, I=int(10000000/T),
+        idxs=idxs, T=T, N=T, I=I,
         eta_d=0.025, eta_max=0.25,
-        model=FitGauss, in_nm='saved-weights/fitgauss.npy',
-        out_nm=lambda idx:'ol-fitgauss-T{}-{:02d}.data'.format(T, idx)
+        model=model, in_nm=in_nm,
+        out_nm_by_idx=lambda idx: out_nm.format(T, idx)
     )
-    #simulate_lenet(
-    #    range(6), T=T, N=T, I=int(50000/T),
-    #    eta_d=0.025, eta_max=0.25,
-    #    out_nm=lambda idx:'ol-cifar-lenet-T{}-{:02d}.data'.format(T, idx)
-    #)
