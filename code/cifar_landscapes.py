@@ -18,6 +18,7 @@ from torch.nn.functional import log_softmax, nll_loss
 from torchvision import datasets, transforms
 
 
+
 #=============================================================================#
 #           0. CIFAR as a DATASET                                             #
 #=============================================================================#
@@ -94,12 +95,13 @@ class CIFAR(PointedLandscape):
             self.nb_classes, self.nb_datapts
         ))
 
-    def sample_data(self, N):
+    def sample_data(self, N, seed):
         '''
             Sample data i.i.d. from CIFAR's 60000-mass distribution.  So
             repeats will occur with positive probability.  Samples idxs,
             so lightweight.
         '''
+        reseed(seed)
         return np.random.choice(self.idxs, N, replace=True)
 
 
@@ -204,20 +206,22 @@ class CifarAbstractArchitecture(CIFAR, FixedInitsLandscape):
 
     def get_loss_stalk(self, data_idxs):
         '''
-            Compute cross entropy loss on provided data indices by calling a
-            method `logits_and_labels` to be implemented.
+            Compute cross entropy loss on provided data indices; return as a
+            pytorch tensor.  Calls the method `logits_and_labels` to be
+            implemented.
         '''
         logits, labels = self.logits_and_labels(data_idxs)
         return nll_loss(logits, labels)
 
     def get_accuracy(self, data_idxs):
         '''
-            Compute classification accuracy on provided data indices by calling
-            a method `logits_and_labels` to be implemented.
+            Compute classification accuracy on provided data indices; return as
+            a numpy array.  Calls the method `logits_and_labels` to be
+            implemented.
         '''
         logits, labels = self.logits_and_labels(data_idxs)
         _, argmax = logits.max(1) 
-        return argmax.eq(labels).sum() / labels.shape[0]
+        return float(argmax.eq(labels).sum()) / labels.shape[0]
 
 
 
@@ -237,7 +241,7 @@ class CifarLogistic(CifarAbstractArchitecture):
         accuracy ~ 0.40. 
     '''
     def __init__(self, class_nms=CIFAR.CLASS_NMS, weight_scale=1.0,
-                 verbose=False, seed=None):
+                 verbose=False, seed=0):
         '''
             Define tensor shape of network and initialize weight vector.
         '''
@@ -277,7 +281,7 @@ class CifarLeNet(CifarAbstractArchitecture):
         achieves test loss ~ 1.67 and test accuracy ~ 0.40. 
     '''
     def __init__(self, class_nms=CIFAR.CLASS_NMS, weight_scale=1.0, widthA=10,
-                 widthB=10, widthC=10, verbose=False, seed=None):
+                 widthB=10, widthC=10, verbose=False, seed=0):
         '''
             Define tensor shape of network and initialize weight vector.
         '''
@@ -338,7 +342,7 @@ if __name__=='__main__':
     #               3.1 specify and load model                                #
     #-------------------------------------------------------------------------#
 
-    model_nm = 'LOGISTIC'
+    model_nm = 'LENET'
     model_idx = 2 
 
     file_nm = 'saved-weights/cifar-{}.npy'.format(model_nm.lower())
@@ -378,6 +382,6 @@ if __name__=='__main__':
             'test loss @L {:.2f}'.format(
                 (L_test + L_test_).detach().numpy()/2.0
             ),
-            'test acc @O {:.2f}'.format(acc.detach().numpy()),
+            'test acc @O {:.2f}'.format(acc),
         '']))
 

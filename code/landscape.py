@@ -9,7 +9,8 @@ from itertools import chain
 import numpy as np
 import os.path
 
-from utils import CC, precond
+from utils import CC, pre, reseed
+import random
 
 
 
@@ -65,7 +66,7 @@ class PointedLandscape(ABC):
         pass
 
     @abstractmethod
-    def sample_weight(self, seed)
+    def sample_weight(self, seed):
         '''
             Sample from a (potentially dirac) distribution that is a property
             of this Pointed Landscape class (but not conceptually a property of
@@ -135,7 +136,7 @@ class FixedInitsLandscape(PointedLandscape):
         handy methods for this purpose.  
     '''
 
-    def sample_to(self, file_nm, nb_inits, seed=0):
+    def sample_to(self, file_nm, nb_inits, seed=None):
         '''
             Save a random list of weight initializations to the file named.
         '''
@@ -145,8 +146,8 @@ class FixedInitsLandscape(PointedLandscape):
         pre(not os.path.isfile(file_nm),
             'avoided overwriting {}'.format(file_nm)
         )
-        random.seed(seed)
-        self.inits = [random.randint(2**32) for _ in range(nb_inits)] 
+        reseed(seed)
+        self.inits = [random.randint(0, 2**32) for _ in range(nb_inits)] 
         np.save(file_nm, self.inits)
         print(CC + 'saved @R {} @D initial weights to @M {} @D '.format(
             len(self.inits), file_nm
