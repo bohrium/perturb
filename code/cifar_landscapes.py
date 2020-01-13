@@ -233,8 +233,8 @@ class CifarAbstractArchitecture(CIFAR, FixedInitsLandscape):
     def get_metrics(self, data_idxs):
         '''
             Compute cross entropy loss and classification accuracy on provided
-            data indices; return as a dictionary of numpy arrays.  Calls the
-            method `logits_and_labels` to be implemented.
+            data indices; return as a dictionary of floats.  Calls the method
+            `logits_and_labels` to be implemented.
         '''
         logits, labels = self.logits_and_labels(data_idxs)
         _, argmax = logits.max(1) 

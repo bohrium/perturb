@@ -107,7 +107,7 @@ class PointedLandscape(ABC):
     #-------------------------------------------------------------------------#
 
     @abstractmethod
-    def get_loss_stalk(self, data_indices):
+    def get_loss_stalk(self, data_idxs):
         '''
             Present loss, averaged over given data, as a deterministic scalar
             stalk.
@@ -120,6 +120,14 @@ class PointedLandscape(ABC):
             Differentiate the given deterministic scalar stalk (assumed to be
             on the current weight), returning a deterministic covector stalk
             (in implementation, with the same shape as weights have).
+        '''
+        pass
+
+    @abstractmethod
+    def get_metrics(self, data_idxs):
+        '''
+            Compute metrics (perhaps loss and accuracy) on provided data
+            indices.  Return as a dictionary of numeric values by names.
         '''
         pass
 

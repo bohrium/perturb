@@ -27,7 +27,7 @@ opts = [
     ('GDC', 1.0),
 ]
 
-def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=300,
+def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=3,
                    seed=0):
     '''
         Simulate optimizers on  
@@ -89,13 +89,13 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=300,
             #-----------------------------------------------------------------#
 
             test_metrics = land.get_metrics(D_test)
-            for metric_nm, array in test_metrics.items():
+            for metric_nm, val in test_metrics.items():
                 ol.accum(
                     OptimKey(
                         sampler=opt.lower(), beta=beta, eta=eta, N=N, T=T,
                         evalset='test', metric=metric_nm
                     ),
-                    array 
+                    val
                 )
 
     return ol
