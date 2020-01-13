@@ -144,7 +144,7 @@ class FixedInitsLandscape(PointedLandscape):
         handy methods for this purpose.  
     '''
 
-    def sample_to(self, file_nm, nb_inits, seed=None):
+    def sample_to(self, file_nm, nb_inits, seed=0):
         '''
             Save a random list of weight initializations to the file named.
         '''
@@ -162,7 +162,7 @@ class FixedInitsLandscape(PointedLandscape):
         ))
         self.switch_to(0)
 
-    def load_from(self, file_nm, nb_inits=None, seed=None):
+    def load_from(self, file_nm, nb_inits=None, seed=0):
         '''
             Load a set of weight initializations from the file named.
         '''

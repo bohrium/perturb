@@ -388,13 +388,13 @@ if __name__=='__main__':
         if (t+1)%200: continue
 
         L_train= ML.get_loss_stalk(D)
-        data = ML.sample_data(N=3000, seed=0)
+        data = ML.sample_data(N=3000, seed=1)
         L_test = ML.get_loss_stalk(data[:1500])
         L_test_= ML.get_loss_stalk(data[1500:])
         acc = ML.get_metrics(data)['acc']
 
-        print(CC+' @C \t'.join([
-            'after @M {:4d} @C steps'.format(t+1),
+        print(CC+' @D \t'.join([
+            'after @M {:4d} @D steps'.format(t+1),
             'grad2 @G {:.2e}'.format(
                 ML.nabla(L_test).dot(ML.nabla(L_test_)).detach().numpy()
             ),
