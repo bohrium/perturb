@@ -154,7 +154,7 @@ if __name__=='__main__':
     T = int(sys.argv[1])
 
     simulate_lenet(
-        [0], T=T, N=T, I=int(50000/T),
+        [0], T=T, N=T, I=int(10000000/T),
         eta_d=0.025, eta_max=0.25,
         model=FitGauss, in_nm='saved-weights/fitgauss.npy',
         out_nm=lambda idx:'ol-fitgauss-T{}-{:02d}.data'.format(T, idx)
