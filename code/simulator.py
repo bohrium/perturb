@@ -158,3 +158,4 @@ def simulate_lenet(idxs, T, N, I=100, eta_step=0.025, eta_max=0.25,
 if __name__=='__main__':
     simulate_lenet([0], T=100, N=100, I=10, eta_step=0.025, eta_max=0.25)
     #simulate_lenet([0], T=1000, N=1000, I=1000, eta_step=0.025, eta_max=0.25)
+
