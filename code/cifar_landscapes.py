@@ -230,15 +230,18 @@ class CifarAbstractArchitecture(CIFAR, FixedInitsLandscape):
         logits, labels = self.logits_and_labels(data_idxs)
         return nll_loss(logits, labels)
 
-    def get_accuracy(self, data_idxs):
+    def get_metrics(self, data_idxs):
         '''
-            Compute classification accuracy on provided data indices; return as
-            a numpy array.  Calls the method `logits_and_labels` to be
-            implemented.
+            Compute cross entropy loss and classification accuracy on provided
+            data indices; return as a dictionary of numpy arrays.  Calls the
+            method `logits_and_labels` to be implemented.
         '''
         logits, labels = self.logits_and_labels(data_idxs)
         _, argmax = logits.max(1) 
-        return float(argmax.eq(labels).sum()) / labels.shape[0]
+        return {
+            'loss': nll_loss(logits, labels).detach().numpy(),
+            'acc':  float(argmax.eq(labels).sum()) / labels.shape[0]
+        }
 
 
 
@@ -388,7 +391,7 @@ if __name__=='__main__':
         data = ML.sample_data(N=3000, seed=0)
         L_test = ML.get_loss_stalk(data[:1500])
         L_test_= ML.get_loss_stalk(data[1500:])
-        acc = ML.get_accuracy(data)
+        acc = ML.get_metrics(data)['acc']
 
         print(CC+' @C \t'.join([
             'after @M {:4d} @C steps'.format(t+1),

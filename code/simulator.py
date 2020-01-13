@@ -46,37 +46,33 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=300,
     )
     ol = OptimLog()
 
-    for i in tqdm.tqdm(range(I)):
+    nabla = land.nabla
+    stalk = land.get_loss_stalk
 
-    #-------------------------------------------------------------------------#
-    #               0.0 sample data (shared for all (opt, beta) pairs)        #
-    #-------------------------------------------------------------------------#
+    for opt, beta in opts: 
+        #---------------------------------------------------------------------#
+        #           0.0 define optimization updates                           #
+        #---------------------------------------------------------------------#
 
-        D = land.sample_data(N + (N + test_extra), seed=seed+i) 
-        D_train, D_test = D[:N], D[N:]
+        compute_gradients = {
+            'SGD':  lambda D_train, t:  nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
+            'GD':   lambda D_train, t:  nabla(stalk(D_train               ))  ,
+            'GDC':  lambda D_train, t: (nabla(stalk(D_train[:N//2]        )),   
+                                        nabla(stalk(D_train[N//2:]        )) ),
+        }[opt]
+        compute_update = {
+            'SGD':  lambda g: g,
+            'GD':   lambda g: g,
+            'GDC':  lambda a,b: (a+b)/2 + beta * nabla(a.dot(a-b))*(N//2),
+        }[opt]
 
-        for opt, beta in opts: 
-            nabla = land.nabla
-            stalk = land.get_loss_stalk
-
+        for i in tqdm.tqdm(range(I)):
             #-----------------------------------------------------------------#
-            #       0.1 define optimization updates                           #
+            #       0.1 sample data (shared for all (opt, beta) pairs)        #
             #-----------------------------------------------------------------#
 
-            compute_gradients = {
-                'SGD':  lambda t:   nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
-                'GD':   lambda t:   nabla(stalk(D_train               ))  ,
-                'GDC':  lambda t: ( nabla(stalk(D_train[:N//2]        ))  ,
-                                    nabla(stalk(D_train[N//2:]        )) ),
-            }[opt]
-            compute_update = {
-                'SGD':  lambda g: g,
-                'GD':   lambda g: g,
-                'GDC':  lambda g: (
-                    (g[0] + g[1])/2 +
-                    nabla(g[0].dot(g[0]-g[1]))*(N//2)
-                ),
-            }[opt]
+            D = land.sample_data(N + (N + test_extra), seed=seed+i) 
+            D_train, D_test = D[:N], D[N:]
 
             #-----------------------------------------------------------------#
             #       0.2 perform optimization loop                             #
@@ -85,27 +81,21 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=300,
             land.switch_to(idx)
             for t in range(T):
                 land.update_weight(
-                    -eta * compute_update(compute_gradients(t)).detach()
+                    -eta * compute_update(compute_gradients(D_train, t)).detach()
                 )
 
             #-----------------------------------------------------------------#
             #       0.3 compute losses and accuracies                         #
             #-----------------------------------------------------------------#
 
-            test_loss = land.get_loss_stalk(D_test).detach().numpy()
-            test_acc = land.get_accuracy(D_test)
-            for metric, tensor in {'loss': test_loss, 'acc':test_acc}.items():
+            test_metrics = land.get_metrics(D_test)
+            for metric_nm, array in test_metrics.items():
                 ol.accum(
                     OptimKey(
-                        sampler=opt.lower(),
-                        beta=beta,
-                        eta=eta,
-                        N=N,
-                        T=T,
-                        evalset='test',
-                        metric=metric
+                        sampler=opt.lower(), beta=beta, eta=eta, N=N, T=T,
+                        evalset='test', metric=metric_nm
                     ),
-                    tensor
+                    array 
                 )
 
     return ol
@@ -163,6 +153,6 @@ if __name__=='__main__':
     T = int(sys.argv[1])
     simulate_lenet(
         range(6), T=T, N=T, I=int(50000/T),
-        eta_step=0.025, eta_max=0.25,
+        eta_d=0.025, eta_max=0.25,
         out_nm=lambda idx:'ol-cifar-lenet-T{}-{:02d}.data'.format(T, idx)
     )
