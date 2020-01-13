@@ -170,7 +170,7 @@ Correct Thm 1 to address nonconstant batch size
     crossing symmetries} (see \citet{dy49b}) and {\bf re-normalization} (see
     \citet{ge54}) to simplify our calculations and refine our estimates.  The
     diagrams' combinatorial properties yield precise qualitative conclusions as
-    well, for instance that to order $\eta^2$, {\bf inter-epoch} shuffling does
+    well, for instance that to order $\eta^3$, {\bf inter-epoch} shuffling does
     not affect expected test loss.
 
 
@@ -466,7 +466,7 @@ Correct Thm 1 to address nonconstant batch size
 
     A quick combinatorial argument shows:
     \begin{cor}
-        To order $\eta^2$, inter-epoch shuffling doesn't affect SGD's
+        To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
         expected test loss.
     \end{cor}
     Indeed, for any inter-epoch shuffling scheme: 
@@ -507,6 +507,14 @@ Correct Thm 1 to address nonconstant batch size
         $
         has an expected test loss that agrees with SGD's to second order.
     \end{cor}
+
+    \begin{prop}
+        When initialized at a test minimum, vanilla SGD's weight moves as ODE's
+        weight plus some gradient $\nabla\phi$ plus, to order $\eta^3$: 
+        $
+            \sdia{c(01-2-3)(02-12-23)}
+        $.
+    \end{prop}
 
 \subsection{Descent as Scattering}
     In sum, SGD's test loss is a weighted sum of diagrams, each $d$-edged
@@ -684,7 +692,6 @@ Correct Thm 1 to address nonconstant batch size
     \end{figure}
 
 \subsection{Thermodynamic Engine}
-    We clarify  
     \lorem{3}
     \begin{figure}[h!]
         \centering
@@ -774,8 +781,8 @@ Correct Thm 1 to address nonconstant batch size
     small batch sizes can lead to better generalization \citep{bo91}, modern
     infrastructure increasingly rewards large batch sizes \citep{go18}.      
     We showed also that in multi-epoch SGD, inter-epoch shuffling induces only
-    a $3$rd order effect on test loss.  Intuitively, we proved that {\bf the
-    hessian matters asymptotically more than shuffling order}.
+    a $4$rd order effect on test loss.  Intuitively, we proved that {\bf the
+    nongaussian effects matter asymptotically more than shuffling order}.
 
     The diagram method is also a rich source of intuitions and physical
     analogies.  For example, it offers a clearer understanding of the
