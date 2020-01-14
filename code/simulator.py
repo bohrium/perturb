@@ -9,9 +9,8 @@ import numpy as np
 from utils import CC, pre, reseed
 from optimlogs import OptimKey, OptimLog
 from landscape import PointedLandscape
-#from mnist_landscapes import MnistLogistic, MnistLeNet, MnistMLP
 from cifar_landscapes import CifarLogistic, CifarLeNet
-#from quad_landscapes import Quadratic
+from fashion_landscapes import FashionLogistic, FashionLeNet
 from fitgauss_landscape import FitGauss
 import torch
 import tqdm
@@ -93,8 +92,8 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=3,
             for metric_nm, val in test_metrics.items():
                 ol.accum(
                     OptimKey(
+                        kind='main', metric=metric_nm, evalset='test',
                         sampler=opt.lower(), beta=beta, eta=eta, N=N, T=T,
-                        evalset='test', metric=metric_nm
                     ),
                     val
                 )
@@ -141,7 +140,7 @@ def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, in_nm,
         for eta in tqdm.tqdm(np.arange(eta_d, eta_max+eta_d/2, eta_d)):
             for T in [T]:
                 ol.absorb(compute_losses(
-                    LC, eta=eta, T=T, N=T, I=I, idx=idx,
+                    LC, eta=eta, T=T, N=N, I=I, idx=idx,
                     opts=[('SGD', None)]
                 ))
 
@@ -150,28 +149,41 @@ def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, in_nm,
 
 if __name__=='__main__':
     import sys
-    T = int(sys.argv[1])
-    model_nm = sys.argv[2]
+    pre(sys.argv[1][:2]=='T=', 'first arg should have form T=...')
+    pre(sys.argv[2][:2]=='N=', 'second arg should have form N=...')
+    T = int(sys.argv[1][2:])
+    N = int(sys.argv[2][2:])
+    model_nm = sys.argv[3]
+    eta_d = float(sys.argv[4])
+    eta_max = float(sys.argv[5])
+
     model, in_nm, out_nm, I, idxs = {
         'cifar-lenet': (
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
             'ol-cifar-lenet-T{}-{:02d}.data',
-            int(50000/T),
+            int(500000/T),
+            range(6)
+        ),
+        'fashion-lenet': (
+            FashionLeNet,
+            'saved-weights/fashion-lenet.npy',
+            'ol-fashion-lenet-T{}-{:02d}.data',
+            int(500000/T),
             range(6)
         ),
         'fit-gauss':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
             'ol-fitgauss-T{}-{:02d}.data',
-            int(1000/T),
+            int(10000000/T),
             range(1)
         ),
     }[model_nm]
 
     simulate_lenet(
-        idxs=idxs, T=T, N=T, I=I,
-        eta_d=0.025, eta_max=0.25,
+        idxs=idxs, T=T, N=N, I=I,
+        eta_d=eta_d, eta_max=eta_max,
         model=model, in_nm=in_nm,
         out_nm_by_idx=lambda idx: out_nm.format(T, idx)
     )
