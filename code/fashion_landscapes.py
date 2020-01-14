@@ -35,21 +35,20 @@ class Fashion(PointedLandscape):
     '''
 
     CLASS_NMS = (
-        'tshirt', 
-        'trouser', 
-        'pullover', 
-        'dress', 
-        'coat', 
-        'sandal', 
-        'shirt', 
-        'sneaker', 
-        'bag', 
-        'boot'
-    )
+        'T-shirt/top',
+        'Trouser',
+        'Pullover',
+        'Dress',
+        'Coat',
+        'Sandal',
+        'Shirt',
+        'Sneaker',
+        'Bag',
+        'Ankle boot']
 
     def __init__(self, class_nms=CLASS_NMS): 
         '''
-            Load cifar images and labels, downloading as needed.  Only keep the
+            Load Fashion images and labels, downloading as needed.  Only keep the
             classes named.
         '''
 
@@ -95,7 +94,7 @@ class Fashion(PointedLandscape):
         idxs_to_keep = np.array([
             i for i, lbl in enumerate(self.lbls)
             if class_nm_from_lbl[lbl] in class_nms
-        ]) 
+        ]).astype(np.int32) 
         self.imgs = torch.Tensor(self.imgs[idxs_to_keep]).view(-1, 1, 28, 28)
         self.lbls = torch.Tensor([
             class_nms.index(class_nm_from_lbl[l]) 
