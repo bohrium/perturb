@@ -42,10 +42,21 @@
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\expc}{\mathbb{E}}
 \newcommand{\expct}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\wrap}[1]{\left( #1 \right)}
-\newcommand{\wang}[1]{\left\langle #1 \right\rangle}
-\newcommand{\wive}[1]{\left\llbracket #1 \right\rrbracket}
-\newcommand{\worm}[1]{\left\| #1 \right\|}
+\newcommand{\wrap}[1]{\left(#1\right)}
+\newcommand{\wasq}[1]{\left[#1\right]}
+\newcommand{\wang}[1]{\left\langle#1\right\rangle}
+\newcommand{\wive}[1]{\left\llbracket#1\right\rrbracket}
+\newcommand{\worm}[1]{\left\|#1\right\|}
+\newcommand{\wabs}[1]{\left|#1\right|}
+\newcommand{\wurl}[1]{\left\{#1\right\}}
+\newcommand{\partbox}[1]{
+    \text{
+        \fboxsep=0.5pt
+        \tiny
+        \fbox{#1}
+    }
+}
+\DeclareMathOperator*{\Avg}{\text{\sffamily A}}
 
 \newcommand{\plotplace}[3]{
     \begin{overpic}[width=#2, height=#3]{../plots/blank.png}
@@ -159,7 +170,8 @@ Correct Thm 1 to address nonconstant batch size
     quantifying the {\bf effect of epoch number, batch size, and momentum} on
     SGD test loss.  We also contrast SGD against popular continuous-time
     approximations such as ordinary or stochastic differential equations (ODE,
-    SDE).
+    SDE): our work gives the finite-$N$, finite-$\eta^{-1}$ corrections to 
+    these approximations.
     
     Path integrals offer not only quantitative predictions but also an exciting
     new viewpoint --- that of iterative optimization as a {\bf scattering
@@ -1125,9 +1137,10 @@ Correct Thm 1 to address nonconstant batch size
         compute their expectations:
         \begin{align*}
             \expct{c_T} =
-                -\sum_{t_0 < t_1 < t_2} 
+               &-\sum_{t_0 < t_1 < t_2} 
                  \expct{\nabla^2 l_{n_{t_2}} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}}
-                -\frac{1}{2} \sum_{t_a, t_b < t}
+               \\
+               &-\frac{1}{2} \sum_{t_a, t_b < t}
                  \expct{\nabla^3 l_{n_t} \nabla l_{n_{t_a}} \nabla l_{n_{t_b}}}
         \end{align*}
 
@@ -1140,6 +1153,140 @@ Correct Thm 1 to address nonconstant batch size
     \subsection*{Time Discretization}
         \subsubsection*{Diagram Method}
         \subsubsection*{Direct Perturbation}
+
+
+\section*{G. Bessel Factors for Estimating Multipoint Correlators from Data}
+    Given samples from a joint probability space $\prod_{0\leq d<D} X_d$, we seek
+    unbiased estimates of multipoint correlators (i.e. products of expectations
+    of products) such as $\wang{x_0 x_1 x_2}\wang{x_3}$.  For example, say $D=2$
+    and from $2S$ samples we'd like to estimate $\wang{x_0 x_1}$.  Most simply,
+    we could use $\Avg_{0\leq s<2S} x_0^{(s)} x_1^{(s)}$, where $\Avg$ denotes
+    averaging.  In fact, the following also works:
+    \begin{equation} \label{eq:bessel}
+        S
+        \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+        \wrap{\Avg_{0\leq s< S} x_1^{(s)}}
+        +
+        (1-S)
+        \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+        \wrap{\Avg_{S\leq s<2S} x_1^{(s)}}
+    \end{equation}
+    When multiplication is expensive (e.g. when each $x_d^{(s)}$ is a tensor and
+    multiplication is tensor contraction), we prefer the latter, since it uses
+    $O(1)$ rahther than $O(S)$ multiplications.  This in turn allows more efficient 
+    use of large-batch computations on GPUs.  We now generalize this estimator
+    to higher-point correlators (and $D\cdot S$ samples).
+
+    For uniform notation, we assume without loss that each of the $D$ factors
+    appears exactly once in the multipoint expression of interest; such expressions
+    then correspond to partitions on $D$ elements, which we represent as maps
+    $\mu:\wasq{D}\to \wasq{D}$ with $\mu(d)\leq d$ and $\mu\circ \mu=\mu$. 
+    Note that $\wabs{\mu} \coloneqq \wabs{im(\mu)}$ counts $\mu$'s parts.
+    We then define the statistic
+    $$
+        \wurl{x}_\mu
+        \coloneqq
+        \prod_{0\leq d<D} \Avg_{0\leq s<S} x_d^{(\mu(d)\cdot S + s)}
+    $$
+    and the correlator $\wang{x}_\mu$ we define to be the expectation of 
+    $\wurl{x}_\mu$ when $S=1$.  In this notation, \ref{eq:bessel} says: 
+    $$
+        \wang{x}_{\partbox{0}\partbox{1}}
+        =
+        \expct{
+            S       \cdot \wurl{x}_{\partbox{0 1}} +
+            (1-S)   \cdot \wurl{x}_{\partbox{0}\partbox{1}}
+        }
+    $$
+    Here, the boxes indicate partitions of $\wasq{D}=\wasq{2}=\{0,1\}$.
+    Now, for general $\mu$, we have:
+    \begin{equation} \label{eq:newbessel}
+        \expct{S^D \wurl{x}_\mu}
+        =
+        \sum_{\tau\leq \mu} \wrap{
+            \prod_{0\leq d<D}
+                \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+        }
+        \wang{x}_\tau
+    \end{equation}
+    where `$\tau \leq \mu$' ranges through partitions \emph{finer} than 
+    $\mu$, i.e. maps $\tau$ through which $\mu$ factors.   
+    In smaller steps, \ref{eq:newbessel} holds because
+    \begin{align*}
+        \expct{S^D \wurl{x}_\mu}
+        &=
+        \expct{
+            \sum_{(0\leq s_d<S) \in \wasq{S}^D}
+            \prod_{0\leq d<D}
+            x_d^{\wrap{\mu(d)\cdot S + s_d}}
+        }\\
+        &=
+        \sum_{\substack{(0\leq s_d<S) \\ \in \wasq{S}^D}}
+        \expct{
+            \prod_{0\leq d<D}
+            x_d^{\wrap{\min \wurl{
+                \tilde{d}~:~\mu(\tilde{d})\cdot S+s_{\tilde{d}} = \mu(d)\cdot S+s_d
+            }}}
+        }\\
+        &=
+        \sum_{\tau} \wabs{\wurl{\substack{
+            (0\leq s_d<S)~\in~[S]^D~: \\
+            \wrap{\substack{
+                \mu(d)=\mu(\tilde{d}) \\
+                \wedge~s_d=s_{\tilde{d}}
+            }}
+            \Leftrightarrow
+            \tau(d)=\tau(\tilde{d})
+        }}}
+        \wang{x}_\tau \\
+        &=
+        \sum_{\tau\leq \mu} \wrap{
+            \prod_{0\leq d<D}
+                \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+        }
+        \wang{x}_\tau
+    \end{align*}
+
+    Solving \ref{eq:newbessel} for $\wang{x}_\mu$, we find:
+    \begin{equation*}
+        \text{\fbox{$
+        \wang{x}_\mu
+        =
+        \frac{S^D}{S^{\wabs{\mu}}}
+        \expct{
+            \wurl{x}_\mu
+        }
+        -
+        \sum_{\tau < \mu} \wrap{
+            \prod_{d\in im(\mu)}
+            \frac{\wrap{S-1}!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+        }
+        \wang{x}_\tau
+        $}}
+    \end{equation*}
+    This expresses $\wang{x}_\mu$ in terms of the batch-friendly estimator
+    $\wurl{x}_\mu$ as well as correlators $\wang{x}_\tau$ for $\tau$ 
+    \emph{strictly} finer than $\mu$.  We may thus (use dynamic programming to)
+    obtain unbiased estimators $\wang{x}_\mu$ for all partitions $\mu$. 
+    Symmetries of the joint distribution and multilinear multiplication may
+    further streamline estimation by turning a sum over $\tau$ into a
+    multiplication by a combinatorial factor.  For example, with complete
+    symmetry:
+    $$
+        \wang{x}_{\partbox{012}}
+        =
+        S^2
+        \wurl{x}_{\partbox{012}}
+        -
+        \frac{(S-1)!}{(S-3)!}
+        \wurl{x}_{\partbox{0}\partbox{1}\partbox{2}}
+        -
+        3\frac{(S-1)!}{(S-2)!}
+        \wurl{x}_{\partbox{0}\partbox{12}}
+    $$
+    We use such expressions throughout our experiments to estimate the
+    (expected values of) diagrams.
+\end{document}
 
 
     %\subsection*{Generalization Gap vs Curvature and Covariance}
@@ -1266,9 +1413,3 @@ Correct Thm 1 to address nonconstant batch size
 %
 %    \lorem{3}
 %
-%\section*{G. Generalized Bessel Factors}
-%    \lorem{3}
-%    \lorem{3}
-%    \lorem{3}
-\end{document}
-
