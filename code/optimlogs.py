@@ -43,10 +43,12 @@ class OptimLog(object):
     def compute_diffs(self):
         '''
         '''
+        hamming = lambda x, y: sum((1 if xx!=yy else 0) for xx,yy in zip(x, y))
+
         diffs = {}
         for okey_base, value_base in self.logs.items():
             for okey_comp, value_comp in self.logs.items():
-                if okey_base == okey_comp: continue
+                if hamming(okey_base, okey_comp) != 1: continue
                 if okey_base.metric != okey_comp.metric: continue
                 if len(value_base) != len(value_comp): continue
 
@@ -57,6 +59,7 @@ class OptimLog(object):
                     eta     = (okey_comp.eta,     okey_base.eta),
                     T       = (okey_comp.T,       okey_base.T),
                     N       = (okey_comp.N,       okey_base.N),
+                    B       = (okey_comp.B,       okey_base.B),
                     evalset = (okey_comp.evalset, okey_base.evalset),
                     metric  = (okey_comp.metric,  okey_base.metric),
                 )  
