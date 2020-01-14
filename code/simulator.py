@@ -156,28 +156,26 @@ if __name__=='__main__':
     model_nm = sys.argv[3]
     eta_d = float(sys.argv[4])
     eta_max = float(sys.argv[5])
+    idxs = list(int(i) for i in sys.argv[6].split(','))
 
-    model, in_nm, out_nm, I, idxs = {
+    model, in_nm, out_nm, I = {
         'cifar-lenet': (
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
             'ol-cifar-lenet-T{}-{:02d}.data',
             int(500000/T),
-            range(6)
         ),
         'fashion-lenet': (
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
             'ol-fashion-lenet-T{}-{:02d}.data',
             int(500000/T),
-            range(6)
         ),
         'fit-gauss':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
             'ol-fitgauss-T{}-{:02d}.data',
-            int(10000000/T),
-            range(1)
+            int(3000000/T),
         ),
     }[model_nm]
 
