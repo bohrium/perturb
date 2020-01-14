@@ -6,24 +6,23 @@
 
 import numpy as np
 
-from utils import CC
+from utils import CC, pre, reseed
 from landscape import FixedInitsLandscape
 from gradstats import grad_stat_names, GradStats
 import torch
 import tqdm
 
-def compute_grad_stats(land, N, I=1, idx=None, third_order=False):
+def compute_grad_stats(land, N, I=1, idx=None, third_order=False, seed=0):
     nab = land.nabla
 
     gs = GradStats()
     for init_idx in [idx]:
-        print(land.get_weights())
-        for i in tqdm.tqdm(range(I), mininterval=0.2):
+        for i in tqdm.tqdm(range(I), mininterval=1.0):
             land.switch_to(init_idx)
 
             A, B, C, D = (
-                land.get_loss_stalk(land.sample_data(N))
-                for i in range(4)
+                land.get_loss_stalk(land.sample_data(N, seed=seed+4*i+_))
+                for _ in range(4)
             )
             
             GA, GB, GC, GD = (
@@ -317,36 +316,53 @@ def test_derivator_on_quad():
         '']))
 
 if __name__ == '__main__':
+    from cifar_landscapes import CifarLogistic, CifarLeNet
+    from fashion_landscapes import FashionLogistic, FashionLeNet
+    from fitgauss_landscape import FitGauss
 
-    #from mnist_landscapes import MnistLogistic
-    #LC = MnistLogistic(digits=list(range(10)))
-    #grad_stats = str(compute_grad_stats(LC, N=10, I=10000))
-    #with open('gs.data', 'w') as f:
-    #    f.write(grad_stats)
+    import sys
+    pre(sys.argv[1][:2]=='I=',
+        'first arg should have form I=...'
+    )
+    pre(sys.argv[2][:2]=='N=',
+        'second arg should have form N=...'
+    )
+    pre(sys.argv[5] in ('true', 'false'),
+        'fifth arg should be a lowercase bool'
+    )
 
+    I = int(sys.argv[1][2:])
+    N = int(sys.argv[2][2:])
+    model_nm = str(sys.argv[3])
+    idxs = list(int(i) for i in sys.argv[4].split(','))
+    third_order = bool(sys.argv[5]=='true')
 
+    model, in_nm, out_nm = {
+        'cifar-lenet': (
+            CifarLeNet,
+            'cifar-lenet.npy',
+            'gs-cifar-lenet-{:02d}.data',
+        ),
+        'fashion-lenet': (
+            FashionLeNet,
+            'fashion-lenet.npy',
+            'gs-fashion-lenet-{:02d}.data',
+        ),
+        'fit-gauss':   (
+            FitGauss,
+            'fitgauss.npy',
+            'gs-fitgauss-{:02d}.data',
+        ),
+    }[model_nm]
 
-    #from mnist_landscapes import MnistLogistic, MnistLeNet, MnistMLP
-    #LC = MnistLeNet(digits=list(range(10)))
-    #LC.load_from('saved-weights/mnist-lenet.npy')
-    #for idx in range(8, 12):
-    #    grad_stats = str(compute_grad_stats(LC, N=16, I=2000, idx=idx, third_order=True))
-    #    with open('gs-new-lenet-{:02d}.data'.format(idx), 'w') as f:
-    #        f.write(grad_stats.replace('nan', 'None'))
-
-    #    #LC = MnistMLP(digits=list(range(10)))
-    #    #LC.load_from('saved-weights/mnist-mlp.npy')
-    #    #grad_stats = str(compute_grad_stats(LC, N=16, I=20000, idx=idx))
-    #    #with open('gs-new-mlp-{:02d}.data'.format(idx), 'w') as f:
-    #    #    f.write(grad_stats.replace('nan', 'None'))
-
-    #    #LC = MnistLogistic(digits=list(range(10)))
-    #    #LC.load_from('saved-weights/mnist-logistic.npy')
-    #    #grad_stats = str(compute_grad_stats(LC, N=16, I=20000, idx=idx))
-    #    #with open('gs-new-logistic-{:02d}.data'.format(idx), 'w') as f:
-    #    #    f.write(grad_stats.replace('nan', 'None'))
-
+    LC = model()
+    LC.load_from('saved-weights/{}'.format(in_nm))
+    for idx in tqdm.tqdm(idxs):
+        grad_stats = str(compute_grad_stats(
+            LC, N=N, I=I, idx=idx, third_order=third_order, seed=0
+        ))
+        with open(out_nm.format(idx), 'w') as f:
+            f.write(grad_stats.replace('nan', 'None'))
 
     #test_derivator_on_cosh()
     #test_derivator_on_quad()
-

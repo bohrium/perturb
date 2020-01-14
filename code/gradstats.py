@@ -42,6 +42,7 @@ grad_stat_names = {
 }
 
 class GradStats(object):
+    # TODO: add max logs length feature (dynamic collapsing)
     def __init__(self):
         self.logs = {
             nm:[] for nm in grad_stat_names.values()

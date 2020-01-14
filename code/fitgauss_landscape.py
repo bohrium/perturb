@@ -36,7 +36,7 @@ class FitGauss(FixedInitsLandscape):
     def sample_weight(self, seed):
         return np.array([0.0])
 
-    def sample_data(self, N, seed=0): 
+    def sample_data(self, N, seed): 
         '''
             since datapoints are just floats, we use them directly instead of
             using more indirect indices.
