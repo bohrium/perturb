@@ -16,8 +16,9 @@ import torch
 #=============================================================================#
 
 OptimKey = namedtuple('OptimKey',
-    ('sampler', 'beta', 'eta', 'T', 'N', 'evalset', 'metric')
+    ('kind', 'metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
 ) 
+# TODO: add batches and separate objective from interepoch shuffling
 
 class OptimLog(object):
     '''
@@ -28,6 +29,7 @@ class OptimLog(object):
         '''
         '''
         self.logs = {}
+
     def accum(self, okey, value):
         '''
         '''
@@ -44,6 +46,7 @@ class OptimLog(object):
         '''
         '''
         hamming = lambda x, y: sum((1 if xx!=yy else 0) for xx,yy in zip(x, y))
+        shrink = lambda x, y: ((x,y) if x!=y else x) 
 
         diffs = {}
         for okey_base, value_base in self.logs.items():
@@ -54,14 +57,14 @@ class OptimLog(object):
 
                 value_diff = np.array(value_comp) - np.array(value_base)
                 okey_diff = OptimKey(
-                    sampler = (okey_comp.sampler, okey_base.sampler),
-                    beta    = (okey_comp.beta,    okey_base.beta),
-                    eta     = (okey_comp.eta,     okey_base.eta),
-                    T       = (okey_comp.T,       okey_base.T),
-                    N       = (okey_comp.N,       okey_base.N),
-                    B       = (okey_comp.B,       okey_base.B),
-                    evalset = (okey_comp.evalset, okey_base.evalset),
-                    metric  = (okey_comp.metric,  okey_base.metric),
+                    kind    = 'diff',
+                    sampler = shrink(okey_comp.sampler, okey_base.sampler),
+                    beta    = shrink(okey_comp.beta,    okey_base.beta),
+                    eta     = shrink(okey_comp.eta,     okey_base.eta),
+                    T       = shrink(okey_comp.T,       okey_base.T),
+                    N       = shrink(okey_comp.N,       okey_base.N),
+                    evalset = shrink(okey_comp.evalset, okey_base.evalset),
+                    metric  = shrink(okey_comp.metric,  okey_base.metric),
                 )  
                 diffs[okey_diff] = value_diff
         for k in diffs:
@@ -71,12 +74,13 @@ class OptimLog(object):
         '''
         '''
         self.compute_diffs()
-        return '{\n'+',\n'.join(
-            '    {}: {{ "mean":{}, "stdv":{}, "nb_samples":{} }}'.format(
+        lines = [
+            '    {}: \t {{ "mean":{}, "stdv":{}, "nb_samples":{} }}'.format(
                 okey, np.mean(values), np.std(values), len(values)
             )
             for okey, values in (self.logs.items())
-        )+'\n}'
+        ]
+        return '{\n'+',\n'.join(sorted(lines, reverse=True))+'\n}'
 
     def absorb(self, rhs):
         '''
