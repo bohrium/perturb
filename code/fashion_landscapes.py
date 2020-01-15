@@ -44,7 +44,8 @@ class Fashion(PointedLandscape):
         'Shirt',
         'Sneaker',
         'Bag',
-        'Ankle boot']
+        'Ankle boot'
+    )
 
     def __init__(self, class_nms=CLASS_NMS): 
         '''

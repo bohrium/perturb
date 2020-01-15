@@ -163,13 +163,13 @@ if __name__=='__main__':
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
             'ol-cifar-lenet-T{}-{:02d}.data',
-            int(500000/T),
+            int(100000/T),
         ),
         'fashion-lenet': (
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
             'ol-fashion-lenet-T{}-{:02d}.data',
-            int(500000/T),
+            int(100000/T),
         ),
         'fit-gauss':   (
             FitGauss,

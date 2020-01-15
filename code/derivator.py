@@ -6,7 +6,7 @@
 
 import numpy as np
 
-from utils import CC, pre, reseed
+from utils import CC, pre, reseed 
 from landscape import FixedInitsLandscape
 from gradstats import grad_stat_names, GradStats
 import torch
@@ -341,7 +341,7 @@ if __name__ == '__main__':
     N =  int(sys.argv[3][2:])
     model_nm = str(sys.argv[4])
     idxs = list(int(i) for i in sys.argv[5].split(','))
-    pre(I3<I2,
+    pre(I3<=I2,
         'I2 should exceed I3'
     )
 
