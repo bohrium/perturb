@@ -43,18 +43,56 @@ grad_stat_names = {
 
 class GradStats(object):
     # TODO: add max logs length feature (dynamic collapsing)
-    def __init__(self):
-        self.logs = {
+    def __init__(self, buffer_len=1000):
+        self.buffer = {
             nm:[] for nm in grad_stat_names.values()
         }
+        self.summary = {
+            nm:{'mean':0, 'stdv':0, 'nb_samples':0}
+            for nm in grad_stat_names.values()
+        }
+        self.recent_flushed = None
+        self.buffer_len = buffer_len
+
+    def flush(self, name):
+        d = self.summary[name]
+        vals = np.array(self.buffer[name])
+        mold, sold, Nold = np.mean(vals), np.std(vals), len(vals)
+        madd, sadd, Nadd = d['mean'], d['stdv'], d['nb_samples']
+
+        Nnew = Nold + Nadd 
+        pold = Nold / float(Nnew)
+        padd = Nadd / float(Nnew)
+
+        mnew = pold*mold + padd*madd
+        snew = np.sqrt(
+            pold*(sold**2 + mold**2) + padd*(sadd**2 + madd**2)
+            - mnew**2
+        ) 
+
+        d['mean'] = mnew
+        d['stdv'] = snew
+        d['nb_samples'] = Nnew
+
+        self.recent_flushed = self.buffer[name][-1] 
+        self.buffer[name] = []
+
     def accum(self, name, value):
-        self.logs[name].append(value.detach().numpy())
+        self.buffer[name].append(value.detach().numpy())
+        if len(self.buffer[name]) >= self.buffer_len:
+            self.flush()
+
     def recent(self, name):
-        return self.logs[name][-1]
+        return (
+            self.buffer[name][-1] if self.buffer[name] else self.recent_flushed 
+        )
+
     def __str__(self):
+        for name in self.buffer:
+            self.flush(name)
         return '{\n'+',\n'.join(
             '    "{}": {{ "mean":{}, "stdv":{}, "nb_samples":{} }}'.format(
-                name, np.mean(values), np.std(values), len(values)
+                name, d['mean'], d['stdv'], d['nb_samples']
             )
-            for name, values in sorted(self.logs.items())
+            for name, d in sorted(self.summary.items())
         )+'\n}'
