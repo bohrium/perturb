@@ -97,6 +97,12 @@ class MathParser(object):
                 self.match(self.peek())
                 nb_samples = self.eval_atom() 
                 val = choose(val, nb_samples)
+            elif self.peek()=='^':
+                self.match(self.peek())
+                power = self.eval_atom() 
+                val = val**power
+        pre(self.at_end() or self.peek() not in '!:^',
+            'cannot stack combinatorial operators!')
         return val
 
     def eval_atom(self):
