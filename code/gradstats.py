@@ -42,23 +42,25 @@ grad_stat_names = {
 }
 
 class GradStats(object):
-    # TODO: add max logs length feature (dynamic collapsing)
-    def __init__(self, buffer_len=1000):
+    def __init__(self, buffer_len=10):
         self.buffer = {
             nm:[] for nm in grad_stat_names.values()
         }
         self.summary = {
-            nm:{'mean':0, 'stdv':0, 'nb_samples':0}
+            nm:{'mean':0.0, 'stdv':0.0, 'nb_samples':0}
             for nm in grad_stat_names.values()
         }
-        self.recent_flushed = None
+        self.recent_flushed = {
+            nm:None for nm in grad_stat_names.values()
+        }
         self.buffer_len = buffer_len
 
     def flush(self, name):
-        d = self.summary[name]
         vals = np.array(self.buffer[name])
-        mold, sold, Nold = np.mean(vals), np.std(vals), len(vals)
-        madd, sadd, Nadd = d['mean'], d['stdv'], d['nb_samples']
+        if not len(vals): return
+        d = self.summary[name]
+        madd, sadd, Nadd = np.mean(vals), np.std(vals), len(vals) 
+        mold, sold, Nold = d['mean'], d['stdv'], d['nb_samples']
 
         Nnew = Nold + Nadd 
         pold = Nold / float(Nnew)
@@ -74,17 +76,18 @@ class GradStats(object):
         d['stdv'] = snew
         d['nb_samples'] = Nnew
 
-        self.recent_flushed = self.buffer[name][-1] 
+        self.recent_flushed[name] = self.buffer[name][-1] 
         self.buffer[name] = []
 
     def accum(self, name, value):
         self.buffer[name].append(value.detach().numpy())
         if len(self.buffer[name]) >= self.buffer_len:
-            self.flush()
+            self.flush(name)
 
     def recent(self, name):
         return (
-            self.buffer[name][-1] if self.buffer[name] else self.recent_flushed 
+            self.buffer[name][-1] if self.buffer[name] else
+            self.recent_flushed[name] 
         )
 
     def __str__(self):
