@@ -136,12 +136,14 @@ class CifarAbstractArchitecture(CIFAR, FixedInitsLandscape):
         immediately after this definition, `prepare_architecture` should be
         called.
     '''
-    def __init__(self, class_nms=CIFAR.CLASS_NMS, weight_scale=1.0):
+    def __init__(self, class_nms=CIFAR.CLASS_NMS,
+                 weight_scale=1.0, init_scale=1.0):
         '''
             Load CIFAR data.
         '''
         super().__init__(class_nms)
         self.weight_scale = weight_scale
+        self.init_scale = init_scale
 
     #-------------------------------------------------------------------------#
     #               1.0. weight slicing, scaling, getting, and setting        #
@@ -183,7 +185,7 @@ class CifarAbstractArchitecture(CIFAR, FixedInitsLandscape):
             method.
         '''
         reseed(seed)
-        return np.random.randn(self.subweight_offsets[-1])
+        return self.init_scale * np.random.randn(self.subweight_offsets[-1])
 
     def get_weight(self):
         '''
@@ -261,11 +263,11 @@ class CifarLogistic(CifarAbstractArchitecture):
         accuracy ~ 0.40. 
     '''
     def __init__(self, class_nms=CIFAR.CLASS_NMS, weight_scale=1.0,
-                 verbose=False, seed=0):
+                 init_scale=0.0, verbose=False, seed=0):
         '''
             Define tensor shape of network and initialize weight vector.
         '''
-        super().__init__(class_nms, weight_scale)
+        super().__init__(class_nms, weight_scale, init_scale=init_scale)
         self.subweight_shapes = [
             (self.nb_classes , 3*32*32      ),      (self.nb_classes, 1),
         ]
@@ -350,9 +352,9 @@ if __name__=='__main__':
     #               3.0. descent hyperparameters                              #
     #-------------------------------------------------------------------------#
 
-    N = 8000
+    N = 256
     BATCH = 64
-    TIME = 5000
+    TIME = 512
     LRATE = 1.0
     pre(N%BATCH==0,
         'batch size must divide train size!'
@@ -362,13 +364,14 @@ if __name__=='__main__':
     #               3.1 specify and load model                                #
     #-------------------------------------------------------------------------#
 
-    model_nm = 'LENET'
-    model_idx = 2 
+    model_nm = 'LOGISTIC'
+    nb_inits = 1
+    model_idx = 0 
 
     file_nm = 'saved-weights/cifar-{}.npy'.format(model_nm.lower())
     model = {'LENET':CifarLeNet, 'LOGISTIC':CifarLogistic}[model_nm]
     ML = model(verbose=True, seed=0)
-    ML.load_from(file_nm, nb_inits=6, seed=0)
+    ML.load_from(file_nm, nb_inits=nb_inits, seed=0)
     ML.switch_to(model_idx)
 
     D = ML.sample_data(N=N, seed=0) 
@@ -385,7 +388,7 @@ if __name__=='__main__':
         #           3.3 compute and display gradient statistics               #
         #---------------------------------------------------------------------#
 
-        if (t+1)%200: continue
+        if (t+1)%10: continue
 
         L_train= ML.get_loss_stalk(D)
         data = ML.sample_data(N=3000, seed=1)
