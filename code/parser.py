@@ -89,7 +89,7 @@ class MathParser(object):
     def eval_factor(self):
         # NOTE: no whitespace allowed between these combinators!
         val = self.eval_atom()
-        if not self.at_end():
+        while not self.at_end() and self.peek() in '!:^':
             if self.peek()=='!': 
                 self.match(self.peek())
                 val = factorial(val) 
@@ -101,8 +101,6 @@ class MathParser(object):
                 self.match(self.peek())
                 power = self.eval_atom() 
                 val = val**power
-        pre(self.at_end() or self.peek() not in '!:^',
-            'cannot stack combinatorial operators!')
         return val
 
     def eval_atom(self):
