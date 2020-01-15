@@ -351,10 +351,20 @@ if __name__ == '__main__':
             'cifar-lenet.npy',
             'gs-cifar-lenet-{:02d}.data',
         ),
+        'cifar-logistic': (
+            CifarLogistic,
+            'cifar-logistic.npy',
+            'gs-cifar-logistic-{:02d}.data',
+        ),
         'fashion-lenet': (
             FashionLeNet,
             'fashion-lenet.npy',
             'gs-fashion-lenet-{:02d}.data',
+        ),
+        'fashion-logistic': (
+            FashionLogistic,
+            'fashion-logistic.npy',
+            'gs-fashion-logistic-{:02d}.data',
         ),
         'fit-gauss':   (
             FitGauss,
