@@ -137,7 +137,8 @@ class FashionAbstractArchitecture(Fashion, FixedInitsLandscape):
         immediately after this definition, `prepare_architecture` should be
         called.
     '''
-    def __init__(self, class_nms=Fashion.CLASS_NMS, weight_scale=1.0):
+    def __init__(self, class_nms=Fashion.CLASS_NMS,
+                 weight_scale=1.0, init_scale=1.0):
         '''
             Load Fashion data.
         '''
@@ -301,8 +302,9 @@ class FashionLeNet(FashionAbstractArchitecture):
         batches of size 64 drawn from a train set of size 8000), this model
         achieves test loss ~ 1.67 and test accuracy ~ 0.40. 
     '''
-    def __init__(self, class_nms=Fashion.CLASS_NMS, weight_scale=1.0, widthA=10,
-                 widthB=10, widthC=10, verbose=False, seed=0):
+    def __init__(self, class_nms=Fashion.CLASS_NMS,
+                 weight_scale=1.0, init_scale=0.0,
+                 widthA=10, widthB=10, widthC=10, verbose=False, seed=0):
         '''
             Define tensor shape of network and initialize weight vector.
         '''
@@ -363,13 +365,14 @@ if __name__=='__main__':
     #               3.1 specify and load model                                #
     #-------------------------------------------------------------------------#
 
-    model_nm = 'LENET'
-    model_idx = 2 
+    model_nm = 'LOGISTIC'
+    nb_inits = 1
+    model_idx = 0 
 
     file_nm = 'saved-weights/fashion-{}.npy'.format(model_nm.lower())
     model = {'LENET':FashionLeNet, 'LOGISTIC':FashionLogistic}[model_nm]
     ML = model(verbose=True, seed=0)
-    ML.load_from(file_nm, nb_inits=6, seed=0)
+    ML.load_from(file_nm, nb_inits=nb_inits, seed=0)
     ML.switch_to(model_idx)
 
     D = ML.sample_data(N=N, seed=0) 
