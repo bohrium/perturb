@@ -22,10 +22,17 @@ class MathParser(object):
             EXPR = (empty | TERM) ((+ | -) TERM)* 
             etc
     '''
-    def __init__(self, s, vals_by_name = {}):
+    def __init__(self, s='', vals_by_name = {}):
+        self.refresh(s, vals_by_name)
+
+    def refresh(self, s, vals_by_name):
         self.s = s.strip()
         self.i = 0
         self.vals_by_name = vals_by_name
+
+    def eval(self, s, vals_by_name={}):
+        self.refresh(s, vals_by_name)
+        return self.eval_expr()
 
     def at_end(self):
         return self.i == len(self.s)
@@ -46,12 +53,16 @@ class MathParser(object):
         else:
             val = self.eval_term()
 
+        self.skip_white()
         while not self.at_end():
+            self.skip_white()
             if self.peek() == '+':
                 self.match(self.peek())
+                self.skip_white()
                 val += self.eval_term()
             elif self.peek() == '-':
                 self.match(self.peek())
+                self.skip_white()
                 val -= self.eval_term()
             else:
                 break
@@ -62,7 +73,7 @@ class MathParser(object):
         while not self.at_end():
             if self.peek() == ' ':
                 self.skip_white()
-                if self.peek() != '/': 
+                if self.peek() not in '-+/)': 
                     val *= self.eval_factor()
                     continue
             self.skip_white()
@@ -92,7 +103,9 @@ class MathParser(object):
         # TODO: varnames!
         if self.peek()=='(':
             self.match('(')
-            val = self.eval_expression()
+            self.skip_white()
+            val = self.eval_expr()
+            self.skip_white()
             self.match(')')
             return val
         elif self.peek() in '0123456789.':
