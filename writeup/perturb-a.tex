@@ -634,8 +634,11 @@ Correct Thm 1 to address nonconstant batch size
 
     \begin{figure}[h!]
         \centering
-        \plotplace{small T: eta curve}{4.0cm}{4.0cm} \plotplace{test loss decrease near minimum}{4.0cm}{4.0cm} \\
-        \plotplace{small T gen gap: actual vs predicted}{4.0cm}{4.0cm} \plotplace{nongaussian example}{4.0cm}{4.0cm}
+        \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm}  
+        \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} \\ 
+        \plotplace{test loss decrease near minimum}{0.48\columnwidth}{4.0cm}
+        \plotmoo{plots/gen-gap}{0.48\columnwidth}{4.0cm}
+        %\plotplace{nongaussian example}{4.0cm}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -645,10 +648,11 @@ Correct Thm 1 to address nonconstant batch size
     \lorem{3}
     \begin{figure}[h!]
         \centering
-        \plotplace{batch matching over one init}{4.0cm}{4.0cm}
-        \plotplace{batch matching over multiple inits}{4.0cm}{4.0cm} \\
-        \plotplace{scan over betas}{4.0cm}{4.0cm}
-        \plotplace{long time comparison}{4.0cm}{4.0cm}
+        \plotmoo{plots/batchmatch-04}{0.48\columnwidth}{4.0cm}
+        \plotmoo{plots/test-loss-bm}{0.48\columnwidth}{4.0cm}
+        \\
+        \plotplace{scan over betas}{0.48\columnwidth}{4.0cm}
+        \plotmoo{plots/test-opt-lenet-covreg-long-small-2n-05}{0.48\columnwidth}{4.0cm}
         \caption{\lorem{2}}
     \end{figure}
 
@@ -1285,7 +1289,7 @@ Correct Thm 1 to address nonconstant batch size
         \wurl{x}_{\partbox{0}\partbox{12}}
     $$
     We use such expressions throughout our experiments to estimate the
-    (expected values of) diagrams.
+    (expected) values of diagrams.
 \end{document}
 
 
