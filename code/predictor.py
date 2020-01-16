@@ -12,7 +12,7 @@ from parser import MathParser
 import numpy as np
 
 class Predictor(object): 
-    def __init__(self, gs_name='gs-fashion-lenet-00.data'):
+    def __init__(self, gs_name):
         self.MP = MathParser()
         with open(gs_name) as f:
             self.gradstats = eval(f.read())
@@ -81,7 +81,6 @@ class Predictor(object):
                 .replace('cs2', '({})'.format(coeff_strs[2])) 
                 .replace('cs3', '({})'.format(coeff_strs[3])) 
             )
-            print(coeff_strs[3])
 
         return formula
 

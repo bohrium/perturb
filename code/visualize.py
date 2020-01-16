@@ -27,29 +27,33 @@ pre(len(sys.argv)==1+4,
 )
 OPTIMLOGS_FILENM, GRADSTATS_FILENM, MODE, IMG_FILENM = sys.argv[1:] 
 
-#with open(GRADSTATS_FILENM) as f:
-#    gradstats = eval(f.read())
-#
-#def get_optimlogs(optimlogs_filenm, metric, optimizer, beta):
-#    with open(optimlogs_filenm) as f:
-#        ol = eval(f.read())
-#
-#    X, Y, S = [], [], []
-#    last_okey = None
-#    for okey in ol:
-#        if okey.optimizer != optimizer: continue
-#        if okey.metric != metric: continue
-#        if okey.beta != beta: continue
-#        X.append(okey.eta)
-#        Y.append(ol[okey]['mean'])
-#        S.append(ol[okey]['stdv']/ol[okey]['nb_samples']**0.5)
-#        last_okey=okey
-#    X = np.array(X)
-#    Y = np.array(Y)
-#    S = np.array(S)
-#
-#    return (X,Y,S), last_okey 
-        
+OPTIMLOGS_FILENM='../logs/ol-fashion-lenet-T10-00.data'
+GRADSTATS_FILENM='../logs/gs-fashion-lenet-00.data'
+
+def get_optimlogs(optimlogs_filenm,
+                  kind='main', metric='loss', evalset='test',
+                  sampler='sgd', beta=None):
+    with open(optimlogs_filenm) as f:
+        ol = eval(f.read())
+
+    X, Y, S = [], [], []
+    last_okey = None
+    for okey in ol:
+        if okey.kind != kind: continue
+        if okey.metric != metric: continue
+        if okey.evalset != evalset: continue
+        if okey.sampler != sampler : continue
+        if okey.beta != beta: continue
+        X.append(okey.eta)
+        Y.append(ol[okey]['mean'])
+        S.append(ol[okey]['stdv']/ol[okey]['nb_samples']**0.5)
+        last_okey=okey
+    X = np.array(X)
+    Y = np.array(Y)
+    S = np.array(S)
+
+    return (X,Y,S), last_okey 
+
     #--------------------------------------------------------------------------#
     #               2.1 plotting primitives                                    #
     #--------------------------------------------------------------------------#
@@ -65,15 +69,26 @@ def prime_plot():
     '''
     '''
     plt.clf()
+    plt.tick_params(direction='in')
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
 
 def finish_plot(title, xlabel, ylabel, img_filenm):
     '''
     '''
-    plt.title(title)
+    plt.title(title, x=0.5, y=0.9)
     plt.xlabel(xlabel)
+    plt.gca().xaxis.set_label_coords(0.5, -0.015)
     plt.ylabel(ylabel)
+    plt.gca().yaxis.set_label_coords(-0.015, 0.5)
+
+    #ymin, ymax = plt.gca().get_ylim()
+    #yminn = np.ceil(ymin/0.01) * 0.01
+    #ymaxx = np.floor(ymax/0.01) * 0.01
+    #plt.yticks(np.arange(yminn, ymaxx, (ymaxx-yminn)/5.0)) 
+    plt.yticks([2.5, 2.6])
+    plt.xticks([0.0, 0.25])
+
     plt.legend(loc='best')
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
 
@@ -108,29 +123,34 @@ def interpolate(x, bins = 100):
 def plot_SGD():
     prime_plot()
 
-    X = interpolate([0, 0.25])
+    (X, Y, S), okey = get_optimlogs(OPTIMLOGS_FILENM)
+    T = okey.T
 
-    P = Predictor()
-    formula = P.extrapolate_from_taylor(
-        coeff_strs=coefficients.sgd_vanilla_test,
-        degree=3,
-        mode='ode'
-    )
-    print(formula)
+    plot_bars(X, Y, S, color=blue, label='experiment')
 
-    losses = P.evaluate_expr(
-        formula,
-        params = {'T':100, 'eta':X, 'e':np.exp(1)}
-    )
+    X = interpolate([0] + list(X))
 
-    plot_fill(
-        X, losses['mean'], losses['stdv'],
-        color=yellow, label='theory (deg 2 poly)'
-    )
+    P = Predictor(GRADSTATS_FILENM)
+    for degree, color in {1:red, 2:yellow, 3:green}.items():
+        losses = P.evaluate_expr(
+            P.extrapolate_from_taylor(
+                coeff_strs=coefficients.sgd_vanilla_test,
+                degree=degree,
+                mode='poly'
+            ),
+            params = {'T':T, 'eta':X, 'e':np.exp(1)}
+        )
+        plot_fill(
+            X, losses['mean'], losses['stdv'],
+            color=color, label='theory (deg {} poly)'.format(degree)
+        )
 
     finish_plot(
-        title='Prediction of SGD \n(test loss after TT steps on cifar-10 lenet)'
-        , xlabel='learning rate', ylabel='test loss', img_filenm=IMG_FILENM
+        title=(
+            "Vanilla SGD's Test Loss\n"
+            '(after {} steps on fashion-10 lenet)'
+        ).format(T),
+        xlabel='learning rate', ylabel='test loss', img_filenm=IMG_FILENM
     )
 
 plot_SGD()
