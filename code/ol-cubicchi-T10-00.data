@@ -1,0 +1,20 @@
+{
+    OptimKey(kind='main', metric='weight', sampler='sgd', beta=None, eta=0.12, T=10, N=10, evalset='test'): 	 { "mean":0.46944481134414673, "stdv":0.2614736258983612, "nb_samples":100000 },
+    OptimKey(kind='main', metric='weight', sampler='sgd', beta=None, eta=0.08, T=10, N=10, evalset='test'): 	 { "mean":0.4134994149208069, "stdv":0.20572443306446075, "nb_samples":100000 },
+    OptimKey(kind='main', metric='weight', sampler='sgd', beta=None, eta=0.04, T=10, N=10, evalset='test'): 	 { "mean":0.2831323444843292, "stdv":0.13003277778625488, "nb_samples":100000 },
+    OptimKey(kind='main', metric='loss', sampler='sgd', beta=None, eta=0.12, T=10, N=10, evalset='test'): 	 { "mean":-0.18119563162326813, "stdv":0.19041000306606293, "nb_samples":100000 },
+    OptimKey(kind='main', metric='loss', sampler='sgd', beta=None, eta=0.08, T=10, N=10, evalset='test'): 	 { "mean":-0.20068880915641785, "stdv":0.1266767978668213, "nb_samples":100000 },
+    OptimKey(kind='main', metric='loss', sampler='sgd', beta=None, eta=0.04, T=10, N=10, evalset='test'): 	 { "mean":-0.18643108010292053, "stdv":0.08517837524414062, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='weight', sampler='sgd', beta=None, eta=(0.12, 0.08), T=10, N=10, evalset='test'): 	 { "mean":0.05594542622566223, "stdv":0.07148006558418274, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='weight', sampler='sgd', beta=None, eta=(0.12, 0.04), T=10, N=10, evalset='test'): 	 { "mean":0.1863124668598175, "stdv":0.15165534615516663, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='weight', sampler='sgd', beta=None, eta=(0.08, 0.12), T=10, N=10, evalset='test'): 	 { "mean":-0.05594542622566223, "stdv":0.07148006558418274, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='weight', sampler='sgd', beta=None, eta=(0.08, 0.04), T=10, N=10, evalset='test'): 	 { "mean":0.13036702573299408, "stdv":0.08399467915296555, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='weight', sampler='sgd', beta=None, eta=(0.04, 0.12), T=10, N=10, evalset='test'): 	 { "mean":-0.1863124668598175, "stdv":0.15165534615516663, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='weight', sampler='sgd', beta=None, eta=(0.04, 0.08), T=10, N=10, evalset='test'): 	 { "mean":-0.13036702573299408, "stdv":0.08399467915296555, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='loss', sampler='sgd', beta=None, eta=(0.12, 0.08), T=10, N=10, evalset='test'): 	 { "mean":0.019493207335472107, "stdv":0.08925841003656387, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='loss', sampler='sgd', beta=None, eta=(0.12, 0.04), T=10, N=10, evalset='test'): 	 { "mean":0.005235439632087946, "stdv":0.16177663207054138, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='loss', sampler='sgd', beta=None, eta=(0.08, 0.12), T=10, N=10, evalset='test'): 	 { "mean":-0.019493207335472107, "stdv":0.08925841003656387, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='loss', sampler='sgd', beta=None, eta=(0.08, 0.04), T=10, N=10, evalset='test'): 	 { "mean":-0.014257768169045448, "stdv":0.07724517583847046, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='loss', sampler='sgd', beta=None, eta=(0.04, 0.12), T=10, N=10, evalset='test'): 	 { "mean":-0.005235439632087946, "stdv":0.16177663207054138, "nb_samples":100000 },
+    OptimKey(kind='diff', metric='loss', sampler='sgd', beta=None, eta=(0.04, 0.08), T=10, N=10, evalset='test'): 	 { "mean":0.014257768169045448, "stdv":0.07724517583847046, "nb_samples":100000 }
+}
