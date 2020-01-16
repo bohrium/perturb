@@ -1,7 +1,7 @@
 ''' author: samtenka
     change: 2020-01-15
     create: 2019-02-14
-    descrp: Compare and plot descent losses as dependent on learning rate.
+    descrp: compare and plot descent losses as dependent on learning rate.
             Valid plotting modes are
                 test-gd,  test-sgd,  test-gdc,  test-diff,  test-all
                 train-gd, train-sgd, train-gdc, train-diff, train-all
@@ -27,8 +27,8 @@ pre(len(sys.argv)==1+4,
 )
 OPTIMLOGS_FILENM, GRADSTATS_FILENM, MODE, IMG_FILENM = sys.argv[1:] 
 
-OPTIMLOGS_FILENM='../logs/ol-fashion-lenet-T10-00.data'
-GRADSTATS_FILENM='../logs/gs-fashion-lenet-00.data'
+OPTIMLOGS_FILENM='../logs/ol-fashion-lenet-T10-02.data'
+GRADSTATS_FILENM='../logs/gs-fashion-lenet-02.data'
 
 def get_optimlogs(optimlogs_filenm,
                   kind='main', metric='loss', evalset='test',
@@ -86,8 +86,8 @@ def finish_plot(title, xlabel, ylabel, img_filenm):
     #yminn = np.ceil(ymin/0.01) * 0.01
     #ymaxx = np.floor(ymax/0.01) * 0.01
     #plt.yticks(np.arange(yminn, ymaxx, (ymaxx-yminn)/5.0)) 
-    plt.yticks([2.5, 2.6])
-    plt.xticks([0.0, 0.25])
+    #plt.yticks([2.5, 2.6])
+    #plt.xticks([0.0, 0.25])
 
     plt.legend(loc='best')
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
@@ -120,40 +120,48 @@ def interpolate(x, bins = 100):
     unif = np.arange(0.0, (bins+1.0)/bins, 1.0/bins)
     return unif * (max(x)-min(x)) + min(x)
 
-def plot_SGD():
+def plot_SGD(ol_nm, gs_nm, img_nm, mode='ode'):
     prime_plot()
 
-    (X, Y, S), okey = get_optimlogs(OPTIMLOGS_FILENM)
+    (X, Y, S), okey = get_optimlogs(ol_nm)
+    #X = X[4:]
+    #Y = Y[4:]
+    #S = S[4:]
     T = okey.T
 
     plot_bars(X, Y, S, color=blue, label='experiment')
 
     X = interpolate([0] + list(X))
 
-    P = Predictor(GRADSTATS_FILENM)
+    P = Predictor(gs_nm)
     for degree, color in {1:red, 2:yellow, 3:green}.items():
         losses = P.evaluate_expr(
             P.extrapolate_from_taylor(
                 coeff_strs=coefficients.sgd_vanilla_test,
                 degree=degree,
-                mode='poly'
+                mode=mode
             ),
             params = {'T':T, 'eta':X, 'e':np.exp(1)}
         )
         plot_fill(
             X, losses['mean'], losses['stdv'],
-            color=color, label='theory (deg {} poly)'.format(degree)
+            color=color, label='theory (deg {} {})'.format(degree, mode)
         )
 
     finish_plot(
         title=(
             "Vanilla SGD's Test Loss\n"
-            '(after {} steps on fashion-10 lenet)'
+            '(after {} steps on fashion lenet)'
         ).format(T),
-        xlabel='learning rate', ylabel='test loss', img_filenm=IMG_FILENM
+        xlabel='learning rate', ylabel='test loss', img_filenm=img_nm
     )
 
-plot_SGD()
+for i in range(6):
+    plot_SGD(
+        ol_nm =   '../logs/ol-fashion-lenet-T10-{:02}.data'.format(i),
+        gs_nm =   '../logs/gs-fashion-lenet-{:02}.data'.format(i),
+        img_nm= 'test-vanilla-fashion-ode-{:02}.png'.format(i),
+    )
 
 
 #    #------------------------------------------------------------------------#

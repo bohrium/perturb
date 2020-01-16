@@ -1,5 +1,5 @@
 ''' author: samtenka
-    change: 2020-01-12
+    change: 2020-01-15
     create: 2019-06-12
     descrp: helpers for memory, math, and ansi commands
 '''
@@ -11,56 +11,10 @@ import sys
 import random
 import numpy as np
 
-try:
-    import memory_profiler
-except ImportError:
-    print('failed attempt to import `memory_profiler`')
-
 
 
 #=============================================================================#
-#           0. MEMORY MANAGEMENT                                              #
-#=============================================================================#
-
-    #-------------------------------------------------------------------------#
-    #               0.0 torch allocations                                     #
-    #-------------------------------------------------------------------------#
-
-device, _ = (
-    (torch.device("cuda:0"), torch.device("cuda:1"))
-    if torch.cuda.is_available() else
-    (torch.device("cpu"), torch.device("cpu"))
-) 
-
-    #-------------------------------------------------------------------------#
-    #               0.1 memory and time profiling                             #
-    #-------------------------------------------------------------------------#
-
-start_time = time.time()
-secs_endured = lambda: (time.time()-start_time) 
-megs_alloced = None if 'memory_profile' not in sys.modules else lambda: (
-    memory_profiler.memory_usage(
-        -1, interval=0.001, timeout=0.0011
-    )[0]
-)
-
-
-
-#=============================================================================#
-#           1. MATH and RANDOMNESS                                            #
-#=============================================================================#
-
-prod = lambda seq: functools.reduce(lambda a,b:a*b, seq, 1) 
-
-def reseed(s):
-    random.seed(s)
-    np.random.seed(s)
-    torch.manual_seed(s)
-
-
-
-#=============================================================================#
-#           2. ANSI COMMANDS                                                  #
+#           0. ANSI COMMANDS                                                  #
 #=============================================================================#
 
 class Colorizer(object):
@@ -108,6 +62,55 @@ print(CC+'@D @^ ')
 
 def pre(condition, message): 
     assert condition, CC+'@R '+message+'@D '
+
+
+
+
+#=============================================================================#
+#           1. MEMORY MANAGEMENT                                              #
+#=============================================================================#
+
+#-----------------------------------------------------------------------------#
+#                   1.0 torch allocations                                     #
+#-----------------------------------------------------------------------------#
+
+device, _ = (
+    (torch.device("cuda:0"), torch.device("cuda:1"))
+    if torch.cuda.is_available() else
+    (torch.device("cpu"), torch.device("cpu"))
+) 
+
+#-----------------------------------------------------------------------------#
+#                   1.1 memory and time profiling                             #
+#-----------------------------------------------------------------------------#
+
+try:
+    import memory_profiler
+except ImportError:
+    print('@R failed attempt to import `memory_profiler` @D ')
+
+start_time = time.time()
+secs_endured = lambda: (time.time()-start_time) 
+megs_alloced = None if 'memory_profile' not in sys.modules else lambda: (
+    memory_profiler.memory_usage(
+        -1, interval=0.001, timeout=0.0011
+    )[0]
+)
+
+
+
+#=============================================================================#
+#           2. MATH and RANDOMNESS                                            #
+#=============================================================================#
+
+prod = lambda seq: functools.reduce(lambda a,b:a*b, seq, 1) 
+
+def reseed(s):
+    random.seed(s)
+    np.random.seed(s)
+    torch.manual_seed(s)
+
+
 
 if __name__=='__main__':
     print(CC + '@K moo')

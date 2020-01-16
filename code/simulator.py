@@ -129,8 +129,8 @@ def test_on_quad_landscape(T=100):
 #                   1.1 lenet                                                 #
 #-----------------------------------------------------------------------------#
 
-def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, in_nm,
-                   out_nm_by_idx):
+def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, opts,
+                   in_nm, out_nm_by_idx):
     '''
     '''
     LC = model()
@@ -141,7 +141,7 @@ def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, in_nm,
             for T in [T]:
                 ol.absorb(compute_losses(
                     LC, eta=eta, T=T, N=N, I=I, idx=idx,
-                    opts=[('SGD', None)]
+                    opts=opts
                 ))
 
         with open(out_nm_by_idx(idx), 'w') as f:
@@ -157,6 +157,15 @@ if __name__=='__main__':
     eta_d = float(sys.argv[4])
     eta_max = float(sys.argv[5])
     idxs = list(int(i) for i in sys.argv[6].split(','))
+    opts = sys.argv[7].split(',')
+    opts = [
+        {
+            'sgd':('SGD', None),
+            'gd' :('GD' , None),
+            'gdc':('GDC', 1.0)
+        }[o]
+        for o in opts
+    ]
 
     model, in_nm, out_nm, I = {
         'cifar-lenet': (
@@ -175,13 +184,13 @@ if __name__=='__main__':
             FitGauss,
             'saved-weights/fitgauss.npy',
             'ol-fitgauss-T{}-{:02d}.data',
-            int(3000000/T),
+            int(1000000/T),
         ),
     }[model_nm]
 
     simulate_lenet(
         idxs=idxs, T=T, N=N, I=I,
         eta_d=eta_d, eta_max=eta_max,
-        model=model, in_nm=in_nm,
-        out_nm_by_idx=lambda idx: out_nm.format(T, idx)
+        model=model, opts=opts,
+        in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format(T, idx)
     )
