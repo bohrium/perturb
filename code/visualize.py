@@ -14,45 +14,26 @@
             the   out-diff.png     gives   a filename to write to 
 '''
 
-from utils import pre
+from utils import pre, CC
 from matplotlib import pyplot as plt
 import numpy as np
 from predictor import Predictor
 import coefficients
-from optimlogs import OptimKey
+from optimlogs import OptimLog
 import sys 
 
-pre(len(sys.argv)==1+4,
-    '`visualize.py` needs 4 command line arguments: ol, gs, mode, outnm'
-)
-OPTIMLOGS_FILENM, GRADSTATS_FILENM, MODE, IMG_FILENM = sys.argv[1:] 
+#pre(len(sys.argv)==1+4,
+#    '`visualize.py` needs 4 command line arguments: ol, gs, mode, outnm'
+#)
+#OPTIMLOGS_FILENM, GRADSTATS_FILENM, MODE, IMG_FILENM = sys.argv[1:] 
 
-OPTIMLOGS_FILENM='../logs/ol-fashion-lenet-T10-02.data'
-GRADSTATS_FILENM='../logs/gs-fashion-lenet-02.data'
+#=============================================================================#
+#           0. FILE READING                                                   #
+#=============================================================================#
 
-def get_optimlogs(optimlogs_filenm,
-                  kind='main', metric='loss', evalset='test',
-                  sampler='sgd', beta=None):
-    with open(optimlogs_filenm) as f:
-        ol = eval(f.read())
-
-    X, Y, S = [], [], []
-    last_okey = None
-    for okey in ol:
-        if okey.kind != kind: continue
-        if okey.metric != metric: continue
-        if okey.evalset != evalset: continue
-        if okey.sampler != sampler : continue
-        if okey.beta != beta: continue
-        X.append(okey.eta)
-        Y.append(ol[okey]['mean'])
-        S.append(ol[okey]['stdv']/ol[okey]['nb_samples']**0.5)
-        last_okey=okey
-    X = np.array(X)
-    Y = np.array(Y)
-    S = np.array(S)
-
-    return (X,Y,S), last_okey 
+#-----------------------------------------------------------------------------#
+#                   0.0 plotting primitives                                   #
+#-----------------------------------------------------------------------------#
 
     #--------------------------------------------------------------------------#
     #               2.1 plotting primitives                                    #
@@ -120,48 +101,85 @@ def interpolate(x, bins = 100):
     unif = np.arange(0.0, (bins+1.0)/bins, 1.0/bins)
     return unif * (max(x)-min(x)) + min(x)
 
-def plot_SGD(ol_nm, gs_nm, img_nm, mode='ode'):
+def plot_experiment(ol_nm, 
+                    T=10, kind='main', evalset='test', sampler='sgd',
+                    color=blue, label='experiment'):
+    '''
+    '''
+    print(CC+'querying losses from @R optimlog @M {} @D ...'.format(ol_nm))
+    OL = OptimLog(ol_nm)
+    OL.load_from(ol_nm)
+    (X, Y, S) = OL.query_eta_curve(
+        kind=kind, evalset=evalset, sampler=sampler, T=T
+    )
+    plot_bars(X, Y, S, color=color, label=label)
+
+    return X
+
+def plot_theory(gs_nm,
+                eta_range, coeff_strs, deg=2, mode='poly', T=None, N=None,
+                color=None, label='theory'):
+    print(CC+'computing predictions from @Y gradstats @M {} @D ...'.format(gs_nm))
+    P = Predictor(gs_nm)
+    losses = P.evaluate_expr(
+        P.extrapolate_from_taylor(
+            coeff_strs=coeff_strs, degree=deg, mode=mode
+        ),
+        params = {'T':T, 'eta':eta_range, 'e':np.exp(1), 'N':N}
+    )
+    plot_fill(
+        eta_range, losses['mean'], losses['stdv'],
+        color=color, label=label
+    )
+
+#-----------------------------------------------------------------------------#
+#                   2.2 plotting primitives                                   #
+#-----------------------------------------------------------------------------#
+
+def plot_eta_curve(ol_nm, gs_nm, img_nm, coeff_strs, model_nm,
+                   T=10, N=None, kind='main', evalset='test', sampler='sgd', 
+                   deg=2, mode='poly'):
     prime_plot()
 
-    (X, Y, S), okey = get_optimlogs(ol_nm)
-    #X = X[4:]
-    #Y = Y[4:]
-    #S = S[4:]
-    T = okey.T
+    eta_range = plot_experiment(
+        ol_nm, T=T, kind=kind, evalset=evalset, sampler=sampler,
+        color=blue, label='experiment'
+    )
 
-    plot_bars(X, Y, S, color=blue, label='experiment')
+    eta_range = interpolate([0] + list(eta_range))
 
-    X = interpolate([0] + list(X))
+    plot_theory(
+        gs_nm, eta_range, coeff_strs, deg=deg, mode=mode, T=T, N=N,
+        color=None, label='theory (deg {} {})'.format(deg, mode)
+    )
 
-    P = Predictor(gs_nm)
-    for degree, color in {1:red, 2:yellow, 3:green}.items():
-        losses = P.evaluate_expr(
-            P.extrapolate_from_taylor(
-                coeff_strs=coefficients.sgd_vanilla_test,
-                degree=degree,
-                mode=mode
-            ),
-            params = {'T':T, 'eta':X, 'e':np.exp(1)}
-        )
-        plot_fill(
-            X, losses['mean'], losses['stdv'],
-            color=color, label='theory (deg {} {})'.format(degree, mode)
-        )
-
+    print(CC+'@R rendering plot @D ...')
     finish_plot(
         title=(
-            "Vanilla SGD's Test Loss\n"
-            '(after {} steps on fashion lenet)'
-        ).format(T),
-        xlabel='learning rate', ylabel='test loss', img_filenm=img_nm
+            "{}'s {} Loss\n"
+            '(after {} steps on {} samples from {})'
+        ).format(sampler, evalset, T, N, model_nm),
+        xlabel='learning rate', ylabel='loss', img_filenm=img_nm
     )
 
-for i in range(6):
-    plot_SGD(
-        ol_nm =   '../logs/ol-fashion-lenet-T10-{:02}.data'.format(i),
-        gs_nm =   '../logs/gs-fashion-lenet-{:02}.data'.format(i),
-        img_nm= 'test-vanilla-fashion-ode-{:02}.png'.format(i),
-    )
+idx = 0
+plot_eta_curve(
+    ol_nm  = 'ol-cifar-lenet-T10-{:02}-opts-new-smalleta.data'.format(idx),
+    gs_nm  = '../logs/gs-cifar-lenet-{:02}.data'.format(idx),
+    img_nm = '_test.png',
+    coeff_strs = coefficients.gd_vanilla_test_minus_sgd_vanilla_test, # sgd_vanilla_test,
+    model_nm = 'cifar lenet', 
+    kind='diff',
+    sampler=('sgd', 'gd'),
+    T=10, N=10
+)
+
+#for i in range(1):
+#    plot_SGD(
+#        ol_nm =   '../logs/ol-cubicchi-T10-{:02}.data'.format(i),
+#        gs_nm =   '../logs/gs-cubicchi-{:02}.data'.format(i),
+#        img_nm= 'test-vanilla-cubicchi-poly-nongauss.png'.format(i),
+#    )
 
 
 #    #------------------------------------------------------------------------#
