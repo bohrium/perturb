@@ -16,7 +16,7 @@ import torch
 #=============================================================================#
 
 OptimKey = namedtuple('OptimKey',
-    ('kind', 'metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
+    ('kind', 'metric', 'evalset', 'sampler', 'eta', 'T', 'N')
 ) 
 # TODO: add batches and separate objective from interepoch shuffling
 
@@ -59,7 +59,6 @@ class OptimLog(object):
                 okey_diff = OptimKey(
                     kind    = 'diff',
                     sampler = shrink(okey_comp.sampler, okey_base.sampler),
-                    beta    = shrink(okey_comp.beta,    okey_base.beta),
                     eta     = shrink(okey_comp.eta,     okey_base.eta),
                     T       = shrink(okey_comp.T,       okey_base.T),
                     N       = shrink(okey_comp.N,       okey_base.N),

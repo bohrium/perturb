@@ -1,5 +1,5 @@
 ''' author: samtenka
-    change: 2019-08-17
+    change: 2020-01-16 
     create: 2019-06-17
     descrp: do gradient descent on landscapes
 '''
@@ -9,9 +9,6 @@ import numpy as np
 from utils import CC, pre, reseed
 from optimlogs import OptimKey, OptimLog
 from landscape import PointedLandscape
-from cifar_landscapes import CifarLogistic, CifarLeNet
-from fashion_landscapes import FashionLogistic, FashionLeNet
-from fitgauss_landscape import FitGauss
 import torch
 import tqdm
 
@@ -22,13 +19,13 @@ import tqdm
 #=============================================================================#
 
 opts = [
-    ('SGD', None),
-    ('GD', None),
-    ('GDC', 1.0),
+    'SGD'
+    'GD'
+    'GDC'
 ]
 
-def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=3,
-                   seed=0):
+def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
+                   seed=0, record_train=True):
     '''
         Simulate optimizers on  
 
@@ -49,10 +46,13 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=3,
     nabla = land.nabla
     stalk = land.get_loss_stalk
 
-    for opt, beta in opts: 
+    for opt in tqdm.tqdm(opts): 
         #---------------------------------------------------------------------#
         #           0.0 define optimization updates                           #
         #---------------------------------------------------------------------#
+
+        # TODO: explain better:
+        beta = float(eta) * float(N-1)/(4*N)
 
         compute_gradients = {
             'SGD':  lambda D_train, t:  nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
@@ -63,7 +63,10 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=3,
         compute_update = {
             'SGD':  lambda g: g,
             'GD':   lambda g: g,
-            'GDC':  lambda a,b: (a+b)/2 + beta * nabla(a.dot(a-b))*(N//2),
+            'GDC':  lambda a: (
+                (a[0]+a[1])/2 +
+                beta * nabla(a[0].dot(a[0]-a[1]))*(N//2)
+            )
         }[opt]
 
         for i in tqdm.tqdm(range(I)):
@@ -87,16 +90,20 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=3,
             #-----------------------------------------------------------------#
             #       0.3 compute losses and accuracies                         #
             #-----------------------------------------------------------------#
+            data_evalsets = [(D_test, 'test')] 
+            if record_train:
+                data_evalsets.append((D_train, 'train'))
 
-            test_metrics = land.get_metrics(D_test)
-            for metric_nm, val in test_metrics.items():
-                ol.accum(
-                    OptimKey(
-                        kind='main', metric=metric_nm, evalset='test',
-                        sampler=opt.lower(), beta=beta, eta=eta, N=N, T=T,
-                    ),
-                    val
-                )
+            for data, evalset_nm in data_evalsets:
+                metrics = land.get_metrics(data)
+                for metric_nm, val in metrics.items():
+                    ol.accum(
+                        OptimKey(
+                            kind='main', metric=metric_nm, evalset=evalset_nm,
+                            sampler=opt.lower(), eta=eta, N=N, T=T,
+                        ),
+                        val
+                    )
 
     return ol
 
@@ -148,7 +155,12 @@ def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, opts,
             f.write(str(ol))
 
 if __name__=='__main__':
+    from cifar_landscapes import CifarLogistic, CifarLeNet
+    from fashion_landscapes import FashionLogistic, FashionLeNet
+    from nongauss_landscapes import FitGauss, CubicChi
+
     import sys
+
     pre(sys.argv[1][:2]=='T=', 'first arg should have form T=...')
     pre(sys.argv[2][:2]=='N=', 'second arg should have form N=...')
     T = int(sys.argv[1][2:])
@@ -160,9 +172,9 @@ if __name__=='__main__':
     opts = sys.argv[7].split(',')
     opts = [
         {
-            'sgd':('SGD', None),
-            'gd' :('GD' , None),
-            'gdc':('GDC', 1.0)
+            'sgd': 'SGD',
+            'gd' : 'GD' ,
+            'gdc': 'GDC',
         }[o]
         for o in opts
     ]
@@ -177,14 +189,20 @@ if __name__=='__main__':
         'fashion-lenet': (
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
-            'ol-fashion-lenet-T{}-{:02d}.data',
-            int(100000/T),
+            'ol-fashion-lenet-T{}-{:02d}-opts-new.data',
+            int(1000/T),
         ),
         'fit-gauss':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
             'ol-fitgauss-T{}-{:02d}.data',
             int(1000000/T),
+        ),
+        'cubic-chi':   (
+            CubicChi,
+            'saved-weights/cubicchi.npy',
+            'ol-cubicchi-T{}-{:02d}.data',
+            int(100000/T),
         ),
     }[model_nm]
 
