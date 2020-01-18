@@ -65,7 +65,9 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
             'GD':   lambda g: g,
             'GDC':  lambda a: (
                 (a[0]+a[1])/2 +
-                beta * nabla(a[0].dot(a[0]-a[1]))*(N//2)
+                2 * beta * nabla(
+                    a[0].dot((a[0]-a[1]).detach())
+                )*(N//2)
             )
         }[opt]
 
@@ -183,14 +185,14 @@ if __name__=='__main__':
         'cifar-lenet': (
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
-            'ol-cifar-lenet-T{}-{:02d}.data',
-            int(100000/T),
+            'ol-cifar-lenet-T{}-{:02d}-opts-new.data',
+            int(1000/T),
         ),
         'fashion-lenet': (
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
             'ol-fashion-lenet-T{}-{:02d}-opts-new.data',
-            int(1000/T),
+            int(100000/T),
         ),
         'fit-gauss':   (
             FitGauss,
