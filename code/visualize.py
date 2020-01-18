@@ -39,12 +39,12 @@ import sys
     #               2.1 plotting primitives                                    #
     #--------------------------------------------------------------------------#
 
-red     = '#cc4444'
-yellow  = '#aaaa44'
-green   = '#44cc44'
-cyan    = '#44aaaa'
-blue    = '#4444cc'
-magenta = '#aa44aa'
+red     = '#cc4444';  bright_red     = '#ff6666';  dark_red     = '#aa2222'
+yellow  = '#aaaa44';  bright_yellow  = '#cccc66';  dark_yellow  = '#888822'
+green   = '#44cc44';  bright_green   = '#66ff66';  dark_green   = '#22aa22'
+cyan    = '#44aaaa';  bright_cyan    = '#66cccc';  dark_cyan    = '#228888'
+blue    = '#4444cc';  bright_blue    = '#6666ff';  dark_blue    = '#2222aa'
+magenta = '#aa44aa';  bright_magenta = '#cc66cc';  dark_magenta = '#882288'
 
 def prime_plot():
     '''
@@ -102,7 +102,7 @@ def interpolate(x, bins = 100):
     return unif * (max(x)-min(x)) + min(x)
 
 def plot_experiment(ol_nm, 
-                    T=10, kind='main', evalset='test', sampler='sgd',
+                    T=10, kind='main', evalset='test', sampler='sgd', metric='loss',
                     color=blue, label='experiment'):
     '''
     '''
@@ -110,7 +110,7 @@ def plot_experiment(ol_nm,
     OL = OptimLog(ol_nm)
     OL.load_from(ol_nm)
     (X, Y, S) = OL.query_eta_curve(
-        kind=kind, evalset=evalset, sampler=sampler, T=T
+        kind=kind, evalset=evalset, sampler=sampler, T=T, metric=metric
     )
     plot_bars(X, Y, S, color=color, label=label)
 
@@ -136,22 +136,28 @@ def plot_theory(gs_nm,
 #                   2.2 plotting primitives                                   #
 #-----------------------------------------------------------------------------#
 
-def plot_eta_curve(ol_nm, gs_nm, img_nm, coeff_strs, model_nm,
-                   T=10, N=None, kind='main', evalset='test', sampler='sgd', 
-                   deg=2, mode='poly'):
+def plot_eta_curve(ol_nm, gs_nm, img_nm, model_nm,
+                   T=None, N=None, kind='main', metric='loss',
+                   experiment_params_list=[], 
+                   theory_params_list=[]):
+                   #coeff_strs, model_nm):
+                   #T=10, N=None, kind='main', evalset='test', sampler='sgd', 
+                   #deg=2, mode='poly'):
     prime_plot()
 
-    eta_range = plot_experiment(
-        ol_nm, T=T, kind=kind, evalset=evalset, sampler=sampler,
-        color=blue, label='experiment'
-    )
+    eta_range = [0]
+    for evalset, sampler, color, label in experiment_params_list:   
+        eta_range += list(plot_experiment(
+            ol_nm, T=T, kind=kind, evalset=evalset, sampler=sampler,
+            color=color, label=label
+        ))
+    eta_range = interpolate(eta_range)
 
-    eta_range = interpolate([0] + list(eta_range))
-
-    plot_theory(
-        gs_nm, eta_range, coeff_strs, deg=deg, mode=mode, T=T, N=N,
-        color=None, label='theory (deg {} {})'.format(deg, mode)
-    )
+    for coeff_strs, deg, mode, color, label in theory_params_list: 
+        plot_theory(
+            gs_nm, eta_range, coeff_strs, deg=deg, mode=mode, T=T, N=N,
+            color=color, label=label
+        )
 
     print(CC+'@R rendering plot @D ...')
     finish_plot(
@@ -163,15 +169,21 @@ def plot_eta_curve(ol_nm, gs_nm, img_nm, coeff_strs, model_nm,
     )
 
 idx = 0
+model_nm = 'cifar-lenet'
 plot_eta_curve(
-    ol_nm  = 'ol-cifar-lenet-T10-{:02}-opts-new-smalleta.data'.format(idx),
-    gs_nm  = '../logs/gs-cifar-lenet-{:02}.data'.format(idx),
-    img_nm = '_test.png',
-    coeff_strs = coefficients.gd_vanilla_test_minus_sgd_vanilla_test, # sgd_vanilla_test,
-    model_nm = 'cifar lenet', 
-    kind='diff',
-    sampler=('sgd', 'gd'),
-    T=10, N=10
+    ol_nm  = 'ol-{}-T10-{:02}-opts-new-smalleta.data'.format(model_nm, idx),
+    gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
+    img_nm = '_test-{}-{}.png'.format(model_nm, idx),
+    model_nm = model_nm,
+    T=10, N=10, kind='diff',
+    experiment_params_list = [
+        ('test', ('sgd', 'gd'), dark_blue, 'sgd-gd'),
+        ('test', ('sgd', 'gdc'), bright_blue, 'sgd-gdc')
+    ], 
+    theory_params_list = [
+        (coefficients.gd_minus_sgd_vanilla_test, 1, 'poly', red   , 'theory (deg 1 poly)'),
+        (coefficients.gd_minus_sgd_vanilla_test, 2, 'poly', yellow, 'theory (deg 2 poly)')
+    ]
 )
 
 #for i in range(1):
