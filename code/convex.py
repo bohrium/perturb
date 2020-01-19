@@ -2,7 +2,8 @@
     change: 2020-01-19
     create: 2020-01-19
     descrp: compute convex hull in two dimensions (for nice plotting of
-            two-dimensional uncertainties) 
+            two-dimensional uncertainties).
+            CAUTION: we do not handle degenerate edges at all
 '''
 
 import numpy as np
@@ -30,13 +31,6 @@ def angle(v, w):
 
     return angle
 
-pre(1e-3>abs(+0.50 - angle(( 1,  0), ( 0,  1))/np.pi), 'angle error: +2 pi/4')
-pre(1e-3>abs(-0.50 - angle(( 1,  0), ( 0, -1))/np.pi), 'angle error: -2 pi/4')
-pre(1e-3>abs(+0.25 - angle(( 1,  0), ( 3,  3))/np.pi), 'angle error: +1 pi/4')
-pre(1e-3>abs(-0.25 - angle(( 1,  0), ( 3, -3))/np.pi), 'angle error: -1 pi/4')
-pre(1e-3>abs(+0.75 - angle(( 1,  0), (-5,  5))/np.pi), 'angle error: +3 pi/4')
-pre(1e-3>abs(-0.75 - angle(( 1,  0), (-5, -5))/np.pi), 'angle error: -3 pi/4')
-
 def winding_number(cycle, pt):
     x, y = pt
     return int(round(sum(
@@ -44,11 +38,6 @@ def winding_number(cycle, pt):
         for i in range(len(cycle))
         for (ax, ay), (bx, by) in [(cycle[i], cycle[(i+1)%len(cycle)])]
     )/(2 * np.pi)))
-
-diamond = [(+1,  0), ( 0, +1), (-1,  0), ( 0, -1)]
-pre(1.0==winding_number(diamond, (0, 0)), 'winding number error: inside')
-pre(0.0==winding_number(diamond, (0, 5)), 'winding number error: outside')
-pre(2.0==winding_number(diamond+diamond, (0, 0)), 'winding number error: double')
 
 def cycle_contains(cycle, pt):
     return 0 != winding_number(cycle, pt)
@@ -123,82 +112,7 @@ def join_cycles(lhs, rhs):
 
     return normalize_cycle(new_cycle)
 
-'''
-    . . . . . . . . . . .
-    . . . . . . . . . . .
-    . . . . . d . . . . .
-    . . . . . . . . . . .
-    . . . . . . r . . . r
-    . . d . . + . . d . .
-    . . . . . . r . . . r
-    . . . . . . . . . . .
-    . . . . . d . . . . .
-    . . . . . . . . . . .
-    . . . . . . . . . . .
-'''
-diamond =   [(+3,  0), ( 0, +3), (-3,  0), ( 0, -3)]
-rectangle = [( 5, +1), ( 1, +1), ( 1, -1), ( 5, -1)]
-joined =    [( 5, +1), ( 0, +3), (-3,  0), ( 0, -3), ( 5, -1)] 
-pre(joined==join_cycles(diamond, rectangle), 'join cycles error: diamond and rectangle')
 
-'''
-    . . . . . . . . . . .
-    . . . . p o . . . . .
-    . . o . . . . . o . .
-    . . . . . . . . . . .
-    . . . . . . . . . . p
-    . o p . . + . . . o .
-    . . . . . . . . . . p
-    . . . . . . . . . . .
-    . . o . . . . . o . .
-    . . . . p o . . . . .
-    . . . . . . . . . . .
-'''
-octagon = [(+3, +3), ( 0, +4), (-3, +3), (-4,  0), (-3, -3), ( 0, -4), (+3, -3), (+4,  0)]
-pentagon= [( 5, +1), (-1, +4), (-3,  0), (-1, -4), ( 5, -1)]
-joined =  [( 5, +1), (+3, +3), ( 0, +4), (-1, +4), (-3, +3), (-4,  0), (-3, -3), (-1, -4), ( 0, -4), (+3, -3), ( 5, -1)]
-pre(joined==join_cycles(octagon, pentagon), 'join cycles error: diamond and rectangle')
-
-
-input('hi')
-
-#class pt_cycle(object):
-#    ''' counter clockwise cycle '''
-#    def __init__(self, pt):
-#        self.pts = [pt]
-#    def __len__(self):
-#        return len(self.pts)
-#    def __get__(self, idx): 
-#        return self.pts[idx % len(self.pts)]
-#
-#    def interior_contains(self, pt)
-#    def union(self, rhs):
-#
-#class CvxPtCycle(PtCycle)
-#    def load_as_hull_of(self, pts): 
-#        pass
-#    def load_as_caterpillar_of(self, pts): 
-#        pass
-#
-#    #def shadow(self, pt):
-#    #    shadow = []
-#    #    x, y = pt
-#    #    for i in range(len(self.pts)):
-#    #        (ax, ay), (bx, by) = self[i], self[i+1]
-#    #        pt_is_to_left = (0.0 <= cross_product(
-#    #            (bx-ax, by-ay),
-#    #            ( x-ax,  y-ay),
-#    #        )) 
-#    #        if not pt_is_to_left:
-#    #            shadow.append(i)
-#    #return inner_edge_idxs
-#
-#
-#        pass
-#    def cvx_add(self, pt, shadow):
-#        pass
-#    def normalize(self):
-#        pass
 
 # cy for cyclic
 def get_inner_edge_idxs(pt, cy_hull):
@@ -238,7 +152,6 @@ def get_convex_hull(pts):
         for pt in pts: 
             inner_edge_idxs = get_inner_edge_idxs(pt, cy_hull)
             if not inner_edge_idxs: continue
-            #print(pt, inner_edge_idxs, cy_hull)
             cy_hull = update_hull(pt, cy_hull, inner_edge_idxs)
             break
         else:
@@ -246,12 +159,28 @@ def get_convex_hull(pts):
     return normalize_cycle(cy_hull)
 
 if __name__=='__main__':
+    #-------------------------------------------------------------------------#
+    #               1.0 test trigonometry                                     #
+    #-------------------------------------------------------------------------#
+
     pre(0.0 <  cross_product((1, 0), (0, 1)), 'cross product error: pos')
     pre(0.0 == cross_product((1, 0), (2, 0)), 'cross product error:zero')
     pre(0.0 >  cross_product((0, 1), (1, 0)), 'cross product error: neg')
-    
+
+    pre(1e-3>abs(+0.50 - angle(( 1,  0), ( 0,  1))/np.pi), 'angle error: +2 pi/4')
+    pre(1e-3>abs(-0.50 - angle(( 1,  0), ( 0, -1))/np.pi), 'angle error: -2 pi/4')
+    pre(1e-3>abs(+0.25 - angle(( 1,  0), ( 3,  3))/np.pi), 'angle error: +1 pi/4')
+    pre(1e-3>abs(-0.25 - angle(( 1,  0), ( 3, -3))/np.pi), 'angle error: -1 pi/4')
+    pre(1e-3>abs(+0.75 - angle(( 1,  0), (-5,  5))/np.pi), 'angle error: +3 pi/4')
+    pre(1e-3>abs(-0.75 - angle(( 1,  0), (-5, -5))/np.pi), 'angle error: -3 pi/4')
+
+    print(CC + '@G all trigonometry tests passed! @D ')
+
+    #-------------------------------------------------------------------------#
+    #               1.1 test convex hull                                      #
+    #-------------------------------------------------------------------------#
+
     diamond = [(+1,  0), ( 0, +1), (-1,  0), ( 0, -1)]
-    
     pre([] == get_inner_edge_idxs((0.0, 0.0), diamond), 'inner edge error: empty')
     pre([0] == get_inner_edge_idxs((0.8, 0.8), diamond), 'inner edge error: single')
     pre([0, 3] == get_inner_edge_idxs((2.0, 0.0), diamond), 'inner edge error: range')
@@ -275,7 +204,6 @@ if __name__=='__main__':
     cy_hull = [f,a,b,c,e]
     pre(cy_hull==get_convex_hull(pts), 'convex hull error: pentagon')
 
-    # NOTE: we do not handle degenerate edges at all
 
     '''
         a . . . .
@@ -295,17 +223,49 @@ if __name__=='__main__':
     pre(cy_hull==get_convex_hull(pts), 'convex hull error: degenerate')
     print(CC + '@G all convex hull tests passed! @D ')
 
+    #-------------------------------------------------------------------------#
+    #               1.2 test cycle joining                                    #
+    #-------------------------------------------------------------------------#
+
+    diamond = [(+1,  0), ( 0, +1), (-1,  0), ( 0, -1)]
+    pre(1.0==winding_number(diamond, (0, 0)), 'winding number error: inside')
+    pre(0.0==winding_number(diamond, (0, 5)), 'winding number error: outside')
+    pre(2.0==winding_number(diamond+diamond, (0, 0)), 'winding number error: double')
+
     '''
-        . . . d . . . . .
-        . . . . . . . . .
-        . . . . . . . . .
-        . . . . . . . . .
-        . . c . . . . . .
-        . . . . . . . . .
-        . b . . . . . . .
-        a . . . . . . . .
-        . . . . . . . . .
+        . . . . . . . . . . .
+        . . . . . . . . . . .
+        . . . . . d . . . . .
+        . . . . . . . . . . .
+        . . . . . . r . . . r
+        . . d . . + . . d . .
+        . . . . . . r . . . r
+        . . . . . . . . . . .
+        . . . . . d . . . . .
+        . . . . . . . . . . .
+        . . . . . . . . . . .
     '''
-    print(get_convex_hull(
-        [(0.0, 1.0), (0.0, 1.0), (0.0, 1.0), (1.0, 2.0), (1.0, 2.0), (1.0, 2.0), (1.0, 2.0), (2.0, 4.0), (2.0, 4.0), (2.0, 4.0), (2.0, 4.0), (3.0, 8.0), (3.0, 8.0), (3.0, 8.0), (3.0, 8.0)]
-    ))
+    diamond =   [(+3,  0), ( 0, +3), (-3,  0), ( 0, -3)]
+    rectangle = [( 5, +1), ( 1, +1), ( 1, -1), ( 5, -1)]
+    joined =    [( 5, +1), ( 0, +3), (-3,  0), ( 0, -3), ( 5, -1)] 
+    pre(joined==join_cycles(diamond, rectangle), 'join cycles error: diamond and rectangle')
+    
+    '''
+        . . . . . . . . . . .
+        . . . . p o . . . . .
+        . . o . . . . . o . .
+        . . . . . . . . . . .
+        . . . . . . . . . . p
+        . o p . . + . . . o .
+        . . . . . . . . . . p
+        . . . . . . . . . . .
+        . . o . . . . . o . .
+        . . . . p o . . . . .
+        . . . . . . . . . . .
+    '''
+    octagon = [(+3, +3), ( 0, +4), (-3, +3), (-4,  0), (-3, -3), ( 0, -4), (+3, -3), (+4,  0)]
+    pentagon= [( 5, +1), (-1, +4), (-3,  0), (-1, -4), ( 5, -1)]
+    joined =  [( 5, +1), (+3, +3), ( 0, +4), (-1, +4), (-3, +3), (-4,  0), (-3, -3), (-1, -4), ( 0, -4), (+3, -3), ( 5, -1)]
+    pre(joined==join_cycles(octagon, pentagon), 'join cycles error: diamond and rectangle')
+
+    print(CC + '@G all cycle join tests passed! @D ')
