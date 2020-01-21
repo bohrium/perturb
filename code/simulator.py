@@ -20,12 +20,13 @@ import tqdm
 
 opts = [
     'SGD'
+    'SDE'
     'GD'
     'GDC'
 ]
 
 def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
-                   seed=0, record_train=True):
+                   seed=0, record_train=True, SDE_alpha=8):
     '''
         Simulate optimizers on  
 
@@ -54,11 +55,22 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
         # TODO: explain better:
         beta = float(eta) * float(N-1)/(4*N)
 
+        actual_N   = N     *      (1 if opt!='SDE' else SDE_alpha**2)
+        actual_T   = T     *      (1 if opt!='SDE' else SDE_alpha   ) 
+        actual_eta = eta   / float(1 if opt!='SDE' else SDE_alpha   ) 
+
         compute_gradients = {
-            'SGD':  lambda D_train, t:  nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
-            'GD':   lambda D_train, t:  nabla(stalk(D_train               ))  ,
-            'GDC':  lambda D_train, t: (nabla(stalk(D_train[:N//2]        )),   
-                                        nabla(stalk(D_train[N//2:]        )) ),
+            'SGD':  lambda D_train, t, i:  nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
+            'GD':   lambda D_train, t, i:  nabla(stalk(D_train               ))  ,
+            'GDC':  lambda D_train, t, i: (
+                                           nabla(stalk(D_train[:N//2]        )),   
+                                           nabla(stalk(D_train[N//2:]        ))
+                                          ),
+            'SDE':  lambda D_train, t, i: (
+                                           nabla(stalk(D_train[(t*N*SDE_alpha) % actual_N : ((t+1)*N*SDE_alpha-1) % actual_N + 1])),  
+                                           nabla(stalk(D_train[(t            ) % actual_N : ( t+1             -1) % actual_N + 1]  )),
+                                           (lambda: (reseed(i*actual_T + t), np.random.randn()))()[1], 
+                                          ),
         }[opt]
         compute_update = {
             'SGD':  lambda g: g,
@@ -68,7 +80,10 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
                 2 * beta * nabla(
                     a[0].dot((a[0]-a[1]).detach())
                 )*(N//2)
-            )
+            ),
+            'SDE':  lambda a: (
+                a[0] + a[2] * (a[1]-a[0])
+            ),
         }[opt]
 
         for i in tqdm.tqdm(range(I)):
@@ -76,17 +91,19 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
             #       0.1 sample data (shared for all (opt, beta) pairs)        #
             #-----------------------------------------------------------------#
 
-            D = land.sample_data(N + (N + test_extra), seed=seed+i) 
-            D_train, D_test = D[:N], D[N:]
+            D = land.sample_data(actual_N + (N + test_extra), seed=seed+i) 
+            D_train, D_test = D[:actual_N], D[actual_N:]
 
             #-----------------------------------------------------------------#
             #       0.2 perform optimization loop                             #
             #-----------------------------------------------------------------#
 
             land.switch_to(idx)
-            for t in range(T):
+            for t in range(actual_T):
                 land.update_weight(
-                    -eta * compute_update(compute_gradients(D_train, t)).detach()
+                    -actual_eta * compute_update(
+                        compute_gradients(D_train, t, i)
+                    ).detach()
                 )
 
             #-----------------------------------------------------------------#
@@ -123,7 +140,7 @@ def test_on_quad_landscape(T=100):
     Q = Quadratic(dim=DIM)
     ol = OptimLog()
     for eta in tqdm.tqdm(np.arange(0.0005, 0.005, 0.001)):
-        ol.absorb(compute_losses(Q, eta=eta, T=T, N=T, I=int(100000.0/(T+1))))
+        ol.absorb_buffer(compute_losses(Q, eta=eta, T=T, N=T, I=int(100000.0/(T+1))))
     print(ol)
     with open('ol.data', 'w') as f:
         f.write(str(ol))
@@ -148,13 +165,33 @@ def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, opts,
         ol = OptimLog()
         for eta in tqdm.tqdm(np.arange(eta_d, eta_max+eta_d/2, eta_d)):
             for T in [T]:
-                ol.absorb(compute_losses(
+                ol.absorb_buffer(compute_losses(
                     LC, eta=eta, T=T, N=N, I=I, idx=idx,
                     opts=opts
                 ))
 
         with open(out_nm_by_idx(idx), 'w') as f:
             f.write(str(ol))
+
+def simulate_multi(idxs, N, Es, I, eta_d, eta_max, model,
+                   in_nm, out_nm_by_idx):
+    '''
+    '''
+    LC = model()
+    LC.load_from(in_nm, nb_inits=6, seed=0)
+    for idx in tqdm.tqdm(idxs):
+        ol = OptimLog()
+        for eta in tqdm.tqdm(np.arange(eta_d, eta_max+eta_d/2, eta_d)):
+            for E in tqdm.tqdm(Es):
+                ol.absorb_buffer(compute_losses(
+                    LC, eta=eta/E, T=N*E,
+                    # for OL diff comparison purposes, have I fixed between E values.
+                    N=N, I=I, idx=idx, opts=['SGD']
+                    #N=N, I=int(I/E), idx=idx, opts=['SGD']
+                ))
+        with open(out_nm_by_idx(idx), 'w') as f:
+            f.write(str(ol))
+
 
 if __name__=='__main__':
     from cifar_landscapes import CifarLogistic, CifarLeNet
@@ -175,6 +212,7 @@ if __name__=='__main__':
     opts = [
         {
             'sgd': 'SGD',
+            'sde': 'SDE',
             'gd' : 'GD' ,
             'gdc': 'GDC',
         }[o]
@@ -182,32 +220,51 @@ if __name__=='__main__':
     ]
 
     model, in_nm, out_nm, I = {
+        'cifar-logistic': (
+            CifarLogistic,
+            'saved-weights/cifar-logistic.npy',
+            'ol-cifar-logistic-T{}-{:02d}-sde.data',
+            int(10000/T),
+        ),
         'cifar-lenet': (
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
-            'ol-cifar-lenet-T{}-{:02d}-opts-new.data',
-            int(1000/T),
+            'ol-cifar-lenet-T{}-{:02d}-sde.data',
+            int(20000/T),
+        ),
+        'fashion-logistic': (
+            FashionLogistic,
+            'saved-weights/fashion-logistic.npy',
+            'ol-fashion-logistic-T{}-{:02d}-sde.data',
+            int(25000/T),
         ),
         'fashion-lenet': (
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
-            'ol-fashion-lenet-T{}-{:02d}-opts-new.data',
-            int(100000/T),
+            'ol-fashion-lenet-T{}-{:02d}-sde.data',
+            int(20000/T),
         ),
         'fit-gauss':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
-            'ol-fitgauss-T{}-{:02d}.data',
-            int(1000000/T),
+            'ol-fitgauss-T{}-{:02d}-real-loss.data',
+            #int(1000000/T),
+            int(100000/T),
         ),
         'cubic-chi':   (
             CubicChi,
             'saved-weights/cubicchi.npy',
-            'ol-cubicchi-T{}-{:02d}.data',
+            'ol-cubicchi-T{}-{:02d}-real-loss.data',
             int(100000/T),
         ),
     }[model_nm]
 
+    #simulate_multi(
+    #    idxs=idxs, N=N, Es=[5, 8, 3, 2, 1], I=I,
+    #    model=model,
+    #    eta_d=eta_d, eta_max=eta_max,
+    #    in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format('', idx)
+    #)
     simulate_lenet(
         idxs=idxs, T=T, N=N, I=I,
         eta_d=eta_d, eta_max=eta_max,
