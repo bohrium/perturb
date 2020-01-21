@@ -329,26 +329,26 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
         ],
     )
 
-def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
-    # TODO: change default ol_nm to ../logs/....
-    title = (
-        'SGD vs SDE\n'
-        '(test loss after {} steps on {})'.format(T, model_nm)
-    )
-    plot_loss_vs_eta(
-        ol_nm  = 'ol-{}-T{}-{:02}-sde.data'.format(model_nm, T, idx),
-        gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-        img_nm = '_sde-{}-{}.png'.format(model_nm, idx),
-        title=title, ylabel='loss difference',
-        T=T, N=T, kind='main',
-        experiment_params_list = [
-            ('test', 'sde', 'loss', dark_blue, 'sgd - sde'),
-        ], 
-        theory_params_list = [
-            #(coefficients.sgd_vanilla_gen, 1, 'poly', bright_red, 'degree 1 prediction of gen gap'),
-            #(coefficients.sgd_vanilla_gen, 2, 'poly', bright_yellow, 'degree 2 prediction of gen gap'),
-        ],
-    )
+#def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
+#    # TODO: change default ol_nm to ../logs/....
+#    title = (
+#        'SGD vs SDE\n'
+#        '(test loss after {} steps on {})'.format(T, model_nm)
+#    )
+#    plot_loss_vs_eta(
+#        ol_nm  = 'ol-{}-T{}-{:02}-sde.data'.format(model_nm, T, idx),
+#        gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
+#        img_nm = '_sde-{}-{}.png'.format(model_nm, idx),
+#        title=title, ylabel='loss difference',
+#        T=T, N=T, kind='main',
+#        experiment_params_list = [
+#            ('test', 'sde', 'loss', dark_blue, 'sgd - sde'),
+#        ], 
+#        theory_params_list = [
+#            #(coefficients.sgd_vanilla_gen, 1, 'poly', bright_red, 'degree 1 prediction of gen gap'),
+#            #(coefficients.sgd_vanilla_gen, 2, 'poly', bright_yellow, 'degree 2 prediction of gen gap'),
+#        ],
+#    )
 
 def plot_gauss_nongauss_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
@@ -372,6 +372,28 @@ def plot_gauss_nongauss_vs_eta(model_nm, idx, T):
     )
 
 
+def plot_thermo_vs_eta(model_nm, idx, T):
+    # TODO: change default ol_nm to ../logs/....
+    title = (
+        'THERMO AND SGD \n'
+        '(displacement after {} steps on {})'.format(T, model_nm)
+    )
+    plot_loss_vs_eta(
+        ol_nm  = 'ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
+        gs_nm  = 'gs-{}-with-unit-source-{:02}.data'.format(model_nm, idx),
+        img_nm = '_thermo-{}-{}.png'.format(model_nm, idx),
+        title=title, ylabel='net displacement',
+        T=T, N=T, kind='main',
+        experiment_params_list = [
+            ('test', 'sgd', 'z', dark_blue, 'net displacement by sgd of weight in z direction'),
+        ], 
+        theory_params_list = [
+             #(coefficients.sgd_linear_screw_z , 3, 'poly', bright_green,   'deg 3 prediction')
+        ],
+    )
+
+
+
 
 
 #for model_nm in ['cifar-lenet', 'fashion-lenet']:
@@ -383,5 +405,6 @@ def plot_gauss_nongauss_vs_eta(model_nm, idx, T):
 #plot_sgd_sde_diff_vs_eta('fashion-lenet', idx=0, T=10)
 #plot_gauss_nongauss_vs_eta('fitgauss', idx=0, T=4)
 
-plt.figure(figsize=(8,4))
-plot_gauss_nongauss_vs_eta('cubicchi', idx=0, T=4)
+#plt.figure(figsize=(8,4))
+#plot_gauss_nongauss_vs_eta('cubicchi', idx=0, T=4)
+plot_thermo_vs_eta('linear-screw', idx=0, T=1000)

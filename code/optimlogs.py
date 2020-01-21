@@ -1,5 +1,5 @@
 ''' author: samtenka
-    change: 2020-01-13
+    change: 2020-01-18
     create: 2019-06-17
     descrp: interface for optimization results
 '''
@@ -25,22 +25,54 @@ class OptimLog(object):
         Optimization log: record results of many optimization trials with some
         shared and some different optimization parameters. 
     '''
-    def __init__(self):
+    def __init__(self, buffer_len=1000):
         '''
         '''
-        self.logs = {}
+        self.buffer = {}
+        self.summary = {}
+        self.buffer_len = buffer_len
+
+    def flush(self, okey):
+        vals = np.array(self.buffer[okey])
+        if not len(vals): return
+        if okey not in self.summary:
+            self.summary[okey] = {'mean':0.0, 'stdv':0.0, 'nb_samples':0} 
+        d = self.summary[okey]
+        madd, sadd, Nadd = np.mean(vals), np.std(vals), len(vals) 
+        mold, sold, Nold = d['mean'], d['stdv'], d['nb_samples']
+
+        Nnew = Nold + Nadd 
+        pold = Nold / float(Nnew)
+        padd = Nadd / float(Nnew)
+
+        mnew = pold*mold + padd*madd
+        snew = np.sqrt(
+            pold*(sold**2 + mold**2) + padd*(sadd**2 + madd**2)
+            - mnew**2
+        ) 
+
+        d['mean'] = mnew
+        d['stdv'] = snew
+        d['nb_samples'] = Nnew
+
+        self.buffer[okey] = []
 
     def accum(self, okey, value):
         '''
         '''
-        if okey not in self.logs:
-            self.logs[okey] = []
-        self.logs[okey].append(value)
+        if okey not in self.buffer:
+            self.buffer[okey] = []
+        self.buffer[okey].append(value)
+        #if len(self.buffer[okey]) >= self.buffer_len:
+        #    self.flush(name)
 
-    def recent(self, okey):
+    def absorb_buffer(self, rhs):
         '''
         '''
-        return self.logs[okey][-1]
+        for okey, values in rhs.buffer.items():
+            if okey not in self.buffer:
+                self.buffer[okey] = []
+            self.buffer[okey] += values
 
     def compute_diffs(self):
         '''
@@ -49,9 +81,11 @@ class OptimLog(object):
         shrink = lambda x, y: ((x,y) if x!=y else x) 
 
         diffs = {}
-        for okey_base, value_base in self.logs.items():
-            for okey_comp, value_comp in self.logs.items():
-                if hamming(okey_base, okey_comp) != 1: continue
+        for okey_base, value_base in self.buffer.items():
+            if okey_base.kind=='diff': continue
+            for okey_comp, value_comp in self.buffer.items():
+                if okey_comp.kind=='diff': continue
+                if hamming(okey_base, okey_comp) not in [1, 2]:  continue
                 if okey_base.metric != okey_comp.metric: continue
                 if len(value_base) != len(value_comp): continue
 
@@ -67,24 +101,43 @@ class OptimLog(object):
                 )  
                 diffs[okey_diff] = value_diff
         for k in diffs:
-            self.logs[k] = diffs[k]
+            self.buffer[k] = diffs[k]
 
     def __str__(self):
         '''
         '''
         self.compute_diffs()
+        for name in self.buffer:
+            self.flush(name)
         lines = [
             '    {}: \t {{ "mean":{}, "stdv":{}, "nb_samples":{} }}'.format(
-                okey, np.mean(values), np.std(values), len(values)
+                okey, values['mean'], values['stdv'], values['nb_samples']
             )
-            for okey, values in (self.logs.items())
+            for okey, values in self.summary.items()
         ]
         return '{\n'+',\n'.join(sorted(lines, reverse=True))+'\n}'
 
-    def absorb(self, rhs):
+    def load_from(self, file_nm):
+        with open(file_nm) as f:
+            self.summary = eval(f.read())
+
+    def query_eta_curve(self, kind='main', metric='loss', evalset='test',
+                        sampler='sgd', T=None):
         '''
         '''
-        for okey, values in rhs.logs.items():
-            if okey not in self.logs:
-                self.logs[okey] = []
-            self.logs[okey] += values
+        X, Y, S = [], [], []
+        for okey in self.summary:
+            if okey.kind != kind: continue
+            if okey.metric != metric: continue
+            if okey.evalset != evalset: continue
+            if okey.sampler != sampler: continue
+            if type(okey.eta) == type(()): continue
+            if okey.T != T: continue
+            X.append(okey.eta)
+            Y.append(self.summary[okey]['mean'])
+            S.append(self.summary[okey]['stdv']/self.summary[okey]['nb_samples']**0.5)
+        X = np.array(X)
+        Y = np.array(Y)
+        S = np.array(S)
+    
+        return (X,Y,S)

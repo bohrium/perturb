@@ -20,7 +20,7 @@ sgd_vanilla_gauss_test = {
     2: '+ T:2 Vpln' 
        '+ T:1 Vlvs / 2!',
     3: '- T:3 (4 Zpln + 2 Ypln)' 
-       '- T:2 (1.5 Tlvs + Zlvs + Zalt)'
+       '- T:2 (1.5 Ylvs + Zlvs + Zalt)'
        '- T:1 (3 Ylvs - 2 Ypln) / 3!',
 }
 
@@ -37,10 +37,16 @@ sgd_vanilla_gen = {
        '+ (T:1 / N) (Yall - Yerg) / 3!',
 }
 
-gd_vanilla_test_minus_sgd_vanilla_test = {
+gd_minus_sgd_vanilla_test = {
     0: '+                0.0 ',
     1: '-                0.0 ',
-    2: '+ ((N-1)/2) T:2 (Ytwg - Ypln)' 
+    2: '- ((T:2) / N) (Vtwg - Vpln)' 
 }
 
+sgd_linear_screw_z= {
+    0: '+                0.0 ',
+    1: '-                0.0 ',
+    2: '+                0.0 ',
+    3: '- (T:2) Ylvs / 2!    ',
+}
 

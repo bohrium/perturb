@@ -19,10 +19,10 @@ from torchvision import datasets, transforms
 
 
 #=============================================================================#
-#           0. Linear Screw                                                   #
+#           0. Fitting a Normal to Normal data                                #
 #=============================================================================#
 
-class LinearScrew(FixedInitsLandscape):
+class FitGauss(FixedInitsLandscape):
     ''' 
     '''
 
@@ -34,7 +34,7 @@ class LinearScrew(FixedInitsLandscape):
         self.set_weight(self.sample_weight(seed))
 
     def sample_weight(self, seed):
-        return np.array([0.0, 0.0, 0.0])
+        return np.array([0.0])
 
     def sample_data(self, N, seed): 
         '''
@@ -69,28 +69,86 @@ class LinearScrew(FixedInitsLandscape):
             normal distribution (actually, the log prob is offset by an
             additive constant).
         '''
-        x, y, z = self.weight[0], self.weight[1], self.weight[2]
-        c_cov, s_cov = torch.cos(z        ), torch.sin(z        )
-        c_hes, s_hes = torch.cos(z+np.pi/4), torch.sin(z+np.pi/4)
-
-        xy_hes = x*c_hes + y*s_hes
-        xy_cov = x*c_cov + y*s_cov
         return (
-            xy_hes*xy_hes / 2 +
-            x     *x      / 2 +
-             y    * y     / 2 +
-            xy_cov                       .mul(np.mean(data))
-            #+ 1.0*z
+            self.weight +
+            torch.exp(-self.weight).mul(np.mean(np.square(data))) 
+            -1.0
+        )/2.0
+
+    def nabla(self, scalar_stalk, create_graph=True):
+        '''
+            Differentiate a stalk, assumed to be at the current weight, with
+            respect to this weight.
+        '''
+        return torch.autograd.grad(
+            scalar_stalk,
+            self.weight,
+            create_graph=create_graph,
+        )[0] 
+
+    def get_metrics(self, data):
+        w = self.weight.detach().numpy()[0]
+        return {
+            'loss': self.get_loss_stalk(data).detach().numpy()[0],
+            'weight': w,
+            'real-loss': (w + np.exp(-w) - 1.0)/2.0,
+        }
+
+#=============================================================================#
+#           1. An artificial cubic landscape                                  #
+#=============================================================================#
+
+class CubicChi(FixedInitsLandscape):
+    ''' 
+    '''
+
+    #-------------------------------------------------------------------------#
+    #               1.0. getters and setters of weight (and data)             #
+    #-------------------------------------------------------------------------#
+
+    def __init__(self, seed=0):
+        self.set_weight(self.sample_weight(seed))
+
+    def sample_weight(self, seed):
+        return np.array([0.0])
+
+    def sample_data(self, N, seed): 
+        '''
+            since datapoints are just floats, we use them directly instead of
+            using more indirect indices.
+        '''
+        reseed(seed)
+        return np.random.randn(N) 
+
+    def get_weight(self):
+        return self.weight.detach().numpy()
+
+    def set_weight(self, weight):
+        self.weight = torch.autograd.Variable(
+            torch.Tensor(weight),
+            requires_grad=True
         )
-        #x, y, z = self.weight[0], self.weight[1], self.weight[2]
-        #c_cov, s_cov = torch.cos(z        ), torch.sin(z        )
-        #c_hes, s_hes = torch.cos(z+np.pi/4), torch.sin(z+np.pi/4)
-        #return (
-        #    torch.pow(x*c_hes + y*s_hes, 2) / 2 +
-        #    torch.pow(x                , 2) / 2 +
-        #    torch.pow(          y      , 2) / 2 +
-        #    (x*c_cov + y*s_cov).mul(np.mean(data))
-        #)
+
+    def update_weight(self, displacement):
+        '''
+            Add the given numpy displacement to the current weight.
+        '''
+        self.weight.data += displacement.detach().data
+
+    #-------------------------------------------------------------------------#
+    #               1.1. the subroutines and diagnostics of descent           #
+    #-------------------------------------------------------------------------#
+
+    def get_loss_stalk(self, data):
+        '''
+            Negative log prob of data under N(0, sigma^2=exp(self.weight))    
+            normal distribution (actually, the log prob is offset by an
+            additive constant).
+        '''
+        return (
+            self.weight.pow(3)
+            - self.weight.mul(np.mean(np.square(data)) - 1.0) 
+        )
 
     def nabla(self, scalar_stalk, create_graph=True):
         '''
@@ -105,10 +163,12 @@ class LinearScrew(FixedInitsLandscape):
 
     def get_metrics(self, data):
         return {
-            'loss': self.get_loss_stalk(data).detach().numpy(),
-            'xy-rad2': np.sum(np.square(self.weight.detach().numpy()[:2])),
-            'z': self.weight.detach().numpy()[2]
+            'loss': self.get_loss_stalk(data).detach().numpy()[0],
+            'weight': self.weight.detach().numpy()[0],
+            'real-loss': (self.weight.detach().numpy()[0])**3
         }
+
+
 
 #=============================================================================#
 #           2. DEMONSTRATE INTERFACE by REPORTING GRAD STATS during DESCENT   #
@@ -120,10 +180,10 @@ if __name__=='__main__':
     #               2.0. descent hyperparameters                              #
     #-------------------------------------------------------------------------#
 
-    N = 100000
+    N = 10
     BATCH = 1
-    TIME = 100000
-    LRATE = 0.1
+    TIME = 10
+    LRATE = 0.0001
     pre(N%BATCH==0,
         'batch size must divide train size!'
     )
@@ -132,8 +192,8 @@ if __name__=='__main__':
     #               2.1 specify and load model                                #
     #-------------------------------------------------------------------------#
 
-    ML = LinearScrew(seed=0)
-    ML.load_from('saved-weights/linearscrew.npy', nb_inits=1, seed=0)
+    ML = CubicChi(seed=0)
+    ML.load_from('saved-weights/cubicchi.npy', nb_inits=1, seed=0)
 
     D = ML.sample_data(N=N, seed=22) 
     for t in range(TIME):
@@ -149,7 +209,7 @@ if __name__=='__main__':
         #           2.3 compute and display gradient statistics               #
         #---------------------------------------------------------------------#
 
-        if (t+1)%1000: continue
+        if (t+1)%1: continue
 
         L_train= ML.get_metrics(D)
         data = ML.sample_data(N=30000, seed=1)
@@ -158,8 +218,8 @@ if __name__=='__main__':
         print(CC+' @D \t'.join([
             'after @M {:4d} @D steps'.format(t+1),
             'train loss @Y {:.4f}'.format(L_train['loss']),
-            'test loss @L {:.4f}'.format(L_test['loss']),
-            'xy-rad2 @B {:.4f}'.format(L_train['xy-rad2']),
-            'z @B {:f}'.format(L_train['z']),
+            'test loss @L {:.4e}'.format(L_test['loss']),
+            'real loss @B {:.4e}'.format(L_train['real-loss']),
+            'weight @B {:.4f}'.format(L_train['weight']),
         '']))
 

@@ -197,6 +197,7 @@ if __name__=='__main__':
     from cifar_landscapes import CifarLogistic, CifarLeNet
     from fashion_landscapes import FashionLogistic, FashionLeNet
     from nongauss_landscapes import FitGauss, CubicChi
+    from thermo_landscapes import LinearScrew
 
     import sys
 
@@ -256,6 +257,12 @@ if __name__=='__main__':
             'saved-weights/cubicchi.npy',
             'ol-cubicchi-T{}-{:02d}-real-loss.data',
             int(100000/T),
+        ),
+        'linear-screw':   (
+            LinearScrew,
+            'saved-weights/linearscrew.npy',
+            'ol-linear-screw-T{}-{:02d}.data',
+            int(10000/T),
         ),
     }[model_nm]
 

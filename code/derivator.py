@@ -323,7 +323,8 @@ def test_derivator_on_quad():
 if __name__ == '__main__':
     from cifar_landscapes import CifarLogistic, CifarLeNet
     from fashion_landscapes import FashionLogistic, FashionLeNet
-    from fitgauss_landscape import FitGauss
+    from nongauss_landscapes import FitGauss, CubicChi
+    from thermo_landscapes import LinearScrew
 
     import sys
     pre(sys.argv[1][:3]=='I2=',
@@ -369,7 +370,17 @@ if __name__ == '__main__':
         'fit-gauss':   (
             FitGauss,
             'fitgauss.npy',
-            'gs-fitgauss-{:02d}.data',
+            'gs-fitgauss-{:02d}-hi.data',
+        ),
+        'cubic-chi':   (
+            CubicChi,
+            'cubicchi.npy',
+            'gs-cubicchi-{:02d}-hi.data',
+        ),
+        'linear-screw':   (
+            LinearScrew,
+            'linearscrew.npy',
+            'gs-linear-screw-{:02d}.data',
         ),
     }[model_nm]
 
