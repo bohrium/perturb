@@ -71,10 +71,12 @@ def smart_round(a, b):
             (high_low <= bb <= high_high)): break
     return aa, bb
 
-def finish_plot(title, xlabel, ylabel, img_filenm):
+def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     '''
     '''
     plt.title(title, x=0.5, y=0.9)
+
+    plt.ylim([ymin, ymax])
 
     xlow, xhigh = smart_round(*plt.gca().get_xlim())
     plt.xticks([xlow, xhigh])
@@ -182,7 +184,7 @@ def plot_experiment(ol_nm,
     )
     plot_bars(X, Y, S, color=color, label=label)
 
-    return X
+    return X, [0-3*max(S), max(Y)+3*max(S)]
 
 def plot_theory(gs_nm,
                 eta_range, coeff_strs, deg=2, mode='poly', T=None, N=None,
@@ -211,11 +213,14 @@ def plot_loss_vs_eta(ol_nm, gs_nm, img_nm, title, ylabel,
     prime_plot()
 
     eta_range = [0]
+    metric_range = []
     for evalset, sampler, metric, color, label in experiment_params_list:   
-        eta_range += list(plot_experiment(
+        etas, metrics = plot_experiment(
             ol_nm, color=color, label=label,
             T=T, kind=kind, evalset=evalset, sampler=sampler, metric=metric
-        ))
+        )
+        eta_range += list(etas)
+        metric_range += list(metrics)
     eta_range = interpolate(eta_range)
 
     for coeff_strs, deg, mode, color, label in theory_params_list: 
@@ -226,7 +231,8 @@ def plot_loss_vs_eta(ol_nm, gs_nm, img_nm, title, ylabel,
 
     print(CC+'@R rendering plot @D ...')
     finish_plot(
-        title=title, xlabel='learning rate', ylabel=ylabel, img_filenm=img_nm
+        title=title, xlabel='learning rate', ylabel=ylabel, img_filenm=img_nm,
+        ymax=max(metric_range), ymin=min(metric_range)
     )
 
 def plot_test():
@@ -375,7 +381,8 @@ def plot_gauss_nongauss_vs_eta(model_nm, idx, T):
 def plot_thermo_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
-        'THERMO AND SGD \n'
+        #'SGD SEEKS MINIMA FLAT WRT THE CURRENT COVARIANCE \n'
+        'A NON-CONSERVATIVE ENTROPIC FORCE PUSHES SGD\n'
         '(displacement after {} steps on {})'.format(T, model_nm)
     )
     plot_loss_vs_eta(
@@ -385,10 +392,12 @@ def plot_thermo_vs_eta(model_nm, idx, T):
         title=title, ylabel='net displacement',
         T=T, N=T, kind='main',
         experiment_params_list = [
-            ('test', 'sgd', 'z', dark_blue, 'net displacement by sgd of weight in z direction'),
+            ('test', 'sgd', 'z', dark_blue, 'net z-displacement by sgd'),
         ], 
         theory_params_list = [
-             #(coefficients.sgd_linear_screw_z , 3, 'poly', bright_green,   'deg 3 prediction')
+             (coefficients.sgd_linear_screw_z        , 1, 'poly', bright_red,    'neglecting stochasticity'),
+             (coefficients.sgd_linear_screw_z        , 3, 'poly', bright_yellow, 'deg 3 prediction'),
+             (coefficients.sgd_linear_screw_renorm_z , 3, 'poly', bright_green,  'deg 3 prediction, renormalized'),
         ],
     )
 
@@ -407,4 +416,4 @@ def plot_thermo_vs_eta(model_nm, idx, T):
 
 #plt.figure(figsize=(8,4))
 #plot_gauss_nongauss_vs_eta('cubicchi', idx=0, T=4)
-plot_thermo_vs_eta('linear-screw', idx=0, T=1000)
+plot_thermo_vs_eta('linear-screw', idx=0, T=10000)

@@ -43,7 +43,14 @@ gd_minus_sgd_vanilla_test = {
     2: '- ((T:2) / N) (Vtwg - Vpln)' 
 }
 
-sgd_linear_screw_z= {
+sgd_linear_screw_renorm_z = {
+    0: '+                0.0 ',
+    1: '-                0.0 ',
+    2: '+              T 0.125',
+    3: '-                0.0 ',
+}
+
+sgd_linear_screw_z = {
     0: '+                0.0 ',
     1: '-                0.0 ',
     2: '+                0.0 ',

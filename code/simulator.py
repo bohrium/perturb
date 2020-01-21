@@ -55,9 +55,9 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
         # TODO: explain better:
         beta = float(eta) * float(N-1)/(4*N)
 
-        actual_N   = N     *      (1 if opt!='SDE' else SDE_alpha**2)
-        actual_T   = T     *      (1 if opt!='SDE' else SDE_alpha   ) 
-        actual_eta = eta   / float(1 if opt!='SDE' else SDE_alpha   ) 
+        actual_N   =  N    *      (1 if opt!='SDE' else SDE_alpha**2)
+        actual_T   =  T    *      (1 if opt!='SDE' else SDE_alpha   ) 
+        actual_eta =  eta  / float(1 if opt!='SDE' else SDE_alpha   ) 
 
         compute_gradients = {
             'SGD':  lambda D_train, t, i:  nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
@@ -225,7 +225,7 @@ if __name__=='__main__':
             CifarLogistic,
             'saved-weights/cifar-logistic.npy',
             'ol-cifar-logistic-T{}-{:02d}-sde.data',
-            int(10000/T),
+            int(100/T),
         ),
         'cifar-lenet': (
             CifarLeNet,
@@ -245,12 +245,17 @@ if __name__=='__main__':
             'ol-fashion-lenet-T{}-{:02d}-sde.data',
             int(20000/T),
         ),
-        'fit-gauss':   (
+        'fit-gauss-sde':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
-            'ol-fitgauss-T{}-{:02d}-real-loss.data',
-            #int(1000000/T),
-            int(100000/T),
+            'ol-fitgauss-T{}-{:02d}-sde.data',
+            int(200000/T),
+        ),
+        'fit-gauss-sgd':   (
+            FitGauss,
+            'saved-weights/fitgauss.npy',
+            'ol-fitgauss-T{}-{:02d}-sgd.data',
+            int(2000000/T),
         ),
         'cubic-chi':   (
             CubicChi,
@@ -258,11 +263,17 @@ if __name__=='__main__':
             'ol-cubicchi-T{}-{:02d}-real-loss.data',
             int(100000/T),
         ),
-        'linear-screw':   (
+        'linear-screw-smalleta':   (
             LinearScrew,
             'saved-weights/linearscrew.npy',
-            'ol-linear-screw-T{}-{:02d}.data',
-            int(10000/T),
+            'ol-linear-screw-T{}-{:02d}-smalleta.data',
+            int( 50000/T),
+        ),
+        'linear-screw-bigeta':   (
+            LinearScrew,
+            'saved-weights/linearscrew.npy',
+            'ol-linear-screw-T{}-{:02d}-bigeta.data',
+            int( 50000/T),
         ),
     }[model_nm]
 
