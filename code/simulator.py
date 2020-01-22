@@ -39,7 +39,7 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
             opts        --- list of (sampler, beta) pairs
             test_extra  --- number of samples by which test exceeds train set
     '''
-    pre(N%2==0,
+    pre('GDC' not in opts or N%2==0,
         'GDC simulator needs N to be even for covariance estimation'
     )
     ol = OptimLog()
@@ -55,7 +55,7 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
         # TODO: explain better:
         beta = float(eta) * float(N-1)/(4*N)
 
-        actual_N   =  N    *      (1 if opt!='SDE' else SDE_alpha**2)
+        actual_N   =  N    *      (1 if opt!='SDE' else SDE_alpha**2 * 3)
         actual_T   =  T    *      (1 if opt!='SDE' else SDE_alpha   ) 
         actual_eta =  eta  / float(1 if opt!='SDE' else SDE_alpha   ) 
 
@@ -67,9 +67,10 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
                                            nabla(stalk(D_train[N//2:]        ))
                                           ),
             'SDE':  lambda D_train, t, i: (
-                                           nabla(stalk(D_train[(t*N*SDE_alpha) % actual_N : ((t+1)*N*SDE_alpha-1) % actual_N + 1])),  
-                                           nabla(stalk(D_train[(t            ) % actual_N : ( t+1             -1) % actual_N + 1]  )),
-                                           (lambda: (reseed(i*actual_T + t), np.random.randn()))()[1], 
+                                           nabla(stalk(D_train[((3*t+0)*N*SDE_alpha) % actual_N : ((3*t+1)*N*SDE_alpha-1) % actual_N + 1])),  
+                                           nabla(stalk(D_train[((3*t+1)*N*SDE_alpha) % actual_N : ((3*t+2)*N*SDE_alpha-1) % actual_N + 1])),  
+                                           nabla(stalk(D_train[((3*t+2)*N*SDE_alpha) % actual_N : ((3*t+3)*N*SDE_alpha-1) % actual_N + 1])),  
+                                           #(lambda: (reseed(i*actual_T + t), np.random.randn()))()[1], 
                                           ),
         }[opt]
         compute_update = {
@@ -82,7 +83,8 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
                 )*(N//2)
             ),
             'SDE':  lambda a: (
-                a[0] + a[2] * (a[1]-a[0])
+                #a[0] + a[2] * (a[1]-a[0])
+                a[0] + (a[2]-a[1])*(1.0/2)**0.5 * (SDE_alpha * N*SDE_alpha - 1.0)**0.5
             ),
         }[opt]
 
@@ -248,14 +250,14 @@ if __name__=='__main__':
         'fit-gauss-sde':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
-            'ol-fitgauss-T{}-{:02d}-sde.data',
+            'ol-fitgauss-T{}-{:02d}-sde-smalleta-new-fine.data',
             int(200000/T),
         ),
         'fit-gauss-sgd':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
-            'ol-fitgauss-T{}-{:02d}-sgd.data',
-            int(2000000/T),
+            'ol-fitgauss-T{}-{:02d}-sgd-smalleta.data',
+            int(800000/T),
         ),
         'cubic-chi':   (
             CubicChi,

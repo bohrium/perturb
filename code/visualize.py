@@ -76,6 +76,9 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     '''
     plt.title(title, x=0.5, y=0.9)
 
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+
     plt.ylim([ymin, ymax])
 
     xlow, xhigh = smart_round(*plt.gca().get_xlim())
@@ -172,7 +175,7 @@ def interpolate(x, bins = 100):
     return unif * (max(x)-min(x)) + min(x)
 
 def plot_experiment(ol_nm, 
-                    T=10, kind='main', evalset='test', sampler='sgd', metric='loss',
+                    T=10, N=10, kind='main', evalset='test', sampler='sgd', metric='loss',
                     color=blue, label='experiment'):
     '''
     '''
@@ -180,11 +183,11 @@ def plot_experiment(ol_nm,
     OL = OptimLog(ol_nm)
     OL.load_from(ol_nm)
     (X, Y, S) = OL.query_eta_curve(
-        kind=kind, evalset=evalset, sampler=sampler, T=T, metric=metric
+        kind=kind, evalset=evalset, sampler=sampler, T=T, N=N, metric=metric
     )
     plot_bars(X, Y, S, color=color, label=label)
 
-    return X, [0-3*max(S), max(Y)+3*max(S)]
+    return X, [min(Y)-3*max(S), max(Y)+3*max(S)]
 
 def plot_theory(gs_nm,
                 eta_range, coeff_strs, deg=2, mode='poly', T=None, N=None,
@@ -217,7 +220,7 @@ def plot_loss_vs_eta(ol_nm, gs_nm, img_nm, title, ylabel,
     for evalset, sampler, metric, color, label in experiment_params_list:   
         etas, metrics = plot_experiment(
             ol_nm, color=color, label=label,
-            T=T, kind=kind, evalset=evalset, sampler=sampler, metric=metric
+            T=T, N=N, kind=kind, evalset=evalset, sampler=sampler, metric=metric
         )
         eta_range += list(etas)
         metric_range += list(metrics)
@@ -335,26 +338,66 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
         ],
     )
 
-#def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
-#    # TODO: change default ol_nm to ../logs/....
-#    title = (
-#        'SGD vs SDE\n'
-#        '(test loss after {} steps on {})'.format(T, model_nm)
-#    )
-#    plot_loss_vs_eta(
-#        ol_nm  = 'ol-{}-T{}-{:02}-sde.data'.format(model_nm, T, idx),
-#        gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-#        img_nm = '_sde-{}-{}.png'.format(model_nm, idx),
-#        title=title, ylabel='loss difference',
-#        T=T, N=T, kind='main',
-#        experiment_params_list = [
-#            ('test', 'sde', 'loss', dark_blue, 'sgd - sde'),
-#        ], 
-#        theory_params_list = [
-#            #(coefficients.sgd_vanilla_gen, 1, 'poly', bright_red, 'degree 1 prediction of gen gap'),
-#            #(coefficients.sgd_vanilla_gen, 2, 'poly', bright_yellow, 'degree 2 prediction of gen gap'),
-#        ],
-#    )
+def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
+    title = (
+        'SGD vs SDE\n'
+        '(test loss after {} steps on {})'.format(T, model_nm)
+    )
+ 
+    prime_plot()
+ 
+    ol_nm_sgd  = 'ol-{}-T{}-{:02}-sgd-smalleta.data'.format(model_nm, T, idx)
+    ol_nm_sde  = 'ol-{}-T{}-{:02}-sde-smalleta-new.data'.format(model_nm, T, idx)
+
+    OL = OptimLog(ol_nm_sgd)
+    OL.load_from(ol_nm_sgd)
+    (X, Y_sgd, S_sgd) = OL.query_eta_curve(
+        kind='main', evalset='test', sampler='sgd', T=T, metric='real-loss'
+    )
+
+    OL = OptimLog(ol_nm_sde)
+    OL.load_from(ol_nm_sde)
+    (_, Y_sde, S_sde) = OL.query_eta_curve(
+        kind='main', evalset='test', sampler='sde', T=T, metric='real-loss'
+    )
+    metric_range = [
+        #min(min(Y_sgd), min(Y_sde)) - 5*max(S_sgd+S_sde),
+        #max(max(Y_sgd), max(Y_sde)) + 5*max(S_sgd+S_sde)
+        min(Y_sgd-Y_sde) - 5*max(S_sgd+S_sde),
+        max(Y_sgd-Y_sde) + 5*max(S_sgd+S_sde)
+    ]
+    #plot_bars(X, Y_sgd, S_sgd, color='blue', label='sgd')
+    #plot_bars(X, Y_sde, S_sde, color='red', label='sde')
+    plot_bars(X, Y_sgd-Y_sde, S_sgd+S_sde, color='blue', label='sgd - sde')
+
+    eta_range = interpolate([0] + list(X))
+ 
+    gs_nm = '../logs/gs-{}-{:02}.data'.format(model_nm, idx)
+    #plot_theory(
+    #    gs_nm, eta_range,
+    #    coeff_strs=coefficients.sgd_vanilla_test,
+    #    deg=3, mode='poly', T=T, N=T,
+    #    color=bright_green, label='deg 3 sgd'
+    #)
+    #plot_theory(
+    #    gs_nm, eta_range,
+    #    coeff_strs=coefficients.sde_test,
+    #    deg=3, mode='poly', T=T, N=T,
+    #    color=bright_red, label='deg 3 sde'
+    #)
+    plot_theory(
+        gs_nm, eta_range,
+        coeff_strs=coefficients.sgd_minus_sde_vanilla_test,
+        deg=3, mode='poly', T=T, N=T,
+        color=bright_green, label='deg 3 prediction'
+    )
+ 
+    print(CC+'@R rendering plot @D ...')
+    finish_plot(
+        title=title, xlabel='learning rate', ylabel='loss', img_filenm='HII.png',
+        ymax=max(metric_range), ymin=min(metric_range)
+    )
+
 
 def plot_gauss_nongauss_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
@@ -401,7 +444,43 @@ def plot_thermo_vs_eta(model_nm, idx, T):
         ],
     )
 
+def plot_multi_vs_eta(model_nm, idx):
+    # TODO: change default ol_nm to ../logs/....
+    title = (
+        'EPOCHS DULL SGD\'s CHLADNI EFFECT \n'
+        '(test loss difference on {})'.format(model_nm)
+    )
 
+    ol_nm = 'ol-{}-T-{:02}-multi.data'.format(model_nm, idx)
+
+    OL = OptimLog(ol_nm)
+    OL.load_from(ol_nm)
+
+    metrics = []
+    for col, T_big in [(magenta,80), (blue,50), (green,30), (red,20)]:
+        (X, Y, S) = OL.query_multi_curve(
+            evalset='test', sampler='sgd', T_big=T_big, T_small=10, metric='loss'
+        )
+        plot_bars(X, Y, S, color=col, label='sgd {} vs sgd 10'.format(T_big))
+        metrics += [max(Y+5*S), min(0-3*S)]
+
+        eta_range = interpolate([0] + list(X))
+
+        gs_nm = 'gs-{}-{:02}.data'.format(model_nm, idx)
+        plot_theory(
+            gs_nm, eta_range,
+            coeff_strs=coefficients.sgd_multi_minus_vanilla_test,
+            deg=2, mode='poly', T=T_big, N=10,
+            color=col, label='deg 2 prediction'
+        )
+ 
+
+    print(CC+'@R rendering plot @D ...')
+    finish_plot(
+        title=title, xlabel='learning rate', ylabel='loss',
+        img_filenm='../plots/_multi-cifar-logistic-0.png',
+        ymax=max(metrics), ymin=min(metrics)
+    )
 
 
 
@@ -411,9 +490,12 @@ def plot_thermo_vs_eta(model_nm, idx, T):
 #        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
 
 #plot_test()
-#plot_sgd_sde_diff_vs_eta('fashion-lenet', idx=0, T=10)
 #plot_gauss_nongauss_vs_eta('fitgauss', idx=0, T=4)
 
 #plt.figure(figsize=(8,4))
 #plot_gauss_nongauss_vs_eta('cubicchi', idx=0, T=4)
-plot_thermo_vs_eta('linear-screw', idx=0, T=10000)
+#plot_thermo_vs_eta('linear-screw', idx=0, T=10000)
+
+
+#plot_sgd_sde_diff_vs_eta('fitgauss', idx=0, T=1)
+plot_multi_vs_eta('cifar-logistic', idx=0)

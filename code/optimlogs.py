@@ -122,7 +122,7 @@ class OptimLog(object):
             self.summary = eval(f.read())
 
     def query_eta_curve(self, kind='main', metric='loss', evalset='test',
-                        sampler='sgd', T=None):
+                        sampler='sgd', T=None, N=None):
         '''
         '''
         X, Y, S = [], [], []
@@ -133,11 +133,37 @@ class OptimLog(object):
             if okey.sampler != sampler: continue
             if type(okey.eta) == type(()): continue
             if okey.T != T: continue
+            if okey.N != N: continue
             X.append(okey.eta)
             Y.append(self.summary[okey]['mean'])
             S.append(self.summary[okey]['stdv']/self.summary[okey]['nb_samples']**0.5)
         X = np.array(X)
         Y = np.array(Y)
         S = np.array(S)
-    
+
         return (X,Y,S)
+
+
+    def query_multi_curve(self, metric='loss', evalset='test', sampler='sgd',
+                          T_big=None, T_small=None):
+        '''
+        '''
+        X, Y, S = [], [], []
+        for okey in self.summary:
+            if okey.kind != 'diff': continue
+            if okey.metric != metric: continue
+            if okey.evalset != evalset: continue
+            if okey.sampler != sampler: continue
+            if type(okey.eta) != type(()): continue
+            if (okey.T) != (T_big, T_small): continue
+            if okey.T[0] * okey.eta[0] != okey.T[1] * okey.eta[1]: continue
+            X.append(okey.eta[1])
+            Y.append(self.summary[okey]['mean'])
+            S.append(self.summary[okey]['stdv']/self.summary[okey]['nb_samples']**0.5)
+        X = np.array(X)
+        Y = np.array(Y)
+        S = np.array(S)
+
+        return (X,Y,S)
+
+
