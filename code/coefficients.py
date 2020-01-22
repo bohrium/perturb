@@ -24,6 +24,35 @@ sgd_vanilla_gauss_test = {
        '- T:1 (3 Ylvs - 2 Ypln) / 3!',
 }
 
+sde_test = {
+    0: '+            Dpln                    ',
+    1: '- ((T^1)/1!) Ipln                    ',
+    2: '+ ((T^2)/2!) Vpln                    ' 
+       '+ ((T^1)/1!) Vlvs / 2!               ',
+    3: '- ((T^3)/3!) (4 Zpln + 2 Ypln)       ' 
+       '- ((T^2)/2!) (1.5 Ylvs + Zlvs + Zalt)'
+}
+
+sgd_gauss_minus_sde_vanilla_test = {
+    0: '(+     Dpln                     )-(+              Dpln                    )         ',
+    1: '(- T:1 Ipln                     )-(- ((T^1)/(1!)) Ipln                    )         ',
+    2: '(+ T:2 Vpln                     )-(+ ((T^2)/(2!)) Vpln                    ) +  ' 
+       '(+ T:1 Vlvs / 2!                )-(+ ((T^1)/(1!)) Vlvs / 2!               )         ',
+    3: '(- T:3 (4 Zpln + 2 Ypln)        )-(- ((T^3)/(3!)) (4 Zpln + 2 Ypln)       ) +' 
+       '(- T:2 (1.5 Ylvs + Zlvs + Zalt) )-(- ((T^2)/(2!)) (1.5 Ylvs + Zlvs + Zalt)) +'
+       '(- T:1 (3 Ylvs - 2 Ypln) / 3!   )                                           ',
+}
+
+sgd_minus_sde_vanilla_test = {
+    0: '(+     Dpln                     )-(+              Dpln                    )         ',
+    1: '(- T:1 Ipln                     )-(- ((T^1)/(1!)) Ipln                    )         ',
+    2: '(+ T:2 Vpln                     )-(+ ((T^2)/(2!)) Vpln                    ) +  ' 
+       '(+ T:1 Vlvs / 2!                )-(+ ((T^1)/(1!)) Vlvs / 2!               )         ',
+    3: '(- T:3 (4 Zpln + 2 Ypln)        )-(- ((T^3)/(3!)) (4 Zpln + 2 Ypln)       ) +' 
+       '(- T:2 (1.5 Ylvs + Zlvs + Zalt) )-(- ((T^2)/(2!)) (1.5 Ylvs + Zlvs + Zalt)) +'
+       '(- T:1 Yerg / 3!                )                                           ',
+}
+
 sgd_vanilla_gen = {
     0: '-            0.0 ',
     1: '+ (T:1 / N) (  Iall -   Ipln)',
@@ -46,7 +75,7 @@ gd_minus_sgd_vanilla_test = {
 sgd_linear_screw_renorm_z = {
     0: '+                0.0 ',
     1: '-                0.0 ',
-    2: '+              T 0.125',
+    2: '+              T   /6',
     3: '-                0.0 ',
 }
 
@@ -55,5 +84,21 @@ sgd_linear_screw_z = {
     1: '-                0.0 ',
     2: '+                0.0 ',
     3: '- (T:2) Ylvs / 2!    ',
+}
+
+sgd_multi_test = {
+    0: '+     Dpln',
+    1: '- T:1 Ipln',
+    2: '+ T (T-1/2) Vpln' 
+       '+ (T T / N) (Vlvs-Vpln) / 2!' 
+       '+ (T (T/N - 1)) (Vtwg-Vpln) / 2!'
+}
+
+sgd_multi_minus_vanilla_test = {
+    0: '+     0.0 ',
+    1: '-     0.0 ',
+    2: '+ (N/T)^2 (T (T-1/2) Vpln         ) - N (N-1/2) Vpln         ' 
+       '+ (N/T)^2 ((T T / N) (Vlvs-Vpln) / 2!    ) - (N N / N) (Vlvs-Vpln) / 2!    ' 
+       '+ (N/T)^2 ((T (T/N - 1)) (Vtwg-Vpln) / 2!) - (N (N/N - 1)) (Vtwg-Vpln) / 2!'
 }
 

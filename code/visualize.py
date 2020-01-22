@@ -340,51 +340,49 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
 
 def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
     title = (
-        'SGD vs SDE\n'
+        'SGD DIFFERS FROM SDE\n'
         '(test loss after {} steps on {})'.format(T, model_nm)
     )
  
     prime_plot()
  
     ol_nm_sgd  = 'ol-{}-T{}-{:02}-sgd-smalleta.data'.format(model_nm, T, idx)
-    ol_nm_sde  = 'ol-{}-T{}-{:02}-sde-smalleta-new.data'.format(model_nm, T, idx)
+    ol_nm_sde  = 'ol-{}-T{}-{:02}-sde-smalleta-new-fine.data'.format(model_nm, T, idx)
 
     OL = OptimLog(ol_nm_sgd)
     OL.load_from(ol_nm_sgd)
     (X, Y_sgd, S_sgd) = OL.query_eta_curve(
-        kind='main', evalset='test', sampler='sgd', T=T, metric='real-loss'
+        kind='main', evalset='test', sampler='sgd', T=T, N=1,metric='real-loss'
     )
 
     OL = OptimLog(ol_nm_sde)
     OL.load_from(ol_nm_sde)
     (_, Y_sde, S_sde) = OL.query_eta_curve(
-        kind='main', evalset='test', sampler='sde', T=T, metric='real-loss'
+        kind='main', evalset='test', sampler='sde', T=T, N=1,metric='real-loss'
     )
+
     metric_range = [
-        #min(min(Y_sgd), min(Y_sde)) - 5*max(S_sgd+S_sde),
-        #max(max(Y_sgd), max(Y_sde)) + 5*max(S_sgd+S_sde)
         min(Y_sgd-Y_sde) - 5*max(S_sgd+S_sde),
         max(Y_sgd-Y_sde) + 5*max(S_sgd+S_sde)
     ]
-    #plot_bars(X, Y_sgd, S_sgd, color='blue', label='sgd')
-    #plot_bars(X, Y_sde, S_sde, color='red', label='sde')
+    print(Y_sgd-Y_sde)
     plot_bars(X, Y_sgd-Y_sde, S_sgd+S_sde, color='blue', label='sgd - sde')
 
     eta_range = interpolate([0] + list(X))
  
     gs_nm = '../logs/gs-{}-{:02}.data'.format(model_nm, idx)
-    #plot_theory(
-    #    gs_nm, eta_range,
-    #    coeff_strs=coefficients.sgd_vanilla_test,
-    #    deg=3, mode='poly', T=T, N=T,
-    #    color=bright_green, label='deg 3 sgd'
-    #)
-    #plot_theory(
-    #    gs_nm, eta_range,
-    #    coeff_strs=coefficients.sde_test,
-    #    deg=3, mode='poly', T=T, N=T,
-    #    color=bright_red, label='deg 3 sde'
-    #)
+    plot_theory(
+        gs_nm, eta_range,
+        coeff_strs=coefficients.sgd_minus_sde_vanilla_test,
+        deg=1, mode='poly', T=T, N=T,
+        color=bright_red, label='no difference'
+    )
+    plot_theory(
+        gs_nm, eta_range,
+        coeff_strs=coefficients.sgd_gauss_minus_sde_vanilla_test,
+        deg=3, mode='poly', T=T, N=T,
+        color=bright_yellow, label='deg 3 prediction with gaussian noise approximation'
+    )
     plot_theory(
         gs_nm, eta_range,
         coeff_strs=coefficients.sgd_minus_sde_vanilla_test,
@@ -394,7 +392,8 @@ def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
  
     print(CC+'@R rendering plot @D ...')
     finish_plot(
-        title=title, xlabel='learning rate', ylabel='loss', img_filenm='HII.png',
+        title=title, xlabel='learning rate',
+        ylabel='loss difference', img_filenm='../plots/vs-sde.png',
         ymax=max(metric_range), ymin=min(metric_range)
     )
 
@@ -497,5 +496,5 @@ def plot_multi_vs_eta(model_nm, idx):
 #plot_thermo_vs_eta('linear-screw', idx=0, T=10000)
 
 
-#plot_sgd_sde_diff_vs_eta('fitgauss', idx=0, T=1)
-plot_multi_vs_eta('cifar-logistic', idx=0)
+plot_sgd_sde_diff_vs_eta('fitgauss', idx=0, T=1)
+#plot_multi_vs_eta('cifar-logistic', idx=0)

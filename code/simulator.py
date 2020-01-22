@@ -26,7 +26,7 @@ opts = [
 ]
 
 def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
-                   seed=0, record_train=True, SDE_alpha=8):
+                   seed=0, record_train=True, SDE_alpha=16):
     '''
         Simulate optimizers on  
 
@@ -250,8 +250,8 @@ if __name__=='__main__':
         'fit-gauss-sde':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
-            'ol-fitgauss-T{}-{:02d}-sde-smalleta-new-fine.data',
-            int(200000/T),
+            'ol-fitgauss-T{}-{:02d}-sde-smalleta-new-superfine.data',
+            int(2000/T),
         ),
         'fit-gauss-sgd':   (
             FitGauss,
