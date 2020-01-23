@@ -43,6 +43,7 @@ green   = '#44cc44';  bright_green   = '#66ff66';  dark_green   = '#22aa22'
 cyan    = '#44aaaa';  bright_cyan    = '#66cccc';  dark_cyan    = '#228888'
 blue    = '#4444cc';  bright_blue    = '#6666ff';  dark_blue    = '#2222aa'
 magenta = '#aa44aa';  bright_magenta = '#cc66cc';  dark_magenta = '#882288'
+black   = '#000000'
 
 def prime_plot():
     '''
@@ -58,7 +59,7 @@ def smart_round(a, b):
     '''
     high_high =(10*b + 0*a)/10.0
     high_mid  = (9*b + 1*a)/10.0
-    high_low  = (8*b + 2*a)/10.0
+    high_low  = (9*b + 1*a)/10.0
 
     low_high  = (3*b + 7*a)/10.0
     low_mid   = (2*b + 8*a)/10.0
@@ -96,7 +97,7 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     plt.ylabel(ylabel)
     plt.gca().yaxis.set_label_coords(-0.01, 0.5)
 
-    plt.legend(loc='center left')
+    plt.legend(loc='lower center')
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
 
 def plot_fill(x, y, s, color, label, z=1.96, alpha=0.5):
@@ -299,12 +300,13 @@ def plot_batch_match_loss_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
         'GDC MIMICS SMALL-BATCH BEHAVIOR \n'
-        '(test loss after {} steps on {})'.format(T, model_nm)
+        '(test loss on {})'.format(T, model_nm)
     )
     plot_loss_vs_eta(
-        ol_nm  = 'ol-{}-T{}-{:02}-opts-new-smalleta.data'.format(model_nm, T, idx),
+        #ol_nm  = 'ol-{}-T{}-{:02}-opts-new.data'.format(model_nm, T, idx),
+        ol_nm  = 'ol-{}-T{}-{:02}-bm.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-        img_nm = '_test-{}-{}.png'.format(model_nm, idx),
+        img_nm = '../plots/_bm-{}-{}.png'.format(model_nm, idx),
         title=title, ylabel='loss difference',
         T=T, N=T, kind='diff',
         experiment_params_list = [
@@ -312,8 +314,8 @@ def plot_batch_match_loss_vs_eta(model_nm, idx, T):
             ('test', ('sgd', 'gdc'), 'loss', dark_yellow, 'sgd - gdc')
         ], 
         theory_params_list = [
-            (coefficients.gd_minus_sgd_vanilla_test, 1, 'poly', bright_yellow, 'prediction of sgd vs gd'),
-            (coefficients.gd_minus_sgd_vanilla_test, 2, 'poly', bright_blue, 'prediction of sgd vs gdc')
+            (coefficients.gd_minus_sgd_vanilla_test, 2, 'poly', bright_blue, 'prediction of sgd vs gd'),
+            (coefficients.gd_minus_sgd_vanilla_test, 1, 'poly', bright_yellow, 'prediction of sgd vs gdc'),
         ],
     )
 
@@ -324,9 +326,9 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
         '(gen gap after {} steps on {})'.format(T, model_nm)
     )
     plot_loss_vs_eta(
-        ol_nm  = 'ol-{}-T{}-{:02}-opts-new.data'.format(model_nm, T, idx),
+        ol_nm  = 'ol-{}-T{}-{:02}-gen.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-        img_nm = '_gen-{}-{}.png'.format(model_nm, idx),
+        img_nm = '../plots/_gen-{}-{}.png'.format(model_nm, idx),
         title=title, ylabel='loss difference',
         T=T, N=T, kind='diff',
         experiment_params_list = [
@@ -428,11 +430,11 @@ def plot_thermo_vs_eta(model_nm, idx, T):
         '(displacement after {} steps on {})'.format(T, model_nm)
     )
     plot_loss_vs_eta(
-        ol_nm  = 'ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
+        ol_nm  = 'ol-{}-T{}-{:02}-multi-N10.data'.format(model_nm, T, idx),
         gs_nm  = 'gs-{}-with-unit-source-{:02}.data'.format(model_nm, idx),
-        img_nm = '_thermo-{}-{}.png'.format(model_nm, idx),
+        img_nm = '../plots/_thermo-{}-{}-multi-N10.png'.format(model_nm, idx),
         title=title, ylabel='net displacement',
-        T=T, N=T, kind='main',
+        T=T, N=10, kind='main',
         experiment_params_list = [
             ('test', 'sgd', 'z', dark_blue, 'net z-displacement by sgd'),
         ], 
@@ -482,11 +484,86 @@ def plot_multi_vs_eta(model_nm, idx):
     )
 
 
+def plot_gengap_vs_hess(model_nm, T, N=10):
+    title = (
+        'BOTH SHARP AND FLAT MINIMA REDUCE OVERFITTING\n'
+        '(test loss difference on {})'.format(model_nm)
+    )
+ 
+    prime_plot()
+
+    hesses = (
+        list(np.arange(0.00, 1.01, 0.1)) +
+        list(np.arange(1.00, 5.01, 0.5))
+    )
+    interp_hesses = interpolate([1e-10]+hesses[1:])
+
+    for T, col in [(20, red), (10, blue)]:
+        etas = []
+        gg_mean = [] 
+        gg_stdv = [] 
+        tl_mean = []
+        tl_stdv = []
+        for hess in hesses:
+            ol_nm = '../plots/ol-quad-1d-h{:0.2f}'.format(hess)
+
+            OL = OptimLog(ol_nm)
+            OL.load_from(ol_nm)
+            (X, Y, S) = OL.query_eta_curve(
+                kind='diff', evalset=('test', 'train'), sampler='gd', T=T, N=N, metric='loss'
+            )
+            gg_mean.append(Y[0])
+            gg_stdv.append(S[0])
+
+            (X, Y, S) = OL.query_eta_curve(
+                kind='main', evalset='test', sampler='gd', T=T, N=N, metric='loss'
+            )
+            tl_mean.append(Y[0])
+            tl_stdv.append(S[0])
+
+        eta = X[0]
+
+        gg_mean = np.array(gg_mean)
+        gg_stdv = np.array(gg_stdv)
+        tl_mean = np.array(tl_mean)
+        tl_stdv = np.array(tl_stdv)
+
+        plot_bars(hesses, tl_mean, tl_stdv, color=col, label='experiment T={}'.format(T))
+
+        predictions = 0.5*(1.0 - np.exp(-T*eta*interp_hesses))**2/(N*interp_hesses)
+        plot_fill(
+            interp_hesses, predictions, 0.0*interp_hesses,
+            color=col, label='deg 2 prediction, renormalized'
+        )
+
+        #predictions = 0.5 * T*eta* (T*eta*interp_hesses)/N
+        #plot_fill(
+        #    interp_hesses, predictions, 0.0*interp_hesses,
+        #    color=black, label=None
+        #)
+
+    ih = interp_hesses[int(0.23*len(interp_hesses)):]
+    predictions = 0.5/(N*ih)
+    plot_fill(
+        ih, predictions, 0.0*ih,
+        color=black, label='TIC'
+    )
+
+
+    print(CC+'@R rendering plot @D ...')
+    finish_plot(
+        title=title, xlabel='hessian eigenvalue',
+        ylabel='test loss above minimum', img_filenm='../plots/tak.png',
+        ymin=(0.0), ymax=(0.05),
+    )
+
+
+plot_gengap_vs_hess('quad-1d', T=10)
 
 #for model_nm in ['cifar-lenet', 'fashion-lenet']:
-#    for idx in range(3):
-#        plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
-#        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
+#    for idx in range(3,6):
+#        #plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
+#        plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
 
 #plot_test()
 #plot_gauss_nongauss_vs_eta('fitgauss', idx=0, T=4)
@@ -496,5 +573,5 @@ def plot_multi_vs_eta(model_nm, idx):
 #plot_thermo_vs_eta('linear-screw', idx=0, T=10000)
 
 
-plot_sgd_sde_diff_vs_eta('fitgauss', idx=0, T=1)
+#plot_sgd_sde_diff_vs_eta('fitgauss', idx=0, T=1)
 #plot_multi_vs_eta('cifar-logistic', idx=0)

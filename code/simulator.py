@@ -194,12 +194,48 @@ def simulate_multi(idxs, N, Es, I, eta_d, eta_max, model,
         with open(out_nm_by_idx(idx), 'w') as f:
             f.write(str(ol))
 
+def simulate_tak(hesses, Ts, N, IT, eta, model, opts,
+                 in_nm, out_nm_by_hess, idx=0):
+    '''
+    '''
+    LC = model()
+    LC.load_from(in_nm, nb_inits=0, seed=0)
+    for hh in tqdm.tqdm(hesses):
+        LC.hessian = hh
+
+        ol = OptimLog()
+        for T in tqdm.tqdm(Ts):
+            ol.absorb_buffer(compute_losses(
+                LC, eta=eta, T=T, N=N, I=int(IT/T), idx=0,
+                opts=opts
+            ))
+
+        with open(out_nm_by_hess(hh), 'w') as f:
+            f.write(str(ol))
+
+
+
 
 if __name__=='__main__':
     from cifar_landscapes import CifarLogistic, CifarLeNet
     from fashion_landscapes import FashionLogistic, FashionLeNet
     from nongauss_landscapes import FitGauss, CubicChi
-    from thermo_landscapes import LinearScrew
+    from thermo_landscapes import LinearScrew, Quad1D
+
+    hesses = (
+        list(np.arange(0.00, 1.01, 0.1)) +
+        list(np.arange(1.00, 5.01, 0.5))
+    )
+    simulate_tak(
+        hesses = hesses,
+        Ts=[50, 20, 10], N=10, IT=100000,
+        eta=0.1,
+        model = Quad1D,
+        opts=['GD'],
+        in_nm = 'saved-weights/quad1d.npy',
+        out_nm_by_hess = lambda h: '../plots/ol-quad-1d-h{:0.2f}'.format(h),
+    )
+
 
     import sys
 
@@ -229,6 +265,19 @@ if __name__=='__main__':
             'ol-cifar-logistic-T{}-{:02d}-sde.data',
             int(100/T),
         ),
+        'cifar-lenet-gen': (
+            CifarLeNet,
+            'saved-weights/cifar-lenet.npy',
+            'ol-cifar-lenet-T{}-{:02d}-gen.data',
+            int(500000/T),
+            #int(500/T),
+        ),
+        'cifar-lenet-bm': (
+            CifarLeNet,
+            'saved-weights/cifar-lenet.npy',
+            'ol-cifar-lenet-T{}-{:02d}-bm.data',
+            int( 50000/T),
+        ),
         'cifar-lenet': (
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
@@ -240,6 +289,12 @@ if __name__=='__main__':
             'saved-weights/fashion-logistic.npy',
             'ol-fashion-logistic-T{}-{:02d}-sde.data',
             int(25000/T),
+        ),
+        'fashion-lenet-bm': (
+            FashionLeNet,
+            'saved-weights/fashion-lenet.npy',
+            'ol-fashion-lenet-T{}-{:02d}-bm.data',
+            int( 50000/T),
         ),
         'fashion-lenet': (
             FashionLeNet,
@@ -271,6 +326,12 @@ if __name__=='__main__':
             'ol-linear-screw-T{}-{:02d}-smalleta.data',
             int( 50000/T),
         ),
+        'linear-screw-multi':   (
+            LinearScrew,
+            'saved-weights/linearscrew.npy',
+            'ol-linear-screw-T{}-{:02d}-multi-N10.data',
+            int(500000/T),
+        ),
         'linear-screw-bigeta':   (
             LinearScrew,
             'saved-weights/linearscrew.npy',
@@ -285,9 +346,12 @@ if __name__=='__main__':
     #    eta_d=eta_d, eta_max=eta_max,
     #    in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format('', idx)
     #)
-    simulate_lenet(
-        idxs=idxs, T=T, N=N, I=I,
-        eta_d=eta_d, eta_max=eta_max,
-        model=model, opts=opts,
-        in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format(T, idx)
-    )
+
+    #simulate_lenet(
+    #    idxs=idxs, T=T, N=N, I=I,
+    #    eta_d=eta_d, eta_max=eta_max,
+    #    model=model, opts=opts,
+    #    in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format(T, idx)
+    #)
+
+

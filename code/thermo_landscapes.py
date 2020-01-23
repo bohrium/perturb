@@ -110,6 +110,88 @@ class LinearScrew(FixedInitsLandscape):
             'z': self.weight.detach().numpy()[2]
         }
 
+
+
+#=============================================================================#
+#           1. Linear Screw                                                   #
+#=============================================================================#
+
+class Quad1D(FixedInitsLandscape):
+    ''' 
+    '''
+
+    #-------------------------------------------------------------------------#
+    #               1.0. getters and setters of weight (and data)             #
+    #-------------------------------------------------------------------------#
+
+    def __init__(self, seed=0, hessian=1.0, sqrtcov=1.0):
+        self.set_weight(self.sample_weight(seed))
+        self.hessian = hessian
+        self.sqrtcov = sqrtcov
+
+    def sample_weight(self, seed):
+        return np.array([0.0])
+
+    def sample_data(self, N, seed): 
+        '''
+            since datapoints are just floats, we use them directly instead of
+            using more indirect indices.
+        '''
+        reseed(seed)
+        return np.random.randn(N) 
+
+    def get_weight(self):
+        return self.weight.detach().numpy()
+
+    def set_weight(self, weight):
+        self.weight = torch.autograd.Variable(
+            torch.Tensor(weight),
+            requires_grad=True
+        )
+
+    def update_weight(self, displacement):
+        '''
+            Add the given numpy displacement to the current weight.
+        '''
+        self.weight.data += displacement.detach().data
+
+    #-------------------------------------------------------------------------#
+    #               1.1. the subroutines and diagnostics of descent           #
+    #-------------------------------------------------------------------------#
+
+    def get_loss_stalk(self, data):
+        '''
+            Negative log prob of data under N(0, sigma^2=exp(self.weight))    
+            normal distribution (actually, the log prob is offset by an
+            additive constant).
+        '''
+        w = self.weight[0]
+        return (
+            (w*w).mul(self.hessian / 2) + 
+            w.mul(self.sqrtcov * np.mean(data))
+        )
+
+    def nabla(self, scalar_stalk, create_graph=True):
+        '''
+            Differentiate a stalk, assumed to be at the current weight, with
+            respect to this weight.
+        '''
+        return torch.autograd.grad(
+            scalar_stalk,
+            self.weight,
+            create_graph=create_graph,
+        )[0] 
+
+    def get_metrics(self, data):
+        w = self.weight.detach().numpy()[0]
+        return {
+            'loss': self.get_loss_stalk(data).detach().numpy(),
+            'real-loss': self.hessian * w*w/2.0,
+            'w2': w*w,
+        }
+
+
+
 #=============================================================================#
 #           2. DEMONSTRATE INTERFACE by REPORTING GRAD STATS during DESCENT   #
 #=============================================================================#
@@ -120,10 +202,10 @@ if __name__=='__main__':
     #               2.0. descent hyperparameters                              #
     #-------------------------------------------------------------------------#
 
-    N = 100000
+    N = 10
     BATCH = 1
-    TIME = 100000
-    LRATE = 0.1
+    TIME = 10
+    LRATE = 0.01
     pre(N%BATCH==0,
         'batch size must divide train size!'
     )
@@ -132,34 +214,40 @@ if __name__=='__main__':
     #               2.1 specify and load model                                #
     #-------------------------------------------------------------------------#
 
-    ML = LinearScrew(seed=0)
-    ML.load_from('saved-weights/linearscrew.npy', nb_inits=1, seed=0)
+    #ML = LinearScrew(seed=0)
+    #ML.load_from('saved-weights/linearscrew.npy', nb_inits=1, seed=0)
 
-    D = ML.sample_data(N=N, seed=22) 
-    for t in range(TIME):
-        #---------------------------------------------------------------------#
-        #           2.2 perform one descent step                              #
-        #---------------------------------------------------------------------#
+    ML = Quad1D(seed=0)
+    ML.load_from('saved-weights/quad1d.npy', nb_inits=1, seed=0)
 
-        L = ML.get_loss_stalk(D[(BATCH*t)%N:(BATCH*(t+1)-1)%N+1])
-        G = ML.nabla(L)
-        ML.update_weight(-LRATE * G)
+    for hh in [0.0, 0.01, 0.02, 0.04, 0.08, 0.1, 0.2, 0.4, 0.8, 1.0, 2.0, 4.0, 8.0]:
+        ML.hessian = hh
+        D = ML.sample_data(N=N, seed=18) 
+        for t in range(TIME):
+            #---------------------------------------------------------------------#
+            #           2.2 perform one descent step                              #
+            #---------------------------------------------------------------------#
 
-        #---------------------------------------------------------------------#
-        #           2.3 compute and display gradient statistics               #
-        #---------------------------------------------------------------------#
+            L = ML.get_loss_stalk(D[(BATCH*t)%N:(BATCH*(t+1)-1)%N+1])
+            G = ML.nabla(L)
+            ML.update_weight(-LRATE * G)
 
-        if (t+1)%1000: continue
+            #---------------------------------------------------------------------#
+            #           2.3 compute and display gradient statistics               #
+            #---------------------------------------------------------------------#
 
-        L_train= ML.get_metrics(D)
-        data = ML.sample_data(N=30000, seed=1)
-        L_test = ML.get_metrics(data)
+            if (t+1)%TIME: continue
 
-        print(CC+' @D \t'.join([
-            'after @M {:4d} @D steps'.format(t+1),
-            'train loss @Y {:.4f}'.format(L_train['loss']),
-            'test loss @L {:.4f}'.format(L_test['loss']),
-            'xy-rad2 @B {:.4f}'.format(L_train['xy-rad2']),
-            'z @B {:f}'.format(L_train['z']),
-        '']))
+            L_train= ML.get_metrics(D)
+            data = ML.sample_data(N=30000, seed=1)
+            L_test = ML.get_metrics(data)
+
+            print(CC+' @D \t'.join([
+                'after @M {:4d} @D steps'.format(t+1),
+                'gen gap @Y {:.4f}'.format(L_test['real-loss'] - L_train['loss']),
+                'test loss @L {:.4f}'.format(L_test['real-loss']),
+                #'xy-rad2 @B {:.4f}'.format(L_train['xy-rad2']),
+                #'z @B {:f}'.format(L_train['z']),
+                'w2 @B {:f}'.format(L_train['w2']),
+            '']))
 
