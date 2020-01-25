@@ -22,10 +22,12 @@ opts = [
     'SGD'
     'SDE'
     'GD'
+    'GDS'
+    'GDT'
     'GDC'
 ]
 
-def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
+def compute_losses(land, eta, Ts, N, I=1, idx=None, opts=opts, test_extra=30,
                    seed=0, record_train=True, SDE_alpha=16):
     '''
         Simulate optimizers on  
@@ -55,9 +57,9 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
         # TODO: explain better:
         beta = float(eta) * float(N-1)/(4*N)
 
-        actual_N   =  N    *      (1 if opt!='SDE' else SDE_alpha**2 * 3)
-        actual_T   =  T    *      (1 if opt!='SDE' else SDE_alpha   ) 
-        actual_eta =  eta  / float(1 if opt!='SDE' else SDE_alpha   ) 
+        actual_N   =  N    #*      (1 if opt!='SDE' else SDE_alpha**2 * 3)
+        actual_T   =max(Ts)#*      (1 if opt!='SDE' else SDE_alpha   ) 
+        actual_eta =  eta  #/ float(1 if opt!='SDE' else SDE_alpha   ) 
 
         compute_gradients = {
             'SGD':  lambda D_train, t, i:  nabla(stalk(D_train[(t%N):(t%N)+1]))  ,
@@ -65,6 +67,14 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
             'GDC':  lambda D_train, t, i: (
                                            nabla(stalk(D_train[:N//2]        )),   
                                            nabla(stalk(D_train[N//2:]        ))
+                                          ),
+            'GDS':  lambda D_train, t, i: (
+                                           nabla(stalk(            D_train  )),   
+                                           nabla(land.get_stic_reg(D_train  ))
+                                          ),
+            'GDT':  lambda D_train, t, i: (
+                                           nabla(stalk(            D_train  )),   
+                                           nabla(land.get_tic_reg(D_train  ))
                                           ),
             'SDE':  lambda D_train, t, i: (
                                            nabla(stalk(D_train[((3*t+0)*N*SDE_alpha) % actual_N : ((3*t+1)*N*SDE_alpha-1) % actual_N + 1])),  
@@ -76,6 +86,8 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
         compute_update = {
             'SGD':  lambda g: g,
             'GD':   lambda g: g,
+            'GDS':  lambda a: a[0]+a[1],
+            'GDT':  lambda a: a[0]+a[1],
             'GDC':  lambda a: (
                 (a[0]+a[1])/2 +
                 2 * beta * nabla(
@@ -96,35 +108,37 @@ def compute_losses(land, eta, T, N, I=1, idx=None, opts=opts, test_extra=30,
             D = land.sample_data(actual_N + (N + test_extra), seed=seed+i) 
             D_train, D_test = D[:actual_N], D[actual_N:]
 
+            data_evalsets = [(D_test, 'test')] 
+            if record_train:
+                data_evalsets.append((D_train, 'train'))
+
             #-----------------------------------------------------------------#
             #       0.2 perform optimization loop                             #
             #-----------------------------------------------------------------#
 
             land.switch_to(idx)
-            for t in range(actual_T):
+            for t in range((actual_T)):
                 land.update_weight(
                     -actual_eta * compute_update(
                         compute_gradients(D_train, t, i)
                     ).detach()
                 )
 
-            #-----------------------------------------------------------------#
-            #       0.3 compute losses and accuracies                         #
-            #-----------------------------------------------------------------#
-            data_evalsets = [(D_test, 'test')] 
-            if record_train:
-                data_evalsets.append((D_train, 'train'))
+                #-------------------------------------------------------------#
+                #       0.3 compute losses and accuracies                     #
+                #-------------------------------------------------------------#
+                if (t+1) not in Ts: continue
 
-            for data, evalset_nm in data_evalsets:
-                metrics = land.get_metrics(data)
-                for metric_nm, val in metrics.items():
-                    ol.accum(
-                        OptimKey(
-                            kind='main', metric=metric_nm, evalset=evalset_nm,
-                            sampler=opt.lower(), eta=eta, N=N, T=T,
-                        ),
-                        val
-                    )
+                for data, evalset_nm in data_evalsets:
+                    metrics = land.get_metrics(data)
+                    for metric_nm, val in metrics.items():
+                        ol.accum(
+                            OptimKey(
+                                kind='main', metric=metric_nm, evalset=evalset_nm,
+                                sampler=opt.lower(), eta=eta, N=N, T=t+1,
+                            ),
+                            val
+                        )
 
     return ol
 
@@ -213,28 +227,72 @@ def simulate_tak(hesses, Ts, N, IT, eta, model, opts,
         with open(out_nm_by_hess(hh), 'w') as f:
             f.write(str(ol))
 
+def simulate_tak_reg(hesses, Ts, mus, N, IT, eta, model, opts,
+                     in_nm, out_nm_by_hess_mu, idx=0, mu=1.0):
+    '''
+    '''
+    LC = model()
+    LC.load_from(in_nm, nb_inits=1, seed=0)
+    for hh in tqdm.tqdm(hesses):
+        for mu in tqdm.tqdm(mus):
+            LC.hessian = hh
+            LC.mu = mu
 
+            ol = OptimLog()
+            for T in tqdm.tqdm(Ts):
+                LC.etaT = eta*max(T)
+                LC.N = N
 
+                ol.absorb_buffer(compute_losses(
+                    LC, eta=eta, Ts=T, N=N, I=int(IT/max(T)), idx=0,
+                    opts=opts
+                ))
+
+            with open(out_nm_by_hess_mu(hh, mu), 'w') as f:
+                f.write(str(ol))
 
 if __name__=='__main__':
     from cifar_landscapes import CifarLogistic, CifarLeNet
     from fashion_landscapes import FashionLogistic, FashionLeNet
     from nongauss_landscapes import FitGauss, CubicChi
-    from thermo_landscapes import LinearScrew, Quad1D
+    from thermo_landscapes import LinearScrew, Quad1D, Quad1DReg
 
-    hesses = (
-        list(np.arange(0.00, 1.01, 0.1)) +
-        list(np.arange(1.00, 5.01, 0.5))
+    hesses = ([]
+        + [10**(-4.0), 1.5*10**(-4), 2.5*10**(-4), 4.0*10**(-4), 6.5*10**(-4)]
+        + [10**(-3.0), 1.5*10**(-3), 2.5*10**(-3), 4.0*10**(-3), 6.5*10**(-3)]
+        + [10**(-2.0), 1.5*10**(-2), 2.5*10**(-2), 4.0*10**(-2), 6.5*10**(-2)]
+        + [10**(-1.0), 1.5*10**(-1), 2.5*10**(-1), 4.0*10**(-1), 6.5*10**(-1)]
+        + [10**( 0.0), 1.5*10**( 0), 2.5*10**( 0), 4.0*10**( 0), 6.5*10**( 0)]
+        + [10**( 1.0)] 
     )
-    simulate_tak(
+    simulate_tak_reg(
         hesses = hesses,
-        Ts=[50, 20, 10], N=10, IT=100000,
-        eta=0.1,
-        model = Quad1D,
-        opts=['GD'],
-        in_nm = 'saved-weights/quad1d.npy',
-        out_nm_by_hess = lambda h: '../plots/ol-quad-1d-h{:0.2f}'.format(h),
+        Ts=[range(20, 1001, 20)],
+        mus=[10.0],
+        N=10, IT=1000000,
+        eta=0.01,
+        model = Quad1DReg,
+        opts=['GDS', 'GD', 'GDT'],
+        in_nm = 'saved-weights/quad1d-reg.npy',
+        out_nm_by_hess_mu= lambda h, mu: '../quad-logs/ol-quad-1d-reg-h{:0.4f}-m{:0.2f}'.format(h, mu),
     )
+
+    #hesses = (
+    #    [                             2.5*10**(-2), 4.0*10**(-2), 6.5*10**(-2)] +
+    #    [1.00*10**(-1), 1.5*10**(-1), 2.5*10**(-1), 4.0*10**(-1), 6.5*10**(-1)] +
+    #    [1.00*10**( 0), 1.5*10**( 0), 2.5*10**( 0), 4.0*10**( 0)              ]
+    #)
+    #simulate_tak_reg(
+    #    hesses = hesses,
+    #    Ts=[500, 200, 100, 50, 20, 10, 5],
+    #    mus=[50.0, 20.0, 10.0, 5.0, 2.0, 1.0, 0.0],
+    #    N=10, IT=60000,
+    #    eta=0.01,
+    #    model = Quad1DReg,
+    #    opts=['GDS', 'GD', 'GDT'],
+    #    in_nm = 'saved-weights/quad1d-reg.npy',
+    #    out_nm_by_hess_mu= lambda h, mu: '../plots/ol-quad-1d-reg-h{:0.2f}-m{:0.2f}'.format(h, mu),
+    #)
 
 
     import sys
@@ -276,7 +334,7 @@ if __name__=='__main__':
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
             'ol-cifar-lenet-T{}-{:02d}-bm.data',
-            int( 50000/T),
+            int( 40000/T),
         ),
         'cifar-lenet': (
             CifarLeNet,
@@ -294,7 +352,7 @@ if __name__=='__main__':
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
             'ol-fashion-lenet-T{}-{:02d}-bm.data',
-            int( 50000/T),
+            int( 40000/T),
         ),
         'fashion-lenet': (
             FashionLeNet,
@@ -347,11 +405,11 @@ if __name__=='__main__':
     #    in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format('', idx)
     #)
 
-    #simulate_lenet(
-    #    idxs=idxs, T=T, N=N, I=I,
-    #    eta_d=eta_d, eta_max=eta_max,
-    #    model=model, opts=opts,
-    #    in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format(T, idx)
-    #)
+    simulate_lenet(
+        idxs=idxs, T=T, N=N, I=I,
+        eta_d=eta_d, eta_max=eta_max,
+        model=model, opts=opts,
+        in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format(T, idx)
+    )
 
 

@@ -97,7 +97,7 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     plt.ylabel(ylabel)
     plt.gca().yaxis.set_label_coords(-0.01, 0.5)
 
-    plt.legend(loc='lower center')
+    plt.legend(loc='lower right')
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
 
 def plot_fill(x, y, s, color, label, z=1.96, alpha=0.5):
@@ -340,6 +340,72 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
         ],
     )
 
+def plot_gen_gap_loss_vs_loss(model_nm, idxs, T):
+    # TODO: change default ol_nm to ../logs/....
+    title = (
+        'GENERALIZATION GAP \n'
+        '(gen gap after {} steps on {})'.format(T, model_nm)
+    )
+
+    true_mean = [] 
+    true_stdv = [] 
+    pred1_mean = [] 
+    pred1_stdv = [] 
+    pred2_mean = [] 
+    pred2_stdv = [] 
+    for idx in idxs:
+        ol_nm  = 'ol-{}-T{}-{:02}-gen.data'.format(model_nm, T, idx)
+
+        OL = OptimLog(ol_nm)
+        OL.load_from(ol_nm)
+        (X, Y, S) = OL.query_eta_curve(
+            kind='diff', evalset=('test', 'train'), sampler='sgd', T=T, N=T, metric='loss'
+        )
+        true_mean += list(Y)
+        true_stdv += list(S)
+
+        gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx)
+        P = Predictor(gs_nm)
+        losses = P.evaluate_expr(
+            P.extrapolate_from_taylor(
+                coeff_strs=coefficients.sgd_vanilla_gen, degree=1, mode='poly'
+            ),
+            params = {'T':T, 'eta':X, 'e':np.exp(1), 'N':T}
+        )
+        pred1_mean += list(losses['mean'])
+        pred1_stdv += list(losses['stdv'])
+
+        losses = P.evaluate_expr(
+            P.extrapolate_from_taylor(
+                coeff_strs=coefficients.sgd_vanilla_gen, degree=2, mode='poly'
+            ),
+            params = {'T':T, 'eta':X, 'e':np.exp(1), 'N':T}
+        )
+        pred2_mean += list(losses['mean'])
+        pred2_stdv += list(losses['stdv'])
+
+
+    true_mean = np.array(true_mean) 
+    true_stdv = np.array(true_stdv) 
+    pred1_mean = np.array(pred1_mean) 
+    pred1_stdv = np.array(pred1_stdv) 
+    pred2_mean = np.array(pred2_mean) 
+    pred2_stdv = np.array(pred2_stdv) 
+
+    plot_bars(pred2_mean, true_mean, true_stdv, color=blue, label=None)
+    #plot_fill(pred2_mean, pred1_mean, pred1_stdv, color=red, label=None)
+    #plot_fill(pred2_mean, pred2_mean, pred2_stdv, color=yellow, label=None)
+
+    img_nm = '../plots/_gen-{}-{}.png'.format(model_nm, idx)
+    print(CC+'@R rendering plot @D ...')
+    finish_plot(
+        title=title, xlabel='prediction',
+        ylabel='actual', img_filenm='../plots/big-gen.png',
+        ymin=min(true_mean-5*true_stdv), ymax=max(true_mean+5*true_stdv),
+    )
+
+
+
 def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
     title = (
         'SGD DIFFERS FROM SDE\n'
@@ -486,7 +552,7 @@ def plot_multi_vs_eta(model_nm, idx):
 
 def plot_gengap_vs_hess(model_nm, T, N=10):
     title = (
-        'BOTH SHARP AND FLAT MINIMA REDUCE OVERFITTING\n'
+        'SHARP AND FLAT MINIMA BOTH OVERFIT LESS\n'
         '(test loss difference on {})'.format(model_nm)
     )
  
@@ -546,7 +612,7 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
     predictions = 0.5/(N*ih)
     plot_fill(
         ih, predictions, 0.0*ih,
-        color=black, label='TIC'
+        color=black, label='Takeuchi Information Criterion'
     )
 
 
@@ -558,7 +624,97 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
     )
 
 
-plot_gengap_vs_hess('quad-1d', T=10)
+def plot_test_vs_hess(model_nm, N, mu=10.0):
+    title = (
+        'STIC REGULARIZATION HELPS IN FLAT DIRECTIONS \n'
+        '(test loss ratio on {})'.format(model_nm)
+    )
+ 
+    prime_plot()
+
+    hesses = ([]
+        + [10**(-4.0), 1.5*10**(-4), 2.5*10**(-4), 4.0*10**(-4), 6.5*10**(-4)]
+        + [10**(-3.0), 1.5*10**(-3), 2.5*10**(-3), 4.0*10**(-3), 6.5*10**(-3)]
+        + [10**(-2.0), 1.5*10**(-2), 2.5*10**(-2), 4.0*10**(-2), 6.5*10**(-2)]
+        + [10**(-1.0), 1.5*10**(-1), 2.5*10**(-1), 4.0*10**(-1), 6.5*10**(-1)]
+        + [10**( 0.0), 1.5*10**( 0), 2.5*10**( 0), 4.0*10**( 0), 6.5*10**( 0)]
+        + [10**( 1.0)] 
+    )
+
+    interp_hesses = interpolate(hesses)
+
+    for T, col in [(1000, blue)]:#, (20, red)]:
+        etas = []
+        gd_mean = []
+        gd_stdv = []
+        gds_vs_gd_mean = []
+        gds_vs_gd_stdv = []
+        gdt_vs_gd_mean = []
+        gdt_vs_gd_stdv = []
+        for hess in hesses:
+            ol_nm = '../quad-logs/ol-quad-1d-reg-h{:0.4f}-m{:0.2f}'.format(hess, mu)
+
+            OL = OptimLog(ol_nm)
+            OL.load_from(ol_nm)
+
+            (X, Y, S) = OL.query_eta_curve(
+                kind='main', evalset='test', sampler='gd', T=T, N=N, metric='real-loss'
+            )
+            gd_mean.append(Y[0])
+            gd_stdv.append(S[0])
+
+            (X, Y, S) = OL.query_eta_curve(
+                kind='diff', evalset='test', sampler=('gds', 'gd'), T=T, N=N, metric='real-loss'
+                #kind='main', evalset='test', sampler='gds', T=T, N=N, metric='expl'
+            )
+            gds_vs_gd_mean.append(Y[0])
+            gds_vs_gd_stdv.append(S[0])
+
+            (X, Y, S) = OL.query_eta_curve(
+                kind='diff', evalset='test', sampler=('gdt', 'gd'), T=T, N=N, metric='real-loss'
+                #kind='main', evalset='test', sampler='gds', T=T, N=N, metric='expl'
+            )
+            gdt_vs_gd_mean.append(Y[0] if Y[0] < 1e9 else 1e9)
+            gdt_vs_gd_stdv.append(S[0] if Y[0] < 1e9 else 0)
+
+        eta = X[0]
+        gd_mean = np.array(gd_mean)
+        gd_stdv = np.array(gd_stdv)
+        gds_vs_gd_mean = np.array(gds_vs_gd_mean)
+        gds_vs_gd_stdv = np.array(gds_vs_gd_stdv)
+        gdt_vs_gd_mean = np.array(gdt_vs_gd_mean)
+        gdt_vs_gd_stdv = np.array(gdt_vs_gd_stdv)
+
+        plot_bars(
+            np.log(hesses), 1.0 + gds_vs_gd_mean/gd_mean, gds_vs_gd_stdv/gd_mean, color=blue,
+            label='gds vs gd, eta*T={}'.format(eta*T)
+        )
+        #plot_bars(
+        #    np.log(hesses), 1.0 + gdt_vs_gd_mean/gd_mean, gdt_vs_gd_stdv/gd_mean, color=red,
+        #    label='gdt vs gd, T={}'.format(T)
+        #)
+
+    plot_fill(
+        np.log(interp_hesses), 1.0 + 0.0*interp_hesses, 0.0*interp_hesses,
+        color=black, label=None
+    )
+
+    print(CC+'@R rendering plot @D ...')
+    finish_plot(
+        title=title, xlabel='log hessian eigenvalue',
+        ylabel='test loss ratio', img_filenm='../quad-logs/tak-reg.png',
+        #ymin=(-100.0),ymax=(500.0)
+        ymin=(0.0), ymax=(2.0),
+        #ymin=(-1.0), ymax=(0.5),
+    )
+
+
+
+plot_test_vs_hess('quad-1d-reg', N=10)
+
+
+#plot_gen_gap_loss_vs_loss('cifar-lenet', [0, 1, 2, 3, 4, 5], 10)
+#plot_gengap_vs_hess('quad-1d', T=10)
 
 #for model_nm in ['cifar-lenet', 'fashion-lenet']:
 #    for idx in range(3,6):

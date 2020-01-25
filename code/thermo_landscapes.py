@@ -1,5 +1,5 @@
 ''' author: samtenka
-    change: 2020-01-13
+    change: 2020-01-23
     create: 2020-01-12
     descrp: instantiate abstract class `Landscape` for a normal-fitting model
 '''
@@ -113,7 +113,7 @@ class LinearScrew(FixedInitsLandscape):
 
 
 #=============================================================================#
-#           1. Linear Screw                                                   #
+#           1. QUADRATIC (1 DIMENSIONAL)                                      #
 #=============================================================================#
 
 class Quad1D(FixedInitsLandscape):
@@ -185,10 +185,130 @@ class Quad1D(FixedInitsLandscape):
     def get_metrics(self, data):
         w = self.weight.detach().numpy()[0]
         return {
-            'loss': self.get_loss_stalk(data).detach().numpy(),
+            'loss': self.get_loss_stalk(data).detach().numpy()[0],
             'real-loss': self.hessian * w*w/2.0,
             'w2': w*w,
         }
+
+
+
+#=============================================================================#
+#           2. QUADRATIC VALLEY                                               #
+#=============================================================================#
+
+class Quad1DReg(FixedInitsLandscape):
+    ''' 
+    '''
+
+    #-------------------------------------------------------------------------#
+    #               1.0. getters and setters of weight (and data)             #
+    #-------------------------------------------------------------------------#
+
+    def __init__(self, seed=0, hessian=1.0, sqrtcov=(100**0.5),
+                 etaT=None, N=None, mu=1.0):
+        self.set_weight(self.sample_weight(seed))
+        self.hessian = hessian
+        self.sqrtcov = sqrtcov
+        self.etaT = etaT 
+        self.N = N
+        self.mu = mu
+
+    def sample_weight(self, seed):
+        return np.array([0.0, 0.0])
+
+    def sample_data(self, N, seed): 
+        '''
+            since datapoints are just floats, we use them directly instead of
+            using more indirect indices.
+        '''
+        reseed(seed)
+        return np.random.randn(N) 
+
+    def get_weight(self):
+        return self.weight.detach().numpy()
+
+    def set_weight(self, weight):
+        self.weight = torch.autograd.Variable(
+            torch.Tensor(weight),
+            requires_grad=True
+        )
+
+    def update_weight(self, displacement):
+        '''
+            Add the given numpy displacement to the current weight.
+        '''
+        self.weight.data += displacement.detach().data
+        if self.weight.data[1] < 0.0:
+            self.weight.data[1] = 0.0
+
+    #-------------------------------------------------------------------------#
+    #               1.1. the subroutines and diagnostics of descent           #
+    #-------------------------------------------------------------------------#
+
+    def get_loss_stalk(self, data):
+        '''
+            Negative log prob of data under N(0, sigma^2=exp(self.weight))    
+            normal distribution (actually, the log prob is offset by an
+            additive constant).
+        '''
+        w = self.weight[0:1]
+        d = w-self.mu 
+        #expl = torch.exp(self.weight[1:2])-1.0
+        expl = self.weight[1:2]
+        curv = expl + (self.hessian) 
+        return (
+            (d*d).mul(self.hessian / 2) + 
+            (w*w*expl).mul(1.0/ 2) + 
+            w.mul(self.sqrtcov * np.mean(data))
+        )
+
+    def get_stic_reg(self, data):
+        #expl = torch.exp(self.weight[1:2])-1.0
+        expl = self.weight[1:2]
+        curv = expl + (self.hessian) 
+        exponent = -curv.mul(self.etaT)
+        numerator = (
+            (1.0 - torch.exp(exponent))
+        )
+        return (
+            numerator.mul(
+                self.sqrtcov**2 / (self.N * curv)
+            )
+        )
+
+    def get_tic_reg(self, data):
+        #expl = torch.exp(self.weight[1:2])-1.0
+        expl = self.weight[1:2]
+        curv = expl + (self.hessian) 
+        return (
+            self.sqrtcov**2 / (self.N * curv)
+        )
+
+    def nabla(self, scalar_stalk, create_graph=True):
+        '''
+            Differentiate a stalk, assumed to be at the current weight, with
+            respect to this weight.
+        '''
+        return torch.autograd.grad(
+            scalar_stalk,
+            self.weight,
+            create_graph=create_graph,
+        )[0] 
+
+    def get_metrics(self, data):
+        w = self.weight.detach().numpy()[0]
+        d = w - self.mu
+        #expl = np.exp(self.weight.detach().numpy()[1])-1.0
+        expl = self.weight.detach().numpy()[1]
+        return {
+            'loss': self.get_loss_stalk(data).detach().numpy()[0],
+            'real-loss': self.hessian * d*d/2.0,
+            'w2': w*w,
+            'd2': d*d,
+            'd': d,
+            'expl': expl,
+        }
+
 
 
 
@@ -205,7 +325,7 @@ if __name__=='__main__':
     N = 10
     BATCH = 1
     TIME = 10
-    LRATE = 0.01
+    LRATE = 0.1
     pre(N%BATCH==0,
         'batch size must divide train size!'
     )
@@ -217,12 +337,14 @@ if __name__=='__main__':
     #ML = LinearScrew(seed=0)
     #ML.load_from('saved-weights/linearscrew.npy', nb_inits=1, seed=0)
 
-    ML = Quad1D(seed=0)
-    ML.load_from('saved-weights/quad1d.npy', nb_inits=1, seed=0)
+    #ML = Quad1D(seed=0)
+    ML = Quad1DReg(seed=0, N=10, etaT=1.0, mu=1.0)
+    ML.load_from('saved-weights/quad1d-reg.npy', nb_inits=1, seed=0)
 
     for hh in [0.0, 0.01, 0.02, 0.04, 0.08, 0.1, 0.2, 0.4, 0.8, 1.0, 2.0, 4.0, 8.0]:
+        print(hh)
         ML.hessian = hh
-        D = ML.sample_data(N=N, seed=18) 
+        D = ML.sample_data(N=N, seed=19) 
         for t in range(TIME):
             #---------------------------------------------------------------------#
             #           2.2 perform one descent step                              #
@@ -244,10 +366,11 @@ if __name__=='__main__':
 
             print(CC+' @D \t'.join([
                 'after @M {:4d} @D steps'.format(t+1),
-                'gen gap @Y {:.4f}'.format(L_test['real-loss'] - L_train['loss']),
+                'gen gap @Y {:+.4f}'.format(L_test['loss'] - L_train['loss']),
                 'test loss @L {:.4f}'.format(L_test['real-loss']),
                 #'xy-rad2 @B {:.4f}'.format(L_train['xy-rad2']),
                 #'z @B {:f}'.format(L_train['z']),
-                'w2 @B {:f}'.format(L_train['w2']),
+                'd2 @B {:f}'.format(L_train['d2']),
+                'expl @B {:f}'.format(L_train['expl']),
             '']))
 
