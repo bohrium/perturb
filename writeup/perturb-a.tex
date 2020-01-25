@@ -710,8 +710,9 @@
         We here test Proposition \ref{prop:vanilla}. 
         \begin{figure}[h!]
             \centering
-            \plotmoo{plots/batch-match}{0.48\columnwidth}{4.0cm}
+            %\plotmoo{plots/batch-match}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/big-bm}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/multi-fashion-logistic-0}{0.48\columnwidth}{4.0cm}
             %\plotmoo{plots/test-loss-bm}{0.98\columnwidth}{4.0cm}
             %\\
             %\plotplace{???}{0.98\columnwidth}{4.0cm}
@@ -751,12 +752,12 @@
 
     \subsection{Epochs and Overfitting}
         \lorem{3}
-        \begin{figure}[h!]
-            \centering
-            \plotmoo{plots/multi-fashion-logistic-0}{0.98\columnwidth}{4.0cm}
-            %\plotplace{multiepoch vs gd limit}{4.0cm}{4.0cm}
-            \caption{\lorem{2}}
-        \end{figure}
+        %\begin{figure}[h!]
+        %    \centering
+        %    \plotmoo{plots/multi-fashion-logistic-0}{0.98\columnwidth}{4.0cm}
+        %    %\plotplace{multiepoch vs gd limit}{4.0cm}{4.0cm}
+        %    \caption{\lorem{2}}
+        %\end{figure}
     
     %--------------------------------------------------------------------------
     %           Toward Effective Theories                   
@@ -764,13 +765,16 @@
 
     \subsection{Comparison to Continuous Time}
         \lorem{3}
-        Also, sgd interepoch correlations
-        \begin{figure}[h!]
-            \centering
-            %\plotplace{distinguishing landscape}{4.0cm}{4.0cm}
-            \plotmoo{plots/vs-sde}{0.98\columnwidth}{4.0cm}
-            \caption{\lorem{2}}
-        \end{figure}
+        %Also, sgd interepoch correlations
+        %\begin{figure}[h!]
+        %    \centering
+        %    %\plotplace{distinguishing landscape}{4.0cm}{4.0cm}
+        %    \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
+        %    %\plotplace{loss landscape: mean and covariance}{4.0cm}{4.0cm}
+        %    \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
+        %    %\caption{\lorem{2}}
+        %    \caption{\lorem{2}}
+        %\end{figure}
         As a simplest example where the loss landscape is not a Gaussian
         Process, consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
         one-dimensional data.  We parameterize the landscape by
@@ -832,12 +836,20 @@
         large $T$, the renormalized theory predicts a $z$-speed of $\eta^2/6$ 
         per timestep.  We see that this prediction, unlike the
         un-renormalized prediction, agrees with experiment.
+
+        %\begin{figure}[h!]
+        %    \centering
+        %\end{figure}
         \begin{figure}[h!]
             \centering
+            %\plotplace{distinguishing landscape}{4.0cm}{4.0cm}
+            \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
             %\plotplace{loss landscape: mean and covariance}{4.0cm}{4.0cm}
-            \plotmoo{plots/thermo-linear-screw}{0.98\columnwidth}{4.0cm}
+            \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
             %\caption{\lorem{2}}
+            \caption{\lorem{2}}
         \end{figure}
+
         Observe that the net displacement well exceeds the $z$-periodicity of
         $2\pi$. 
 
@@ -849,49 +861,40 @@
     %           Toward Effective Theories                   
     %--------------------------------------------------------------------------
 
-    \subsection{Both Sharp and Flat Minima Generalize Better}
-        To test Proposition \label{prop:overfit} 
-        \lorem{3}
+    \subsection{Both Sharp and Flat Minima Overfit Less}
+        Prior work has varyingly found that \emph{sharp} minima overfit less
+        (after all, $l^2$ regularization increases curvature) or that
+        \emph{flat} minima overfit less (after all, flat minima are more
+        robust to small displacements in weight space).  Our proposition
+        \label{prop:overfit} reconciles these competing intuitions by showing
+        how the relationship of generalization and curvature depends on the
+        learning task's noise structure.  We emphasize the role of a metric in
+        controlling this distinction.
+        
         \begin{figure}[h!]
             \centering
-            \plotmoo{plots/tak}{0.98\columnwidth}{4.0cm} \\
-            \plotmoo{plots/tak-reg}{0.98\columnwidth}{4.0cm}
-            \caption{\lorem{2}}
+            \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
+            %\caption{\lorem{2}}
         \end{figure}
 
-    Prior work has varyingly found that \emph{sharp} minima generalize better
-    (after all, $l^2$ regularization increases curvature) or that \emph{flat}
-    minima generalize better (after all, flat minima are more robust to small
-    displacements in weight space).  We reconcile these competing intuitions by
-    showing how the relationship of generalization and curvature depends on the
-    learning task's noise structure.  We emphasize the role of a metric in
-    controlling this distinction.  In doing so, we offer a modern derivation of
-    the Takeuchi Information Criterion (TIC), a generalization of the Akaike
-    Information Criterion (AIC) that to our knowledge has not been derived in
-    the English language literature.  Because the TIC estimates a smooth
-    hypothesis class's generalization gap, it is tempting to use it as an
-    additive regularization term.  However, the TIC is singular where the
-    hessian is, and as such gives insensible results for over-parameterized
-    models.  We explain these singularities and explain how the implicit
-    regularization of gradient descent both demands and enables a
-    singularity-removing correction to the TIC.  The resulting \emph{Stabilized
-    TIC} (STIC) uses the metric implicit in gradient descent to threshold flat
-    from sharp minima.  It thus offers a principled method for optimizer-aware
-    model selection easily compatible with automatic differentiation systems.
-    By descending on STIC, we may tune smooth hyperparameters such as $l_2$
-    coefficients.
+        In proving Proposition \label{prop:overfit} so, we offer a modern
+        derivation of the Takeuchi Information Criterion (TIC), a
+        generalization of the Akaike Information Criterion (AIC) that to our
+        knowledge has not been derived in the English language literature.
+        Because the TIC estimates a smooth hypothesis class's generalization
+        gap, it is tempting to use it as an additive regularization term.
+        However, the TIC is singular where the hessian is, and as such gives
+        insensible results for over-parameterized models.  We explain these
+        singularities and explain how the implicit regularization of gradient
+        descent both demands and enables a singularity-removing correction to
+        the TIC.  The resulting \emph{Stabilized TIC} (STIC) uses the metric
+        implicit in gradient descent to threshold flat from sharp minima.  It
+        thus offers a principled method for optimizer-aware model selection
+        easily compatible with automatic differentiation systems.  By
+        descending on STIC, we may tune smooth hyperparameters such as $l_2$
+        coefficients.
 
-    \textsc{The Metric in Generalization} ---
-    
-    \textsc{The Takeuchi Information Criterion} ---
-    
-    \textsc{Descent's Implicit Regularization Removes TIC's Singularities} ---
-    
-    \textsc{Stabilized TIC for Smooth Model Selection} ---
-
-    \textsc{Related Work} ---
-
-    \textsc{Conclusion} ---
 
 %==============================================================================
 %    RELATED WORK    
