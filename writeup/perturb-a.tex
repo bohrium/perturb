@@ -135,13 +135,22 @@
 \begin{abstract}
     We adapt Feynman Diagrams to reason about the behavior, at small learning
     rates, of SGD and its variants.  We interpret the diagrams as histories of
-    scattering events, thus offering a new physical analogy for descent.
-    Illustrating this technique, we construct a regularizing term that causes
-    large-batch GD to emulate small-batch SGD, exhibit a counter-intuitive loss
-    landscape on which SGD eternally moves uphill despite well-behaved boundary
-    conditions and zero curvature in the direction of motion, and quantify the 
-    differences --- due to time-discretization, inter-epoch correlations, and
-    non-gaussian noise --- between SGD and the popular approximation SDE. 
+    scattering events, thus offering a new physical picture of descent.
+
+    Illustrating this technique, we
+        construct a regularizing term that causes large-batch GD to emulate
+        small-batch SGD,
+        %
+        exhibit a counter-intuitive loss landscape on which SGD eternally moves
+        uphill despite well-behaved boundary conditions and zero curvature in
+        the direction of motion,
+        %
+        generalize the Akaike Information Criterion to a smooth,
+        optimization-aware quantity liable to descent, and
+        %
+        quantify the differences --- due to time-discretization, inter-epoch
+        correlations, and non-gaussian noise --- between SGD and the popular
+        approximation SDE. 
 \end{abstract}
 
 %==============================================================================
@@ -405,7 +414,7 @@
         \end{thm}
     
         In the special case of $B=1, M=1$:
-        \begin{prop}
+        \begin{prop}\label{prop:vanilla}
             The order $\eta^d$ contribution to the expected test loss of one-epoch
             SGD with singleton batches is:
             \begin{equation}\label{eq:sgdbasiccoef}
@@ -606,39 +615,70 @@
     \subsection{Effective Theories}
         An important idea is that of \emph{renormalization}, i.e. the
         summarization of myriad small-scale interactions into an effective
-        large-scale theory.  We can use this two ways: ({\bf A}) to refine our
-        computations if we know the hessian;  ({\bf B}) to refine our
-        computations if we know the ``effective propagator''.
-        
-        For example, suppose we know $H$ exactly.  Then uncorrelated chain
-        diagrams such as $\sdia{(0-1)(01)}, \sdia{(0-1-2)(01-12)},
-        \sdia{(0-1-2-3)(01-12-23)}, \cdots$, when embedded with initial and
-        final nodes separated by duration $t$, together contribute $G (I+\eta
-        H)^{t-1} \eta G$.  We may thus organize diagrams together by the
-        homeomorphism classes of their \emph{geometric realizations}; each
-        class yields a sum.  For example, the above chains contribute the
-        following to test loss for vanilla SGD:
-        \begin{equation}
+        large-scale theory.  We can use this to refine our $d$th order
+        computations for fixed $d$.  In fact, for some large-$\eta T$ limits
+        in a positive-hessian setting, the unrenormalized theory does not
+        converge while the renormalized theory does.
+
+        For example, consider the diagrams that are uncorrelated chains ---
+        $\sdia{(0-1)(01)}, \sdia{(0-1-2)(01-12)},
+        \sdia{(0-1-2-3)(01-12-23)}, \cdots$.  When embedded with initial and
+        final nodes separated by duration $t$, this series of diagrams in sum
+        contributes
+        $
+            G (I-\eta H)^{t-1} \eta G
+            \approx
+            G \exp(-\eta T H) \eta G
+            +
+            o(\eta)
+        $.
+        We may thus organize diagrams together by the homeomorphism classes of
+        their \emph{geometric realizations}; each class yields a sum over
+        durations.  For example, the above chains contribute the following to
+        test loss for vanilla SGD:
+        \begin{align*}
             G \sum_{0\leq t<T} (I+\eta H)^{T-t-1} \eta G
-            =
-            G_\mu (\Delta_T)^{\mu\nu} \eta G_\nu
-        \end{equation}
-        where $(\Delta_T)^\mu_\nu = ((I+\eta H)^T - I)/(\eta H)$ is a
-        ``propagator''.  Likewise, for V structures, there is an approximate
-        contribution
-        \begin{equation}
-            \frac{1}{2} G_\mu (\Delta_T)^{\mu\nu} G_\rho (\Delta_T)^{\rho\sigma} H_{\nu\sigma}  
-        \end{equation}
-        This is approximate because it does not account for correlations.  For
-        tree structions such as $\sdia{(0-1-2-3)(02-12-23)}$, we have:
-        \begin{equation}
-            \sum_t \frac{1}{2} G_\mu (\Delta_t)^{\mu\nu} G_\rho (\Delta_t)^{\rho\sigma}
-                   J_{\nu\sigma\lambda} ((I+\eta H)^{T-t-1} \eta)^{\lambda\pi} G_\pi
-        \end{equation}
-        Here, we integrate over internal --- i.e. non-leaf non-root --- nodes.
-    
-        Now, suppose we know
-        FILL IN
+            &\approx
+            G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G\\
+            &=
+            G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
+        \end{align*}
+        This 
+        $
+            \wrap{I - \exp(-\eta T H)}/H
+        $
+        is thus an ``effective propagator''.
+
+        In general, to use the renormalized recipe, one lists all the diagrams
+        that are \emph{irreducible} in the sense that they do not contain an
+        uncorrelated double edge $\sdia{(0-1-2)(01-12)}$ as a subdiagram. 
+        The contribution of a diagram, as usual, will be a sum over all its
+        embeddings into spacetime.  This time, though, the integrand will be
+        exponentially weighted by $\exp(-\eta \Delta T H)$ for each edge of
+        duration $\Delta T$.  One thus gets an integral of exponentials.
+
+        The renormalized theory predicts large-$\eta T$ phenomena:
+        \begin{prop}[nonconservative entropic force]\ref{prop:entropic}
+            When initialized at a test minimum, vanilla SGD's weight moves as
+            ODE's weight plus some gradient $\nabla\phi$ plus, to order
+            $\eta^2$, at a rate of 
+            $$
+                C
+                \frac{I\otimes I - \exp(-\eta T (H\otimes I + I\otimes H))}{H\otimes I + I\otimes H}
+                \eta^2 J
+                \frac{I - \exp(-\eta T H)}{H}
+                \eta
+            $$
+            per timestep.
+        \end{prop}
+
+        \begin{prop}[flat and sharp minima overfit less]\ref{prop:overfit}
+            When initialized at a test minimum, pure GD's test loss is, to
+            order $\eta$, 
+            $$
+                \frac{1}{N} C \frac{\wrap{I - \exp(-\eta T H)}^2}{H} \eta^2
+            $$
+        \end{prop}
 
 %==============================================================================
 %    EXPERIMENTS AND APPLICATIONS
@@ -647,12 +687,90 @@
 \section{Experiments and Applications}
 
     %--------------------------------------------------------------------------
-    %           Toward Effective Theories                   
+    %           Vanilla SGD                                 
     %--------------------------------------------------------------------------
 
     \subsection{Vanilla SGD}
+        We here test Proposition \ref{prop:vanilla}. 
+        \begin{figure}[h!]
+            \centering
+            \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} 
+            \plotmoo{plots/gen-cifar}{0.48\columnwidth}{3.0cm}
+            %\plotplace{test loss decrease near minimum}{0.98\columnwidth}{4.0cm} \\
+            %\plotmoo{plots/gen-gap}{0.98\columnwidth}{4.0cm}
+            %\plotplace{nongaussian example}{4.0cm}{4.0cm}
+            \caption{\lorem{2}}
+        \end{figure}
+    
+    %--------------------------------------------------------------------------
+    %           Toward Effective Theories                   
+    %--------------------------------------------------------------------------
+
+    \subsection{Emulating Small Batches with Large Ones}
+        We here test Proposition \ref{prop:vanilla}. 
+        \begin{figure}[h!]
+            \centering
+            \plotmoo{plots/batch-match}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/big-bm}{0.48\columnwidth}{4.0cm}
+            %\plotmoo{plots/test-loss-bm}{0.98\columnwidth}{4.0cm}
+            %\\
+            %\plotplace{???}{0.98\columnwidth}{4.0cm}
+            %\plotmoo{plots/test-opt-lenet-covreg-long-small-2n-05}{0.98\columnwidth}{4.0cm}
+            \caption{\lorem{2}}
+        \end{figure}
+    
+    %%--------------------------------------------------------------------------
+    %%           Toward Effective Theories                   
+    %%--------------------------------------------------------------------------
+
+    %\subsection{Analyzing Second Order Methods}
+    %    We demonstrate how our approach extends to more sophisticated
+    %    optimizers by analyzing a momentum-based and a hessian-based method. 
+    %
+    %    \lorem{3}
+    %    momentum
+    %
+    %    Now consider a hessian-based update parameterized by a scalar $\lambda$: 
+    %    $$
+    %        \theta \leftsquigarrow
+    %        \theta -
+    %        (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1} \nabla l_t(\theta)
+    %    $$
+    %
+    %    invhess
+    %    \begin{figure}[h!]
+    %        \centering
+    %        \plotplace{momentum}{4.0cm}{4.0cm} 
+    %        \plotplace{invhess}{4.0cm}{4.0cm}
+    %        \caption{\lorem{2}}
+    %    \end{figure}
+    
+    %--------------------------------------------------------------------------
+    %           Toward Effective Theories                   
+    %--------------------------------------------------------------------------
+
+    \subsection{Epochs and Overfitting}
         \lorem{3}
+        \begin{figure}[h!]
+            \centering
+            \plotmoo{plots/multi-fashion-logistic-0}{0.98\columnwidth}{4.0cm}
+            %\plotplace{multiepoch vs gd limit}{4.0cm}{4.0cm}
+            \caption{\lorem{2}}
+        \end{figure}
+    
+    %--------------------------------------------------------------------------
+    %           Toward Effective Theories                   
+    %--------------------------------------------------------------------------
+
+    \subsection{Comparison to Continuous Time}
         \lorem{3}
+        Also, sgd interepoch correlations
+        \begin{figure}[h!]
+            \centering
+            %\plotplace{distinguishing landscape}{4.0cm}{4.0cm}
+            \plotmoo{plots/vs-sde}{0.98\columnwidth}{4.0cm}
+            \caption{\lorem{2}}
+        \end{figure}
         As a simplest example where the loss landscape is not a Gaussian
         Process, consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
         one-dimensional data.  We parameterize the landscape by
@@ -668,105 +786,112 @@
             +{N\choose 2} \sdia{c(03-1-2)(01-12-23)}
             +\frac{N}{6} \sdia{c(012-3)(03-13-23)}
         $
-    
-        \begin{figure}[h!]
-            \centering
-            \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm}  
-            \plotmoo{plots/gen-cifar}{0.48\columnwidth}{3.0cm} \\ 
-            \plotplace{test loss decrease near minimum}{0.48\columnwidth}{4.0cm}
-            \plotmoo{plots/gen-gap}{0.48\columnwidth}{4.0cm}
-            %\plotplace{nongaussian example}{4.0cm}{4.0cm}
-            \caption{\lorem{2}}
-        \end{figure}
-    
+
     %--------------------------------------------------------------------------
-    %           Toward Effective Theories                   
+    %           Thermodynamic Engine                        
     %--------------------------------------------------------------------------
 
-    \subsection{Emulating Small Batches with Large Ones}
-        \lorem{3}
-        \lorem{3}
-        \lorem{3}
-        \begin{figure}[h!]
-            \centering
-            \plotmoo{plots/batch-match}{0.48\columnwidth}{4.0cm}
-            %\plotmoo{plots/test-loss-bm}{0.48\columnwidth}{4.0cm}
-            %\\
-            %\plotplace{???}{0.48\columnwidth}{4.0cm}
-            %\plotmoo{plots/test-opt-lenet-covreg-long-small-2n-05}{0.48\columnwidth}{4.0cm}
-            \caption{\lorem{2}}
-        \end{figure}
-    
-    %--------------------------------------------------------------------------
-    %           Toward Effective Theories                   
-    %--------------------------------------------------------------------------
+    \subsection{A Nonconservative Entropic Force}
+        To test Proposition \label{prop:entropic}'s predicted force, 
+        we construct a counter-intuitive loss landscape wherein, for
+        arbitrarily small learning rates, SGD steadily increases the weight's
+        z component despite 0 test gradient in that direction.
+        Our mechanism differs from that discovered by \citet{ch18}.
+        Specifically, because in this landscape the force is
+        $\eta$-perpendicular to the image of $\eta C$, that work predicts an
+        entropic force of $0$.  This disagreement in predictions is possible
+        because our analysis does not make any assumptions of equilibrium,
+        conservatism, or assumptions.
+        Moreover, by modeling arbitrary covariances, we refine the
+        David-Mingwei result that SGD seeks minima flat with respect to
+        $\eta^{-1}$ to the statement that SGD seeks minima that are flat with
+        respect to $C$.
 
-    \subsection{Analyzing Second Order Methods}
-        We demonstrate how our approach extends to more sophisticated optimizers by
-        analyzing momentum and a hessian-based method. 
-    
-        \lorem{3}
-        momentum
-    
-        Now consider a hessian-based update parameterized by a scalar $\lambda$: 
+        Intuitively, the presence of the term
+        $
+            \sdia{c(01-2-3)(02-12-23)}
+        $
+        in our test loss expansion indicates that 
+        {\bf SGD descends on a covariance-smoothed landscape}.
+        So, even in a valley of global minima, SGD will move away from minima
+        whose hessian aligns with the current covariance.  However, by the time
+        it moves, the new covariance might differ from the old one, and SGD will
+        be repelled by different hessians than before.  By setting the
+        covariance to lag the hessian by a rotational phase, we construct
+        a landscape in which this entropic force occurs forever. 
+        The landscape is defined for
+        three-dimensional $w\in \RR^3$ (initialized at the origin) and
+        one-dimensional $x \sim \Nn(0, 1))$:
         $$
-            \theta \leftsquigarrow
-            \theta -
-            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1} \nabla l_t(\theta)
+            l_x(w) = \frac{1}{2} H(z)(w, w) + x \cdot S(z)(w)  
         $$
-    
-        invhess
+        Here, $H(z)(w, w) = \|w\|^2 + (\cos(z) w_x + \sin(z) w_y)^2$
+        and   $S(z)(w)    = \cos(z-\pi/4) w_x + \sin(z-\pi/4) w_y$.
+        We see that there is a valley of global minima defined by $x=y=0$. 
+        If SGD is initialized there, then to leading order in $\eta$ and for
+        large $T$, the renormalized theory predicts a $z$-speed of $\eta^2/6$ 
+        per timestep.  We see that this prediction, unlike the
+        un-renormalized prediction, agrees with experiment.
         \begin{figure}[h!]
             \centering
-            \plotplace{momentum}{4.0cm}{4.0cm} 
-            \plotplace{invhess}{4.0cm}{4.0cm}
-            \caption{\lorem{2}}
+            %\plotplace{loss landscape: mean and covariance}{4.0cm}{4.0cm}
+            \plotmoo{plots/thermo-linear-screw}{0.98\columnwidth}{4.0cm}
+            %\caption{\lorem{2}}
         \end{figure}
-    
+        Observe that the net displacement well exceeds the $z$-periodicity of
+        $2\pi$. 
+
+        By stitching copies of this example with itself, we may cause SGD to
+        traverse through minimum-valleys of any sufficiently smooth shape,
+        including closed loops and unbounded curves. 
+
     %--------------------------------------------------------------------------
     %           Toward Effective Theories                   
     %--------------------------------------------------------------------------
 
-    \subsection{Epochs and Overfitting}
+    \subsection{Both Sharp and Flat Minima Generalize Better}
+        To test Proposition \label{prop:overfit} 
         \lorem{3}
         \begin{figure}[h!]
             \centering
-            \plotmoo{plots/multi-fashion-logistic-0}{4.0cm}{4.0cm}
-            %\plotplace{multiepoch vs gd limit}{4.0cm}{4.0cm}
+            \plotmoo{plots/tak}{0.98\columnwidth}{4.0cm} \\
+            \plotmoo{plots/tak-reg}{0.98\columnwidth}{4.0cm}
             \caption{\lorem{2}}
         \end{figure}
-    
-    %--------------------------------------------------------------------------
-    %           Toward Effective Theories                   
-    %--------------------------------------------------------------------------
 
-    \subsection{Comparison to Continuous Time}
-        \lorem{3}
-        \lorem{3}
-        Also, sgd interepoch correlations
-        \begin{figure}[h!]
-            \centering
-            \plotplace{distinguishing landscape}{4.0cm}{4.0cm}
-            \plotmoo{plots/vs-sde}{4.0cm}{4.0cm}
-            \caption{\lorem{2}}
-        \end{figure}
-    
-    %--------------------------------------------------------------------------
-    %           Toward Effective Theories                   
-    %--------------------------------------------------------------------------
+    Prior work has varyingly found that \emph{sharp} minima generalize better
+    (after all, $l^2$ regularization increases curvature) or that \emph{flat}
+    minima generalize better (after all, flat minima are more robust to small
+    displacements in weight space).  We reconcile these competing intuitions by
+    showing how the relationship of generalization and curvature depends on the
+    learning task's noise structure.  We emphasize the role of a metric in
+    controlling this distinction.  In doing so, we offer a modern derivation of
+    the Takeuchi Information Criterion (TIC), a generalization of the Akaike
+    Information Criterion (AIC) that to our knowledge has not been derived in
+    the English language literature.  Because the TIC estimates a smooth
+    hypothesis class's generalization gap, it is tempting to use it as an
+    additive regularization term.  However, the TIC is singular where the
+    hessian is, and as such gives insensible results for over-parameterized
+    models.  We explain these singularities and explain how the implicit
+    regularization of gradient descent both demands and enables a
+    singularity-removing correction to the TIC.  The resulting \emph{Stabilized
+    TIC} (STIC) uses the metric implicit in gradient descent to threshold flat
+    from sharp minima.  It thus offers a principled method for optimizer-aware
+    model selection easily compatible with automatic differentiation systems.
+    By descending on STIC, we may tune smooth hyperparameters such as $l_2$
+    coefficients.
 
-    \subsection{Thermodynamic Engine}
-        \lorem{3}
-        \begin{figure}[h!]
-            \centering
-            \plotplace{loss landscape: mean and covariance}{4.0cm}{4.0cm}
-            \plotmoo{plots/thermo-linear-screw}{4.0cm}{4.0cm}
-            \caption{\lorem{2}}
-        \end{figure}
-        We constructed a counter-intuitive loss landscape wherein, for arbitrarily
-        small learning rates, SGD cycles counterclockwise around a circle of
-        minima.  Our mechanism differs from that discovered by \citet{ch18}
-        {\color{red}  discuss the thermodynamic significance of both}
+    \textsc{The Metric in Generalization} ---
+    
+    \textsc{The Takeuchi Information Criterion} ---
+    
+    \textsc{Descent's Implicit Regularization Removes TIC's Singularities} ---
+    
+    \textsc{Stabilized TIC for Smooth Model Selection} ---
+
+    \textsc{Related Work} ---
+
+    \textsc{Conclusion} ---
 
 %==============================================================================
 %    RELATED WORK    
@@ -887,16 +1012,29 @@
     diagram method established, it is especially interesting to further develop
     toward Lagrangian methods and curved backgrounds: 
     \begin{quest}
-        Can we summarize an effective theory of SGD dynamics in the form of 
+        Can we summarize an effective theory of SGD dynamics in the form of a 
         Lagrangian?  
     \end{quest}
+        We have found that some second order methods, for instance one with 
+        an update
+        $
+            \theta \leftsquigarrow
+            \theta -
+            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1} \nabla l_t(\theta)
+        $
+        parameterized by small $\eta, \lambda$, can be analyzed by means of
+        diagrams.  Intuitively, the new hessian term introduces a new type of
+        data-weight interaction, and with it, a new type of diagram vertex.  A
+        full Langrangian formalism would be valuable for organizing and
+        understanding the potential diversity of interactions in SGD variants. 
     \begin{quest}
-        How can the diagram formalism be adapted to curved weight spaces, i.e.
-        the ``Learning on Manifolds'' of Shah et al, notably specialized to the  
-        ``Natural Gradient'' of Amari and the ``Hyperbolic Trees'' of (???)?
+        How can the diagram formalism be adapted to curved weight spaces?
+    \end{quest}
+        Curved weight spaces include the ``Learning on Manifolds'' of Shah et
+        al, notably specialized to the  
+        ``Natural Gradient'' of Amari and the ``Hyperbolic Trees'' of (???).
         One may want to represent the affine connection as a node, thus giving
         rise to non-tensorial and hence gauge-dependent diagrams.
-    \end{quest}
 
 %==============================================================================
 %    ACKNOWLEDGEMENTS
@@ -1398,13 +1536,6 @@
     We use such expressions throughout our experiments to estimate the
     (expected) values of diagrams.
 \end{document}
-
-
-
-
-
-
-
 
 
     %\subsection*{Generalization Gap vs Curvature and Covariance}
