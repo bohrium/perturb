@@ -6,7 +6,7 @@
 \documentclass{article}
 \usepackage[T1]{fontenc}
 \usepackage{microtype}
-\usepackage{graphicx}
+\usepackage{graphicx, float}
 \usepackage{subfigure}
 \usepackage{booktabs} % for professional tables
 \usepackage{hyperref, xcolor}
@@ -38,6 +38,9 @@
 \newcommand{\Mod}{\mathcal{M}}
 \newcommand{\Hom}{\text{\textnormal{Hom}}}
 \newcommand{\image}{\text{\textnormal{im}}}
+\newcommand{\dvalue}{\text{\textnormal{value}}}
+\newcommand{\edges}{\text{\textnormal{edges}}}
+\newcommand{\ords}{\text{\textnormal{ords}}}
 \newcommand{\Ss}{\mathcal{S}}
 \newcommand{\Pp}{\mathcal{P}}
 \newcommand{\Nn}{\mathcal{N}}
@@ -215,22 +218,20 @@
         order $\eta^3$, \emph{inter-epoch shuffling} does not affect expected
         test loss.
 
-    \subsubsection*{Appetizing Example: The Role of Epoch Number}
+    \subsection{Appetizing Example: The Role of Epoch Number}
         %----------------------------------------------------------------------
-        %       Epoch Shuffling Example  
+        %       Epoch Number Example     
         %----------------------------------------------------------------------
-        Deferring explanation, we use diagrams to compare the
-        expected test losses of one-epoch and multi-epoch SGD (say, with
-        learning rates scaled proportionally).  In our formalism,
-        these test losses are the \emph{sum over all diagrams embedded in
-        spacetime}, where the spacetime encodes which samples are seen at
-        which times
-        %, the diagrams represent weight-data interactions,
-        and each diagram evaluates to a specific statistic of the loss
-        landscape.  One-epoch and multi-epoch SGD differ only in their
-        datapoint-timestep schedules and hence only in their spacetimes. 
+        Deferring explanation, we use diagrams for a sample problem: to compare
+        the expected test losses of one-epoch and multi-epoch SGD (say, with
+        learning rates scaled proportionally).  In our formalism, these test
+        losses are the \emph{sum over all diagrams embedded in spacetime},
+        where the spacetime encodes which samples are seen at which times and
+        each diagram evaluates to a specific statistic of the loss landscape.
+        One-epoch and multi-epoch SGD differ only in their datapoint-timestep
+        schedules, i.e. only in their spacetimes. 
 
-        \begin{figure}[h!] \label{fig:epoch}
+        \begin{figure}[H] \label{fig:epoch}
             \centering  
             \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
             \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
@@ -247,10 +248,11 @@
         \end{figure}
 
         The rules are that embedded diagrams \emph{may not contain edges between
-        nodes in the same spacetime cell} and that the $d$-edged diagrams
-        contribute at order $\eta^d$.
-        To order $\eta^2$, then, multi epoch SGD has, in addition to the
-        diagrams of single epoch, also 
+        nodes in the same spacetime cell}
+        and that $d$-edged diagrams contribute at order $\eta^d$.
+        %and that diagram values are invariant to node-by-node horizontal shifts and permutation of rows.
+        So to order $\eta^2$, multi epoch SGD has, in addition to the
+        diagrams of single epoch SGD, also 
         $\sdia{c(01-2)(01-12)}$
         (see Figure \ref{fig:epoch}).
         Since this diagram embeds in $M$-epoch spacetime in
@@ -259,18 +261,19 @@
         $$
             \text{test loss difference} =  
             \frac{N\cdot {M\choose 2}}{M^2}
-            \text{value}\wrap{\sdia{c(01-2)(01-12)}}
+            \dvalue\wrap{\sdia{c(01-2)(01-12)}}
             + o(\eta^2)
         $$
         We complete the calculation by reading from the diagram's graph
         structure that it evaluates to
         \begin{align*}
-            \text{value}\wrap{\sdia{c(01-2)(01-12)}}
+            \dvalue\wrap{\sdia{c(01-2)(01-12)}}
             =
             &\wrap{
                 \expc_{x}\wasq{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x} 
                 -
-                \expc_{x}\wasq{\nabla_\mu l_x} \expc_{x}\wasq{\nabla_\nu \nabla_\lambda l_x} 
+                \expc_{x}\wasq{\nabla_\mu l_x}
+                \expc_{x}\wasq{\nabla_\nu \nabla_\lambda l_x} 
             } \cdot \\
             &\expc_{x}\wasq{\nabla_\rho l_x}
             \wrap{-\eta^{\mu\nu}} \wrap{-\eta^{\lambda\rho}}
@@ -286,9 +289,9 @@
         in order to extend our results to the large-$\eta T$ regime (sections
         \ref{subsect:effective}, \ref{subsect:entropic}, and
         \ref{subsect:overfit}), the topology of diagrams will play a key role.  
-        Note that diagrams may in principle be completely avoided.  However, as
-        shown by comparison in an appendix, this can lead to substantively
-        longer and more complicated analyses.   
+        While diagrams may in principle be completely avoided,
+        Appendix D shows that to avoid them can lead to
+        substantively longer and more complicated analyses.   
 
 %==============================================================================
 %       BACKGROUND AND NOTATION
@@ -312,8 +315,9 @@
         
         We assume that all polynomials of the $0$th and higher derivatives of
         the losses $l_n$, considered as random functions on weight space, have
-        smooth expectations, and that expectations and
-        derivatives commute throughout.
+        smooth expectations, and that expectations and derivatives commute
+        throughout.  We use $G, H, J$ for the first, second, and third
+        derivatives of $l$.
         
         Kol\'{a}\u{r} gives a careful introduction to these differential
         geometric ideas \yrcite{ko93}.
@@ -323,13 +327,15 @@
     %--------------------------------------------------------------------------
     
     \subsection{Combinatorial Costumes: Structure Sets}
-        We make use of \emph{structure sets}, i.e. sets $S$ equipped with a
-        preorder $\leq$ and an equivalence relation $\sim$.  The morphisms of
-        structure sets are strictly increasing maps that preserve $\sim$ and
-        its negation.  A structure set is \emph{pointed} if it has a unique
-        maximum element and this element forms a singleton $\sim$-class.  The
-        categories $\Ss$ of structure sets and $\Pp$ of pointed structure sets
-        enjoy a free-forgetful adjunction $\Free, \Forg$.
+        To precisely define diagrams and spacetimes, we define \emph{structure
+        sets}, i.e. sets $S$ equipped with a preorder $\leq$ and an equivalence
+        relation $\sim$.  The morphisms of structure sets are strictly
+        increasing maps that preserve $\sim$ and its negation.  A structure set
+        is \emph{pointed} if it has a unique maximum element and this element
+        forms a singleton $\sim$-class.  The categories $\Ss$ of structure sets
+        and $\Pp$ of pointed structure sets enjoy a free-forgetful adjunction
+        $\Free, \Forg$.  When $\leq$ is a total preorder, we say that $S$ is
+        a \emph{spacetime}.
     
         A \emph{diagram} is a rooted tree equipped with an equivalence relation
         $\sim$ on nodes.  We draw the tree with thin edges, with the root at
@@ -337,8 +343,9 @@
         tree as a Hasse graph, we see that each diagram $D$ induces a structure
         set, by abuse of notation also named $D$.  An $\Ss$-map from $D$ to
         $[P]=(\Forg\circ\Free)^P(\text{empty set})$ is an \emph{ordering} of
-        $D$, where $P$ counts $D$'s equivalence classes.  Let $e(D)$ and $o(D)$
-        count edges and orderings of $D$.
+        $D$, where $P$ counts $D$'s equivalence classes.  Let
+        $|\edges(D)|$ and $\ords(D)$ count edges and orderings of
+        $D$.
     
         Fong gives a swift introduction to these category theoretic and
         diagrammatic ideas \yrcite{fo19}.
@@ -350,8 +357,7 @@
     \subsection{The Parameterized \emph{Personae}: Forms of SGD}
         SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
         estimates $(l_n: 0\leq n<N)$ of $l$.  The pattern of updates is
-        determined by a structure set $S$ whose preorder is a total preorder
-        with element $i$ inside strongly connected component $C(i)$: for a map
+        determined by a spacetime $S$: for a map
         $\pi:S\to [N]$ that induces $\sim$, we define SGD inductively as
         $\text{SGD}_{S}(\theta) = \theta$ when $S$ is empty and otherwise
         $$
@@ -438,8 +444,8 @@
         and twice in the second).  Thin \emph{edges} mark contractions by
         $-\eta$.  Fuzzy \emph{ties} denote correlations by connecting identical
         loss functions (here, $l_c$ with $l_c$).  The colors are redundant with
-        the fuzzy ties.  The value $v(D)$ of a diagram $D$ is the expected
-        value of the corresponding tensor expression.
+        the fuzzy ties.  The value $\dvalue(D)$ of a diagram $D$ is the
+        expected value of the corresponding tensor expression.
         
         Crucially, for a fixed, i.i.d.  distribution over $(l_c, l_b, l_a)$,
         {\bf the topology of a diagram determines its value}.  For instance,
@@ -458,9 +464,7 @@
         variants are straight-forward in the diagram notation because they
         reduce the problem of evaluating the previous dynamical expressions to
         the problem of counting graph embeddings.  The more complicated the
-        direct computation, the greater the savings of using diagrams.  An
-        appendix provides details and proofs for a variety of situations.  For
-        now, we focus on the test loss of SGD.
+        direct computation, the greater the savings of using diagrams.  
     
     %--------------------------------------------------------------------------
     %           Recipe for Test Loss and Generalization Gap
@@ -482,14 +486,14 @@
                     \sum_{f: D\to\Free(S)}
                     \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
                 \right)
-                \frac{v(D)}{B^{e(D)}}
+                \frac{\dvalue(D)}{B^{|\edges(D)|}}
             \end{equation}
             Here, $D$ is (an isomorphism class of) a diagram of form
             $\Free(T)$ and $f$ is a morphism in $\Pp$.
         \end{thm}
         \begin{thm}[Generalization Gap as a Path Integral] \label{thm:gen}
             SGD's expected generalization gap (test loss minus train loss) is
-            formula \ref{eq:sgdcoef} with $v(D)$ replaced by
+            formula \ref{eq:sgdcoef} with $\dvalue(D)$ replaced by
             $
                 \sum_{p \in D/\sim_D} v(D_p)/N
             $.
@@ -504,13 +508,14 @@
             SGD with singleton batches is:
             \begin{equation}\label{eq:sgdbasiccoef}
                 \frac{(-1)^d}{d!} \sum_{D\in \image(\Free)} 
-                o(D) {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
-                v(D)
+                |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
+                \dvalue(D)
             \end{equation}
             where $D$ ranges over $d$-edged diagrams whose equivalence classes
             have sizes $d_p: 0\leq p\leq P$, with $d_P=1$
             and, without loss, are each antichains.  The modification to
-            compute generalization gap is the same as in Theorem \ref{thm:gen}.
+            compute the generalization gap is the same as in Theorem
+            \ref{thm:gen}.
         \end{prop}
         A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta N)^d
         N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
@@ -547,7 +552,7 @@
         optimization and generalization become computationally intractable and
         trivial, respectively. 
     
-        \begin{table}[h!]
+        \begin{table}[H]
             \centering 
             \resizebox{\columnwidth}{!}{%
             \begin{tabular}{c|c|c}
@@ -624,8 +629,8 @@
             less test loss than $M$-epoch SGD with learning rate $\eta/M$. 
         \end{cor}
     
-        Given an unbiased estimator $\hat{C}$ of gradient covariance, we may get
-        GD to mimic SGD:
+        Given a smooth unbiased estimator $\hat{C}$ of gradient covariance, we
+        may cause GD to mimic SGD:
         \begin{cor}[The Effect of Batch Size] \label{cor:batch}
             The expected test loss of pure SGD is, to order $\eta^2$,
             less than that of pure GD by
@@ -653,17 +658,17 @@
     %--------------------------------------------------------------------------
 
     \subsection{Descent as Scattering}
-        In sum, SGD's test loss is a weighted sum of diagrams, each $d$-edged
+        In short, SGD's test loss is a weighted sum of diagrams, each $d$-edged
         diagram contributing to order $\eta^d$.  We depict the $\Ss$-maps of
-        $f:D\to S$ Theorem \ref{thm:test} as an embedding of the graph $D$ into
-        the structure set or ``spacetime'' $S$.  Thus, SGD's test loss is a sum
-        over all embeddings in spacetime; see Figure (\ref{fig:spacetime}).
-        This loss depends on the shape of spacetime, which in encodes
-        correlations between updates.  To compute a test loss, we simply count
-        embeddings.  For instance, the order $\eta^2$ diagrams in
-        (\ref{fig:spacetime}) all contribute the same amount to test loss, so
-        we just need to find out how many such embedded diagrams there are.   
-        \begin{figure}[h!] \label{fig:spacetime}
+        $f:D\to S$ (Theorem \ref{thm:test}) as an embedding of the graph $D$
+        into spacetime $S$.  Thus, SGD's test loss is a sum over all embeddings
+        in spacetime; see Figure (\ref{fig:spacetime}).  This loss depends on
+        the shape of spacetime, which encodes correlations between updates.  To
+        compute a test loss, we simply count embeddings.  For instance, the
+        order $\eta^2$ diagrams in (\ref{fig:spacetime}) all contribute the
+        same amount to test loss, so we just need to find out how many such
+        embedded diagrams there are.   
+        \begin{figure}[H] \label{fig:spacetime}
             \centering  
             \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
             \caption{
@@ -676,7 +681,7 @@
                 test loss (with an extra factor $N$ per edge). 
             }
         \end{figure}
-        \begin{figure}[h!] \label{fig:vsmulti}
+        \begin{figure}[H] \label{fig:vsmulti}
             \centering  
             \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
             \caption{
@@ -724,7 +729,7 @@
         durations.  For example, the above chains contribute the following to
         test loss for vanilla SGD:
         \begin{align*}
-            G \sum_{0\leq t<T} (I+\eta H)^{T-t-1} \eta G
+            G \sum_{0\leq t<T} (I-\eta H)^{T-t-1} \eta G
             &\approx
             G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G\\
             &=
@@ -737,35 +742,75 @@
         is thus an ``effective propagator''.
 
         In general, to use the renormalized recipe, one lists all the diagrams
-        that are \emph{irreducible} in the sense that they contain no singleton
-        degree-two nodes (such as the middle node of $\sdia{(0-1-2)(01-12)}$).
-        The contribution of a diagram, as usual, will be a sum over all its
-        embeddings into spacetime.  This time, though, the integrand will be
-        exponentially weighted by $\exp(-\eta \Delta T H)$ for each edge of
-        duration $\Delta T$.  One thus gets an integral of exponentials.
+        that are \emph{irreducible} in the sense that they contain no
+        $\sim$-singleton degree-two nodes (such as the middle node of
+        $\sdia{(0-1-2)(01-12)}$).  The contribution of a diagram, as usual,
+        will be a sum over all its embeddings into spacetime.  This time,
+        though, the integrand will be exponentially weighted by $\exp(-\eta
+        \Delta T H)$ for each edge of duration $\Delta T$.  One thus gets an
+        integral of exponentials.
 
+        \begin{thm}[Renormalization] \label{thm:renorm}
+            The test loss of SGD has a MacLaurin series as in
+            \label{thm:test}, except with only irreducible diagrams included
+            and for each embedding $f:D \to \Free(S)$ 
+            \begin{equation} \label{eq:renorm}
+                \sum_{\substack{D \in \image(\Free)\\ \text{irreducible}}}
+                \sum_{f: D\to\Free(S)}
+                    \left(
+                        \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
+                    \right)
+                \frac{\dvalue_f(D)}{B^{|\edges(D)|}}
+            \end{equation}
+            and with the embedding-agnostic value $\dvalue(D)$ replaced by an
+            embedding-sensitive value $\dvalue_f(D)$.  Here, $\dvalue_f(D)$
+            has the same expression as $\dvalue(D)$ except each contraction  
+            by $-\eta$ between nodes embedded to times $t, \tilde t$ is
+            replaced by a factor $(I-\eta H)^{\wabs{t-\tilde t}} \eta$.
+            The modification to compute the generalization gap is the same as
+            in Theorem \ref{thm:gen}.
+            In practice, we prefer to replace sums by integrals and $(I-\eta
+            H)^t$ by $\exp(- \eta H t)$, thus incurring a term-by-term
+            multiplicative error of $1 + o(\eta)$.
+        \end{thm}
+
+        TODO: discuss benefits of Renormalization Theorem
         The renormalized theory predicts large-$\eta T$ phenomena:
         \begin{prop}[A Nonconservative Entropic Force]\label{prop:entropic}
-            When initialized at a test minimum, vanilla SGD's weight moves as
-            ODE's weight plus some gradient $\nabla\phi$ plus, to order
-            $\eta^2$, at a rate of 
+            When initialized at a test minimum, vanilla SGD's weight moves to
+            order $\eta^2$ with a long-time-averaged\footnote{
+                That is, $T$ so large that $\exp(-\eta H T)$ is vanishing.
+                An appendix gives a similar expression for general $T$.
+            }
+            expected velocity of
             $$
-                C
-                \frac{I\otimes I - \exp(-\eta T (H\otimes I + I\otimes H))}{H\otimes I + I\otimes H}
-                \eta^2 J
-                \frac{I - \exp(-\eta T H)}{H}
-                \eta
+                v^\pi = C_{\mu \nu}
+                \wrap{K^{-1}}^{\mu\nu}_{\rho\lambda}
+                J^{\rho\lambda}_{\sigma}
+                \wrap{H^{-1}}^{\sigma \pi}
             $$
-            per timestep.  For large   
+            per timestep.
+            Here, $K = \eta H \otimes I + I \otimes \eta H$, a
+            $4$-valent tensor. 
         \end{prop}
-
+        Unlike prior work \cite{we19b}, we make no assumptions of
+        thermal equilibrium, fast/slow mode separation, or constant covariance.
+        This added generality allows us to observe a qualitatively new
+        dynamical phenomenon, namely that the velocity field above need not be
+        conservative.  We verify this in experiments.
         \begin{prop}[Flat and Sharp Minima Overfit Less]\label{prop:overfit}
             When initialized at a test minimum, pure GD's test loss is, to
             order $\eta$, 
             $$
-                \frac{1}{N} C \frac{\wrap{I - \exp(-\eta T H)}^2}{H} \eta^2
+                \frac{1}{2N} ~
+                    C_{\mu\nu}
+                    \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
+                    \wrap{H^{-1}}^{\rho\lambda}
             $$
+            above the minimum.
+            TODO: also gen gap.
         \end{prop}
+        TODO: Intuition about springs. 
 
 %==============================================================================
 %    EXPERIMENTS AND APPLICATIONS
@@ -778,12 +823,24 @@
     %--------------------------------------------------------------------------
 
     \subsection{Vanilla SGD}
-        We here test Proposition \label{prop:vanilla}. 
-        \begin{figure}[h!]
+        We test Proposition \ref{prop:vanilla} for smooth convolutional
+        architectures for CIFAR-10 and Fashion-MNIST by comparing measured 
+        test losses and generalization gaps with un-renormalized predictions
+        (see Appendices E and F for experiment details).  We find good
+        agreement between our order $\eta^3$ perturbative predictions up to
+        $\eta T \approx 10^0$.  Though of little direct import, this test
+        verifies that our application of the diagram method hides no factor
+        mistakes or sign errors.
+        \begin{figure}[H]
             \centering
             \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} 
             \plotmoo{plots/gen-cifar}{0.48\columnwidth}{3.0cm}
-            \caption{\lorem{2}}
+            \caption{
+                Measurements are in blue and theory is in other colors. 
+                Vertical spans indicate 95\% confidence intervals for the mean.
+                %{\bf Left}
+                %{\bf Right}
+            }
         \end{figure}
     
     %--------------------------------------------------------------------------
@@ -792,7 +849,7 @@
 
     \subsection{Emulating Small Batches with Large Ones}
         We here test Proposition \ref{prop:vanilla}. 
-        \begin{figure}[h!]
+        \begin{figure}[H]
             \centering
             \plotmoo{plots/big-bm}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/multi-fashion-logistic-0}{0.48\columnwidth}{4.0cm}
@@ -866,7 +923,7 @@
         $$
             l_x(w) = \frac{1}{2} H(z)(w, w) + x \cdot S(z)(w)  
         $$
-        Here, $H(z)(w, w) = \|w\|^2 + (\cos(z) w_x + \sin(z) w_y)^2$
+        Here, $H(z)(w, w) = w_x^2 + w_y^2 + (\cos(z) w_x + \sin(z) w_y)^2$
         and   $S(z)(w)    = \cos(z-\pi/4) w_x + \sin(z-\pi/4) w_y$.
         We see that there is a valley of global minima defined by $x=y=0$. 
         If SGD is initialized there, then to leading order in $\eta$ and for
@@ -874,7 +931,7 @@
         per timestep.  We see that this prediction, unlike the
         un-renormalized prediction, agrees with experiment.
 
-        \begin{figure}[h!]
+        \begin{figure}[H]
             \centering
             \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
@@ -902,7 +959,7 @@
         learning task's noise structure.  We emphasize the role of a metric in
         controlling this distinction.
         
-        \begin{figure}[h!]
+        \begin{figure}[H]
             \centering
             \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
@@ -1033,6 +1090,10 @@
     in multi-epoch SGD, inter-epoch shuffling induces no $3$rd order effect
     on test loss.  In other words, we proved that {\bf nongaussian effects
     matter more than shuffling order} for fixed finite $N$ and small $\eta$.
+    Most of the calculations we presented here using our technique can be means
+    of this technique be done fully in one's head; in fact, we have answered
+    several natural questions that are hard to do in direct perturbation.  We
+    see this as evidence that our method is helpful.
 
     %--------------------------------------------------------------------------
     %           Ask Questions                               
@@ -1427,7 +1488,6 @@
                      \expct{\nabla^3 l_{n_t} \nabla l_{n_{t_a}} \nabla l_{n_{t_b}}}
             \end{align*}
 
-    
 \section*{E. Bessel Factors for Estimating Multipoint Correlators from Data}
     Given samples from a joint probability space $\prod_{0\leq d<D} X_d$, we
     seek unbiased estimates of multipoint correlators (i.e. products of
@@ -1559,5 +1619,17 @@
     $$
     We use such expressions throughout our experiments to estimate the
     (expected) values of diagrams.
+
+\section*{F. Loss Landscapes Used for Experiments}
+    In addition to the pedagogically artificial loss landscapes (Gaussian Fit,
+    Linear Screw, and Mean Estimation) described in the main text, we tested
+    our predictions on logistic linear regression and simple convolutional
+    networks (2 convolutional weight layers each with kernel $5$, stride $2$,
+    and $10$ channels, followed by two dense weight layers with hidden
+    dimension $10$) for the CIFAR-10 and Fashion-MNIST datasets.  The
+    convolutional architectures used $\tanh$ activations and Gaussian Xavier
+    initialization.  We parameterized the model so that the Gaussian-Xavier
+    initialization of the linear maps in each layer pulled back to standard
+    normal initializations of the parameters. 
 \end{document}
 
