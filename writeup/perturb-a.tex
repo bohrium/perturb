@@ -201,7 +201,9 @@
         and batch size} on SGD test loss.  We also \emph{contrast SGD against
         popular continuous-time approximations} such as ordinary or stochastic
         differential equations (ODE, SDE): our work gives the finite-$N$,
-        finite-$\eta^{-1}$ corrections to these approximations.
+        finite-$\eta^{-1}$ corrections to these approximations.  From this
+        theory, we propose two new regularizers that respectively induce GD to
+        mimic SGD and help to tune hyperparameters such as $l_2$ coefficients.
         
         %----------------------------------------------------------------------
         %       Connection to Physics
@@ -659,14 +661,17 @@
             has an expected test loss that agrees with SGD's to second order.
         \end{cor}
     
-        \begin{prop}[A Nonconservative Force, Unrenormalized] \label{cor:noncons}
-            Initialized at a test minimum, vanilla SGD's weight moves as ODE's
-            weight plus some gradient $\nabla\phi$ plus, to order $\eta^3$: 
+        \begin{prop}[An Entropic Force, Unrenormalized] \label{prop:noncons}
+            When vanilla SGD is initialized at a test minimum, the weight is
+            displaced to order $\eta^3$ by 
             $
                 {T \choose 2} \sdia{c(01-2-3)(02-12-23)} / 2
             $.
         \end{prop}
-        We soon present a renormalized version of this result.
+        Proposition \ref{prop:noncons} was first proven by \citet{ya19b}, and
+        our methods reproduce it elegantly.  We will renormalize it to
+        Proposition \ref{prop:entropic}, which will apply for large times, 
+        hence demonstrating a persistent and non-conservative entropic force.
     
     %--------------------------------------------------------------------------
     %           Descent as Scattering                       
@@ -724,10 +729,13 @@
     \subsection{Effective Theories} \label{subsect:effective}
         An important idea is that of \emph{renormalization}, i.e. the
         summarization of myriad small-scale interactions into an effective
-        large-scale theory.  We can use this to refine our $d$th order
-        computations for fixed $d$.  In fact, for some large-$\eta T$ limits
-        in a positive-Hessian setting, the unrenormalized theory does not
-        converge while the renormalized theory does.
+        large-scale theory.  We will renormalize --- specifically, we will
+        pair main diagrams with topologically related modifications in order
+        to refine our $d$th order estimates for any fixed $d$.  For
+        some large-$\eta T$ limits in a positive-Hessian setting, the
+        unrenormalized theory does not converge while the renormalized theory
+        does.  Thus, renormalization will help us reason about large-time
+        behavior. 
 
         For example, consider the diagrams that are uncorrelated chains ---
         $\sdia{(0-1)(01)}, \sdia{(0-1-2)(01-12)},
@@ -743,20 +751,23 @@
         $.
         We may thus organize diagrams together by the homeomorphism classes of
         their \emph{geometric realizations}; each class yields a sum over
-        durations.  For example, the above chains contribute the following to
-        test loss for vanilla SGD:
+        durations.  For example, the above chains contribute 
+        $G \sum_{0\leq t<T} (I-\eta H)^{T-t-1} \eta G$
+        to vanilla SGD's test loss, or approximately:
         \begin{align*}
-            G \sum_{0\leq t<T} (I-\eta H)^{T-t-1} \eta G
-            &\approx
-            G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G\\
-            &=
+            \approx
+            G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G
+            =
             G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
         \end{align*}
-        This 
+        To use physical language: after integrating the
+        ``effective propagator'' $\exp(-\eta t H) \eta$ over possible
+        spacetime configurations, we arrive at a revised inverse metric
         $
             \wrap{I - \exp(-\eta T H)}/H
         $
-        is thus an ``effective propagator''.
+        to be used instead of $\eta$.  When $H$ is positive, the above
+        converges in the large-$T$ limit.
 
         \textsc{Renormalized Recipe:}~
         In general, one sums over all embeddings of diagrams that are
@@ -833,6 +844,15 @@
             Contrary to the later-mentioned Takeuchi estimate, this does not
             diverge as $H$ shrinks.
         \end{prop}
+        Proposition \ref{prop:overfit}'s generalization gap converges after
+        large $T$ to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$, also known as Takeuchi's
+        Information Criterion (TIC).  In turn, in the classical setting of
+        maximum likelihood (ML) estimation (with no model mis-specification)
+        near the ``true'' test minimum, $C=H$ is the Fisher metric, so we
+        recover the Akaike Information Criterion (AIC) $(\textnormal{number of
+        parameters})/N$.  Unlike AIC, our more general expression is
+        descendably smooth, may be used with MAP or ELBO tasks instead of just
+        ML, and makes no model well-specification assumptions.
 
         \begin{figure}[h!]
             \centering
@@ -918,7 +938,12 @@
     %--------------------------------------------------------------------------
 
     \subsection{Emulating Small Batches with Large Ones}
-        We here test Proposition \ref{prop:vanilla}. 
+        Figure \ref{fig:bmmulti} shows that the regularizer proposed in
+        Proposition \ref{cor:batch} indeed enables GD to emulate SGD
+        on a range of image-classification landscapes.  For these experiments,
+        we used a covariance
+        estimator $\hat C \propto \nabla l_x (\nabla l_x - \nabla l_x)$ evaluated on
+        two batches $x, y$ that partition the training set.
         \begin{figure}[h!] 
             \centering
             \plotmoo{plots/big-bm-new}{0.48\columnwidth}{4.0cm}
@@ -995,7 +1020,7 @@
         be repelled by different Hessians than before.  By setting the
         covariance to lag the Hessian by a rotational phase, we construct
         a landscape in which this entropic force occurs forever. 
-        The landscape is defined for
+        This ``\emph{linear-screw}'' landscape is defined for
         three-dimensional $w\in \RR^3$ (initialized at the origin) and
         one-dimensional $x \sim \Nn(0, 1))$:
         $$
@@ -1077,17 +1102,14 @@
             \label{fig:tak}
         \end{figure}
 
-        In proving Proposition \ref{prop:overfit}, we offer a modern
-        derivation of the Takeuchi Information Criterion (TIC), a
-        generalization of the Akaike Information Criterion (AIC) that to our
-        knowledge has not been derived in the English language literature.
         Because the TIC estimates a smooth hypothesis class's generalization
         gap, it is tempting to use it as an additive regularization term.
-        However, the TIC is singular where the Hessian is, and as such gives
-        insensible results for over-parameterized models.  
-        The spring analogy in Figure \ref{fig:entropic}
-        intuitively explains these singularities.  Fortunately,
-        by Proposition \ref{prop:overfit}, the implicit
+        However, the TIC is singular where the Hessian is (see Figure
+        \ref{fig:entropic}), and as such gives insensible results for
+        over-parameterized models.  Indeed, a prior attempt ran into numerical
+        difficulties requiring an arbitrary cutoff \citep{di18}. 
+
+        Fortunately, by Proposition \ref{prop:overfit}, the implicit
         regularization of gradient descent both demands and enables a
         singularity-removing correction to the TIC --- see Figure
         \ref{fig:tak}.  The resulting \emph{Stabilized TIC} (STIC) uses the
@@ -1095,12 +1117,12 @@
         minima.  It thus offers a principled method for optimizer-aware model
         selection easily compatible with automatic differentiation systems.  By
         descending on STIC, we may tune smooth hyperparameters such as $l_2$
-        coefficients.  Experiments on the mean-estimation problem validate
-        STIC for such model selection, especially when $C/N$ dwarves $H$ as in
-        the noisy, small-$N$ regime (see Figure \ref{fig:tak}).
-        Because matrix exponentiation is expensive, STIC regularization without
-        further approximations is most useful for fitting moderate or
-        low-dimensional models of very noisy or scanty data.
+        coefficients.  Experiments on the mean-estimation problem validate STIC
+        for such model selection, especially when $C/N$ dwarves $H$ as in the
+        noisy, small-$N$ regime (see Figure \ref{fig:tak}).  Because matrix
+        exponentiation is expensive, STIC regularization without further
+        approximations is most useful for models of small dimension
+        on very noisy or scanty data.
 
 %==============================================================================
 %    RELATED WORK    
@@ -1131,7 +1153,7 @@
     data of not only architecture but also optimization \citep{ne17b}.  Others
     have focused on the implicit regularization of SGD itself, for instance by
     modeling descent via stochastic differential equations (SDEs) (e.g.
-    \citet{ch18}).  However, per \citet{ya19}, such continuous-time analyses
+    \citet{ch18}).  However, per \citet{ya19a}, such continuous-time analyses
     cannot treat covariance correctly, and so they err when interpreting
     results about SDEs as results about SGD for finite trainsets.
 
@@ -1139,7 +1161,9 @@
     %           We Extend Dan's Approach                     
     %--------------------------------------------------------------------------
 
-    Following \citet{li17} and \citet{ro18}, we avoid making a continuous-time
+    Following
+    %\citet{li17} and
+    \citet{ro18}, we avoid making a continuous-time
     approximation by instead Taylor-expanding around the learning rate
     $\eta=0$.  In fact, we develop a diagrammatic method for evaluating each
     Taylor term that is inspired by the field theory methods popularized by
@@ -1286,8 +1310,9 @@
         be adapted to curved weight spaces: one may represent the affine
         connection as a node, thus giving rise to non-tensorial and hence
         gauge-dependent diagrams.  A promising line of work is thus to adapt
-        our current results to the curved case, especially to extract
-        qualitative results about the role of curvature in generalization.
+        our current formalism to the curved case, especially to extract
+        qualitative results about the role of Riemannian curvature in
+        generalization.
 
 %==============================================================================
 %    ACKNOWLEDGEMENTS
