@@ -233,7 +233,7 @@
         One-epoch and multi-epoch SGD differ only in their datapoint-timestep
         schedules, i.e. only in their spacetimes. 
 
-        \begin{figure}[H] 
+        \begin{figure}[h!] 
             \centering  
             \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
             \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
@@ -566,7 +566,7 @@
         optimization and generalization become computationally intractable and
         trivial, respectively. 
     
-        \begin{table}[H]
+        \begin{table}[h]
             \centering 
             \resizebox{\columnwidth}{!}{%
             \begin{tabular}{c|c|c}
@@ -607,9 +607,10 @@
             \caption{
                 Degree-$3$ scattering diagrams for $B=M=1$ SGD's test loss.
                 {\bf Left:} $(d, P) = (3, 3)$.  Diagrams for ODE behavior.
-                {\bf Center:} $(d, P) = (3, 2)$.  $1$st order deviation of SGD away from ODE.
-                {\bf Right:} $(d, P) = (3, 1)$.  $2$nd order deviation of SGD from ODE with appearance of
-                non-Gaussian statistics.
+                {\bf Center:} $(d, P) = (3, 2)$.  $1$st order deviation of SGD
+                away from ODE.
+                {\bf Right:} $(d, P) = (3, 1)$.  $2$nd order deviation of SGD
+                from ODE with appearance of non-Gaussian statistics.
             }
             \label{tab:scatthree}
         \end{table}
@@ -682,7 +683,7 @@
         order $\eta^2$ diagrams in (\ref{fig:spacetime}) all contribute the
         same amount to test loss, so we just need to find out how many such
         embedded diagrams there are.   
-        \begin{figure}[H] 
+        \begin{figure}[h!] 
             \centering  
             \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
             \caption{
@@ -696,7 +697,7 @@
             }
             \label{fig:spacetime}
         \end{figure}
-        \begin{figure}[H] 
+        \begin{figure}[h!] 
             \centering  
             \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
             \caption{
@@ -833,7 +834,7 @@
             diverge as $H$ shrinks.
         \end{prop}
 
-        \begin{figure}[H]
+        \begin{figure}[h!]
             \centering
             \plotmooh{diagrams/entropic-force-diagram}{}{0.35\columnwidth} 
             \plotmooh{diagrams/springs}{}{0.35\columnwidth}
@@ -852,9 +853,9 @@
                     Noise structure determines how curvature affects
                     overfitting.  To use a physical metaphor, for a fixed
                     displacement scale, stiffer springs incur greater energy
-                    gains.  But for a fixed force scale, it is limper springs
-                    incur greater energy gains.  Geometrically, for (empirical
-                    risk minimization on) a vector-perturbed landscape, small
+                    gains.  But for a fixed force scale, limper springs incur
+                    greater energy gains.  Geometrically, for (empirical risk
+                    minimization on) a vector-perturbed landscape, small
                     hessians are favored (top row), while for
                     covector-perturbed, landscape large hessians are favored
                     (bottom row).  Proposition \ref{prop:overfit} shows how the
@@ -883,7 +884,7 @@
         $\eta T \approx 10^0$.  Though of little direct import, this test
         verifies that our application of the diagram method hides no factor
         mistakes or sign errors.
-        \begin{figure}[H]
+        \begin{figure}[h!]
             \centering
             \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} 
             \plotmoo{plots/gen-cifar}{0.48\columnwidth}{3.0cm}
@@ -918,7 +919,7 @@
 
     \subsection{Emulating Small Batches with Large Ones}
         We here test Proposition \ref{prop:vanilla}. 
-        \begin{figure}[H] 
+        \begin{figure}[h!] 
             \centering
             \plotmoo{plots/big-bm-new}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/multi-fashion-logistic-0}{0.48\columnwidth}{4.0cm}
@@ -943,23 +944,28 @@
     %--------------------------------------------------------------------------
 
     \subsection{Comparison to Continuous Time}
-        {\color{moor} FILL IN}
-        %\lorem{3}
-        As a simplest example where the loss landscape is not a Gaussian
-        Process, consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
-        one-dimensional data.  We parameterize the landscape by
-        $h=\log(\sigma^2)$.  The gradient at sample $x$ and weight $\sigma$ is
-        then $g_x(h) = (1-x^2\exp(-h))/2$.  If $x\sim \Nn(0, 1)$ is standard
-        normal, then $g_x(h)$ will be affinely related to a chi-squared, and in
-        particular non-gaussian.  At $h=1$, the expected gradient vanishes, and
-        the test loss only involves diagrams with no singleton leaves; to third
-        order, it is
+        Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some centered
+        standard normal data.  We parameterize the landscape by
+        $h=\log(\sigma^2)$ so that the Fisher information matches the standard
+        dot product \citet{am98}.  The gradient at sample $x$ and weight
+        $\sigma$ is then $g_x(h) = (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0,
+        1)$, $g_x(h)$ will be affinely related to a chi-squared, and in
+        particular non-gaussian.  At $h=0$, the expected gradient vanishes, and
+        the test loss of vanilla SGD only involves diagrams with no singleton
+        leaves; to third order, it is
         $
             \sdia{(0)()}
-            +\frac{N}{2} \sdia{c(01-2)(02-12)}
-            +{N\choose 2} \sdia{c(03-1-2)(01-12-23)}
-            +\frac{N}{6} \sdia{c(012-3)(03-13-23)}
+            +\frac{T}{2} \sdia{c(01-2)(02-12)}
+            +{T\choose 2} \sdia{c(03-1-2)(01-12-23)}
+            +\frac{T}{6} \sdia{c(012-3)(03-13-23)}
         $
+        In particular, the ${T\choose 2}$ differs from $T^2/2$ and hence
+        contributes to the time-discretization error of SDE as an approximation
+        for SDE.  Moreover, the $\sdia{c(012-3)(03-13-23)}$ contributes to
+        non-gaussian noise to that error.  Figure \ref{fig:thermo} shows that,
+        indeed, SDE and single-epoch SGD differ.  For multi-epoch SGD, the
+        effect of overfitting to finite training data further separates SDE and
+        SGD.
 
     %--------------------------------------------------------------------------
     %           Thermodynamic Engine                        
@@ -1003,15 +1009,28 @@
         per timestep.  We see that this prediction, unlike the
         un-renormalized prediction, agrees with experiment.
 
-        \begin{figure}[H]
+        \begin{figure}[h!]
             \centering
             \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
             \caption{
-                {\bf Left}: {color{moor} FILL IN} 
-                {\bf Right}: {color{moor} FILL IN} Observe that the net
-                displacement well exceeds the $z$-periodicity of $2\pi$. 
+                {\bf Left}: SGD's difference from SDE after $\eta T \approx
+                10^{-1}$ with maximal coarseness on the gaussian-fit problem.  
+                Two effects not modeled by SDE --- time-discretization and
+                non-gaussian noise oppose on this landscape but do not
+                completely cancel. 
+                {\bf Right}: On the linear screw landscape, the persistent
+                entropic force pushes the weight through a valley of global
+                minima not at a $T^{1/2}$ diffusive rate but at a directional
+                $T^1$ rate.  Hessians and covariances  are uniformly bounded
+                throughout the valley, and this effect appears at all
+                sufficiently small $\eta$s with strength $\eta^2$.  Thus, the
+                effect is not a pathological artifact of well-chosen learning
+                rate or divergent covariance noise.  Observe that the net
+                displacement of $\approx 10^{1.5}$ well exceeds the $z$-period
+                of $2\pi$. 
             }
+            \label{fig:thermo}
         \end{figure}
 
         Moreover, by stitching together copies of this example, we may cause
@@ -1034,7 +1053,7 @@
         learning task's noise structure and how the metric $\eta^{-1}$ mediates
         this distinction.
         
-        \begin{figure}[H] 
+        \begin{figure}[h!] 
             \centering
             \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
