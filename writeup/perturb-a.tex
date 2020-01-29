@@ -20,6 +20,7 @@
 \newtheorem{cor}{Corollary}
 \newtheorem{prop}{Proposition}
 \newtheorem{quest}{Question}
+\newtheorem{rmk}{Remark}
 
 \usepackage{icml2019}
 %\usepackage[accepted]{icml2019}
@@ -76,10 +77,10 @@
 }
 
 \newcommand{\plotmoo}[3]{
-    \includegraphics[width=#2           ]{../#1.png}
+    \includegraphics[width=#2           ]{../#1}
 }
 \newcommand{\plotmooh}[3]{
-    \includegraphics[          height=#3]{../#1.png}
+    \includegraphics[          height=#3]{../#1}
 }
 
 \newcommand{\bdia}[1]{\begin{gathered}\includegraphics[scale=0.22]{../diagrams/#1.png}\end{gathered}}
@@ -232,7 +233,7 @@
         One-epoch and multi-epoch SGD differ only in their datapoint-timestep
         schedules, i.e. only in their spacetimes. 
 
-        \begin{figure}[H] \label{fig:epoch}
+        \begin{figure}[H] 
             \centering  
             \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
             \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
@@ -246,6 +247,7 @@
                 represent a post-training measurement of test loss; only
                 convenience of drawing dictates their coordinates.
             }
+            \label{fig:epoch}
         \end{figure}
 
         The rules are that embedded diagrams \emph{may not contain edges between
@@ -490,7 +492,7 @@
         convenience only consider SGD variants with time-invariant batch size
         $B$. 
         \begin{thm}[Test Loss as a Path Integral] \label{thm:test}
-            SGD's expected test loss's Maclaurin series
+            SGD's expected test loss's MacLaurin series
             is a weighted sum of diagrams:
             \begin{equation}\label{eq:sgdcoef}
                 \sum_{D \in \image(\Free)}
@@ -502,13 +504,13 @@
             \end{equation}
             Here, $D$ is (an isomorphism class of) a diagram of form
             $\Free(T)$ and $f$ is a morphism in $\Pp$.
-        \end{thm}
-        \begin{thm}[Generalization Gap as a Path Integral] \label{thm:gen}
-            SGD's expected generalization gap (test loss minus train loss) is
-            formula \ref{eq:sgdcoef} with $\dvalue(D)$ replaced by
+        %\end{thm}
+        %\begin{thm}[Generalization Gap as a Path Integral]
+            Moreover, if we replace each $\dvalue(D)$ by
             $
                 \sum_{p \in \parts(D)} \dvalue(D_p)/N
-            $.
+            $, we obtain the series for
+            SGD's expected generalization gap (test loss minus train loss).
             Here, $D_p$ is $D$ with a fuzzy outline connecting $D$'s maximal
             node to $p$, e.g. $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} =
             \sdia{c(01)(01)}$.
@@ -516,8 +518,8 @@
     
         In the special case of $B=1, M=1$:
         \begin{prop}[Specialization to Vanilla SGD] \label{prop:vanilla}
-            The order $\eta^d$ contribution to the expected test loss of one-epoch
-            SGD with singleton batches is:
+            The order $\eta^d$ contribution to the expected test loss of
+            one-epoch SGD with singleton batches is:
             \begin{equation}\label{eq:sgdbasiccoef}
                 \frac{(-1)^d}{d!} \sum_{D\in \image(\Free)} 
                 |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
@@ -527,7 +529,7 @@
             have sizes $d_p: 0\leq p\leq P$, with $d_P=1$
             and, without loss, are each antichains.  The modification to
             compute the generalization gap is the same as in Theorem
-            \ref{thm:gen}.
+            \ref{thm:test}.
         \end{prop}
         A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta N)^d
         N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
@@ -672,7 +674,7 @@
     \subsection{Descent as Scattering}
         In short, SGD's test loss is a weighted sum of diagrams, each $d$-edged
         diagram contributing to order $\eta^d$.  We depict the $\Ss$-maps 
-        $f:D\to S$ of Theorem \ref{thm:test} as an embedding of the graph $D$
+        $f:D\to S$ of Theorem \ref{thm:test} as embeddings of the graph $D$
         into spacetime $S$.  Thus, SGD's test loss is a sum over all embeddings
         in spacetime; see Figure (\ref{fig:spacetime}).  This loss depends on
         the shape of spacetime, which encodes correlations between updates.  To
@@ -680,7 +682,7 @@
         order $\eta^2$ diagrams in (\ref{fig:spacetime}) all contribute the
         same amount to test loss, so we just need to find out how many such
         embedded diagrams there are.   
-        \begin{figure}[H] \label{fig:spacetime}
+        \begin{figure}[H] 
             \centering  
             \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
             \caption{
@@ -692,8 +694,9 @@
                 whose nodes fall within shaded diagonals contribute to pure SGD's
                 test loss (with an extra factor $N$ per edge). 
             }
+            \label{fig:spacetime}
         \end{figure}
-        \begin{figure}[H] \label{fig:vsmulti}
+        \begin{figure}[H] 
             \centering  
             \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
             \caption{
@@ -705,6 +708,7 @@
                 right two diagrams).  So pure GD's test loss exceeds pure SGD's
                 test loss by $M ((N-1)/2) \sdia{c(01-2)(01-12)}$.
             }
+            \label{fig:vsmulti}
         \end{figure}
         Likewise, as shown in Figure (\ref{fig:vsmulti}), the order $\eta^2$
         diagrams of pure GD and pure SGD are nearly in correspondence, except
@@ -753,19 +757,25 @@
         $
         is thus an ``effective propagator''.
 
-        In general, to use the renormalized recipe, one lists all the diagrams
-        that are \emph{irreducible} in the sense that they contain no
+        \textsc{Renormalized Recipe:}~
+        In general, one sums over all embeddings of diagrams that are
+        \emph{irreducible} in the sense that they lack non-root
         $\sim$-singleton degree-two nodes (such as the middle node of
-        $\sdia{(0-1-2)(01-12)}$).  The contribution of a diagram, as usual,
-        will be a sum over all its embeddings into spacetime.  This time,
-        though, the integrand will be exponentially weighted by $\exp(-\eta
-        \Delta T H)$ for each edge of duration $\Delta T$.  One thus gets an
-        integral of exponentials.
-
-        \begin{thm}[Renormalization gives $T$-Uniform Convergence] \label{thm:renorm}
-            The test loss of SGD has a MacLaurin series as in Theorem
-            \ref{thm:test}, except with only irreducible diagrams included
-            and for each embedding $f:D \to \Free(S)$ 
+        $\sdia{(0-1-2)(01-12)}$).  The sum is like the unrenormalized case
+        except that the embedding-agnostic value $\dvalue(D)$ is replaced by an
+        embedding-sensitive value $\dvalue_f(D)$, which has the same expression
+        as $\dvalue(D)$ except that each contraction by $-\eta$ between nodes
+        embedded to times $t, \tilde t$ is replaced by a factor $(I-\eta
+        H)^{\wabs{t-\tilde t}} \eta$.  In practice, we prefer to approximate
+        sums over embeddings by integrals over times and $(I-\eta H)^t$ by
+        $\exp(- \eta H t)$, thus incurring a term-by-term multiplicative error
+        of $1 + o(\eta)$ that does not affect leading order results; in this
+        way, a diagram induces an easily evaluated integral of exponentials.
+       
+        \begin{thm}[Renormalization Licenses Large-$T$ Limits] \label{thm:renorm}
+            SGD's test loss's MacLaurin series may be written as follows
+            (Theorem \ref{thm:test}'s modification for the generalization gap
+            stands).
             \begin{equation} \label{eq:renorm}
                 \sum_{\substack{D \in \image(\Free)\\ \text{irreducible}}}
                 \sum_{f: D\to\Free(S)}
@@ -774,22 +784,12 @@
                     \right)
                 \frac{\dvalue_f(D)}{B^{|\edges(D)|}}
             \end{equation}
-            and with the embedding-agnostic value $\dvalue(D)$ replaced by an
-            embedding-sensitive value $\dvalue_f(D)$.  Here, $\dvalue_f(D)$
-            has the same expression as $\dvalue(D)$ except each contraction  
-            by $-\eta$ between nodes embedded to times $t, \tilde t$ is
-            replaced by a factor $(I-\eta H)^{\wabs{t-\tilde t}} \eta$.
-            The modification to compute the generalization gap is the same as
-            in Theorem \ref{thm:gen}.
-            When $H$ is positive and the loss landscape data is $C^\omega$, the
-            above converges \emph{uniformly} over all $T$. 
-            In practice, we prefer to replace sums by integrals and $(I-\eta
-            H)^t$ by $\exp(- \eta H t)$, thus incurring a term-by-term
-            multiplicative error of $1 + o(\eta)$.
+            In contrast to Theorem \ref{sgd:coef}, when $H$ is positive,
+            the $d$th order truncation converges as $T$ diverges.
         \end{thm}
-
-        Because the renormalized theory has guarantees even for large $T$, we
-        use it to probe some long-time behavior:
+        Due to the latter convergence property, we have formal license to 
+        take long-term limits of renormalized predictions.  In fact, the
+        convergence is uniform in $T$ for sufficiently regular landscapes.
         \begin{prop}[A Nonconservative Entropic Force]\label{prop:entropic}
             When initialized at a test minimum, vanilla SGD's weight moves to
             order $\eta^2$ with a long-time-averaged\footnote{
@@ -808,8 +808,8 @@
             $4$-valent tensor. 
         \end{prop}
         Unlike prior work \cite{we19b}, we make no assumptions of
-        thermal equilibrium, fast/slow mode separation, or constant covariance.
-        This added generality allows us to observe a qualitatively new
+        thermal equilibrium, fast-slow mode separation, or constant covariance.
+        This added generality allows us to predict a qualitatively new
         dynamical phenomenon, namely that the velocity field above need not be
         conservative.  We verify this in experiments.
         \begin{prop}[Flat and Sharp Minima Overfit Less]\label{prop:overfit}
@@ -821,10 +821,48 @@
                     \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
                     \wrap{H^{-1}}^{\rho\lambda}
             $$
-            above the minimum.
-            TODO: also gen gap.
+            above the minimum.  This vanishes when $H$ does. 
+            Likewise, pure GD's generalization gap is to order $\eta$:  
+            $$
+                \frac{1}{N} ~
+                    C_{\mu\nu}
+                    \wrap{(I - \exp(-\eta T H))}^{\nu}_{\lambda}
+                    \wrap{H^{-1}}^{\lambda\mu}
+            $$
+            Contrary to the later-mentioned Takeuchi estimate, this does not
+            diverge as $H$ shrinks.
         \end{prop}
-        TODO: Intuition about springs. 
+
+        \begin{figure}[H]
+            \centering
+            \plotmooh{diagrams/entropic-force-diagram}{}{0.35\columnwidth} 
+            \plotmooh{diagrams/springs}{}{0.35\columnwidth}
+            \caption{
+                {\bf Left}:
+                    The entropic force mechanism: gradient noise induces a flow
+                    toward minima flat \emph{with respect to to the
+                    covariance}.  Although our analysis assumes neither thermal
+                    equilibrium nor fast-slow mode separation, we label ``fast
+                    and slow directions'' in this cartoon to ease comparison
+                    with \citet{we19b}.  In this cartoon, red densities denote
+                    the spread predicted by a renormalized $C^{\mu\nu}$, and
+                    the spatial variation of curvature corresponds to
+                    $J_{\mu\nu\lambda}$. 
+                {\bf Right}:
+                    Noise structure determines how curvature affects
+                    overfitting.  To use a physical metaphor, for a fixed
+                    displacement scale, stiffer springs incur greater energy
+                    gains.  But for a fixed force scale, it is limper springs
+                    incur greater energy gains.  Geometrically, for (empirical
+                    risk minimization on) a vector-perturbed landscape, small
+                    hessians are favored (top row), while for
+                    covector-perturbed, landscape large hessians are favored
+                    (bottom row).  Proposition \ref{prop:overfit} shows how the
+                    implicit regularization of fixed-$\eta T$ descent mediates
+                    between the two rows.
+            }
+            \label{fig:entropic}
+        \end{figure}
 
 %==============================================================================
 %    EXPERIMENTS AND APPLICATIONS
@@ -850,12 +888,29 @@
             \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} 
             \plotmoo{plots/gen-cifar}{0.48\columnwidth}{3.0cm}
             \caption{
-                Measurements are in blue and theory is in other colors. 
+                {\bf Left}: Test loss vs learning rate on an image
+                classification task.  For the instance shown and all $11$ other
+                initializations unshown, the degree-$3$ prediction agrees with
+                experiment through $\eta T \approx 10^0$.
+                {\bf Right}:
+                Generalization gap (test minus train) vs learning rate on an
+                image classification task.  For the instance shown and all $11$
+                other initializations unshown, the degree-$2$ prediction agrees
+                with experiment through $\eta T \approx 10^0$.  Throughout,
+                measurements are in blue and theory is in other colors.
                 Vertical spans indicate 95\% confidence intervals for the mean.
-                %{\bf Left}
-                %{\bf Right}
             }
         \end{figure}
+
+    %--------------------------------------------------------------------------
+    %           Epochs and Overfitting                      
+    %--------------------------------------------------------------------------
+ 
+    %\subsection{Epochs and Overfitting}
+        %{\color{moor} FILL IN}
+        Likewise, Figure \ref{fig:bmmulti} shows that our predictions of how 
+        epochs affect overfitting are in good agreement with experiment. 
+        %\lorem{3}
     
     %--------------------------------------------------------------------------
     %           Emulating Small Batches with Large Ones     
@@ -863,7 +918,7 @@
 
     \subsection{Emulating Small Batches with Large Ones}
         We here test Proposition \ref{prop:vanilla}. 
-        \begin{figure}[H]
+        \begin{figure}[H] 
             \centering
             \plotmoo{plots/big-bm-new}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/multi-fashion-logistic-0}{0.48\columnwidth}{4.0cm}
@@ -880,21 +935,16 @@
                 predicted amounts (predictions shaded) for a range of learning
                 rates.
             }
+            \label{fig:bmmulti}
         \end{figure}
-    
-    %--------------------------------------------------------------------------
-    %           Epochs and Overfitting                      
-    %--------------------------------------------------------------------------
-
-    \subsection{Epochs and Overfitting}
-        \lorem{3}
-    
+  
     %--------------------------------------------------------------------------
     %           Comparison to Continuous Time               
     %--------------------------------------------------------------------------
 
     \subsection{Comparison to Continuous Time}
-        \lorem{3}
+        {\color{moor} FILL IN}
+        %\lorem{3}
         As a simplest example where the loss landscape is not a Gaussian
         Process, consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
         one-dimensional data.  We parameterize the landscape by
@@ -926,14 +976,7 @@
         entropic force of $0$.  This disagreement in predictions is possible
         because our analysis does not make any assumptions of equilibrium,
         conservatism, or assumptions.
-        Moreover, by modeling arbitrary covariances, we refine \citet{we19b}'s  
-        result that SGD seeks minima flat with respect to
-        $\eta^{-1}$ to the statement that SGD seeks minima that are flat with
-        respect to $C$.  Unlike \citet{we19b}, our analysis does not require 
-        hypotheses of thermal equilibrium, of fast/slow mode separation, or 
-        of constant covariance; only our analysis produces 
-        the phenomenon of a non-conservative velocity field.
-
+        
         Intuitively, the presence of the term
         $
             \sdia{c(01-2-3)(02-12-23)}
@@ -965,9 +1008,9 @@
             \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
             \caption{
-                {\bf Left}: 
-                {\bf Right}: Observe that the net displacement well exceeds the
-                $z$-periodicity of $2\pi$. 
+                {\bf Left}: {color{moor} FILL IN} 
+                {\bf Right}: {color{moor} FILL IN} Observe that the net
+                displacement well exceeds the $z$-periodicity of $2\pi$. 
             }
         \end{figure}
 
@@ -975,6 +1018,7 @@
         SGD to travel along paths that are closed loops or unbounded curves of
         global minima, or we may add a small linear component to the valleys so
         that SGD steadily climbs uphill.  
+
 
     %--------------------------------------------------------------------------
     %           Sharp vs Flat Minima                        
@@ -990,12 +1034,28 @@
         learning task's noise structure and how the metric $\eta^{-1}$ mediates
         this distinction.
         
-        \begin{figure}[H] \label{fig:tak}
+        \begin{figure}[H] 
             \centering
             \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
             \caption{
+                {\bf Left}: For artificial quadratic landscapes with fixed
+                covariance and a range of hessians, initialized at the true
+                minimum, the test losses after fixed-$\eta T$ optimization are
+                smallest for very small and very large curvatures.  This
+                evidences our renormalized theory's prediction that both sharp
+                and flat minima overfit less!  In particular, the Takeuchi
+                estimate's singularity is, as predicted, suppressed.
+                {\bf Right}: For artificial quadratic landscapes with fixed
+                covariance and a range of hessians, initialized a fixed
+                distance \emph{away} from the true minimum, joint descent on 
+                an $l_2$ penalty coefficient $\lambda$ by means of STIC
+                improves on plain gradient descent for most hessians.  That
+                there is at all a discrepancy from theory is possible because
+                $\lambda$ is not perfectly tuned according to STIC but instead
+                descended on for finite $\eta T$.
             }
+            \label{fig:tak}
         \end{figure}
 
         In proving Proposition \ref{prop:overfit}, we offer a modern
@@ -1006,8 +1066,9 @@
         gap, it is tempting to use it as an additive regularization term.
         However, the TIC is singular where the Hessian is, and as such gives
         insensible results for over-parameterized models.  
-        FIGURE FILL IN intuitively explains these singularities.  Fortunately,
-        as calculated in Proposition \ref{prop:overfit}, the implicit
+        The spring analogy in Figure \ref{fig:entropic}
+        intuitively explains these singularities.  Fortunately,
+        by Proposition \ref{prop:overfit}, the implicit
         regularization of gradient descent both demands and enables a
         singularity-removing correction to the TIC --- see Figure
         \ref{fig:tak}.  The resulting \emph{Stabilized TIC} (STIC) uses the
@@ -1018,9 +1079,9 @@
         coefficients.  Experiments on the mean-estimation problem validate
         STIC for such model selection, especially when $C/N$ dwarves $H$ as in
         the noisy, small-$N$ regime (see Figure \ref{fig:tak}).
-        Because matrix exponentiation is expensive, STIC regularization is
-        useful only for fitting moderate or low-dimensional models to very
-        scanty or noisy data.
+        Because matrix exponentiation is expensive, STIC regularization without
+        further approximations is most useful for fitting moderate or
+        low-dimensional models of very noisy or scanty data.
 
 %==============================================================================
 %    RELATED WORK    
@@ -1118,22 +1179,26 @@
     %           Summarize Contributions                     
     %--------------------------------------------------------------------------
 
-    We showed that Feynman diagrams make novel and precise predictions about
-    SGD.  
+    Feynman diagrams make novel and precise predictions about SGD: 
 
     %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
         \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
-        Flat and sharp minima both overfit less than minima of medium
-        curvature, i.e. curvature comparable to $\eta^{-1}/T$.
+        Flat and sharp minima both overfit less than minima of curvature
+        comparable to $(\eta T)^{-1}$.  While flat minima withstand
+        vector-valued weight displacements and sharp minima withstand
+        covector-valued loss offsets, medium minima attain the worst of both
+        worlds.  Such considerations lead us to a smooth generalization of AIC
+        and to tune hyperparameters by gradient descent.
     %}}
 
     %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
         \textsc{Story of $\sdia{c(01-2-3)(02-12-23)}$:~}
+        Refining \citet{we19b} to nonconstant, nonisotropic covariance, we find
         SGD descends on a loss landscape smoothed by the current covariance.
         As the weight and thus the covariance evolve, the smoothing mask
-        evolves and thus the effective landscape evolves.  This generically
-        leads to nonconservative SGD dynamics.  This SGD dynamics does not need
-        to converge to a periodic limit cycle. 
+        evolves and thus the effective landscape evolves.  This dynamics
+        is generically nonconservative.  In contrast to \citet{ch18}, this SGD
+        dynamics does not need to converge to a limit cycle. 
     %}}
 
     %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
@@ -1166,13 +1231,9 @@
     %           Ask Questions                               
     %--------------------------------------------------------------------------
 
-    The diagram method also enriches our intuitions with physical analogies.
-    For example, it offers a conceptual understanding of the empirically
-    verified entropic forces at play in minimum valleys, and in emphasizing the
-    underlying metric, it reconciles competing views of whether sharp or flat
-    minima generalize.  This bridge to physics invites further exploration.
-    With the diagram method established, it is especially interesting to
-    develop toward Lagrangian methods and curved backgrounds: 
+    In enriching our intuitions with physical analogies, the diagram method
+    invites further exploration.  Especially interesting are Lagrangian methods
+    and curved backgrounds: 
     \begin{quest}
         Do Lagrangians govern effective theories of SGD and its variants, or
         is there a fundamental obstacle to such a representation?
@@ -1216,12 +1277,12 @@
 \subsection{Acknowledgements}
     We thank Dan A. Roberts and Sho Yaida for introductions to their work and
     for posing several of the questions we answer here.  We feel deeply
-    grateful to Sho Yaida and Josh B. Tenenbaum for their compassionate
-    guidance.  We appreciate the generosity of
+    grateful to Sho Yaida and Josh B. Tenenbaum for their compassionate and
+    patient guidance.  We appreciate the generosity of
         Andrzej Banburski
         and
         Wenli Zhao
-    in offering crucial feedback on writing.
+    in offering feedback on writing.
 
 %==============================================================================
 %    REFERENCES      
@@ -1235,7 +1296,7 @@
 %    APPENDICES      
 %==============================================================================
 
-\section*{A. Derivation of Diagram Rules}
+\section*{A. Proofs of Theorems}
 
     \subsection*{Regularity Hypotheses}
         We make several assumptions throughout this work.  We assume that the
@@ -1299,20 +1360,20 @@
         sides of the above have an expectation analytic --- and hence smooth
         --- in $\eta$.  The Key Lemma (\ref{lem:dyson}) follows.
 
-    \subsection*{Correspondence between Terms and Diagram Embeddings}
+    \subsection*{Terms and Diagram Embeddings Correspond}
+        {\color{moor} FILL IN}
         The first Path Integral Theorem (\ref{thm:sgdcoef}) follows.
 
-    \subsection*{Error Rates for the Renormalized Theory }
-        Because the Taylor series for analytic functions converge absolutely  
-        in the interior of the disk of convergence, the rearrangement of terms 
+    \subsection*{Coefficient Convergence upon Renormalization}
+        Because the Taylor series for analytic functions converge absolutely
+        in the interior of the disk of convergence, the rearrangement of terms
         corresponding to a grouping by geometric realizations preserves the
-        proof and results of \ref{thm:sgdcoef}.  In particular, the
-        coefficients $c_T(d)$ on $\eta^d$ must decay exponentially with $d$.
+        proof and results of \ref{thm:test}.  
 
-        To prove the rest of Theorem \ref{thm:renorm}, we assume that the
-        $l_x$s are strictly convex with a positive lower bound on curvature
-        uniform in $x$ but potentially dependent on $\theta$.  By this
-        assumption, we may choose $T$ so large that each coefficient $.$ 
+        To prove the rest of Theorem \ref{thm:renorm}, we assume that $H$ is
+        positive.  Then, for any $m$, the propagator ${(I-\eta H)^{\otimes
+        m}}^t$ converges exponentially with $t$ to $0$.
+        {\color{moor} FILL IN}
         The Renormalization Theorem (\ref{thm:renorm}) follows.
 
 \section*{B. Tutorial on Diagram Rules}
@@ -1320,16 +1381,24 @@
     we will work through four examples in using diagrams to analyze descent.
 
     \subsection*{Evaluating a Diagram}
+        {\color{moor} FILL IN}
     \subsection*{Integrating a Diagram over Spacetime}
+        {\color{moor} FILL IN}
     \subsection*{The 3rd Order Curl: Which Minima Does SGD Prefer?}
+        {\color{moor} FILL IN}
     \subsection*{The Roles of Covariance: the Generalization Gap of SGD}
+        {\color{moor} FILL IN}
         
-\section*{C. Derivations of Perturbative Results}
+\section*{C. Perturbative Calculations}
 
     \subsection*{SGD vs ODE and SDE}
+        {\color{moor} FILL IN}
     \subsection*{Interepoch Shuffling}
+        {\color{moor} FILL IN}
     \subsection*{Effect of Epochs}
+        {\color{moor} FILL IN}
     \subsection*{Renormalized Nonconservative Entropic Force}
+        {\color{moor} FILL IN}
 
 \section*{D. Diagram Rules vs Direct Perturbation} \label{sect:compare}
     Diagram methods from Stueckelberg to Peierls have flourished in physics
@@ -1347,7 +1416,7 @@
     both the SGD and GD cases are) called $a(T)$ manifestly agree in their
     first and second moments.  This allows us to save some lines of argument.
 
-    Despite these efforts, the diagram method yields arguments about five times
+    Despite these efforts, the diagram method yields arguments about four times
     shorter --- and strikingly more conceptual --- than direct perturbation
     yields.  These examples specifically suggest that: diagrams obviate the
     need for meticulous index-tracking, from the start focus one's attention on
@@ -1660,6 +1729,8 @@
         we will assume this order it already known for both methods.
 
         \subsubsection*{Diagram Method}
+
+            {\color{moor} FILL IN}
             
         \subsubsection*{Direct Perturbation}
             We compute the displacement $\theta_T-\theta_0$ to order $\eta^4$ 
@@ -1743,6 +1814,8 @@
             \end{align*}
             We use tensor indices above because the contraction pattern would
             otherwise be ambiguous.
+
+            {\color{moor} FILL IN}
 
 
 \section*{E. Bessel Factors for Estimating Multipoint Correlators from Data}
@@ -1903,5 +1976,8 @@
     10^{4.5}$ dirac masses, so overlaps are diluted. 
 
 \section*{G. Additional Figures}
+    {\color{moor} FILL IN}
+
+
 
 \end{document}
