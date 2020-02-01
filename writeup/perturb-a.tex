@@ -43,6 +43,12 @@
 \newcommand{\edges}{\text{\textnormal{edges}}}
 \newcommand{\ords}{\text{\textnormal{ords}}}
 \newcommand{\parts}{\text{\textnormal{parts}}}
+\newcommand{\Aa}{\mathcal{A}}
+\newcommand{\Bb}{\mathcal{B}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Dd}{\mathcal{D}}
+\newcommand{\Ee}{\mathcal{E}}
+\newcommand{\Ff}{\mathcal{F}}
 \newcommand{\Ss}{\mathcal{S}}
 \newcommand{\Pp}{\mathcal{P}}
 \newcommand{\Nn}{\mathcal{N}}
@@ -317,13 +323,34 @@
         $C^{\mu}_{\mu} = \eta^{\mu\nu} C_{\mu\nu}$.  Standard syntactic
         constraints make manifest which expressions transform naturally with
         respect to optimization dynamics.
+        We use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second,
+        and third derivatives of $l$.
 
-        We assume some regularity conditions on the loss landscape.  We list
-        these conditions in Appendix A.  They hold, for example, for $\tanh$ or
-        softplus neural networks with arbitrary weight sharing and skip
-        connections trained with with cross entropy loss on bounded data.  We
-        use $G, H, J$ for the first, second, and third derivatives of $l$.
-        
+        We assume some regularity conditions on the loss landscape, for
+        instance that $l$ is analytic and that the gradients at any fixed
+        weight, considered as a random covector, are bounded.  Appendix A
+        lists the conditions fully.  The conditions are weak enough to hold for
+        $\tanh$ or softplus neural networks --- with arbitrary weight sharing,
+        skip connections, soft attention, dropout, batch
+        normalization\footnote{
+            assuming batches remain disjoint throughout training so that each
+            batch may be considered as a single datapoint in a
+            higher-dimensional space 
+        } and weight decay --- with cross
+        entropy loss on bounded data.  Moreover, because our analysis does not
+        rely on information-geometric relationships between $C$ and $H$, it
+        applies to landscapes such as VAEs that do not descend on an exact
+        likelihood.  
+        Some of our experiments involve Gaussian noise, which is
+        not bounded and hence violates one of our hypotheses.  For experimental 
+        purposes, however, Gaussians are effectively bounded, on the one hand
+        in the sense that with high probability no standard normal sample 
+        encountered on Gigahertz hardware within the age of the universe
+        will much exceed $\sqrt{2 \log(10^{30})} \approx 12$, and in the sense
+        that our predictions vary smoothly with the first few moments of this
+        distribution, so that a $\pm 12$-clipped gaussian will yield almost
+        the same predictions.
+
         Kol\'{a}\u{r} gives a careful introduction to these differential
         geometric ideas \yrcite{ko93}.
 
@@ -381,6 +408,9 @@
         $B=N$ we call \emph{pure SGD} and \emph{pure GD}.  The $M=1$ case of
         pure SGD we call \emph{vanilla SGD}.
 
+        We follow convention in calling using the word ``set'' for
+        \emph{ordered} sequences of training points. 
+
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
 %==============================================================================
@@ -393,18 +423,23 @@
 
     \subsection{How Diagrams Arise}
         Suppose $s$ is analytic on weight space; e.g. $s$ may be a test loss.
-        We track $s(\theta)$ as $\theta$ evolves by SGD:
-        \begin{klem}[A Dyson Series] \label{lem:dyson}
-            The Maclaurin series of $s(\theta_T)$ with respect to $\eta$ is:
+        We track $s(\theta)$ as $\theta$ evolves by SGD via a Dyson-style
+        lemma (\yrcite{dy49a}):
+        \begin{klem} \label{lem:dyson}
+            For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is
             \begin{equation}\label{eq:dyson}
                 \sum_{(d_t: 0\leq t<T)}
                 (-\eta)^{\sum_t d_t}
                 \left(
                     \prod_{0 \leq t < T}
-                        \left.  \frac{(g \nabla)^{d_t}}{d_t!} \right|_{g=\nabla l_t(\theta)}
+                        \left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
                 \right)
                 (s) (\theta_0)
             \end{equation}
+            Moreover, the expectation symbol (over training sets) commutes with
+            the sum over $d$s.
         \end{klem}
         In averaging over training sets $(l_t: 0\leq t<T)$ we may factor the
         expectation of the above product according to independence relations
@@ -1343,66 +1378,178 @@
 \section*{A. Proofs of Theorems}
 
     \subsection*{Regularity Hypotheses}
-        We make several assumptions throughout this work.  We assume that the
-        functions $\theta \mapsto l_x(\theta)$, as well as the expectations of
-        polynomials of their $0$th and higher derivatives, are analytic with
-        shared ($\theta$-dependent) radii of convergence.  We also assume that
-        the gradients $\nabla l_x(\theta)$ are bounded, uniformly in $x$, by a
-        continuous function of $\theta$.  And finally, we assume that
-        expectations with respect to $x$ and derivatives with respect to
-        $\theta$ commute in all expressions mentioned in the text.
+        We make several assumptions throughout this work.
+        We assume that each finite collection of polynomials of the $0$th and
+        higher derivatives of the $l_x$, all evaluated at any point $\theta$,
+        may be considered together as a random variable insofar as they are
+        equipped with a probability measure upon of the standard Borel algebra.
+        We moreover assume that the functions $\theta \mapsto l_x(\theta)$, as
+        well as the expectations of polynomials of their $0$th and higher
+        derivatives, exist and are analytic with shared (but
+        $\theta$-dependent) radii of convergence.  We also assume that the
+        gradients $\nabla l_x(\theta)$ are bounded, uniformly in $x$, by some
+        continuous function of $\theta$.\footnote{
+            A metric-independent way of
+            expressing this boundedness constraint is that the gradients all lie
+            in some subset $\Ss \subseteq TM$ of the tangent bundle of weight
+            space, where for any compact $\Cc \subseteq M$ such that the
+            topological pullback --- of
+            $\Ss \hookrightarrow TM \twoheadrightarrow M$
+            and
+            $\Cc \hookrightarrow M$ ---
+            is compact.
+            We hope that the results of this paper expose how important the
+            choice of metric can be and hence underscore the value of
+            determining  whether a concept is metric-independent.
+        }
+
+        \subsubsection*{Pathologies Illustrating the Hypotheses' Utility}
+            {\color{moor} FILL IN}
+
 
     \subsection*{Dyson Series for Iterative Optimizers}
-        If a density $\rho$ governs a point $\theta$ in weight space, then
-        after a sequence of updates $\theta \mapsto \theta - \eta^{\mu\nu}
-        \nabla_\mu l(\theta)$ on losses $(l_t: 0\leq t < T)$, the following
-        density will govern the new point:
-        \begin{equation}\label{eq:descexp}
-            \exp\left(+\eta^{\mu\nu} \nabla_\mu l_{T-1}(\theta) \nabla_\nu\right)
-            \cdots
-            \exp\left(+\eta^{\mu\nu} \nabla_\mu l_0(\theta) \nabla_\nu\right)
-            \rho
-        \end{equation}
-        We write 
-        $
-            \prod \exp\left(+\eta \nabla l \nabla\right) \rho
-        $
-        for short.  The exponent above is a linear operator that acts on a
-        space of sufficiently smooth maps; in particular, the $\nabla_\nu$ does
-        not act on the $\nabla_\mu l(\theta)$ with which it pairs.  Integrating
-        by parts, we write the expectation over initial values after $T$ steps
-        of an analytic function $s$ of weight space (e.g. $s$ may be test loss)
-        as:
-        \begin{align}\label{eq:contraexp}
-            \int_\theta \rho(\theta) \left(
-                \prod_{0 \leq t \leq T} \exp\left(
-                    -\eta^{\mu\nu} \nabla_\mu l_t(\theta) \nabla_\nu
-                \right) s
-            \right)(\theta)
-        \end{align}
-        Since the exponentials above might not commute, we may not compose the
-        product of exponentials into an exponential of a sum.  We instead
-        compute an expansion in powers of $\eta$.  Setting the initialization
-        $\rho(\theta) = \delta(\theta-\theta_0)$ to be deterministic, and
-        labeling as $\theta_t$ the weight after $t$ steps, we find:
-        \begin{equation}\label{eq:dyson}
-            s(\theta_T) =
-            \sum_{0\leq d < \infty} (-\eta)^d
-            \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
-            \left(
-                \prod_{0 \leq t < T} \left.
-                    \frac{(g \nabla)^{d_t}}{d_t!}
-                \right|_{g=\nabla l_t(\theta)}
-            \right) s (\theta_0)
-        \end{equation}
-        Though above we use standard physical shorthand, our assumptions that
-        $s$ is analytic and that gradients are $x$-uniformly bounded by a
-        continous function permit the argument to be made rigorous for any
-        $\eta$ smaller than a radius of convergence that may depend on $T$ but
-        not on the sampling of losses $(l_t: 0\leq t<T)$ from the fixed
-        distribution of loss functions.  In fact, by those assumptions, both
-        sides of the above have an expectation analytic --- and hence smooth
-        --- in $\eta$.  The Key Lemma (\ref{lem:dyson}) follows.
+        We first give intuition, then worry about $\epsilon$s and $\delta$s.
+        \subsubsection*{The Key Lemma: Proof Idea}
+            Intuitively, since $\nabla$ Lie-generates translation, the operator
+            $
+                \exp\wrap{
+                    -\eta^{\mu\nu} g_\mu \nabla_\nu
+                }
+            $
+            performs translatation by $-\eta g$.  In particular, the case
+            $g=\nabla l_t(\theta)$ effects a gradient step on the $t$th batch.
+            A product of such exponential operators will give the loss after a
+            sequence of updates $\theta \mapsto \theta - \eta^{\mu\nu}
+            \nabla_\mu l(\theta)$ on losses $(l_t: 0\leq t < T)$.  Because the
+            operators might not commute, we may not compose the product of
+            exponentials into an exponential of a sum.  We instead compute an
+            expansion in powers of $\eta$, collecting terms of like degree
+            while maintaining the order of operators:
+            \begin{align*}
+                s(\theta_T)
+                &=
+                \wrap{\prod_{0\leq t<T} \wrap{
+                    \sum_{0\leq d_t}
+                        \left.
+                            \frac{(-\eta^{\mu\nu} g_\mu \nabla_\nu)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                }
+                s} (\theta_0) \\
+                &= 
+                \sum_{0\leq d < \infty} (-\eta)^d
+                \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } s (\theta_0)
+            \end{align*}
+            We finish by taking expectations.
+
+        \subsubsection*{The Key Lemma: Proof}
+            We work in a neighborhood of the initialization so that the tangent
+            space of weight space is a trivial bundle.  For convenience, we fix
+            a flat coordinate system, and with it the induced flat,
+            non-degenerate inverse metric $\tilde\eta$; the benefit is that we
+            may compare our varying $\eta$ against one fixed $\tilde\eta$.
+            Henceforth, a ``ball'' unless otherwise specified will mean a ball
+            with respect to $\tilde\eta$ around the initialization $\theta_0$.
+            Since $s$ is analytic, its Taylor series converges to $s$ within
+            some positive radius $\rho$ ball.  By assumption, every $l_t$ is
+            also analytic with shared radius of convergence around $\theta_0$,
+            without loss also $\rho$.  Since gradients are $x$-uniformly
+            bounded by a continuous function of $\theta$, and since in finite
+            dimensions the closed $\rho$-ball is compact, we have a strict
+            gradient bound $b$ uniform in both $x$ and $\theta$ on gradient
+            norms within that closed ball.  When
+            \begin{equation} \label{eq:smalleta}
+                2 \eta T b < \rho \tilde\eta
+            \end{equation}
+            as norms, stochastic gradient after $T$ steps on any training set
+            will necessarily stay within the $\rho$-ball.  In fact, we will see
+            that the factor of $2$ ensures that SGD initialized at any point
+            within a $\rho/2$ ball will necessarily stay within the
+            $\rho$-ball.  We note that the above condition on $\eta$ is weak
+            enough to permit all $\eta$ within some open neighborhood of
+            $\eta=0$.  
+
+            Condition \ref{eq:smalleta} together with analyticity of $s$ then
+            implies that
+            $
+                \wrap{\exp(-\eta g \nabla) s}(\theta) = s(\theta - \eta g)
+            $
+            when $\theta$ lies in the $\tilde\eta$ ball (of radius $\rho$) and
+            its $\eta$-distance from that $\tilde\eta$ ball's boundary exceeds
+            $b$, and that both sides are analytic in $\eta, \theta$ on the 
+            same domain --- and \emph{a fortiori} when $\theta$ lies in the
+            ball of radius $\rho (1 - 1/(2T))$.
+            Likewise, a routine induction through $T$ gives the value of $s$
+            (after doing $T$ gradient steps from an initialization $\theta$) as
+            $$
+                \wrap{
+                    \prod_{0\leq t<T}
+                        \left.
+                            \exp(-\eta g \nabla)
+                        \right|_{g=\nabla l_t(\theta)}
+                }
+                (s)(\theta)
+            $$
+            for any $\theta$ in the $\rho (1-T/(2T)$-ball (that is, the
+            $\rho/2$-ball), and that both sides are analytic in $\eta, \theta$
+            on that same domain.  Note that in each exponential, the
+            $\nabla_\nu$ does not act on the $\nabla_\mu l(\theta)$ with which
+            it pairs.  
+
+            Now we use the standard expansion of $\exp$.  Because (by
+            analyticity) the order $d$ coeffients of $l_t, s$ are bounded by some
+            exponential decay in $d$, by assumption at an $x$-uniform rate, we
+            have absolute convergence and may rearrange sums.  We choose to
+            group by total degree:
+            \begin{equation} \label{eq:expansion}
+                \cdots 
+                =
+                \sum_{0\leq d < \infty} (-\eta)^d
+                \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } s (\theta)
+            \end{equation}
+            The first part of the Key Lemma is proved.  It remains to show that
+            expectations over training sets commute with the above summation.
+
+            We will apply Fubini's Theorem.  To do so, it suffices to show that   
+            $$
+                \wabs{
+                    \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                    \wrap{
+                        \prod_{0 \leq t < T} \left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                    } s (\theta)
+                }
+                = \wabs{c_d((l_t: 0\leq t<T))} 
+            $$
+            has an expectation that decays exponentially with $d$.  The symbol
+            $c_d$ we introduce purely for convenience; that its value depends
+            on the training set we emphasize using function application
+            notation.  Crucially, no matter the training set, we have shown
+            that the expansion \ref{eq:expansion} (that features $c_d$ appear
+            as coefficients) converges to an analytic function for all $\eta$
+            bounded as in condition \ref{eq:smalleta}.  The uniformity of this
+            demanded bound on $\eta$ implies by the standard relation between
+            radii of convergence and decay of coefficients that $\wabs{c_d}$
+            decays exponentially in $d$ at a rate uniform over training sets.
+            If the expectation of $\wabs{c_d}$ exists at all, then, it will
+            likewise decay at that same shared rate.
+            
+            But $\wabs{c_d}$ indeed has an expectation, for it is a bounded
+            continuous function of a (finite-dimensional) space of $T$-tuples
+            (each of whose entries can specify the first $d$ derivatives of an
+            $l_t$) and because the latter space enjoys a joint distribution (of
+            course over the standard Borel algebra!).  So Fubini's Theorem
+            applies. The Key Lemma (Lemma \ref{lem:dyson}) follows.
 
     \subsection*{Terms and Diagram Embeddings Correspond}
         {\color{moor} FILL IN}
@@ -1451,6 +1598,9 @@
     how our diagram formalism likewise streamlines analysis of descent by
     comparing direct perturbation to the new formalism on three sample
     problems.
+
+    We note that the Key Lemma underlies not only the diagrammatic method but
+    also our style of direct perturbation.
 
     Aiming for a conservative comparison of derivation ergonomics, we lean
     toward explicit routine when using diagrams and allow ourselves to use
