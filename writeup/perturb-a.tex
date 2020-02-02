@@ -15,7 +15,7 @@
 \usepackage[percent]{overpic}
 
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
-\newtheorem{klem}{Key Lemma}
+\newtheorem*{klem*}{Key Lemma}
 \newtheorem{thm}{Theorem}
 \newtheorem{cor}{Corollary}
 \newtheorem{prop}{Proposition}
@@ -38,6 +38,7 @@
 \newcommand{\Forg}{\mathcal{G}}
 \newcommand{\Mod}{\mathcal{M}}
 \newcommand{\Hom}{\text{\textnormal{Hom}}}
+\newcommand{\Aut}{\text{\textnormal{Aut}}}
 \newcommand{\image}{\text{\textnormal{im}}}
 \newcommand{\dvalue}{\text{\textnormal{value}}}
 \newcommand{\edges}{\text{\textnormal{edges}}}
@@ -49,9 +50,17 @@
 \newcommand{\Dd}{\mathcal{D}}
 \newcommand{\Ee}{\mathcal{E}}
 \newcommand{\Ff}{\mathcal{F}}
-\newcommand{\Ss}{\mathcal{S}}
-\newcommand{\Pp}{\mathcal{P}}
+\newcommand{\Gg}{\mathcal{G}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Ll}{\mathcal{L}}
+\newcommand{\Mm}{\mathcal{M}}
 \newcommand{\Nn}{\mathcal{N}}
+\newcommand{\Oo}{\mathcal{O}}
+\newcommand{\Pp}{\mathcal{P}}
+\newcommand{\Qq}{\mathcal{Q}}
+\newcommand{\Rr}{\mathcal{R}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\Tt}{\mathcal{T}}
 \newcommand{\SGD}{\text{\textnormal{SGD}}}
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\expc}{\mathbb{E}}
@@ -425,7 +434,7 @@
         Suppose $s$ is analytic on weight space; e.g. $s$ may be a test loss.
         We track $s(\theta)$ as $\theta$ evolves by SGD via a Dyson-style
         lemma (\yrcite{dy49a}):
-        \begin{klem} \label{lem:dyson}
+        \begin{klem*} %\label{lem:dyson}
             For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is
             \begin{equation}\label{eq:dyson}
                 \sum_{(d_t: 0\leq t<T)}
@@ -440,7 +449,7 @@
             \end{equation}
             Moreover, the expectation symbol (over training sets) commutes with
             the sum over $d$s.
-        \end{klem}
+        \end{klem*}
         In averaging over training sets $(l_t: 0\leq t<T)$ we may factor the
         expectation of the above product according to independence relations
         between the $l_t$.  We view various training procedures (e.g. pure GD,
@@ -528,25 +537,25 @@
         Though our methods immediately generalize, we will will for notational
         convenience only consider SGD variants with time-invariant batch size
         $B$. 
-        \begin{thm}[Test Loss as a Path Integral] \label{thm:test}
-            SGD's expected test loss's MacLaurin series
-            is a weighted sum of diagrams:
+        \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
+            For all $T$: for $\eta$ sufficiently small, SGD's expected test
+            loss is
             \begin{equation}\label{eq:sgdcoef}
-                \sum_{D \in \image(\Free)}
-                \left(
+                \sum_{D \in \image(\Free)} \wrap{
                     \sum_{f: D\to\Free(S)}
-                    \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
-                \right)
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
                 \frac{\dvalue(D)}{B^{|\edges(D)|}}
             \end{equation}
-            Here, $D$ is (an isomorphism class of) a diagram of form
-            $\Free(T)$ and $f$ is a morphism in $\Pp$.
+            Here, $D$ is a diagram of form $\Free(\Tt)$,
+            $f$ is a morphism in $\Pp$, and $\Aut_f(D)$ counts
+            $\Pp$-automorphisms of $D$ that commute with $f$. 
         %\end{thm}
         %\begin{thm}[Generalization Gap as a Path Integral]
             Moreover, if we replace each $\dvalue(D)$ by
             $
                 \sum_{p \in \parts(D)} \dvalue(D_p)/N
-            $, we obtain the series for
+            $, we obtain
             SGD's expected generalization gap (test loss minus train loss).
             Here, $D_p$ is $D$ with a fuzzy outline connecting $D$'s maximal
             node to $p$, e.g. $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} =
@@ -825,10 +834,10 @@
             stands).
             \begin{equation} \label{eq:renorm}
                 \sum_{\substack{D \in \image(\Free)\\ \text{irreducible}}}
-                \sum_{f: D\to\Free(S)}
-                    \left(
-                        \prod_{i\in S} \frac{1}{|f^{-1}(i)|!}
-                    \right)
+                \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
                 \frac{\dvalue_f(D)}{B^{|\edges(D)|}}
             \end{equation}
             In contrast to Theorem \ref{sgd:coef}, when $H$ is positive,
@@ -1354,14 +1363,15 @@
 %==============================================================================
 
 \subsection{Acknowledgements}
-    We thank Dan A. Roberts and Sho Yaida for introductions to their work and
-    for posing several of the questions we answer here.  We feel deeply
-    grateful to Sho Yaida and Josh B. Tenenbaum for their compassionate and
-    patient guidance.  We appreciate the generosity of
-        Andrzej Banburski
-        and
+    We feel deeply grateful to Sho Yaida, Dan A. Roberts, and Josh Tenenbaum
+    for posing several of the questions we here resolved and for their
+    compassionate and patient guidance.  We appreciate the generosity of
+        Andrzej Banburski,
+        Ben R. Bray,
+        Sasha Rakhlin,
+        Greg Wornell, and
         Wenli Zhao
-    in offering feedback on writing.
+    in offering feedback on earlier stages of writing.
 
 %==============================================================================
 %    REFERENCES      
@@ -1549,11 +1559,168 @@
             (each of whose entries can specify the first $d$ derivatives of an
             $l_t$) and because the latter space enjoys a joint distribution (of
             course over the standard Borel algebra!).  So Fubini's Theorem
-            applies. The Key Lemma (Lemma \ref{lem:dyson}) follows.
+            applies. The Key Lemma
+            %(Lemma \ref{lem:dyson})
+            follows.   
 
     \subsection*{Terms and Diagram Embeddings Correspond}
-        {\color{moor} FILL IN}
-        The first Path Integral Theorem (\ref{thm:sgdcoef}) follows.
+        \subsubsection*{Path Integral Theorem: Proof Idea}
+            We now seek to describe the terms that appear in the Key Lemma. 
+            Theorem \ref{thm:sgdcoef} does so by matching each term to an
+            embedding of a diagram in spacetime, so that the infinite sum
+            becomes a sum over all diagram spacetime configurations.
+            %Intuitively, an embedding with an edge  
+
+        \subsubsection*{Path Integral Theorem: Proof}
+            We first prove the statement about test losses.
+            Due to the analyticity property established in our proof of the
+            Key Lemma, it suffices to show agreement at each degree $d$ and
+            training set individually.  That is, it suffices to show --- for
+            each training set $(l_n: 0\leq n<N)$, spacetime $S$, function $\pi:
+            S\to [N]$ that induces $\sim$, and natural $d$ --- that
+            \begin{align} \label{eq:toprove}
+                (-\eta)^d
+                \sum_{\substack{
+                    (d_t: 0\leq t<T) \\
+                    \sum_t d_t = d
+                }}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } l (\theta)
+                = \nonumber \\
+                \sum_{\substack{
+                    D \in \image(\Free) \\
+                    \textnormal{with $d$ edges}
+                }}
+                \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
+                \frac{\dvalue_\pi(D, f)}{B^{d}}
+            \end{align}
+            Here, $\dvalue_\pi$ is the value of a diagram embedding before
+            taking expectations over training sets.  We have for all $f$ that
+            $\expct{\dvalue_\pi(D, f)} = \dvalue(D)$.  Indeed, $\dvalue_\pi$ 
+            is characterized by the recurrence
+            Observe that both sides are finitary sums.
+
+            \begin{rmk}
+                The product rule of Leibniz easily generalizes to higher
+                derivatives of finitary products:
+                $$
+                    \nabla^{\wabs{M}} \prod_{k \in K} p_k
+                    = 
+                    \sum_{\nu:M\to K} \prod_{k\in K} \wrap{
+                        \nabla^{\wabs{\nu^{-1}(k)}} p_k
+                    }
+                $$
+                The above has $\wabs{K}^m$ many term indexed by functions to
+                $K$ from $M$.
+            \end{rmk}
+
+            We proceed by joint induction on $d$ and $S$.  The base cases
+            wherein $S$ is empty or $d=0$ both follow immediately from the Key
+            Lemma, for then the only embedding is the unique embedding of
+            $\sdia{(0)()}$.  For the induction step, suppose $S$ is a sequence
+            of $\Mm = \min S \subseteq S$ followed by a strictly smaller $S$
+            and that the result is proven for $(\tilde d, \tilde S)$ for every
+            $\tilde d \leq d$.  Let us group the terms in the left hand side of
+            desideratum \ref{eq:toprove} by $d_0$; by applying the induction
+            hypothesis with $\tilde d = d - d_0$, we find that that left hand
+            side is:
+            \begin{align*}
+                \sum_{\substack{
+                    0 \leq d_0 \leq d
+                }}
+                \sum_{\substack{
+                    \tilde D \in \image(\Free) \\
+                    \textnormal{with $d-d_0$ edges}
+                }}
+                \frac{1}{d_0!}
+                \sum_{\tilde f: \tilde D\to\Free(\tilde S)} \wrap{
+                    \frac{1}{\wabs{\Aut_{\tilde f}(\tilde D)}}
+                }
+                ~\cdot~
+                \\ %---------------------------------------------
+                (-\eta)^{d_0}
+                \left.
+                    (g \nabla)^{d_0}
+                \right|_{g=\nabla l_0(\theta)}
+                \frac{\dvalue_\pi(\tilde D, \tilde f)}{B^{d-d_0}}
+            \end{align*}
+            Since $\dvalue_\pi(\tilde D, \tilde f)$ is a multilinear product of
+            $d-d_0+1$ many tensors, the product rule for derivatives tells us
+            that $(g \nabla)^{d_0}$ acts on $\dvalue_\pi(\tilde D, \tilde f)$
+            to produce $(d-d_0+1)^d_0$ terms.  In fact, if we expand out
+            $
+                g = \sum_{m\in \Mm} \nabla l_m(\theta) / B
+            $ 
+            then there are $B^{d_0}(d-d_0+1)^{d_0}$ terms conveniently indexed
+            by a pair of functions $\beta:[d_0]\to \Mm$ and $\nu:[d_0]\to
+            \tilde D$.  The $(\beta, \nu)$-term corresponds to an embedding
+            $f$ of a larger diagram $D$ in the sense that it contributes
+            $\dvalue_\pi(D, f)/B^{d_0}$ to the sum.  Here, $(f, D)$ is $(\tilde
+            f, \tilde D)$ with $\wabs{\wrap{\beta \times \nu}^{-1}(n, v)}$ many
+            additional edges from the cell of datapoint $n$ at time $0$ to the
+            $v$th node of $\tilde D$ as embedded by $\tilde f$.
+
+            We note that the $(\beta, \nu)$ diagram and term agrees with the
+            $(\beta \circ \sigma, \nu \circ \sigma)$ diagram and term for any
+            permutation $\sigma$ of $[d_0]$.  The corresponding orbit has size
+            \begin{align*}
+                \frac{d_0!}{
+                    \prod_{(m, i) \in \Mm \times \tilde D}
+                        \wabs{(\beta \times \nu)^{-1}(m, i)}!
+                }
+            \end{align*}
+            by the Orbit Stabilizer Theorem of elementary group theory.
+            It is thus enough to show that
+            $$
+                \wabs{\Aut_f(D)} = 
+                \wabs{\Aut_{\tilde f}(D)}
+                \prod_{(m, i) \in \Mm \times \tilde D}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            $$
+            We will show this by a direct bijection.  First, observe that
+            $
+                f = \beta \sqcup \tilde f:
+                    [d_0] \sqcup \tilde D \to \Mm \sqcup \tilde S
+            $. 
+            So each automorphism $\phi: D\to D$ that commutes with $f$ induces
+            both an automorphism
+            $
+                \Aa = \phi|_{\tilde D}: \tilde D\to \tilde D
+            $
+            that commutes with $\tilde f$ together with the data of a map
+            $
+                \Bb = \phi_{[d_0]}: [d_0] \to [d_0] 
+            $
+            that both commutes with $\beta$.  However, not every such pair of
+            maps arises from a $\phi$.  For, in order for $\Aa \sqcup \Bb: D
+            \to D$ to be an automorphism, it must respect the order structure
+            of $D$.  In particular, if $x\leq_D y$ with $x \in [d_0]$ and $y
+            \in \tilde D$, then we need $\Bb(x) \leq_D \Aa(y)$ as well.  The
+            pairs $(\Aa, \Bb)$ that thusly preserve order are in bijection with
+            the $\phi \in \Aut_f(D)$.  There are $\wabs{\Aut_{\tilde f}(\tilde
+            D)}$ many $\Aa$.  For each $\Aa$, there are as many $\Bb$ as there
+            are sequences $(\sigma_i: i \in \tilde D)$ of permutations on
+            $
+                \{j\in [d_0]: j\leq_D i\} \subseteq [d_0]
+            $ 
+            that commute with $\Bb$.  These permutations may be chosen independently;
+            there are 
+            $$
+                \prod_{m\in \Mm}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            $$
+            many choices for $\sigma_i$.  The counting claim follows.
+ 
+            The analogous statement about generalization gaps follows similarly
+            when we use $\sum_n l_n/N$ instead of $l$ as the value for $s$. 
+
+            The Path Integral Theorem (Theorem \ref{thm:sgdcoef}) follows.
 
     \subsection*{Coefficient Convergence upon Renormalization}
         Because the Taylor series for analytic functions converge absolutely
@@ -2156,18 +2323,18 @@
     initialization of the linear maps in each layer differentially pulls back
     to standard normal initializations of the parameters.
     
-    For these non-artificial landscapes, we regard the finitely much available
-    data as the true (sum of diracs) distribution from which we sample test and
-    train sets in i.i.d.  manner (and hence ``with replacement'').  We do this
-    to gain practical access to a ground truth against which we may compare our
-    predictions.  One might object that this sampling procedure would cause
-    test and train sets to overlap, hence biasing test loss measurements.  In
-    fact, test and train sets overlap only in reference, not in sense: the
-    situation is analogous to a text prediction task in which two training
-    points culled from different corpora happen to record the same sequence of
-    words, say, ``Thank you!''.  In any case, all of our experiments
-    focus on the scanty-data regime, e.g. $10^1$ datapoints out of $\sim
-    10^{4.5}$ dirac masses, so overlaps are diluted. 
+    For these non-artificial landscapes, we regard the finite amount of
+    available data as the true (sum of diracs) distribution from which we
+    sample test and train sets in i.i.d.  manner (and hence ``with
+    replacement'').  We do this to gain practical access to a ground truth
+    against which we may compare our predictions.  One might object that this
+    sampling procedure would cause test and train sets to overlap, hence
+    biasing test loss measurements.  In fact, test and train sets overlap only
+    in reference, not in sense: the situation is analogous to a text prediction
+    task in which two training points culled from different corpora happen to
+    record the same sequence of words, say, ``Thank you!''.  In any case, all
+    of our experiments focus on the scanty-data regime, e.g. $10^1$ datapoints
+    out of $\sim 10^{4.5}$ dirac masses, so overlaps are diluted. 
 
 \section*{G. Additional Figures}
     {\color{moor} FILL IN}
