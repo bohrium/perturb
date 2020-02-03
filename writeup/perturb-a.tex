@@ -375,8 +375,8 @@
         is \emph{pointed} if it has a unique maximum element and this element
         forms a singleton $\sim$-class.  The categories $\Ss$ of structure sets
         and $\Pp$ of pointed structure sets enjoy a free-forgetful adjunction
-        $\Free, \Forg$.  When $\leq$ is a total preorder, we say that $S$ is
-        a \emph{spacetime}.
+        $\Free, \Forg$.  When $\leq$ is a total preorder, we say that $S$ is a
+        \emph{spacetime}.
     
         A \emph{diagram} is a rooted tree equipped with an equivalence relation
         $\sim$ on nodes.  We draw the tree with thin edges, with the root at
@@ -384,9 +384,11 @@
         graph (with the root maximal), the diagram $D$ induces a structure set,
         by abuse of notation also named $D$.  Let $\parts(D)$ give the parts of
         $D$.  An $\Ss$-map from $D$ to
-        $(\Forg\circ\Free)^{|\parts(D)|}(\text{empty set})$ is an \emph{ordering} of $D$.
-        Let $|\edges(D)|$ and
-        $|\ords(D)|$ count edges and orderings of $D$.
+        $
+            (\Forg\circ\Free)^{|\parts(D)|}(\text{empty set})
+        $
+        is an \emph{ordering} of $D$.  Let $|\edges(D)|$ and $|\ords(D)|$ count
+        edges and orderings of $D$.
     
         Fong gives a swift introduction to these category theoretic and
         diagrammatic ideas \yrcite{fo19}.
@@ -557,8 +559,8 @@
                 \sum_{p \in \parts(D)} \dvalue(D_p)/N
             $, we obtain
             SGD's expected generalization gap (test loss minus train loss).
-            Here, $D_p$ is $D$ with a fuzzy outline connecting $D$'s maximal
-            node to $p$, e.g. $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} =
+            Here, $D_p$ is $D$ with a fuzzy outline connecting $p$ to $\max D$
+            E.g., $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} =
             \sdia{c(01)(01)}$.
         \end{thm}
     
@@ -822,16 +824,22 @@
         embedding-sensitive value $\dvalue_f(D)$, which has the same expression
         as $\dvalue(D)$ except that each contraction by $-\eta$ between nodes
         embedded to times $t, \tilde t$ is replaced by a factor $(I-\eta
-        H)^{\wabs{t-\tilde t}} \eta$.  In practice, we prefer to approximate
-        sums over embeddings by integrals over times and $(I-\eta H)^t$ by
-        $\exp(- \eta H t)$, thus incurring a term-by-term multiplicative error
-        of $1 + o(\eta)$ that does not affect leading order results; in this
-        way, a diagram induces an easily evaluated integral of exponentials.
+        H)^{\wabs{t-\tilde t}} \eta$, and each fuzzy tie is a difference
+        tie\footnote{
+            Actually, the simple differences denoted by fuzzy ties generalize
+            to inclusion-exclusion (i.e. mobius-function weighted) sums for
+            terms with more fuzzy ties than we consider in the paper's body.
+            We describe the general pattern in an appendix. 
+        }.
+        In practice, we prefer to approximate sums over embeddings by integrals
+        over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, thus incurring a
+        term-by-term multiplicative error of $1 + o(\eta)$ that does not affect
+        leading order results; in this way, a diagram induces an easily
+        evaluated integral of exponentials.
        
-        \begin{thm}[Renormalization Licenses Large-$T$ Limits] \label{thm:renorm}
-            SGD's test loss's MacLaurin series may be written as follows
-            (Theorem \ref{thm:test}'s modification for the generalization gap
-            stands).
+        \begin{thm}[Renormalization Gives Large-$T$ Limits] \label{thm:renorm}
+            For any $T$: for $\eta$ sufficiently small, SGD's expected test
+            loss exceeds the noiseless case by 
             \begin{equation} \label{eq:renorm}
                 \sum_{\substack{D \in \image(\Free)\\ \text{irreducible}}}
                 \wrap{
@@ -840,8 +848,9 @@
                 }
                 \frac{\dvalue_f(D)}{B^{|\edges(D)|}}
             \end{equation}
-            In contrast to Theorem \ref{sgd:coef}, when $H$ is positive,
-            the $d$th order truncation converges as $T$ diverges.
+            Theorem \ref{thm:sgdcoef}'s modification for the generalization gap
+            stands.  In contrast to Theorem \ref{thm:sgdcoef}, when $H$ is
+            positive, the $d$th order truncation converges as $T$ diverges.
         \end{thm}
         Due to the latter convergence property, we have formal license to 
         take long-term limits of renormalized predictions.  In fact, the
@@ -1569,8 +1578,32 @@
             Theorem \ref{thm:sgdcoef} does so by matching each term to an
             embedding of a diagram in spacetime, so that the infinite sum
             becomes a sum over all diagram spacetime configurations.
-            %Intuitively, an embedding with an edge  
+            The main idea is that the combinatorics of diagrams parallels the
+            combinatorics of repeated applications of the product rule for
+            derivatives applied to the expression in the Key Lemma. 
+            Balancing against this combinatorial explosion are factorial-style 
+            denominators, again from the Key Lemma, that we summarize in terms
+            of the sizes of automorphism groups.
 
+        \subsubsection*{Consolation}
+            The following proof is messy.  It compresses into a reusable
+            package the messy intricacies of direct perturbation (see
+            Appendix D for samples of uncompressed computations), and as such 
+            equates two conceptually clean sides via a jungle of canceling
+            sums and factorials.  
+
+            How can we increase our confidence in the correctness of a theorem
+            so unappetizingly proved?  We regard three pieces of evidence as
+            supplementing this proof: \emph{Aesthetic} evidence --- the Theorem
+            assumes a form familiar to mathematicians and physicists: it is a
+            sum over combinatorial objects weighted inversely by the order of
+            their respective automorphism groups.  \emph{Comparative}
+            evidence --- the Theorem's predictions agree with direct
+            perturbation in the cases we report in Appendix D.
+            \emph{Empirical} evidence --- the Theorem, though compactly stated,
+            precisely predicts the existence and intensity of the phenomena we
+            report in the main body up to third order.
+ 
         \subsubsection*{Path Integral Theorem: Proof}
             We first prove the statement about test losses.
             Due to the analyticity property established in our proof of the
@@ -1602,8 +1635,7 @@
             \end{align}
             Here, $\dvalue_\pi$ is the value of a diagram embedding before
             taking expectations over training sets.  We have for all $f$ that
-            $\expct{\dvalue_\pi(D, f)} = \dvalue(D)$.  Indeed, $\dvalue_\pi$ 
-            is characterized by the recurrence
+            $\expct{\dvalue_\pi(D, f)} = \dvalue(D)$.
             Observe that both sides are finitary sums.
 
             \begin{rmk}
@@ -1666,16 +1698,26 @@
             additional edges from the cell of datapoint $n$ at time $0$ to the
             $v$th node of $\tilde D$ as embedded by $\tilde f$.
 
+            By the general Leibniz rule remarked on above, the sum over
+            terms indexed by $(\beta, \nu)$ corresponds to a sum over
+            embeddings $f$ that restrict to $\tilde f$, whose terms are multiples
+            of the corresponding and embedded $D$.  Together with the sum
+            over $\tilde f$, this gives a sum over all embeddings $f$.  So we
+            now only need to check that the coefficients for each $f:D\to S$  
+            are as claimed.
+
             We note that the $(\beta, \nu)$ diagram and term agrees with the
             $(\beta \circ \sigma, \nu \circ \sigma)$ diagram and term for any
-            permutation $\sigma$ of $[d_0]$.  The corresponding orbit has size
+            permutation $\sigma$ of $[d_0]$.
+            The corresponding orbit has size
             \begin{align*}
                 \frac{d_0!}{
                     \prod_{(m, i) \in \Mm \times \tilde D}
                         \wabs{(\beta \times \nu)^{-1}(m, i)}!
                 }
             \end{align*}
-            by the Orbit Stabilizer Theorem of elementary group theory.
+            by the Orbit Stabilizer Theorem of elementary group theory.   
+
             It is thus enough to show that
             $$
                 \wabs{\Aut_f(D)} = 
@@ -1701,7 +1743,11 @@
             maps arises from a $\phi$.  For, in order for $\Aa \sqcup \Bb: D
             \to D$ to be an automorphism, it must respect the order structure
             of $D$.  In particular, if $x\leq_D y$ with $x \in [d_0]$ and $y
-            \in \tilde D$, then we need $\Bb(x) \leq_D \Aa(y)$ as well.  The
+            \in \tilde D$, then we need
+            $$
+                \Bb(x) \leq_D \Aa(y)
+            $$
+            as well.  The
             pairs $(\Aa, \Bb)$ that thusly preserve order are in bijection with
             the $\phi \in \Aut_f(D)$.  There are $\wabs{\Aut_{\tilde f}(\tilde
             D)}$ many $\Aa$.  For each $\Aa$, there are as many $\Bb$ as there
@@ -1709,30 +1755,149 @@
             $
                 \{j\in [d_0]: j\leq_D i\} \subseteq [d_0]
             $ 
-            that commute with $\Bb$.  These permutations may be chosen independently;
-            there are 
-            $$
+            that commute with $\Bb$.  These permutations may be chosen
+            independently; there are 
+            $
                 \prod_{m\in \Mm}
                     \wabs{(\beta \times \nu)^{-1}(m, i)}!
-            $$
-            many choices for $\sigma_i$.  The counting claim follows.
+            $
+            many choices for $\sigma_i$.  The counting claim follows
+            and with it the correctness of coefficients.
  
             The analogous statement about generalization gaps follows similarly
             when we use $\sum_n l_n/N$ instead of $l$ as the value for $s$. 
-
             The Path Integral Theorem (Theorem \ref{thm:sgdcoef}) follows.
 
     \subsection*{Coefficient Convergence upon Renormalization}
-        Because the Taylor series for analytic functions converge absolutely
-        in the interior of the disk of convergence, the rearrangement of terms
-        corresponding to a grouping by geometric realizations preserves the
-        proof and results of \ref{thm:test}.  
+        \subsubsection*{Renormalization Theorem: Proof Idea}
+            The diagrams summed in Theorem \ref{thm:renorm} may be grouped by
+            their geometric realizations.  Each nonempty class of diagrams with
+            a given geometric realization has a minimal element, and in this
+            way all and only irreducible diagrams arise. 
 
-        To prove the rest of Theorem \ref{thm:renorm}, we assume that $H$ is
-        positive.  Then, for any $m$, the propagator ${(I-\eta H)^{\otimes
-        m}}^t$ converges exponentially with $t$ to $0$.
-        {\color{moor} FILL IN}
-        The Renormalization Theorem (\ref{thm:renorm}) follows.
+            We encounter two complications: on one hand, that the sizes of
+            automorphism groups might not be uniform among the class of
+            diagrams with a given geometric realization.  On the other hand,
+            that the embeddings of a specific member of that class might be
+            hard to count.  The first we handle by Orbit-Stabilizer.  The
+            second we handle by Mobius Sums.
+
+        \subsubsection*{Renormalization Theorem: Mobius Sum for General Diagrams}
+            {\color{moor} FILL IN}
+            
+        \subsubsection*{Renormalization Theorem: Proof}
+            We focus on test loss instead of generalization gap; the proofs are
+            similar. The
+            difference from the noiseless case is given by all the diagram
+            embeddings with at least one fuzzy tie, where the fuzzy tie pattern
+            is actually replaced by a difference between noisy and noiseless
+            cases as prescribed by the discussion on Mobius Sums.
+            Beware that the relatively noiseless embeddings may have illegal
+            collisions of non-tied nodes within a single spacetime (data) row.
+            Throughout the rest of this proof, we permit such illegal
+            embeddings of the fuzz-less diagrams that arise from the
+            aforementioned decomposition.  
+
+            Because the Taylor series for analytic functions converge
+            absolutely in the interior of the disk of convergence, the
+            rearrangement of terms corresponding to a grouping by geometric
+            realizations preserves the convergence result of \ref{thm:sgdcoef}.  
+
+            Let us then focus on those diagrams $\sigma$ with a given geometric
+            realization represented by $\rho$ irreducible.  By Theorem
+            \ref{thm:sgdcoef}, it suffices to show that
+            \begin{equation} \label{eq:hard}
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \frac{1}{\wabs{\Aut_{\tilde f}(\sigma)}}
+                =
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \sum_{\substack{
+                    i:\rho\to\sigma \\
+                    f = \tilde f \circ i
+                }}
+                \frac{1}{\wabs{\Aut_{f}(\rho)}}
+            \end{equation}
+            Here, $f$ is considered up to equivalence by precomposition by an
+            automorphism of $\rho$; likewise for $\tilde f$ and automorphisms
+            of $\sigma$; $i$ ranges through maps that induce isomorphisms of
+            geometric realizations; and $i$ is considered equivalent to $\hat
+            i$ when for some automorphism $\phi \in \Aut_{\tilde f}(\sigma)$,
+            we have $\hat i = i \circ \phi$.  Let the set of all such $i$s
+            under this equivalence relation be called $X$.  The left hand side
+            is the expression of Theorem \ref{thm:sgdcoef} and the right hand
+            side is the expression of Theorem \ref{thm:renorm}; we have
+            introduced redundant sums to structurally align the two expressions
+            on the page.
+
+            To prove equation \ref{eq:hard}, it suffices to show (for any
+            $f, \tilde f, i$ as above) that
+            $$
+                \wabs{\Aut_f(\rho)}
+                =
+                \wabs{\Aut_{\tilde f}(\sigma)}
+                \cdot
+                \wabs{X}
+            $$
+            We will prove this using Orbit-Stabilizer by presenting an
+            action of $\Aut_f(\rho)$ on $X$.  We simply use precomposition so
+            that $\psi\in \Aut_f(\rho)$ sends $i\in X$ to $i\circ \psi$.  Since
+            $f\circ\psi = f$, $i\circ \psi \in X$.  Moreover, the action is
+            well-defined, because if $i\sim \hat i$ by $\phi$, then 
+            $i \circ \psi \sim \hat i \circ \psi$ also by $\phi$.
+            
+            The size of $i$'s the stabilizer is $\wabs{\Aut_{\tilde f}(\rho)}$.
+            For, when $i \sim i \circ \psi$ via $\phi \in \Aut_{\tilde
+            f}(\rho)$, we have $i\circ \psi = \phi \circ i$.  This relation in
+            fact induces a bijective correspondence: \emph{every} $\phi$
+            induces a $\psi$ via $\psi = i^{-1} \circ \phi \circ i$, so we have
+            a map $\text{stabilizer}(i) \hookleftarrow \Aut_{\tilde f}(\rho)
+            $seen to be well-defined and injective by the strictly increasing
+            nature of structure set morphisms together with the fact that $i$s
+            must induce isomorphisms of geometric realizations.  Conversely,
+            every $\psi$ that stabilizes enjoys \emph{only} one $phi$ via which
+            $i \sim i \circ \phi$, again by the same (isomorphism and strict
+            increase) properties.  So the stabilizer has the claimed size.
+
+            Meanwhile, the orbit is all of $\wabs{X}$.  Indeed, suppose
+            $i_A, i_B \in X$.  We will present $\psi \in \Aut_f(\rho)$ such
+            that $i_B \sim i_A \circ \psi$ by $\phi=\text{identity}$.  We
+            simply define $\psi = i_A^{-1} \circ i_B$, well-defined by the
+            aforementioned (isomorphisms and strict increase) properties.
+            It is then routine to verify that
+            $
+                f \circ \psi
+                =
+                \tilde f \circ i_A \circ i_A^{-1} \circ i_B
+                =
+                \tilde f \circ i_B
+                = f.
+            $
+            So the orbit has the claimed size, and by the Orbit-Stabilizer
+            Theorem, the coefficients in the expansions of Theorems 
+            \ref{thm:renorm} and \ref{thm:sgdcoef} match.
+
+            To prove the rest of Theorem \ref{thm:renorm}, we assume that $H$
+            is positive.  Then, for any $m$, the propagator ${(I-\eta
+            H)^{\otimes m}}^t$ converges via an exponential decay with $t$ to
+            $0$ (with a rate dependent on $m$).  The Renormalization Theorem.
+            Since up to degree $d$ only a finite number of diagrams exist and
+            hence only a finite number of possible $m$s, the exponential rates
+            are bounded away from $0$.  Moreover, for any fixed
+            $t_{\text{big}}$, the number of diagrams --- involving no exponent
+            $t$ exceeding  $t_{\text{big}}$ --- is eventually constant as $T$
+            grows.  Meanwhile, the number involving at least one exponent $t$
+            exceeding that threshold grows polynomially in $T$ (with degree
+            $d$).  The exponential decay of each term overwhelms the polynomial
+            growth in the number of terms, and the convergence statement of
+            Theorem (\ref{thm:renorm}) follows.
 
 \section*{B. Tutorial on Diagram Rules}
     After reviewing how diagrams correspond to specific landscape statistics,
@@ -2336,9 +2501,10 @@
     of our experiments focus on the scanty-data regime, e.g. $10^1$ datapoints
     out of $\sim 10^{4.5}$ dirac masses, so overlaps are diluted. 
 
-\section*{G. Additional Figures}
+\section*{G. Glossary}
     {\color{moor} FILL IN}
 
-
+\section*{H. Additional Figures}
+    {\color{moor} FILL IN}
 
 \end{document}
