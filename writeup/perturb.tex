@@ -197,13 +197,14 @@
             Specifically, we will Taylor expand an (inverse) metric
             $\eta^{\mu\nu}$ around $0$.
         } descent on noisy estimates of $l$.
-        A key question is how such noise affects the final objective value.  We
-        address this question by connecting SGD dynamics to physical scattering
-        theory.  As applications of the theory, we find:
+        A key question is how such noise affects the final objective value.
+        To address this question, we interpret SGD as a sum of scattering
+        processes depicted by Feynman diagrams.  The theory makes many
+        predictions:
 
-        \textsc{Story of $\sdia{c(01-2)(02-12)}$\footnote{
+        \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}\footnote{
             These Feynman diagrams will be explained in the text.
-        }:~}
+        }
         Flat and sharp minima both overfit less than minima of curvature
         comparable to $(\eta T)^{-1}$.  While flat minima are robust to
         vector-valued weight displacements and sharp minima are robust to
@@ -230,15 +231,27 @@
         large batch sizes \citep{go18}.  
 
     \subsection{Appetizing Example: The Role of Epoch Number}
-
         %----------------------------------------------------------------------
-        %       Epoch Number Example     
+        %       The Idea of Diagrams Embedded in Spacetime
         %----------------------------------------------------------------------
 
-        We represent an SGD run as a ``\emph{spacetime}''
-        grid with one row per datapoint and one
-        column per time.  The grid has a cell at a row and column whenever the
-        corresponding datapoint is part of the corresponding time's batch.
+        The $n$th datapoint participates in the $t$th update; we represent all
+        such $(n, t)$ pairs of an SGD run as the shaded cells of a grid, where
+        datapoints index rows and times index columns.  The shaded cells
+        comprise the SGD run's \emph{spacetime}.
+
+        \begin{figure}[H] 
+            \centering  
+            \plotmooh{diagrams/spacetime-e}{}{0.24\columnwidth}
+            \plotmooh{diagrams/spacetime-f}{}{0.24\columnwidth}
+            \caption{
+                Examples of spacetimes for $16$ steps on $8$ datapoints.
+                {\bf Left}: SGD run with size-$1$ batches and with shuffling.
+                {\bf Right}: SGD run with size-$2$ batches and no shuffling.
+            }
+            \label{fig:spacetimes}
+        \end{figure}
+
         Our formalism represents an
         SGD run's expected test loss as a \emph{sum over all diagram
         embeddings}, where diagrams are graphs such as $\sdia{(0-1)(01)}$ and
@@ -250,6 +263,10 @@
         tied.  Each $d$-edged diagram contributes to order $\eta^d$, so,
         for small $\eta$, the few-edged diagrams suffice to predict
         test losses.
+
+        %----------------------------------------------------------------------
+        %       Epoch Number Example     
+        %----------------------------------------------------------------------
 
         \begin{figure}[h!] 
             \centering  
@@ -290,7 +307,9 @@
             + o(\eta^2)
         $$
         We complete the calculation by reading from the diagram's graph
-        structure that it evaluates to
+        structure that it evaluates to\footnote{
+            The right hand side notation is explained in \ref{sect:background}
+        }
         \begin{align*}
             \dvalue\wrap{\sdia{c(01-2)(01-12)}}
             %=
@@ -324,7 +343,7 @@
 %       BACKGROUND AND NOTATION
 %==============================================================================
 
-\section{Background and Notation}
+\section{Background and Notation} \label{sect:background}
 
     %--------------------------------------------------------------------------
     %           Tensor Conventions
@@ -1215,7 +1234,7 @@
     standard metric (see \citet{ho17}, \citet{ke17}, \citet{wa18}), or by
     exhibiting generalization of local minima \emph{sharp} with respect to the
     standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
-    which makes explicit the dependence of generalization on the underlying
+    which explicates how generalization depends on the underlying
     metric and on the form of gradient noise, reconciles those
     seemingly clashing claims.
     
@@ -1263,12 +1282,12 @@
         predictions of learning curves for small $\eta$.  Unlike the
         continuous-time limits of prior work, this framework models discrete
         time, and with it, the potential \emph{non-Gaussianity} of noise.  We
-        thus obtain new results quantifying the effect of \emph{epoch number
-        and batch size} on SGD test loss.  We also \emph{contrast SGD against
+        thus obtained new results quantifying the effect of \emph{epoch number
+        and batch size} on SGD test loss.  We also \emph{contrasted SGD against
         popular continuous-time approximations} such as ordinary or stochastic
         differential equations (ODE, SDE): our work gives the finite-$N$,
         finite-$\eta^{-1}$ corrections to these approximations.  From this
-        theory, we propose two new regularizers that respectively induce GD to
+        theory, we proposed two new regularizers that respectively induce GD to
         mimic SGD and help to tune hyperparameters such as $l_2$ coefficients.
 
         %----------------------------------------------------------------------
@@ -1280,8 +1299,8 @@
         \emph{scattering process}.  As individual Feynman diagrams \citep{fe49}
         depict how local particle interactions compose into global outcomes,
         our diagrams depict how individual SGD updates influence each other
-        before affecting a final test loss.  In fact, we import physical tools
-        such as \emph{crossing symmetries} \citep{dy49b} and
+        before affecting a final test loss.  In fact, we imported physical
+        tools such as \emph{crossing symmetries} \citep{dy49b} and
         \emph{r-normalization} \citep{ge54} to simplify and refine our
         calculations.  The diagrams' combinatorics yield precise qualitative
         conclusions as well, e.g. that to order $\eta^3$, \emph{inter-epoch
@@ -1379,7 +1398,7 @@
 \renewcommand{\thesection}{\Alph{section}}
 \setcounter{section}{0}
 
-\section{Mathematical Background} \label{sect:background}
+\section{Mathematical Background} \label{sect:morebackground}
     We list the assumed regularity conditions on the loss landscape not in this
     section but in the next.
 
@@ -1481,13 +1500,13 @@
         Kol\'{a}\u{r} gives a careful introduction to these differential
         geometric ideas \yrcite{ko93}.
 
-        \subsubsection{Pathologies Illustrating the Hypotheses' Utility}
+        \subsubsection*{Pathologies Illustrating the Hypotheses' Utility}
             {\color{moor} FILL IN}
 
 
     \subsection{Dyson Series for Iterative Optimizers}
         We first give intuition, then worry about $\epsilon$s and $\delta$s.
-        \subsubsection{The Key Lemma: Proof Idea}
+        \subsubsection*{The Key Lemma: Proof Idea}
             Intuitively, since $\nabla$ Lie-generates translation, the operator
             $
                 \exp\wrap{
@@ -1524,7 +1543,7 @@
             \end{align*}
             We finish by taking expectations.
 
-        \subsubsection{The Key Lemma: Proof}
+        \subsubsection*{The Key Lemma: Proof}
             We work in a neighborhood of the initialization so that the tangent
             space of weight space is a trivial bundle.  For convenience, we fix
             a flat coordinate system, and with it the induced flat,
@@ -1632,7 +1651,7 @@
             follows.   
 
     \subsection{Terms and Diagram Embeddings Correspond}
-        \subsubsection{Path Integral Theorem: Proof Idea}
+        \subsubsection*{Path Integral Theorem: Proof Idea}
             We now seek to describe the terms that appear in the Key Lemma. 
             Theorem \ref{thm:sgdcoef} does so by matching each term to an
             embedding of a diagram in spacetime, so that the infinite sum
@@ -1644,7 +1663,7 @@
             denominators, again from the Key Lemma, that we summarize in terms
             of the sizes of automorphism groups.
 
-        \subsubsection{Consolation}
+        \subsubsection*{Consolation}
             The following proof is messy.  It compresses into a reusable
             package the messy intricacies of direct perturbation (see
             Appendix \ref{sect:compare} for samples of uncompressed computations), and as such 
@@ -1663,7 +1682,7 @@
             precisely predicts the existence and intensity of the phenomena we
             report in the main body up to third order.
  
-        \subsubsection{Path Integral Theorem: Proof}
+        \subsubsection*{Path Integral Theorem: Proof}
             We first prove the statement about test losses.
             Due to the analyticity property established in our proof of the
             Key Lemma, it suffices to show agreement at each degree $d$ and
@@ -1828,7 +1847,7 @@
             The Path Integral Theorem (Theorem \ref{thm:sgdcoef}) follows.
 
     \subsection{Coefficient Convergence upon Renormalization}
-        \subsubsection{Renormalization Theorem: Proof Idea}
+        \subsubsection*{Renormalization Theorem: Proof Idea}
             The diagrams summed in Theorem \ref{thm:renorm} may be grouped by
             their geometric realizations.  Each nonempty class of diagrams with
             a given geometric realization has a minimal element, and in this
@@ -1841,10 +1860,10 @@
             hard to count.  The first we handle by Orbit-Stabilizer.  The
             second we handle by Mobius Sums.
 
-        \subsubsection{Renormalization Theorem: Mobius Sum for General Diagrams}
+        \subsubsection*{Renormalization Theorem: Mobius Sum for General Diagrams}
             {\color{moor} FILL IN}
             
-        \subsubsection{Renormalization Theorem: Proof}
+        \subsubsection*{Renormalization Theorem: Proof}
             We focus on test loss instead of generalization gap; the proofs are
             similar. The
             difference from the noiseless case is given by all the diagram
@@ -2023,7 +2042,7 @@
         SGD and pure GD differ in how samples are correlated, their test loss
         difference involves a covariance and hence occurs at order $\eta^2$.  
 
-        \subsubsection{Diagram Method}
+        \subsubsection*{Diagram Method}
             Since SGD and GD agree on noiseless landscapes, we consider only
             diagrams with fuzzy ties.  Since we are working to second order, we
             consider only two-edged diagrams.  There are only two such
@@ -2051,7 +2070,7 @@
                 \eta^2 \frac{M(N-1)}{4} G \nabla C 
             $$
 
-        \subsubsection{Direct Perturbation} 
+        \subsubsection*{Direct Perturbation} 
             We compute the displacement $\theta_T-\theta_0$ to order $\eta^2$ 
             for pure SGD and separately for pure GD.  Expanding
             $
@@ -2166,7 +2185,7 @@
         the gaussian landscapes will by construction match their nongaussian
         counterparts.
 
-        \subsubsection{Diagram Method}
+        \subsubsection*{Diagram Method}
             Because $\expct{\nabla l}$ vanishes at initialization, all diagrams
             with a degree-one vertex that is a singleton vanish.  Because we
             work at order $\eta^3$, we consider $3$-edged diagrams.  Finally,
@@ -2175,7 +2194,7 @@
             of size at least $3$.  The only such test diagram is
             $\sdia{c(012-3)(03-13-23)}$.
 
-        \subsubsection{Direct Perturbation}
+        \subsubsection*{Direct Perturbation}
             We compute the displacement $\theta_T-\theta_0$ to order $\eta^3$ 
             for vanilla SGD.  Expanding
             $
@@ -2307,8 +2326,8 @@
     %\subsection{A Nonconservative Force (Unrenormalized)}
     %    We identify the leading order nonconservative component in vanilla
     %    SGD's evolution of a weight initialized at a test minimum.
-    %    \subsubsection{Diagram Method}
-    %    \subsubsection{Direct Perturbation}
+    %    \subsubsection*{Diagram Method}
+    %    \subsubsection*{Direct Perturbation}
 
     \subsection{The Effect of Inter-Epoch Shuffling}
         We identify the leading order effect of shuffling on test loss for
@@ -2316,11 +2335,11 @@
         than by diagrams that this is an order $\eta^4$ effect, so for fairness
         we will assume this order it already known for both methods.
 
-        \subsubsection{Diagram Method}
+        \subsubsection*{Diagram Method}
 
             {\color{moor} FILL IN}
             
-        \subsubsection{Direct Perturbation}
+        \subsubsection*{Direct Perturbation}
             We compute the displacement $\theta_T-\theta_0$ to order $\eta^4$ 
             for vanilla SGD.  Expanding
             $
