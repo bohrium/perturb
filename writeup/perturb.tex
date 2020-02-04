@@ -11,6 +11,8 @@
 \usepackage{booktabs} % for professional tables
 \usepackage{hyperref, xcolor}
 \usepackage{amsmath, amssymb, amsthm, hanging, graphicx, txfonts, ifthen}
+
+\usepackage[perpage]{footmisc}
         
 \usepackage[percent]{overpic}
 
@@ -42,6 +44,7 @@
 \newcommand{\Aut}{\text{\textnormal{Aut}}}
 \newcommand{\image}{\text{\textnormal{im}}}
 \newcommand{\dvalue}{\text{\textnormal{value}}}
+\newcommand{\rvalue}{\text{\textnormal{rvalue}}}
 \newcommand{\edges}{\text{\textnormal{edges}}}
 \newcommand{\ords}{\text{\textnormal{ords}}}
 \newcommand{\parts}{\text{\textnormal{parts}}}
@@ -196,23 +199,27 @@
         } descent on noisy estimates of $l$.
         A key question is how such noise affects the final objective value.  We
         address this question by connecting SGD dynamics to physical scattering
-        theory.
+        theory.  As applications of the theory, we find:
 
-        \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
+        \textsc{Story of $\sdia{c(01-2)(02-12)}$\footnote{
+            These Feynman diagrams will be explained in the text.
+        }:~}
         Flat and sharp minima both overfit less than minima of curvature
-        comparable to $(\eta T)^{-1}$.  While flat minima withstand
-        vector-valued weight displacements and sharp minima withstand
+        comparable to $(\eta T)^{-1}$.  While flat minima are robust to
+        vector-valued weight displacements and sharp minima are robust to
         covector-valued loss offsets, medium minima attain the worst of both
-        worlds.  Such considerations lead us to a smooth generalization of AIC
-        and to tune hyperparameters by gradient descent.
+        worlds.  We thus reconcile prior intuitions that sharp \citep{ho17,
+        ke17, wa18} or flat \citep{st56, di17, wu18} minima overfit worse.  These
+        considerations lead us to a smooth generalization of AIC and to tune
+        hyperparameters by gradient descent.
 
         \textsc{Story of $\sdia{c(01-2-3)(02-12-23)}$:~}
         Refining \citet{we19b} to nonconstant, nonisotropic covariance, we find
-        SGD descends on a loss landscape smoothed by the current covariance.
-        As the weight and thus the covariance evolve, the smoothing mask
-        evolves and thus the effective landscape evolves.  This dynamics
-        is generically nonconservative.  In contrast to \citet{ch18}, this SGD
-        dynamics does not need to converge to a limit cycle. 
+        that SGD descends on a loss landscape smoothed by the \emph{current}
+        covariance.  As the covariance evolves, the smoothing mask and thus the
+        effective landscape evolves.  This dynamics is generically
+        nonconservative.  In contrast to \citet{ch18}'s SDE approximation,
+        SGD does not generically converge to a limit cycle. 
 
         \textsc{Story of $\sdia{c(01-2)(01-12)}$:~}
         As conjectured by \citet{ro18}, large-batch GD can be made to emulate
@@ -244,7 +251,7 @@
         for small $\eta$, the few-edged diagrams suffice to predict
         test losses.
 
-        \begin{figure}[H]  
+        \begin{figure}[h!] 
             \centering  
             \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
             \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
@@ -324,48 +331,72 @@
     %--------------------------------------------------------------------------
 
     \subsection{Tensor Conventions}
-
-        We adopt summation notation for Greek indices.  To expedite dimensional
-        analysis, we regard the learning rate as an inverse metric
-        $\eta^{\mu\nu}$ that converts a gradient into a displacement
-        (\cite{bo13}).  We use $\eta$ to raise indices; for example, with $C$
-        denoting the covariance of gradients, its ``trace'' will be
-        $C^{\mu}_{\mu} = \eta^{\mu\nu} C_{\mu\nu}$.  Standard syntactic
-        constraints make manifest which expressions transform naturally with
-        respect to optimization dynamics.  We use $G_\mu, H_{\mu\nu},
-        J_{\mu\nu\lambda}$ for the first, second, and third derivatives of $l$.
+        We use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second,
+        and third derivatives of $l$ and $C_{\mu \nu}$ for the covariance of
+        gradients.  We adopt the physicists' convention that repeated Greek
+        indices are implicitly summed: if $A_\mu, B^\mu$ are the coefficients
+        of a covector $A$ and a vector
+        $B$\footnote{
+            (Co)vectors are also called column (row) vectors.
+        }, indexed by basis elements $\mu$, then
+        $
+            A_\mu B^\mu
+            \triangleq
+            \sum_\mu A_\mu \cdot B^\mu
+        $.
+        To expedite dimensional analysis, we regard the learning rate as an
+        inverse metric $\eta^{\mu\nu}$ that converts a gradient covector into a
+        vector displacement \citep{bo13}.  We use $\eta$ to \emph{raise}
+        indices.  In
+        $
+            H^{\mu}_{\lambda}
+            \triangleq
+            \eta^{\mu\nu} H_{\nu\lambda}
+        $, for instance,
+        $\eta$ raises one of $H_{\mu\nu}$'s indices.  Another example is
+        $
+            C^{\mu}_{\mu}
+            \triangleq
+            \sum_{\mu \nu} \eta^{\mu\nu} \cdot C_{\nu\mu}
+        $.
+        Standard syntactic constraints make manifest which expressions
+        transform naturally with respect to optimization dynamics.  
 
         We henceforth assume the regularity conditions listed in Appendix
         \ref{sect:proofs}, for instance that $l$ is analytic.  The conditions
-        are weak enough to hold for $\tanh$ neural networks with cross entropy
+        hold for $\tanh$ neural networks with cross entropy
         loss on bounded data --- and with arbitrary weight sharing, skip
-        connections, soft attention, dropout, batch normalization\footnote{
-            assuming batches remain disjoint throughout training so that each
-            batch may be considered as a single datapoint in a
-            higher-dimensional space 
-        } and weight decay.  Moreover, our analysis does not rely on
-        information-geometric relationships between $C$ and $H$, so it applies
-        to inexact-likelihood landscapes such as VAEs'.
+        connections, soft attention, dropout,
+        %batch normalization\footnote{
+        %    assuming batches remain disjoint throughout training so that each
+        %    batch may be considered as a single datapoint in a
+        %    higher-dimensional space 
+        %}
+        and weight decay.  Since our work does not rely on
+        information-geometric relationships between $C$ and $H$ \citep{am98},
+        it applies to inexact-likelihood landscapes such as VAEs'.
 
     %--------------------------------------------------------------------------
     %           Names of SGD Parameters
     %--------------------------------------------------------------------------
 
-    \subsection{SGD Conventions}
+    \subsection{SGD Conventions and Terminology}
         SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
-        estimates $(l_n: 0\leq n<N)$ of $l$.  For each of $M\times B$ epochs,
-        SGD partitions the train set into $N/B$ batches of size $B$; for
-        each batch $\Bb$, SGD rewrites
+        estimates $(l_n: 0\leq n<N)$ of $l$.  Each estimate is a
+        \emph{datapoint}.  For each of $M\cdot B$ \emph{epochs}, SGD
+        partitions the $N$ datapoints into a length-$N/B$ sequence of size-$B$
+        \emph{batches}.  For each batch $\Bb$, SGD updates
         $
             \theta^\mu
             \leftsquigarrow
             \theta^\mu -
-            \eta^{\mu\nu} \nabla_\nu \frac{1}{B} \sum_{n\in \Bb} l_n(\theta)
+            \eta^{\mu\nu} \nabla_\nu
+                \wrap{\frac{1}{B} \sum_{n\in \Bb} l_n(\theta)}
         $.
-        In total, SGD performs $NM$ many updates.  Together with an inter-epoch
-        shuffling pattern, $N, B, M$ determine the SGD algorithm.  The cases
-        $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.  The $M=1$
-        case of pure SGD we call \emph{vanilla SGD}.
+        SGD performs $N\cdot M$ many updates in total.  Together with an
+        inter-epoch shuffling pattern, $N, B, M$ determine the SGD algorithm.
+        The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
+        The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
         
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
@@ -378,9 +409,8 @@
     %--------------------------------------------------------------------------
 
     \subsection{How Diagrams Arise}
-        Suppose $s$ is analytic on weight space; e.g. $s$ may be a test loss.
-        We track $s(\theta)$ as $\theta$ evolves by SGD via a Dyson-style
-        lemma \yrcite{dy49a}:
+        Suppose $s$ is analytic on weight space, for example $s=l$.
+        We track $s(\theta)$ as SGD updates $\theta$ (c.f. \citet{dy49a}):
         \begin{klem*} %\label{lem:dyson}
             For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is
             \begin{equation}\label{eq:dyson}
@@ -765,11 +795,10 @@
         In general, one sums over all embeddings of diagrams that are
         \emph{irreducible} in the sense that they lack non-root
         $\sim$-singleton degree-two nodes (such as the middle node of
-        $\sdia{(0-1-2)(01-12)}$).  The sum is like the unrenormalized case
-        except that the embedding-agnostic value $\dvalue(D)$ is replaced by an
-        embedding-sensitive value $\dvalue_f(D)$, which has the same expression
-        as $\dvalue(D)$ except that each contraction by $-\eta$ between nodes
-        embedded to times $t, \tilde t$ is replaced by a factor $(I-\eta
+        $\sdia{(0-1-2)(01-12)}$).  Instead of Theorem \ref{thm:sgdcoef}'s
+        embedding-agnostic value $\dvalue(D)$, we use an embedding-sensitive
+        value $\rvalue_f(D)$, in which each contraction by $-\eta$ between
+        nodes embedded to times $t, \tilde t$ is replaced by a factor $(I-\eta
         H)^{\wabs{t-\tilde t}} \eta$, and each fuzzy tie is a difference
         tie\footnote{
             Actually, the simple differences denoted by fuzzy ties generalize
@@ -780,23 +809,22 @@
         In practice, we prefer to approximate sums over embeddings by integrals
         over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, thus incurring a
         term-by-term multiplicative error of $1 + o(\eta)$ that does not affect
-        leading order results; in this way, a diagram induces an easily
-        evaluated integral of exponentials.
+        leading order results; diagrams thusly induce easily
+        evaluated integrals of exponentials.
        
         \begin{thm}[Renormalization Gives Large-$T$ Limits] \label{thm:renorm}
             For any $T$: for $\eta$ sufficiently small, SGD's expected test
             loss exceeds the noiseless case by 
             \begin{equation} \label{eq:renorm}
-                \sum_{\substack{D \in \image(\Free)\\ \text{irreducible}}}
+                \sum_{\substack{D \in \image(\Free)\\ \text{\color{moor} irreducible}}}
                 \wrap{
                     \sum_{f: D\to\Free(S)}
                     \frac{1}{\wabs{\Aut_f(D)}}
                 }
-                \frac{\dvalue_f(D)}{B^{|\edges(D)|}}
+                \frac{{\color{moor} \rvalue_f}(D)}{B^{|\edges(D)|}}
             \end{equation}
-            Theorem \ref{thm:sgdcoef}'s modification for the generalization gap
-            stands.  In contrast to Theorem \ref{thm:sgdcoef}, when $H$ is
-            positive, the $d$th order truncation converges as $T$ diverges.
+            In contrast to Theorem \ref{thm:sgdcoef}, when $H$ is positive, the
+            $d$th order truncation converges as $T$ diverges.
         \end{thm}
         Due to the latter convergence property, we have formal license to 
         take long-term limits of renormalized predictions.  In fact, the
@@ -840,7 +868,7 @@
                     \wrap{(I - \exp(-\eta T H))}^{\nu}_{\lambda}
                     \wrap{H^{-1}}^{\lambda\mu}
             $$
-            Contrary to the later-mentioned Takeuchi estimate, this does not
+            In contrast to the later-mentioned Takeuchi estimate, this does not
             diverge as $H$ shrinks.
         \end{prop}
         Proposition \ref{prop:overfit}'s generalization gap converges after
@@ -1320,26 +1348,26 @@
 %    ACKNOWLEDGEMENTS
 %==============================================================================
 
-\subsection{Acknowledgements}
-    We feel deeply grateful to
-        {\color{moor} UNCOMMENT}
-        %Sho Yaida,
-        %Dan A. Roberts, and
-        %Josh Tenenbaum
-    for posing several of the questions we here resolved and for their
-    compassionate and patient guidance.  We appreciate the generosity of
-        {\color{moor} UNCOMMENT}
-        %Andrzej Banburski,
-        %Ben R. Bray,
-        %Sasha Rakhlin,
-        %Greg Wornell, and
-        %Wenli Zhao
-    in offering feedback on earlier stages of writing.
+{\color{moor} UNCOMMENT ACKNOWLEDGEMENTS}
+%\subsection{Acknowledgements}
+%    We feel deeply grateful to
+%        Sho Yaida,
+%        Dan A. Roberts, and
+%        Josh Tenenbaum
+%    for posing several of the questions we here resolved and for their
+%    compassionate and patient guidance.  We appreciate the generosity of
+%        Andrzej Banburski,
+%        Ben R. Bray,
+%        Sasha Rakhlin,
+%        Greg Wornell, and
+%        Wenli Zhao
+%    in offering feedback on earlier stages of writing.
 
 %==============================================================================
 %    REFERENCES      
 %==============================================================================
 
+\newpage
 %\section*{References}
     \bibliography{perturb}
     \bibliographystyle{icml2019}
