@@ -337,7 +337,7 @@
         regime (sections \ref{subsect:effective}, \ref{subsect:entropic}, and
         \ref{subsect:overfit}), the topology of diagrams will play a key role.
         While diagrams may in principle be completely avoided, Appendix
-        \ref{sect:compare} shows that to avoid them can convolute analysis.   
+        \ref{sect:compare} shows that to avoid them can convolute analyses.   
 
 %==============================================================================
 %       BACKGROUND AND NOTATION
@@ -381,25 +381,25 @@
         Standard syntactic constraints make manifest which expressions
         transform naturally with respect to optimization dynamics.  
 
-        We say two expressions \emph{agree to order $\eta^d$} provided that
-        their difference, when divided by some homogeneous degree-$d$
-        polynomial of $\eta$, tends to $0$ as $\eta$ shrinks.  We say that
-        their difference is $\in o(\eta^d)$.
-
         We henceforth assume the regularity conditions listed in Appendix
         \ref{sect:proofs}, for instance that $l$ is analytic.  The conditions
-        hold for $\tanh$ neural networks with cross entropy loss on bounded
-        data --- and with arbitrary weight sharing, skip connections, soft
-        attention, dropout, batch-normalization with disjoint batches, and
-        weight decay.  Since our work does not rely on information-geometric
-        relationships between $C$ and $H$ \citep{am98}, it applies to
-        inexact-likelihood landscapes such as VAEs'.
+        hold for $\tanh$ neural networks with cross entropy
+        loss on bounded data --- and with arbitrary weight sharing, skip
+        connections, soft attention, dropout,
+        %batch normalization\footnote{
+        %    assuming batches remain disjoint throughout training so that each
+        %    batch may be considered as a single datapoint in a
+        %    higher-dimensional space 
+        %}
+        and weight decay.  Since our work does not rely on
+        information-geometric relationships between $C$ and $H$ \citep{am98},
+        it applies to inexact-likelihood landscapes such as VAEs'.
 
     %--------------------------------------------------------------------------
     %           Names of SGD Parameters
     %--------------------------------------------------------------------------
 
-    \subsection{SGD Terminology}
+    \subsection{SGD Conventions and Terminology}
         SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
         estimates $(l_n: 0\leq n<N)$ of $l$.  Each estimate is a
         \emph{datapoint}.  For each of $M\cdot B$ \emph{epochs}, SGD
@@ -842,7 +842,7 @@
                 }
                 \frac{{\color{moor} \rvalue_f}(D)}{B^{|\edges(D)|}}
             \end{equation}
-            In contrast to Theorem \ref{thm:sgdcoef}: when $H$ is positive, the
+            In contrast to Theorem \ref{thm:sgdcoef}, when $H$ is positive, the
             $d$th order truncation converges as $T$ diverges.
         \end{thm}
         Due to the latter convergence property, we have formal license to 
