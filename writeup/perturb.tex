@@ -161,8 +161,8 @@
     We adapt Feynman Diagrams to reason about the behavior of Stochastic
     Gradient Descent (SGD) at small learning rates $\eta$.
     %
-    Illustrating this technique,
-        we construct a regularizer that causes large-batch GD to emulate
+    Illustrating this technique:
+        We construct a regularizer that causes large-batch GD to emulate
         small-batch SGD.
         %
         We exhibit a non-conservative entropic force driving SGD.
@@ -196,41 +196,31 @@
         } descent on noisy estimates of $l$.
         A key question is how such noise affects the final objective value.  We
         address this question by connecting SGD dynamics to physical scattering
-        theory,
+        theory.
 
-        %----------------------------------------------------------------------
-        %       Killer Applications  
-        %----------------------------------------------------------------------
+        \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
+        Flat and sharp minima both overfit less than minima of curvature
+        comparable to $(\eta T)^{-1}$.  While flat minima withstand
+        vector-valued weight displacements and sharp minima withstand
+        covector-valued loss offsets, medium minima attain the worst of both
+        worlds.  Such considerations lead us to a smooth generalization of AIC
+        and to tune hyperparameters by gradient descent.
 
-        Specifically, we derive a diagram-based formalism for reasoning about
-        SGD via a path integral over possible interactions between weights and
-        data.  The formalism permits perturbative analysis, leading to
-        predictions of learning curves for small $\eta$.  Unlike the
-        continuous-time limits of prior work, this framework models discrete
-        time, and with it, the potential \emph{non-Gaussianity} of noise.  We
-        thus obtain new results quantifying the effect of \emph{epoch number
-        and batch size} on SGD test loss.  We also \emph{contrast SGD against
-        popular continuous-time approximations} such as ordinary or stochastic
-        differential equations (ODE, SDE): our work gives the finite-$N$,
-        finite-$\eta^{-1}$ corrections to these approximations.  From this
-        theory, we propose two new regularizers that respectively induce GD to
-        mimic SGD and help to tune hyperparameters such as $l_2$ coefficients.
-        
-        %----------------------------------------------------------------------
-        %       Connection to Physics
-        %----------------------------------------------------------------------
+        \textsc{Story of $\sdia{c(01-2-3)(02-12-23)}$:~}
+        Refining \citet{we19b} to nonconstant, nonisotropic covariance, we find
+        SGD descends on a loss landscape smoothed by the current covariance.
+        As the weight and thus the covariance evolve, the smoothing mask
+        evolves and thus the effective landscape evolves.  This dynamics
+        is generically nonconservative.  In contrast to \citet{ch18}, this SGD
+        dynamics does not need to converge to a limit cycle. 
 
-        Path integrals offer not only quantitative predictions but also an
-        exciting new viewpoint --- that of iterative optimization as a
-        \emph{scattering process}.  As individual Feynman diagrams \citep{fe49}
-        depict how local particle interactions compose into global outcomes,
-        our diagrams depict how individual SGD updates influence each other
-        before affecting a final test loss.  In fact, we import physical tools
-        such as \emph{crossing symmetries} \citep{dy49b} and
-        \emph{r-normalization} \citep{ge54} to simplify and refine our
-        calculations.  The diagrams' combinatorics yield precise qualitative
-        conclusions as well, e.g. that to order $\eta^3$, \emph{inter-epoch
-        shuffling} does not affect expected test loss.
+        \textsc{Story of $\sdia{c(01-2)(01-12)}$:~}
+        As conjectured by \citet{ro18}, large-batch GD can be made to emulate
+        small-batch SGD.  We show how to do this by adding a multiple of an
+        unbiased covariance estimator to the descent objective.  This emulation
+        is significant because, while small batch sizes can lead to better
+        generalization \citep{bo91}, modern infrastructure increasingly rewards
+        large batch sizes \citep{go18}.  
 
     \subsection{Appetizing Example: The Role of Epoch Number}
 
@@ -238,16 +228,23 @@
         %       Epoch Number Example     
         %----------------------------------------------------------------------
 
-        Deferring explanation, we use diagrams to solve a sample problem: to
-        compare the expected test losses of one-epoch and multi-epoch SGD (say,
-        with learning rates scaled proportionally).  In our formalism, these
-        test losses are the \emph{sum over all diagrams embedded in spacetime},
-        where the spacetime encodes which samples are seen at which times and
-        each diagram evaluates to a specific statistic of the loss landscape.
-        One-epoch and multi-epoch SGD differ only in their datapoint-timestep
-        schedules, i.e. only in their spacetimes. 
+        We represent an SGD run as a ``\emph{spacetime}''
+        grid with one row per datapoint and one
+        column per time.  The grid has a cell at a row and column whenever the
+        corresponding datapoint is part of the corresponding time's batch.
+        Our formalism represents an
+        SGD run's expected test loss as a \emph{sum over all diagram
+        embeddings}, where diagrams are graphs such as $\sdia{(0-1)(01)}$ and
+        $\sdia{(01-2)(02-12)}$ and $\sdia{(01-2)(01-12)}$ composed of thin
+        edges and fuzzy ties.  Diagrams evaluate to numbers as later described.
+        \emph{Embeddings} of diagrams into spacetime grids are maps of nodes
+        into cells that preserve left-right relationships along thin edges and
+        that map two nodes into the same row exactly when they are fuzzily
+        tied.  Each $d$-edged diagram contributes to order $\eta^d$, so,
+        for small $\eta$, the few-edged diagrams suffice to predict
+        test losses.
 
-        \begin{figure}[h!] 
+        \begin{figure}[H]  
             \centering  
             \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
             \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
@@ -264,15 +261,19 @@
             \label{fig:epoch}
         \end{figure}
 
-        The rules are that embedded diagrams \emph{may not contain edges between
-        nodes in the same spacetime cell}
-        and that $d$-edged diagrams contribute at order $\eta^d$.
-        %and that diagram values are invariant to node-by-node horizontal shifts and permutation of rows.
-        So to order $\eta^2$, multi epoch SGD has, in addition to the
-        diagrams of single epoch SGD, also 
-        $\sdia{c(01-2)(01-12)}$
-        (see Figure \ref{fig:epoch}).
-        Since this diagram embeds in $M$-epoch spacetime in
+        Deferring explanation, we use diagrams to solve a sample problem: to
+        compare the expected test losses of one- and multi-epoch SGD (say, with
+        learning rates scaled proportionally).
+        One- and multi-epoch SGD differ in their grids.  Figure \ref{fig:epoch}
+        shows some example embeddings.
+        To order $\eta^2$, one- and multi- epoch SGD have corresponding diagram
+        embeddings except that multi-epoch SGD also has embeddings of
+        $\sdia{c(01-2)(01-12)}$.  Since diagram values are invariant to
+        node-wise horizontal shifts and permutation of rows, it is only
+        $\sdia{c(01-2)(01-12)}$ that contributes to the difference in test
+        loss.  
+
+        Since $\sdia{c(01-2)(01-12)}$ embeds in $M$-epoch spacetime in
         $N\cdot{M\choose 2}$ many ways, and since we scaled the learning rate
         by $1/M$, the order $\eta^2$ discrepancy is
         $$
@@ -285,30 +286,32 @@
         structure that it evaluates to
         \begin{align*}
             \dvalue\wrap{\sdia{c(01-2)(01-12)}}
-            =
-            &\wrap{
-                \expc_{x}\wasq{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x} 
-                -
-                \expc_{x}\wasq{\nabla_\mu l_x}
-                \expc_{x}\wasq{\nabla_\nu \nabla_\lambda l_x} 
-            } \cdot \\
-            &\expc_{x}\wasq{\nabla_\rho l_x}
-            \wrap{-\eta^{\mu\nu}} \wrap{-\eta^{\lambda\rho}}
+            %=
+            %&\wrap{
+            %    \expc_{x}\wasq{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x} 
+            %    -
+            %    \expc_{x}\wasq{\nabla_\mu l_x}
+            %    \expc_{x}\wasq{\nabla_\nu \nabla_\lambda l_x} 
+            %} \cdot \\
+            %&\expc_{x}\wasq{\nabla_\rho l_x}
+            %\wrap{-\eta^{\mu\nu}} \wrap{-\eta^{\lambda\rho}}
+            = 
+            \frac{1}{2} G^\mu \nabla_\mu C^{\nu}_{\nu} 
         \end{align*}
+        We have thus computed the leading order test loss difference between 
+        one- and multi- epoch SGD.
 
-        In using diagrams above, we were able to match terms so that all but
-        the $\sdia{c(01-2)(01-12)}$ terms canceled, thus delaying and
-        diminishing a substantial algebraic mess.  In fact, diagrams  
-        concisely represent correlation and tensor-contraction patterns that
-        when written explicitly are complicated and when suppressed lead to
-        ambiguities (consider Proposition \ref{prop:entropic}, which makes
-        use of 4-valent tensors).  Moreover, when we later \emph{renormalize}
-        in order to extend our results to the large-$\eta T$ regime (sections
-        \ref{subsect:effective}, \ref{subsect:entropic}, and
-        \ref{subsect:overfit}), the topology of diagrams will play a key role.  
-        While diagrams may in principle be completely avoided,
-        Appendix \ref{sect:compare} shows that to avoid them can lead to
-        substantively longer and more complicated analyses.   
+        Using diagrams above, we matched terms so that all but the
+        $\sdia{c(01-2)(01-12)}$ terms canceled, thus avoiding an algebraic
+        mess.  In fact, diagrams concisely represent correlation and
+        tensor-contraction patterns that when written explicitly are
+        complicated and when suppressed lead to ambiguities (consider
+        Proposition \ref{prop:entropic}, which makes use of 4-valent tensors).
+        Moreover, when we later \emph{renormalize} toward the large-$\eta T$
+        regime (sections \ref{subsect:effective}, \ref{subsect:entropic}, and
+        \ref{subsect:overfit}), the topology of diagrams will play a key role.
+        While diagrams may in principle be completely avoided, Appendix
+        \ref{sect:compare} shows that to avoid them can convolute analyses.   
 
 %==============================================================================
 %       BACKGROUND AND NOTATION
@@ -322,33 +325,33 @@
 
     \subsection{Tensor Conventions}
 
-    We adopt summation notation for Greek indices.  To expedite dimensional
-    analysis, we regard the learning rate as an inverse metric $\eta^{\mu\nu}$
-    that converts a gradient into a displacement (\cite{bo13}).  We use $\eta$
-    to raise indices; for example, with $C$ denoting the covariance of
-    gradients, its ``trace'' will be $C^{\mu}_{\mu} = \eta^{\mu\nu}
-    C_{\mu\nu}$.  Standard syntactic constraints make manifest which
-    expressions transform naturally with respect to optimization dynamics.  We
-    use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second, and third
-    derivatives of $l$.
+        We adopt summation notation for Greek indices.  To expedite dimensional
+        analysis, we regard the learning rate as an inverse metric
+        $\eta^{\mu\nu}$ that converts a gradient into a displacement
+        (\cite{bo13}).  We use $\eta$ to raise indices; for example, with $C$
+        denoting the covariance of gradients, its ``trace'' will be
+        $C^{\mu}_{\mu} = \eta^{\mu\nu} C_{\mu\nu}$.  Standard syntactic
+        constraints make manifest which expressions transform naturally with
+        respect to optimization dynamics.  We use $G_\mu, H_{\mu\nu},
+        J_{\mu\nu\lambda}$ for the first, second, and third derivatives of $l$.
 
-    We henceforth assume the regularity conditions listed in Appendix
-    \ref{sect:proofs}, for instance that $l$ is analytic.  The conditions are
-    weak enough to hold for $\tanh$ neural networks with cross entropy loss on
-    bounded data --- and with arbitrary weight sharing, skip connections, soft
-    attention, dropout, batch normalization\footnote{
-        assuming batches remain disjoint throughout training so that each
-        batch may be considered as a single datapoint in a
-        higher-dimensional space 
-    } and weight decay.  Moreover, our analysis does not rely on
-    information-geometric relationships between $C$ and $H$, so it applies to
-    inexact-likelihood landscapes such as VAEs'.
+        We henceforth assume the regularity conditions listed in Appendix
+        \ref{sect:proofs}, for instance that $l$ is analytic.  The conditions
+        are weak enough to hold for $\tanh$ neural networks with cross entropy
+        loss on bounded data --- and with arbitrary weight sharing, skip
+        connections, soft attention, dropout, batch normalization\footnote{
+            assuming batches remain disjoint throughout training so that each
+            batch may be considered as a single datapoint in a
+            higher-dimensional space 
+        } and weight decay.  Moreover, our analysis does not rely on
+        information-geometric relationships between $C$ and $H$, so it applies
+        to inexact-likelihood landscapes such as VAEs'.
 
     %--------------------------------------------------------------------------
-    %           Forms of SGD          
+    %           Names of SGD Parameters
     %--------------------------------------------------------------------------
 
-    \subsection{Forms of SGD}
+    \subsection{SGD Conventions}
         SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
         estimates $(l_n: 0\leq n<N)$ of $l$.  For each of $M\times B$ epochs,
         SGD partitions the train set into $N/B$ batches of size $B$; for
@@ -359,40 +362,11 @@
             \theta^\mu -
             \eta^{\mu\nu} \nabla_\nu \frac{1}{B} \sum_{n\in \Bb} l_n(\theta)
         $.
-        In total, SGD performs $NM$ many updates.
-        %We consider SGD on $N$ points with batch size $B$ for
-        %$M\times B$ epochs.
-        Together with an inter-epoch shuffling pattern,
-        $N, B, M$ determine the SGD algorithm.
-        The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
-        The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
+        In total, SGD performs $NM$ many updates.  Together with an inter-epoch
+        shuffling pattern, $N, B, M$ determine the SGD algorithm.  The cases
+        $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.  The $M=1$
+        case of pure SGD we call \emph{vanilla SGD}.
         
-        %The pattern of updates is
-        %determined by a spacetime $S$: for a map
-        %$\pi:S\to [N]$ that induces $\sim$, we define SGD inductively as
-        %$\text{SGD}_{S}(\theta) = \theta$ when $S$ is empty and otherwise
-        %$$
-        %    \SGD_S(\theta)
-        %    =
-        %    \SGD_{S\setminus M}(
-        %        \theta^\mu - \eta^{\mu\nu} \nabla_\nu l_{M}(\theta)
-        %    )
-        %$$
-        %where $M = \min S \subseteq S$ specifies a batch and $l_M = \sum_{m\in
-        %M} l_{\pi(m)} / \wabs{M}$ is a batch average.  Since the distribution
-        %of $l_n$ is permutation invariant, the non-canonical choice of $\pi$
-        %does not affect the distribution of output $\theta$s.
-    
-        %Of special interest are spacetimes that divide sequentially into
-        %$M\times B$ many \emph{epochs} each with $N/B$ many disjoint
-        %\emph{batches} of size $B$.  An SGD instance is then determined by $N,
-        %B, M$, and an \emph{inter-epoch shuffling scheme}.  The cases $B=1$ and
-        %$B=N$ we call \emph{pure SGD} and \emph{pure GD}.  The $M=1$ case of
-        %pure SGD we call \emph{vanilla SGD}.
-
-        %We follow convention in calling using the word ``set'' for
-        %\emph{ordered} sequences of training points. 
-
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
 %==============================================================================
@@ -507,9 +481,9 @@
 
         Our results all follow from this theorem and its analogues.
         Throughout, the $d$-edged diagrams give the order $\eta^d$ terms.
-        Though our methods immediately generalize, we will will for notational
-        convenience only consider SGD variants with time-invariant batch size
-        $B$. 
+        %Though our methods immediately generalize, we will will for notational
+        %convenience only consider SGD variants with time-invariant batch size
+        %$B$. 
         \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
             For all $T$: for $\eta$ sufficiently small, SGD's expected test
             loss is
@@ -1172,7 +1146,7 @@
     Several lines of work quantify the overfitting of SGD-trained networks
     \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
     complexity of deep hypothesis classes, leading to generalization bounds
-    that are optimizer-agnostic.  However, since networks trained via SGD
+    that are optimizer-agnostic.  However, since SGD-trained networks
     generalize despite their seeming ability to shatter large sets
     \citep{zh17}, one infers that generalization arises from the aptness to
     data of not only architecture but also optimization \citep{ne17b}.  Others
@@ -1192,7 +1166,7 @@
     approximation by instead Taylor-expanding around the learning rate
     $\eta=0$.  In fact, we develop a diagrammatic method for evaluating each
     Taylor term that is inspired by the field theory methods popularized by
-    \citet{dy49a}.  Using this technique, we quantify the overfitting effects
+    \citet{dy49a}.  We then quantify the overfitting effects
     of batch size and epoch number, and based on this analysis, propose a
     regularizing term that causes large-batch GD to emulate small-batch SGD,
     thus establishing a precise version of the relationship --- between
@@ -1210,7 +1184,7 @@
     generalization phenomenologically, whether by fitting to an
     empirically-determined correlate of Rademacher bounds \citep{li18}, by
     exhibiting generalization of local minima \emph{flat} with respect to the
-    standard metric (see \citet{ho17}, \citet{ke17}, citet{wa18}), or by
+    standard metric (see \citet{ho17}, \citet{ke17}, \citet{wa18}), or by
     exhibiting generalization of local minima \emph{sharp} with respect to the
     standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
     which makes explicit the dependence of generalization on the underlying
@@ -1247,60 +1221,66 @@
     %           Summarize Contributions                     
     %--------------------------------------------------------------------------
 
-    Feynman diagrams make novel and precise predictions about SGD: 
+    We showed how Feynman diagrams make novel and precise predictions about
+    SGD.  Our Renormalization Theorem licences predictions for large $\eta T$,
+    beyond the reach of direct perturbation.  Most of the calculations here
+    presented can by means of diagrams be done fully in one's head.
 
-    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
-        \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
-        Flat and sharp minima both overfit less than minima of curvature
-        comparable to $(\eta T)^{-1}$.  While flat minima withstand
-        vector-valued weight displacements and sharp minima withstand
-        covector-valued loss offsets, medium minima attain the worst of both
-        worlds.  Such considerations lead us to a smooth generalization of AIC
-        and to tune hyperparameters by gradient descent.
-    %}}
+        %----------------------------------------------------------------------
+        %       Killer Applications  
+        %----------------------------------------------------------------------
 
-    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
-        \textsc{Story of $\sdia{c(01-2-3)(02-12-23)}$:~}
-        Refining \citet{we19b} to nonconstant, nonisotropic covariance, we find
-        SGD descends on a loss landscape smoothed by the current covariance.
-        As the weight and thus the covariance evolve, the smoothing mask
-        evolves and thus the effective landscape evolves.  This dynamics
-        is generically nonconservative.  In contrast to \citet{ch18}, this SGD
-        dynamics does not need to converge to a limit cycle. 
-    %}}
+        SGD via a path integral over possible interactions between weights and
+        data.  The formalism permits perturbative analysis, leading to
+        predictions of learning curves for small $\eta$.  Unlike the
+        continuous-time limits of prior work, this framework models discrete
+        time, and with it, the potential \emph{non-Gaussianity} of noise.  We
+        thus obtain new results quantifying the effect of \emph{epoch number
+        and batch size} on SGD test loss.  We also \emph{contrast SGD against
+        popular continuous-time approximations} such as ordinary or stochastic
+        differential equations (ODE, SDE): our work gives the finite-$N$,
+        finite-$\eta^{-1}$ corrections to these approximations.  From this
+        theory, we propose two new regularizers that respectively induce GD to
+        mimic SGD and help to tune hyperparameters such as $l_2$ coefficients.
 
-    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
-        \textsc{Story of $\sdia{c(01-2)(01-12)}$:~}
-        As conjectured by \citet{ro18}, large-batch GD can be made to emulate
-        small-batch SGD.  We show how to do this by adding a multiple of an
-        unbiased covariance estimator to the descent objective.  This emulation
-        is significant because, while small batch sizes can lead to better
-        generalization \citep{bo91}, modern infrastructure increasingly rewards
-        large batch sizes \citep{go18}.  
-    %}}
+        %----------------------------------------------------------------------
+        %       Connection to Physics
+        %----------------------------------------------------------------------
 
-    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+        Path integrals offer not only quantitative predictions but also an
+        exciting new viewpoint --- that of iterative optimization as a
+        \emph{scattering process}.  As individual Feynman diagrams \citep{fe49}
+        depict how local particle interactions compose into global outcomes,
+        our diagrams depict how individual SGD updates influence each other
+        before affecting a final test loss.  In fact, we import physical tools
+        such as \emph{crossing symmetries} \citep{dy49b} and
+        \emph{r-normalization} \citep{ge54} to simplify and refine our
+        calculations.  The diagrams' combinatorics yield precise qualitative
+        conclusions as well, e.g. that to order $\eta^3$, \emph{inter-epoch
+        shuffling} does not affect expected test loss.
+
     %    \textsc{Story of $\sdia{c(012-3)(03-13-23)}$:~}
     %    In multi-epoch SGD, inter-epoch shuffling induces no $3$rd order effect
     %    on test loss.  In other words, we proved that \emph{nongaussian effects
     %    matter more than shuffling order} for fixed finite $N$ and small $\eta$.
-    %}}
 
-    SGD's test loss and generalization gap are sums of infinitely many
-    diagrams, and for small learning rates, the behavior is controlled by the
-    finitely many diagrams with few edges.  The base theory gives predictions
-    for any fixed $T$ as long as $\eta$ is much smaller than $1/T$.  On
-    strictly convex landscapes, renormalization improves the $\eta$-expansion's
-    convergence to be \emph{uniform} in $T$.  Most of the calculations here
-    presented can by means of diagrams be done fully in one's head.  We see
-    this as evidence that our method is helpful.
+
+
+    %SGD's test loss and generalization gap are sums of infinitely many
+    %diagrams, and for small learning rates, the behavior is controlled by the
+    %finitely many diagrams with few edges.  The base theory gives predictions
+    %for any fixed $T$ as long as $\eta$ is much smaller than $1/T$.  On
+    %strictly convex landscapes, renormalization improves the $\eta$-expansion's
+    %convergence to be \emph{uniform} in $T$.  Most of the calculations here
+    %presented can by means of diagrams be done fully in one's head.  We see
+    %this as evidence that our method is helpful.
 
     %--------------------------------------------------------------------------
     %           Ask Questions                               
     %--------------------------------------------------------------------------
 
-    The diagram method's physical metaphor invites further exploration of
-    Lagrangian characterizations and curved backgrounds: 
+    The diagram method invites further exploration of Lagrangian
+    characterizations and curved backgrounds: 
     \begin{quest}
         Do Lagrangians govern effective theories of SGD and its variants, or
         is there a fundamental obstacle to such a representation?
