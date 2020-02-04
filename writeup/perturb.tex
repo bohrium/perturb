@@ -1,0 +1,2568 @@
+
+%==============================================================================
+%    LATEX PREAMBLE  
+%==============================================================================
+
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage{graphicx, float}
+\usepackage{subfigure}
+\usepackage{booktabs} % for professional tables
+\usepackage{hyperref, xcolor}
+\usepackage{amsmath, amssymb, amsthm, hanging, graphicx, txfonts, ifthen}
+        
+\usepackage[percent]{overpic}
+
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+\newtheorem*{klem*}{Key Lemma}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem{prop}{Proposition}
+\newtheorem{quest}{Question}
+\newtheorem{conj}{Conjecture}
+\newtheorem{rmk}{Remark}
+
+\usepackage{icml2019}
+%\usepackage[accepted]{icml2019}
+
+\usepackage{array}   % for \newcolumntype macro
+\newcolumntype{L}{>{$}l<{$}}
+
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+
+\renewcommand*{\thefootnote}{\color{red}\fnsymbol{footnote}} 
+
+\newcommand{\Free}{\mathcal{F}}
+\newcommand{\Forg}{\mathcal{G}}
+\newcommand{\Mod}{\mathcal{M}}
+\newcommand{\Hom}{\text{\textnormal{Hom}}}
+\newcommand{\Aut}{\text{\textnormal{Aut}}}
+\newcommand{\image}{\text{\textnormal{im}}}
+\newcommand{\dvalue}{\text{\textnormal{value}}}
+\newcommand{\edges}{\text{\textnormal{edges}}}
+\newcommand{\ords}{\text{\textnormal{ords}}}
+\newcommand{\parts}{\text{\textnormal{parts}}}
+\newcommand{\Aa}{\mathcal{A}}
+\newcommand{\Bb}{\mathcal{B}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Dd}{\mathcal{D}}
+\newcommand{\Ee}{\mathcal{E}}
+\newcommand{\Ff}{\mathcal{F}}
+\newcommand{\Gg}{\mathcal{G}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Ll}{\mathcal{L}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Nn}{\mathcal{N}}
+\newcommand{\Oo}{\mathcal{O}}
+\newcommand{\Pp}{\mathcal{P}}
+\newcommand{\Qq}{\mathcal{Q}}
+\newcommand{\Rr}{\mathcal{R}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\SGD}{\text{\textnormal{SGD}}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\expc}{\mathbb{E}}
+\newcommand{\expct}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\wrap}[1]{\left(#1\right)}
+\newcommand{\wasq}[1]{\left[#1\right]}
+\newcommand{\wang}[1]{\left\langle#1\right\rangle}
+\newcommand{\wive}[1]{\left\llbracket#1\right\rrbracket}
+\newcommand{\worm}[1]{\left\|#1\right\|}
+\newcommand{\wabs}[1]{\left|#1\right|}
+\newcommand{\wurl}[1]{\left\{#1\right\}}
+\newcommand{\partbox}[1]{
+    \text{
+        \fboxsep=0.5pt
+        \tiny
+        \fbox{#1}
+    }
+}
+\DeclareMathOperator*{\Avg}{\text{\sffamily A}}
+
+\newcommand{\plotplace}[3]{
+    \begin{overpic}[width=#2, height=#3]{../plots/blank.png}
+        \put( 5, 85){
+            \begin{tabular}{p{#2-1.0cm}}
+                #1
+            \end{tabular}
+        }
+    \end{overpic}
+}
+
+\newcommand{\plotmoo}[3]{
+    \includegraphics[width=#2           ]{../#1}
+}
+\newcommand{\plotmooh}[3]{
+    \includegraphics[          height=#3]{../#1}
+}
+
+\newcommand{\bdia}[1]{\begin{gathered}\includegraphics[scale=0.22]{../diagrams/#1.png}\end{gathered}}
+\newcommand{\dia} [1]{\begin{gathered}\includegraphics[scale=0.18]{../diagrams/#1.png}\end{gathered}}
+\newcommand{\mdia}[1]{\begin{gathered}\includegraphics[scale=0.14]{../diagrams/#1.png}\end{gathered}}
+\newcommand{\sdia}[1]{\begin{gathered}\includegraphics[scale=0.10]{../diagrams/#1.png}\end{gathered}}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\sixth}{\frac{1}{6}}
+
+\newcommand{\ofsix}[1]{
+    {\tiny $\substack{
+        \ifthenelse{\equal{#1}{0}}{\blacksquare}{\square}
+        \ifthenelse{\equal{#1}{1}}{\blacksquare}{\square} \\
+        \ifthenelse{\equal{#1}{2}}{\blacksquare}{\square} 
+        \ifthenelse{\equal{#1}{3}}{\blacksquare}{\square} \\
+        \ifthenelse{\equal{#1}{4}}{\blacksquare}{\square}
+        \ifthenelse{\equal{#1}{5}}{\blacksquare}{\square}
+    }$}
+}
+
+
+\newcommand{\lorem}[1]{
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit...\\
+    \nopagebreak\vspace{#1cm} \ \\
+    ...sunt in culpa qui officia deserunt mollit anim id est laborum.
+}
+
+
+\begin{document}
+
+%==============================================================================
+%       TITLE AND AUTHOR
+%==============================================================================
+
+\icmltitlerunning{Descent as Scattering}
+
+\twocolumn[
+    \icmltitle{A Space-Time Approach to Analyzing Stochastic Gradient Descent}
+    
+    \begin{icmlauthorlist}
+        \icmlauthor{Samuel C.~Tenka}{mit}
+    \end{icmlauthorlist}
+    \icmlaffiliation{mit}{
+        Computer Science and Artificial Intelligence Lab,
+        Massachusetts Institute of Technology,
+        Cambridge, Massachusetts, USA
+    }
+    \icmlcorrespondingauthor{Samuel C.~Tenka}{coli@mit.edu}
+    
+    \icmlkeywords{Machine Learning, SGD, ICML}
+    
+    \vskip 0.3in
+]
+\printAffiliationsAndNotice{}
+
+%==============================================================================
+%       ABSTRACT        
+%==============================================================================
+
+\begin{abstract}
+    We adapt Feynman Diagrams to reason about the behavior of Stochastic
+    Gradient Descent (SGD) at small learning rates $\eta$.
+    %
+    Illustrating this technique,
+        we construct a regularizer that causes large-batch GD to emulate
+        small-batch SGD.
+        %
+        We exhibit a non-conservative entropic force driving SGD.
+        %
+        We generalize the Akaike Information Criterion (AIC) to a smooth
+        quantity liable to descent.
+        %
+        And we quantify the differences --- due to time-discretization,
+        inter-epoch correlations, and non-gaussian noise --- between SGD and
+        the popular approximation SDE. 
+    We emperically verify our theoretical predictions.
+\end{abstract}
+
+%==============================================================================
+%       INTRODUCTION    
+%==============================================================================
+
+\section{Introduction}
+    %\subsection{Overview}
+
+        %----------------------------------------------------------------------
+        %       Orienting Invitation 
+        %----------------------------------------------------------------------
+
+        Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
+        performing discrete-time $\eta$-steepest\footnote{
+            The ``steepness'' concept depends on the choice of metric for
+            $l$'s domain.  We thus consider all (flat) metrics at once.
+            Specifically, we will Taylor expand an (inverse) metric
+            $\eta^{\mu\nu}$ around $0$.
+        } descent on noisy estimates of $l$.
+        A key question is how such noise affects the final objective value.  We
+        address this question by connecting SGD dynamics to physical scattering
+        theory,
+
+        %----------------------------------------------------------------------
+        %       Killer Applications  
+        %----------------------------------------------------------------------
+
+        Specifically, we derive a diagram-based formalism for reasoning about
+        SGD via a path integral over possible interactions between weights and
+        data.  The formalism permits perturbative analysis, leading to
+        predictions of learning curves for small $\eta$.  Unlike the
+        continuous-time limits of prior work, this framework models discrete
+        time, and with it, the potential \emph{non-Gaussianity} of noise.  We
+        thus obtain new results quantifying the effect of \emph{epoch number
+        and batch size} on SGD test loss.  We also \emph{contrast SGD against
+        popular continuous-time approximations} such as ordinary or stochastic
+        differential equations (ODE, SDE): our work gives the finite-$N$,
+        finite-$\eta^{-1}$ corrections to these approximations.  From this
+        theory, we propose two new regularizers that respectively induce GD to
+        mimic SGD and help to tune hyperparameters such as $l_2$ coefficients.
+        
+        %----------------------------------------------------------------------
+        %       Connection to Physics
+        %----------------------------------------------------------------------
+
+        Path integrals offer not only quantitative predictions but also an
+        exciting new viewpoint --- that of iterative optimization as a
+        \emph{scattering process}.  As individual Feynman diagrams \citep{fe49}
+        depict how local particle interactions compose into global outcomes,
+        our diagrams depict how individual SGD updates influence each other
+        before affecting a final test loss.  In fact, we import physical tools
+        such as \emph{crossing symmetries} \citep{dy49b} and
+        \emph{r-normalization} \citep{ge54} to simplify and refine our
+        calculations.  The diagrams' combinatorics yield precise qualitative
+        conclusions as well, e.g. that to order $\eta^3$, \emph{inter-epoch
+        shuffling} does not affect expected test loss.
+
+    \subsection{Appetizing Example: The Role of Epoch Number}
+
+        %----------------------------------------------------------------------
+        %       Epoch Number Example     
+        %----------------------------------------------------------------------
+
+        Deferring explanation, we use diagrams to solve a sample problem: to
+        compare the expected test losses of one-epoch and multi-epoch SGD (say,
+        with learning rates scaled proportionally).  In our formalism, these
+        test losses are the \emph{sum over all diagrams embedded in spacetime},
+        where the spacetime encodes which samples are seen at which times and
+        each diagram evaluates to a specific statistic of the loss landscape.
+        One-epoch and multi-epoch SGD differ only in their datapoint-timestep
+        schedules, i.e. only in their spacetimes. 
+
+        \begin{figure}[h!] 
+            \centering  
+            \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
+            \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
+            \caption{
+                Some diagrams embedded in spacetime (gray) for one-epoch ({\bf
+                left}) and two-epoch ({\bf right}) SGD.  The diagrams for one
+                and two epochs correspond by horizontal shifts \emph{except}
+                when same-row nodes are connected --- such as in the top right
+                diagram $\sdia{c(01-2)(01-12)}$.  Colors serve no role beyond
+                convenient reference.  Nodes (here black) outside the grid
+                represent a post-training measurement of test loss; only
+                convenience of drawing dictates their coordinates.
+            }
+            \label{fig:epoch}
+        \end{figure}
+
+        The rules are that embedded diagrams \emph{may not contain edges between
+        nodes in the same spacetime cell}
+        and that $d$-edged diagrams contribute at order $\eta^d$.
+        %and that diagram values are invariant to node-by-node horizontal shifts and permutation of rows.
+        So to order $\eta^2$, multi epoch SGD has, in addition to the
+        diagrams of single epoch SGD, also 
+        $\sdia{c(01-2)(01-12)}$
+        (see Figure \ref{fig:epoch}).
+        Since this diagram embeds in $M$-epoch spacetime in
+        $N\cdot{M\choose 2}$ many ways, and since we scaled the learning rate
+        by $1/M$, the order $\eta^2$ discrepancy is
+        $$
+            \text{test loss difference} =  
+            \frac{N\cdot {M\choose 2}}{M^2}~
+            \dvalue\wrap{\sdia{c(01-2)(01-12)}}
+            + o(\eta^2)
+        $$
+        We complete the calculation by reading from the diagram's graph
+        structure that it evaluates to
+        \begin{align*}
+            \dvalue\wrap{\sdia{c(01-2)(01-12)}}
+            =
+            &\wrap{
+                \expc_{x}\wasq{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x} 
+                -
+                \expc_{x}\wasq{\nabla_\mu l_x}
+                \expc_{x}\wasq{\nabla_\nu \nabla_\lambda l_x} 
+            } \cdot \\
+            &\expc_{x}\wasq{\nabla_\rho l_x}
+            \wrap{-\eta^{\mu\nu}} \wrap{-\eta^{\lambda\rho}}
+        \end{align*}
+
+        In using diagrams above, we were able to match terms so that all but
+        the $\sdia{c(01-2)(01-12)}$ terms canceled, thus delaying and
+        diminishing a substantial algebraic mess.  In fact, diagrams  
+        concisely represent correlation and tensor-contraction patterns that
+        when written explicitly are complicated and when suppressed lead to
+        ambiguities (consider Proposition \ref{prop:entropic}, which makes
+        use of 4-valent tensors).  Moreover, when we later \emph{renormalize}
+        in order to extend our results to the large-$\eta T$ regime (sections
+        \ref{subsect:effective}, \ref{subsect:entropic}, and
+        \ref{subsect:overfit}), the topology of diagrams will play a key role.  
+        While diagrams may in principle be completely avoided,
+        Appendix \ref{sect:compare} shows that to avoid them can lead to
+        substantively longer and more complicated analyses.   
+
+%==============================================================================
+%       BACKGROUND AND NOTATION
+%==============================================================================
+
+\section{Background and Notation}
+
+    %--------------------------------------------------------------------------
+    %           Tensor Conventions
+    %--------------------------------------------------------------------------
+
+    \subsection{Tensor Conventions}
+
+    We adopt summation notation for Greek indices.  To expedite dimensional
+    analysis, we regard the learning rate as an inverse metric $\eta^{\mu\nu}$
+    that converts a gradient into a displacement (\cite{bo13}).  We use $\eta$
+    to raise indices; for example, with $C$ denoting the covariance of
+    gradients, its ``trace'' will be $C^{\mu}_{\mu} = \eta^{\mu\nu}
+    C_{\mu\nu}$.  Standard syntactic constraints make manifest which
+    expressions transform naturally with respect to optimization dynamics.  We
+    use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second, and third
+    derivatives of $l$.
+
+    We henceforth assume the regularity conditions listed in Appendix
+    \ref{sect:proofs}, for instance that $l$ is analytic.  The conditions are
+    weak enough to hold for $\tanh$ neural networks with cross entropy loss on
+    bounded data --- and with arbitrary weight sharing, skip connections, soft
+    attention, dropout, batch normalization\footnote{
+        assuming batches remain disjoint throughout training so that each
+        batch may be considered as a single datapoint in a
+        higher-dimensional space 
+    } and weight decay.  Moreover, our analysis does not rely on
+    information-geometric relationships between $C$ and $H$, so it applies to
+    inexact-likelihood landscapes such as VAEs'.
+
+    %--------------------------------------------------------------------------
+    %           Forms of SGD          
+    %--------------------------------------------------------------------------
+
+    \subsection{Forms of SGD}
+        SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
+        estimates $(l_n: 0\leq n<N)$ of $l$.  For each of $M\times B$ epochs,
+        SGD partitions the train set into $N/B$ batches of size $B$; for
+        each batch $\Bb$, SGD rewrites
+        $
+            \theta^\mu
+            \leftsquigarrow
+            \theta^\mu -
+            \eta^{\mu\nu} \nabla_\nu \frac{1}{B} \sum_{n\in \Bb} l_n(\theta)
+        $.
+        In total, SGD performs $NM$ many updates.
+        %We consider SGD on $N$ points with batch size $B$ for
+        %$M\times B$ epochs.
+        Together with an inter-epoch shuffling pattern,
+        $N, B, M$ determine the SGD algorithm.
+        The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
+        The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
+        
+        %The pattern of updates is
+        %determined by a spacetime $S$: for a map
+        %$\pi:S\to [N]$ that induces $\sim$, we define SGD inductively as
+        %$\text{SGD}_{S}(\theta) = \theta$ when $S$ is empty and otherwise
+        %$$
+        %    \SGD_S(\theta)
+        %    =
+        %    \SGD_{S\setminus M}(
+        %        \theta^\mu - \eta^{\mu\nu} \nabla_\nu l_{M}(\theta)
+        %    )
+        %$$
+        %where $M = \min S \subseteq S$ specifies a batch and $l_M = \sum_{m\in
+        %M} l_{\pi(m)} / \wabs{M}$ is a batch average.  Since the distribution
+        %of $l_n$ is permutation invariant, the non-canonical choice of $\pi$
+        %does not affect the distribution of output $\theta$s.
+    
+        %Of special interest are spacetimes that divide sequentially into
+        %$M\times B$ many \emph{epochs} each with $N/B$ many disjoint
+        %\emph{batches} of size $B$.  An SGD instance is then determined by $N,
+        %B, M$, and an \emph{inter-epoch shuffling scheme}.  The cases $B=1$ and
+        %$B=N$ we call \emph{pure SGD} and \emph{pure GD}.  The $M=1$ case of
+        %pure SGD we call \emph{vanilla SGD}.
+
+        %We follow convention in calling using the word ``set'' for
+        %\emph{ordered} sequences of training points. 
+
+%==============================================================================
+%    DIAGRAM CALCULUS FOR SGD
+%==============================================================================
+
+\section{Diagram Calculus for SGD}
+
+    %--------------------------------------------------------------------------
+    %           Role of Diagrams      
+    %--------------------------------------------------------------------------
+
+    \subsection{How Diagrams Arise}
+        Suppose $s$ is analytic on weight space; e.g. $s$ may be a test loss.
+        We track $s(\theta)$ as $\theta$ evolves by SGD via a Dyson-style
+        lemma \yrcite{dy49a}:
+        \begin{klem*} %\label{lem:dyson}
+            For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is
+            \begin{equation}\label{eq:dyson}
+                \sum_{(d_t: 0\leq t<T)}
+                (-\eta)^{\sum_t d_t}
+                \left(
+                    \prod_{0 \leq t < T}
+                        \left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                \right)
+                (s) (\theta_0)
+            \end{equation}
+            Moreover, the expectation symbol (over training sets) commutes with
+            the sum over $d$s.
+        \end{klem*}
+        In averaging over training sets $(l_t: 0\leq t<T)$ we may factor the
+        expectation of the above product according to independence relations
+        between the $l_t$.  We view various training procedures (e.g. pure GD,
+        pure SGD) as \emph{prescribing different independence relations} that
+        lead to different factorizations and hence to potentially different
+        generalization behavior at each order of $\eta$.
+    
+        An instance of the above product (for $s=l_a$ drawn from a test set and
+        $0\leq c\leq b<T$) is $-\eta^3 (\nabla l_c \nabla)^2 (\nabla l_b
+        \nabla) l_a$, which is
+        {\small
+        \begin{align*}
+            - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla_\mu \nabla^\nu l_b) (\nabla_\nu l_a)   
+            - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\lambda \nabla^\nu l_b) (\nabla_\mu \nabla_\nu l_a) \\
+            - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla_\mu \nabla^\nu l_b) (\nabla_\lambda \nabla_\nu l_a)   
+            - (\nabla^\lambda l_c) (\nabla^\mu l_c) (\nabla^\nu l_b) (\nabla_\lambda \nabla_\mu \nabla_\nu l_a)
+        \end{align*}
+        }
+        To reduce clutter, we adapt the string notation of \citet{pe71}.  Then,
+        in expectation over $(l_c, l_b, l_a)$ drawn i.i.d.:
+        \begin{align}
+            \cdots
+            &= 
+                 \sdia{(01-2-3)(02-12-23)}
+                +\sdia{(01-2-3)(02-13-23)}
+                +\sdia{(01-2-3)(03-12-23)}
+                +\sdia{(01-2-3)(03-13-23)} \\
+                \label{eq:simpl}
+            &=
+                \underbrace{2\sdia{(01-2-3)(02-12-23)}}_{
+                   -2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla\nabla\nabla l}}~\expct{{\color{moob} \nabla l}}
+                }
+                +
+                \underbrace{2\sdia{(01-2-3)(02-13-23)}}_{
+                   -2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla \nabla l}}~\expct{{\color{moob}\nabla \nabla l}}
+                }
+        \end{align}
+        Above, each degree-$g$ node corresponds to an $l_n$ (here,
+            {\color{moor} $l_c$},
+            {\color{moog} $l_b$},
+            {\color{moob} $l_a$}) differentiated $g$ times
+        (for instance, {\color{moog} $l_b$} is differentiated thrice in the
+        first diagram and twice in the second).  Thin \emph{edges} mark
+        contractions by $-\eta$.  Fuzzy \emph{ties} denote correlations by
+        connecting identical loss functions (here, {\color{moor} $l_c$} with
+        {\color{moor} $l_c$}).  The colors are redundant with the fuzzy ties.
+        A diagram $D$ evaluates to the expected value $\dvalue(D)$ of the
+        corresponding tensor expression.
+        % 
+        Usefully, for a fixed, i.i.d.  distribution over $(l_c, l_b, l_a)$,
+        \emph{the topology of a diagram determines its value}.  For instance,
+        $
+            \dvalue\wrap{\sdia{(01-2-3)(02-12-23)}}
+            =
+            \dvalue\wrap{\sdia{(01-2-3)(03-13-23)}}
+        $.
+        Thus follows simplification \ref{eq:simpl}.
+        We will sometimes write a diagram $D$ and mean $\dvalue(D)$. 
+        %We may convert back to
+        %explicit tensor expressions, invoking independence between untied nodes
+        %to factor the expression.  However, as we will see, the diagrams offer
+        %physical intuition, streamline computations, and determine useful
+        %unbiased estimators of the statistics they represent.  
+    
+        Since many of our results concern the effect of correlations, it will
+        be convenient to notate them concisely.  We thus define a diagram with
+        fuzzy outlines to be the difference between the fuzzy tied and untied
+        versions : $\sdia{c(01-2)(01-12)} =
+        \sdia{(01-2)(01-12)}-\sdia{(0-1-2)(01-12)}$.  
+        %
+        The recipes for writing down test (or train) losses of SGD and its
+        variants are now straightforward.  They reduce the problem of
+        evaluating the dynamical expressions to the problem of
+        counting graph embeddings.  The more complicated the direct
+        computation, the greater the savings of using diagrams.  
+    
+    %--------------------------------------------------------------------------
+    %           Recipe for Test Loss and Generalization Gap
+    %--------------------------------------------------------------------------
+
+    \subsection{Recipe for SGD's Test Loss and Generalization}
+
+        Our results all follow from this theorem and its analogues.
+        Throughout, the $d$-edged diagrams give the order $\eta^d$ terms.
+        Though our methods immediately generalize, we will will for notational
+        convenience only consider SGD variants with time-invariant batch size
+        $B$. 
+        \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
+            For all $T$: for $\eta$ sufficiently small, SGD's expected test
+            loss is
+            \begin{equation}\label{eq:sgdcoef}
+                \sum_{D \in \image(\Free)} \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
+                \frac{\dvalue(D)}{B^{|\edges(D)|}}
+            \end{equation}
+            Here, $D$ is a diagram of form $\Free(\Tt)$,
+            $f$ is a morphism in $\Pp$, and $\Aut_f(D)$ counts
+            $\Pp$-automorphisms of $D$ that commute with $f$. 
+        %\end{thm}
+        %\begin{thm}[Generalization Gap as a Path Integral]
+            Moreover, if we replace each $\dvalue(D)$ by
+            $
+                \sum_{p \in \parts(D)} \dvalue(D_p)/N
+            $, we obtain
+            SGD's expected generalization gap (test loss minus train loss).
+            Here, $D_p$ is $D$ with a fuzzy outline connecting $p$ to $\max D$
+            E.g., $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} =
+            \sdia{c(01)(01)}$.
+        \end{thm}
+    
+        In the special case of $B=1, M=1$:
+        \begin{prop}[Specialization to Vanilla SGD] \label{prop:vanilla}
+            The order $\eta^d$ contribution to the expected test loss of
+            one-epoch SGD with singleton batches is:
+            \begin{equation}\label{eq:sgdbasiccoef}
+                \frac{(-1)^d}{d!} \sum_{D\in \image(\Free)} 
+                |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
+                \dvalue(D)
+            \end{equation}
+            where $D$ ranges over $d$-edged diagrams whose equivalence classes
+            have sizes $d_p: 0\leq p\leq P$, with $d_P=1$
+            and, without loss, are each antichains.  The modification to
+            compute the generalization gap is the same as in Theorem
+            \ref{thm:sgdcoef}.
+        \end{prop}
+        A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta N)^d
+        N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
+        third order, and they have $(4+2)+(2+2+3)+(1)$ many orderings --- see
+        Table \ref{tab:scatthree}.  Intuitively, $\eta N$ measures the \emph{
+        physical time} of descent, and $1/N$ measures the \emph{coarseness} of
+    time discretization.  So we have a double-series in $(\eta N)^d N^{P-d-1}$,
+    where $d$ counts thin edges and $d+1-P$ counts fuzzy ties; the $P=d+1$
+    terms correspond to a discretization-agnostic (hence continuous-time,
+    noiseless) ODE approximation to SGD, while $P\leq d$ gives correction terms
+    modeling time-discretization and hence noise.  
+
+    %--------------------------------------------------------------------------
+    %           Theoretical Corollaries                     
+    %--------------------------------------------------------------------------
+
+    \subsection{Consequences of the Recipe}
+
+        \begin{cor}[SGD Differs from ODE and SDE] \label{cor:vsode}
+            For one-epoch SGD on singleton batches through fixed physical time
+            $T$: the order $N^{-1}$ deviation of SGD's test loss from ODE's is
+            $
+                ({{T^2 N^{-1}}/{2}}) \sdia{c(01-2)(02-12)}
+            $.
+            The order $N^{-2}$ deviation of SGD's test loss due to non-gaussian
+            noise is
+            $
+                -({{T^3 N^{-2}}/{6}}) (\sdia{c(012-3)(03-13-23)} - 3 \sdia{c(01-2-3)(03-13-23)})
+            $.
+            {\color{moor} FILL IN}
+        \end{cor}
+        For finite $N$, these effects make SDE different from SGD.  SDE also
+        fails to model the correlations between updates in multiepoch SGD.  On
+        the other hand, in the $N=\infty$ limit for which SDE matches SGD,
+        optimization and generalization become computationally intractable and
+        trivial, respectively. 
+    
+        \begin{table}[h]
+            \centering 
+            \resizebox{\columnwidth}{!}{%
+            \begin{tabular}{c|c|c}
+                {\LARGE $\Theta\left((\eta N)^3 N^{-0}\right)$} &
+                {\LARGE $\Theta\left((\eta N)^3 N^{-1}\right)$} &
+                {\LARGE $\Theta\left((\eta N)^3 N^{-2}\right)$} \\ \hline
+                \begin{tabular}{c}
+                    \begin{tabular}{LL}
+                        \bdia{(0-1-2-3)(01-12-23)} & \bdia{(0-1-2-3)(01-13-23)}
+                    \end{tabular} \\
+                    \begin{tabular}{LL}
+                        \bdia{(0-1-2-3)(02-13-23)} & \bdia{(0-1-2-3)(03-12-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LL}
+                        \bdia{(0-1-2-3)(03-13-23)} & \bdia{(0-1-2-3)(02-12-23)}
+                    \end{tabular}
+                \end{tabular}
+                &
+                \begin{tabular}{c}
+                    \begin{tabular}{LL}
+                        \bdia{(01-2-3)(02-13-23)} & \bdia{(01-2-3)(03-12-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LL}
+                        \bdia{(0-12-3)(01-13-23)} & \bdia{(0-12-3)(02-13-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LLL}
+                        \bdia{(01-2-3)(03-13-23)} & \bdia{(0-12-3)(03-13-23)} & \bdia{(01-2-3)(02-12-23)} 
+                    \end{tabular}
+                \end{tabular}
+                &
+                \begin{tabular}{c}
+                    \begin{tabular}{L}
+                        \bdia{(012-3)(03-13-23)}
+                    \end{tabular}
+                \end{tabular}
+            \end{tabular}
+            }
+            \caption{
+                Degree-$3$ scattering diagrams for $B=M=1$ SGD's test loss.
+                {\bf Left:} $(d, P) = (3, 3)$.  Diagrams for ODE behavior.
+                {\bf Center:} $(d, P) = (3, 2)$.  $1$st order deviation of SGD
+                away from ODE.
+                {\bf Right:} $(d, P) = (3, 1)$.  $2$nd order deviation of SGD
+                from ODE with appearance of non-Gaussian statistics.
+            }
+            \label{tab:scatthree}
+        \end{table}
+    
+        A quick combinatorial argument shows:
+        \begin{cor}[Shuffling Barely Matters] \label{cor:shuffle}
+            To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
+            expected test loss.
+        \end{cor}
+        Indeed, for any inter-epoch shuffling scheme: 
+        \begin{prop}\label{prop:ordtwo}
+            To order $\eta^2$, the test loss of SGD --- on $N$
+            samples for $M$ epochs with batch size $B$ dividing $N$ and with any
+            shuffling scheme --- has expectation
+            {\small
+            \begin{align*}
+                                                        \mdia{(0)()}
+                &+ MN                                   \mdia{(0-1)(01)}
+                 + MN\wrap{MN - \frac{1}{2}}            \mdia{(0-1-2)(01-12)} \\
+                &+ MN\wrap{\frac{M}{2}}                 \mdia{c(01-2)(02-12)}  
+                 + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \mdia{c(01-2)(01-12)}
+            \end{align*}
+            }
+        \end{prop}
+    
+        \begin{cor}[The Effect of Epoch Number] \label{cor:epochs}
+            To order $\eta^2$, one-epoch SGD has 
+            $
+                 \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}} \sdia{c(01-2)(01-12)}
+            $
+            less test loss than $M$-epoch SGD with learning rate $\eta/M$. 
+        \end{cor}
+    
+        Given a smooth unbiased estimator $\hat{C}$ of gradient covariance, we
+        may cause GD to mimic SGD:
+        \begin{cor}[The Effect of Batch Size] \label{cor:batch}
+            The expected test loss of pure SGD is, to order $\eta^2$,
+            less than that of pure GD by
+            $
+                  \wrap{\frac{M(N-1)}{2}} \sdia{c(01-2)(01-12)}
+            $.
+            Moreover, GD on a modified loss 
+            $
+                \tilde l_n = l_n + \wrap{\frac{N-1}{4N}} \hat{C}_\nu^\nu(\theta)
+            $
+            has an expected test loss that agrees with SGD's to second order.
+        \end{cor}
+    
+        \begin{prop}[An Entropic Force, Unrenormalized] \label{prop:noncons}
+            When vanilla SGD is initialized at a test minimum, the weight is
+            displaced to order $\eta^3$ by 
+            $
+                {T \choose 2} \sdia{c(01-2-3)(02-12-23)} / 2
+            $.
+        \end{prop}
+        Proposition \ref{prop:noncons} was first proven by \citet{ya19b}, and
+        our methods reproduce it elegantly.  We will renormalize it to
+        Proposition \ref{prop:entropic}, which will apply for large times, 
+        hence demonstrating a persistent and non-conservative entropic force.
+    
+    %--------------------------------------------------------------------------
+    %           Descent as Scattering                       
+    %--------------------------------------------------------------------------
+
+    \subsection{Descent as Scattering}
+        In short, SGD's test loss is a weighted sum of diagrams, each $d$-edged
+        diagram contributing to order $\eta^d$.  We depict the $\Ss$-maps 
+        $f:D\to S$ of Theorem \ref{thm:sgdcoef} as embeddings of the graph $D$
+        into spacetime $S$.  Thus, SGD's test loss is a sum over all embeddings
+        in spacetime; see Figure (\ref{fig:spacetime}).  This loss depends on
+        the shape of spacetime, which encodes correlations between updates.  To
+        compute a test loss, we simply count embeddings.  For instance, the
+        order $\eta^2$ diagrams in (\ref{fig:spacetime}) all contribute the
+        same amount to test loss, so we just need to find out how many such
+        embedded diagrams there are.   
+        \begin{figure}[h!] 
+            \centering  
+            \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
+            \caption{
+                Some diagrams embedded in spacetime.  The left four diagrams
+                give order $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$
+                contributions to pure GD's test loss.  The right four each
+                contribute $\eta^2 \expct{\nabla^2} \expct{\nabla}^2$; their
+                equivalence demonstrates crossing symmetry.  Only diagrams
+                whose nodes fall within shaded diagonals contribute to pure SGD's
+                test loss (with an extra factor $N$ per edge). 
+            }
+            \label{fig:spacetime}
+        \end{figure}
+        \begin{figure}[h!] 
+            \centering  
+            \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
+            \caption{
+                Comparison of pure GD's vs pure SGD's test loss.  We may
+                normalize almost every order $\eta^2$ GD diagram to an
+                equivalent SGD diagram by horizontal or vertical shifts (see
+                left ten diagrams).  The exception is that $MN{N\choose 2}$ many
+                $\sdia{(01-2)(01-12)}$s turn into $\sdia{(0-1-2)(01-12)}$s (see
+                right two diagrams).  So pure GD's test loss exceeds pure SGD's
+                test loss by $M ((N-1)/2) \sdia{c(01-2)(01-12)}$.
+            }
+            \label{fig:vsmulti}
+        \end{figure}
+        Likewise, as shown in Figure (\ref{fig:vsmulti}), the order $\eta^2$
+        diagrams of pure GD and pure SGD are nearly in correspondence, except
+        for a discrepancy that shows the two test losses differ by $M ((N-1)/2)
+        \sdia{c(01-2)(01-12)}$.
+        %This argument generalizes to yield proposition \ref{prop:ordtwo}.
+    
+    %--------------------------------------------------------------------------
+    %           Toward Effective Theories                   
+    %--------------------------------------------------------------------------
+
+    \subsection{Effective Theories} \label{subsect:effective}
+        An important idea is that of \emph{renormalization}, i.e. the
+        summarization of myriad small-scale interactions into an effective
+        large-scale theory.  We will renormalize --- specifically, we will
+        pair main diagrams with topologically related modifications in order
+        to refine our $d$th order estimates for any fixed $d$.  For
+        some large-$\eta T$ limits in a positive-Hessian setting, the
+        unrenormalized theory does not converge while the renormalized theory
+        does.  Thus, renormalization will help us reason about large-time
+        behavior. 
+
+        For example, consider the diagrams that are uncorrelated chains ---
+        $\sdia{(0-1)(01)}, \sdia{(0-1-2)(01-12)},
+        \sdia{(0-1-2-3)(01-12-23)}, \cdots$.  When embedded with initial and
+        final nodes separated by duration $t$, this series of diagrams in sum
+        contributes
+        $
+            G (I-\eta H)^{t-1} \eta G
+            \approx
+            G \exp(-\eta T H) \eta G
+            +
+            o(\eta)
+        $.
+        We may thus organize diagrams together by the homeomorphism classes of
+        their \emph{geometric realizations}; each class yields a sum over
+        durations.  For example, the above chains contribute 
+        $G \sum_{0\leq t<T} (I-\eta H)^{T-t-1} \eta G$
+        to vanilla SGD's test loss, or approximately:
+        \begin{align*}
+            \approx
+            G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G
+            =
+            G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
+        \end{align*}
+        To use physical language: after integrating the
+        ``effective propagator'' $\exp(-\eta t H) \eta$ over possible
+        spacetime configurations, we arrive at a revised inverse metric
+        $
+            \wrap{I - \exp(-\eta T H)}/H
+        $
+        to be used instead of $\eta$.  When $H$ is positive, the above
+        converges in the large-$T$ limit.
+
+        \textsc{Renormalized Recipe:}~
+        In general, one sums over all embeddings of diagrams that are
+        \emph{irreducible} in the sense that they lack non-root
+        $\sim$-singleton degree-two nodes (such as the middle node of
+        $\sdia{(0-1-2)(01-12)}$).  The sum is like the unrenormalized case
+        except that the embedding-agnostic value $\dvalue(D)$ is replaced by an
+        embedding-sensitive value $\dvalue_f(D)$, which has the same expression
+        as $\dvalue(D)$ except that each contraction by $-\eta$ between nodes
+        embedded to times $t, \tilde t$ is replaced by a factor $(I-\eta
+        H)^{\wabs{t-\tilde t}} \eta$, and each fuzzy tie is a difference
+        tie\footnote{
+            Actually, the simple differences denoted by fuzzy ties generalize
+            to inclusion-exclusion (i.e. mobius-function weighted) sums for
+            terms with more fuzzy ties than we consider in the paper's body.
+            We describe the general pattern in Appendix \ref{sect:proofs} 
+        }.
+        In practice, we prefer to approximate sums over embeddings by integrals
+        over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, thus incurring a
+        term-by-term multiplicative error of $1 + o(\eta)$ that does not affect
+        leading order results; in this way, a diagram induces an easily
+        evaluated integral of exponentials.
+       
+        \begin{thm}[Renormalization Gives Large-$T$ Limits] \label{thm:renorm}
+            For any $T$: for $\eta$ sufficiently small, SGD's expected test
+            loss exceeds the noiseless case by 
+            \begin{equation} \label{eq:renorm}
+                \sum_{\substack{D \in \image(\Free)\\ \text{irreducible}}}
+                \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
+                \frac{\dvalue_f(D)}{B^{|\edges(D)|}}
+            \end{equation}
+            Theorem \ref{thm:sgdcoef}'s modification for the generalization gap
+            stands.  In contrast to Theorem \ref{thm:sgdcoef}, when $H$ is
+            positive, the $d$th order truncation converges as $T$ diverges.
+        \end{thm}
+        Due to the latter convergence property, we have formal license to 
+        take long-term limits of renormalized predictions.  In fact, the
+        convergence is uniform in $T$ for sufficiently regular landscapes.
+        \begin{prop}[A Nonconservative Entropic Force]\label{prop:entropic}
+            When initialized at a test minimum, vanilla SGD's weight moves to
+            order $\eta^2$ with a long-time-averaged\footnote{
+                That is, $T$ so large that $C \exp(-\eta K T)$ is negligible.
+                Appendix \ref{sect:calculations} gives a similar expression for general $T$.
+            }
+            expected velocity of
+            $$
+                v^\pi = C_{\mu \nu}
+                \wrap{K^{-1}}^{\mu\nu}_{\rho\lambda}
+                J^{\rho\lambda}_{\sigma}
+                \wrap{\frac{I - \exp(-T \eta H)}{T \eta H} \eta}^{\sigma \pi}
+            $$
+            per timestep.
+            Here, $K = \eta H \otimes I + I \otimes \eta H$, a
+            $4$-valent tensor. 
+        \end{prop}
+        Unlike prior work \cite{we19b}, we make no assumptions of
+        thermal equilibrium, fast-slow mode separation, or constant covariance.
+        This added generality allows us to predict a qualitatively new
+        dynamical phenomenon, namely that the velocity field above need not be
+        conservative.  We verify this in experiments.
+        \begin{prop}[Flat and Sharp Minima Overfit Less]\label{prop:overfit}
+            When initialized at a test minimum, pure GD's test loss is, to
+            order $\eta$, 
+            $$
+                \frac{1}{2N} ~
+                    C_{\mu\nu}
+                    \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
+                    \wrap{H^{-1}}^{\rho\lambda}
+            $$
+            above the minimum.  This vanishes when $H$ does. 
+            Likewise, pure GD's generalization gap is to order $\eta$:  
+            $$
+                \frac{1}{N} ~
+                    C_{\mu\nu}
+                    \wrap{(I - \exp(-\eta T H))}^{\nu}_{\lambda}
+                    \wrap{H^{-1}}^{\lambda\mu}
+            $$
+            Contrary to the later-mentioned Takeuchi estimate, this does not
+            diverge as $H$ shrinks.
+        \end{prop}
+        Proposition \ref{prop:overfit}'s generalization gap converges after
+        large $T$ to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$, also known as Takeuchi's
+        Information Criterion (TIC).  In turn, in the classical setting of
+        maximum likelihood (ML) estimation (with no model mis-specification)
+        near the ``true'' test minimum, $C=H$ is the Fisher metric, so we
+        recover the Akaike Information Criterion (AIC) $(\textnormal{number of
+        parameters})/N$.  Unlike AIC, our more general expression is
+        descendably smooth, may be used with MAP or ELBO tasks instead of just
+        ML, and makes no model well-specification assumptions.
+
+        \begin{figure}[h!]
+            \centering
+            \plotmooh{diagrams/entropic-force-diagram}{}{0.35\columnwidth} 
+            \plotmooh{diagrams/springs}{}{0.35\columnwidth}
+            \caption{
+                {\bf Left}:
+                    The entropic force mechanism: gradient noise induces a flow
+                    toward minima flat \emph{with respect to to the
+                    covariance}.  Although our analysis assumes neither thermal
+                    equilibrium nor fast-slow mode separation, we label ``fast
+                    and slow directions'' in this cartoon to ease comparison
+                    with \citet{we19b}.  In this cartoon, red densities denote
+                    the spread predicted by a renormalized $C^{\mu\nu}$, and
+                    the spatial variation of curvature corresponds to
+                    $J_{\mu\nu\lambda}$. 
+                {\bf Right}:
+                    Noise structure determines how curvature affects
+                    overfitting.  To use a physical metaphor, for a fixed
+                    displacement scale, stiffer springs incur greater energy
+                    gains.  But for a fixed force scale, limper springs incur
+                    greater energy gains.  Geometrically, for (empirical risk
+                    minimization on) a vector-perturbed landscape, small
+                    hessians are favored (top row), while for
+                    covector-perturbed, landscape large hessians are favored
+                    (bottom row).  Proposition \ref{prop:overfit} shows how the
+                    implicit regularization of fixed-$\eta T$ descent mediates
+                    between the two rows.
+            }
+            \label{fig:entropic}
+        \end{figure}
+
+%==============================================================================
+%    EXPERIMENTS AND APPLICATIONS
+%==============================================================================
+
+\section{Experiments and Applications}
+
+    %--------------------------------------------------------------------------
+    %           Vanilla SGD                                 
+    %--------------------------------------------------------------------------
+
+    \subsection{Vanilla SGD}
+        We test Proposition \ref{prop:vanilla} for smooth convolutional
+        architectures for CIFAR-10 and Fashion-MNIST by comparing measured 
+        test losses and generalization gaps with un-renormalized predictions
+        (see Appendices E and F for experiment details).  We find good
+        agreement between our order $\eta^3$ perturbative predictions up to
+        $\eta T \approx 10^0$.  Though of little direct import, this test
+        verifies that our application of the diagram method hides no factor
+        mistakes or sign errors.
+        \begin{figure}[h!]
+            \centering
+            \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} 
+            \plotmoo{plots/gen-cifar}{0.48\columnwidth}{3.0cm}
+            \caption{
+                {\bf Left}: Test loss vs learning rate on an image
+                classification task.  For the instance shown and all $11$ other
+                initializations unshown, the degree-$3$ prediction agrees with
+                experiment through $\eta T \approx 10^0$.
+                {\bf Right}:
+                Generalization gap (test minus train) vs learning rate on an
+                image classification task.  For the instance shown and all $11$
+                other initializations unshown, the degree-$2$ prediction agrees
+                with experiment through $\eta T \approx 10^0$.  Throughout,
+                measurements are in blue and theory is in other colors.
+                Vertical spans indicate 95\% confidence intervals for the mean.
+            }
+        \end{figure}
+
+    %--------------------------------------------------------------------------
+    %           Epochs and Overfitting                      
+    %--------------------------------------------------------------------------
+ 
+    %\subsection{Epochs and Overfitting}
+        %{\color{moor} FILL IN}
+        Likewise, Figure \ref{fig:bmmulti} shows that our predictions of how 
+        epochs affect overfitting are in good agreement with experiment. 
+        %\lorem{3}
+    
+    %--------------------------------------------------------------------------
+    %           Emulating Small Batches with Large Ones     
+    %--------------------------------------------------------------------------
+
+    \subsection{Emulating Small Batches with Large Ones}
+        Figure \ref{fig:bmmulti} shows that the regularizer proposed in
+        Proposition \ref{cor:batch} indeed enables GD to emulate SGD
+        on a range of image-classification landscapes.  For these experiments,
+        we used a covariance
+        estimator $\hat C \propto \nabla l_x (\nabla l_x - \nabla l_x)$ evaluated on
+        two batches $x, y$ that partition the training set.
+        \begin{figure}[h!] 
+            \centering
+            \plotmoo{plots/big-bm-new}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/multi-fashion-logistic-0}{0.48\columnwidth}{4.0cm}
+            \caption{
+                {\bf Left}: with equal-scaled axes, this plot shows that GDC
+                matches SGD (small vertical variation) better than GD matches
+                SGD (large horizontal variation) in test loss, for a variety of
+                learning rates (from 0.0025 to 0.1) and initializations (zero
+                and multiple independent Xavier-Glorot trials) on several of
+                image classification landscapes (logistic and convolutional
+                CIFAR-10 and Fashion-MNIST).  $T=10$ throughout.
+                {\bf Right}: SGD with $2, 3, 5, 8$ epochs incurs greater test
+                loss than single-epoch SGD (difference shown in I bars) by the
+                predicted amounts (predictions shaded) for a range of learning
+                rates.
+            }
+            \label{fig:bmmulti}
+        \end{figure}
+  
+    %--------------------------------------------------------------------------
+    %           Comparison to Continuous Time               
+    %--------------------------------------------------------------------------
+
+    \subsection{Comparison to Continuous Time}
+        Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some centered
+        standard normal data.  We parameterize the landscape by
+        $h=\log(\sigma^2)$ so that the Fisher information matches the standard
+        dot product \citet{am98}.  The gradient at sample $x$ and weight
+        $\sigma$ is then $g_x(h) = (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0,
+        1)$, $g_x(h)$ will be affinely related to a chi-squared, and in
+        particular non-gaussian.  At $h=0$, the expected gradient vanishes, and
+        the test loss of vanilla SGD only involves diagrams with no singleton
+        leaves; to third order, it is
+        $
+            \sdia{(0)()}
+            +\frac{T}{2} \sdia{c(01-2)(02-12)}
+            +{T\choose 2} \sdia{c(03-1-2)(01-12-23)}
+            +\frac{T}{6} \sdia{c(012-3)(03-13-23)}
+        $
+        In particular, the ${T\choose 2}$ differs from $T^2/2$ and hence
+        contributes to the time-discretization error of SDE as an approximation
+        for SDE.  Moreover, the $\sdia{c(012-3)(03-13-23)}$ contributes to
+        non-gaussian noise to that error.  Figure \ref{fig:thermo} shows that,
+        indeed, SDE and single-epoch SGD differ.  For multi-epoch SGD, the
+        effect of overfitting to finite training data further separates SDE and
+        SGD.
+
+    %--------------------------------------------------------------------------
+    %           Thermodynamic Engine                        
+    %--------------------------------------------------------------------------
+
+    \subsection{A Nonconservative Entropic Force} \label{subsect:entropic}
+        To test Proposition \ref{prop:entropic}'s predicted force, 
+        we construct a counter-intuitive loss landscape wherein, for
+        arbitrarily small learning rates, SGD steadily increases the weight's
+        z component despite 0 test gradient in that direction.
+        Our mechanism differs from that discovered by \citet{ch18}.
+        Specifically, because in this landscape the force is
+        $\eta$-perpendicular to the image of $\eta C$, that work predicts an
+        entropic force of $0$.  This disagreement in predictions is possible
+        because our analysis does not make any assumptions of equilibrium,
+        conservatism, or assumptions.
+        
+        Intuitively, the presence of the term
+        $
+            \sdia{c(01-2-3)(02-12-23)}
+        $
+        in our test loss expansion indicates that 
+        \emph{SGD descends on a covariance-smoothed landscape}.
+        So, even in a valley of global minima, SGD will move away from minima
+        whose Hessian aligns with the current covariance.  However, by the time
+        it moves, the new covariance might differ from the old one, and SGD will
+        be repelled by different Hessians than before.  By setting the
+        covariance to lag the Hessian by a rotational phase, we construct
+        a landscape in which this entropic force occurs forever. 
+        This ``\emph{linear-screw}'' landscape is defined for
+        three-dimensional $w\in \RR^3$ (initialized at the origin) and
+        one-dimensional $x \sim \Nn(0, 1))$:
+        $$
+            l_x(w) = \frac{1}{2} H(z)(w, w) + x \cdot S(z)(w)  
+        $$
+        Here, $H(z)(w, w) = w_x^2 + w_y^2 + (\cos(z) w_x + \sin(z) w_y)^2$
+        and   $S(z)(w)    = \cos(z-\pi/4) w_x + \sin(z-\pi/4) w_y$.
+        We see that there is a valley of global minima defined by $x=y=0$. 
+        If SGD is initialized there, then to leading order in $\eta$ and for
+        large $T$, the renormalized theory predicts a $z$-speed of $\eta^2/6$ 
+        per timestep.  We see that this prediction, unlike the
+        un-renormalized prediction, agrees with experiment.
+
+        \begin{figure}[h!]
+            \centering
+            \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
+            \caption{
+                {\bf Left}: SGD's difference from SDE after $\eta T \approx
+                10^{-1}$ with maximal coarseness on the gaussian-fit problem.  
+                Two effects not modeled by SDE --- time-discretization and
+                non-gaussian noise oppose on this landscape but do not
+                completely cancel. 
+                {\bf Right}: On the linear screw landscape, the persistent
+                entropic force pushes the weight through a valley of global
+                minima not at a $T^{1/2}$ diffusive rate but at a directional
+                $T^1$ rate.  Hessians and covariances  are uniformly bounded
+                throughout the valley, and this effect appears at all
+                sufficiently small $\eta$s with strength $\eta^2$.  Thus, the
+                effect is not a pathological artifact of well-chosen learning
+                rate or divergent covariance noise.  Observe that the net
+                displacement of $\approx 10^{1.5}$ well exceeds the $z$-period
+                of $2\pi$. 
+            }
+            \label{fig:thermo}
+        \end{figure}
+
+        Moreover, by stitching together copies of this example, we may cause
+        SGD to travel along paths that are closed loops or unbounded curves of
+        global minima, or we may add a small linear component to the valleys so
+        that SGD steadily climbs uphill.  
+
+
+    %--------------------------------------------------------------------------
+    %           Sharp vs Flat Minima                        
+    %--------------------------------------------------------------------------
+
+    \subsection{Sharp and Flat Minima Both Overfit Less} \label{subsect:overfit}
+        Prior work has varyingly found that \emph{sharp} minima overfit less
+        (after all, $l^2$ regularization increases curvature) or that
+        \emph{flat} minima overfit less (after all, flat minima are more
+        robust to small displacements in weight space).  Proposition
+        \label{prop:overfit} reconciles these competing intuitions by showing
+        how the relationship of generalization and curvature depends on the
+        learning task's noise structure and how the metric $\eta^{-1}$ mediates
+        this distinction.
+        
+        \begin{figure}[h!] 
+            \centering
+            \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
+            \caption{
+                {\bf Left}: For artificial quadratic landscapes with fixed
+                covariance and a range of hessians, initialized at the true
+                minimum, the test losses after fixed-$\eta T$ optimization are
+                smallest for very small and very large curvatures.  This
+                evidences our renormalized theory's prediction that both sharp
+                and flat minima overfit less!  In particular, the Takeuchi
+                estimate's singularity is, as predicted, suppressed.
+                {\bf Right}: For artificial quadratic landscapes with fixed
+                covariance and a range of hessians, initialized a fixed
+                distance \emph{away} from the true minimum, joint descent on 
+                an $l_2$ penalty coefficient $\lambda$ by means of STIC
+                improves on plain gradient descent for most hessians.  That
+                there is at all a discrepancy from theory is possible because
+                $\lambda$ is not perfectly tuned according to STIC but instead
+                descended on for finite $\eta T$.
+            }
+            \label{fig:tak}
+        \end{figure}
+
+        Because the TIC estimates a smooth hypothesis class's generalization
+        gap, it is tempting to use it as an additive regularization term.
+        However, the TIC is singular where the Hessian is (see Figure
+        \ref{fig:entropic}), and as such gives insensible results for
+        over-parameterized models.  Indeed, a prior attempt ran into numerical
+        difficulties requiring an arbitrary cutoff \citep{di18}. 
+
+        Fortunately, by Proposition \ref{prop:overfit}, the implicit
+        regularization of gradient descent both demands and enables a
+        singularity-removing correction to the TIC --- see Figure
+        \ref{fig:tak}.  The resulting \emph{Stabilized TIC} (STIC) uses the
+        metric implicit in gradient descent to threshold flat from sharp
+        minima.  It thus offers a principled method for optimizer-aware model
+        selection easily compatible with automatic differentiation systems.  By
+        descending on STIC, we may tune smooth hyperparameters such as $l_2$
+        coefficients.  Experiments on the mean-estimation problem validate STIC
+        for such model selection, especially when $C/N$ dwarves $H$ as in the
+        noisy, small-$N$ regime (see Figure \ref{fig:tak}).  Because matrix
+        exponentiation is expensive, STIC regularization without further
+        approximations is most useful for models of small dimension
+        on very noisy or scanty data.
+
+%==============================================================================
+%    RELATED WORK    
+%==============================================================================
+
+\section{Related Work}
+
+    %--------------------------------------------------------------------------
+    %           History of SGD
+    %--------------------------------------------------------------------------
+
+    It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
+    stochastic approximation \citep{ro51}, invented SGD.  Since the development
+    of back-propagation for efficient differentiation \citep{we74}, SGD
+    has been used to train connectionist models including neural
+    networks \citep{bo91}, in recent years to remarkable success \citep{le15}.
+
+    %--------------------------------------------------------------------------
+    %           Analyzing Overfitting; Relevance of Optimization; SDE Errs  
+    %--------------------------------------------------------------------------
+
+    Several lines of work quantify the overfitting of SGD-trained networks
+    \citep{ne17a}.  For instance, \citet{ba17} controls the Rademacher
+    complexity of deep hypothesis classes, leading to generalization bounds
+    that are optimizer-agnostic.  However, since networks trained via SGD
+    generalize despite their seeming ability to shatter large sets
+    \citep{zh17}, one infers that generalization arises from the aptness to
+    data of not only architecture but also optimization \citep{ne17b}.  Others
+    have focused on the implicit regularization of SGD itself, for instance by
+    modeling descent via stochastic differential equations (SDEs) (e.g.
+    \citet{ch18}).  However, per \citet{ya19a}, such continuous-time analyses
+    cannot treat covariance correctly, and so they err when interpreting
+    results about SDEs as results about SGD for finite trainsets.
+
+    %--------------------------------------------------------------------------
+    %           We Extend Dan's Approach                     
+    %--------------------------------------------------------------------------
+
+    Following
+    %\citet{li17} and
+    \citet{ro18}, we avoid making a continuous-time
+    approximation by instead Taylor-expanding around the learning rate
+    $\eta=0$.  In fact, we develop a diagrammatic method for evaluating each
+    Taylor term that is inspired by the field theory methods popularized by
+    \citet{dy49a}.  Using this technique, we quantify the overfitting effects
+    of batch size and epoch number, and based on this analysis, propose a
+    regularizing term that causes large-batch GD to emulate small-batch SGD,
+    thus establishing a precise version of the relationship --- between
+    covariance, batch size, and generalization --- conjectured by \citet{ja18}.  
+    
+    %--------------------------------------------------------------------------
+    %           Phenomenology of Rademacher Correlates such as Hessians
+    %--------------------------------------------------------------------------
+
+    While we make rigorous, architecture-agnostic predictions of learning
+    curves, these predictions become vacuous for large $\eta$.  In particular,
+    while our work does not assume convexity of the loss landscape, before
+    renormalization it also is blind to large-$\eta T$ convergence of SGD.
+    Other discrete-time dynamical analyses allow large $\eta$ by treating deep
+    generalization phenomenologically, whether by fitting to an
+    empirically-determined correlate of Rademacher bounds \citep{li18}, by
+    exhibiting generalization of local minima \emph{flat} with respect to the
+    standard metric (see \citet{ho17}, \citet{ke17}, citet{wa18}), or by
+    exhibiting generalization of local minima \emph{sharp} with respect to the
+    standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
+    which makes explicit the dependence of generalization on the underlying
+    metric and on the form of gradient noise, reconciles those
+    seemingly clashing claims.
+    
+    %--------------------------------------------------------------------------
+    %           Our Work vs Other Perturbative Approaches            
+    %--------------------------------------------------------------------------
+
+    Others have imported the perturbative methods of physics to analyze descent
+    dynamics:  \citet{dy19} perturb in inverse network width, employing 't
+    Hooft diagrams to compute deviations of a specific class of deep
+    architectures from Gaussian processes.  Meanwhile, \cite{ch18} and
+    \citet{li17} perturb in learning rate to second order by approximating
+    noise between updates as gaussian and uncorrelated.  This approach does not
+    generalize to higher orders, and, because correlations and heavy tails are
+    essential obstacles to concentration of measure and hence of
+    generalization, it does not model the generalization behavior of SGD.  By
+    contrast, we use Penrose diagrams to compute test and train losses to
+    arbitrary order in learning rate, quantifying the effect of non-gaussian
+    and correlated noise.  Our method accounts for optimization and applies to
+    any smooth architecture.  We hence extend \citet{ro18} beyond leading order
+    and beyond $2$ time steps, allowing us to compare, for instance, the
+    expected test losses of multi-epoch and single-epoch SGD.
+
+%==============================================================================
+%    CONCLUSION      
+%==============================================================================
+
+\section{Conclusion}
+
+    %--------------------------------------------------------------------------
+    %           Summarize Contributions                     
+    %--------------------------------------------------------------------------
+
+    Feynman diagrams make novel and precise predictions about SGD: 
+
+    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+        \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
+        Flat and sharp minima both overfit less than minima of curvature
+        comparable to $(\eta T)^{-1}$.  While flat minima withstand
+        vector-valued weight displacements and sharp minima withstand
+        covector-valued loss offsets, medium minima attain the worst of both
+        worlds.  Such considerations lead us to a smooth generalization of AIC
+        and to tune hyperparameters by gradient descent.
+    %}}
+
+    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+        \textsc{Story of $\sdia{c(01-2-3)(02-12-23)}$:~}
+        Refining \citet{we19b} to nonconstant, nonisotropic covariance, we find
+        SGD descends on a loss landscape smoothed by the current covariance.
+        As the weight and thus the covariance evolve, the smoothing mask
+        evolves and thus the effective landscape evolves.  This dynamics
+        is generically nonconservative.  In contrast to \citet{ch18}, this SGD
+        dynamics does not need to converge to a limit cycle. 
+    %}}
+
+    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+        \textsc{Story of $\sdia{c(01-2)(01-12)}$:~}
+        As conjectured by \citet{ro18}, large-batch GD can be made to emulate
+        small-batch SGD.  We show how to do this by adding a multiple of an
+        unbiased covariance estimator to the descent objective.  This emulation
+        is significant because, while small batch sizes can lead to better
+        generalization \citep{bo91}, modern infrastructure increasingly rewards
+        large batch sizes \citep{go18}.  
+    %}}
+
+    %\par\noindent\framebox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{
+    %    \textsc{Story of $\sdia{c(012-3)(03-13-23)}$:~}
+    %    In multi-epoch SGD, inter-epoch shuffling induces no $3$rd order effect
+    %    on test loss.  In other words, we proved that \emph{nongaussian effects
+    %    matter more than shuffling order} for fixed finite $N$ and small $\eta$.
+    %}}
+
+    SGD's test loss and generalization gap are sums of infinitely many
+    diagrams, and for small learning rates, the behavior is controlled by the
+    finitely many diagrams with few edges.  The base theory gives predictions
+    for any fixed $T$ as long as $\eta$ is much smaller than $1/T$.  On
+    strictly convex landscapes, renormalization improves the $\eta$-expansion's
+    convergence to be \emph{uniform} in $T$.  Most of the calculations here
+    presented can by means of diagrams be done fully in one's head.  We see
+    this as evidence that our method is helpful.
+
+    %--------------------------------------------------------------------------
+    %           Ask Questions                               
+    %--------------------------------------------------------------------------
+
+    The diagram method's physical metaphor invites further exploration of
+    Lagrangian characterizations and curved backgrounds: 
+    \begin{quest}
+        Do Lagrangians govern effective theories of SGD and its variants, or
+        is there a fundamental obstacle to such a representation?
+    \end{quest}
+        %More than Hamiltonians for SGD \cite{ch14}, Langrangians could
+        %illuminate hidden conservation and scaling laws in SGD's variants.
+        %Problematically, SGD lacks the symplectic structure typically used to
+        %translate between Hamiltonians and Lagrangians.  Still, one may hope
+        %for a formal analogy between diagram parts and terms of a Lagrangian.
+        Indeed, we have found that some
+        \emph{higher-order} methods --- such as the Hessian-based update
+        $
+            \theta \leftsquigarrow
+            \theta -
+            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
+            \nabla l_t(\theta)
+        $
+        parameterized by small $\eta, \lambda$ --- are amenable to diagrammatic
+        analysis.  Though diagrams suffice for computations, it is Lagrangians
+        that offer the deepest non-perturbative insight.
+    \begin{conj}
+        To leading order in $\eta$, the generalization gap of SGD  
+        increases with sectional curvature.
+    \end{conj}
+        Our work so far assumes a flat metric $\eta^{\mu\nu}$ but it might 
+        generalize to curved weight spaces\footnote{
+            One might represent the affine connection as a node, thus giving
+            rise to non-tensorial and hence gauge-dependent diagrams.
+        }
+        Indeed, curvature finds concrete application in the \emph{learning on
+        manifolds} paradigm of \citet{bo13}, notably specialized to
+        \citet{am98}'s \emph{natural gradient descent} and \citet{ni17}'s
+        \emph{hyperbolic embeddings}.  We are optimistic our formalism may
+        illuminate conjectures such as above.
+
+%==============================================================================
+%    ACKNOWLEDGEMENTS
+%==============================================================================
+
+\subsection{Acknowledgements}
+    We feel deeply grateful to
+        {\color{moor} UNCOMMENT}
+        %Sho Yaida,
+        %Dan A. Roberts, and
+        %Josh Tenenbaum
+    for posing several of the questions we here resolved and for their
+    compassionate and patient guidance.  We appreciate the generosity of
+        {\color{moor} UNCOMMENT}
+        %Andrzej Banburski,
+        %Ben R. Bray,
+        %Sasha Rakhlin,
+        %Greg Wornell, and
+        %Wenli Zhao
+    in offering feedback on earlier stages of writing.
+
+%==============================================================================
+%    REFERENCES      
+%==============================================================================
+
+%\section*{References}
+    \bibliography{perturb}
+    \bibliographystyle{icml2019}
+
+%==============================================================================
+%    APPENDICES      
+%==============================================================================
+
+\renewcommand{\thesection}{\Alph{section}}
+\setcounter{section}{0}
+
+\section{Mathematical Background} \label{sect:background}
+    We list the assumed regularity conditions on the loss landscape not in this
+    section but in the next.
+
+    \subsection{The Combinatorial Costumes: Structure Sets}
+        We precisely define diagrams and spacetimes in terms of \emph{structure
+        sets}, i.e. sets $S$ equipped with a preorder $\leq$ and an equivalence
+        relation $\sim$.  The morphisms of structure sets are strictly
+        increasing maps that preserve $\sim$ and its negation.  A structure set
+        is \emph{pointed} when it has a unique maximum element and this element
+        forms a singleton $\sim$-class.  The categories $\Ss$ of structure sets
+        and $\Pp$ of pointed structure sets enjoy a free-forgetful adjunction
+        $\Free, \Forg$.  When $\leq$ is a total preorder, we say that $S$ is a
+        \emph{spacetime}.
+    
+        A \emph{diagram} is a rooted tree equipped with an equivalence relation
+        $\sim$ on nodes.  We draw the tree with thin edges, with the root at
+        the far right, and we indicate $\sim$ with fuzzy ties.  Read as a Hasse
+        graph (with the root maximal), the diagram $D$ induces a structure set,
+        by abuse of notation also named $D$.  Let $\parts(D)$ give the parts of
+        $D$.  An $\Ss$-map from $D$ to
+        $
+            (\Forg\circ\Free)^{|\parts(D)|}(\text{empty set})
+        $
+        is an \emph{ordering} of $D$.  Let $|\edges(D)|$ and $|\ords(D)|$ count
+        edges and orderings of $D$.
+    
+        Fong gives a swift introduction to these category theoretic and
+        diagrammatic ideas \yrcite{fo19}.
+
+    \subsection{The Parameterized \emph{Personae}: Forms of SGD}
+        SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
+        estimates $(l_n: 0\leq n<N)$ of $l$.  The pattern of updates is
+        determined by a spacetime $S$: for a map
+        $\pi:S\to [N]$ that induces $\sim$, we define SGD inductively as
+        $\text{SGD}_{S}(\theta) = \theta$ when $S$ is empty and otherwise
+        $$
+            \SGD_S(\theta)
+            =
+            \SGD_{S\setminus M}(
+                \theta^\mu - \eta^{\mu\nu} \nabla_\nu l_{M}(\theta)
+            )
+        $$
+        where $M = \min S \subseteq S$ specifies a batch and $l_M = \sum_{m\in
+        M} l_{\pi(m)} / \wabs{M}$ is a batch average.  Since the distribution
+        of $l_n$ is permutation invariant, the non-canonical choice of $\pi$
+        does not affect the distribution of output $\theta$s.
+    
+        Of special interest are spacetimes that divide sequentially into
+        $M\times B$ many \emph{epochs} each with $N/B$ many disjoint
+        \emph{batches} of size $B$.  An SGD instance is then determined by $N,
+        B, M$, and an \emph{inter-epoch shuffling scheme}.  The cases $B=1$ and
+        $B=N$ we call \emph{pure SGD} and \emph{pure GD}.  The $M=1$ case of
+        pure SGD we call \emph{vanilla SGD}.
+
+        We follow convention in calling using the word ``set'' for
+        \emph{ordered} sequences of training points. 
+
+
+
+\section{Proofs of Theorems} \label{sect:proofs}
+   
+    \subsection{Regularity Hypotheses}
+        We assume throughout this work several regularity properties of the
+        loss landscape.  \emph{Existence of Taylor Moments} --- we assume that
+        each finite collection of polynomials of the $0$th and higher
+        derivatives of the $l_x$, all evaluated at any point $\theta$, may be
+        considered together as a random variable insofar
+        as they are equipped with a probability measure upon of the standard
+        Borel algebra.  \emph{Analyticity Uniform in Randomness} --- we
+        moreover assume that the functions $\theta \mapsto l_x(\theta)$, as
+        well as the expectations of polynomials of their $0$th and higher
+        derivatives, exist and are analytic with shared (but
+        $\theta$-dependent) radii of convergence.  \emph{Boundedness of
+        Gradients} --- we also assume that the gradients $\nabla l_x(\theta)$,
+        considered as random covectors, are bounded by some continuous function
+        of $\theta$.\footnote{
+            A metric-independent way of expressing this boundedness constraint
+            is that the gradients all lie in some subset $\Ss \subseteq TM$ of
+            the tangent bundle of weight space, where, for any compact $\Cc
+            \subseteq M$, we have that the topological pullback --- of
+            $\Ss \hookrightarrow TM \twoheadrightarrow M$
+            and
+            $\Cc \hookrightarrow M$ ---
+            is compact.  We hope that the results of this paper expose how
+            important the choice of metric can be and hence underscore the
+            value of determining  whether a concept is metric-independent.
+        }\footnote{
+            Some of our experiments involve Gaussian noise, which is not
+            bounded and hence violates one of our hypotheses.  For experimental
+            purposes, however, Gaussians are effectively bounded, on the one
+            hand in the sense that with high probability no standard normal
+            sample encountered on Gigahertz hardware within the age of the
+            universe will much exceed $\sqrt{2 \log(10^{30})} \approx 12$, and
+            on the other hand in the sense that our predictions vary smoothly
+            with the first few moments of this distribution, so that a $\pm
+            12$-clipped gaussian will yield almost the same predictions.
+        }
+
+        Kol\'{a}\u{r} gives a careful introduction to these differential
+        geometric ideas \yrcite{ko93}.
+
+        \subsubsection{Pathologies Illustrating the Hypotheses' Utility}
+            {\color{moor} FILL IN}
+
+
+    \subsection{Dyson Series for Iterative Optimizers}
+        We first give intuition, then worry about $\epsilon$s and $\delta$s.
+        \subsubsection{The Key Lemma: Proof Idea}
+            Intuitively, since $\nabla$ Lie-generates translation, the operator
+            $
+                \exp\wrap{
+                    -\eta^{\mu\nu} g_\mu \nabla_\nu
+                }
+            $
+            performs translatation by $-\eta g$.  In particular, the case
+            $g=\nabla l_t(\theta)$ effects a gradient step on the $t$th batch.
+            A product of such exponential operators will give the loss after a
+            sequence of updates $\theta \mapsto \theta - \eta^{\mu\nu}
+            \nabla_\mu l(\theta)$ on losses $(l_t: 0\leq t < T)$.  Because the
+            operators might not commute, we may not compose the product of
+            exponentials into an exponential of a sum.  We instead compute an
+            expansion in powers of $\eta$, collecting terms of like degree
+            while maintaining the order of operators:
+            \begin{align*}
+                s(\theta_T)
+                &=
+                \wrap{\prod_{0\leq t<T} \wrap{
+                    \sum_{0\leq d_t}
+                        \left.
+                            \frac{(-\eta^{\mu\nu} g_\mu \nabla_\nu)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                }
+                s} (\theta_0) \\
+                &= 
+                \sum_{0\leq d < \infty} (-\eta)^d
+                \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } s (\theta_0)
+            \end{align*}
+            We finish by taking expectations.
+
+        \subsubsection{The Key Lemma: Proof}
+            We work in a neighborhood of the initialization so that the tangent
+            space of weight space is a trivial bundle.  For convenience, we fix
+            a flat coordinate system, and with it the induced flat,
+            non-degenerate inverse metric $\tilde\eta$; the benefit is that we
+            may compare our varying $\eta$ against one fixed $\tilde\eta$.
+            Henceforth, a ``ball'' unless otherwise specified will mean a ball
+            with respect to $\tilde\eta$ around the initialization $\theta_0$.
+            Since $s$ is analytic, its Taylor series converges to $s$ within
+            some positive radius $\rho$ ball.  By assumption, every $l_t$ is
+            also analytic with shared radius of convergence around $\theta_0$,
+            without loss also $\rho$.  Since gradients are $x$-uniformly
+            bounded by a continuous function of $\theta$, and since in finite
+            dimensions the closed $\rho$-ball is compact, we have a strict
+            gradient bound $b$ uniform in both $x$ and $\theta$ on gradient
+            norms within that closed ball.  When
+            \begin{equation} \label{eq:smalleta}
+                2 \eta T b < \rho \tilde\eta
+            \end{equation}
+            as norms, stochastic gradient after $T$ steps on any training set
+            will necessarily stay within the $\rho$-ball.  In fact, we will see
+            that the factor of $2$ ensures that SGD initialized at any point
+            within a $\rho/2$ ball will necessarily stay within the
+            $\rho$-ball.  We note that the above condition on $\eta$ is weak
+            enough to permit all $\eta$ within some open neighborhood of
+            $\eta=0$.  
+
+            Condition \ref{eq:smalleta} together with analyticity of $s$ then
+            implies that
+            $
+                \wrap{\exp(-\eta g \nabla) s}(\theta) = s(\theta - \eta g)
+            $
+            when $\theta$ lies in the $\tilde\eta$ ball (of radius $\rho$) and
+            its $\eta$-distance from that $\tilde\eta$ ball's boundary exceeds
+            $b$, and that both sides are analytic in $\eta, \theta$ on the 
+            same domain --- and \emph{a fortiori} when $\theta$ lies in the
+            ball of radius $\rho (1 - 1/(2T))$.
+            Likewise, a routine induction through $T$ gives the value of $s$
+            (after doing $T$ gradient steps from an initialization $\theta$) as
+            $$
+                \wrap{
+                    \prod_{0\leq t<T}
+                        \left.
+                            \exp(-\eta g \nabla)
+                        \right|_{g=\nabla l_t(\theta)}
+                }
+                (s)(\theta)
+            $$
+            for any $\theta$ in the $\rho (1-T/(2T)$-ball (that is, the
+            $\rho/2$-ball), and that both sides are analytic in $\eta, \theta$
+            on that same domain.  Note that in each exponential, the
+            $\nabla_\nu$ does not act on the $\nabla_\mu l(\theta)$ with which
+            it pairs.  
+
+            Now we use the standard expansion of $\exp$.  Because (by
+            analyticity) the order $d$ coeffients of $l_t, s$ are bounded by some
+            exponential decay in $d$, by assumption at an $x$-uniform rate, we
+            have absolute convergence and may rearrange sums.  We choose to
+            group by total degree:
+            \begin{equation} \label{eq:expansion}
+                \cdots 
+                =
+                \sum_{0\leq d < \infty} (-\eta)^d
+                \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } s (\theta)
+            \end{equation}
+            The first part of the Key Lemma is proved.  It remains to show that
+            expectations over training sets commute with the above summation.
+
+            We will apply Fubini's Theorem.  To do so, it suffices to show that   
+            $$
+                \wabs{
+                    \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                    \wrap{
+                        \prod_{0 \leq t < T} \left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                    } s (\theta)
+                }
+                = \wabs{c_d((l_t: 0\leq t<T))} 
+            $$
+            has an expectation that decays exponentially with $d$.  The symbol
+            $c_d$ we introduce purely for convenience; that its value depends
+            on the training set we emphasize using function application
+            notation.  Crucially, no matter the training set, we have shown
+            that the expansion \ref{eq:expansion} (that features $c_d$ appear
+            as coefficients) converges to an analytic function for all $\eta$
+            bounded as in condition \ref{eq:smalleta}.  The uniformity of this
+            demanded bound on $\eta$ implies by the standard relation between
+            radii of convergence and decay of coefficients that $\wabs{c_d}$
+            decays exponentially in $d$ at a rate uniform over training sets.
+            If the expectation of $\wabs{c_d}$ exists at all, then, it will
+            likewise decay at that same shared rate.
+            
+            But $\wabs{c_d}$ indeed has an expectation, for it is a bounded
+            continuous function of a (finite-dimensional) space of $T$-tuples
+            (each of whose entries can specify the first $d$ derivatives of an
+            $l_t$) and because the latter space enjoys a joint distribution (of
+            course over the standard Borel algebra!).  So Fubini's Theorem
+            applies. The Key Lemma
+            %(Lemma \ref{lem:dyson})
+            follows.   
+
+    \subsection{Terms and Diagram Embeddings Correspond}
+        \subsubsection{Path Integral Theorem: Proof Idea}
+            We now seek to describe the terms that appear in the Key Lemma. 
+            Theorem \ref{thm:sgdcoef} does so by matching each term to an
+            embedding of a diagram in spacetime, so that the infinite sum
+            becomes a sum over all diagram spacetime configurations.
+            The main idea is that the combinatorics of diagrams parallels the
+            combinatorics of repeated applications of the product rule for
+            derivatives applied to the expression in the Key Lemma. 
+            Balancing against this combinatorial explosion are factorial-style 
+            denominators, again from the Key Lemma, that we summarize in terms
+            of the sizes of automorphism groups.
+
+        \subsubsection{Consolation}
+            The following proof is messy.  It compresses into a reusable
+            package the messy intricacies of direct perturbation (see
+            Appendix \ref{sect:compare} for samples of uncompressed computations), and as such 
+            equates two conceptually clean sides via a jungle of canceling
+            sums and factorials.  
+
+            How can we increase our confidence in the correctness of a theorem
+            so unappetizingly proved?  We regard three pieces of evidence as
+            supplementing this proof: \emph{Aesthetic} evidence --- the Theorem
+            assumes a form familiar to mathematicians and physicists: it is a
+            sum over combinatorial objects weighted inversely by the order of
+            their respective automorphism groups.  \emph{Comparative}
+            evidence --- the Theorem's predictions agree with direct
+            perturbation in the cases we report in Appendix \ref{sect:compare}.
+            \emph{Empirical} evidence --- the Theorem, though compactly stated,
+            precisely predicts the existence and intensity of the phenomena we
+            report in the main body up to third order.
+ 
+        \subsubsection{Path Integral Theorem: Proof}
+            We first prove the statement about test losses.
+            Due to the analyticity property established in our proof of the
+            Key Lemma, it suffices to show agreement at each degree $d$ and
+            training set individually.  That is, it suffices to show --- for
+            each training set $(l_n: 0\leq n<N)$, spacetime $S$, function $\pi:
+            S\to [N]$ that induces $\sim$, and natural $d$ --- that
+            \begin{align} \label{eq:toprove}
+                (-\eta)^d
+                \sum_{\substack{
+                    (d_t: 0\leq t<T) \\
+                    \sum_t d_t = d
+                }}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } l (\theta)
+                = \nonumber \\
+                \sum_{\substack{
+                    D \in \image(\Free) \\
+                    \textnormal{with $d$ edges}
+                }}
+                \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
+                \frac{\dvalue_\pi(D, f)}{B^{d}}
+            \end{align}
+            Here, $\dvalue_\pi$ is the value of a diagram embedding before
+            taking expectations over training sets.  We have for all $f$ that
+            $\expct{\dvalue_\pi(D, f)} = \dvalue(D)$.
+            Observe that both sides are finitary sums.
+
+            \begin{rmk}
+                The product rule of Leibniz easily generalizes to higher
+                derivatives of finitary products:
+                $$
+                    \nabla^{\wabs{M}} \prod_{k \in K} p_k
+                    = 
+                    \sum_{\nu:M\to K} \prod_{k\in K} \wrap{
+                        \nabla^{\wabs{\nu^{-1}(k)}} p_k
+                    }
+                $$
+                The above has $\wabs{K}^m$ many term indexed by functions to
+                $K$ from $M$.
+            \end{rmk}
+
+            We proceed by joint induction on $d$ and $S$.  The base cases
+            wherein $S$ is empty or $d=0$ both follow immediately from the Key
+            Lemma, for then the only embedding is the unique embedding of
+            $\sdia{(0)()}$.  For the induction step, suppose $S$ is a sequence
+            of $\Mm = \min S \subseteq S$ followed by a strictly smaller $S$
+            and that the result is proven for $(\tilde d, \tilde S)$ for every
+            $\tilde d \leq d$.  Let us group the terms in the left hand side of
+            desideratum \ref{eq:toprove} by $d_0$; by applying the induction
+            hypothesis with $\tilde d = d - d_0$, we find that that left hand
+            side is:
+            \begin{align*}
+                \sum_{\substack{
+                    0 \leq d_0 \leq d
+                }}
+                \sum_{\substack{
+                    \tilde D \in \image(\Free) \\
+                    \textnormal{with $d-d_0$ edges}
+                }}
+                \frac{1}{d_0!}
+                \sum_{\tilde f: \tilde D\to\Free(\tilde S)} \wrap{
+                    \frac{1}{\wabs{\Aut_{\tilde f}(\tilde D)}}
+                }
+                ~\cdot~
+                \\ %---------------------------------------------
+                (-\eta)^{d_0}
+                \left.
+                    (g \nabla)^{d_0}
+                \right|_{g=\nabla l_0(\theta)}
+                \frac{\dvalue_\pi(\tilde D, \tilde f)}{B^{d-d_0}}
+            \end{align*}
+            Since $\dvalue_\pi(\tilde D, \tilde f)$ is a multilinear product of
+            $d-d_0+1$ many tensors, the product rule for derivatives tells us
+            that $(g \nabla)^{d_0}$ acts on $\dvalue_\pi(\tilde D, \tilde f)$
+            to produce $(d-d_0+1)^d_0$ terms.  In fact, if we expand out
+            $
+                g = \sum_{m\in \Mm} \nabla l_m(\theta) / B
+            $ 
+            then there are $B^{d_0}(d-d_0+1)^{d_0}$ terms conveniently indexed
+            by a pair of functions $\beta:[d_0]\to \Mm$ and $\nu:[d_0]\to
+            \tilde D$.  The $(\beta, \nu)$-term corresponds to an embedding
+            $f$ of a larger diagram $D$ in the sense that it contributes
+            $\dvalue_\pi(D, f)/B^{d_0}$ to the sum.  Here, $(f, D)$ is $(\tilde
+            f, \tilde D)$ with $\wabs{\wrap{\beta \times \nu}^{-1}(n, v)}$ many
+            additional edges from the cell of datapoint $n$ at time $0$ to the
+            $v$th node of $\tilde D$ as embedded by $\tilde f$.
+
+            By the general Leibniz rule remarked on above, the sum over
+            terms indexed by $(\beta, \nu)$ corresponds to a sum over
+            embeddings $f$ that restrict to $\tilde f$, whose terms are multiples
+            of the corresponding and embedded $D$.  Together with the sum
+            over $\tilde f$, this gives a sum over all embeddings $f$.  So we
+            now only need to check that the coefficients for each $f:D\to S$  
+            are as claimed.
+
+            We note that the $(\beta, \nu)$ diagram and term agrees with the
+            $(\beta \circ \sigma, \nu \circ \sigma)$ diagram and term for any
+            permutation $\sigma$ of $[d_0]$.
+            The corresponding orbit has size
+            \begin{align*}
+                \frac{d_0!}{
+                    \prod_{(m, i) \in \Mm \times \tilde D}
+                        \wabs{(\beta \times \nu)^{-1}(m, i)}!
+                }
+            \end{align*}
+            by the Orbit Stabilizer Theorem of elementary group theory.   
+
+            It is thus enough to show that
+            $$
+                \wabs{\Aut_f(D)} = 
+                \wabs{\Aut_{\tilde f}(D)}
+                \prod_{(m, i) \in \Mm \times \tilde D}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            $$
+            We will show this by a direct bijection.  First, observe that
+            $
+                f = \beta \sqcup \tilde f:
+                    [d_0] \sqcup \tilde D \to \Mm \sqcup \tilde S
+            $. 
+            So each automorphism $\phi: D\to D$ that commutes with $f$ induces
+            both an automorphism
+            $
+                \Aa = \phi|_{\tilde D}: \tilde D\to \tilde D
+            $
+            that commutes with $\tilde f$ together with the data of a map
+            $
+                \Bb = \phi_{[d_0]}: [d_0] \to [d_0] 
+            $
+            that both commutes with $\beta$.  However, not every such pair of
+            maps arises from a $\phi$.  For, in order for $\Aa \sqcup \Bb: D
+            \to D$ to be an automorphism, it must respect the order structure
+            of $D$.  In particular, if $x\leq_D y$ with $x \in [d_0]$ and $y
+            \in \tilde D$, then we need
+            $$
+                \Bb(x) \leq_D \Aa(y)
+            $$
+            as well.  The
+            pairs $(\Aa, \Bb)$ that thusly preserve order are in bijection with
+            the $\phi \in \Aut_f(D)$.  There are $\wabs{\Aut_{\tilde f}(\tilde
+            D)}$ many $\Aa$.  For each $\Aa$, there are as many $\Bb$ as there
+            are sequences $(\sigma_i: i \in \tilde D)$ of permutations on
+            $
+                \{j\in [d_0]: j\leq_D i\} \subseteq [d_0]
+            $ 
+            that commute with $\Bb$.  These permutations may be chosen
+            independently; there are 
+            $
+                \prod_{m\in \Mm}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            $
+            many choices for $\sigma_i$.  The counting claim follows
+            and with it the correctness of coefficients.
+ 
+            The analogous statement about generalization gaps follows similarly
+            when we use $\sum_n l_n/N$ instead of $l$ as the value for $s$. 
+            The Path Integral Theorem (Theorem \ref{thm:sgdcoef}) follows.
+
+    \subsection{Coefficient Convergence upon Renormalization}
+        \subsubsection{Renormalization Theorem: Proof Idea}
+            The diagrams summed in Theorem \ref{thm:renorm} may be grouped by
+            their geometric realizations.  Each nonempty class of diagrams with
+            a given geometric realization has a minimal element, and in this
+            way all and only irreducible diagrams arise. 
+
+            We encounter two complications: on one hand, that the sizes of
+            automorphism groups might not be uniform among the class of
+            diagrams with a given geometric realization.  On the other hand,
+            that the embeddings of a specific member of that class might be
+            hard to count.  The first we handle by Orbit-Stabilizer.  The
+            second we handle by Mobius Sums.
+
+        \subsubsection{Renormalization Theorem: Mobius Sum for General Diagrams}
+            {\color{moor} FILL IN}
+            
+        \subsubsection{Renormalization Theorem: Proof}
+            We focus on test loss instead of generalization gap; the proofs are
+            similar. The
+            difference from the noiseless case is given by all the diagram
+            embeddings with at least one fuzzy tie, where the fuzzy tie pattern
+            is actually replaced by a difference between noisy and noiseless
+            cases as prescribed by the discussion on Mobius Sums.
+            Beware that the relatively noiseless embeddings may have illegal
+            collisions of non-tied nodes within a single spacetime (data) row.
+            Throughout the rest of this proof, we permit such illegal
+            embeddings of the fuzz-less diagrams that arise from the
+            aforementioned decomposition.  
+
+            Because the Taylor series for analytic functions converge
+            absolutely in the interior of the disk of convergence, the
+            rearrangement of terms corresponding to a grouping by geometric
+            realizations preserves the convergence result of \ref{thm:sgdcoef}.  
+
+            Let us then focus on those diagrams $\sigma$ with a given geometric
+            realization represented by $\rho$ irreducible.  By Theorem
+            \ref{thm:sgdcoef}, it suffices to show that
+            \begin{equation} \label{eq:hard}
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \frac{1}{\wabs{\Aut_{\tilde f}(\sigma)}}
+                =
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \sum_{\substack{
+                    i:\rho\to\sigma \\
+                    f = \tilde f \circ i
+                }}
+                \frac{1}{\wabs{\Aut_{f}(\rho)}}
+            \end{equation}
+            Here, $f$ is considered up to equivalence by precomposition by an
+            automorphism of $\rho$; likewise for $\tilde f$ and automorphisms
+            of $\sigma$; $i$ ranges through maps that induce isomorphisms of
+            geometric realizations; and $i$ is considered equivalent to $\hat
+            i$ when for some automorphism $\phi \in \Aut_{\tilde f}(\sigma)$,
+            we have $\hat i = i \circ \phi$.  Let the set of all such $i$s
+            under this equivalence relation be called $X$.  The left hand side
+            is the expression of Theorem \ref{thm:sgdcoef} and the right hand
+            side is the expression of Theorem \ref{thm:renorm}; we have
+            introduced redundant sums to structurally align the two expressions
+            on the page.
+
+            To prove equation \ref{eq:hard}, it suffices to show (for any
+            $f, \tilde f, i$ as above) that
+            $$
+                \wabs{\Aut_f(\rho)}
+                =
+                \wabs{\Aut_{\tilde f}(\sigma)}
+                \cdot
+                \wabs{X}
+            $$
+            We will prove this using Orbit-Stabilizer by presenting an
+            action of $\Aut_f(\rho)$ on $X$.  We simply use precomposition so
+            that $\psi\in \Aut_f(\rho)$ sends $i\in X$ to $i\circ \psi$.  Since
+            $f\circ\psi = f$, $i\circ \psi \in X$.  Moreover, the action is
+            well-defined, because if $i\sim \hat i$ by $\phi$, then 
+            $i \circ \psi \sim \hat i \circ \psi$ also by $\phi$.
+            
+            The size of $i$'s the stabilizer is $\wabs{\Aut_{\tilde f}(\rho)}$.
+            For, when $i \sim i \circ \psi$ via $\phi \in \Aut_{\tilde
+            f}(\rho)$, we have $i\circ \psi = \phi \circ i$.  This relation in
+            fact induces a bijective correspondence: \emph{every} $\phi$
+            induces a $\psi$ via $\psi = i^{-1} \circ \phi \circ i$, so we have
+            a map $\text{stabilizer}(i) \hookleftarrow \Aut_{\tilde f}(\rho)
+            $seen to be well-defined and injective by the strictly increasing
+            nature of structure set morphisms together with the fact that $i$s
+            must induce isomorphisms of geometric realizations.  Conversely,
+            every $\psi$ that stabilizes enjoys \emph{only} one $\phi$ via
+            which $i \sim i \circ \phi$, again by the same (isomorphism and
+            strict increase) properties.  So the stabilizer has the claimed
+            size.
+
+            Meanwhile, the orbit is all of $\wabs{X}$.  Indeed, suppose
+            $i_A, i_B \in X$.  We will present $\psi \in \Aut_f(\rho)$ such
+            that $i_B \sim i_A \circ \psi$ by $\phi=\text{identity}$.  We
+            simply define $\psi = i_A^{-1} \circ i_B$, well-defined by the
+            aforementioned (isomorphisms and strict increase) properties.
+            It is then routine to verify that
+            $
+                f \circ \psi
+                =
+                \tilde f \circ i_A \circ i_A^{-1} \circ i_B
+                =
+                \tilde f \circ i_B
+                = f.
+            $
+            So the orbit has the claimed size, and by the Orbit-Stabilizer
+            Theorem, the coefficients in the expansions of Theorems 
+            \ref{thm:renorm} and \ref{thm:sgdcoef} match.
+
+            To prove the rest of Theorem \ref{thm:renorm}, we assume that $H$
+            is positive.  Then, for any $m$, the propagator ${(I-\eta
+            H)^{\otimes m}}^t$ converges via an exponential decay with $t$ to
+            $0$ (with a rate dependent on $m$).  The Renormalization Theorem.
+            Since up to degree $d$ only a finite number of diagrams exist and
+            hence only a finite number of possible $m$s, the exponential rates
+            are bounded away from $0$.  Moreover, for any fixed
+            $t_{\text{big}}$, the number of diagrams --- involving no exponent
+            $t$ exceeding  $t_{\text{big}}$ --- is eventually constant as $T$
+            grows.  Meanwhile, the number involving at least one exponent $t$
+            exceeding that threshold grows polynomially in $T$ (with degree
+            $d$).  The exponential decay of each term overwhelms the polynomial
+            growth in the number of terms, and the convergence statement of
+            Theorem (\ref{thm:renorm}) follows.
+
+\section{Tutorial on Diagram Rules} \label{sect:tutorial}
+
+    After reviewing how diagrams correspond to specific landscape statistics,
+    we will work through four examples in using diagrams to analyze descent.
+
+    \subsection{Evaluating a Diagram}
+        {\color{moor} FILL IN}
+    \subsection{Integrating a Diagram over Spacetime}
+        {\color{moor} FILL IN}
+    \subsection{The 3rd Order Curl: Which Minima Does SGD Prefer?}
+        {\color{moor} FILL IN}
+    \subsection{The Roles of Covariance: the Generalization Gap of SGD}
+        {\color{moor} FILL IN}
+        
+\section{Perturbative Calculations} \label{sect:calculations}
+
+
+    \subsection{SGD vs ODE and SDE}
+        {\color{moor} FILL IN}
+    \subsection{Interepoch Shuffling}
+        {\color{moor} FILL IN}
+    \subsection{Effect of Epochs}
+        {\color{moor} FILL IN}
+    \subsection{Renormalized Nonconservative Entropic Force}
+        {\color{moor} FILL IN}
+
+\section{Diagram Rules vs Direct Perturbation} \label{sect:compare}
+    Diagram methods from Stueckelberg to Peierls have flourished in physics
+    because they enable swift computations and offer immediate intuition that
+    would otherwise require laborious algebraic manipulation.  We demonstrate
+    how our diagram formalism likewise streamlines analysis of descent by
+    comparing direct perturbation to the new formalism on three sample
+    problems.
+
+    We note that the Key Lemma underlies not only the diagrammatic method but
+    also our style of direct perturbation.
+
+    Aiming for a conservative comparison of derivation ergonomics, we lean
+    toward explicit routine when using diagrams and allow ourselves to use
+    clever and lucky simplifications when doing direct perturbation.  For
+    example, while solving the first sample problem by direct perturbation,
+    we structure the SGD and GD computations so that the coefficients (that in
+    both the SGD and GD cases are) called $a(T)$ manifestly agree in their
+    first and second moments.  This allows us to save some lines of argument.
+
+    Despite these efforts, the diagram method yields arguments about four times
+    shorter --- and strikingly more conceptual --- than direct perturbation
+    yields.  These examples specifically suggest that: diagrams obviate the
+    need for meticulous index-tracking, from the start focus one's attention on
+    non-cancelling terms by making visually obvious which terms will eventually
+    cancel, and allow immediate exploitation of a setting's special posited
+    structure, for instance that we are initialized at a test minimum or that
+    the batch size is $1$.  We regard these examples as evidence that diagrams
+    offer a practical tool for the theorist.
+
+    We make no attempt to compare the renormalized version of our formalism
+    to direct perturbation because the algebraic manipulations involved for
+    the latter are too complicated to carry out.  
+
+    \subsection{Effect of Batch Size}
+        We compare the test losses of pure SGD and pure GD.  Because pure
+        SGD and pure GD differ in how samples are correlated, their test loss
+        difference involves a covariance and hence occurs at order $\eta^2$.  
+
+        \subsubsection{Diagram Method}
+            Since SGD and GD agree on noiseless landscapes, we consider only
+            diagrams with fuzzy ties.  Since we are working to second order, we
+            consider only two-edged diagrams.  There are only two such
+            diagrams, $\sdia{(01-2)(02-12)}$ and $\sdia{(01-2)(01-12)}$.  The
+            first diagram, $\sdia{(01-2)(02-12)}$, embeds in GD's space time in
+            $N^2$ as many ways as it embeds in SGD's spacetime, due to
+            horizontal shifts.  Likewise, there are $N^2$ times as many
+            embeddings of $\sdia{(01-2)(02-12)}$ in distinct epochs of GD's
+            spacetime as there are in distinct epochs of SGD's spacetime.
+            However, each same-epoch embedding of $\sdia{(01-2)(01-12)}$ within
+            any one epoch of GD's spacetime corresponds by vertical shifts to
+            an embedding of $\sdia{(0-1-2)(01-12)}$ in SGD.  There are
+            $MN{N\choose 2}$ many such embeddings in GD's spacetime, so GD's
+            test loss exceeds SGD's by 
+            $$
+                %\eta^2 \frac{MN{N\choose 2}}{N^2}
+                %(\sdia{(01-2)(01-12)} - \sdia{(0-1-2)(01-12)}) 
+                %=
+                \wrap{\frac{\eta}{N}}^2 MN{N\choose 2}~
+                \sdia{c(01-2)(01-12)}
+            $$
+            Since $(\nabla^2 l) (\nabla l) = \nabla((\nabla l)^2)/2$, we can 
+            summarize this difference as
+            $$
+                \eta^2 \frac{M(N-1)}{4} G \nabla C 
+            $$
+
+        \subsubsection{Direct Perturbation} 
+            We compute the displacement $\theta_T-\theta_0$ to order $\eta^2$ 
+            for pure SGD and separately for pure GD.  Expanding
+            $
+                \theta_t \in \theta_0 + \eta a(t) + \eta^2 b(t) + o(\eta^2)
+            $, we find:
+            \begin{align*}
+                \theta_{t+1} &=     \theta_t - \eta \nabla l_{n_t} (\theta_t) \\
+                             &\in       \theta_0
+                                    +   \eta a(t) + \eta^2 b(t)
+                                    -   \eta (
+                                                \nabla l_{n_t}
+                                            +   \eta \nabla^2 l_{n_t} a(t) 
+                                        )
+                                    +   o(\eta^2) \\
+                             &=     \theta_0
+                                +   \eta (a(t) - \nabla l_{n_t})
+                                +   \eta^2 (b(t) - \nabla^2 l_{n_t} a(t)) 
+                                +   o(\eta^2)
+            \end{align*}
+            To save space, we write $l_{n_t}$ for $l_{n_t}(\theta_0)$.  It's
+            enough to solve the recurrence $a(t+1) = a(t) - \nabla l_{n_t}$ and
+            $b(t+1) = b(t) - \nabla^2 l_{n_t} a(t)$.  Since $a(0), b(0)$
+            vanish, we have $a(t) =-\sum_{0\leq t<T} \nabla l_{n_t}$ and $b(t)
+            = \sum_{0\leq t_0 < t_1 < T} \nabla^2 l_{n_{t_1}} \nabla
+            l_{n_{t_0}}$.  We now expand $l$:
+            \begin{align*}
+                l(\theta_T) \in    l   &+   (\nabla l) (\eta a(T) + \eta^2 b(T)) \\
+                                       &+   \frac{1}{2} (\nabla^2 l) (\eta a(T) + \eta^2 b(T))^2
+                                        +   o(\eta^2) \\
+                            =      l   &+   \eta ((\nabla l) a(T))
+                                        +   \eta^2 ((\nabla l) b(T) + \frac{1}{2} (\nabla^2 l) a(T)^2 )
+                                        +   o(\eta^2)
+            \end{align*}
+            Then $\expct{a(T)} = -MN(\nabla l)$ and, since the $N$ many
+            singleton batches in each of $M$ many epochs are pairwise
+            independent,
+            \begin{align*}
+                \expct{(a(T))^2}
+                ~&=
+                \sum_{0\leq t<T} \sum_{0\leq s<T} \nabla l_{n_t} \nabla l_{n_s} \\
+                ~&= 
+                M^2N(N-1)   \expct{\nabla l}^2 +
+                M^2N        \expct{(\nabla l)^2}
+            \end{align*}
+            Likewise, 
+            \begin{align*}
+                \expct{b(T)}
+                = 
+                ~&\sum_{0\leq t_0 < t_1 < T} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}} \\
+                =
+                ~&\frac{M^2N(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
+                ~&\frac{M(M-1)N}{2}  \expct{(\nabla^2 l) (\nabla l)} 
+            \end{align*}
+
+            Similarly, for pure GD, we may demand that $a, b$ obey recurrence
+            relations $a(t+1) = a(t) - \sum_n \nabla l_n/N$ and
+            $b(t+1) = b(t) - \sum_n \nabla^2 l_n a(t)/N$, meaning that
+            $a(t) = -t \sum_n \nabla l_n/N$ and
+            $b(t) = {t \choose 2} \sum_{n_0} \sum_{n_1} \nabla^2 l_{n_0} \nabla l_{n_1}/N^2$.
+            So $\expct{a(T)} = -MN(\nabla l)$ and
+            \begin{align*}
+                \expct{(a(T))^2}
+                ~&=
+                M^2 
+                \sum_{n_0} \sum_{n_1} \nabla l_{n_0} \nabla l_{n_1} \\
+                ~&= 
+                M^2 N(N-1)  \expct{\nabla l}^2 + 
+                M^2 N       \expct{(\nabla l)^2}
+            \end{align*}
+            and
+            \begin{align*}
+                \expct{b(T)}
+                = 
+                ~&{MN \choose 2}\frac{1}{N^2}
+                \sum_{n_0} \sum_{n_1} \nabla^2 l_{n_0} \nabla l_{n_1} \\
+                =
+                ~&\frac{M(MN-1)(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
+                ~&\frac{M(MN-1)}{2}      \expct{(\nabla^2 l) (\nabla l)} 
+            \end{align*}
+            We see that the expectations for $a$ and $a^2$ agree between pure
+            SGD and pure GD.  So only $b$ contributes.  We conclude that pure
+            GD's test loss exceeds pure SGD's by
+            \begin{align*}
+                   ~&\eta^2
+                    \wrap{\frac{M(MN-1)(N-1)}{2}  - \frac{M^2N(N-1)}{2}}
+                    \expct{\nabla^2 l} \expct{\nabla l}^2 \\
+                +   ~&\eta^2 
+                    \wrap{\frac{M(MN-1)N}{2} - \frac{M(M-1)N}{2}}
+                    \expct{(\nabla^2 l) (\nabla l)} \expct{\nabla l} \\
+                = 
+                    ~&\eta^2     \frac{M(N-1)}{2}
+                \expct{\nabla l} \wrap{
+                      \expct{(\nabla^2 l) (\nabla l)}
+                    - \expct{\nabla^2 l} \expct{\nabla l}
+                }
+            \end{align*}
+            Since $(\nabla^2 l) (\nabla l) = \nabla((\nabla l)^2)/2$, we can 
+            summarize this difference as
+            $$
+                \eta^2 \frac{M(N-1)}{4}
+                G \nabla C 
+            $$
+
+    \subsection{Effect of Nongaussian Noise at a Minimum}
+        We consider vanilla SGD initialized at a local minimum of the test loss.
+        One expects $\theta$ to diffuse around that minimum according to
+        gradient noise.  We compute the effect on test loss of nongaussian
+        diffusion.  Specifically, we compare SGD test loss on the loss
+        landscape to SGD test loss on a different loss landscape defined as a
+        Gaussian process whose every covariance agrees with the original
+        landscape's.  We work to order $\eta^3$ because at lower orders,
+        the gaussian landscapes will by construction match their nongaussian
+        counterparts.
+
+        \subsubsection{Diagram Method}
+            Because $\expct{\nabla l}$ vanishes at initialization, all diagrams
+            with a degree-one vertex that is a singleton vanish.  Because we
+            work at order $\eta^3$, we consider $3$-edged diagrams.  Finally,
+            because all first and second moments match between the two
+            landscapes, we consider only diagrams with at least one partition
+            of size at least $3$.  The only such test diagram is
+            $\sdia{c(012-3)(03-13-23)}$.
+
+        \subsubsection{Direct Perturbation}
+            We compute the displacement $\theta_T-\theta_0$ to order $\eta^3$ 
+            for vanilla SGD.  Expanding
+            $
+                \theta_t \in \theta_0 + \eta a_t + \eta^2 b_t + \eta^3 c_t 
+                + o(\eta^3)
+            $, we find:
+            \begin{align*}
+                \theta_{t+1}
+                =
+                \theta_t    &-  \eta \nabla l_{n_t} (\theta_t) \\
+                \in\theta_0 &+  \eta a_t + \eta^2 b_t + \eta^3 c_t \\
+                            &-  \eta \wrap{
+                                     \nabla l_{n_t}
+                                    +\nabla^2 l_{n_t} (\eta a_t + \eta^2 b_t)
+                                    +\frac{1}{2} \nabla^3 l_{n_t} (\eta a_t)^2
+                                }
+                             +  o(\eta^3) \\
+                =
+                \theta_0    &+   \eta   \wrap{a_t - \nabla l_{n_t}} \\
+                            &+   \eta^2 \wrap{b_t - \nabla^2 l_{n_t} a_t} \\ 
+                            &+   \eta^3 \wrap{
+                                     c_t
+                                    -\nabla^2 l_{n_t} b_t
+                                    -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
+                                 }
+                             +   o(\eta^3)
+            \end{align*}
+            We thus have the recurrences
+            $
+                a_{t+1} = a_t - \nabla l_{n_t}
+            $,
+            $
+                b_{t+1} = b_t - \nabla^2 l_{n_t} a_t
+            $, and
+            $
+                c_{t+1} = c_t -\nabla^2 l_{n_t} b_t 
+                              -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
+            $
+            with solutions:
+            $a_t = -\sum_{t} \nabla l_{n_t}$ and
+            $\eta^2 b_t = +\eta^2 \sum_{t_0 < t_1} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}$.
+            %\begin{align*}
+            %    \eta a_t = &-\eta \sum_{t} \nabla l_{n_t}
+            %    \\ 
+            %    \eta^2 b_t = &+\eta^2 \sum_{t_0 < t_1} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}
+                %\\
+                %\eta^3 c_t^\mu =
+                %    &-\sum_{t_0 < t_1 < t_2} 
+                %        \nabla^\mu \nabla_\nu l_{n_{t_2}}
+                %        \nabla^\nu \nabla_\sigma l_{n_{t_1}} \nabla^\sigma l_{n_{t_0}} \\
+                %    &-\frac{1}{2}
+                %        \sum_{t_a, t_b < t}
+                %        \nabla^\mu \nabla^\nu \nabla^\sigma l_{n_t}
+                %        \nabla_\nu l_{n_{t_a}}
+                %        \nabla_\sigma l_{n_{t_b}}
+            %\end{align*}
+            %We use tensor indices above because the contraction pattern would
+            %otherwise be ambiguous.
+            We do not compute $c_t$ because we will soon see that it will be
+            multiplied by $0$.
+
+            To third order, the test loss of SGD is
+            \begin{align*}
+                l(\theta_T)
+                \in
+                        l(\theta_0)
+                &+     (\nabla   l)   (\eta a_T + \eta^2 b_T + \eta^3 c_T)                              \\
+                &+\frac{\nabla^2 l}{2}(\eta a_T + \eta^2 b_T             )^2                            \\
+                &+\frac{\nabla^3 l}{6}(\eta a_T                          )^3 
+                 +o(\eta)^3                                                                             \\
+                =
+                    l(\theta_0)
+                &+  \eta       \wrap{(\nabla l) a_T                               }                     \\
+                &+  \eta^2     \wrap{(\nabla l) b_T + \frac{\nabla^2 l}{2} a_T^2  }                     \\
+                &+  \eta^3     \wrap{(\nabla l) c_T + (\nabla^2 l) a_T b_T + \frac{\nabla^3 l}{6} a_T^3}
+                 +o(\eta)^3                                                                             
+            \end{align*}
+            Because $\expct{\nabla l}$ vanishes at initialization, we neglect
+            the $(\nabla l)$ terms.  The remaining $\eta^3$ terms involve
+            $a_T b_T$, and $a_T^3$.  So let us
+            compute their expectations:
+            \begin{align*}
+                \expct{a_T b_T}
+                    =&- \sum_{t} \sum_{t_0 < t_1}
+                        \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}}
+                    \\
+                    =&- \sum_{t_0 < t_1}  
+                        \sum_{t \notin \{t_0, t_1\}} 
+                            \expct{\nabla l_{n_t}} \expct{\nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
+                    \\&- \sum_{t_0 < t_1}  
+                        \sum_{t = t_0}
+                            \expct{\nabla l_{n_t} \nabla l_{n_{t_0}}} \expct{\nabla^2 l_{n_{t_1}}}
+                    \\&- \sum_{t_0 < t_1}  
+                        \sum_{t = t_1}
+                            \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
+            \end{align*}
+            Since $\expct{\nabla l}$ divides $\expct{a_T b_T}$, the latter
+            vanishes.
+            \begin{align*}
+                \expct{a_T^3}
+                    =&- \sum_{t_a, t_b, t_c}
+                            \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                    \\
+                    =&- \sum_{\substack{t_a, t_b, t_c\\ \text{disjoint}}}  
+                            \expct{\nabla l_{n_{t_a}}} \expct{\nabla l_{n_{t_b}}} \expct{\nabla l_{n_{t_c}}}
+                    \\&-3 \sum_{t_a=t_b\neq t_c}  
+                            \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}}} \expct{\nabla l_{n_{t_c}}}
+                    \\&-\sum_{t_a=t_b=t_c}  
+                            \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+            \end{align*}
+            As we initialize at a test minimum, only the last line remains, at
+            it has $T$ identical summands.
+            When we plug into the expression for SGD test loss, we get
+            $$
+                \frac{T \eta^3 }{6}
+                \expct{\nabla^3 l}
+                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+            $$
+
+            %\begin{align*}
+            %    \expct{a_T^3}
+            %       &-\eta^3 \sum_{t} \sum_{t_0 < t_1}
+            %            \nabla l_{n_t} \expct{\nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}}
+            %       \\
+            %       &-\eta^3 \sum_{t} \sum_{t_0 < t_1}
+            %            \nabla l_{n_t} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}
+            %\end{align*}
+
+    %\subsection{A Nonconservative Force (Unrenormalized)}
+    %    We identify the leading order nonconservative component in vanilla
+    %    SGD's evolution of a weight initialized at a test minimum.
+    %    \subsubsection{Diagram Method}
+    %    \subsubsection{Direct Perturbation}
+
+    \subsection{The Effect of Inter-Epoch Shuffling}
+        We identify the leading order effect of shuffling on test loss for
+        pure, multi-epoch SGD.  It is much harder to see by direct perturbation
+        than by diagrams that this is an order $\eta^4$ effect, so for fairness
+        we will assume this order it already known for both methods.
+
+        \subsubsection{Diagram Method}
+
+            {\color{moor} FILL IN}
+            
+        \subsubsection{Direct Perturbation}
+            We compute the displacement $\theta_T-\theta_0$ to order $\eta^4$ 
+            for vanilla SGD.  Expanding
+            $
+                \theta_t \in \theta_0
+                    + \eta a_t + \eta^2 b_t + \eta^3 c_t + \eta^4 d_t 
+                    + o(\eta^4)
+            $, we find:
+            \begin{align*}
+                \theta_{t+1}
+                =
+                \theta_t    &- \eta \nabla l_{n_t} (\theta_t) \\
+                \in\theta_0 &+ \eta a_t + \eta^2 b_t + \eta^3 c_t + \eta^4 d_t \\
+                            &- \eta \wrap{
+                                    \nabla l_{n_t}
+                                   +\nabla^2 l_{n_t}             (\eta a_t + \eta^2 b_t + \eta^3 c_t)
+                               } \\
+                            &- \eta \wrap{
+                                    \frac{1}{2} \nabla^3 l_{n_t} (\eta a_t + \eta^2 b_t)^2
+                                   +\frac{1}{6} \nabla^4 l_{n_t} (\eta a_t)^3
+                               }
+                             + o(\eta^4) \\
+                =
+                \theta_0    &+ \eta   \wrap{a_t - \nabla l_{n_t}} \\
+                            &+ \eta^2 \wrap{b_t - \nabla^2 l_{n_t} a_t} \\ 
+                            &+ \eta^3 \wrap{
+                                   c_t
+                                  -\nabla^2 l_{n_t} b_t
+                                  -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
+                               } \\
+                            &+ \eta^4 \wrap{
+                                   d_t
+                                  -            \nabla^2 l_{n_t} c_T
+                                  -\frac{1}{2} \nabla^3 l_{n_t} b_T^2 
+                                  -\frac{1}{6} \nabla^4 l_{n_t} a_T^3 
+                               }
+                             + o(\eta^4)
+            \end{align*}
+            We thus have the recurrences
+            $
+                a_{t+1} = a_t - \nabla l_{n_t}
+            $,
+            $
+                b_{t+1} = b_t - \nabla^2 l_{n_t} a_t
+            $,
+            $
+                c_{t+1} = c_t -\nabla^2 l_{n_t} b_t 
+                              -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
+            $, and
+            $
+                d_{t+1} = d_t -             \nabla^2 l_{n_t} c_T
+                              - \frac{1}{2} \nabla^3 l_{n_t} b_T^2 
+                              - \frac{1}{6} \nabla^4 l_{n_t} a_T^3 
+            $
+            with solutions:
+            \begin{align*}
+                \eta a_t = &-\eta \sum_{t} \nabla l_{n_t}
+                \\ 
+                \eta^2 b_t = &+\eta^2 \sum_{t_0 < t_1} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}
+                \\
+                \eta^3 c_t^\mu =
+                    &-\sum_{t_0 < t_1 < t_2} 
+                        \nabla^\mu \nabla_\nu l_{n_{t_2}}
+                        \nabla^\nu \nabla_\sigma l_{n_{t_1}} \nabla^\sigma l_{n_{t_0}} \\
+                    &-\frac{1}{2}
+                        \sum_{t_a, t_b < t}
+                        \nabla^\mu \nabla^\nu \nabla^\sigma l_{n_t}
+                        \nabla_\nu l_{n_{t_a}}
+                        \nabla_\sigma l_{n_{t_b}}
+                \\
+                \eta^4 d_t^\mu =
+                    &-\sum_{t_0 < t_1 < t_2} 
+                        \nabla^\mu \nabla_\nu l_{n_{t_2}}
+                        \nabla^\nu \nabla_\sigma l_{n_{t_1}} \nabla^\sigma l_{n_{t_0}} \\
+                    &-\frac{1}{2}
+                        \sum_{t_a, t_b < t}
+                        \nabla^\mu \nabla^\nu \nabla^\sigma l_{n_t}
+                        \nabla_\nu l_{n_{t_a}}
+                        \nabla_\sigma l_{n_{t_b}}
+            \end{align*}
+            We use tensor indices above because the contraction pattern would
+            otherwise be ambiguous.
+
+            {\color{moor} FILL IN}
+
+
+\section{Bessel Factors for Estimating Multipoint Correlators from Data}\label{sect:bessel}
+
+    Given samples from a joint probability space $\prod_{0\leq d<D} X_d$, we
+    seek unbiased estimates of multipoint correlators (i.e. products of
+    expectations of products) such as $\wang{x_0 x_1 x_2}\wang{x_3}$.  For
+    example, say $D=2$ and from $2S$ samples we'd like to estimate $\wang{x_0
+    x_1}$.  Most simply, we could use $\Avg_{0\leq s<2S} x_0^{(s)} x_1^{(s)}$,
+    where $\Avg$ denotes averaging.  In fact, the following also works:
+    \begin{equation} \label{eq:bessel}
+        S
+        \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+        \wrap{\Avg_{0\leq s< S} x_1^{(s)}}
+        +
+        (1-S)
+        \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+        \wrap{\Avg_{S\leq s<2S} x_1^{(s)}}
+    \end{equation}
+    When multiplication is expensive (e.g. when each $x_d^{(s)}$ is a tensor
+    and multiplication is tensor contraction), we prefer the latter, since it
+    uses $O(1)$ rather than $O(S)$ multiplications.  This in turn allows more
+    efficient use of large-batch computations on GPUs.  We now generalize this
+    estimator to higher-point correlators (and $D\cdot S$ samples).
+
+    For uniform notation, we assume without loss that each of the $D$ factors
+    appears exactly once in the multipoint expression of interest; such
+    expressions then correspond to partitions on $D$ elements, which we
+    represent as maps $\mu:\wasq{D}\to \wasq{D}$ with $\mu(d)\leq d$ and
+    $\mu\circ \mu=\mu$.  Note that $\wabs{\mu} \coloneqq \wabs{im(\mu)}$ counts
+    $\mu$'s parts.  We then define the statistic
+    $$
+        \wurl{x}_\mu
+        \coloneqq
+        \prod_{0\leq d<D} \Avg_{0\leq s<S} x_d^{(\mu(d)\cdot S + s)}
+    $$
+    and the correlator $\wang{x}_\mu$ we define to be the expectation of 
+    $\wurl{x}_\mu$ when $S=1$.  In this notation, \ref{eq:bessel} says: 
+    $$
+        \wang{x}_{\partbox{0}\partbox{1}}
+        =
+        \expct{
+            S       \cdot \wurl{x}_{\partbox{0 1}} +
+            (1-S)   \cdot \wurl{x}_{\partbox{0}\partbox{1}}
+        }
+    $$
+    Here, the boxes indicate partitions of $\wasq{D}=\wasq{2}=\{0,1\}$.
+    Now, for general $\mu$, we have:
+    \begin{equation} \label{eq:newbessel}
+        \expct{S^D \wurl{x}_\mu}
+        =
+        \sum_{\tau\leq \mu} \wrap{
+            \prod_{0\leq d<D}
+                \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+        }
+        \wang{x}_\tau
+    \end{equation}
+    where `$\tau \leq \mu$' ranges through partitions \emph{finer} than 
+    $\mu$, i.e. maps $\tau$ through which $\mu$ factors.   
+    In smaller steps, \ref{eq:newbessel} holds because
+    \begin{align*}
+        \expct{S^D \wurl{x}_\mu}
+        &=
+        \expct{
+            \sum_{(0\leq s_d<S) \in \wasq{S}^D}
+            \prod_{0\leq d<D}
+            x_d^{\wrap{\mu(d)\cdot S + s_d}}
+        }\\
+        &=
+        \sum_{\substack{(0\leq s_d<S) \\ \in \wasq{S}^D}}
+        \expct{
+            \prod_{0\leq d<D}
+            x_d^{\wrap{\min \wurl{
+                \tilde{d}~:~\mu(\tilde{d})\cdot S+s_{\tilde{d}} = \mu(d)\cdot S+s_d
+            }}}
+        }\\
+        &=
+        \sum_{\tau} \wabs{\wurl{\substack{
+            (0\leq s_d<S)~\in~[S]^D~: \\
+            \wrap{\substack{
+                \mu(d)=\mu(\tilde{d}) \\
+                \wedge~s_d=s_{\tilde{d}}
+            }}
+            \Leftrightarrow
+            \tau(d)=\tau(\tilde{d})
+        }}}
+        \wang{x}_\tau \\
+        &=
+        \sum_{\tau\leq \mu} \wrap{
+            \prod_{0\leq d<D}
+                \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+        }
+        \wang{x}_\tau
+    \end{align*}
+
+    Solving \ref{eq:newbessel} for $\wang{x}_\mu$, we find:
+    \begin{equation*}
+        \text{\fbox{$
+        \wang{x}_\mu
+        =
+        \frac{S^D}{S^{\wabs{\mu}}}
+        \expct{
+            \wurl{x}_\mu
+        }
+        -
+        \sum_{\tau < \mu} \wrap{
+            \prod_{d\in im(\mu)}
+            \frac{\wrap{S-1}!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+        }
+        \wang{x}_\tau
+        $}}
+    \end{equation*}
+    This expresses $\wang{x}_\mu$ in terms of the batch-friendly estimator
+    $\wurl{x}_\mu$ as well as correlators $\wang{x}_\tau$ for $\tau$ 
+    \emph{strictly} finer than $\mu$.  We may thus (use dynamic programming to)
+    obtain unbiased estimators $\wang{x}_\mu$ for all partitions $\mu$. 
+    Symmetries of the joint distribution and of the multilinear multiplication
+    may further streamline estimation by turning a sum over $\tau$ into a
+    multiplication by a combinatorial factor.  For example, with complete
+    symmetry:
+    $$
+        \wang{x}_{\partbox{012}}
+        =
+        S^2
+        \wurl{x}_{\partbox{012}}
+        -
+        \frac{(S-1)!}{(S-3)!}
+        \wurl{x}_{\partbox{0}\partbox{1}\partbox{2}}
+        -
+        3\frac{(S-1)!}{(S-2)!}
+        \wurl{x}_{\partbox{0}\partbox{12}}
+    $$
+    We use such expressions throughout our experiments to estimate the
+    (expected) values of diagrams.
+
+\section{Loss Landscapes Used for Experiments}\label{sect:landscape}
+
+    In addition to the clarifyingly artificial loss landscapes (Gaussian Fit,
+    Linear Screw, and Mean Estimation) described in the main text, we tested
+    our predictions on logistic linear regression and simple convolutional
+    networks (2 convolutional weight layers each with kernel $5$, stride $2$,
+    and $10$ channels, followed by two dense weight layers with hidden
+    dimension $10$) for the CIFAR-10 and Fashion-MNIST datasets.  The
+    convolutional architectures used $\tanh$ activations and Gaussian Xavier
+    initialization.  We parameterized the model so that the Gaussian-Xavier
+    initialization of the linear maps in each layer differentially pulls back
+    to standard normal initializations of the parameters.
+    
+    For these non-artificial landscapes, we regard the finite amount of
+    available data as the true (sum of diracs) distribution from which we
+    sample test and train sets in i.i.d.  manner (and hence ``with
+    replacement'').  We do this to gain practical access to a ground truth
+    against which we may compare our predictions.  One might object that this
+    sampling procedure would cause test and train sets to overlap, hence
+    biasing test loss measurements.  In fact, test and train sets overlap only
+    in reference, not in sense: the situation is analogous to a text prediction
+    task in which two training points culled from different corpora happen to
+    record the same sequence of words, say, ``Thank you!''.  In any case, all
+    of our experiments focus on the scanty-data regime, e.g. $10^1$ datapoints
+    out of $\sim 10^{4.5}$ dirac masses, so overlaps are diluted. 
+
+\section{Glossary}\label{sect:glossary}
+
+    {\color{moor} FILL IN}
+
+\section{Additional Figures}\label{sect:figures}
+
+    {\color{moor} FILL IN}
+
+\end{document}
