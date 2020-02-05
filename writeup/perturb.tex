@@ -203,7 +203,7 @@
         predictions:
 
         \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}\footnote{
-            These Feynman diagrams will be explained in the text.
+            Section \ref{sect:calculus} explains these diagrams in detail.
         }
         Flat and sharp minima both overfit less than minima of curvature
         comparable to $(\eta T)^{-1}$.  Flat minima are robust to
@@ -231,124 +231,148 @@
         large batch sizes \citep{go18}.  
 
     \subsection{Appetizing Example: The Role of Epoch Number}
-        %----------------------------------------------------------------------
-        %       The Idea of Diagrams Embedded in Spacetime
-        %----------------------------------------------------------------------
 
-        Deferring details, we survey our formalism. 
-        Say the $n$th datapoint participates in the $t$th update; we represent
-        all such $(n, t)$ pairs of an SGD run as the shaded cells of a grid,
-        where datapoints index rows and times index columns.  The shaded cells
-        comprise the SGD run's \emph{spacetime}.
-        \begin{figure}[H] 
-            \centering  
-            \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
-            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-            \caption{
-                Two spacetimes (collections of shaded cells) for $16$ steps on
-                $8$ datapoints along with some embedded Feynman diagrams.
-                Nodes (here black) outside the grid represent a post-training
-                measurement of test loss; only convenience of drawing dictates
-                their coordinates.
-                {\bf Left}: SGD run with size-$1$ batches and with shuffling.
-                    The three embeddings shown are, respectively,
-                    an illegal embedding of $\sdia{(01-2)(01-12)}$,
-                    a legal embedding of $\sdia{(01-2)(01-12)}$, and 
-                    a legal embedding of $\sdia{(0-1-2)(01-12)}$.
-                {\bf Right}: SGD run with size-$2$ batches and no shuffling.
-                    Depicted is an embedding of a $4$-edged diagram along
-                    with the data-weight interactions it represents.  Our work
-                    shows how to compute the contribution of this particular
-                    pattern of interactions to the eventual test loss.  Our
-                    work shows how the test loss is a sum of infinitely many
-                    such interactions, each given by a different diagram
-                    embedding. 
-            }
-            \label{fig:spacetimes}
-        \end{figure}
+        \subsubsection*{Overview of Formalism}
 
-        An SGD run's expected test loss is a \emph{sum over embeddings of
-        diagrams into spacetime}.  Diagrams are rooted graphs such as
-        $\sdia{(0-1)(01)}$ and $\sdia{(01-2)(02-12)}$ and
-        $\sdia{(01-2)(01-12)}$: they are composed of thin edges and fuzzy ties,
-        with the root on the right.  Their nodes are colored arbitrarily
-        subject to the constraint that fuzzily-tied nodes have the same color.
-        The colors serve only as convenient labels --- e.g. we might refer to a
-        diagram's ``blue node'' --- and have no mathematical meaning.
+            %------------------------------------------------------------------
+            %       The Idea of Diagrams Embedded in Spacetime
+            %------------------------------------------------------------------
 
-        We may \emph{embed} a diagram into spacetime by placing each node in a
-        cell.  We allow only embeddings that:
-            \emph{preserve left-right relationships along thin edges}
-            and that
-            \emph{map two nodes into the same row exactly when they are fuzzily tied}.
-        Figure \ref{fig:spacetimes} for examples of embeddings. 
+            Deferring details, we survey our formalism.  Say the $n$th
+            datapoint participates in the $t$th update; we represent all such
+            $(n, t)$ pairs of an SGD run as the shaded cells of a grid, where
+            datapoints index rows and times index columns.  The shaded cells
+            comprise the SGD run's \emph{spacetime}.
+            \begin{figure}[H] 
+                \centering  
+                \plotmooh{diagrams/spacetime-e}{}{0.265\columnwidth}
+                \plotmooh{diagrams/spacetime-f}{}{0.265\columnwidth}
+                \caption{
+                    Two spacetimes (collections of shaded cells) for $16$ steps
+                    on $8$ datapoints along with some embedded Feynman
+                    diagrams.  We arbitrarily choose colors to aid reference. 
+                    Nodes (here black) outside the grid represent a
+                    post-training measurement of test loss; their coordinates
+                    are arbitrary.
+                    {\bf Left}: SGD run with size-$1$ batches and with
+                        shuffling.  The three embeddings shown are,
+                        respectively, an illegal embedding of
+                        $\sdia{(01-2)(01-12)}$, a legal embedding of
+                        $\sdia{(01-2)(01-12)}$, and a legal embedding of
+                        $\sdia{(0-1-2)(01-12)}$.
+                    {\bf Right}: SGD run with size-$2$ batches and no
+                        shuffling.  Depicted is an embedding of a $4$-edged
+                        diagram, annotated with the data-weight interactions it
+                        represents.  Our work shows how to compute the numeric
+                        contribution of such diagrams to the test loss.  The
+                        test loss is a sum of infinitely many such embeddings,
+                        each given by a different diagram embedding.  
+                }
+                \label{fig:spacetimes}
+            \end{figure}
 
-        Diagrams evaluate to numbers.  Each $d$-edged diagram contributes to
-        order $\eta^d$, so, for small $\eta$, the few-edged diagrams suffice to
-        predict test losses.
+            We interpret an SGD run as a superposition of many concurrent
+            data-weight interactions.  We use diagrams to represent such
+            processes (Figure \ref{fig:spacetimes}, right).  Diagrams evaluate
+            to numbers, and an SGD run's expected test loss is a \emph{sum over
+            diagrams} of those numbers, weighted by the number of ways a
+            diagram can \emph{embed} or ``fit'' into the SGD run's spacetime.
+
+            Specifically, diagrams are rooted graphs such as $\sdia{(0-1)(01)}$
+            and $\sdia{(01-2)(02-12)}$ and $\sdia{(01-2)(01-12)}$: they are
+            composed of thin edges and fuzzy ties, with the root on the right.
+            Their nodes are colored arbitrarily subject to the constraint that
+            fuzzily-tied nodes have the same color.  The colors serve only as
+            convenient labels --- e.g. we might refer to a diagram's ``blue
+            node'' --- and have no mathematical meaning.
+
+            We may \emph{embed} a diagram into spacetime by placing each node
+            in a cell.  We allow only embeddings that: \emph{preserve
+            left-right relationships along thin edges} and that \emph{map two
+            nodes into the same row exactly when they are fuzzily tied}.
+            Figure \ref{fig:spacetimes} gives examples of embeddings. 
+
+            Each $d$-edged diagram contributes to order $\eta^d$, so, for small
+            $\eta$, the few-edged diagrams suffice to predict test losses.  Our
+            recipe for predicting test losses to within error $o(\eta^d)$ is
+            thus: \textsc{First}, draw all the diagrams with at most $d$ edges.
+            \textsc{Then}, for each diagram, compute how many ways it can
+            embed into the spacetime.  \textsc{Finally}, sum the diagrams,
+            weighed by its number of embeddings.  We later formally state and
+            prove that this correctly models SGD. 
 
         %----------------------------------------------------------------------
         %       Epoch Number Example     
         %----------------------------------------------------------------------
 
-        \begin{figure}[h!] 
-            \centering  
-            \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
-            \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
-            \caption{
-                Some diagrams embedded in spacetime (gray) for one-epoch ({\bf
-                left}) and two-epoch ({\bf right}) SGD.  The diagrams for one
-                and two epochs correspond by horizontal shifts \emph{except}
-                when same-row nodes are connected --- such as in the top right
-                diagram $\sdia{c(01-2)(01-12)}$. 
+        \subsubsection*{Role of Epoch Number}
+            Let us illustrate the formalism by using it to compare the expected
+            test losses of one- and $M$-epoch SGD to order $\eta^2$.  We scale
+            $M$-epoch SGD's learning rate by $1/M$.
+            
+            One- and multi-epoch SGD differ in their spacetimes and hence in 
+            how many times each diagram can embed.  Indeed, Figure
+            \ref{fig:epoch} shows that most of the two-edged diagrams have
+            corresponding embeddings in the one- and multi- epoch cases.  Since
+            those embeddings contribute the same amount to one- and to multi-
+            epoch SGD, we may neglect them as we compute the SGDs' difference.
+            Only the diagram $\sdia{c(01-2)(01-12)}$ has embeddings in
+            multi-epoch SGD that do not correspond to embeddings in one-epoch
+            SGD (Figure \ref{fig:epoch}). 
+
+            \begin{figure}[h!] 
+                \centering  
+                \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
+                \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
+                \caption{
+                    Examples of diagrams embedded in spacetime for one-epoch
+                    ({\bf left}) and two-epoch ({\bf right}) SGD.  The diagrams
+                    for one and two epochs correspond by horizontal shifts
+                    \emph{except} when same-row nodes are connected --- such as
+                    in the top right diagram $\sdia{c(01-2)(01-12)}$. 
+                }
+                \label{fig:epoch}
+            \end{figure}
+
+            Clearly, $\sdia{c(01-2)(01-12)}$ embeds in $M$-epoch spacetime in
+            $N\cdot{M\choose 2}$ many ways.  the order $\eta^2$ discrepancy between one and multi
+            epoch SGD is therefore\footnote{
+                The factor $1/M^2$ comes from our choice to scale multi-epoch's
+                learning rate by $1/M$ and from the fact that the expression
+                is proportional to $\eta^2$.
             }
-            \label{fig:epoch}
-        \end{figure}
+            $$
+                \text{test loss difference} =  
+                \frac{N\cdot {M\choose 2}}{M^2}~
+                \dvalue\wrap{\sdia{c(01-2)(01-12)}}
+                + o(\eta^2)
+            $$
+            We complete the calculation by reading from the diagram's graph
+            structure that it evaluates to\footnote{
+                Section \ref{sect:background} explains the right hand side's
+                notation.  Hidden in the notation is a factor $\eta^2$.  
+            }
+            \begin{align*}
+                \dvalue\wrap{\sdia{c(01-2)(01-12)}}
+                = 
+                \frac{1}{2} G^\mu \nabla_\mu C^{\nu}_{\nu} 
+            \end{align*}
+            We have thus computed the leading order test loss difference
+            between one- and multi- epoch SGD.
 
-        Deferring explanation, we use diagrams to solve a sample problem: to
-        compare the expected test losses of one- and multi-epoch SGD (say, with
-        learning rates scaled proportionally).
-        One- and multi-epoch SGD differ in their grids.  Figure \ref{fig:epoch}
-        shows some example embeddings.
-        To order $\eta^2$, one- and multi- epoch SGD have corresponding diagram
-        embeddings except that multi-epoch SGD also has embeddings of
-        $\sdia{c(01-2)(01-12)}$.  Since diagram values are invariant to
-        node-wise horizontal shifts and permutation of rows, it is only
-        $\sdia{c(01-2)(01-12)}$ that contributes to the difference in test
-        loss.  
-
-        Since $\sdia{c(01-2)(01-12)}$ embeds in $M$-epoch spacetime in
-        $N\cdot{M\choose 2}$ many ways, and since we scaled the learning rate
-        by $1/M$, the order $\eta^2$ discrepancy is
-        $$
-            \text{test loss difference} =  
-            \frac{N\cdot {M\choose 2}}{M^2}~
-            \dvalue\wrap{\sdia{c(01-2)(01-12)}}
-            + o(\eta^2)
-        $$
-        We complete the calculation by reading from the diagram's graph
-        structure that it evaluates to\footnote{
-            The right hand side notation is explained in \ref{sect:background}
-        }
-        \begin{align*}
-            \dvalue\wrap{\sdia{c(01-2)(01-12)}}
-            = 
-            \frac{1}{2} G^\mu \nabla_\mu C^{\nu}_{\nu} 
-        \end{align*}
-        We have thus computed the leading order test loss difference between 
-        one- and multi- epoch SGD.
-
-        Using diagrams above, we matched terms so that all but the
-        $\sdia{c(01-2)(01-12)}$ terms canceled, thus avoiding an algebraic
-        mess.  In fact, diagrams concisely represent correlation and
-        tensor-contraction patterns that when written explicitly are
-        complicated and when suppressed lead to ambiguities (consider
-        Proposition \ref{prop:entropic}, which makes use of 4-valent tensors).
-        Moreover, when we later \emph{renormalize} toward the large-$\eta T$
-        regime (sections \ref{subsect:effective}, \ref{subsect:entropic}, and
-        \ref{subsect:overfit}), the topology of diagrams will play a key role.
-        While diagrams may in principle be completely avoided, Appendix
-        \ref{sect:compare} shows that to avoid them can convolute analysis.   
+            In short: by using diagrams, we matched terms so that all but the
+            $\sdia{c(01-2)(01-12)}$ terms canceled, thus avoiding an algebraic
+            mess.  In fact, diagrams concisely represent correlation and
+            tensor-contraction patterns that when written explicitly are
+            complicated and when suppressed lead to ambiguities\footnote{
+                Consider Proposition \ref{prop:entropic}, which makes use of
+                4-valent tensors.
+            }.  Moreover, when we later \emph{renormalize} toward the
+            large-$\eta T$ regime (Sections \ref{subsect:effective},
+            \ref{subsect:entropic}, and \ref{subsect:overfit}), the topology of
+            diagrams will play a key role.  While diagrams may in principle be
+            completely avoided, Appendix \ref{sect:compare} shows that to avoid
+            them can convolute analysis.   
 
 %==============================================================================
 %       BACKGROUND AND NOTATION
@@ -432,7 +456,7 @@
 %    DIAGRAM CALCULUS FOR SGD
 %==============================================================================
 
-\section{Diagram Calculus for SGD}
+\section{Diagram Calculus for SGD} \label{sect:calculus}
 
     %--------------------------------------------------------------------------
     %           Role of Diagrams      
