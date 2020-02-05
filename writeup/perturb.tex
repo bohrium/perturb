@@ -230,9 +230,9 @@
         generalization \citep{bo91}, modern infrastructure increasingly rewards
         large batch sizes \citep{go18}.  
 
-    \subsection{Appetizing Example: The Role of Epoch Number}
+    %\subsection{Appetizing Example: The Role of Epoch Number}
 
-        \subsubsection*{Overview of Formalism}
+    \subsection{Overview of Formalism}
 
             %------------------------------------------------------------------
             %       The Idea of Diagrams Embedded in Spacetime
@@ -272,7 +272,7 @@
             \end{figure}
 
             We interpret an SGD run as a superposition of many concurrent
-            data-weight interactions.  We use diagrams to represent such
+            data-weight interactions.  Diagrams represent such
             processes (Figure \ref{fig:spacetimes}, right).  Diagrams evaluate
             to numbers, and an SGD run's expected test loss is a \emph{sum over
             diagrams} of those numbers, weighted by the number of ways a
@@ -305,20 +305,20 @@
         %       Epoch Number Example     
         %----------------------------------------------------------------------
 
-        \subsubsection*{Role of Epoch Number}
+    \subsection{Appetizing Example: Role of Epoch Number}
             Let us illustrate the formalism by using it to compare the expected
-            test losses of one- and $M$-epoch SGD to order $\eta^2$.  We scale
-            $M$-epoch SGD's learning rate by $1/M$.
+            test losses of one- and multi-epoch SGD to order $\eta^2$.  Here,
+            we scale $M$-epoch SGD's learning rate by $1/M$.
             
-            One- and multi-epoch SGD differ in their spacetimes and hence in 
+            One- and multi-epoch SGD differ in their spacetimes and hence in
             how many times each diagram can embed.  Indeed, Figure
             \ref{fig:epoch} shows that most of the two-edged diagrams have
-            corresponding embeddings in the one- and multi- epoch cases.  Since
-            those embeddings contribute the same amount to one- and to multi-
-            epoch SGD, we may neglect them as we compute the SGDs' difference.
-            Only the diagram $\sdia{c(01-2)(01-12)}$ has embeddings in
-            multi-epoch SGD that do not correspond to embeddings in one-epoch
-            SGD (Figure \ref{fig:epoch}). 
+            corresponding embeddings in the one- and multi-epoch cases.  Since
+            those embeddings contribute the same amount to one- and to
+            multi-epoch SGD, we may neglect them as we compute the SGDs'
+            difference.  Only the diagram $\sdia{c(01-2)(01-12)}$ has
+            embeddings in multi-epoch SGD that do not correspond to embeddings
+            in one-epoch SGD (Figure \ref{fig:epoch}). 
 
             \begin{figure}[h!] 
                 \centering  
@@ -335,11 +335,11 @@
             \end{figure}
 
             Clearly, $\sdia{c(01-2)(01-12)}$ embeds in $M$-epoch spacetime in
-            $N\cdot{M\choose 2}$ many ways.  the order $\eta^2$ discrepancy between one and multi
-            epoch SGD is therefore\footnote{
-                The factor $1/M^2$ comes from our choice to scale multi-epoch's
-                learning rate by $1/M$ and from the fact that the expression
-                is proportional to $\eta^2$.
+            $N\cdot{M\choose 2}$ many ways.  The order $\eta^2$ discrepancy
+            between one and multi epoch SGD is therefore\footnote{
+                The factor $1/M^2$ comes from our choice to scale $M$-epoch's
+                learning rate by $1/M$ and that $2$-edged diagrams 
+                are proportional to $\eta^2$.
             }
             $$
                 \text{test loss difference} =  
@@ -385,6 +385,7 @@
     %--------------------------------------------------------------------------
 
     \subsection{Tensor Conventions}
+        We fix a loss landscape throughout the paper. 
         We use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second,
         and third derivatives of $l$ and $C_{\mu \nu}$ for the covariance of
         gradients.  We adopt the physicists' convention that repeated Greek
@@ -437,9 +438,10 @@
     \subsection{SGD Terminology}
         SGD decreases an objective $l$ by updating on smooth, unbiased i.i.d.
         estimates $(l_n: 0\leq n<N)$ of $l$.  Each estimate is a
-        \emph{datapoint}.  For each of $M\cdot B$ \emph{epochs}, SGD
-        partitions the $N$ datapoints into a length-$N/B$ sequence of size-$B$
-        \emph{batches}.  For each batch $\Bb$, SGD updates
+        \emph{datapoint}, and the estimates together form the \emph{train set}.
+        For each of $M\cdot B$ \emph{epochs}, SGD partitions the $N$ datapoints
+        into a length-$N/B$ sequence of size-$B$ \emph{batches}.  For each
+        batch $\Bb$, SGD updates
         $
             \theta^\mu
             \leftsquigarrow
@@ -447,11 +449,13 @@
             \eta^{\mu\nu} \nabla_\nu
                 \wrap{\frac{1}{B} \sum_{n\in \Bb} l_n(\theta)}
         $.
-        SGD performs $N\cdot M$ many updates in total.  Together with an
+        SGD performs $N\cdot M$ many updates in total.  We write $l_t$ for the
+        loss $\frac{1}{B}\sum_\Bb\cdots$ over the $t$th batch. 
+        Together with an
         inter-epoch shuffling pattern, $N, B, M$ determine the SGD algorithm.
         The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
         The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
-        
+
 %==============================================================================
 %    DIAGRAM CALCULUS FOR SGD
 %==============================================================================
@@ -474,19 +478,19 @@
                     \prod_{0 \leq t < T}
                         \left.
                             \frac{(g \nabla)^{d_t}}{d_t!}
-                        \right|_{g=\nabla l_t(\theta)}
+                        \right|_{g={\color{moor}\nabla l_t(\theta)}}
                 \right)
                 (s) (\theta_0)
             \end{equation}
-            Moreover, the expectation symbol (over training sets) commutes with
+            Moreover, the expectation symbol (over train sets) commutes with
             the sum over $d$s.
         \end{klem*}
-        In averaging over training sets $(l_t: 0\leq t<T)$ we may factor the
-        expectation of the above product according to independence relations
-        between the $l_t$.  We view various training procedures (e.g. pure GD,
-        pure SGD) as \emph{prescribing different independence relations} that
-        lead to different factorizations and hence to potentially different
-        generalization behavior at each order of $\eta$.
+        In averaging over train sets we may factor the expectation of the above
+        product according to independence relations between the $l_t$.  We view
+        various training procedures (e.g. pure GD, pure SGD) as
+        \emph{prescribing different independence relations} that lead to
+        different factorizations and hence to potentially different
+        generalization behavior at each order.
     
         An instance of the above product (for $s=l_a$ drawn from a test set and
         $0\leq c\leq b<T$) is $-\eta^3 (\nabla l_c \nabla)^2 (\nabla l_b
@@ -526,18 +530,18 @@
         first diagram and twice in the second).  Thin \emph{edges} mark
         contractions by $-\eta$.  Fuzzy \emph{ties} denote correlations by
         connecting identical loss functions (here, {\color{moor} $l_c$} with
-        {\color{moor} $l_c$}).  The colors are redundant with the fuzzy ties.
-        A diagram $D$ evaluates to the expected value $\dvalue(D)$ of the
-        corresponding tensor expression.
+        {\color{moor} $l_c$}), and are visually emphasized by otherwise
+        meaningless colors.  A diagram $D$ evaluates to the expected value
+        $\dvalue(D)$ of the corresponding tensor expression.
         % 
-        Usefully, for a fixed, i.i.d.  distribution over $(l_c, l_b, l_a)$,
+        Usefully, % for a fixed, i.i.d.  distribution over $(l_c, l_b, l_a)$,
         \emph{the topology of a diagram determines its value}.  For instance,
+        simplification \ref{eq:simpl} is licensed because
         $
             \dvalue\wrap{\sdia{(01-2-3)(02-12-23)}}
             =
             \dvalue\wrap{\sdia{(01-2-3)(03-13-23)}}
         $.
-        Thus follows simplification \ref{eq:simpl}.
         We will sometimes write a diagram $D$ and mean $\dvalue(D)$. 
         %We may convert back to
         %explicit tensor expressions, invoking independence between untied nodes
@@ -551,12 +555,11 @@
         versions : $\sdia{c(01-2)(01-12)} =
         \sdia{(01-2)(01-12)}-\sdia{(0-1-2)(01-12)}$.  
         %
-        The recipes for writing down test (or train) losses of SGD and its
-        variants are now straightforward.  They reduce the problem of
-        evaluating the dynamical expressions to the problem of
-        counting graph embeddings.  The more complicated the direct
-        computation, the greater the savings of using diagrams.  
-    
+        %The recipes for writing down test (or train) losses of SGD and its
+        %variants are now straightforward.  They reduce the problem of
+        %evaluating the dynamical expressions to the problem of
+        %counting graph embeddings. 
+            
     %--------------------------------------------------------------------------
     %           Recipe for Test Loss and Generalization Gap
     %--------------------------------------------------------------------------
@@ -612,12 +615,12 @@
         N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
         third order, and they have $(4+2)+(2+2+3)+(1)$ many orderings --- see
         Table \ref{tab:scatthree}.  Intuitively, $\eta N$ measures the \emph{
-        physical time} of descent, and $1/N$ measures the \emph{coarseness} of
-    time discretization.  So we have a double-series in $(\eta N)^d N^{P-d-1}$,
-    where $d$ counts thin edges and $d+1-P$ counts fuzzy ties; the $P=d+1$
-    terms correspond to a discretization-agnostic (hence continuous-time,
-    noiseless) ODE approximation to SGD, while $P\leq d$ gives correction terms
-    modeling time-discretization and hence noise.  
+            physical time} of descent, and $1/N$ measures the \emph{coarseness}
+        of time discretization.  So we have a double-series in $(\eta N)^d
+        N^{P-d-1}$, where $d$ counts thin edges and $d+1-P$ counts fuzzy ties;
+        the $P=d+1$ terms correspond to a discretization-agnostic (hence
+        continuous-time, noiseless) ODE approximation to SGD, while $P\leq d$
+        gives correction terms modeling time-discretization and hence noise.  
 
     %--------------------------------------------------------------------------
     %           Theoretical Corollaries                     
@@ -629,14 +632,32 @@
             For one-epoch SGD on singleton batches through fixed physical time
             $T$: the order $N^{-1}$ deviation of SGD's test loss from ODE's is
             $
-                ({{T^2 N^{-1}}/{2}}) \sdia{c(01-2)(02-12)}
+                %({{T^2 N^{-1}}/{2}}) \sdia{c(01-2)(02-12)}
+                \frac{T^2 N^{-1}}{2} ~ C_{\mu\nu} H^{\mu\nu}
             $.
             The order $N^{-2}$ deviation of SGD's test loss due to non-gaussian
             noise is
             $
-                -({{T^3 N^{-2}}/{6}}) (\sdia{c(012-3)(03-13-23)} - 3 \sdia{c(01-2-3)(03-13-23)})
+                \frac{T^3 N^{-2}}{6} \wrap{
+                    \sdia{c(012-3)(03-13-23)}
+                    -
+                    3 \sdia{c(01-2-3)(03-13-23)}
+                }
+                =
+                -
+                \frac{T^3 N^{-2}}{6}  
+                \wrap{
+                    \wrap{
+                        \expct{\nabla_\mu l_x \nabla_\nu l_x \nabla_\lambda l_x}-
+                        G_\mu G_\nu G_\lambda
+                    }
+                    J^{\mu\nu\lambda}
+                    - 
+                    3
+                    C_{\mu \nu} G_\lambda J^{\mu\nu\lambda}
+                }
             $.
-            {\color{moor} FILL IN}
+            These effects together contribute to SGD's difference from SDE.
         \end{cor}
         For finite $N$, these effects make SDE different from SGD.  SDE also
         fails to model the correlations between updates in multiepoch SGD.  On
@@ -693,7 +714,7 @@
             \label{tab:scatthree}
         \end{table}
     
-        A quick combinatorial argument shows:
+        %A quick combinatorial argument shows:
         \begin{cor}[Shuffling Barely Matters] \label{cor:shuffle}
             To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
             expected test loss.
@@ -703,13 +724,23 @@
             To order $\eta^2$, the test loss of SGD --- on $N$
             samples for $M$ epochs with batch size $B$ dividing $N$ and with any
             shuffling scheme --- has expectation
+            %{\small
+            %\begin{align*}
+            %                                            \mdia{(0)()}
+            %    &+ MN                                   \mdia{(0-1)(01)}
+            %     + MN\wrap{MN - \frac{1}{2}}            \mdia{(0-1-2)(01-12)} \\
+            %    &+ MN\wrap{\frac{M}{2}}                 \mdia{c(01-2)(02-12)}  
+            %     + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \mdia{c(01-2)(01-12)}
+            %\end{align*}
+            %}
+            %This is:
             {\small
             \begin{align*}
-                                                        \mdia{(0)()}
-                &+ MN                                   \mdia{(0-1)(01)}
-                 + MN\wrap{MN - \frac{1}{2}}            \mdia{(0-1-2)(01-12)} \\
-                &+ MN\wrap{\frac{M}{2}}                 \mdia{c(01-2)(02-12)}  
-                 + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \mdia{c(01-2)(01-12)}
+                                                        l              
+                &+ MN                                   G_\mu G^\mu       
+                 + MN\wrap{MN - \frac{1}{2}}            G_\mu H^{\mu}_{\nu} G^\nu \\
+                &+ MN\wrap{\frac{M}{2}}                 C_{\mu \nu} H^{\mu \nu}
+                 + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
             \end{align*}
             }
         \end{prop}
@@ -717,9 +748,13 @@
         \begin{cor}[The Effect of Epoch Number] \label{cor:epochs}
             To order $\eta^2$, one-epoch SGD has 
             $
-                 \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}} \sdia{c(01-2)(01-12)}
+                 %\alpha
+                 %\sdia{c(01-2)(01-12)}
+                 %=
+                 \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}}
+                 \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
             $
-            less test loss than $M$-epoch SGD with learning rate $\eta/M$. 
+            less test loss than $M$-epoch SGD with learning rate $\eta/M$.
         \end{cor}
     
         Given a smooth unbiased estimator $\hat{C}$ of gradient covariance, we
@@ -728,23 +763,30 @@
             The expected test loss of pure SGD is, to order $\eta^2$,
             less than that of pure GD by
             $
-                  \wrap{\frac{M(N-1)}{2}} \sdia{c(01-2)(01-12)}
+                  %\alpha \sdia{c(01-2)(01-12)}
+                  %=
+                  \frac{M(N-1)}{2} ~
+                  \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
             $.
             Moreover, GD on a modified loss 
             $
-                \tilde l_n = l_n + \wrap{\frac{N-1}{4N}} \hat{C}_\nu^\nu(\theta)
+                \tilde l_n = l_n +
+                    \frac{N-1}{4N} ~
+                    \hat{C}_\nu^\nu(\theta)
             $
             has an expected test loss that agrees with SGD's to second order.
         \end{cor}
     
-        \begin{prop}[An Entropic Force, Unrenormalized] \label{prop:noncons}
+        \begin{cor}[An Entropic Force, Unrenormalized] \label{cor:noncons}
             When vanilla SGD is initialized at a test minimum, the weight is
             displaced to order $\eta^3$ by 
             $
-                {T \choose 2} \sdia{c(01-2-3)(02-12-23)} / 2
+                %{T \choose 2} \sdia{c(01-2-3)(02-12-23)} / 2
+                %= 
+                -\frac{T(T-1)}{4} C_{\mu_\nu} J^{\mu \nu}_{\lambda} G^{\lambda}
             $.
-        \end{prop}
-        Proposition \ref{prop:noncons} was first proven by \citet{ya19b}, and
+        \end{cor}
+        Corollary \ref{cor:noncons} was first proven by \citet{ya19b}, and
         our methods reproduce it elegantly.  We will renormalize it to
         Proposition \ref{prop:entropic}, which will apply for large times, 
         hence demonstrating a persistent and non-conservative entropic force.
@@ -753,50 +795,51 @@
     %           Descent as Scattering                       
     %--------------------------------------------------------------------------
 
-    \subsection{Descent as Scattering}
-        In short, SGD's test loss is a weighted sum of diagrams, each $d$-edged
-        diagram contributing to order $\eta^d$.  We depict the $\Ss$-maps 
-        $f:D\to S$ of Theorem \ref{thm:sgdcoef} as embeddings of the graph $D$
-        into spacetime $S$.  Thus, SGD's test loss is a sum over all embeddings
-        in spacetime; see Figure (\ref{fig:spacetime}).  This loss depends on
-        the shape of spacetime, which encodes correlations between updates.  To
-        compute a test loss, we simply count embeddings.  For instance, the
-        order $\eta^2$ diagrams in (\ref{fig:spacetime}) all contribute the
-        same amount to test loss, so we just need to find out how many such
-        embedded diagrams there are.   
-        \begin{figure}[h!] 
-            \centering  
-            \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
-            \caption{
-                Some diagrams embedded in spacetime.  The left four diagrams
-                give order $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$
-                contributions to pure GD's test loss.  The right four each
-                contribute $\eta^2 \expct{\nabla^2} \expct{\nabla}^2$; their
-                equivalence demonstrates crossing symmetry.  Only diagrams
-                whose nodes fall within shaded diagonals contribute to pure SGD's
-                test loss (with an extra factor $N$ per edge). 
-            }
-            \label{fig:spacetime}
-        \end{figure}
-        \begin{figure}[h!] 
-            \centering  
-            \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
-            \caption{
-                Comparison of pure GD's vs pure SGD's test loss.  We may
-                normalize almost every order $\eta^2$ GD diagram to an
-                equivalent SGD diagram by horizontal or vertical shifts (see
-                left ten diagrams).  The exception is that $MN{N\choose 2}$ many
-                $\sdia{(01-2)(01-12)}$s turn into $\sdia{(0-1-2)(01-12)}$s (see
-                right two diagrams).  So pure GD's test loss exceeds pure SGD's
-                test loss by $M ((N-1)/2) \sdia{c(01-2)(01-12)}$.
-            }
-            \label{fig:vsmulti}
-        \end{figure}
-        Likewise, as shown in Figure (\ref{fig:vsmulti}), the order $\eta^2$
-        diagrams of pure GD and pure SGD are nearly in correspondence, except
-        for a discrepancy that shows the two test losses differ by $M ((N-1)/2)
-        \sdia{c(01-2)(01-12)}$.
-        %This argument generalizes to yield proposition \ref{prop:ordtwo}.
+    %\subsection{Descent as Scattering}
+    %    {\color{moor} EXCISED FOR SPACE... BRIEFLY OVERVIEW?}
+        %In short, SGD's test loss is a weighted sum of diagrams, each $d$-edged
+        %diagram contributing to order $\eta^d$.  We depict the $\Ss$-maps 
+        %$f:D\to S$ of Theorem \ref{thm:sgdcoef} as embeddings of the graph $D$
+        %into spacetime $S$.  Thus, SGD's test loss is a sum over all embeddings
+        %in spacetime; see Figure (\ref{fig:spacetime}).  This loss depends on
+        %the shape of spacetime, which encodes correlations between updates.  To
+        %compute a test loss, we simply count embeddings.  For instance, the
+        %order $\eta^2$ diagrams in (\ref{fig:spacetime}) all contribute the
+        %same amount to test loss, so we just need to find out how many such
+        %embedded diagrams there are.   
+        %\begin{figure}[h!] 
+        %    \centering  
+        %    \plotmoo{diagrams/spacetime}{\columnwidth}{3.0cm}  
+        %    \caption{
+        %        Some diagrams embedded in spacetime.  The left four diagrams
+        %        give order $\eta^1$, $\eta^1$, $\eta^3$, and $\eta^5$
+        %        contributions to pure GD's test loss.  The right four each
+        %        contribute $\eta^2 \expct{\nabla^2} \expct{\nabla}^2$; their
+        %        equivalence demonstrates crossing symmetry.  Only diagrams
+        %        whose nodes fall within shaded diagonals contribute to pure SGD's
+        %        test loss (with an extra factor $N$ per edge). 
+        %    }
+        %    \label{fig:spacetime}
+        %\end{figure}
+        %\begin{figure}[h!] 
+        %    \centering  
+        %    \plotmoo{diagrams/spacetime-b}{\columnwidth}{3.0cm}
+        %    \caption{
+        %        Comparison of pure GD's vs pure SGD's test loss.  We may
+        %        normalize almost every order $\eta^2$ GD diagram to an
+        %        equivalent SGD diagram by horizontal or vertical shifts (see
+        %        left ten diagrams).  The exception is that $MN{N\choose 2}$ many
+        %        $\sdia{(01-2)(01-12)}$s turn into $\sdia{(0-1-2)(01-12)}$s (see
+        %        right two diagrams).  So pure GD's test loss exceeds pure SGD's
+        %        test loss by $M ((N-1)/2) \sdia{c(01-2)(01-12)}$.
+        %    }
+        %    \label{fig:vsmulti}
+        %\end{figure}
+        %Likewise, as shown in Figure (\ref{fig:vsmulti}), the order $\eta^2$
+        %diagrams of pure GD and pure SGD are nearly in correspondence, except
+        %for a discrepancy that shows the two test losses differ by $M ((N-1)/2)
+        %\sdia{c(01-2)(01-12)}$.
+        %%This argument generalizes to yield proposition \ref{prop:ordtwo}.
     
     %--------------------------------------------------------------------------
     %           Toward Effective Theories                   
@@ -813,10 +856,17 @@
         does.  Thus, renormalization will help us reason about large-time
         behavior. 
 
-        For example, consider the diagrams that are uncorrelated chains ---
-        $\sdia{(0-1)(01)}, \sdia{(0-1-2)(01-12)},
-        \sdia{(0-1-2-3)(01-12-23)}, \cdots$.  When embedded with initial and
-        final nodes separated by duration $t$, this series of diagrams in sum
+        As a motivating example, consider that, to order $\eta^1$, SGD reduces
+        test loss by $T G_\mu G^\mu$.  Though useful for small $\eta T$, this
+        approximation diverges as $T$ grows.  Intuitively, the  
+        consider the diagrams that are uncorrelated
+        chains:
+        $
+            \sdia{(0-1)(01)}, \sdia{(0-1-2)(01-12)},
+            \sdia{(0-1-2-3)(01-12-23)}, \cdots
+        $.  
+        When embedded with initial and
+        final nodes separated by duration $t$, this series of diagrams sums to
         contributes
         $
             G (I-\eta H)^{t-1} \eta G
@@ -825,6 +875,8 @@
             +
             o(\eta)
         $.
+        Observe that  
+
         We may thus organize diagrams together by the homeomorphism classes of
         their \emph{geometric realizations}; each class yields a sum over
         durations.  For example, the above chains contribute 
@@ -1024,7 +1076,7 @@
         on a range of image-classification landscapes.  For these experiments,
         we used a covariance
         estimator $\hat C \propto \nabla l_x (\nabla l_x - \nabla l_x)$ evaluated on
-        two batches $x, y$ that partition the training set.
+        two batches $x, y$ that partition the train set.
         \begin{figure}[h!] 
             \centering
             \plotmoo{plots/big-bm-new}{0.48\columnwidth}{4.0cm}
@@ -1307,6 +1359,9 @@
     SGD.  Our Renormalization Theorem licences predictions for large $\eta T$,
     beyond the reach of direct perturbation.  Most of the calculations here
     presented can by means of diagrams be done fully in one's head.
+    The more complicated the direct
+    computation, the greater the savings of using diagrams.  
+
 
         %----------------------------------------------------------------------
         %       Killer Applications  
@@ -1597,7 +1652,7 @@
             \begin{equation} \label{eq:smalleta}
                 2 \eta T b < \rho \tilde\eta
             \end{equation}
-            as norms, stochastic gradient after $T$ steps on any training set
+            as norms, stochastic gradient after $T$ steps on any train set
             will necessarily stay within the $\rho$-ball.  In fact, we will see
             that the factor of $2$ ensures that SGD initialized at any point
             within a $\rho/2$ ball will necessarily stay within the
@@ -1649,7 +1704,7 @@
                 } s (\theta)
             \end{equation}
             The first part of the Key Lemma is proved.  It remains to show that
-            expectations over training sets commute with the above summation.
+            expectations over train sets commute with the above summation.
 
             We will apply Fubini's Theorem.  To do so, it suffices to show that   
             $$
@@ -1665,14 +1720,14 @@
             $$
             has an expectation that decays exponentially with $d$.  The symbol
             $c_d$ we introduce purely for convenience; that its value depends
-            on the training set we emphasize using function application
-            notation.  Crucially, no matter the training set, we have shown
+            on the train set we emphasize using function application
+            notation.  Crucially, no matter the train set, we have shown
             that the expansion \ref{eq:expansion} (that features $c_d$ appear
             as coefficients) converges to an analytic function for all $\eta$
             bounded as in condition \ref{eq:smalleta}.  The uniformity of this
             demanded bound on $\eta$ implies by the standard relation between
             radii of convergence and decay of coefficients that $\wabs{c_d}$
-            decays exponentially in $d$ at a rate uniform over training sets.
+            decays exponentially in $d$ at a rate uniform over train sets.
             If the expectation of $\wabs{c_d}$ exists at all, then, it will
             likewise decay at that same shared rate.
             
@@ -1721,8 +1776,8 @@
             We first prove the statement about test losses.
             Due to the analyticity property established in our proof of the
             Key Lemma, it suffices to show agreement at each degree $d$ and
-            training set individually.  That is, it suffices to show --- for
-            each training set $(l_n: 0\leq n<N)$, spacetime $S$, function $\pi:
+            train set individually.  That is, it suffices to show --- for
+            each train set $(l_n: 0\leq n<N)$, spacetime $S$, function $\pi:
             S\to [N]$ that induces $\sim$, and natural $d$ --- that
             \begin{align} \label{eq:toprove}
                 (-\eta)^d
@@ -1747,7 +1802,7 @@
                 \frac{\dvalue_\pi(D, f)}{B^{d}}
             \end{align}
             Here, $\dvalue_\pi$ is the value of a diagram embedding before
-            taking expectations over training sets.  We have for all $f$ that
+            taking expectations over train sets.  We have for all $f$ that
             $\expct{\dvalue_\pi(D, f)} = \dvalue(D)$.
             Observe that both sides are finitary sums.
 
