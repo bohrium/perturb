@@ -25,6 +25,7 @@
 \newtheorem*{quest*}{Question}
 \newtheorem{conj}{Conjecture}
 \newtheorem{rmk}{Remark}
+\newtheorem*{rmk*}{Remark}
 
 \usepackage{icml2019}
 %\usepackage[accepted]{icml2019}
@@ -1042,7 +1043,7 @@
         We test Proposition \ref{prop:vanilla} for smooth convolutional
         architectures for CIFAR-10 and Fashion-MNIST by comparing measured 
         test losses and generalization gaps with un-renormalized predictions
-        (see Appendices E and F for experiment details).  We find good
+        (see Appendices \ref{sect:landscape}).  We find good
         agreement between our order $\eta^3$ perturbative predictions up to
         $\eta T \approx 10^0$.  Though of little direct import, this test
         verifies that our application of the diagram method hides no factor
@@ -1462,13 +1463,68 @@
 \renewcommand{\thesection}{\Alph{section}}
 \setcounter{section}{0}
 
+\section*{Invitation to Appendices}
+    The first three appendices deal with \textsc{Calculation} and contain the
+    proofs --- some heavily annotated for pedagogical purposes --- of all the
+    corollaries in the text.
+    %
+    \textsc{Appendix} \ref{sect:tutorial} guides the reader through a hands-on tutorial
+        of the diagram method, including renormalization.  It concludes with a
+        simple project for the reader, the solution of which is a novel result
+        easily obtained by the diagram method to but not written in this paper. 
+    \textsc{Appendix} \ref{sect:compare} demonstrates how and why the diagram method
+        excels over direct application of the Key Lemma, even if we desire only
+        unrenormalized results.
+    \textsc{Appendix} \ref{sect:calculations} provides the remaining computations
+        promised.
+
+    The next two appendices offer the foundational \textsc{Proofs} that
+    license the computations and corollaries treated in the preceding
+    appendices.
+    %
+    \textsc{Appendix} \ref{sect:morebackground} sets up the objects of study with full
+        mathematical precision.
+    \textsc{Appendix} \ref{sect:proofs}, after cataloging the regularity conditions
+        required of loss landscapes (and implicitly assumed as a hypothesis
+        of all results herein), proves Theorems \ref{thm:sgdcoef} and
+        \ref{thm:renorm}, along the way proving the Key Lemma.
+
+    The next three appendices further describe \textsc{Experiments}, methods,
+    and results.
+    %
+    \textsc{Appendix} \ref{sect:bessel} explains how we obtained loss landscape
+        statistics such as expected entropic force for real datasets.
+    \textsc{Appendix} \ref{sect:landscape} details our training, testing, and
+        architecture for the datasets (e.g. CIFAR-10) that we used in
+        experiments.
+    \textsc{Appendix} \ref{sect:figures} exhibits additional plots that could (but fail
+        to) falsify our theory.
+
+    The final appendix is for convenient \textsc{Reference}.
+    %
+    \textsc{Appendix} \ref{sect:glossary} roughly defines physical and mathematical
+        terms we use and includes a table of values and interpretations for
+        diagrams.
+
 \section{Tutorial on Diagram Rules} \label{sect:tutorial}
 
-    After reviewing the diagram method's recipe step by step, we will work through two
-    examples in using diagrams to analyze descent.  As in the main text, we
+    After reviewing the diagram method's recipe step by step, we will work
+    through three sample problems.  As in the main text, we
     relegate precise combinatorial definitions to Section
     \ref{sect:morebackground}, prefering in this section to appeal to intuition
     and to hands-on examples.
+
+    Remember the computational recipe.  To compute a quantity of interest, list
+    all the relevant diagrams, then evaluate each diagram, over all of its
+    embeddings into spacetime.  After reviewing the intuitive interpretation
+    and combinatorial character of diagrams, we illustrate each step of this
+    process.  The material is slightly nonlinear, so we present it redundantly.
+
+    \subsection{Anatomy of a Diagram}
+        {\color{moor} FILL IN}
+        \subsubsection*{}
+        \subsubsection*{}
+        \subsubsection*{}
 
     \subsection{Listing Relevant Diagrams}
 
@@ -1478,12 +1534,20 @@
             quantity, we know immediately that we will only need to consider
             diagrams with $d$ thin edges.
 
-            Moreover, Theorem \ref{thm:sgdcoef} says that the test loss involves
-            only diagrams whose root (a.k.a. rightmost node) participates in no
-            fuzzy ties.
-            And it says that the generalization gap (ie. test minus train loss)
-            involves only diagrams whose root participates in a fuzzy
-            outline with one other node.
+            Depending on what we want to compute, we can rule out more
+            diagrams.  The type of quantity (test loss / test loss minus train
+            loss), the
+            optimization schedule (single-epoch / effect of batch size comparison
+            between two optimizers), and special posited
+            structure (initialize at minimum / no noise / gaussian noise,
+            quadratic loss) can all rule out diagrams.
+
+            Indeed, Theorem \ref{thm:sgdcoef} says that the \emph{test loss}
+            involves only diagrams whose root (a.k.a. rightmost node)
+            participates in no fuzzy ties.  And it says that the
+            \emph{generalization gap} (ie. test minus train loss) involves only
+            diagrams whose root participates in a fuzzy outline with one other
+            node.
             \begin{rmk*}
                 As originally defined, diagrams have thin edges and fuzzy ties
                 but not fuzzy outlines.  But because taking train losses minus
@@ -1495,6 +1559,35 @@
                 - \sdia{(0-1-2)(01-12)}$, which is a (summand in the) train
                 loss minus (a corresponding summand in the) test loss.    
             \end{rmk*}
+
+            Moreover, because diagrams must ultimately embed into spacetime in
+            order to contribute, we might rule out ill-fitting diagrams if
+            we know about our specific spacetime.  As a simplest example, 
+            one-epoch SGD has only one spacetime cell per row and thus does
+            not permit diagrams such as $\sdia{(01-2)(01-12)}$ to be embedded
+            because such embeddings would have intra-cell edges.  Thus, for
+            one-epoch SGD, we may ignore diagrams whose thin-edge trees have
+            a fuzzily tied ancestor-descendant pair.
+            As another example of this type of simplification: the spacetimes
+            of any two $(N,B,M)$-style SGD runs, with same $N, M$ for fair
+            comparison but different $B$, correspond in many-to-one fashion so
+            that no diagram embedded with each node in a different epoch
+            contributes to the difference between GD and SGD.
+
+            Finally, knowledge of loss landscape structure can further rule
+            out diagrams.  As a simplest example, it is often interesting to
+            initialize at a test minimum to then measure subsequent
+            overfitting.  At a test minimum, the expected gradient $G$
+            vanishes, and hence every diagram with a factor of $G$ vanishes.
+            These are the diagrams with a leaf node that is not fuzzily tied. 
+            So, at a test minimum, we may ignore diagrams such as
+            $\sdia{(0-12)(02-12)}$
+            and
+            $\sdia{(01-2-3)(02-12-23)}$.
+            As a further example of this type of simplification: in the
+            noiseless case where covariances are $0$, we may ignore every
+            diagram with size-$2$ fuzzy-outline-cliques, e.g.
+            $\sdia{(0-12-3)(01-12-23)}$.
 
         \subsubsection*{Examples}
             \begin{quest*}
@@ -1563,20 +1656,39 @@
             $\sdia{(0-12)(02-12)}-\sdia{(0-1-2)(02-12)}$, and
             $\sdia{(012)(02-12)} -\sdia{(01-2)(02-12)} $.
 
-    \subsection{Interpreting a Diagram}
-        {\color{moor} FILL IN}
-
-    \subsection{Integrating a Diagram over Spacetime}
+    \subsection{Summing a Diagram over Spacetime Embeddings}
         \subsubsection*{Unrenormalized (simpler, but bad for large $\eta T$)} 
         \subsubsection*{Renormalized (good for large $\eta T$)} 
+        \subsubsection*{Examples}
 
-    \subsection{The Roles of Covariance: the Generalization Gap of SGD}
+    \subsection{
+        The Roles of Covariance: the Generalization Gap of SGD.
+        Proof of Corollaries \ref{cor:} and \ref{cor:}. 
+    }
         {\color{moor} FILL IN}
  
-    \subsection{The 3rd Order Curl: Which Minima Does SGD Prefer?}
+    \subsection{
+        The 3rd Order Curl: Which Minima Does SGD Prefer?
+        Proof of Corollaries \ref{cor:} and \ref{cor:}. 
+    }
         {\color{moor} FILL IN}
 
-    \subsection{Project: }
+    \subsection{
+        SGD vs ODE and SDE.
+        Proof of Corollary \ref{cor:vsode}. 
+    }
+        {\color{moor} FILL IN}
+
+    \subsection{
+        When Does SGD Outperform GD:
+        effect of Batch Size and Epochs.
+        Proof of Proposition \ref{prop:} and Corollary \ref{cor:}. 
+    }
+        {\color{moor} FILL IN}
+
+    \subsection{
+        Project: 
+    }
         {\color{moor} FILL IN}
       
 \section{Diagram Rules vs Direct Perturbation} \label{sect:compare}
@@ -1584,11 +1696,12 @@
     because they enable swift computations and offer immediate intuition that
     would otherwise require laborious algebraic manipulation.  We demonstrate
     how our diagram formalism likewise streamlines analysis of descent by
-    comparing direct perturbation to the new formalism on three sample
-    problems.
+    comparing direct perturbation\footnote{
+        By ``direct perturbation'', we mean direct application of our Key
+        Lemma.
+    }
+    to the new formalism on three sample problems.
 
-    We note that the Key Lemma underlies not only the diagrammatic method but
-    also our style of direct perturbation.
 
     Aiming for a conservative comparison of derivation ergonomics, we lean
     toward explicit routine when using diagrams and allow ourselves to use
@@ -1612,7 +1725,10 @@
     to direct perturbation because the algebraic manipulations involved for
     the latter are too complicated to carry out.  
 
-    \subsection{Effect of Batch Size}
+    \subsection{
+        Effect of Batch Size.
+        Proof of Corollary \ref{cor:}.
+    }
         We compare the test losses of pure SGD and pure GD.  Because pure
         SGD and pure GD differ in how samples are correlated, their test loss
         difference involves a covariance and hence occurs at order $\eta^2$.  
@@ -1749,7 +1865,10 @@
                 G \nabla C 
             $$
 
-    \subsection{Effect of Nongaussian Noise at a Minimum}
+    \subsection{
+        Effect of Nongaussian Noise at a Minimum.
+        Proof of Corollary \ref{cor:}.
+    }
         We consider vanilla SGD initialized at a local minimum of the test loss.
         One expects $\theta$ to diffuse around that minimum according to
         gradient noise.  We compute the effect on test loss of nongaussian
@@ -1904,7 +2023,10 @@
     %    \subsubsection*{Diagram Method}
     %    \subsubsection*{Direct Perturbation}
 
-    \subsection{The Effect of Inter-Epoch Shuffling}
+    \subsection{
+        The Effect of Inter-Epoch Shuffling.
+        Proof of Corollary \ref{cor:shuffle}.
+    }
         We identify the leading order effect of shuffling on test loss for
         pure, multi-epoch SGD.  It is much harder to see by direct perturbation
         than by diagrams that this is an order $\eta^4$ effect, so for fairness
@@ -2001,15 +2123,14 @@
 
 
 \section{Other Perturbative Calculations} \label{sect:calculations}
-    \subsection{SGD vs ODE and SDE}
-        {\color{moor} FILL IN}
-    \subsection{Interepoch Shuffling}
-        {\color{moor} FILL IN}
-    \subsection{Effect of Epochs}
-        {\color{moor} FILL IN}
-    \subsection{Renormalized Nonconservative Entropic Force}
-        {\color{moor} FILL IN}
-
+    %\subsection{SGD vs ODE and SDE}
+    %    {\color{moor} FILL IN}
+    %\subsection{Interepoch Shuffling}
+    %    {\color{moor} FILL IN}
+    %\subsection{Effect of Epochs}
+    %    {\color{moor} FILL IN}
+    %\subsection{Renormalized Nonconservative Entropic Force}
+    %    {\color{moor} FILL IN}
 
 
 \section{Mathematical Background} \label{sect:morebackground}
@@ -2467,6 +2588,14 @@
             when we use $\sum_n l_n/N$ instead of $l$ as the value for $s$. 
             The Path Integral Theorem (Theorem \ref{thm:sgdcoef}) follows.
 
+            \begin{rmk}
+                Because the spacetime of vanilla SGD permits only embeddings
+                with each fuzzy-connected-component in one distinct cell, the
+                embeddings of a diagram are easily counted using factorials
+                per Proposition \ref{prop:ordtwo}.  That proposition immediately
+                follows from the now-proven Theorem \ref{thm:sgdcoef}.
+            \end{rmk}
+
     \subsection{Coefficient Convergence upon Renormalization}
         \subsubsection*{Renormalization Theorem: Proof Idea}
             The diagrams summed in Theorem \ref{thm:renorm} may be grouped by
@@ -2828,14 +2957,17 @@
     \clearpage
     \newpage
 
-    \subsection{Diagrams for Computing Test Losses}
+    \subsection{
+        Diagrams for Computing Test Losses
+    }
 
     \begin{tabular}{p{1.0\textwidth}}
-        The rows below are indexed by topological families of diagrams.  For
+        We present all $3$rd order diagrams relevant to test loss computations.
+        Actually, the rows are indexed by topological families of diagrams.  For
         example, the diagrams $\sdia{(0-1-2)(01-12)}$ and
         $\sdia{(0-1-2)(02-12)}$, through distinct as diagrams, are
         topologically equivalent.  They thus have the same unrenormalized value
-        (an example of crossing symmetry!), and for compactness we discuss them
+        (an example of crossing symmetry!), and for brevity we treat them
         in the same row, labeled arbitrarily with one of them (here
         $\sdia{(0-1-2)(02-12)}$).  The interpretation of a diagram as a
         weight-data interaction process depends on the exact diagram, not just
@@ -2845,24 +2977,24 @@
 
     \begin{tabular}{p{0.1\textwidth}p{0.45\textwidth}p{0.4\textwidth}}
            \textsc{Diagram}             &  \textsc{Unrenormalized Value}                                                & \textsc{Interpretation} \\ \hline
-           $\sdia{(0)()}$               &  $+l$                                                                         & trivial process: no data-weight interaction 
-        \\ $\sdia{(0-1)(01)}$           &  $-\eta^{\mu\nu} G_\mu G_\nu$                                                 & a datapoint directly affects the test loss   
-        \\ $\sdia{c(01-2)(01-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} \wrap{\nabla_\lambda C_{\mu\nu}} G_\rho/2$ & a datapoint affects the test loss through a later encountered instance of itself
-        \\ $\sdia{(0-1-2)(02-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} G_\mu G_\lambda H_{\nu\rho}$               & two different datapoints both affect the test loss
-        \\ $\sdia{c(01-2)(02-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} C_{\mu\lambda} H_{\nu\rho}$                & a datapoint twice affects the test loss
-        \\ $\sdia{(0-1-2-3)(01-12-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} G_{\mu} H_{\nu\lambda} H_{\rho\sigma} G_{\pi}$& a datapoint affects a different datapoint that affects yet another datapoint that affects the test loss
-        \\ $\sdia{(0-1-2-3)(03-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} G_{\mu} G_{\lambda} G_{\sigma} J_{\nu\rho\pi}$& three different datapoints affect the test loss
-        \\ $\sdia{c(01-2-3)(02-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} G_{\mu} H_{\nu\lambda} G_{\sigma} H_{\rho\pi} $& a datapoint twice affects the loss, once directly and once through a later-encountered and different datapoint 
-        \\ $\sdia{c(0-12-3)(01-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{G_\sigma \nabla_\pi \wrap{C_{\mu\lambda} H_{\nu\rho}}/2 - C_{\mu\lambda} G_{\sigma} J_{\nu\rho\pi}}$& a datapoint affects a different point that itself twice affects the test loss 
-        \\ $\sdia{c(01-2-3)(03-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} C_{\mu\lambda} G_{\sigma} J_{\nu\rho\pi}$& a datapoint twice affects the test loss while a different datapoint affects the test loss
-        \\ $\sdia{c(012-3)(03-13-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x\nabla_{\lambda} l_x\nabla_{\sigma} l_x} - G_{\mu} G_{\lambda} G_{\sigma}}  J_{\nu\rho\pi}$& a datapoint thrice affects the test loss
+           $\sdia{(0)()}$               &  $+l$                                                                         & Trivial process: no data-weight interaction 
+        \\ $\sdia{(0-1)(01)}$           &  $-\eta^{\mu\nu} G_\mu G_\nu$                                                 & A datapoint directly affects the test loss   
+        \\ $\sdia{(01-2)(01-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} \wrap{\nabla_\lambda C_{\mu\nu}} G_\rho/2$ & A datapoint affects the test loss through a later encountered instance of itself
+        \\ $\sdia{(0-1-2)(02-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} G_\mu G_\lambda H_{\nu\rho}$               & Two different datapoints both affect the test loss
+        \\ $\sdia{(01-2)(02-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} C_{\mu\lambda} H_{\nu\rho}$                & A datapoint twice affects the test loss
+        \\ $\sdia{(0-1-2-3)(01-12-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} G_{\mu} H_{\nu\lambda} H_{\rho\sigma} G_{\pi}$& A datapoint affects a different datapoint that affects yet another datapoint that affects the test loss
+        \\ $\sdia{(0-1-2-3)(03-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} G_{\mu} G_{\lambda} G_{\sigma} J_{\nu\rho\pi}$& Three different datapoints affect the test loss
+        \\ $\sdia{(01-2-3)(02-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} G_{\mu} H_{\nu\lambda} G_{\sigma} H_{\rho\pi} $& A datapoint twice affects the loss, once directly and once through a later-encountered and different datapoint 
+        \\ $\sdia{(0-12-3)(01-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{G_\sigma \nabla_\pi \wrap{C_{\mu\lambda} H_{\nu\rho}}/2 - C_{\mu\lambda} G_{\sigma} J_{\nu\rho\pi}}$& A datapoint affects a different point that itself twice affects the test loss 
+        \\ $\sdia{(01-2-3)(03-13-23)}$ &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} C_{\mu\lambda} G_{\sigma} J_{\nu\rho\pi}$& A datapoint twice affects the test loss while a different datapoint affects the test loss
+        \\ $\sdia{(012-3)(03-13-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x\nabla_{\lambda} l_x\nabla_{\sigma} l_x} - G_{\mu} G_{\lambda} G_{\sigma}}  J_{\nu\rho\pi}$& A datapoint thrice affects the test loss
 
-        \\ $\sdia{c(01-2-3)(01-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\nabla_\lambda C_{\mu\nu}} H_{\rho\sigma} G_\pi/2$      &   a datapoint affects a later instance of itself, which affects a different point, which affects the test loss
-        \\ $\sdia{c(0-12-3)(01-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_\nu \nabla_\lambda l_x \nabla_\rho\nabla_\sigma l_x} - H_{\nu\lambda} H_{\rho\sigma}} G_\mu G_\pi$      &   a datapoint affects another datapoint, which in turn affects a later instance of itself, which affects the test loss
-        \\ $\sdia{c(012-3)(01-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x \nabla_\nu \nabla_{\lambda} l_x \nabla_\rho \nabla_{\sigma} l_x} - G_{\mu} H_{\nu \lambda} H_{\rho\sigma}} G_\pi$      &    a datapoint affects a later instance of itself, which affects a yet later instance of itself, which affects the test loss
-        \\ $\sdia{c(012-3)(03-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x \nabla_\lambda l_x \nabla_\rho \nabla_{\sigma} l_x} - G_{\mu} G_{\lambda} H_{\rho\sigma}} H_{\nu\pi}$      &    a datapoint affects the test loss twice, once directly, and once through a later instance of itself 
-        \\ $\sdia{c(0-12-3)(02-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_\lambda l_x \nabla_\nu\nabla_\rho\nabla_\sigma l_x} - G_{\lambda} J_{\nu\rho\sigma}} G_\mu G_\pi$     &    a datapoint affects the test loss through a later encountered instance of itself, which was earlier affected by a different datapoint
-        \\ $\sdia{c(012-3)(02-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x \nabla_\lambda l_x \nabla_\nu \nabla_\rho \nabla_{\sigma} l_x} - G_{\mu} G_{\lambda} J_{\nu\rho\sigma}} G_\pi$      &    a datapoint twice affects a later instance of itself that in turn affects the test loss
+        \\ $\sdia{(01-2-3)(01-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\nabla_\lambda C_{\mu\nu}} H_{\rho\sigma} G_\pi/2$      &   A datapoint affects a later instance of itself, which affects a different point, which affects the test loss
+        \\ $\sdia{(0-12-3)(01-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_\nu \nabla_\lambda l_x \nabla_\rho\nabla_\sigma l_x} - H_{\nu\lambda} H_{\rho\sigma}} G_\mu G_\pi$      &   A datapoint affects another datapoint, which in turn affects a later instance of itself, which affects the test loss
+        \\ $\sdia{(012-3)(01-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x \nabla_\nu \nabla_{\lambda} l_x \nabla_\rho \nabla_{\sigma} l_x} - G_{\mu} H_{\nu \lambda} H_{\rho\sigma}} G_\pi$      &    A datapoint affects a later instance of itself, which affects a yet later instance of itself, which affects the test loss
+        \\ $\sdia{(012-3)(03-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x \nabla_\lambda l_x \nabla_\rho \nabla_{\sigma} l_x} - G_{\mu} G_{\lambda} H_{\rho\sigma}} H_{\nu\pi}$      &    A datapoint affects the test loss twice, once directly, and once through a later instance of itself 
+        \\ $\sdia{(0-12-3)(02-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_\lambda l_x \nabla_\nu\nabla_\rho\nabla_\sigma l_x} - G_{\lambda} J_{\nu\rho\sigma}} G_\mu G_\pi$     &    A datapoint affects the test loss through a later encountered instance of itself, which was earlier affected by a different datapoint
+        \\ $\sdia{(012-3)(02-12-23)}$  &  $-\eta^{\mu\nu}\eta^{\lambda\rho}\eta^{\sigma\pi} \wrap{\expct{\nabla_{\mu} l_x \nabla_\lambda l_x \nabla_\nu \nabla_\rho \nabla_{\sigma} l_x} - G_{\mu} G_{\lambda} J_{\nu\rho\sigma}} G_\pi$      &    A datapoint twice affects a later instance of itself that in turn affects the test loss
     \end{tabular}
 
 \end{document}
