@@ -17,15 +17,21 @@
 \usepackage[percent]{overpic}
 
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
-\newtheorem*{klem*}{Key Lemma}
-\newtheorem{thm}{Theorem}
-\newtheorem{cor}{Corollary}
-\newtheorem{prop}{Proposition}
-\newtheorem{quest}{Question}
-\newtheorem*{quest*}{Question}
-\newtheorem{conj}{Conjecture}
-\newtheorem{rmk}{Remark}
-\newtheorem*{rmk*}{Remark}
+
+\theoremstyle{plain}
+    \newtheorem*{klem*}{Key Lemma}
+    \newtheorem{thm}{Theorem}
+    \newtheorem{cor}{Corollary}
+    \newtheorem{prop}{Proposition}
+    \newtheorem{conj}{Conjecture}
+    \newtheorem{quest}{Question}
+    \newtheorem*{quest*}{Question}
+%
+\theoremstyle{definition}
+    \newtheorem{defn}{Definition}
+    \newtheorem*{answ*}{Answer}
+    \newtheorem{rmk}{Remark}
+    \newtheorem*{rmk*}{Remark}
 
 \usepackage{icml2019}
 %\usepackage[accepted]{icml2019}
@@ -164,7 +170,7 @@
 %==============================================================================
 
 \begin{abstract}
-    We adapt Feynman Diagrams to reason about the behavior of Stochastic
+    We harness Feynman Diagrams to reason about the behavior of Stochastic
     Gradient Descent (SGD) at small learning rates $\eta$.
     %
     Illustrating this technique:
@@ -383,9 +389,10 @@
             }.  Moreover, when we later renormalize toward the large-$\eta T$
             regime (Sections \ref{subsect:effective}, \ref{subsect:entropic},
             and \ref{subsect:overfit}), the topology of diagrams will play a
-            key role.  While diagrams may in principle be completely avoided,
-            Appendix \ref{sect:compare} shows that to avoid them can convolute
-            analysis.   
+            key role.  While diagrams may by direct use of our Key Lemma be
+            completely avoided, Appendix \ref{sect:compare} shows that to avoid
+            them can convolute analysis.  The more complicated the direct
+            computation, the greater the savings of using diagrams.
 
 %==============================================================================
 %       BACKGROUND AND NOTATION
@@ -545,7 +552,7 @@
                    -2~\expct{{\color{moor}(\nabla l)(\nabla l)}}~\expct{{\color{moog}\nabla \nabla l}}~\expct{{\color{moob}\nabla \nabla l}}
                 }
         \end{align}
-        Above, each degree-$g$ node corresponds to an $l_n$ (here,
+        Each degree-$g$ node corresponds to an $l_n$ (here,
             {\color{moor} $l_c$},
             {\color{moog} $l_b$},
             {\color{moob} $l_a$}) differentiated $g$ times
@@ -554,8 +561,11 @@
         contractions by $-\eta$.  Fuzzy \emph{ties} denote correlations by
         connecting identical loss functions (here, {\color{moor} $l_c$} with
         {\color{moor} $l_c$}), and are visually emphasized by otherwise
-        meaningless colors.  A diagram $D$ evaluates to the expected value
-        $\dvalue(D)$ of the corresponding tensor expression.
+        meaningless colors.
+        \begin{defn}
+            A diagram $D$ evaluates to the expected value
+            $\dvalue(D)$ of the corresponding tensor expression.
+        \end{defn}
         % 
         Usefully, % for a fixed, i.i.d.  distribution over $(l_c, l_b, l_a)$,
         \emph{the topology of a diagram determines its value}.  For instance,
@@ -567,55 +577,78 @@
         $.
         We will sometimes write a diagram $D$ and mean $\dvalue(D)$. 
     
-        Since many of our results concern the effect of correlations, it will
-        be convenient to notate them concisely.  We thus define a diagram with
-        fuzzy outlines to be the difference between the fuzzy tied and untied
-        versions : $\sdia{c(01-2)(01-12)} =
-        \sdia{(01-2)(01-12)}-\sdia{(0-1-2)(01-12)}$.  
+        \begin{defn}[Fuzzy Outlines Denote the Effect of Noise]
+            As we study the effect of noise, we'd like to concisely notate the
+            fuzzy ties that represent it.
+            So, if $D$ is a diagram and $p, \tilde p$ are two parts of $D$'s
+            parition, let $D_{p\tilde p}$ be the diagram with $p, \tilde p$
+            joined into a single part.  So:
+            $
+                (\sdia{(0-1)(01)})_{\text{\color{moor}red}~\text{\color{moog}green}}
+                \triangleq
+                \sdia{(01)(01)}
+            $
+            and
+            $
+                (\sdia{(01-2-3)(02-12-23)})_{\text{\color{moor}red}~\text{\color{moob}blue}}
+                \triangleq
+                \sdia{(013-2)(02-12-23)}
+            $.
+            Differences such as $D_{p\tilde p}-D$ will often concern us, so we
+            define a diagram with fuzzy \emph{outlines} to represent the
+            difference between the fuzzy tied and untied versions so that
+            $
+                \sdia{c(0-12)(01-12)}
+                \triangleq
+                (\sdia{(0-1-2)(01-12)})_{\text{\color{moog}green}~\text{\color{moob}blue}}
+                -
+                \sdia{(0-1-2)(01-12)}
+                =
+                \sdia{(0-12)(01-12)}
+                -
+                \sdia{(0-1-2)(01-12)}
+            $.
+        \end{defn}
             
     %--------------------------------------------------------------------------
     %           Recipe for Test Loss and Generalization Gap
     %--------------------------------------------------------------------------
 
     \subsection{Recipe for SGD's Test Loss and Generalization}
-        Our results follow from this theorem and its analogues, proved in
-        Appendix \ref{sect:proofs} and applied in Appendices
-        \ref{sect:tutorial},
-        \ref{sect:compare},
-        \ref{sect:calculations}.
+        We prove the following in Appendix \ref{sect:proofs}.
+        
         \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
             For all $T$: for $\eta$ sufficiently small, SGD's expected test
             loss is
-            \begin{equation}\label{eq:sgdcoef}
+            \begin{equation*}\label{eq:sgdcoef}
                 \sum_{D \in \image(\Free)} \wrap{
                     \sum_{f: D\to\Free(S)}
                     \frac{1}{\wabs{\Aut_f(D)}}
                 }
                 \frac{\dvalue(D)}{B^{|\edges(D)|}}
-            \end{equation}
-            Here, $D$ is a diagram of form $\Free(\Tt)$, $f$ is a morphism in
-            $\Pp$, and $\Aut_f(D)$ counts $\Pp$-automorphisms of $D$ that
-            commute with $f$. 
+            \end{equation*}
+            Here, $D$ is a diagram whose root $r$ participates in no fuzzy
+            edge,    $f$ represents an embedding of $D$ into spacetime, and
+            $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
+            preserve $f$'s assignment of nodes to cells.
             %
-            Moreover, if we replace each $\dvalue(D)$ by
+            Replacing each $\dvalue(D)$ by
             $
-                -\sum_{p \in \parts(D)} \dvalue(D_p)/N
-            $, we obtain
-            SGD's expected generalization gap (test loss minus train loss).
-            Here, $D_p$ is $D$ with a fuzzy outline connecting $p$ to $\max D$
-            E.g., $(\sdia{(0-1)(01)})_{p=\sdia{(0)()}} =
-            \sdia{c(01)(01)}$.
+                \wrap{-\sum_{p \in \parts(D)} \dvalue(D_{rp} - D)/N}
+            $,
+            we obtain the expected generalization gap (test minus train
+            loss).
         \end{thm}
     
         In the special case of $B=1, M=1$:
         \begin{prop}[Specialization to Vanilla SGD] \label{prop:vanilla}
             The order $\eta^d$ contribution to the expected test loss of
             one-epoch SGD with singleton batches is:
-            \begin{equation}\label{eq:sgdbasiccoef}
+            \begin{equation*}\label{eq:sgdbasiccoef}
                 \frac{(-1)^d}{d!} \sum_{D\in \image(\Free)} 
                 |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
                 \dvalue(D)
-            \end{equation}
+            \end{equation*}
             where $D$ ranges over $d$-edged diagrams whose equivalence classes
             have sizes $d_p: 0\leq p\leq P$, with $d_P=1$
             and, without loss, are each antichains.  The modification to
@@ -638,16 +671,20 @@
     %--------------------------------------------------------------------------
 
     \subsection{Consequences of the Recipe}
+        For accessibility, we write our results with Greek indices instead of
+        diagrams.  However, as Appendices \ref{sect:tutorial},
+        \ref{sect:compare}, and \ref{sect:calculations} show, diagrams are
+        crucial for proving --- and for identifying the data-weight processes
+        that govern --- these results.
 
         \begin{cor}[SGD Differs from ODE and SDE] \label{cor:vsode}
-            For one-epoch SGD on singleton batches through fixed physical time
-            $T$: the order $N^{-1}$ deviation of SGD's test loss from ODE's is
+            The test loss of vanilla SGD deviates at order $N^{-1}$ from
+            ODE by
             $
                 %({{T^2 N^{-1}}/{2}}) \sdia{c(01-2)(02-12)}
                 \frac{T^2 N^{-1}}{2} ~ C_{\mu\nu} H^{\mu\nu}
             $.
-            The order $N^{-2}$ deviation of SGD's test loss due to non-gaussian
-            noise is
+            Its order $N^{-2}$ deviation due to non-gaussian noise is
             $
                 \frac{T^3 N^{-2}}{6} \wrap{
                     \sdia{c(012-3)(03-13-23)}
@@ -668,13 +705,13 @@
                     C_{\mu \nu} G_\lambda J^{\mu\nu\lambda}
                 }
             $.
-            These effects together contribute to SGD's difference from SDE.
+            These effects contribute to SGD's difference from SDE.
         \end{cor}
-        For finite $N$, these effects make SDE different from SGD.  SDE also
-        fails to model the correlations between updates in multiepoch SGD.  On
-        the other hand, in the $N=\infty$ limit for which SDE matches SGD,
-        optimization and generalization become computationally intractable and
-        trivial, respectively. 
+        For finite $N$, these effects separate SDE from SGD.  SDE also fails to
+        model multi-epoch SGD's inter-update correlations.  Conversely, as
+        $N\to\infty$ so that SDE matches SGD, optimization and generalization
+        respectively become computationally intractable and trivial and hence
+        less interesting.
     
         \begin{table}[h]
             \centering 
@@ -797,10 +834,10 @@
                 -\frac{T(T-1)}{4} C_{\mu_\nu} J^{\mu \nu}_{\lambda} G^{\lambda}
             $.
         \end{cor}
-        Corollary \ref{cor:noncons} was first proven by \citet{ya19b}, and
-        our methods reproduce it elegantly.  We will renormalize it to
-        Corollary \ref{cor:entropic}, which will apply for large times, 
-        hence demonstrating a persistent and non-conservative entropic force.
+        Corollary \ref{cor:noncons} was first proven by \citet{ya19b}; our
+        methods reproduce it elegantly.  We will renormalize it to Corollary
+        \ref{cor:entropic}, which applies for large times, hence demonstrating
+        a persistent and non-conservative entropic force.
     
     %--------------------------------------------------------------------------
     %           Descent as Scattering                       
@@ -932,14 +969,14 @@
         \begin{thm}[Renormalization Gives Large-$T$ Limits] \label{thm:renorm}
             For any $T$: for $\eta$ sufficiently small, SGD's expected test
             loss exceeds the noiseless case by 
-            \begin{equation} \label{eq:renorm}
+            \begin{equation*} \label{eq:renorm}
                 \sum_{\substack{D \in \image(\Free)\\ \text{\color{moor} irreducible}}}
                 \wrap{
                     \sum_{f: D\to\Free(S)}
                     \frac{1}{\wabs{\Aut_f(D)}}
                 }
                 \frac{{\color{moor} \rvalue_f}(D)}{B^{|\edges(D)|}}
-            \end{equation}
+            \end{equation*}
             In contrast to Theorem \ref{thm:sgdcoef}: when $H$ is positive, the
             $d$th order truncation converges as $T$ diverges.
         \end{thm}
@@ -1354,11 +1391,11 @@
     %           Summarize Contributions                     
     %--------------------------------------------------------------------------
 
-    Harnessing Feynman diagrams, we present an elegant framework for
-    understanding small-$\eta T$ SGD.  The more complicated the direct
-    computation, the greater the savings of using diagrams.  In fact, our
-    Renormalization Theorem licences predictions for large $\eta T$, beyond the
-    reach of direct perturbation.  The theory makes many novel predictions:
+    We present an elegant diagram-based framework for understanding small-$\eta
+    T$ SGD.
+        In fact, our Renormalization Theorem licences
+    predictions for large $\eta T$, beyond the reach of direct perturbation.
+    The theory makes many novel predictions:
 
         \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
         Flat and sharp minima both overfit less than minima of curvature
@@ -1514,17 +1551,17 @@
     \ref{sect:morebackground}, prefering in this section to appeal to intuition
     and to hands-on examples.
 
-    Remember the computational recipe.  To compute a quantity of interest, list
-    all the relevant diagrams, then evaluate each diagram, over all of its
+    Recall the computational recipe.  To compute a quantity of interest, list
+    all the relevant diagrams, then evaluate each diagram over all of its
     embeddings into spacetime.  After reviewing the intuitive interpretation
     and combinatorial character of diagrams, we illustrate each step of this
-    process.  The material is slightly nonlinear, so we present it redundantly.
+    process.  We finish with example computations and an easy project.
 
     \subsection{Anatomy of a Diagram}
-        {\color{moor} FILL IN}
-        \subsubsection*{}
-        \subsubsection*{}
-        \subsubsection*{}
+        \subsubsection*{The Data of a Diagram}
+        \subsubsection*{The Interpretation of a Diagram}
+        \subsubsection*{Example: The Diagram $\sdia{(01-2-3)(02-12-23)}$}
+        \subsubsection*{Example: The Diagram $\sdia{c(01)(01)}$}
 
     \subsection{Listing Relevant Diagrams}
 
@@ -1548,7 +1585,7 @@
             \emph{generalization gap} (ie. test minus train loss) involves only
             diagrams whose root participates in a fuzzy outline with one other
             node.
-            \begin{rmk*}
+            \begin{rmk*}[Role of Fuzzy Outlines]
                 As originally defined, diagrams have thin edges and fuzzy ties
                 but not fuzzy outlines.  But because taking train losses minus
                 test losses is such a common operation, we have introduced the
@@ -1589,22 +1626,24 @@
             diagram with size-$2$ fuzzy-outline-cliques, e.g.
             $\sdia{(0-12-3)(01-12-23)}$.
 
-        \subsubsection*{Examples}
+        \subsubsection*{Examples of Listing Relevant Diagrams}
             \begin{quest*}
                 Which diagrams contribute to general SGD's generalization gap
                 (i.e. test minus train loss) at order $\eta^1$?
             \end{quest*}
-            The $d$-edged diagrams contribute to order $eta^d$, so we wish to
-            enumerate the diagrams with one edge.  Per Theorem
-            \ref{thm:sgdcoef}, the generalization loss is a sum over diagrams
-            whose root (a.k.a.  rightmost node) participates in one fuzzy
-            outline.  So we seek $1$-edged diagrams whose rightmost node is
-            fuzzily outlinedly tied to one other node.  It turns out there is
-            just one such diagram: $\sdia{c(01)(01)}$.  Indeed, there is only
-            one possible rooted tree of thin edges.  And since there are only
-            two nodes, the rightmost node's fuzzy-outline partner is
-            determined.
-            \begin{rmk*}
+            \begin{answ*}
+                The $d$-edged diagrams contribute to order $eta^d$, so we wish
+                to enumerate the diagrams with one edge.  Per Theorem
+                \ref{thm:sgdcoef}, the generalization loss is a sum over
+                diagrams whose root (a.k.a.  rightmost node) participates in
+                one fuzzy outline.  So we seek $1$-edged diagrams whose
+                rightmost node is fuzzily outlinedly tied to one other node.
+                It turns out there is just one such diagram:
+                $\sdia{c(01)(01)}$.  Indeed, there is only one possible rooted
+                tree of thin edges.  And since there are only two nodes, the
+                rightmost node's fuzzy-outline partner is determined.
+            \end{answ*}
+            \begin{rmk*}[Fuzzy Outlines as Shorthand]
                 $\sdia{c(01)(01)}$ is shorthand for $\sdia{(01)(01)} -
                 \sdia{(0-1)(01)}$, which is a (summand in the) train loss minus
                 (a corresponding summand in the) test loss.    
@@ -1614,62 +1653,76 @@
                 Which diagrams contribute to general SGD's test loss at order
                 $\eta^2$? 
             \end{quest*}
-            The $d$-edged diagrams contribute to order $eta^d$, so we wish to
-            enumerate the diagrams with two edges.  Per Theorem
-            \ref{thm:sgdcoef}, the test loss is a sum over diagrams whose root
-            (a.k.a. rightmost node) participates in no fuzzy ties.  So we seek
-            $2$-edged diagrams whose rightmost node isn't fuzzily tied.  It
-            turns out there are four such diagrams:
-            $\sdia{(0-1-2)(01-12)}$,
-            $\sdia{(01-2)(01-12)}$,
-            $\sdia{(0-1-2)(02-12)}$, and
-            $\sdia{(01-2)(02-12)}$.  Indeed, two permissible rooted trees
-            multiply with two permissible fuzzy tie patterns to yield four
-            diagrams.
+            \begin{answ*}
+                The $d$-edged diagrams contribute to order $eta^d$, so we wish
+                to enumerate the diagrams with two edges.  Per Theorem
+                \ref{thm:sgdcoef}, the test loss is a sum over diagrams whose
+                root (a.k.a. rightmost node) participates in no fuzzy ties.  So
+                we seek $2$-edged diagrams whose rightmost node isn't fuzzily
+                tied.  It turns out there are four such diagrams:
+                $\sdia{(0-1-2)(01-12)}$,
+                $\sdia{(01-2)(01-12)}$,
+                $\sdia{(0-1-2)(02-12)}$, and
+                $\sdia{(01-2)(02-12)}$.
+                Indeed, two permissible rooted trees multiply with two
+                permissible fuzzy tie patterns to yield four diagrams.
+            \end{answ*}
 
             \begin{quest*}
                 Which diagrams contribute to one-epoch SGD's test
                 loss at order $\eta^2$? 
             \end{quest*}
-            We seek $2$-edged diagrams whose rightmost node isn't fuzzily tied.  As
-            we saw before, there are four such diagrams.  However, consideration of
-            one-epoch, singleton-batch SGD's spacetime shows us that no node in the
-            thin-edge tree may be fuzzily tied to any of its descendents.  Thus, of
-            the four possible diagrams (namely, $\sdia{(01-2)(01-12)}$), one has no
-            embeddings, hence has coefficient zero, hence may be ignored.
-            Explictly, the remaining diagrams are:
-            $\sdia{(0-1-2)(01-12)}$,
-            $\sdia{(01-2)(01-12)}$, and
-            $\sdia{(01-2)(02-12)}$.
+            \begin{answ*}
+                We seek $2$-edged diagrams whose rightmost node isn't fuzzily
+                tied.  As we saw before, there are four such diagrams.
+                However, consideration of one-epoch, singleton-batch SGD's
+                spacetime shows us that no node in the thin-edge tree may be
+                fuzzily tied to any of its descendents.  Thus, of the four
+                possible diagrams (namely, $\sdia{(01-2)(01-12)}$), one has no
+                embeddings, hence has coefficient zero, hence may be ignored.
+                Explictly, the remaining diagrams are:
+                $\sdia{(0-1-2)(01-12)}$,
+                $\sdia{(01-2)(01-12)}$, and
+                $\sdia{(01-2)(02-12)}$.
+            \end{answ*}
 
             \begin{quest*}
                 Which diagrams contribute to one-epoch SGD's
                 generalization gap at order $\eta^2$? 
             \end{quest*}
-            We seek $2$-edged diagrams (order $\eta^2$) whose rightmost node
-            has a fuzzy outline connecting to one other node (generalization
-            gap).  We ignore trees whose fuzzy-outline-erased versions involve
-            fuzzy ties between any pair of ancestor and descendant (one-epoch).
-            To be explicit, we write out the fuzzy outlines as the differences
-            they represent: 
-            $\sdia{(0-12)(01-12)}-\sdia{(0-1-2)(01-12)}$,
-            $\sdia{(0-12)(02-12)}-\sdia{(0-1-2)(02-12)}$, and
-            $\sdia{(012)(02-12)} -\sdia{(01-2)(02-12)} $.
+            \begin{answ*}
+                We seek $2$-edged diagrams (order $\eta^2$) whose rightmost
+                node has a fuzzy outline connecting to one other node
+                (generalization gap).  We ignore trees whose
+                fuzzy-outline-erased versions involve fuzzy ties between any
+                pair of ancestor and descendant (one-epoch).  To be explicit,
+                we write out the fuzzy outlines as the differences they
+                represent: 
+                $\sdia{(0-12)(01-12)}-\sdia{(0-1-2)(01-12)}$,
+                $\sdia{(0-12)(02-12)}-\sdia{(0-1-2)(02-12)}$, and
+                $\sdia{(012)(02-12)} -\sdia{(01-2)(02-12)} $.
+            \end{answ*}
 
     \subsection{Summing a Diagram over Spacetime Embeddings}
-        \subsubsection*{Unrenormalized (simpler, but bad for large $\eta T$)} 
-        \subsubsection*{Renormalized (good for large $\eta T$)} 
-        \subsubsection*{Examples}
+        \subsubsection*{Unrenormalized Technique} 
+            The unrenormalized technique of Theorem \ref{thm:sgdcoef} is
+            simpler than the renormalized technique of Theorem
+            \ref{thm:renorm}, but it only has guarantees for small $\eta T$.
+        \subsubsection*{Renormalized Technique} 
+            Though the unrenormalized technique of Theorem \ref{thm:sgdcoef} is
+            simple, the renormalized technique of Theorem \ref{thm:renorm}
+            gives convergent results even for large $\eta T$.
+        \subsubsection*{Examples of Summing a Diagram over Spacetime Embeddings}
 
     \subsection{
         The Roles of Covariance: the Generalization Gap of SGD.
-        Proof of Corollaries \ref{cor:} and \ref{cor:}. 
+        Proof of Corollaries \ref{cor:batch} and \ref{cor:overfit}. 
     }
         {\color{moor} FILL IN}
  
     \subsection{
         The 3rd Order Curl: Which Minima Does SGD Prefer?
-        Proof of Corollaries \ref{cor:} and \ref{cor:}. 
+        Proof of Corollaries \ref{cor:noncons} and \ref{cor:entropic}. 
     }
         {\color{moor} FILL IN}
 
@@ -1680,16 +1733,43 @@
         {\color{moor} FILL IN}
 
     \subsection{
-        When Does SGD Outperform GD:
-        effect of Batch Size and Epochs.
-        Proof of Proposition \ref{prop:} and Corollary \ref{cor:}. 
+        The Effect of Batch Size and Epochs.
+        When Does SGD Outperform GD?
+        Proof of Proposition \ref{prop:batch} and Corollary \ref{cor:epochs}. 
     }
         {\color{moor} FILL IN}
 
     \subsection{
-        Project: 
+        Project: Nongaussian Noise for Large Times.
     }
-        {\color{moor} FILL IN}
+        We saved a result just for you, the reader!  This result is absent from
+        this paper and the literature.  It might be \emph{you} who first writes
+        it out fully.  The result is obtained by answering the following
+        questions.
+
+        \begin{rmk*}[Gaussian Third Moments]
+            Recall that gaussian processes fit arbitrary first and second
+            moments, but that their third moments are determined by 
+            $\wang{x^3} = 3\wang{x^2}\wang{x} - 2\wang{x}^3$.
+        \end{rmk*}
+        \begin{quest*}
+            Which diagrams that contribute to single-epoch SGD's test loss at
+            order $\eta^3$ detect non-gaussian noise?
+        \end{quest*}
+
+        \begin{quest*}
+            What is the renormalized contribution of $\sdia{(012-3)(03-13-23)}$
+            as embedded in the spacetime of single-epoch, singleton-batch SGD?
+        \end{quest*}
+       
+        \begin{quest*}
+            What is the leading order contribution of nongaussian noise to 
+            vanilla SGD's test loss, for large $\eta T$?
+        \end{quest*}
+        \begin{rmk*}[upon finishing]
+            Congratulations!
+        \end{rmk*}
+
       
 \section{Diagram Rules vs Direct Perturbation} \label{sect:compare}
     Diagram methods from Stueckelberg to Peierls have flourished in physics
@@ -1701,7 +1781,6 @@
         Lemma.
     }
     to the new formalism on three sample problems.
-
 
     Aiming for a conservative comparison of derivation ergonomics, we lean
     toward explicit routine when using diagrams and allow ourselves to use
@@ -2458,7 +2537,7 @@
             $\expct{\dvalue_\pi(D, f)} = \dvalue(D)$.
             Observe that both sides are finitary sums.
 
-            \begin{rmk}
+            \begin{rmk}[Differentiating Products]
                 The product rule of Leibniz easily generalizes to higher
                 derivatives of finitary products:
                 $$
@@ -2588,7 +2667,7 @@
             when we use $\sum_n l_n/N$ instead of $l$ as the value for $s$. 
             The Path Integral Theorem (Theorem \ref{thm:sgdcoef}) follows.
 
-            \begin{rmk}
+            \begin{rmk}[The Case of Vanilla SGD]
                 Because the spacetime of vanilla SGD permits only embeddings
                 with each fuzzy-connected-component in one distinct cell, the
                 embeddings of a diagram are easily counted using factorials
