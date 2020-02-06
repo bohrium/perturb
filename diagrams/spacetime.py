@@ -60,15 +60,25 @@ def draw_arc_aa(img, row_s, col_s, row_e, col_e, curve=1.0, color=black):
     for (r, c), (rr, cc) in zip(points, points[1:]):
         draw_line_aa(img, r, c, rr, cc, color)
 
+#N = 7
+#dN = 5
+#T = 7 
+#dT = 3 
+
+N = 7
+dN = 5
+T = 14
+dT = 13
+ 
 #N = 8
 #dN = 7
 #T = 16
 #dT = 5 
 
-N = 4
-dN = 3
-T = 12
-dT = 11
+#N = 4
+#dN = 3
+#T = 12
+#dT = 11
 
 #MARG = 30
 MARG = 45
@@ -163,14 +173,21 @@ def draw_c(filename):
     draw_grid(img)
 
     # an order 1 diagram:
-    draw_diagram(img, [[(5, 5    ),                 (6.0-0.4, 7.0  )]])
+    draw_diagram(img, [[(5, 5    ),                 ( 4.5, 7.0  )]])
 
     # order 2 diagrams:
-    draw_diagram(img, [[(0, 0+0.2),                 (0.0-0.8, 4.2  )], 
-                       [            (0, 0-0.2),     (0.0-0.8, 4.2  )]])
-    draw_diagram(img, [[(1, 1    ),                 (0.0-0.8, 5.2  )], 
-                       [            (2, 2    ),     (0.0-0.8, 5.2  )]])
-    draw_diagram(img, [[(3, 3    ), (4, 4    ),     (5.0-0.4, 7.0  )]])
+    draw_diagram(img, [[(0  , 0.2),                 (-0.5, 7.0  )], 
+                       [            (0  ,-0.2),     (-0.5, 7.0  )]])
+    draw_diagram(img, [[(1.2, 1  ),                 ( 0.7, 7.0  )], 
+                       [            (2.2, 2  ),     ( 0.7, 7.0  )]])
+    draw_diagram(img, [[(3  , 3  ), (4  , 4  ),     ( 3.0, 7.0  )]])
+
+    # bad diagram:
+    draw_diagram(img, [[(6, 6-0.3), (6, 6+0.3),     (6.0, 7.0  )]])
+    draw_x(img, 5.9, 5.9, 6.1, 6.1)
+
+    queue_text(6.9, 3.0, '...matches no one:', color=colors[6])
+    queue_text(0.8, 4.0, '...matches this one.', color=colors[0])
 
     plt.imsave(filename, img)
 
@@ -194,6 +211,9 @@ def draw_d(filename):
 
     # new order 2 diagram:
     draw_diagram(img, [[(6, 6    ), (6,13    ),     (7.0-0.4,14.0  )]])
+
+    queue_text(6.9,10.0, '\u2190 This diagram \u2192', color=colors[6])
+    queue_text(0.9, 4.0, '\u2190 This diagram \u2192', color=colors[0])
 
     plt.imsave(filename, img)
 
@@ -283,12 +303,14 @@ def draw_h(filename):
     
     plt.imsave(filename, img)
 
-FILE_NM = 'spacetime-h.png' 
+FILE_NM = 'spacetime-d.png' 
+#title = "One-Epoch SGD"
+title = "Spacetime for Two-Epoch SGD"
 #title = "Singleton Batches with Shuffling"
 #title = "Size-Two Batches without Shuffling"
 #title = "Renorm. Collects Related Diagrams"
-title = "Renorm. Propagates Noise"
-draw_h(FILE_NM)
+#title = "Renorm. Propagates Noise"
+draw_d(FILE_NM)
 
 #=============================================================================
 

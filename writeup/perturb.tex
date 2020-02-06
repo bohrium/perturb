@@ -317,9 +317,12 @@
             $\sdia{(0-123)(02-12-23)}$: they are composed of thin edges and
             fuzzy ties, where the thin edges form a rooted tree --- by
             convention drawn so that children are left of their parents --- and
-            where the fuzzy ties represent a partition of nodes.  {\color{moor}
+            where the fuzzy ties represent a partition of nodes.
+            Intuitively: thin edges represent differentiation and fuzzy
+            ties represent noise.
+            {\color{moor}
             Colors} are arbitrarily chosen: they are labels --- we might refer
-            to a diagram's ``green nodes'' --- and lack mathematical meaning.
+            to a diagram's ``green nodes'' --- and lack meaning.
 
             We may \emph{embed} a diagram into spacetime by placing each node
             in a shaded cell.  We allow only embeddings that both preserve
@@ -359,14 +362,14 @@
 
             \begin{figure}[h!] 
                 \centering  
-                \plotmooh{diagrams/spacetime-c}{0.32\columnwidth}{0.32\columnwidth}
-                \plotmooh{diagrams/spacetime-d}{0.64\columnwidth}{0.32\columnwidth}
+                \plotmooh{diagrams/spacetime-d}{}{0.35\columnwidth}
+                \plotmooh{diagrams/spacetime-c}{}{0.35\columnwidth}
                 \caption{
-                    Examples of diagrams embedded in spacetime for one-epoch
-                    ({\bf left}) and two-epoch ({\bf right}) SGD.  The diagrams
+                    Examples of diagrams embedded in spacetime for two-epoch
+                    ({\bf left}) and one-epoch ({\bf right}) SGD.  The diagrams
                     for one and two epochs correspond by horizontal shifts
                     \emph{except} when same-row nodes are connected --- such as
-                    in the top right diagram $\sdia{c(01-2)(01-12)}$. 
+                    in the top diagram $\sdia{c(01-2)(01-12)}$. 
                 }
                 \label{fig:epoch}
             \end{figure}
@@ -590,8 +593,7 @@
         We will sometimes write a diagram $D$ and mean $\dvalue(D)$. 
     
         \begin{defn}[Fuzzy Outlines Denote the Effect of Noise]
-            As we study the effect of noise, we'd like to concisely notate the
-            fuzzy ties that represent it.
+            We'd like to concisely notate the effect of correlations.
             So, if $D$ is a diagram and $p, \tilde p$ are two parts of $D$'s
             parition, let $D_{p\tilde p}$ be the diagram with $p, \tilde p$
             joined into a single part.  So:
@@ -963,13 +965,10 @@
             \caption{
                 Illustrations of renormalization.
                 {\bf Left}:
-                    Some embeddings contributing to the single
-                    renormalized term $\rvalue_f(\sdia{(0-1)(01)})$ for an
+                    Some contributions to $\rvalue_f(\sdia{(0-1)(01)})$ for an
                     example embedding $f$.  Theorem \ref{thm:renorm} shows how
-                    to evaluate this total $\rvalue_f$ simply, and it shows
-                    that by considering these related diagrams together, the
-                    complicated diagrams temper the simpler diagrams to yield
-                    better convergence.
+                    (geometric series) and why (improved convergence) we
+                    consider these diagrams as a group.
                 {\bf Right}:
                     A contribution to
                     $\rvalue_f(\sdia{(01-2)(02-12)})$. 
@@ -990,6 +989,7 @@
             \label{fig:renormspacetime}
         \end{figure}
 
+        Integrating $\rvalue{\sdia{(01-2-3)(02-12-23)}}$ yields:
         \begin{cor}[A Nonconservative Entropic Force]\label{cor:entropic}
             Initialized at a test minimum, vanilla SGD's weight moves to
             order $\eta^2$ with a long-time-averaged\footnote{
@@ -1007,12 +1007,15 @@
             Here, $K = \eta H \otimes I + I \otimes \eta H$, a
             $4$-valent tensor. 
         \end{cor}
-        Unlike prior work \cite{we19b}, we make no assumptions of
-        thermal equilibrium, fast-slow mode separation, or constant covariance.
-        This added generality allows us to predict a qualitatively new
+        Unlike prior work \cite{we19b}, we make no assumptions of thermal
+        equilibrium, fast-slow mode separation, or constant covariance.  This
+        generality reveals a novel, empirically verified
         dynamical phenomenon, namely that the velocity field above need not be
-        conservative.  We verify this in experiments.
-        \begin{cor}[Flat and Sharp Minima Overfit Less]\label{cor:overfit}
+        conservative.
+
+        Integrating $\rvalue{\sdia{(01-2)(02-12)}}$ and
+        $\rvalue{\sdia{(01)(01)}}$ yields:
+        \begin{cor}[Flat, Sharp Minima Overfit Less]\label{cor:overfit}
             Initialized at a test minimum, pure GD's test loss is to
             order $\eta$
             $$
@@ -1026,7 +1029,7 @@
             $$
                 \frac{1}{N} ~
                     C_{\mu\nu}
-                    \wrap{(I - \exp(-\eta T H))}^{\nu}_{\lambda}
+                    \wrap{I - \exp(-\eta T H)}^{\nu}_{\lambda}
                     \wrap{H^{-1}}^{\lambda\mu}
             $$
             In contrast to the later-mentioned Takeuchi estimate, this does not
@@ -1079,31 +1082,36 @@
 
 \section{Experiments and Applications}
 
+    Due to arbitrary choices of architecture and optimization duration, metrics
+    such as mean squared error mean little as we compare our predictions to
+    measured test losses.  Instead, we focus on experiments whose rejection of
+    the null hypothesis (and hence support of our theory) is so drastic as
+    to be visually obvious.  For example, in Figure \ref{fig:thermo},
+    \citep{ch18} predicts a velocity of $0$ while we predict a velocity of
+    $\eta^2/6$. 
+
     %--------------------------------------------------------------------------
     %           Vanilla SGD                                 
     %--------------------------------------------------------------------------
 
-    \subsection{Vanilla SGD}
-        {\color{moor} FILL IN}
-        We test Proposition \ref{prop:vanilla} for smooth convolutional
-        architectures for CIFAR-10 and Fashion-MNIST by comparing measured 
-        test losses and generalization gaps with un-renormalized predictions
-        (see Appendix \ref{sect:landscape}).  We find good 
-        agreement between our order $\eta^3$ perturbative predictions up to
-        $\eta T \approx 10^0$.  This test verifies that our application of the
-        diagram method hides no mistakes of proportionality of sign.
-        See Appendix \ref{sect:figures} for figures.
+    \subsection{Basic Predictions}
+        We test Proposition \ref{prop:vanilla} for smooth convnets on CIFAR-10
+        and Fashion-MNIST by comparing measured test losses and generalization
+        gaps with un-renormalized predictions (Appendix \ref{sect:landscape}
+        describes architectures).  Our order $\eta^3$ perturbative predictions
+        up to $\eta T \approx 10^0$ (figures in Appendix \ref{sect:figures}).
+        Likewise, Corollary \ref{cor:epochs} predictions about epochs agree
+        with experiment (Figure \ref{fig:bmmulti}).  These tests verify that
+        our application of the diagram method hides no mistakes of
+        proportionality or sign.  
+
+        {\color{moor} FILL IN TABLE!}
 
     %--------------------------------------------------------------------------
     %           Epochs and Overfitting                      
     %--------------------------------------------------------------------------
  
-    %\subsection{Epochs and Overfitting}
-        %{\color{moor} FILL IN}
-        Likewise, Figure \ref{fig:bmmulti} shows that our predictions of how 
-        epochs affect overfitting are in good agreement with experiment. 
-        %\lorem{3}
-    
+   
     %--------------------------------------------------------------------------
     %           Emulating Small Batches with Large Ones     
     %--------------------------------------------------------------------------
@@ -1178,6 +1186,8 @@
         entropic force of $0$.  This disagreement in predictions is possible
         because our analysis does not make any assumptions of equilibrium,
         conservatism, or continuous time.
+
+
         
         Intuitively, the presence of the term
         $
@@ -1208,35 +1218,10 @@
         un-renormalized prediction, agrees for large $\eta T$
         with experiment (Figure \ref{fig:thermo}).
 
-        \begin{figure}[h!]
-            \centering
-            \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
-            \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
-            \caption{
-                {\bf Left}: SGD's difference from SDE after $\eta T \approx
-                10^{-1}$ with maximal coarseness on the gaussian-fit problem.  
-                Two effects not modeled by SDE --- time-discretization and
-                non-gaussian noise oppose on this landscape but do not
-                completely cancel. 
-                {\bf Right}: On the linear screw landscape, the persistent
-                entropic force pushes the weight through a valley of global
-                minima not at a $T^{1/2}$ diffusive rate but at a directional
-                $T^1$ rate.  Hessians and covariances  are uniformly bounded
-                throughout the valley, and this effect appears at all
-                sufficiently small $\eta$s with strength $\eta^2$.  Thus, the
-                effect is not a pathological artifact of well-chosen learning
-                rate or divergent covariance noise.  Observe that the net
-                displacement of $\approx 10^{1.5}$ well exceeds the $z$-period
-                of $2\pi$. 
-            }
-            \label{fig:thermo}
-        \end{figure}
-
         By stitching together copies of this example, we may cause SGD to
         travel along paths that are closed loops or unbounded curves, and we
         may even add a small linear component so that SGD steadily climbs
         uphill.  
-
 
     %--------------------------------------------------------------------------
     %           Sharp vs Flat Minima                        
@@ -1254,26 +1239,29 @@
         
         \begin{figure}[h!] 
             \centering
+            \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
             \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
-            \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
             \caption{
-                {\bf Left}: For artificial quadratic landscapes with fixed
+                Renormalized predictions.
+                {\bf Left}: On the linear screw landscape, the persistent
+                entropic force pushes the weight through a valley of global
+                minima not at a $T^{1/2}$ diffusive rate but at a directional
+                $T^1$ rate.  Hessians and covariances  are uniformly bounded
+                throughout the valley, and this effect appears at all
+                sufficiently small $\eta$s with strength $\eta^2$.  Thus, the
+                effect is not a pathological artifact of well-chosen learning
+                rate or divergent covariance noise.  Observe that the net
+                displacement of $\approx 10^{1.5}$ well exceeds the $z$-period
+                of $2\pi$. 
+                {\bf Right}: For artificial quadratic landscapes with fixed
                 covariance and a range of Hessians, initialized at the true
                 minimum, the test losses after fixed-$\eta T$ optimization are
                 smallest for very small and very large curvatures.  This
-                evidences our renormalized theory's prediction that both sharp
-                and flat minima overfit less!  In particular, the Takeuchi
-                estimate's singularity is, as predicted, suppressed.
-                {\bf Right}: For artificial quadratic landscapes with fixed
-                covariance and a range of Hessians, initialized a fixed
-                distance \emph{away} from the true minimum, joint descent on 
-                an $l_2$ penalty coefficient $\lambda$ by means of STIC
-                improves on plain gradient descent for most Hessians.  That
-                there is at all a discrepancy from theory is possible because
-                $\lambda$ is not perfectly tuned according to STIC but instead
-                descended on for finite $\eta T$.
+                evidences our prediction that both sharp and flat minima
+                overfit less.  The Takeuchi estimate's singularity is, as
+                predicted, suppressed.
             }
-            \label{fig:tak}
+            \label{fig:thermoandtak}
         \end{figure}
 
         Because the TIC estimates a smooth hypothesis class's generalization
@@ -1476,7 +1464,7 @@
 %    ACKNOWLEDGEMENTS
 %==============================================================================
 
-{\colorbox{moopink}{acknowledgements commented}}
+{\colorbox{moopink}{\color{mooteal}acknowledgements commented}}
 %\subsection{Acknowledgements}
 %    We feel deeply grateful to
 %        Sho Yaida,
@@ -2393,10 +2381,6 @@
         Kol\'{a}\u{r} gives a careful introduction to these differential
         geometric ideas \yrcite{ko93}.
 
-        \subsubsection*{Pathologies Illustrating the Hypotheses' Utility}
-            {\color{moor} FILL IN}
-
-
     \subsection{Dyson Series for Iterative Optimizers}
         We first give intuition, then worry about $\epsilon$s and $\delta$s.
         \subsubsection*{The Key Lemma: Proof Idea}
@@ -3074,31 +3058,37 @@
 
 
 
-\section{Loss Landscapes Used for Experiments}\label{sect:landscape}
+\section{Experiment Details: Data, Models, Train/Test Parameters}\label{sect:landscape}
+    \subsection{Loss Landscapes for Image Classification: CIFAR-10 and Fashion-MNIST}
+        \subsubsection*{Architectures}
+            In addition to the clarifyingly artificial loss landscapes (Gaussian
+            Fit, Linear Screw, and Mean Estimation) described in the main text, we
+            tested our predictions on logistic linear regression and simple
+            convolutional networks (2 convolutional weight layers each with kernel
+            $5$, stride $2$, and $10$ channels, followed by two dense weight layers
+            with hidden dimension $10$) for the CIFAR-10 and Fashion-MNIST
+            datasets.  The convolutional architectures used $\tanh$ activations and
+            Gaussian Xavier initialization.  We parameterized the model so that the
+            Gaussian-Xavier initialization of the linear maps in each layer
+            differentially pulls back to standard normal initializations of the
+            parameters.
+            
+        \subsubsection*{Datasets}
+            For these non-artificial landscapes, we regard the finite amount of
+            available data as the true (sum of diracs) distribution from which we
+            sample test and train sets in i.i.d.  manner (and hence ``with
+            replacement'').  We do this to gain practical access to a ground truth
+            against which we may compare our predictions.  One might object that
+            this sampling procedure would cause test and train sets to overlap,
+            hence biasing test loss measurements.  In fact, test and train sets
+            overlap only in reference, not in sense: the situation is analogous to
+            a text prediction task in which two training points culled from
+            different corpora happen to record the same sequence of words, say,
+            ``Thank you!''.  In any case, all of our experiments focus on the
+            scanty-data regime, e.g. $10^1$ datapoints out of $\sim 10^{4.5}$ dirac
+            masses, so overlaps are diluted. 
 
-    In addition to the clarifyingly artificial loss landscapes (Gaussian Fit,
-    Linear Screw, and Mean Estimation) described in the main text, we tested
-    our predictions on logistic linear regression and simple convolutional
-    networks (2 convolutional weight layers each with kernel $5$, stride $2$,
-    and $10$ channels, followed by two dense weight layers with hidden
-    dimension $10$) for the CIFAR-10 and Fashion-MNIST datasets.  The
-    convolutional architectures used $\tanh$ activations and Gaussian Xavier
-    initialization.  We parameterized the model so that the Gaussian-Xavier
-    initialization of the linear maps in each layer differentially pulls back
-    to standard normal initializations of the parameters.
-    
-    For these non-artificial landscapes, we regard the finite amount of
-    available data as the true (sum of diracs) distribution from which we
-    sample test and train sets in i.i.d.  manner (and hence ``with
-    replacement'').  We do this to gain practical access to a ground truth
-    against which we may compare our predictions.  One might object that this
-    sampling procedure would cause test and train sets to overlap, hence
-    biasing test loss measurements.  In fact, test and train sets overlap only
-    in reference, not in sense: the situation is analogous to a text prediction
-    task in which two training points culled from different corpora happen to
-    record the same sequence of words, say, ``Thank you!''.  In any case, all
-    of our experiments focus on the scanty-data regime, e.g. $10^1$ datapoints
-    out of $\sim 10^{4.5}$ dirac masses, so overlaps are diluted. 
+        \subsubsection*{Training and Testing}
 
 \section{Additional Figures}\label{sect:figures}
 
@@ -3119,6 +3109,29 @@
             measurements are in blue and theory is in other colors.
             Vertical spans indicate 95\% confidence intervals for the mean.
         }
+    \end{figure}
+
+    \begin{figure}[H] 
+        \centering
+        \plotmoo{plots/vs-sde}{0.48\columnwidth}{4.0cm}
+        \plotmoo{plots/tak-reg}{0.48\columnwidth}{4.0cm}
+        \caption{
+            {\bf Left}: SGD's difference from SDE after $\eta T \approx
+            10^{-1}$ with maximal coarseness on the gaussian-fit problem.  
+            Two effects not modeled by SDE --- time-discretization and
+            non-gaussian noise oppose on this landscape but do not
+            completely cancel. 
+            {\bf Right}: Blue intervals below the black bar correspond to STIC
+            regularization outperforming gradient descent. For artificial
+            quadratic landscapes with fixed covariance and a range of Hessians,
+            initialized a fixed distance \emph{away} from the true minimum,
+            joint descent on an $l_2$ penalty coefficient $\lambda$ by means of
+            STIC improves on plain gradient descent for most Hessians.  That
+            there is at all a discrepancy from theory is possible because
+            $\lambda$ is not perfectly tuned according to STIC but instead
+            descended on for finite $\eta T$.
+        }
+        \label{fig:vssdeandtakreg}
     \end{figure}
 
 
@@ -3164,7 +3177,7 @@
         \item[scattering process] the brief interaction of otherwise self-contained and easily-understood objects.  For example, billiard balls scatter off of each other.  And weights scatter off of data.  Often treated perturbatively. 
         \item[spacetime] the stage on which weights and data interact.  A grid-like summary of which training points participate in which gradient updates through time. 
         \item[spring] the familiar simple machine with energy quadratic in its degrees of freedom.  The sequential composition of two stiff springs yields a limper spring.  We thus see that the potential energy of a static spring bearing a weight scales \emph{inversely} with the spring's stiffness.  This story formally parallels the Takeuchi prediction that flat minima generalize divergently badly.
-        \item[stabilized takeuchi information criterion] an estimate of generalization gap: $C_{\mu\nu}\wrap{(I - \exp(-\eta T H))}^{\nu}_{\lambda}\wrap{H^{-1}}^{\lambda\mu}$. 
+        \item[stabilized takeuchi information criterion] an estimate of generalization gap: $C_{\mu\nu}\wrap{ I - \exp(-\eta T H) }^{\nu}_{\lambda}\wrap{H^{-1}}^{\lambda\mu}$. 
         \item[stochastic process] a collection of related random variables.  For example, the validation losses of two neural networks with different and frozen weights forms a collection of $2$ random variables, where the randomness is over a shared validation set.  See also index (of a stochastic process).
         \item[takeuchi information criterion] an estimate of generalization gap: $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$.  Diverges for small $H$, hence not suited to gradient descent.
         \item[tensor] a numpy array of potentially long shape, e.g. shape $a\times b\times c\times d$.  For example, the collection of $3$rd derivatives of a multivariate function comprise a shape-$p\times p\times p$ tensor. 
