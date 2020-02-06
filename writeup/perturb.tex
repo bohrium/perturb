@@ -195,8 +195,6 @@
 \section{Introduction}
     %\subsection{Overview}
 
-        Vital.
-
         %----------------------------------------------------------------------
         %       Orienting Invitation 
         %----------------------------------------------------------------------
@@ -237,7 +235,7 @@
 
         Path integrals offer not only quantitative predictions but also an
         exciting new viewpoint --- that of iterative optimization as a
-        scattering process.  In fact, we import physical tools such as
+        scattering process.  Indeed, we import physical tools such as
         \emph{crossing symmetries} \citep{dy49b} and \emph{renormalization}
         \citep{ge54} to simplify and refine our calculations.  The diagrams'
         combinatorics yield immediate qualitative insight as well, e.g. that to
@@ -299,15 +297,16 @@
             $\sdia{(0-123)(02-12-23)}$: they are
             composed of thin edges and fuzzy ties, where the thin edges form a
             rooted tree with root drawn rightmost, and where the fuzzy ties
-            represent a partition of nodes.  Colors are arbitrarily chosen to
-            serve as convenient labels --- we might refer to a diagram's ``
-            green nodes'' --- and lack mathematical meaning.
+            represent a partition of nodes.
+            {\color{moor} Colors} are arbitrarily chosen to serve as convenient
+            labels --- we might refer to a diagram's ``green nodes'' --- and
+            lack mathematical meaning.
 
             We may \emph{embed} a diagram into spacetime by placing each node
             in a cell.  We allow only embeddings that: \emph{preserve
             left-right relationships along thin edges} and that \emph{map two
             nodes into the same row exactly when they are fuzzily tied}.
-            Figure \ref{fig:spacetimes} gives examples of embeddings. 
+            Figure \ref{fig:spacetimes}, left, illustrates these rules.
 
             Each $d$-edged diagram contributes to order $\eta^d$, so, for small
             $\eta$, the few-edged diagrams suffice to predict test losses.  Our
@@ -381,18 +380,13 @@
 
             In short: by using diagrams, we matched terms so that all but the
             $\sdia{c(01-2)(01-12)}$ terms canceled, thus avoiding an algebraic
-            mess.  In fact, diagrams concisely represent correlation and
-            tensor-contraction patterns that when written explicitly are
-            complicated and when suppressed lead to ambiguities\footnote{
-                Consider Corollary \ref{cor:entropic}, which makes use of
-                4-valent tensors.
-            }.  Moreover, when we later renormalize toward the large-$\eta T$
-            regime (Sections \ref{subsect:effective}, \ref{subsect:entropic},
-            and \ref{subsect:overfit}), the topology of diagrams will play a
-            key role.  While diagrams may by direct use of our Key Lemma be
-            completely avoided, Appendix \ref{sect:compare} shows that to avoid
-            them can convolute analysis.  The more complicated the direct
-            computation, the greater the savings of using diagrams.
+            mess.  Moreover, when we later renormalize toward the large-$\eta
+            T$ regime (Sections \ref{subsect:effective},
+            \ref{subsect:entropic}, and \ref{subsect:overfit}), diagrams will
+            become essential.  While diagrams may by direct use of our Key
+            Lemma be sometimes avoided, Appendix \ref{sect:compare} shows that
+            to avoid them can convolute analysis.  The more complicated the
+            direct computation, the greater the savings of using diagrams.
 
 %==============================================================================
 %       BACKGROUND AND NOTATION
@@ -410,7 +404,7 @@
         We abusively refer both to $n$ and to $l_n$ as
         \emph{datapoints}.
 
-        More formally, we fix a real-valued stochastic process indexed by the
+        More precisely, we fix a real-valued stochastic process indexed by the
         points of the \emph{weight space} $\Mm$, an affine manifold.  The
         process furnishes a \emph{train sequence} $(l_n: 0\leq n<N)$ of i.i.d.
         samples, each an unbiased estimate of $l$. We henceforth assume the
@@ -615,7 +609,7 @@
     %--------------------------------------------------------------------------
 
     \subsection{Recipe for SGD's Test Loss and Generalization}
-        We prove the following in Appendix \ref{sect:proofs}.
+        Our main tool, proved in Appendix \ref{sect:proofs}, follows.
         
         \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
             For all $T$: for $\eta$ sufficiently small, SGD's expected test
@@ -640,7 +634,6 @@
             loss).
         \end{thm}
     
-        In the special case of $B=1, M=1$:
         \begin{prop}[Specialization to Vanilla SGD] \label{prop:vanilla}
             The order $\eta^d$ contribution to the expected test loss of
             one-epoch SGD with singleton batches is:
@@ -658,13 +651,13 @@
         A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta N)^d
         N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
         third order, and they have $(4+2)+(2+2+3)+(1)$ many orderings --- see
-        Table \ref{tab:scatthree}.  Intuitively, $\eta N$ measures the \emph{
-            physical time} of descent, and $1/N$ measures the \emph{coarseness}
-        of time discretization.  So we have a double-series in $(\eta N)^d
-        N^{P-d-1}$, where $d$ counts thin edges and $d+1-P$ counts fuzzy ties;
-        the $P=d+1$ terms correspond to a discretization-agnostic (hence
-        continuous-time, noiseless) ODE approximation to SGD, while $P\leq d$
-        gives correction terms modeling time-discretization and hence noise.  
+        Table \ref{tab:scatthree}.  Intuitively, $\eta N$ measures the physical
+        time of descent and $1/N$ measures the coarseness of time
+        discretization.  So we have a double-series in $(\eta N)^d N^{P-d-1}$,
+        where $d$ counts thin edges and $d+1-P$ counts fuzzy ties; the $P=d+1$
+        terms correspond to a discretization-agnostic (hence continuous-time,
+        noiseless) ODE approximation to SGD, while $P\leq d$ gives correction
+        terms modeling time-discretization and hence noise.  
 
     %--------------------------------------------------------------------------
     %           Theoretical Corollaries                     
@@ -920,51 +913,62 @@
             G (I-\eta H)^{t-1} \eta G
             \approx
             G \exp(-\eta T H) \eta G
-            +
-            o(\eta)
+            \cdot (1+o(\eta))
         $.
-        Observe that  
-
-        We may thus organize diagrams together by the homeomorphism classes of
-        their \emph{geometric realizations}; each class yields a sum over
-        durations.  For example, the above chains contribute 
+        The $\exp(-\eta T H) \eta$ is thus an ``effective learning rate'' to
+        be used in place of $\eta$ in renormalized calculations.
+        Summed over all embeddings, the above chains contribute 
         $G \sum_{0\leq t<T} (I-\eta H)^{T-t-1} \eta G$
-        to vanilla SGD's test loss, or approximately:
+        to vanilla SGD's test loss, or:
         \begin{align*}
             \approx
             G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G
             =
             G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
         \end{align*}
-        To use physical language: after integrating the
-        ``effective propagator'' $\exp(-\eta t H) \eta$ over possible
-        spacetime configurations, we arrive at a revised inverse metric
-        $
-            \wrap{I - \exp(-\eta T H)}/H
-        $
-        to be used instead of $\eta$.  When $H$ is positive, the above
-        converges in the large-$T$ limit.
+        In contrast to the unrenormalized prediction $T G_\mu G^\mu$,
+        the above converges in the large-$T$ limit (when $H$ is positive).
+
+        So the chains form a class of diagrams usefully analyzed
+        together.  We may likewise organize other diagrams.  We will
+        represent each class by its minimal element:
+        \begin{defn}
+            A diagram is \emph{irreducible} when it lacks non-root
+            un-fuzzily-tied degree-two nodes (such as $\sdia{(0-1-2)(01-12)}$'s
+            {\color{moog}green} node).
+            So
+            $\sdia{(0-1-2)(02-12)}$ and
+            $\sdia{(01-2)(02-12)}$
+            but neither
+            $\sdia{(0-1-2)(01-12)}$ nor
+            $\sdia{(02-1-3)(01-12-23)}$
+            are irreducible.
+        \end{defn}
+
+        \begin{defn}[Embedding-Sensitive Values]
+            Let $\rvalue_f(D)$ be the expected value of $D$'s corresponding
+            tensor expression, where instead of using $-\eta$ to contract
+            two tensors embedded to times $t, \tilde t$, we use
+            $
+                -(I-\eta H)^{\wabs{t-\tilde t}} \eta
+            $.
+            Each fuzzy tie is a fuzzy outline\footnote{
+                Actually, the simple differences denoted by fuzzy ties
+                generalize to inclusion-exclusion (i.e. mobius-function
+                weighted) sums for terms with more fuzzy ties than we consider
+                in the paper's body.  We describe the general pattern in
+                Appendix \ref{sect:proofs} 
+            }.
+        \end{defn}
 
         \textsc{Renormalized Recipe:}~
-        In general, one sums over all embeddings of diagrams that are
-        \emph{irreducible} in the sense that they lack non-root
-        $\sim$-singleton degree-two nodes (such as the middle node of
-        $\sdia{(0-1-2)(01-12)}$).  Instead of Theorem \ref{thm:sgdcoef}'s
-        embedding-agnostic value $\dvalue(D)$, we use an embedding-sensitive
-        value $\rvalue_f(D)$, in which each contraction by $-\eta$ between
-        nodes embedded to times $t, \tilde t$ is replaced by a factor $(I-\eta
-        H)^{\wabs{t-\tilde t}} \eta$, and each fuzzy tie is a difference
-        tie\footnote{
-            Actually, the simple differences denoted by fuzzy ties generalize
-            to inclusion-exclusion (i.e. mobius-function weighted) sums for
-            terms with more fuzzy ties than we consider in the paper's body.
-            We describe the general pattern in Appendix \ref{sect:proofs} 
-        }.
-        In practice, we prefer to approximate sums over embeddings by integrals
-        over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, thus incurring a
-        term-by-term multiplicative error of $1 + o(\eta)$ that does not affect
-        leading order results; diagrams thusly induce easily
-        evaluated integrals of exponentials.
+            In general, one sums over embeddings of irreducible diagrams, using
+            $\rvalue_f(D)$ instead of $\dvalue(D)$.  In practice, we prefer to
+            approximate sums over embeddings by integrals over times and
+            $(I-\eta H)^t$ by $\exp(- \eta H t)$.  This incurs a term-by-term
+            multiplicative error of $1 + o(\eta)$ that preserves leading order
+            results.  Diagrams thus induce easily evaluated integrals of
+            exponentials.
        
         \begin{thm}[Renormalization Gives Large-$T$ Limits] \label{thm:renorm}
             For any $T$: for $\eta$ sufficiently small, SGD's expected test
@@ -980,9 +984,9 @@
             In contrast to Theorem \ref{thm:sgdcoef}: when $H$ is positive, the
             $d$th order truncation converges as $T$ diverges.
         \end{thm}
-        Due to the latter convergence property, we have formal license to 
-        take long-term limits of renormalized predictions.  In fact, the
-        convergence is uniform in $T$ for sufficiently regular landscapes.
+        That convergence property gives us formal license to take long-term
+        limits of renormalized predictions.  In fact, the convergence is
+        uniform in $T$ for sufficiently regular landscapes.
         \begin{cor}[A Nonconservative Entropic Force]\label{cor:entropic}
             Initialized at a test minimum, vanilla SGD's weight moves to
             order $\eta^2$ with a long-time-averaged\footnote{
@@ -1182,8 +1186,7 @@
         it moves, the new covariance might differ from the old one, and SGD will
         be repelled by different Hessians than before.  By setting the
         covariance to lag the Hessian by a rotational phase, we construct
-
-        a landscape in which this entropic force occurs forever. 
+        a landscape in which this entropic force dominates.
         This ``\emph{linear-screw}'' landscape is defined for
         three-dimensional $w\in \RR^3$ (initialized at the origin) and
         one-dimensional $x \sim \Nn(0, 1))$:
@@ -1223,10 +1226,10 @@
             \label{fig:thermo}
         \end{figure}
 
-        Moreover, by stitching together copies of this example, we may cause
-        SGD to travel along paths that are closed loops or unbounded curves of
-        global minima, or we may add a small linear component to the valleys so
-        that SGD steadily climbs uphill.  
+        By stitching together copies of this example, we may cause SGD to
+        travel along paths that are closed loops or unbounded curves, and we
+        may even add a small linear component so that SGD steadily climbs
+        uphill.  
 
 
     %--------------------------------------------------------------------------
@@ -1238,7 +1241,7 @@
         (after all, $l^2$ regularization increases curvature) or that
         \emph{flat} minima overfit less (after all, flat minima are more
         robust to small displacements in weight space).  Corollary
-        \label{cor:overfit} reconciles these competing intuitions by showing
+        \ref{cor:overfit} reconciles these competing intuitions by showing
         how the relationship of generalization and curvature depends on the
         learning task's noise structure and how the metric $\eta^{-1}$ mediates
         this distinction.
@@ -1343,9 +1346,7 @@
     %--------------------------------------------------------------------------
 
     While we make rigorous, architecture-agnostic predictions of learning
-    curves, these predictions become vacuous for large $\eta$.  In particular,
-    while our work does not assume convexity of the loss landscape, before
-    renormalization it also is blind to large-$\eta T$ convergence of SGD.
+    curves, these predictions become vacuous for large $\eta$. 
     Other discrete-time dynamical analyses allow large $\eta$ by treating deep
     generalization phenomenologically, whether by fitting to an
     empirically-determined correlate of Rademacher bounds \citep{li18}, by
@@ -1353,7 +1354,7 @@
     standard metric (see \citet{ho17}, \citet{ke17}, \citet{wa18}), or by
     exhibiting generalization of local minima \emph{sharp} with respect to the
     standard metric (see \citet{st56}, \citet{di17}, \citet{wu18}).  Our work,
-    which explicates how generalization depends on the underlying
+    which shows how generalization depends on the underlying
     metric and on the form of gradient noise, reconciles those
     seemingly clashing claims.
     
@@ -1373,13 +1374,12 @@
     contrast, we use Penrose diagrams to compute test and train losses to
     arbitrary order in learning rate, quantifying the effect of non-gaussian
     and correlated noise.  Our method accounts for optimization and applies to
-    any smooth architecture.  We hence extend \citet{ro18} beyond leading order
-    and beyond $2$ time steps, allowing us to compare, for instance, the
-    expected test losses of multi-epoch and single-epoch SGD.
-
-    Since our work does not rely on information-geometric
-    relationships between $C$ and $H$ \citep{am98}, it applies to
-    inexact-likelihood landscapes such as VAEs'. 
+    \emph{any} sufficiently smooth architecture.  For example, since our work
+    does not rely on information-geometric relationships between $C$ and $H$
+    \citep{am98}, it applies to inexact-likelihood landscapes such as VAEs'.
+    We hence extend \citet{ro18} beyond leading order and beyond $2$ time
+    steps, allowing us to compare, for instance, the expected test losses of
+    multi-epoch and single-epoch SGD.
 
 %==============================================================================
 %    CONCLUSION      
@@ -1395,7 +1395,7 @@
     T$ SGD.
         In fact, our Renormalization Theorem licences
     predictions for large $\eta T$, beyond the reach of direct perturbation.
-    The theory makes many novel predictions:
+    The theory makes novel predictions:
 
         \textsc{Story of $\sdia{c(01-2)(02-12)}$:~}
         Flat and sharp minima both overfit less than minima of curvature
@@ -1484,6 +1484,13 @@
 %        Greg Wornell, and
 %        Wenli Zhao
 %    in offering feedback on earlier stages of writing.
+%    Without the encouragement of
+%        Jason Corso,
+%        Chloe Kleinfeldt,
+%        Alex Lew, 
+%        Ari Morcos, and
+%        David Schwab,
+%    this paper would not be.
 
 %==============================================================================
 %    REFERENCES      
@@ -1539,9 +1546,9 @@
 
     The final appendix is for convenient \textsc{Reference}.
     %
-    \textsc{Appendix} \ref{sect:glossary} roughly defines physical and mathematical
-        terms we use and includes a table of values and interpretations for
-        diagrams.
+    \textsc{Appendix} \ref{sect:glossary} glosses physical and mathematical
+        terminology and tabulates the values and interpretations for some
+        common diagrams.
 
 \section{Tutorial on Diagram Rules} \label{sect:tutorial}
 
@@ -3003,32 +3010,40 @@
     \subsection{Terminology}
 
     \begin{description}
-        \item[affine manifold] a shape closed under a well-defined notion of displacement.  For example, a plane or a circle.
-        \item[analytic] (of a function) locally equal to a convergent Taylor series.  
-        \item[conservative] (of a covector field) with zero curl.  The ODE approximation to gradient descent always yields conservative dynamics.  See also nonconservative. 
+        \item[affine manifold] a shape closed under a well-defined notion of displacement.  For example, a plane or a circle but not a disc.  The problem with a disc is that gradients might point toward the boundary and an SGD update might overshoot and fall off.  By contrast, a circle is okay because the gradients will all be clockwise and counterclockwise, directions under which the circle is closed.  We do not deal with projection onto feasible sets in this work.  We treat weight spaces as affine manifolds in this work not for the sake of generality but for the sake of conceptual encapsulation: the results of this work are coordinate-invariant! 
+        \item[akaike information criterion] an estimate of generalization gap: $(\text{number of parameters})/N$.  Discrete-valued for fixed $N$, hence not liable to gradient descent. 
+        \item[analytic] (of a function) locally equal to a convergent Taylor series.  Most smooth functions one encounters in daily life are analytic.  The ReLU function is not (smooth or) analytic. 
+        \item[automorphism] a structure preserving map from an object to itself that has a structure preserving inverse.  The automorphisms of sets are permutations; the automorphisms of graphs are concepually analogous.  For example, $\sdia{(01-2)(02-12)}$ has two automorphisms: the identity map and the map that switches the two {\color{moor}red} nodes.   
+        \item[conservative] (of a covector field) with zero curl.  The ODE approximation to gradient descent always yields a conservative covector field of gradients.  See also nonconservative. 
         \item[contraction] (of two tensors) the numpy operation of multiplying along a pair of axes, then summing.  The product of a row and column vector gives the simplest example of contraction.  For more complicated tensors, one performs that simplest product along the specified pair of axes while maintaining all other axes in an SQL-style join operation.  
         \item[covector] a numpy array of shape $1\times p$.  For example, a gradient.  Compare to vector.
         \item[crossing symmetry] a numerical relationship between diagrams with related shapes. 
         \item[datapoint] an image of a cat or of a dog, but by abuse of notation also an index into the train set of the corresponding image, and by further abuse also the induced loss function of a given neural network on that corresponding image.  
-        \item[diagram] a representation of an interaction between weights and data.  A rooted tree equipped with a partition of nodes.  Drawing conventions: thin edges represent the tree, and fuzzy ties indicate the partition.  The root is specified from among the nodes by placing it rightmost on the page.
+        \item[diagram] a representation of an interaction between weights and data as a rooted tree equipped with a partition of nodes.  Drawing conventions: thin edges represent the tree, and fuzzy ties indicate the partition.  The root is specified from among the nodes by placing it rightmost on the page.
         \item[embedding] (of a diagram into a spacetime) an assignment of diagram nodes into spacetime cells such that two nodes occupy the same row precisely when they are fuzzily tied and such that leafward-rootward relations along thin edges are reflected as past-future relations.
-        \item[entropic force] a macroscopic force arising from a tendency toward disorder and marked by strong temperature (noise) dependence.  For instance, rubber bands are stretchy because of an entropic force. 
-        \item[epoch] a temporal interval within an SGD run long enough for each datapoint to participate in exactly one update.  Represented by $B\cdot M$ in our notation.
-        \item[geometric realization] (of a diagram) the data of a diagram that remains when we consider as equivalent chains of thin edges of varying length.  See also irreducible.
+        \item[entropic force] a macroscopic force arising from a tendency toward disorder and marked by strong temperature (noise) dependence.  For instance, rubber bands are stretchy because of an entropic force.  SGD tends toward minima flat with respect to the covariance due to a non-conservative entropic force.    
+        \item[epoch] a temporal interval (within an SGD run) within which each datapoint participates in exactly one update.  Our notation represents the number of epochs as $B\cdot M$.
+        \item[generalization gap] for a model trained on some train set, the test loss minus train loss.  Compare to overfitting.
+        \item[geometric realization] (of a diagram) the data of a diagram that remains when we consider chains of thin edges as equivalent to single edges.  See also irreducible.
+        \item[index] (of a train set) a name for a datapoint that singles it out from among a train set.
         \item[index] (of a stochastic process) a name for a random variable among the collection of random variables.
         \item[index] (of a tensor) a name for a numpy axis.  For example, a shape $a\times b\times c$ tensor will have three index positions. 
         \item[inverse metric] a notion of size for row vectors, in the sense of kernel methods.  For instance, a covariance of weight displacements.  Compare to metric.
         \item[irreducible] (of a diagram) the property of being minimal among diagrams with the same geometric realization.  Concretely, the property that every thin-edge-degree two node participates in some fuzzy edges.  See also geometric realization. 
-        \item[landscape] a neural network, considered as a function from weights and data to losses. 
+        \item[landscape] a neural network, considered as a function from weights $\theta$ and data $x$ to losses $l_x(\theta)$. 
         \item[metric] a notion of size for column vectors, in the sense of kernel methods.  For example, a covariance of gradients.  Compare to inverse metric.
         \item[non-conservative] (of a covector field) with nonzero curl.  In striking contrast to the ODE approximation to gradient descent, SGD experiences a non-conservative force.  See also conservative.
+        \item[overfitting] the process of responding to noise as if it is signal.  In this work, we quantify overfitting by initializing a weight at a test minimum, then training.  The greater the net gain in test loss, the more we regard the optimization process as having overfitted.  Compare to generalization gap.
         \item[perturbation] the technique of analyzing a complicated system by decomposing it into a simple system plus a small complication, then applying Taylor's theorem to extract the effects of that complication.  
-        \item[recursive] in the spirit of Knuth and Hofstadter.  A tempting glossary entry ripe for meta-humor and anti-humor. 
-        \item[renormalization] the theory-building process of summarizing many small-scale interactions into a more easily manipulated large-scale interaction, often by clever use of scaling and symmetry.  Here and historically, intertwined with resolving issues of convergence.  
-        \item[scattering process] the localized interaction of otherwise self-contained objects, especially when in the distant past and future the objects are so separated as to no longer interact.
+        \item[raising indices] the algebraic step of contracting an inverse metric with a covector to produce a vector.  To use an example from smooth convex optimization in the quadratic case, the step of identifying a point's position from the objective's slope at that point.
+        %\item[recursive] in the spirit of Knuth and Hofstadter.  A tempting glossary entry ripe for meta-humor and anti-humor. 
+        \item[renormalization] the theory-building process of summarizing myriad small-scale interactions into a more easily manipulated large-scale interaction, often by appeal to scaling and symmetry.  Here and historically, intertwined with resolving issues of convergence.  
+        \item[scattering process] the brief interaction of otherwise self-contained and easily-understood objects.  For example, billiard balls scatter off of each other.  And weights scatter off of data.  Often treated perturbatively. 
         \item[spacetime] the stage on which weights and data interact.  A grid-like summary of which training points participate in which gradient updates through time. 
-        \item[spring] an idealization of the familiar ballpoint pen component with energy quadratic in its degrees of freedom.
+        \item[spring] the familiar simple machine with energy quadratic in its degrees of freedom.  The sequential composition of two stiff springs yields a limper spring.  We thus see that the potential energy of a static spring bearing a weight scales \emph{inversely} with the spring's stiffness.  This story formally parallels the Takeuchi prediction that flat minima generalize divergently badly.
+        \item[stabilized takeuchi information criterion] an estimate of generalization gap: $C_{\mu\nu}\wrap{(I - \exp(-\eta T H))}^{\nu}_{\lambda}\wrap{H^{-1}}^{\lambda\mu}$. 
         \item[stochastic process] a collection of related random variables.  For example, the validation losses of two neural networks with different and frozen weights forms a collection of $2$ random variables, where the randomness is over a shared validation set.  See also index (of a stochastic process).
+        \item[takeuchi information criterion] an estimate of generalization gap: $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$.  Diverges for small $H$, hence not suited to gradient descent.
         \item[tensor] a numpy array of potentially long shape, e.g. shape $a\times b\times c\times d$.  For example, the collection of $3$rd derivatives of a multivariate function comprise a shape-$p\times p\times p$ tensor. 
         \item[vector] a numpy array of shape $p\times 1$.  For example, a weight displacement.  Compare to covector.
     \end{description}
