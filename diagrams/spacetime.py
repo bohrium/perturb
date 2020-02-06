@@ -69,7 +69,8 @@ dT = 5
 MARG = 45
 SPACE = 60
 height = 3*MARG + N*SPACE
-width  = 4*MARG + T*SPACE
+#width  = 4*MARG + T*SPACE
+width  = 3*MARG + T*SPACE
 get_r = lambda n: int(2*MARG + (N-n)*SPACE)
 get_c = lambda t: int(2*MARG + t*SPACE)
 
