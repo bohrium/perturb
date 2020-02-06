@@ -60,10 +60,15 @@ def draw_arc_aa(img, row_s, col_s, row_e, col_e, curve=1.0, color=black):
     for (r, c), (rr, cc) in zip(points, points[1:]):
         draw_line_aa(img, r, c, rr, cc, color)
 
-N = 8
-dN = 7
-T = 16
-dT = 5 
+#N = 8
+#dN = 7
+#T = 16
+#dT = 5 
+
+N = 4
+dN = 3
+T = 12
+dT = 11
 
 #MARG = 30
 MARG = 45
@@ -242,10 +247,48 @@ def draw_f(filename):
 
     plt.imsave(filename, img)
 
-FILE_NM = 'spacetime-e.png' 
-title = "Singleton Batches with Shuffling"
+def draw_g(filename): 
+    img = np.ones((height, width, 3), dtype=np.float32)
+    fill_boxes(img, [(
+        i % N, 
+        i%T
+    ) for i in range(max(N, T))])
+    draw_grid(img)
+
+    # an order 1 diagram:
+    draw_diagram(img, [[(1+0.3, 1-0.3),                                 (N-2+0.4, T    )]])
+    draw_diagram(img, [[(1+0.2, 1+0.0), (3    , 7    ),                 (N-2-0.4, T-0.1)]])
+    draw_diagram(img, [[(1+0.0, 1+0.2), (2    , 6    ),                 (N-2-1.2, T-0.2)]])
+    draw_diagram(img, [[(1-0.3, 1+0.3), (0    , 8    ), (2    ,10    ), (N-2-2.0, T-0.3)]])
+    
+    plt.imsave(filename, img)
+
+def draw_h(filename): 
+    img = np.ones((height, width, 3), dtype=np.float32)
+    fill_boxes(img, [(
+        i % N, 
+        i%T
+    ) for i in range(max(N, T))])
+    draw_grid(img)
+
+    # an order 3 diagram:
+    #draw_diagram(img, [[(3+0.3, 7-0.3),                                 (N-2+0.0, T    )]  ,
+    #                   [(3+0.2, 7+0.0),                                 (N-2-0.0, T    )]])
+    draw_diagram(img, [[(1+0.0, 1-0.2), (2, 2), (3, 3), (1+0.2, 5), (3,11), (N-2, T    )], 
+                       [(1+0.0, 1+0.2),         (0, 4), (1-0.2, 5), (0, 8), (N-2, T    )]])
+    queue_text(1.5, 2.0, 'noise...', color=colors[1])
+    queue_text(4.0, 6.0, 'travels...', color=colors[3])
+    queue_text(0.4, 7.0, '...thru 2 channels...', color=colors[0])
+    queue_text(3.4,10.0, '...to meas.', color=black)
+    
+    plt.imsave(filename, img)
+
+FILE_NM = 'spacetime-h.png' 
+#title = "Singleton Batches with Shuffling"
 #title = "Size-Two Batches without Shuffling"
-draw_e(FILE_NM)
+#title = "Renorm. Collects Related Diagrams"
+title = "Renorm. Propagates Noise"
+draw_h(FILE_NM)
 
 #=============================================================================
 
