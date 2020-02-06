@@ -28,6 +28,7 @@
     \newtheorem{conj}{Conjecture}
     \newtheorem{quest}{Question}
     \newtheorem*{quest*}{Question}
+    \newtheorem*{quests*}{Questions}
 %
 \theoremstyle{definition}
     \newtheorem{defn}{Definition}
@@ -188,10 +189,13 @@
         We generalize the Akaike Information Criterion (AIC) to a smooth
         quantity liable to descent.
         %
-        And we quantify the differences --- due to time-discretization,
-        inter-epoch correlations, and non-gaussian noise --- between SGD and
+        We quantify the differences
+        %--- due to time-discretization,
+        %inter-epoch correlations, and non-gaussian noise ---
+        between SGD and
         the popular approximation SDE. 
-    We emperically verify our theoretical predictions.
+    We empirically verify our theoretical predictions on artificial
+    datasets and convnets for CIFAR-10 and Fashion-MNIST.
 \end{abstract}
 
 %==============================================================================
@@ -206,51 +210,55 @@
         %----------------------------------------------------------------------
 
         Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
-        performing discrete-time $\eta$-steepest\footnote{
+        discrete-time $\eta$-steepest\footnote{
             The ``steepness'' concept depends on the choice of metric for
             $l$'s domain.  We thus consider all (flat) metrics at once.
             Specifically, we will Taylor expand an (inverse) metric
             $\eta^{\mu\nu}$ around $0$.
         } descent on noisy estimates of $l$.
-        A key question is how such noise affects the final objective value.  To
-        address this question, we interpret SGD as a superposition of various
-        processes in which weights and data interact, each process represented
-        by a Feynman diagram\footnote{
+        Natural questions concern this noise's effects:
+        \begin{quests*}
+            Intuitively, SGD and GD differ in their sensitivity to noise;
+                when and why does one outperform the other?
+            How does SGD select from among a valley of minima?
+            By how much do sharp or flat minima overfit to noise?
+        \end{quests*}
+        To answer the above, we interpret SGD as a superposition of
+        various weight-data interactions, each represented by a Feynman
+        diagram\footnote{
             Section \ref{sect:calculus} explains these words in detail.
-            %Prior knowledge of physics is not prerequisite. 
-        }.  When $\eta$ is small, only a handful of diagrams
-        substantively contribute, and so our formalism permits concrete
-        computation.
+        }.
+        For small $\eta$, few diagrams substantively contribute and
+        our formalism permits concrete computation.
 
         %----------------------------------------------------------------------
         %       Killer Applications  
         %----------------------------------------------------------------------
 
-        In fact, unlike prior work, our formalism models discrete time and
-        hence non-Gaussian noise.  We thus obtain new results quantifying how
-        epoch number and batch size affect test loss.  We contrast SGD against
-        popular continuous-time approximations such as ordinary or stochastic
-        differential equations (ODE, SDE) by giving the finite-$N$,
-        finite-$\eta^{-1}$ corrections.  Our theory of noise also recommends
-        two novel regularizers that respectively induce GD to mimic SGD and
-        help to tune hyperparameters such as $l_2$ coefficients. 
+        Unlike prior work, our work models discrete time and hence non-Gaussian
+        noise.  Indeed, we give the finite-$N$, finite-$\eta^{-1}$ corrections
+        to continuous-time approximations such as ordinary or stochastic
+        differential equations (ODE, SDE).  We thus obtain new results
+        quantifying how epoch number and batch size affect test loss.  Our
+        theory of noise recommends two novel regularizers that respectively
+        induce GD to mimic SGD and help to tune hyperparameters such as $l_2$
+        coefficients.  We verify our predictions via precision order-$\eta^3$
+        tests on convolutional networks for CIFAR-10 and Fashion-MNIST.
 
         %----------------------------------------------------------------------
         %       Connection to Physics
         %----------------------------------------------------------------------
 
         Path integrals offer not only quantitative predictions but also an
-        exciting new viewpoint --- that of iterative optimization as a
-        scattering process.  Indeed, we import physical tools such as
-        \emph{crossing symmetries} \citep{dy49b} and \emph{renormalization}
-        \citep{ge54} to simplify and refine our calculations.  The diagrams'
-        combinatorics yield immediate qualitative insight as well, e.g. that to
-        order $\eta^3$, inter-epoch shuffling does not affect expected test
-        loss.  Overall, we present the diagram method as a flexible and elegant
-        tool for optimization theorists.  The corollaries we here prove are
-        but advertisements for the method's power: in the conclusion, we
-        discuss Hessian methods and natural gradient descent as low-hanging
-        fruit for future analyses.
+        exciting new viewpoint of optimization as physical scattering.  Indeed,
+        we import physical tools such as \emph{crossing symmetries}
+        \citep{dy49b} and \emph{renormalization} \citep{ge54} to simplify and
+        refine our calculations.  The diagrams' combinatorics yield qualitative
+        insight, e.g. that to order $\eta^3$, inter-epoch shuffling does not
+        affect expected test loss.  Overall, we present the diagram method as a
+        flexible and elegant tool for optimization theorists.  In the
+        conclusion, we discuss Hessian methods and natural GD as
+        low-hanging fruit for future analyses.
 
     \subsection{Overview of Formalism}
 
@@ -1256,7 +1264,7 @@
 %    RELATED WORK    
 %==============================================================================
 
-\section{Related Work}
+\section{Related Work} \label{sect:related}
 
     %--------------------------------------------------------------------------
     %           History of SGD
