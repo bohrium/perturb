@@ -22,6 +22,7 @@
 \newtheorem{cor}{Corollary}
 \newtheorem{prop}{Proposition}
 \newtheorem{quest}{Question}
+\newtheorem*{quest*}{Question}
 \newtheorem{conj}{Conjecture}
 \newtheorem{rmk}{Remark}
 
@@ -597,7 +598,7 @@
             %
             Moreover, if we replace each $\dvalue(D)$ by
             $
-                \sum_{p \in \parts(D)} \dvalue(D_p)/N
+                -\sum_{p \in \parts(D)} \dvalue(D_p)/N
             $, we obtain
             SGD's expected generalization gap (test loss minus train loss).
             Here, $D_p$ is $D$ with a fuzzy outline connecting $p$ to $\max D$
@@ -1450,7 +1451,6 @@
 %    REFERENCES      
 %==============================================================================
 
-\newpage
 %\section*{References}
     \bibliography{perturb}
     \bibliographystyle{icml2019}
@@ -1464,19 +1464,121 @@
 
 \section{Tutorial on Diagram Rules} \label{sect:tutorial}
 
-    After reviewing how diagrams correspond to specific landscape statistics,
-    we will work through four examples in using diagrams to analyze descent.
+    After reviewing the diagram method's recipe step by step, we will work through two
+    examples in using diagrams to analyze descent.  As in the main text, we
+    relegate precise combinatorial definitions to Section
+    \ref{sect:morebackground}, prefering in this section to appeal to intuition
+    and to hands-on examples.
 
-    \subsection{Evaluating a Diagram}
+    \subsection{Listing Relevant Diagrams}
+
+        \subsubsection*{Review of Rules}
+            A diagram with $d$ thin edges evaluates to an order-$\eta^d$
+            expression.  Thus, if we wish the order $\eta^d$ contribution to a
+            quantity, we know immediately that we will only need to consider
+            diagrams with $d$ thin edges.
+
+            Moreover, Theorem \ref{thm:sgdcoef} says that the test loss involves
+            only diagrams whose root (a.k.a. rightmost node) participates in no
+            fuzzy ties.
+            And it says that the generalization gap (ie. test minus train loss)
+            involves only diagrams whose root participates in a fuzzy
+            outline with one other node.
+            \begin{rmk*}
+                As originally defined, diagrams have thin edges and fuzzy ties
+                but not fuzzy outlines.  But because taking train losses minus
+                test losses is such a common operation, we have introduced the
+                fuzzy outline notation to mean a difference of diagrams, one
+                diagram with the fuzzy outline replaced by a fuzzy tie, and the
+                other diagram with the fuzzy outline deleted.  For example,
+                $\sdia{c(0-12)(01-12)}$ is shorthand for $\sdia{(0-12)(01-12)}
+                - \sdia{(0-1-2)(01-12)}$, which is a (summand in the) train
+                loss minus (a corresponding summand in the) test loss.    
+            \end{rmk*}
+
+        \subsubsection*{Examples}
+            \begin{quest*}
+                Which diagrams contribute to general SGD's generalization gap
+                (i.e. test minus train loss) at order $\eta^1$?
+            \end{quest*}
+            The $d$-edged diagrams contribute to order $eta^d$, so we wish to
+            enumerate the diagrams with one edge.  Per Theorem
+            \ref{thm:sgdcoef}, the generalization loss is a sum over diagrams
+            whose root (a.k.a.  rightmost node) participates in one fuzzy
+            outline.  So we seek $1$-edged diagrams whose rightmost node is
+            fuzzily outlinedly tied to one other node.  It turns out there is
+            just one such diagram: $\sdia{c(01)(01)}$.  Indeed, there is only
+            one possible rooted tree of thin edges.  And since there are only
+            two nodes, the rightmost node's fuzzy-outline partner is
+            determined.
+            \begin{rmk*}
+                $\sdia{c(01)(01)}$ is shorthand for $\sdia{(01)(01)} -
+                \sdia{(0-1)(01)}$, which is a (summand in the) train loss minus
+                (a corresponding summand in the) test loss.    
+            \end{rmk*}
+
+            \begin{quest*}
+                Which diagrams contribute to general SGD's test loss at order
+                $\eta^2$? 
+            \end{quest*}
+            The $d$-edged diagrams contribute to order $eta^d$, so we wish to
+            enumerate the diagrams with two edges.  Per Theorem
+            \ref{thm:sgdcoef}, the test loss is a sum over diagrams whose root
+            (a.k.a. rightmost node) participates in no fuzzy ties.  So we seek
+            $2$-edged diagrams whose rightmost node isn't fuzzily tied.  It
+            turns out there are four such diagrams:
+            $\sdia{(0-1-2)(01-12)}$,
+            $\sdia{(01-2)(01-12)}$,
+            $\sdia{(0-1-2)(02-12)}$, and
+            $\sdia{(01-2)(02-12)}$.  Indeed, two permissible rooted trees
+            multiply with two permissible fuzzy tie patterns to yield four
+            diagrams.
+
+            \begin{quest*}
+                Which diagrams contribute to one-epoch SGD's test
+                loss at order $\eta^2$? 
+            \end{quest*}
+            We seek $2$-edged diagrams whose rightmost node isn't fuzzily tied.  As
+            we saw before, there are four such diagrams.  However, consideration of
+            one-epoch, singleton-batch SGD's spacetime shows us that no node in the
+            thin-edge tree may be fuzzily tied to any of its descendents.  Thus, of
+            the four possible diagrams (namely, $\sdia{(01-2)(01-12)}$), one has no
+            embeddings, hence has coefficient zero, hence may be ignored.
+            Explictly, the remaining diagrams are:
+            $\sdia{(0-1-2)(01-12)}$,
+            $\sdia{(01-2)(01-12)}$, and
+            $\sdia{(01-2)(02-12)}$.
+
+            \begin{quest*}
+                Which diagrams contribute to one-epoch SGD's
+                generalization gap at order $\eta^2$? 
+            \end{quest*}
+            We seek $2$-edged diagrams (order $\eta^2$) whose rightmost node
+            has a fuzzy outline connecting to one other node (generalization
+            gap).  We ignore trees whose fuzzy-outline-erased versions involve
+            fuzzy ties between any pair of ancestor and descendant (one-epoch).
+            To be explicit, we write out the fuzzy outlines as the differences
+            they represent: 
+            $\sdia{(0-12)(01-12)}-\sdia{(0-1-2)(01-12)}$,
+            $\sdia{(0-12)(02-12)}-\sdia{(0-1-2)(02-12)}$, and
+            $\sdia{(012)(02-12)} -\sdia{(01-2)(02-12)} $.
+
+    \subsection{Interpreting a Diagram}
         {\color{moor} FILL IN}
+
     \subsection{Integrating a Diagram over Spacetime}
-        {\color{moor} FILL IN}
-    \subsection{The 3rd Order Curl: Which Minima Does SGD Prefer?}
-        {\color{moor} FILL IN}
+        \subsubsection*{Unrenormalized (simpler, but bad for large $\eta T$)} 
+        \subsubsection*{Renormalized (good for large $\eta T$)} 
+
     \subsection{The Roles of Covariance: the Generalization Gap of SGD}
         {\color{moor} FILL IN}
+ 
+    \subsection{The 3rd Order Curl: Which Minima Does SGD Prefer?}
+        {\color{moor} FILL IN}
 
-       
+    \subsection{Project: }
+        {\color{moor} FILL IN}
+      
 \section{Diagram Rules vs Direct Perturbation} \label{sect:compare}
     Diagram methods from Stueckelberg to Peierls have flourished in physics
     because they enable swift computations and offer immediate intuition that
