@@ -146,10 +146,9 @@
 }
 
 
-\addtolength{\textfloatsep}{-5mm}
 \addtolength{\dbltextfloatsep}{-5mm}
 \addtolength{\abovecaptionskip}{-5mm}
-%\addtolength{\belowcaptionskip}{-5mm}
+\addtolength{\belowcaptionskip}{-5mm}
 
 
 \begin{document}
@@ -1058,13 +1057,14 @@
             \plotmooh{diagrams/entropic-force-diagram}{}{0.35\columnwidth} 
             \plotmooh{diagrams/springs}{}{0.35\columnwidth}
             \caption{
+                Illustrations of concepts.
                 {\bf Left}:
                     The entropic force mechanism: gradient noise induces a flow
                     toward minima flat \emph{with respect to to the
                     covariance}.  Although our analysis assumes neither thermal
                     equilibrium nor fast-slow mode separation, we label ``fast
-                    and slow directions'' in this cartoon to ease comparison
-                    with \citet{we19b}.  In this cartoon, red densities denote
+                    and slow directions'' in this figure to ease comparison
+                    with \citet{we19b}.  In this figure, red densities denote
                     the spread predicted by a renormalized $C^{\mu\nu}$, and
                     the spatial variation of curvature corresponds to
                     $J_{\mu\nu\lambda}$. 
@@ -1095,8 +1095,11 @@
     experiments whose rejection of the null hypothesis (and hence support of
     our theory) is so drastic as to be visually obvious.  For example, in
     Figure \ref{fig:thermoandtak}, \citep{ch18} predicts a velocity of $0$
-    while we predict a velocity of $\eta^2/6$.  See Appendix \ref{landscape}
+    while we predict a velocity of $\eta^2/6$.  See Appendix \ref{sect:landscape}
     for experimental procedure including architectures and sample size.
+    Throughout, I-bars and +-marks denote a 95\% confidence interval of based
+    on the standard error of the mean, in the vertical or
+    vertical-and-horizontal directions, respectively.
 
     %--------------------------------------------------------------------------
     %           Vanilla SGD                                 
@@ -1124,16 +1127,20 @@
 
     \subsection{Emulating Small Batches with Large Ones}
         Figure \ref{fig:vanillaandbatch} (right) shows that the regularizer
-        proposed in Proposition \ref{cor:batch} indeed enables GD to emulate
+        proposed in Corollary \ref{cor:batch} indeed enables GD to emulate
         SGD on a range of image-classification landscapes.  For these
         experiments,
         we used a covariance
         estimator $\hat C \propto \nabla l_x (\nabla l_x - \nabla l_y)$ evaluated on
         two batches $x, y$ that partition the train set.
+        For architectures composed of linear transforms and coordinate-wise
+        nonlinearities represented by elementary functions, $\nabla \hat C$ can be
+        found in only the memory and time as the usual gradient
+        $\nabla l_t$, up to a multiplicative constant. 
         \begin{figure}[h!] 
             \centering
-            \plotmoo{plots/test-vanilla-fashion}{0.48\columnwidth}{3.0cm} 
-            \plotmoo{plots/big-bm-new}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/new-test-0}{0.48\columnwidth}{3.0cm} 
+            \plotmoo{plots/new-big-bm-new}{0.48\columnwidth}{4.0cm}
             \caption{
                 {\bf Left}: Test loss vs learning rate on an image
                 classification task.  For the instance shown and all $11$ other
@@ -1244,8 +1251,8 @@
         
         \begin{figure}[h!] 
             \centering
-            \plotmoo{plots/thermo-linear-screw}{0.48\columnwidth}{4.0cm}
-            \plotmoo{plots/tak}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/new-thermo-linear-screw}{0.48\columnwidth}{4.0cm}
+            \plotmoo{plots/new-tak}{0.48\columnwidth}{4.0cm}
             \caption{
                 Renormalized predictions.
                 {\bf Left}: On the linear screw landscape, the persistent
@@ -1278,17 +1285,22 @@
         Fortunately, by Corollary \ref{cor:overfit}, the implicit
         regularization of gradient descent both demands and enables a
         singularity-removing correction to the TIC (Figure
-        \ref{fig:thermoandtak}, right).  The resulting \emph{Stabilized TIC} (STIC) uses the
-        metric implicit in gradient descent to threshold flat from sharp
-        minima.  It thus offers a principled method for optimizer-aware model
-        selection easily compatible with automatic differentiation systems.  By
-        descending on STIC, we may tune smooth hyperparameters such as $l_2$
-        coefficients.  Experiments on the mean-estimation problem validate STIC
-        for such model selection, especially when $C/N$ dwarves $H$ as in the
-        noisy, small-$N$ regime (Appendix \ref{sect:figures}).  Because matrix
-        exponentiation is expensive, STIC regularization without further
-        approximations is most useful for models of small dimension
-        on very noisy or scanty data.
+        \ref{fig:thermoandtak}, right).  The resulting \emph{Stabilized TIC}
+        (STIC) uses the metric implicit in gradient descent to threshold flat
+        from sharp minima.  It thus offers a principled method for
+        optimizer-aware model selection easily compatible with automatic
+        differentiation systems.  By descending on STIC, we may tune smooth
+        hyperparameters such as $l_2$ coefficients.  Experiments on an
+        artificial Mean Estimation problem (task in Appendix
+        \ref{sect:landscape}, plot in Appendix \ref{sect:figures}) recommend
+        STIC for model selection, especially when $C/N$ dwarves $H$ as in the
+        noisy, small-$N$ regime.  In fact, we find that this analysis leads to
+        a James-Stein-style shrinkage estimator in the quadratic Gaussian
+        setting.  Because matrix
+        exponentiation is expensive
+        (cubic in dimension), STIC regularization without further
+        approximations is most useful for models of small dimension on very
+        noisy or scanty data.
 
 %==============================================================================
 %    RELATED WORK    
@@ -1327,17 +1339,15 @@
     %           We Extend Dan's Approach                     
     %--------------------------------------------------------------------------
 
-    Following
-    %\citet{li17} and
-    \citet{ro18}, we avoid making a continuous-time
-    approximation by instead Taylor-expanding around the learning rate
-    $\eta=0$.  In fact, we develop a diagrammatic method for evaluating each
-    Taylor term that is inspired by the field theory methods popularized by
-    \citet{dy49a}.  We then quantify the overfitting effects
-    of batch size and epoch number, and based on this analysis, propose a
-    regularizing term that causes large-batch GD to emulate small-batch SGD,
-    thus establishing a precise version of the relationship --- between
-    covariance, batch size, and generalization --- conjectured by \citet{ja18}.  
+    Following \citet{ro18}, we avoid making a continuous-time approximation by
+    instead Taylor-expanding around the learning rate $\eta=0$.  We hence
+    extend \citet{ro18} beyond leading order and beyond $2$ time steps,
+    allowing us to compare, for instance, the expected test losses of
+    multi-epoch and one-epoch SGD.  We also quantify the overfitting effects of
+    batch size, whence we propose a regularizing term that causes large-batch
+    GD to emulate small-batch SGD.  In doing so, we establish a precise version
+    of the relationship --- between covariance, batch size, and generalization
+    --- conjectured by \citet{ja18}.  
     
     %--------------------------------------------------------------------------
     %           Phenomenology of Rademacher Correlates such as Hessians
@@ -1361,7 +1371,7 @@
     %--------------------------------------------------------------------------
 
     Others have imported the perturbative methods of physics to analyze descent
-    dynamics:  \citet{dy19} perturb in inverse network width, employing 't
+    dynamics:  \citet{dy19} perturb in inverse network width, employing Feynman-'t
     Hooft diagrams to compute deviations of a specific class of deep
     architectures from Gaussian processes.  Meanwhile, \cite{ch18} and
     \citet{li17} perturb in learning rate to second order by approximating
@@ -1369,15 +1379,16 @@
     generalize to higher orders, and, because correlations and heavy tails are
     essential obstacles to concentration of measure and hence to
     generalization, it does not model the generalization behavior of SGD.  By
-    contrast, we use Penrose diagrams to compute test and train losses to
+    contrast, we use Feynman-Penrose diagrams to compute test and train losses to
     arbitrary order in learning rate, quantifying the effect of non-Gaussian
     and correlated noise.  Our method accounts for optimization and applies to
     \emph{any} sufficiently smooth architecture.  For example, since our work
     does not rely on information-geometric relationships between $C$ and $H$
-    \citep{am98, ro12}, it applies to inexact-likelihood landscapes such as
-    VAEs'.  We hence extend \citet{ro18} beyond leading order and beyond $2$
-    time steps, allowing us to compare, for instance, the expected test losses
-    of multi-epoch and one-epoch SGD.
+    \citep{am98}\footnote{
+        Disagreement of $C$ and $H$ is typical in modern learning
+        \citep{ro12, ku19}.
+    }, it applies to inexact-likelihood landscapes such as
+    VAEs'. 
 
 %==============================================================================
 %    CONCLUSION      
@@ -3249,16 +3260,15 @@
 \section{Experiment Details: Data, Models, Train/Test Parameters}\label{sect:landscape}
     \subsection{Software and Execution}
         All code (and data generators / downloaders) can be found on
-        {\color{mooteal}github.com/bohrium/perturb}.  The github repo does not
-        immediately reveal the authors' identity, but, for double-blind review,
-        we ask that reviewers do not explore too much into that github user's
-        other activity.
+        {\color{mooteal}github.com/???????/perturb}.  This link will be made
+        available and free-as-in-freedom after the period of double-blind
+        review.
 
         Our code uses Pytorch 0.4.0 on Python 3.6.7; there are no other
         substantive dependencies.  The code's randomness is thoroughly
         parameterized by random seeds and hence reproducible.
 
-        We ran experiments on a Lenovo laptop and on about our institution's
+        We ran experiments on a Lenovo laptop and on our institution's
         clusters; we consumed roughly no more than $100$ GPU-hours.
 
     \subsection{Loss Landscapes for Image Classification: CIFAR-10 and Fashion-MNIST}

@@ -57,13 +57,13 @@ def smart_round(a, b):
     '''
         return a `round` interval [aa, bb] inside the interval [a, b]
     '''
-    high_high =(10*b + 0*a)/10.0
-    high_mid  = (9*b + 1*a)/10.0
-    high_low  = (9*b + 1*a)/10.0
+    high_high =( 9.5*b + 0.5*a)/10.0
+    high_mid  = (9.0*b + 1. *a)/10.0
+    high_low  = (9.0*b + 1. *a)/10.0
 
-    low_high  = (3*b + 7*a)/10.0
-    low_mid   = (2*b + 8*a)/10.0
-    low_low   = (1*b + 9*a)/10.0
+    low_high  = (1.5*b + 8.5*a)/10.0
+    low_mid   = (1.5*b + 8.5*a)/10.0
+    low_low   = (0.5*b + 9.5*a)/10.0
 
     for i in range(-10, 10):
         aa = np.ceil( low_mid * 10**i) / 10**i 
@@ -75,12 +75,14 @@ def smart_round(a, b):
 def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     '''
     '''
-    plt.title(title, x=0.5, y=0.9)
+    #plt.title(title, x=0.5, y=0.9)
+    plt.title(title, x=0.5, y=0.8)
 
     plt.gca().spines['top'].set_visible(False)
     plt.gca().spines['right'].set_visible(False)
 
     plt.ylim([ymin, ymax])
+    #plt.gca().axis('equal')
 
     xlow, xhigh = smart_round(*plt.gca().get_xlim())
     plt.xticks([xlow, xhigh])
@@ -91,13 +93,17 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     plt.gca().yaxis.set_major_formatter(ticker.FormatStrFormatter('%.2e'))
     plt.yticks(rotation=90)
 
-    plt.xlabel(xlabel)
+    plt.gca().tick_params(axis='both', which='major', labelsize=14)
+
+    plt.xlabel(xlabel, fontsize=14)
     plt.gca().xaxis.set_label_coords(0.5, -0.01)
 
-    plt.ylabel(ylabel)
+    plt.ylabel(ylabel, fontsize=14)
     plt.gca().yaxis.set_label_coords(-0.01, 0.5)
 
-    plt.legend(loc='lower right')
+    plt.legend(loc='lower left')
+    #plt.legend(bbox_to_anchor=(0.4, 0.9), loc=2)
+
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
 
 def plot_fill(x, y, s, color, label, z=1.96, alpha=0.5):
@@ -236,7 +242,8 @@ def plot_loss_vs_eta(ol_nm, gs_nm, img_nm, title, ylabel,
     print(CC+'@R rendering plot @D ...')
     finish_plot(
         title=title, xlabel='learning rate', ylabel=ylabel, img_filenm=img_nm,
-        ymax=max(metric_range), ymin=min(metric_range)
+        ymin=min(metric_range)-0.1*(max(metric_range)-min(metric_range)),
+        ymax=max(metric_range)+0.1*(max(metric_range)-min(metric_range)),
     )
 
 def plot_test():
@@ -299,7 +306,7 @@ def plot_test():
 def plot_batch_match_loss_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
-        'GDC MIMICS SMALL-BATCH BEHAVIOR \n'
+        'GDC Mimics Small-Batch behavior \n'
         '(test loss on {})'.format(T, model_nm)
     )
     plot_loss_vs_eta(
@@ -339,6 +346,30 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
             (coefficients.sgd_vanilla_gen, 2, 'poly', bright_yellow, 'degree 2 prediction of gen gap'),
         ],
     )
+
+def plot_test_loss_vs_eta(model_nm, idx, T):
+    title = (
+        'Vanilla SGD\'s Test Loss \n'
+        '(T=10, Fashion-MNIST convnet)'.format(T, model_nm)
+    )
+
+    plt.rcParams.update({'font.size': 14})
+    plot_loss_vs_eta(
+        ol_nm  = '../logs/ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
+        gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
+        img_nm = '../plots/new-test-{}.png'.format(idx),
+        title=title, ylabel='test loss',
+        T=T, N=T, kind='main',
+        experiment_params_list = [
+            ('test', 'sgd', 'loss', dark_blue, 'experiment'),
+        ], 
+        theory_params_list = [
+            (coefficients.sgd_vanilla_test, 1, 'poly', bright_red, 'deg 1 prediction'),
+            (coefficients.sgd_vanilla_test, 2, 'poly', bright_yellow, 'deg 2 prediction'),
+            (coefficients.sgd_vanilla_test, 3, 'poly', bright_green, 'deg 3 prediction'),
+        ],
+    )
+
 
 def plot_gen_gap_loss_vs_loss(model_nm, idxs, T):
     # TODO: change default ol_nm to ../logs/....
@@ -449,13 +480,13 @@ def plot_sgd_sde_diff_vs_eta(model_nm, idx, T):
         gs_nm, eta_range,
         coeff_strs=coefficients.sgd_gauss_minus_sde_vanilla_test,
         deg=3, mode='poly', T=T, N=T,
-        color=bright_yellow, label='deg 3 prediction with gaussian noise approximation'
+        color=bright_yellow, label='theory: discrete time and gaussian noise'
     )
     plot_theory(
         gs_nm, eta_range,
         coeff_strs=coefficients.sgd_minus_sde_vanilla_test,
         deg=3, mode='poly', T=T, N=T,
-        color=bright_green, label='deg 3 prediction'
+        color=bright_green, label='theory: discrete time and non-gaussian noise'
     )
  
     print(CC+'@R rendering plot @D ...')
@@ -492,22 +523,25 @@ def plot_thermo_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
         #'SGD SEEKS MINIMA FLAT WRT THE CURRENT COVARIANCE \n'
-        'A NON-CONSERVATIVE ENTROPIC FORCE PUSHES SGD\n'
-        '(displacement after {} steps on {})'.format(T, model_nm)
+        'A NON-CONSERVATIVE ENTROPIC FORCE\n'
+        '(T={} SGD on {})'.format(T, model_nm)
+        #'(displacement after {} steps on {})'.format(T, model_nm)
     )
+    plt.rcParams.update({'font.size': 14})
     plot_loss_vs_eta(
-        ol_nm  = 'ol-{}-T{}-{:02}-multi-N10.data'.format(model_nm, T, idx),
+        ol_nm  = 'ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
         gs_nm  = 'gs-{}-with-unit-source-{:02}.data'.format(model_nm, idx),
-        img_nm = '../plots/_thermo-{}-{}-multi-N10.png'.format(model_nm, idx),
-        title=title, ylabel='net displacement',
-        T=T, N=10, kind='main',
+        #img_nm = '../plots/new-thermo-{}-{}.png'.format(model_nm, idx),
+        img_nm = '../plots/new-thermo-linear-screw.png'.format(model_nm, idx),
+        title=title, ylabel='displacement',
+        T=T, N=T, kind='main',
         experiment_params_list = [
-            ('test', 'sgd', 'z', dark_blue, 'net z-displacement by sgd'),
+            ('test', 'sgd', 'z', dark_blue, 'net z-displacement'),
         ], 
         theory_params_list = [
-             (coefficients.sgd_linear_screw_z        , 1, 'poly', bright_red,    'neglecting stochasticity'),
              (coefficients.sgd_linear_screw_z        , 3, 'poly', bright_yellow, 'deg 3 prediction'),
-             (coefficients.sgd_linear_screw_renorm_z , 3, 'poly', bright_green,  'deg 3 prediction, renormalized'),
+             (coefficients.sgd_linear_screw_renorm_z , 3, 'poly', bright_green,  'deg 3 prediction, renorm'),
+             (coefficients.sgd_linear_screw_z        , 1, 'poly', bright_red,    'Chaudhari & Soatto 2018'),
         ],
     )
 
@@ -557,6 +591,7 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
     )
  
     prime_plot()
+    plt.rcParams.update({'font.size': 14})
 
     hesses = (
         list(np.arange(0.00, 1.01, 0.1)) +
@@ -571,7 +606,7 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
         tl_mean = []
         tl_stdv = []
         for hess in hesses:
-            ol_nm = '../plots/ol-quad-1d-h{:0.2f}'.format(hess)
+            ol_nm = '../plots/old-quads/ol-quad-1d-h{:0.2f}'.format(hess)
 
             OL = OptimLog(ol_nm)
             OL.load_from(ol_nm)
@@ -599,7 +634,7 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
         predictions = 0.5*(1.0 - np.exp(-T*eta*interp_hesses))**2/(N*interp_hesses)
         plot_fill(
             interp_hesses, predictions, 0.0*interp_hesses,
-            color=col, label='deg 2 prediction, renormalized'
+            color=col, label='deg 2 prediction, renorm'
         )
 
         #predictions = 0.5 * T*eta* (T*eta*interp_hesses)/N
@@ -612,14 +647,16 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
     predictions = 0.5/(N*ih)
     plot_fill(
         ih, predictions, 0.0*ih,
-        color=black, label='Takeuchi Information Criterion'
+        color=black, label='Takeuchi Information'
     )
 
 
     print(CC+'@R rendering plot @D ...')
     finish_plot(
         title=title, xlabel='hessian eigenvalue',
-        ylabel='test loss above minimum', img_filenm='../plots/tak.png',
+        ylabel='test loss - min',
+        #img_filenm='../plots/tak.png',
+        img_filenm='../plots/new-tak.png',
         ymin=(0.0), ymax=(0.05),
     )
 
@@ -709,17 +746,131 @@ def plot_test_vs_hess(model_nm, N, mu=10.0):
     )
 
 
+def plot_batch_match_loss_vs_loss(idxs_and_model_nms, T):
+    title = (
+        'GDC Mimics Small-Batch behavior \n'
+        '(excess test loss over SGD\'s. \n'
+        ' axes scaled equally)'
+        .format(T)
+    )
 
-plot_test_vs_hess('quad-1d-reg', N=10)
+    plt.rcParams.update({'font.size': 14})
+    for (idxs, model_nm), col in zip(idxs_and_model_nms, [green, red, blue, yellow]):
+        sgd_true_mean = [] 
+        sgd_true_stdv = [] 
+        gd_sgd_true_mean = [] 
+        gd_sgd_true_stdv = [] 
+        gd_sgd_pred_mean = [] 
+        gd_sgd_pred_stdv = [] 
+        gdc_sgd_true_mean = [] 
+        gdc_sgd_true_stdv = [] 
+        gdc_sgd_pred_mean = [] 
+        gdc_sgd_pred_stdv = [] 
 
+        for idx in idxs:
+            ol_nm  = 'ol-{}-T{}-{:02}-bm.data'.format(model_nm, T, idx)
+            OL = OptimLog(ol_nm)
+            OL.load_from(ol_nm)
 
-#plot_gen_gap_loss_vs_loss('cifar-lenet', [0, 1, 2, 3, 4, 5], 10)
+            (X, Y, S) = OL.query_eta_curve(
+                kind='main', evalset='test', sampler='sgd', T=T, N=T, metric='loss'
+            )
+            sgd_true_mean += list(Y)
+            sgd_true_stdv += list(S)
+
+            (X, Y, S) = OL.query_eta_curve(
+                kind='diff', evalset='test', sampler=('gd', 'sgd'), T=T, N=T, metric='loss'
+            )
+            gd_sgd_true_mean += list(Y)
+            gd_sgd_true_stdv += list(S)
+
+            (X, Y, S) = OL.query_eta_curve(
+                kind='diff', evalset='test', sampler=('gdc', 'sgd'), T=T, N=T, metric='loss'
+            )
+            gdc_sgd_true_mean += list(Y)
+            gdc_sgd_true_stdv += list(S)
+
+            gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx)
+            P = Predictor(gs_nm)
+            losses = P.evaluate_expr(
+                P.extrapolate_from_taylor(
+                    coeff_strs=coefficients.gd_minus_sgd_vanilla_test, degree=2, mode='poly'
+                ),
+                params = {'T':T, 'eta':X, 'e':np.exp(1), 'N':T}
+            )
+            gd_sgd_pred_mean += list(losses['mean'])
+            gd_sgd_pred_stdv += list(losses['stdv'])
+
+            gdc_sgd_pred_mean += list([0])
+            gdc_sgd_pred_stdv += list([0])
+
+        sgd_true_mean     = np.array(    sgd_true_mean) 
+        sgd_true_stdv     = np.array(    sgd_true_stdv)
+        gd_sgd_true_mean  = np.array( gd_sgd_true_mean) 
+        gd_sgd_true_stdv  = np.array( gd_sgd_true_stdv)
+        gd_sgd_pred_mean  = np.array( gd_sgd_pred_mean)
+        gd_sgd_pred_stdv  = np.array( gd_sgd_pred_stdv)
+        gdc_sgd_true_mean = np.array(gdc_sgd_true_mean)
+        gdc_sgd_true_stdv = np.array(gdc_sgd_true_stdv)
+        gdc_sgd_pred_mean = np.array(gdc_sgd_pred_mean)
+        gdc_sgd_pred_stdv = np.array(gdc_sgd_pred_stdv)
+
+        plot_plus(
+            gd_sgd_true_mean, gd_sgd_true_stdv,
+            gdc_sgd_true_mean, gdc_sgd_true_stdv,
+            color=col,
+            label={
+                'fashion-lenet':'Fashion-MNIST Convnet',
+                'fashion-logistic':'Fashion-MNIST Logistic',
+                'cifar-lenet':'CIFAR-10 Convnet',
+                'cifar-logistic':'CIFAR-10 Logistic',
+                }[model_nm]
+        )
+        #plot_plus(
+        #    sgd_true_mean, sgd_true_stdv,
+        #    gdc_sgd_true_mean, gdc_sgd_true_stdv,
+        #    color=green, label='gdc vs sgd'
+        #)
+        #plot_plus(
+        #    sgd_true_mean, sgd_true_stdv,
+        #    gd_sgd_true_mean, gd_sgd_true_stdv,
+        #    color=red, label='gd vs sgd'
+        #)
+        plot_fill(
+            gd_sgd_true_mean,
+            0.0*gd_sgd_true_mean,
+            0.0*gd_sgd_true_mean,
+            color=black, label=None
+        )
+
+    img_nm = '../plots/_bm-{}-{}.png'.format(model_nm, idx)
+    print(CC+'@R rendering plot @D ...')
+    finish_plot(
+        title=title, xlabel='GD without regularizer', ylabel='GDC',
+        #img_filenm='../plots/big-bm-new.png',
+        img_filenm='../plots/new-big-bm-new.png',
+        ymin=-1.7*10**-4, ymax=+1.7*10**-4,
+    )
+
+#for idx in range(6):
+#    plot_test_loss_vs_eta('fashion-lenet', idx, 10)
+#plot_test_vs_hess('quad-1d-reg', N=10)
 #plot_gengap_vs_hess('quad-1d', T=10)
 
+#plot_batch_match_loss_vs_loss(['cifar-lenet', 'fashion-lenet'], idxs=range(0,6), T=10)
+plot_batch_match_loss_vs_loss([
+    (range(0, 6), 'fashion-lenet'),
+    (range(0, 6), 'cifar-lenet'),
+    (range(0, 1), 'fashion-logistic'),
+    (range(0, 1), 'cifar-logistic'),
+], T=10)
+
+#plot_gen_gap_loss_vs_loss('cifar-lenet', [0, 1, 2, 3, 4, 5], 10)
+
 #for model_nm in ['cifar-lenet', 'fashion-lenet']:
-#    for idx in range(3,6):
-#        #plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
-#        plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
+#    for idx in range(0,6):
+#        plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
+#        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
 
 #plot_test()
 #plot_gauss_nongauss_vs_eta('fitgauss', idx=0, T=4)
