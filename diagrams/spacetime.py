@@ -65,10 +65,10 @@ def draw_arc_aa(img, row_s, col_s, row_e, col_e, curve=1.0, color=black):
 #T = 7 
 #dT = 3 
 
-N = 7
-dN = 5
-T = 14
-dT = 13
+#N = 7
+#dN = 5
+#T = 14
+#dT = 13
  
 #N = 8
 #dN = 7
@@ -79,6 +79,11 @@ dT = 13
 #dN = 3
 #T = 12
 #dT = 11
+
+N = 9
+dN = 4
+T = 27
+dT = 13
 
 #MARG = 30
 MARG = 45
@@ -303,14 +308,38 @@ def draw_h(filename):
     
     plt.imsave(filename, img)
 
-FILE_NM = 'spacetime-d.png' 
+def draw_i(filename): 
+    img = np.ones((height, width, 3), dtype=np.float32)
+    for rr in range(3):
+        fill_boxes(img, [(
+            (3*i + rr) % N, 
+            i%T
+        ) for i in range(max(N, T))])
+    draw_grid(img)
+
+    draw_diagram(img, [[(6, 8    ),         (6,14), (7    ,     T)]])
+    queue_text(7   ,  11.5  , 'diagram A', color=colors[6])
+    
+    draw_diagram(img, [[(1, 9-0.2),                 (-1   ,    19)], 
+                       [(1, 9+0.2),         (0,14), (-1   ,    19)]])
+    queue_text(1   ,   9.5  , 'diagram B', color=colors[1])
+
+    draw_diagram(img, [[(4-0.2,19-0.2),                 ( 3   ,    T )], 
+                       [(4-0.2,19+0.2),                 ( 3   ,    T )],
+                       [(5+0.2,19    ),                 ( 3   ,    T )]])
+    queue_text(4   ,   19.5 , 'diagram C', color=colors[4])
+ 
+    plt.imsave(filename, img)
+
+FILE_NM = 'spacetime-i.png' 
 #title = "One-Epoch SGD"
-title = "Spacetime for Two-Epoch SGD"
+#title = "Spacetime for Two-Epoch SGD"
 #title = "Singleton Batches with Shuffling"
 #title = "Size-Two Batches without Shuffling"
 #title = "Renorm. Collects Related Diagrams"
 #title = "Renorm. Propagates Noise"
-draw_d(FILE_NM)
+title = "Practice Spacetime: (N,M,B)=(9,3,3) SGD without Shuffling"
+draw_i(FILE_NM)
 
 #=============================================================================
 
