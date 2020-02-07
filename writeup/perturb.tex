@@ -674,16 +674,19 @@
             compute the generalization gap is the same as in Theorem
             \ref{thm:sgdcoef}.
         \end{prop}
-        A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta N)^d
-        N^{P-d-1}\right)$ to the loss.  For example, there are six diagrams to
-        third order, and they have $(4+2)+(2+2+3)+(1)$ many orderings --- see
-        Table \ref{tab:scatthree}.  Intuitively, $\eta N$ measures the physical
-        time of descent and $1/N$ measures the coarseness of time
-        discretization.  So we have a double-series in $(\eta N)^d N^{P-d-1}$,
-        where $d$ counts thin edges and $d+1-P$ counts fuzzy ties; the $P=d+1$
-        terms correspond to a discretization-agnostic (hence continuous-time,
-        noiseless) ODE approximation to SGD, while $P\leq d$ gives correction
-        terms modeling time-discretization and hence noise.  
+        \begin{rmk}[Vanilla SGD's Deviation from ODE] \label{rmk:vsode}
+            A $P$-part, $d$-edged diagram then contributes $\Theta\left((\eta
+            N)^d N^{P-d-1}\right)$ to the loss.  For example, there are six
+            diagrams to third order, and they have $(4+2)+(2+2+3)+(1)$ many
+            orderings --- see Table \ref{tab:scatthree}.  Intuitively, $\eta N$
+            measures the physical time of descent and $1/N$ measures the
+            coarseness of time discretization.  So we have a double-series in
+            $(\eta N)^d N^{P-d-1}$, where $d$ counts thin edges and $d+1-P$
+            counts fuzzy ties; the $P=d+1$ terms correspond to a
+            discretization-agnostic (hence continuous-time, noiseless) ODE
+            approximation to SGD, while $P\leq d$ gives correction terms
+            modeling time-discretization and hence noise.  
+        \end{rmk}
 
     %--------------------------------------------------------------------------
     %           Theoretical Corollaries                     
@@ -1745,7 +1748,7 @@
         \subsubsection*{Examples of Summing a Diagram's Spacetime Embeddings}
 
     \subsection{
-        Overfitting and Generalization of GD.  Proof of Corollary
+        Example: Overfitting and Generalization of GD.  Proof of Corollary
         \ref{cor:overfit}. 
     }
         \subsubsection*{Overfitting}
@@ -1801,98 +1804,8 @@
             Integration finishes the proof.
  
     \subsection{
-        Inter-Epoch Shuffling Doesn't Matter Much For Small $\eta T$
-        Proof of Corollary \ref{cor:shuffle}.
-    }
-        We work in the setting of Corollary \ref{cor:shuffle}.
-        
-        For two shuffling patterns (i.e. spacetimes) and fixed $N, M, B$, the
-        embeddings (of diagrams through order $3$) into one spacetime are in
-        bijective and value-preserving correspondence with the embeddings into
-        the other spacetime.
-
-        Indeed, if all three non-root nodes are embedded into one epoch, or
-        conversely if they are embedded into three distinct epochs, then
-        this follows from the exchangeability of the distribution over train
-        sets.
-
-        The remaining case is that the non-root nodes are embedded into two
-        epochs, one epoch carrying one node (say A) and the other carrying two
-        (say B, C).  We may move A to any cell of its epoch without violating
-        the thin-edge-condition; this produces a collection of several
-        diagram embeddings with shared tree structure and potentially
-        different fuzzy tie structure.  Crucially, these diagrams are all order
-        at most $3$ and as a collection of values are invariant to the move
-        of interchanging B's row with C's row.  Therefore:
-        the order-$3$-and-lower diagrams partition into collections each 
-        amenable to the exchangeability argument of the previous paragraph.
-        QED.
-
-    \subsection{
-        The 3rd Order Curl: Which Minima Does SGD Prefer?
-        Proof of Corollaries \ref{cor:noncons} and \ref{cor:entropic}. 
-    }
-        \subsubsection*{Un-renormalized}
-            We work in the setting of Corollary \ref{cor:noncons}.
-
-            Because we seek to compute a net displacement instead of a test
-            loss, we consider diagrams with their root amputated away: the free
-            thin edge that used to connect to the root now represents the
-            uncontracted tensor index that gives the displacement.  To third
-            order and at a test minimum, the only non-vanishing such diagram is
-            $\sdia{(01-2-3)(02-12-23)}$ (which equals
-            $\sdia{c(01-2-3)(02-12-23)}$ because we are at a test minimum) ---
-            with the {\color{moob}blue} root amputated.
-            It evaluates to $-C_\mu\nu J^{\mu\nu\lambda}$, and it embeds in
-            ${T\choose 2}$ ways into vanilla SGD's spacetime: one for each
-            increasing pair of cells into which to place the 
-            {\color{moob}red} nodes and the
-            {\color{moob}green} node, respectively.  The result follows.
-
-        \subsubsection*{Renormalized}
-            We work in the setting of Corollary \ref{cor:entropic}.
-
-            The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
-            (amputated as in the previous subsubsection).   
-            An embedding of this diagram into vanilla SGD's spacetime
-            has two relevant durations, 
-            $t$ from {\color{moob}red} to {\color{moob}green} and
-            $\tilde t$ from {\color{moob}green} to {\color{moob}blue},
-            such that $t+\tilde t \leq T$
-            The automorphism group of every embedding has size $2$: identity
-            or switch the {\color{moob}red} nodes.  So the answer is: 
-            $$
-                C_{\mu \nu}
-                J^{\rho\lambda}_{\sigma}
-                \wrap{\int_{t+\tilde t\leq T}
-                    \wrap{\exp(-t \eta H) \eta}^{\mu\rho}
-                    \wrap{\exp(-t \eta H) \eta}^{\nu\lambda}
-                    \wrap{\exp(-\tilde t \eta H) \eta}^{\sigma\pi}
-                }
-            $$
-            Again, standard integration gives the desired result.
-            QED.
-
-    \subsection{
-        SGD vs ODE.
-        Proof of Corollary \ref{cor:vsode}'s First Part
-    }
-        The rest of the proof is in Appendix \ref{sect:compare}.
-        {\color{moor} FILL IN}
-
-    \subsection{
-        The Effect of Batch Size and Epochs.
-        When Does SGD Outperform GD?
-        Proof of Proposition \ref{prop:ordtwo} and Corollary \ref{cor:epochs}. 
-    }
-        {\color{moor} FILL IN}
-
-    \subsection{
         Project: Non-Gaussian Noise for Large Times.
     }
-        %We saved a result just for you, the reader!  This result is absent from
-        %this paper and the literature.  It might be \emph{you} who first writes
-        %it out fully.
         One may obtain a novel and unpublished result by answering the
         following questions.
 
@@ -1917,9 +1830,6 @@
             What is the leading order contribution of non-Gaussian noise to 
             vanilla SGD's test loss, for large $\eta T$?
         \end{quest*}
-        %\begin{rmk*}[upon finishing]
-        %    Congratulations!
-        %\end{rmk*}
 
       
 \section{
@@ -2258,136 +2168,114 @@
             $$
         \end{shaded}
 
-            %\begin{align*}
-            %    \expct{a_T^3}
-            %       &-\eta^3 \sum_{t} \sum_{t_0 < t_1}
-            %            \nabla l_{n_t} \expct{\nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}}
-            %       \\
-            %       &-\eta^3 \sum_{t} \sum_{t_0 < t_1}
-            %            \nabla l_{n_t} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}
-            %\end{align*}
-
-    %\subsection{A Nonconservative Force (Unrenormalized)}
-    %    We identify the leading order nonconservative component in vanilla
-    %    SGD's evolution of a weight initialized at a test minimum.
-    %    \subsubsection*{Diagram Method}
-    %    \subsubsection*{Direct Perturbation}
-
-    %\subsection{
-    %    The Effect of Inter-Epoch Shuffling.
-    %    Proof of Corollary \ref{cor:shuffle}.
-    %}
-    %    We identify the leading order effect of shuffling on test loss for
-    %    pure, multi-epoch SGD.  It is much harder to see by direct perturbation
-    %    than by diagrams that this is an order $\eta^4$ effect, so for fairness
-    %    we will assume this order it already known for both methods.
-
-    %    \subsubsection*{Diagram Method}
-    %    \colorlet{shadecolor}{moolime}
-    %    \begin{shaded}
-    %        {\color{moor} FILL IN}
-    %    \end{shaded}
-    %        
-    %    \subsubsection*{Direct Perturbation}
-    %    \colorlet{shadecolor}{moosky}
-    %    \begin{shaded}
-    %        We compute the displacement $\theta_T-\theta_0$ to order $\eta^4$ 
-    %        for vanilla SGD.  Expanding
-    %        $
-    %            \theta_t \in \theta_0
-    %                + \eta a_t + \eta^2 b_t + \eta^3 c_t + \eta^4 d_t 
-    %                + o(\eta^4)
-    %        $, we find:
-    %        \begin{align*}
-    %            \theta_{t+1}
-    %            =
-    %            \theta_t    &- \eta \nabla l_{n_t} (\theta_t) \\
-    %            \in\theta_0 &+ \eta a_t + \eta^2 b_t + \eta^3 c_t + \eta^4 d_t \\
-    %                        &- \eta \wrap{
-    %                                \nabla l_{n_t}
-    %                               +\nabla^2 l_{n_t}             (\eta a_t + \eta^2 b_t + \eta^3 c_t)
-    %                           } \\
-    %                        &- \eta \wrap{
-    %                                \frac{1}{2} \nabla^3 l_{n_t} (\eta a_t + \eta^2 b_t)^2
-    %                               +\frac{1}{6} \nabla^4 l_{n_t} (\eta a_t)^3
-    %                           }
-    %                         + o(\eta^4) \\
-    %            =
-    %            \theta_0    &+ \eta   \wrap{a_t - \nabla l_{n_t}} \\
-    %                        &+ \eta^2 \wrap{b_t - \nabla^2 l_{n_t} a_t} \\ 
-    %                        &+ \eta^3 \wrap{
-    %                               c_t
-    %                              -\nabla^2 l_{n_t} b_t
-    %                              -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
-    %                           } \\
-    %                        &+ \eta^4 \wrap{
-    %                               d_t
-    %                              -            \nabla^2 l_{n_t} c_T
-    %                              -\frac{1}{2} \nabla^3 l_{n_t} b_T^2 
-    %                              -\frac{1}{6} \nabla^4 l_{n_t} a_T^3 
-    %                           }
-    %                         + o(\eta^4)
-    %        \end{align*}
-    %        We thus have the recurrences
-    %        $
-    %            a_{t+1} = a_t - \nabla l_{n_t}
-    %        $,
-    %        $
-    %            b_{t+1} = b_t - \nabla^2 l_{n_t} a_t
-    %        $,
-    %        $
-    %            c_{t+1} = c_t -\nabla^2 l_{n_t} b_t 
-    %                          -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
-    %        $, and
-    %        $
-    %            d_{t+1} = d_t -             \nabla^2 l_{n_t} c_T
-    %                          - \frac{1}{2} \nabla^3 l_{n_t} b_T^2 
-    %                          - \frac{1}{6} \nabla^4 l_{n_t} a_T^3 
-    %        $
-    %        with solutions:
-    %        \begin{align*}
-    %            \eta a_t = &-\eta \sum_{t} \nabla l_{n_t}
-    %            \\ 
-    %            \eta^2 b_t = &+\eta^2 \sum_{t_0 < t_1} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}
-    %            \\
-    %            \eta^3 c_t^\mu =
-    %                &-\sum_{t_0 < t_1 < t_2} 
-    %                    \nabla^\mu \nabla_\nu l_{n_{t_2}}
-    %                    \nabla^\nu \nabla_\sigma l_{n_{t_1}} \nabla^\sigma l_{n_{t_0}} \\
-    %                &-\frac{1}{2}
-    %                    \sum_{t_a, t_b < t}
-    %                    \nabla^\mu \nabla^\nu \nabla^\sigma l_{n_t}
-    %                    \nabla_\nu l_{n_{t_a}}
-    %                    \nabla_\sigma l_{n_{t_b}}
-    %            \\
-    %            \eta^4 d_t^\mu =
-    %                &-\sum_{t_0 < t_1 < t_2} 
-    %                    \nabla^\mu \nabla_\nu l_{n_{t_2}}
-    %                    \nabla^\nu \nabla_\sigma l_{n_{t_1}} \nabla^\sigma l_{n_{t_0}} \\
-    %                &-\frac{1}{2}
-    %                    \sum_{t_a, t_b < t}
-    %                    \nabla^\mu \nabla^\nu \nabla^\sigma l_{n_t}
-    %                    \nabla_\nu l_{n_{t_a}}
-    %                    \nabla_\sigma l_{n_{t_b}}
-    %        \end{align*}
-    %        We use tensor indices above because the contraction pattern would
-    %        otherwise be ambiguous.
-
-    %        {\color{moor} FILL IN}
-    %    \end{shaded}
-
-
-
 \section{Other Perturbative Calculations} \label{sect:calculations}
-    %\subsection{SGD vs ODE and SDE}
-    %    {\color{moor} FILL IN}
-    %\subsection{Interepoch Shuffling}
-    %    {\color{moor} FILL IN}
-    %\subsection{Effect of Epochs}
-    %    {\color{moor} FILL IN}
-    %\subsection{Renormalized Nonconservative Entropic Force}
-    %    {\color{moor} FILL IN}
+    \subsection{
+        SGD vs ODE.  Proof of Corollary \ref{cor:vsode}'s First Part
+    }
+        The rest of the proof is in Appendix \ref{sect:compare}.
 
+        We work in the setting of Corollary \ref{cor:vsode}.
+        This corollary's first part follows immediately from
+        Remark \ref{rmk:vsode} in the case that $d=2$, $P=2$,
+        and $(\eta N)^d$ is considered fixed while $N^{P-d-1}$ is considered changing.
+
+    \subsection{
+        The Effect of Batch Size and Epochs:
+        When Does SGD Outperform GD?
+        Proof of Proposition \ref{prop:ordtwo} and
+        Corollaries \ref{cor:epochs}, \ref{cor:batch}.
+    }
+        To prove Proposition \ref{prop:ordtwo}, we simply count
+        the embeddings of the diagrams, noting that the automorphism groups
+        are all of size $1$ or $2$.  Since we use fuzzy outlines instead of
+        fuzzy ties, we allow untied nodes to occupy the same row, since the
+        excess will be canceled out by the term subtract in the definition of
+        fuzzy outlines.
+        \begin{tabular}{cll}
+            diagram                 & embed.s w/ $\wabs{\Aut_f}=1$  & embed.s w/ $\wabs{\Aut_f}=2$   \\ \hline
+            $\sdia{(0)()}$          & $1$                           & $0$                            \\  
+            $\sdia{(0-1)(01)}$      & $MNB$                         & $0$                            \\                  
+            $\sdia{(0-1-2)(01-12)}$ & ${MNB\choose 2}$              & $0$                            \\
+            $\sdia{c(01-2)(01-12)}$ & $N{MB\choose 2}$              & $0$                            \\
+            $\sdia{(0-1-2)(02-12)}$ & ${MNB\choose 2}$              & $0$                            \\
+            $\sdia{c(01-2)(02-12)}$ & $N{MB\choose 2}$              & $MNB$                             
+        \end{tabular}
+
+        The two mentioned corollaries follow from plugging in appropriate
+        values of $M, N, B$.
+
+    \subsection{
+        Inter-Epoch Shuffling Doesn't Matter Much For Small $\eta T$
+        Proof of Corollary \ref{cor:shuffle}.
+    }
+        We work in the setting of Corollary \ref{cor:shuffle}.
+        
+        For two shuffling patterns (i.e. spacetimes) and fixed $N, M, B$, the
+        embeddings (of diagrams through order $3$) into one spacetime are in
+        bijective and value-preserving correspondence with the embeddings into
+        the other spacetime.
+
+        Indeed, if all three non-root nodes are embedded into one epoch, or
+        conversely if they are embedded into three distinct epochs, then
+        this follows from the exchangeability of the distribution over train
+        sets.
+
+        The remaining case is that the non-root nodes are embedded into two
+        epochs, one epoch carrying one node (say A) and the other carrying two
+        (say B, C).  We may move A to any cell of its epoch without violating
+        the thin-edge-condition; this produces a collection of several
+        diagram embeddings with shared tree structure and potentially
+        different fuzzy tie structure.  Crucially, these diagrams are all order
+        at most $3$ and as a collection of values are invariant to the move
+        of interchanging B's row with C's row.  Therefore:
+        the order-$3$-and-lower diagrams partition into collections each 
+        amenable to the exchangeability argument of the previous paragraph.
+        QED.
+
+    \subsection{
+        The 3rd Order Curl: Which Minima Does SGD Prefer?
+        Proof of Corollaries \ref{cor:noncons} and \ref{cor:entropic}. 
+    }
+        \subsubsection*{Un-renormalized}
+            We work in the setting of Corollary \ref{cor:noncons}.
+
+            Because we seek to compute a net displacement instead of a test
+            loss, we consider diagrams with their root amputated away: the free
+            thin edge that used to connect to the root now represents the
+            uncontracted tensor index that gives the displacement.  To third
+            order and at a test minimum, the only non-vanishing such diagram is
+            $\sdia{(01-2-3)(02-12-23)}$ (which equals
+            $\sdia{c(01-2-3)(02-12-23)}$ because we are at a test minimum) ---
+            with the {\color{moob}blue} root amputated.
+            It evaluates to $-C_\mu\nu J^{\mu\nu\lambda}$, and it embeds in
+            ${T\choose 2}$ ways into vanilla SGD's spacetime: one for each
+            increasing pair of cells into which to place the 
+            {\color{moor}red} nodes and the
+            {\color{moog}green} node, respectively.  The result follows.
+
+        \subsubsection*{Renormalized}
+            We work in the setting of Corollary \ref{cor:entropic}.
+
+            The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
+            (amputated as in the previous subsubsection).   
+            An embedding of this diagram into vanilla SGD's spacetime
+            has two relevant durations, 
+            $t$ from {\color{moor}red} to {\color{moog}green} and
+            $\tilde t$ from {\color{moog}green} to {\color{moob}blue},
+            such that $t+\tilde t \leq T$
+            The automorphism group of every embedding has size $2$: identity
+            or switch the {\color{moor}red} nodes.  So the answer is: 
+            $$
+                C_{\mu \nu}
+                J^{\rho\lambda}_{\sigma}
+                \wrap{\int_{t+\tilde t\leq T}
+                    \wrap{\exp(-t \eta H) \eta}^{\mu\rho}
+                    \wrap{\exp(-t \eta H) \eta}^{\nu\lambda}
+                    \wrap{\exp(-\tilde t \eta H) \eta}^{\sigma\pi}
+                }
+            $$
+            Again, standard integration gives the desired result.
+            QED.
 
 \section{Mathematical Background} \label{sect:morebackground}
     This Appendix provides the mathematical context for our proofs.  For the
@@ -2939,7 +2827,8 @@
             Because the Taylor series for analytic functions converge
             absolutely in the interior of the disk of convergence, the
             rearrangement of terms corresponding to a grouping by geometric
-            realizations preserves the convergence result of \ref{thm:sgdcoef}.  
+            realizations preserves the convergence result of Them
+            \ref{thm:sgdcoef}.  
 
             Let us then focus on those diagrams $\sigma$ with a given geometric
             realization represented by $\rho$ irreducible.  By Theorem
@@ -3026,7 +2915,7 @@
             To prove the rest of Theorem \ref{thm:renorm}, we assume that $H$
             is positive.  Then, for any $m$, the propagator ${(I-\eta
             H)^{\otimes m}}^t$ converges via an exponential decay with $t$ to
-            $0$ (with a rate dependent on $m$).  The Renormalization Theorem.
+            $0$ (with a rate dependent on $m$).
             Since up to degree $d$ only a finite number of diagrams exist and
             hence only a finite number of possible $m$s, the exponential rates
             are bounded away from $0$.  Moreover, for any fixed
