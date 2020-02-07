@@ -887,11 +887,11 @@
             \sdia{(0-1-2-3)(01-12-23)}, \cdots
         $.  
         When embedded with initial and final nodes separated by duration
-        $\Delta t$, this series of diagrams sums to contributes
+        $\Delta t$, this series of diagrams sums to
         $
-            G (I-\eta H)^{\Delta t-1} \eta G
+            -G (I-\eta H)^{\Delta t-1} \eta G
             \approx
-            G \exp(-\eta \Delta t H) \eta G
+            -G \exp(-\eta \Delta t H) \eta G
             \cdot (1+o(\eta))
         $.
         The $\exp(-\eta \Delta t H) \eta$ is thus an ``effective learning rate'' to
@@ -901,9 +901,9 @@
         to vanilla SGD's test loss, or:
         \begin{align*}
             \approx
-            G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G
+            -G \wrap{\int_t \exp(-\eta (T-t) H)} \eta G
             =
-            G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
+            -G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
         \end{align*}
         In contrast to the unrenormalized prediction $T G_\mu G^\mu$,
         the above converges in the large-$T$ limit (when $H$ is positive).
@@ -1741,11 +1741,152 @@
             The unrenormalized technique of Theorem \ref{thm:sgdcoef} is
             simpler than the renormalized technique of Theorem
             \ref{thm:renorm}, but it only has guarantees for small $\eta T$.
+
+            We may \emph{embed} a diagram into spacetime by placing each
+            \emph{non-root} node in a shaded cell.  We allow only embeddings
+            that obey both:
+            \begin{description}
+                \item[thin edge condition] have a node $c$ in a column strictly
+                    prior to a node $p$ if $c$'s path to the root encounters
+                    the root.
+                \item[fuzzy tie condition] have two nodes in the same row if
+                    and only if they are fuzzily tied.
+            \end{description}
+
+            The un-renormalized contribution of a diagram $D$ to a loss is a
+            sum over all of its embeddings --- each inversely weighted by the
+            number of ways to permute the nodes of the diagram such that nodes
+            stay within the original cells assigned by the embedding and such
+            that each pair of nodes connected by thin edges map by the
+            permutation to a pair of nodes connected by thin edges --- of
+            \begin{description}
+                \item[un-renormalized value]: $\value(D)$, that is, the
+                    expectation over the loss landscape's randomness of the
+                    the $-\eta$-contracted tensor expression to which the
+                    diagram corresponds.
+            \end{description}
+
         \subsubsection*{Renormalized Technique} 
             Though the unrenormalized technique of Theorem \ref{thm:sgdcoef} is
             simple, the renormalized technique of Theorem \ref{thm:renorm}
             gives convergent results even for large $\eta T$.
+
+            We may \emph{embed} a diagram into spacetime by placing each
+            \emph{non-root} node in a shaded cell.  We allow only embeddings
+            that obey both:
+            \begin{description}
+                \item[thin edge condition] have a node $c$ in a column strictly
+                    prior to a node $p$ if $c$'s path to the root encounters
+                    the root.
+                \item[fuzzy tie condition] have two nodes in the same row if
+                    and only if they are fuzzily tied.
+            \end{description}
+
+            In the renormalized theory, we only consider irreducible diagrams,
+            that is, diagrams with the property that every thin-edge-degree two
+            node participates in some fuzzy edges.
+
+            The renormalized contribution of a diagram $D$ to a loss is a sum
+            over all of its embeddings $f$ --- each inversely weighted by the
+            number of ways to permute the nodes of the diagram such that nodes
+            stay within the original cells assigned by the embedding and such
+            that each pair of nodes connected by thin edges map by the
+            permutation to a pair of nodes connected by thin edges, of:
+            \begin{description}
+                \item[renormalized value] $\rvalue_f(D)$, that is, the
+                    expectation over the loss landscape's randomness of the the
+                    $-\exp(-\delta T \eta H)\eta$-contracted tensor expression
+                    to which the diagram corresponds.  (minus the noiseless
+                    baseline as motivated in Definition \ref{defn:rvalue} and
+                    described in Appendix \ref{subsubsect:mobius}; this helps
+                    us calculate the net effect of noise by calculating the
+                    loss with noise minus the loss without noise). 
+            \end{description}
+
         \subsubsection*{Examples of Summing a Diagram's Spacetime Embeddings}
+            Consider Figure \ref{fig:practicespacetime}.
+
+            \begin{figure}[h!]
+                \centering  
+                \plotmoo{diagrams/spacetime-i}{\columnwidth}{}
+                \caption{
+                    Sample embeddings --- one for each of
+                    $\sdia{(01-2)(01-12)}$,
+                    $\sdia{(01-2-3)(03-12-23)}$, and
+                    $\sdia{(01-2-3)(03-13-23)}$ ---
+                    in the spacetime of $(9,3,3)$ SGD.
+                }
+                \label{fig:practicespacetime}
+            \end{figure}
+
+            \begin{quest*}
+                How many automorphisms does the depicted embedding of diagram A
+                enjoy?
+            \end{quest*}
+            \begin{answ*}
+                One (the identity), since each node is in a different cell.
+                This induces a coefficient $1/1$.
+            \end{answ*}
+            \begin{quest*}
+                How many ways does diagram A embed into the spacetime?
+            \end{quest*}
+            \begin{answ*}
+                As many as there are pairs of distinct same-row cells.  There
+                are $N=9$ possible rows and ${BM\choose 2} = {9\choose 2}$
+                possible pairs of epochs.  So: $N{BM\choose 2} = 9 {9\choose
+                2}$.
+            \end{answ*}
+
+            \begin{quest*}
+                How many automorphisms does the depicted embedding of diagram B
+                enjoy?
+                This induces a coefficient $1/1$.
+            \end{quest*}
+            \begin{answ*}
+                One (the identity), since the two cell-sharing nodes are
+                distinguished by their thin-edge structure and hence may not be
+                interchanged.
+            \end{answ*}
+            \begin{quest*}
+                How many ways does diagram B embed into the spacetime?
+            \end{quest*}
+            \begin{answ*}
+                As many as there are pairs of different-column cells 
+                (for the connected teal and bronze nodes), times the number
+                of epochs (for the other teal node).  
+                So: $B^2{MN \choose 2}MB$.
+            \end{answ*}
+
+            \begin{quest*}
+                How many automorphisms does the depicted embedding of diagram C
+                enjoy?
+                This induces a coefficient $1/2$.
+            \end{quest*}
+            \begin{answ*}
+                Two: we may switch or not switch the two cell-sharing nodes.
+            \end{answ*}
+            \begin{quest*}
+                What is the total coefficient on diagram C after summing
+                over its embeddings?
+            \end{quest*}
+            \begin{answ*}
+                The blue nodes occupy one of $N$ rows and one of $(MB)^2/2$  
+                sets of columns, and the magenta node occupies any one of the
+                $MB(N-1)$ cells in the remaining row.  So:
+                $(N(MB)^2/2) \cdot (MB(N-1))$.
+            \end{answ*}
+            \begin{rmk*}
+                Most of these embeddings of diagram C will have automorphism
+                group of size $1$, because the same-row nodes will nevertheless
+                by in different cells.  Those will be weighted with coefficient
+                $1/1$.  The rest will be weighted with the $1/2$ we found
+                above.  This permits us to ``count'' a noninteger number such
+                as $N(MB)^2/2$ of embeddings: the ``count'' is shorthand for
+                this weighted sum.
+            \end{rmk*}
+
+            To illustrate renormalization, we turn to a corollary as an
+            example:
 
     \subsection{
         Example: Overfitting and Generalization of GD.  Proof of Corollary
