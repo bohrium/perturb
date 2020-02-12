@@ -1,4 +1,4 @@
-%   author: samtenka
+%   author: ANONYMIZED
 %   change: 2020-02-12
 %   create: 2020-02-10
 %   descrp: LaTeX source for perturb project
@@ -253,97 +253,97 @@
 
 \section{Introduction}
 
-        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        %~~~~~  Orienting Invitation  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Orienting Invitation  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        %-------------  object of study  --------------------------------------
+    %-----------------  object of study  --------------------------------------
 
-        Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
-        discrete-time $\eta$-steepest\footnote{
-            The ``steepness'' concept depends on the choice of metric for
-            $l$'s domain.  We thus consider all (flat) metrics at once.
-            Specifically, we will Taylor expand an (inverse) metric
-            $\eta^{\mu\nu}$ around $0$.
-        } descent on noisy estimates of $l$.
-        %
-        %-------------  questions  --------------------------------------------
-        %
-        Natural questions concern this noise's effects:
-        \begin{quests*}
-            Intuitively, SGD and GD differ in their sensitivity to noise;
-                when and why does one outperform the other?
-            How does SGD select from among a valley of minima?
-            By how much do sharp or flat minima overfit to noise?
-        \end{quests*}
-        %
-        %-------------  high level method  ------------------------------------
-        %
-        To answer the above, we interpret SGD as a superposition of
-        various weight-data interactions, each represented by a Feynman
-        diagram\footnote{
-            Section \ref{sect:calculus} explains these words in detail.
-        }.
-        For small $\eta$, few diagrams substantively contribute and
-        our formalism permits concrete computation.
+    Stochastic gradient descent (SGD) decreases an unknown objective $l$ by
+    discrete-time $\eta$-steepest\footnote{ The ``steepness'' concept depends
+    on the choice of metric for $l$'s domain.  We thus consider all (flat)
+    metrics at once.  Specifically, we will Taylor expand an (inverse) metric
+    $\eta^{\mu\nu}$ around $0$.  } descent on noisy estimates of $l$.
+    %
+    %-----------------  questions  --------------------------------------------
+    %
+    Natural questions concern this noise's effects:
+    \begin{quests*}
+        Intuitively, SGD and GD differ in their sensitivity to noise; when and
+        why does one outperform the other?
+        How does SGD select from among a valley of minima?
+        By how much do sharp or flat minima overfit to noise?
+    \end{quests*}
+    %
+    %-----------------  high level method  ------------------------------------
+    %
+    To answer the above, we interpret SGD as a superposition of various
+    weight-data interactions, each represented by a Feynman diagram\footnote{
+        Section \ref{sect:calculus} explains these words in detail.
+    }.
+    For small $\eta$, few diagrams substantively contribute and our formalism
+    permits concrete computation.
 
-        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        %~~~~~  Killer Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Killer Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        %-------------  vs ODE and SDE  ---------------------------------------
+    %-----------------  vs ODE and SDE  ---------------------------------------
 
-        Unlike prior work, our work models discrete time and hence non-Gaussian
-        noise.  Indeed, we give the finite-$N$, finite-$\eta^{-1}$ corrections
-        to continuous-time approximations such as ordinary and stochastic
-        differential equations (ODE, SDE).  
-        %
-        %-------------  hyperparameter effects  -------------------------------
-        %
-        We thus obtain new results
-        quantifying how epoch number and batch size affect test loss.
-        %
-        %-------------  two novel regularizers  -------------------------------
-        %
-        Our
-        theory of noise recommends two novel regularizers that respectively
-        induce GD to mimic SGD and help to tune hyperparameters such as $l_2$
-        coefficients.
-        %
-        %-------------  experiments  ------------------------------------------
-        %
-        We verify our predictions via precision order-$\eta^3$
-        tests on convnets for CIFAR-10 and Fashion-MNIST and 
-        by examining toy landscapes (details in Appendix \ref{sect:landscape}).
+    Unlike prior work, our work models discrete time and hence non-Gaussian
+    noise.  Indeed, we give the finite-$N$, finite-$\eta^{-1}$ corrections
+    to continuous-time approximations such as ordinary and stochastic
+    differential equations (ODE, SDE).  
+    %
+    %-----------------  hyperparameter effects  -------------------------------
+    %
+    We thus obtain new results quantifying how epoch number and batch size
+    affect test loss.
+    %
+    %-----------------  two novel regularizers  -------------------------------
+    %
+    Our theory of noise recommends two novel regularizers that respectively
+    induce GD to mimic SGD and help to tune hyperparameters such as $l_2$
+    coefficients.
+    %
+    %-----------------  experiments  ------------------------------------------
+    %
+    We verify our predictions via precision order-$\eta^3$ tests on convnets
+    for CIFAR-10 and Fashion-MNIST and by examining toy landscapes (details in
+    Appendix \ref{sect:landscape}).
 
-        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        %~~~~~  Soft Benefits: Physical Intuition and Further Applications  ~~~
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Soft Benefits: Physical Intuition and Further Applications  ~~~
 
-        %-------------  retrospective  ----------------------------------------
+    %-----------------  retrospective  ----------------------------------------
 
-        Diagrams offer not only quantitative predictions but also an exciting
-        new viewpoint --- that of optimization as physical scattering.  Indeed,
-        we import physical tools such as \emph{crossing symmetries}
-        \citep{dy49b} and \emph{renormalization} \citep{ge54} to simplify and
-        refine our calculations.  The diagrams' combinatorics yield qualitative
-        insight, e.g. that to order $\eta^3$, inter-epoch shuffling does not
-        affect expected test loss.
-        %
-        %-------------  prospective  ------------------------------------------
-        %
-        Overall, we present the diagram method as a
-        flexible and elegant tool for optimization theorists.  In the
-        conclusion, we discuss Hessian methods and natural GD as low-hanging
-        fruit for future analyses.
+    Diagrams offer not only quantitative predictions but also an exciting new
+    viewpoint --- that of optimization as physical scattering.  Indeed, we
+    import physical tools such as \emph{crossing symmetries} \citep{dy49b} and
+    \emph{renormalization} \citep{ge54} to simplify and refine our
+    calculations.  The diagrams' combinatorics yield qualitative insight, e.g.
+    that to order $\eta^3$, inter-epoch shuffling does not affect expected test
+    loss.
+    %
+    %-----------------  prospective  ------------------------------------------
+    %
+    Overall, we present the diagram method as a flexible and elegant tool for
+    optimization theorists.  In the conclusion, we discuss Hessian methods and
+    natural GD as low-hanging fruit for future analyses.
 
     \subsection{Overview of Formalism}
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  The Idea of Diagrams Embedded in Spacetime  ~~~~~~~~~~~~~~~~~~~
 
+        %-------------  intuitive notion of spacetime  ------------------------
+
         Deferring details, we survey our formalism.  Say the $n$th
         datapoint participates in the $t$th update; we represent all such
         $(n, t)$ pairs of an SGD run as the shaded cells of a grid, where
         datapoints index rows and times index columns.  The shaded cells
         comprise the SGD run's \emph{spacetime}.
+
+        %-------------  illustration of diagrams embedded into spacetime  -----
+
         \begin{figure}[H] 
             \centering  
             \plotmooh{diagrams/spacetime-e}{}{0.265\columnwidth}
@@ -376,12 +376,16 @@
             \label{fig:spacetimes}
         \end{figure}
 
+        %-------------  intuitive notion of diagrams and role of embeddings  --
+
         During an SGD run, the weight interacts with data through many
         concurrent processes.  Diagrams represent such processes (Figure
         \ref{fig:spacetimes}, right).  We will see that diagrams evaluate
         to numbers and that an SGD run's expected test loss is a \emph{sum
         over diagrams} of those numbers, weighted by a count of each
         diagram's \emph{embeddings} or into the SGD run's spacetime.
+
+        %-------------  formal notion of diagrams  ----------------------------
 
         Specifically, diagrams are graphs such as $\sdia{(0-1)(01)}$,
         $\sdia{(01-2)(02-12)}$, $\sdia{(01-2)(01-12)}$, and
@@ -394,11 +398,15 @@
         labels --- we might refer to a diagram's ``green nodes'' --- and
         lack meaning.
 
+        %-------------  formal notion of embeddings  --------------------------
+
         We \emph{embed} a diagram into spacetime by placing each non-root
         node into a shaded cell.  We allow only embeddings that both
         preserve left-right relationships along thin edges and map nodes
         into the same row exactly when they are fuzzily tied.  Figure
         \ref{fig:spacetimes}, left, illustrates these rules.
+
+        %-------------  intuitive calculational procedure  --------------------
 
         Each $d$-edged diagram contributes to order $\eta^d$, so, for small
         $\eta$, the few-edged diagrams suffice to predict test losses.  Our
@@ -409,10 +417,12 @@
         weighed by its number of embeddings.  We will formally state and
         prove that this correctly models SGD. 
 
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Epoch Number Example  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     \subsection{Appetizing Example: Role of Epoch Number}
 
-        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        %~~~~~  Epoch Number Example  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        %-------------  problem statement  ------------------------------------
 
         As an illustration, let us compare the test losses of one- and
         multi-epoch SGD.  We scale $M$-epoch SGD's $\eta$ by
@@ -421,6 +431,9 @@
             agree on noiseless linear landscapes and thus a 
             more interesting comparison.
         }.
+        %
+        %-------------  diagram cancellations  --------------------------------
+        %
         One- and $M$-epoch SGD differ in their spacetimes and hence in how
         many times each diagram can embed.  Figure \ref{fig:epoch} shows
         that most diagrams with at most $2$ edges embed in corresponding
@@ -429,6 +442,8 @@
         difference.  Only the diagram
         $\sdia{c(01-2)(01-12)}$ has embeddings in $M$-epoch SGD that do not
         correspond to embeddings in one-epoch SGD (Figure \ref{fig:epoch}). 
+
+        %-------------  illustrations of spacetime and embedding differences  -
 
         \begin{figure}[h!] 
             \centering  
@@ -444,6 +459,8 @@
             \label{fig:epoch}
         \end{figure}
 
+        %-------------  diagram coefficient  ----------------------------------
+
         Clearly, $\sdia{c(01-2)(01-12)}$ embeds in $M$-epoch spacetime in
         $N\cdot{M\choose 2}$ many ways.  The order $\eta^2$ discrepancy
         between one- and multi- epoch SGD is therefore\footnote{
@@ -457,6 +474,9 @@
             \dvalue\wrap{\sdia{c(01-2)(01-12)}}
             + o(\eta^2)
         $$
+        %
+        %-------------  diagram value  ----------------------------------------
+        %
         We complete the calculation by reading from the diagram's graph
         structure that it evaluates to\footnote{
             Hidden in the RHS's notation is a factor $\eta^2$: see  
@@ -469,6 +489,8 @@
         \end{align*}
         We have thus computed the leading order test loss difference
         between one- and multi-epoch SGD.
+
+        %-------------  review and defense of diagrams  -----------------------
 
         In short: by using diagrams, we matched terms so that all but the
         $\sdia{c(01-2)(01-12)}$ terms canceled, thus avoiding an algebraic
@@ -490,9 +512,14 @@
     %~~~~~~~~~  The Loss Landscape  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     \subsection{The Loss Landscape}
+
+        %-------------  review and defense of diagrams  -----------------------
+
         We henceforth fix a loss landscape on a weight space $\Mm$, i.e. a
-        mean-$l$ distribution over smooth functions $l_n:\Mm\to\RR$.
-        We refer both to $n$ and to $l_n$ as \emph{datapoints}.
+        mean-$l$ distribution over smooth functions $l_n:\Mm\to\RR$.  We refer
+        both to $n$ and to $l_n$ as \emph{datapoints}.
+
+        %-------------  review and defense of diagrams  -----------------------
 
         More precisely, we fix a real-valued stochastic process indexed by the
         points of the \emph{weight space} $\Mm$, an affine manifold.  The
@@ -501,14 +528,15 @@
         regularity conditions listed in Appendix \ref{sect:proofs}, for
         instance that $l, l_n$ are analytic and that all moments exist.
 
+        %-------------  specialization to a common case  ----------------------
+
         For example, these conditions admit $\tanh$ networks with cross entropy
         loss on bounded data --- and with arbitrary weight sharing, skip
         connections, soft attention, dropout, batch-normalization with disjoint
         batches, and weight decay.
         
-    %--------------------------------------------------------------------------
-    %           Tensor Conventions
-    %--------------------------------------------------------------------------
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Tensor Conventions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     \subsection{Tensor Conventions}
         We use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second,
@@ -546,10 +574,9 @@
         their difference, divided by some homogeneous degree-$d$
         polynomial of $\eta$, tends to $0$ as $\eta$ shrinks.  Their
         difference is then $\in o(\eta^d)$.
-
-    %--------------------------------------------------------------------------
-    %           Names of SGD Parameters
-    %--------------------------------------------------------------------------
+        
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     \subsection{SGD Terminology}
         SGD updates on the train sequence $(l_n: 0\leq n<N)$.
@@ -571,16 +598,16 @@
         The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
 
 %==============================================================================
-%    DIAGRAM CALCULUS FOR SGD
+%=====  DIAGRAM CALCULUS FOR SGD  =============================================
 %==============================================================================
 
 \section{Diagram Calculus for SGD} \label{sect:calculus}
 
-    %--------------------------------------------------------------------------
-    %           Role of Diagrams      
-    %--------------------------------------------------------------------------
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Role of Diagrams  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     \subsection{How Diagrams Arise}
+
         Suppose $s$ is analytic on weight space, for example $s=l$.
         We track $s(\theta)$ as SGD updates $\theta$: %(c.f. \citet{dy49a}):
         \begin{klem*} %\label{lem:dyson}
@@ -693,12 +720,12 @@
                 \sdia{(0-1-2)(01-12)}
             $.
         \end{defn}
-            
-    %--------------------------------------------------------------------------
-    %           Recipe for Test Loss and Generalization Gap
-    %--------------------------------------------------------------------------
 
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Recipe for Test Loss and Generalization Gap  ~~~~~~~~~~~~~~~~~~
+           
     \subsection{Recipe for SGD's Test Loss and Generalization}
+
         Our main tool, proved in Appendix \ref{sect:proofs}, follows.
         
         \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
@@ -752,11 +779,11 @@
             modeling time-discretization and hence noise.  
         \end{rmk}
 
-    %--------------------------------------------------------------------------
-    %           Theoretical Corollaries                     
-    %--------------------------------------------------------------------------
-
     \subsection{Consequences of the Recipe}
+
+        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        %~~~~~  Theoretical Corollaries  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
         For accessibility, we write our results with Greek indices instead of
         diagrams.  However, as Appendices \ref{sect:tutorial},
         \ref{sect:compare}, and \ref{sect:calculations} show, diagrams are
@@ -767,7 +794,6 @@
             The test loss of vanilla SGD deviates at order $N^{-1}$ from
             ODE by
             $
-                %({{T^2 N^{-1}}/{2}}) \sdia{c(01-2)(02-12)}
                 \frac{T^2 N^{-1}}{2} ~ C_{\mu\nu} H^{\mu\nu}
             $.
             Its order $N^{-2}$ deviation due to non-Gaussian noise is
@@ -848,7 +874,6 @@
             \label{tab:scatthree}
         \end{table}
     
-        %A quick combinatorial argument shows:
         \begin{cor}[Shuffling Barely Matters] \label{cor:shuffle}
             To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
             expected test loss.
@@ -858,16 +883,6 @@
             To order $\eta^2$, the test loss of SGD --- on $N$
             samples for $M$ epochs with batch size $B$ dividing $N$ and with any
             shuffling scheme --- has expectation
-            %{\small
-            %\begin{align*}
-            %                                            \mdia{(0)()}
-            %    &+ MN                                   \mdia{(0-1)(01)}
-            %     + MN\wrap{MN - \frac{1}{2}}            \mdia{(0-1-2)(01-12)} \\
-            %    &+ MN\wrap{\frac{M}{2}}                 \mdia{c(01-2)(02-12)}  
-            %     + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \mdia{c(01-2)(01-12)}
-            %\end{align*}
-            %}
-            %This is:
             {\small
             \begin{align*}
                                                         l              
@@ -882,9 +897,6 @@
         \begin{cor}[The Effect of Epoch Number] \label{cor:epochs}
             To order $\eta^2$, one-epoch SGD has 
             $
-                 %\alpha
-                 %\sdia{c(01-2)(01-12)}
-                 %=
                  \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}}
                  \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
             $
@@ -898,8 +910,6 @@
             The expected test loss of pure SGD is, to order $\eta^2$,
             less than that of pure GD by
             $
-                  %\alpha \sdia{c(01-2)(01-12)}
-                  %=
                   \frac{M(N-1)}{2} ~
                   \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
             $.
@@ -917,8 +927,6 @@
             When vanilla SGD is initialized at a test minimum, the weight is
             displaced to order $\eta^3$ by 
             $
-                %{T \choose 2} \sdia{c(01-2-3)(02-12-23)} / 2
-                %= 
                 -{T \choose 2} C_{\mu \nu} J^{\mu \nu \lambda}
             $.
         \end{cor}
