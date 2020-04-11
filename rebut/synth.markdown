@@ -1,16 +1,29 @@
-We thank the reviewers for grappling with our terminology and for their
+We thank the reviewers for grappling with our presentation to provide
 constructive feedback on our ideas and writing.  We have revised our manuscript
 both globally and locally as described below. 
 
 **NARRATIVE AND ACCESSIBILITY**
 
-        FILL IN
+We thank Reviewer 2 for advocating for accessibility.  We now compartmentalize
+our core learning-theoretic narrative from the physical ideas that inspired it.
+Thus, we plainly state our main results in a new **stand-alone** sub-section
+(2.2).
 
-    ACCESSIBILITY
+We have also completely revised and re-ordered our tutorial appendix so that,
+by pattern-matching with an exhaustive list of examples, the reader
+unacquainted with physics may apply our formalism to their own problems.
+ 
+More broadly, our revised text places our formalism in the context of its
+limitations and potential generalizations.  Most importantly, we explicitly
+discuss the meanings of and possible pathologies in the limits we take as
+applied to real, non-asymptotic scenarios.  We also ground our future
+directions (lagrangian; gravity; Section 5) in their computational
+implications, integrating them with the relevant sections (2.3, 2.1) of our
+pre-conclusion text. 
 
 **REAL-WORLD APPLICABILITY**
 
-Our revised text now highlights our un-renormalized (un-re-summed) estimates'
+Our new Section 3 now discusses our un-renormalized (un-re-summed) estimates'
 durations of applicability: on image sets, they fail after accuracy has
 improved only ~ **XXX** % of the way from initial to converged value.
 
