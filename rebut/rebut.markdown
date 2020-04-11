@@ -85,8 +85,8 @@ bring some intuition of why terms with only two edges are dominant?
         so IR is indeed a more appropriate analogue.
         We will revise the text to use the word "resummation" throughout.
 
-        [Our backgrounds are in pure math, so our attempt to make the concepts
-        more accessible by using physics words has apparently backfired!]
+        [Our backgrounds are in pure math, so our attempt to concretize the
+        concepts using physical imagery has apparently backfired!]
 
 **R2** The paper is based on non-standard tools in machine learning. Even
 though a tutorial-like information is given in the supplementary document, I am
@@ -164,59 +164,68 @@ its application.
 (a) "How does SGD select from among a valley of
 minima" - why a valley? did you mean "select from multiple local minima"?
 
-        Thanks for this point.  Yes, the general situation is an unstructured
-        multiple of local minima.  Since we are targeting deep networks, we
-        use language appropriate to the over-parameterized setting, in which
-        the training landscape's minima (by Implicit Function Theorem)
-        typically form a shape of dimension p-n, where p is the number of
-        weights and n is the number of datapoints.  The test landscape
-        typically has fewer such degeneracies; we will clarify our discussion
-        about the train landscape vs test landscape and our predictions about
-        their relationship.
+        Yes, the general situation is an unstructured set of local minima.  In
+        the over-parameterized setting of deep networks without explicit
+        regularization, the training landscape's minima (by Implicit Function Theorem)
+        typically form a "shape" of dimension p-n, where p counts weights and n counts
+        train points.  The literature colloquially refers to these submanifolds as
+        "valleys".
+
+        The test landscape typically has fewer such degeneracies.  We will
+        clarify our discussion about the train landscape vs test landscape and our
+        predictions about their relationship.
 
 (b) "We verify our predictions via precision order-η 3 tests" - why "precision"?
 what do you mean here? 
 
-        We will omit this.  We meant to indicate that our asymptotics were not
-        up to constant factors (like in big O notation) but in fact predicted the
-        constants.  We will emphasize this elsewhere in the text and leave the question
+        We will omit "precision" and other vague words.  We meant to indicate that our asymptotics
+        did not neglect constant factors (as big O notation does).
+        We will emphasize this near the text's beginning and leave the question
         of whether this signals "precision" to the reader's judgement.
-
-(c) "Formalism" should not be capitalised in the title
-of Sec. 1.1
 
 (d) "mean- l distribution over smooth functions l n" (Sec. 2.1) -
 what does "mean-l" mean?
 
         We meant that the mean of the distribution over functions l_n is equal
-        to another function called l.  We will spell this out.  We will also revise our
-        subscripts on the l's to clarify when we are talking about the population of
+        to another function called l.  We will spell this out.  We will also revise
+        the subscripts on the l's to better distinguish the population of
         all datapoints vs a finite train sample.  Here, we meant that the mean
         loss that we wish to predict is taken over the whole (test) population
         but that we train on only a finite sample of such datapoints.
 
+(c) "Formalism" should not be capitalised in the title
+of Sec. 1.1
+
 (e) "For instance, simplification 3 is licensed
-because" (Definition 1) - I think it should be "is allowed" f) "root r
+because" (Definition 1) - I think it should be "is allowed"
+
+f) "root r
 participates in no fuzzy edge" (Theorem 1) - I think "root r does not
 participate in a fuzzy edge" would be more idiomatic English
 
-        Thank you.
+        Thank you.  These specific hints help us search for errors in general.
 
 4. Is it justified to call your diagrams "Feynman diagrams"? The latter have a
    more complicated structure (e.g. loops) than yours.
 
         We chose the name ``Feynman Diagram'' because the two diagram
         formalisms arise in mathematically analogous ways, namely from repeated
-        differentiation of a sum of an exponential of a sum.  Due to the fuzzy
-        ties, the diagrams can have nontrivial topology. 
+        differentiation of a sum-over-paths of an exponential of a sum-over-time.  Due
+        to the fuzzy ties, the diagrams can have nontrivial topology.  We also cited
+        Penrose's "String Diagrams", which are a general class of notations united by
+        their depictions of tensor contraction.  If recommended, we will adopt this
+        name.  
 
 5. What is the parameter T? How is it related to the number of epochs and batch
    size? If I train a CIFAR-10 model for 50 epochs, what is my T?
 
-        We made the mistake of not defining T!
+        We will clearly define the inter-related hyperparameters T, E, N, B,
+        and M near the beginning of our revision.
+
         T is the total number of gradient updates.  If there are N points, B
         points per batch, and E epochs, then there will be (N/B) updates per
-        epoch and therefore T=E*(N/B) steps total.
+        epoch and therefore T=E*(N/B) steps total; for the given CIFAR example
+        with full batch size, T would be 50.
         These hyperparameters also relate to what we called M=E/B, which
         is the number of epochs one would have to run 1-batch SGD in order
         to get equivalent dynamics --- assuming a noiseless and linear loss
