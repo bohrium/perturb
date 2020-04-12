@@ -38,18 +38,12 @@ paper is hard to read.
 ### R2
 
 Borderline paper, but the flaws may outweigh the merits; not my area, or
-the paper was hard for me to understand.  I really like the paper and I would
-have marked it as outstanding if the presentation was clearer: where are the
-authors going, what are the limitations and so on. In its current form the
-paper is hard to read. 
+the paper was hard for me to understand.  
 
 ### R4
 
 Below the acceptance threshold, I would rather not see it at the
-conference; not my area, or the paper was hard for me to understand.  I really
-like the paper and I would have marked it as outstanding if the presentation
-was clearer: where are the authors going, what are the limitations and so on.
-In its current form the paper is hard to read. 
+conference; not my area, or the paper was hard for me to understand.  
 
 ## DETAILED FEEDBACK
 
