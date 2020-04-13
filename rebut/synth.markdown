@@ -1,47 +1,54 @@
 We thank the reviewers R1, R2, and R4 for their constructive feedback on our
 ideas and writing.  We have revised our manuscript as described below. 
 
-**NARRATIVE AND ACCESSIBILITY**
+**ACCESSIBILITY**
 
-We thank R2 for advocating for accessibility.  We now compartmentalize our core
-learning-dynamical narrative from the physical ideas that inspired it.  Thus,
-we plainly state our main results in a new **stand-alone** sub-section (2.2),
-and we explicitly discuss the meanings of and possible pathologies in the
-limits we take --- as applied to real, non-asymptotic scenarios.
-
-We have also completely revised our tutorial appendix.
+We thank R2 for championing accessibility.  We now isolate our core SGD
+narrative from its physical inspiration.  We plainly state key results in a new
+stand-alone Sect (3.2) and we discuss how our limits map onto real,
+non-asymptotic scenarios.  We systematize our tutorial appendix.  Instead of
+the example (Sect 1.2, now an appendix), our intro now overviews our gameplan
+and concrete goals: to derive force laws (e.g. that SGD avoids high-C areas) 
+that may usefully aid the intuition of practitioners.
  
-We also ground our future directions (lagrangian; gravity; Sect 5) in their
-computational implications, integrating them with the relevant pre-conclusion
-sections (3.3, 3.1).
+As R4 highlighted, our inlined claims require discussion.  We now indicate
+which claims are routine to check and which claims are justified in the
+appendices.  We also more precisely phrase claims such as those below:
+
+RE: "smoothed landscape": the diagram [[image A]] contains a subdiagram [[image
+B]] = C*H; by a routine check, [[B]] gives the leading-order loss increase when
+we convolve the landscape with a C-shaped Gaussian.  Since [[A]] connects [[B]]
+to the test measurement using 1 edge, it couples [[B]] to the linear part of
+the test landscape --- and hence represents a displacement of weights away from
+high [[B]].  In short, [[A]] depicts descent on a smoothed landscape.
+
+RE: "implicit metric": to define SGD or to measure H's width, we need a metric.
+Prior work relating gengap to H-width chose a metric arbitrarily.  We proved
+that {measuring H-width with the metric used to define SGD} yields a gengap
+estimator.  We thus show that the choice of optimizer modulates how curvature
+and gengap relate.
 
 **REAL-WORLD APPLICABILITY**
 
 We thank R4, R1 for probing the limitations of our analysis.  Sect 4.1 now
-highlights that our un-re-summed test loss predictions fail for small (eta T),
-e.g. after CIFAR accuracy has improved only ~**XXX**% to convergence.  
+shows that our un-resummed test loss predictions fail for small (eta T), e.g.
+after CIFAR accuracy has improved only ~**XXX** points.  We expected this due
+to accumulating error.
 
-Our main technical contribution, the re-summed force laws, agree with
-experiment for **long times**.  E.g., Fig 6(left) validated our entropic force
-prediction on a synthetic dataset for T=10000, during which the weights drifted
-~5 times farther than the problem's natural length scale.  We now include an
-analogous plot for CIFAR convnets trained for 1000 updates on 100 points;
-our 3rd order predictions explain ~**XXX**% of the variance in final weights.
+Our resummed force laws agree with experiment for large T.  E.g., Fig 6.a
+showed an experiment on synthetic data with T=10000, during which the weights
+drifted ~5x farther than the problem's length scale.  We now present an
+analogous plot for CIFAR (T=1000, N=100); our eta^3 predictions explain
+~**XXX**% of the variance in final weights.
 
-Though our test loss predictions eventually fail due to accumulating error, we
-have shown that our force laws remain valid in real training scenarios.  Our
-results --- e.g. that SGD avoids high-covariance weights and that it dis-aligns
-the hessian from the current covariance --- thus equip practitioners to reason
-about which minima SGD prefers.
-
-While Newton's Laws are most falsifiable in a vaccuum, they shed qualitative
-light even on automobiles with unknown friction laws.  Our theory, though most
-stringently testable in simple cases, likewise illuminates real-world SGD.
+As our force laws (e.g. that SGD avoids high-C weights and that it dis-aligns
+the H from the current C) are valid in real training scenarios, they equip
+practitioners to reason about the minima SGD prefers.
 
 **ENGLISH AND NOTATION**
 
-We have combed through the text to reduce jargon, to prefer idioms, and to
-coordinate our notation between pages, e.g.: 
+We have improved the text by reducing jargon, preferring idioms, and
+coordinating our notation between pages, e.g.: 
 
 We have omitted vague words such as "precision" in "precision test".
 
@@ -60,53 +67,34 @@ epochs.  So it is natural to compare SGD variants of equal M.
 
 **TECHNICAL TERMS**
 
-Re "renormalization": we thank R1 for their lucid explanation, suggestion, and
-questions.  Yes, "re-summation" is more apt: we don't introduce counterterms,
-and we have no divergence at small scales.  We now write "re-summation".
+RE: "renormalization": we thank R1 for their lucid explanation and questions.
+Yes, "resummation" is more apt: we don't introduce counterterms, and we suffer
+no divergence at small scales.  We now write "resummation" and clarify as
+below:
 
-**TODO**
-is this a resummation of the diagrams as eta T-> finite, eta = small ? Could
-the authors bring some intuition of why terms with only two edges are dominant?
+As eta\to 0 with eta T fixed, SGD becomes ODE; per Rmk 1, diagrams with f fuzzy
+ties give the f-th order corrections due to non-0 eta (and hence to noise).
+Still, even for a quadratic landscape, those un-resummed corrections involve
+unboundedly many diagrams; our re-summation solves this problem.   
 
-Re "Feynman": Both our and Feynman's formalisms arise from repeated
-differentiation of a sum-over-paths of a product-over-time of an exponential.
-Our diagrams' fuzzy ties give rise to loops.  Like Penrose's "String Diagrams",
-ours use edges to depict contraction --- we will adopt this name if so advised.
+Resummed terms with d edges are order eta^d (despite edges now representing
+variable-length chains of un-resummed edges).  So for small eta, terms with few
+edges dominate.  E.g., Cor.s (6,7) involve 3,2)-edged diagrams.  
 
-Re "valley": in the over-parameterized setting of deep networks without explicit
-regularization, the training landscape's minima (by Implicit Function Theorem)
-typically form a submanifold of dimension (#weights)-(#trainset).  The
-literature (e.g. "Asymmetric Valleys: Beyond Sharp and Flat Local Minima" (He,
+RE: "Feynman": Both our and Feynman's formalisms arise from differentiating of
+a sum-over-paths of a product-over-time of an exp.  Our diagrams' fuzzy ties
+yield loops.  Like Penrose's "String Diagrams", ours use edges to depict
+contraction --- we will adopt this name if advised.
+
+RE: "valley": in the over-parameterized setting of deep networks without
+explicit regularization, the train minima (by Impl.Func.Thm.) typically form a
+submanifold of dimension (#weights)-(#trainset).  The literature (e.g. (He,
 Huang, Yuan: NeurIPS 2019)) refers to these submanifolds as "valleys".
-
-**OPAQUE CLAIMS**
-
-As R4 highlighted, our inlined claims require discussion.  We now indicate
-which claims are routine to check and which claims, justified in the
-appendices, are to be taken as blackboxes.  We also more precisely phrase
-claims such as those below:
-
-Re "smoothed landscape": the diagram [[image A]] contains a subdiagram [[image
-B]] = C*H; it is routine to check that [[B]] gives the leading-order loss
-increase when we convolve the landscape with a C-shaped Gaussian.  Since [[A]]
-connects [[B]] to the test measurement using 1 edge, it couples [[B]] to the
-linear part of the test landscape --- and hence represents a displacement of
-weights (away from areas where the smoothed landscape is high).  In short,
-[[A]] depicts descent on a smoothed landscape.
-
-Re "implicit metric": to define SGD or to measure a hessian's width, we need a
-Riemannian metric.  Prior work on generalization and hessian-width chose this
-metric arbitrarily.  We proved that when we measure hessian-width using the
-metric implicit in SGD, we get a generalization gap estimate.  We thus show
-that our choice of optimizer modulates the relationship between curvature and
-generalization.
 
 **CHOICE OF VENUE** 
 
-We are inspired by prior work (e.g. "Asymptotics of Wide Networks from Feynman
-Diagrams" (Dyer, Gur-Ari: ICLR 2019) and "Wasserstein Generative Adversarial
-Networks" (Arjovsky, Chintala, Bottou: ICML 2017)) that communicated
-substantive new mathematical tools within a conference paper's bounds.  Our
-paper, now restructured thanks to reviewer feedback, may be absorbed either as
-a short report of results, or, through the revised appendices, as an in-depth
-discussion.
+We are inspired by prior work (e.g. (Dyer, Gur-Ari: ICLR 2019) and (Arjovsky,
+Chintala, Bottou: ICML 2017)) that communicated substantive new mathematical
+tools within a conference paper's bounds.  We have restructured our paper to be
+absorbed either as a short report of results, or, through the revised
+appendices, as an in-depth discussion.
