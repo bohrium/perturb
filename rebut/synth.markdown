@@ -1,6 +1,13 @@
 We thank the reviewers R1, R2, and R4 for their constructive feedback on our
 ideas and writing.  
 
+
+**MENTION: ANALYSIS HOLDS PIECE BY PIECE, BUT INTUITIONS LONG TERM.
+FUTURE WORK: CONNECT SMALL STEP TO MAML
+INSIGHT: COMBINE FLAT MINIMA GENERALIZE WITH SEARCH FOR FLAT MINIMA**
+
+
+
 **ACCESSIBILITY**
 
 Reviewers appreciated the novelty of the method and expressed interest in our
@@ -9,10 +16,10 @@ accessibility to an ICML audience.  In response to these concerns, we are
 significantly revising the presentation to highlight our key contributions and
 develop our results more clearly.
 
-* Our introduction now more clearly motivatres our approach.  We explain at the
+* Our introduction now more clearly motivates our approach.  We explain at the
   outset that our goal is to provide practitioners and theorists with new
-  intuition about the behavior of SGD -- for example, reasoning about systematic
-  biases in SGD that cause it to prefer some local minima over others.  
+  intuition about the behavior of SGD, e.g. how overfitting scales with
+  curvature and noise.
 * In a new stand-alone section, we state our key results and discuss how they
   map onto real, non-asymptotic scenarios.
 
@@ -98,7 +105,7 @@ consolidating our definitions, e.g.:
       edges).  So for small eta, terms with few edges dominate.  E.g., Cor.s
       (6,7) involve (3,2)-edged diagrams.  
 
-* "Feynman": Both our and Feynman's formalisms arise from differentiating of
+* "Feynman": Both our and Feynman's formalisms arise from differentiating
   a sum-over-paths of a product-over-time of an exp.  Our diagrams' fuzzy ties
   yield loops.  Like Penrose's "String Diagrams", ours use edges to depict
   contraction --- we will adopt this name if advised.

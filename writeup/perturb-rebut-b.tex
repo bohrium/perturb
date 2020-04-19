@@ -295,10 +295,10 @@
 
     %-----------------  retrospective  ----------------------------------------
 
-    Our underlying formalism is especially novel: we interpret SGD as a
-    superposition of several concurrent interactions between weights and data,
-    each represented by a diagram that echoes the visual schemata of
-    \citet{fe49, pe71}.  This viewpoint offers not only quantitative
+    Our underlying formalism is especially novel: we
+    interpret SGD as a superposition of several weight-data interactions, each
+    represented by a Feynman-style diagram (\S \ref{sect:calculus}
+    explains these words).  This viewpoint offers not only quantitative
     predictions but also qualitative insight, e.g. that to order $\eta^3$,
     inter-epoch shuffling does not affect expected test loss.
     %
@@ -352,7 +352,7 @@
         $t<t^\prime$.  The rightmost node represents measurement at test time,
         so we do not assign a pair $(n,t)$ to it.
 
-        \begin{thm*}[Theorem \ref{thm:sgdcoef}, Informal]
+        \begin{thm*}[Main Theorem, Informal]
             Fix SGD parameters, namely $N$, $T$, a batch size $B$, and a
             deterministic routine to sample the $t$th batch from a train set.   
             Sum the diagrams with at most $d$ edges, where a diagram with $e$
@@ -658,30 +658,25 @@
                 \wrap{\frac{1}{B} \sum_{n\in \Bb} l_n(\theta)}
         $.
         We write $l_t$ for the loss $\frac{1}{B}\sum_\Bb\cdots$ over the $t$th batch. 
-        %
-        The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
-        The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
+
+        %Together with an
+        %inter-epoch shuffling pattern, $N, B, M$ determine the SGD algorithm.
+        %The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
+        %The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
 
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     \subsection{Diagrams and Embeddings}
 
-
-        \begin{defn}[Diagrams] \label{dfn:diagrams}
+        \begin{defn}[Diagrams]
             A diagram is a finite rooted tree equipped with a partition of
             nodes.  We draw the tree using thin ``edges''.  By
             convention, we draw each node to the right of its children; the
             root is thus always rightmost.  We draw the partition
             by connecting the nodes within each part via fuzzy ``ties''.  For
             example, $\sdia{(012-3)(03-13-23)}$ has $2$ parts.
-            %
-            We insist on using as few fuzzy ties as possible so that, if $d$ counts
-            edges and $f$ counts ties, then $d+1-f$ counts parts. 
-            %
-            There may
-            be multiple ways to draw a single diagram, e.g.
-            $\sdia{(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
+            This visual scheme echoes \citet{fe49, pe71}.
         \end{defn}
 
         \begin{defn}[Evaluating a Diagram]
@@ -717,8 +712,7 @@
                     (\nabla^\lambda l_{\color{moob}n^{\prime\prime}})
                 }(\theta_0)
             $$
-            We write $\dvalue(D)$ (or just $D$ when clear) for a diagram $D$'s
-            value.
+            We write $\dvalue(D)$ for a diagram's value, or just $D$ when clear.
         \end{defn}
 
         \begin{defn}[Embedding a Diagram into Spacetime]
@@ -827,35 +821,69 @@
                 |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
                 \dvalue(D)
             \end{equation*}
-            where $D$ ranges over $d$-edged diagrams whose root $r$
-            participates in no fuzzy edge and each of whose parts contains
-
-            none of its nodes' ancestors.  Here, $D$'s parts have sizes
-            $d_p: 0\leq p\leq P$, and $|\ords(D)|$ counts the total
-            orderings of $D$ such that children precede parents and parts are
-            contiguous.
-            %
-            Theorem \ref{thm:sgdcoef}'s modification for the gen. gap still
-            holds.
+            where $D$ ranges over $d$-edged diagrams each of whose parts does
+            not contain any of its nodes' ancestors.  Here, $D$'s parts have
+            sizes $d_p: 0\leq p\leq P$, with $d_P=1$.  each antichains.  The
+            modification to compute the generalization gap is the same as in
+            Theorem \ref{thm:sgdcoef}.
         \end{prop}
 
-        %\begin{exm}
-        By Proposition \ref{prop:vanilla}, a diagram with $d$ thin edges and
-        $f$ fuzzy ties (hence $d+1-f$ parts), contributes $\Theta\wrap{(\eta
-        N)^d N^{-f}}$ to vanilla SGD's test loss.  
-        
-        Intuitively, $\eta N$ measures the physical time of descent and
-        $N^{-1}$ measures the coarseness of time discretization.  We thus
-        obtain a double series in $(\eta N)^d N^{-f}$; the $f=0$ terms
-        correspond to a noiseless, discretization-agnostic (hence ODE)
-        approximation to SGD, while $0<f$ terms model time-discretization
-        and noise.  
+        \begin{rmk}[Vanilla SGD's Deviation from ODE] \label{rmk:vsode}
+            A $P$-part, $d$-edged diagram contributes $\Theta\left((\eta N)^d
+            N^{P-d-1}\right)$ to the loss.  For example, there are $6$ diagrams
+            to order $3$, and they have $(4+2)+(2+2+3)+(1)$ many orderings (see
+            Table \ref{tab:scatthree}).  Intuitively, $\eta N$ measures the
+            physical time of descent and $1/N$ measures the coarseness of time
+            discretization.  Thus arises a double-series in $(\eta N)^d
+            N^{P-d-1}$, where $d$ counts thin edges and $d+1-P$ counts fuzzy
+            ties; the $P=d+1$ terms correspond to a noiseless,
+            discretization-agnostic (hence ODE) approximation to SGD, while
+            $P\leq d$ gives correction terms modeling time-discretization and
+            noise.  
+        \end{rmk}
 
-        Table \ref{tab:scatthree} shows the $6$ order-$3$ diagrams as well as
-        $(4+2)+(2+2+3)+(1)$ total orderings relevant to the Proposition.
-        %\end{exm}
+    \subsection{Consequences of the Recipe}
 
-        \begin{table}[H]
+        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        %~~~~~  Theoretical Corollaries  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        \begin{cor}[SGD Differs from ODE and SDE] \label{cor:vsode}
+            The test loss of vanilla SGD deviates at order $N^{-1}$ from
+            ODE by
+            $
+                \frac{T^2 N^{-1}}{2} ~ C_{\mu\nu} H^{\mu\nu}
+            $.
+            Its order $N^{-2}$ deviation due to non-Gaussian noise is
+            $
+                \frac{T^3 N^{-2}}{6} \wrap{
+                    \sdia{c(012-3)(03-13-23)}
+                    -
+                    3 \sdia{c(01-2-3)(03-13-23)}
+                }
+                =
+                -
+                \frac{T^3 N^{-2}}{6}  
+                \wrap{
+                    \wrap{
+                        \expct{\nabla_\mu l_x \nabla_\nu l_x \nabla_\lambda l_x}-
+                        G_\mu G_\nu G_\lambda
+                    }
+                    J^{\mu\nu\lambda}
+                    - 
+                    3
+                    C_{\mu \nu} G_\lambda J^{\mu\nu\lambda}
+                }
+            $.
+            These effects contribute to SGD's difference from SDE.
+        \end{cor}
+
+        For finite $N$, these effects separate SDE from SGD.  SDE also fails to
+        model multi-epoch SGD's inter-update correlations.  Conversely, as
+        $N\to\infty$ so that SDE matches SGD, optimization and generalization
+        respectively become computationally intractable and trivial and hence
+        less interesting.
+    
+        \begin{table}[h]
             \centering 
             \resizebox{\columnwidth}{!}{%
             \begin{tabular}{c|c|c}
@@ -895,179 +923,88 @@
             }
             \caption{
                 Degree-$3$ scattering diagrams for $B=M=1$ SGD's test loss.
-                {\bf Left:} $(d, f) = (3, 0)$.  Diagrams for ODE behavior.
-                {\bf Center:} $(d, f) = (3, 1)$.  $1$st order deviation of SGD
+                {\bf Left:} $(d, P) = (3, 3)$.  Diagrams for ODE behavior.
+                {\bf Center:} $(d, P) = (3, 2)$.  $1$st order deviation of SGD
                 away from ODE.
-                {\bf Right:} $(d, f) = (3, 2)$.  $2$nd order deviation of SGD
+                {\bf Right:} $(d, P) = (3, 1)$.  $2$nd order deviation of SGD
                 from ODE with appearance of non-Gaussian statistics.
             }
             \label{tab:scatthree}
         \end{table}
- 
-
-    %\subsection{Consequences of the Recipe}
-
-    %    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    %    %~~~~~  Theoretical Corollaries  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    %    \begin{cor}[SGD Differs from ODE and SDE] \label{cor:vsode}
-    %        The test loss of vanilla SGD deviates at order $N^{-1}$ from
-    %        ODE by
-    %        $
-    %            \frac{T^2 N^{-1}}{2} ~ C_{\mu\nu} H^{\mu\nu}
-    %        $.
-    %        Its order $N^{-2}$ deviation due to non-Gaussian noise is
-    %        $
-    %            \frac{T^3 N^{-2}}{6} \wrap{
-    %                \sdia{c(012-3)(03-13-23)}
-    %                -
-    %                3 \sdia{c(01-2-3)(03-13-23)}
-    %            }
-    %            =
-    %            -
-    %            \frac{T^3 N^{-2}}{6}  
-    %            \wrap{
-    %                \wrap{
-    %                    \expct{\nabla_\mu l_x \nabla_\nu l_x \nabla_\lambda l_x}-
-    %                    G_\mu G_\nu G_\lambda
-    %                }
-    %                J^{\mu\nu\lambda}
-    %                - 
-    %                3
-    %                C_{\mu \nu} G_\lambda J^{\mu\nu\lambda}
-    %            }
-    %        $.
-    %        These effects contribute to SGD's difference from SDE.
-    %    \end{cor}
-
-    %    For finite $N$, these effects separate SDE from SGD.  SDE also fails to
-    %    model multi-epoch SGD's inter-update correlations.  Conversely, as
-    %    $N\to\infty$ so that SDE matches SGD, optimization and generalization
-    %    respectively become computationally intractable and trivial and hence
-    %    less interesting.
-    %
-    %    \begin{table}[h]
-    %        \centering 
-    %        \resizebox{\columnwidth}{!}{%
-    %        \begin{tabular}{c|c|c}
-    %            {\LARGE $\Theta\left((\eta N)^3 N^{-0}\right)$} &
-    %            {\LARGE $\Theta\left((\eta N)^3 N^{-1}\right)$} &
-    %            {\LARGE $\Theta\left((\eta N)^3 N^{-2}\right)$} \\ \hline
-    %            \begin{tabular}{c}
-    %                \begin{tabular}{LL}
-    %                    \bdia{(0-1-2-3)(01-12-23)} & \bdia{(0-1-2-3)(01-13-23)}
-    %                \end{tabular} \\
-    %                \begin{tabular}{LL}
-    %                    \bdia{(0-1-2-3)(02-13-23)} & \bdia{(0-1-2-3)(03-12-23)}
-    %                \end{tabular} \\ \hline
-    %                \begin{tabular}{LL}
-    %                    \bdia{(0-1-2-3)(03-13-23)} & \bdia{(0-1-2-3)(02-12-23)}
-    %                \end{tabular}
-    %            \end{tabular}
-    %            &
-    %            \begin{tabular}{c}
-    %                \begin{tabular}{LL}
-    %                    \bdia{(01-2-3)(02-13-23)} & \bdia{(01-2-3)(03-12-23)}
-    %                \end{tabular} \\ \hline
-    %                \begin{tabular}{LL}
-    %                    \bdia{(0-12-3)(01-13-23)} & \bdia{(0-12-3)(02-13-23)}
-    %                \end{tabular} \\ \hline
-    %                \begin{tabular}{LLL}
-    %                    \bdia{(01-2-3)(03-13-23)} & \bdia{(0-12-3)(03-13-23)} & \bdia{(01-2-3)(02-12-23)} 
-    %                \end{tabular}
-    %            \end{tabular}
-    %            &
-    %            \begin{tabular}{c}
-    %                \begin{tabular}{L}
-    %                    \bdia{(012-3)(03-13-23)}
-    %                \end{tabular}
-    %            \end{tabular}
-    %        \end{tabular}
-    %        }
-    %        \caption{
-    %            Degree-$3$ scattering diagrams for $B=M=1$ SGD's test loss.
-    %            {\bf Left:} $(d, P) = (3, 3)$.  Diagrams for ODE behavior.
-    %            {\bf Center:} $(d, P) = (3, 2)$.  $1$st order deviation of SGD
-    %            away from ODE.
-    %            {\bf Right:} $(d, P) = (3, 1)$.  $2$nd order deviation of SGD
-    %            from ODE with appearance of non-Gaussian statistics.
-    %        }
-    %        \label{tab:scatthree}
-    %    \end{table}
-    %
-    %    \begin{cor}[Shuffling Barely Matters] \label{cor:shuffle}
-    %        To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
-    %        expected test loss.
-    %    \end{cor}
-    %    Indeed, for any inter-epoch shuffling scheme: 
-    %    \begin{prop}\label{prop:ordtwo}
-    %        To order $\eta^2$, the test loss of SGD --- on $N$
-    %        samples for $M$ epochs with batch size $B$ dividing $N$ and with any
-    %        shuffling scheme --- has expectation
-    %        {\small
-    %        \begin{align*}
-    %                                                    l              
-    %            &- MN                                   G_\mu G^\mu       
-    %             + MN\wrap{MN - \frac{1}{2}}            G_\mu H^{\mu}_{\nu} G^\nu \\
-    %            &+ MN\wrap{\frac{M}{2}}                 C_{\mu \nu} H^{\mu \nu}
-    %             + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
-    %        \end{align*}
-    %        }
-    %    \end{prop}
-    %
-    %    \begin{cor}[The Effect of Epoch Number] \label{cor:epochs}
-    %        To order $\eta^2$, one-epoch SGD has 
-    %        $
-    %             \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}}
-    %             \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
-    %        $
-    %        less test loss than $M$-epoch SGD with learning rate $\eta/M$.
-    %    \end{cor}
-    %
-    %    Upon analyzing $\sdia{c(01-2)(01-12)}$: given a smooth unbiased
-    %    estimator $\hat{C}$ of gradient covariance, we may cause GD to mimic
-    %    SGD:
-    %    \begin{cor}[The Effect of Batch Size] \label{cor:batch}
-    %        The expected test loss of pure SGD is, to order $\eta^2$,
-    %        less than that of pure GD by
-    %        $
-    %              \frac{M(N-1)}{2} ~
-    %              \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
-    %        $.
-    %        Moreover, GD on a modified loss 
-    %        $
-    %            \tilde l_n = l_n +
-    %                \frac{N-1}{4N} ~
-    %                \hat{C}_\nu^\nu(\theta)
-    %        $
-    %        has an expected test loss that agrees with SGD's to second order.
-    %        We call this method GDC.
-    %    \end{cor}
-    %
-    %    \begin{cor}[An Entropic Force, Unre-summed] \label{cor:noncons}
-    %        When vanilla SGD is initialized at a test minimum, the weight is
-    %        displaced to order $\eta^3$ by 
-    %        $
-    %            -{T \choose 2} C_{\mu \nu} J^{\mu \nu \lambda}
-    %        $.
-    %    \end{cor}
-    %    Corollary \ref{cor:noncons} was first proven by \citet{ya19b}; our
-    %    methods reproduce it elegantly.  We will renormalize it to Corollary
-    %    \ref{cor:entropic}, which applies for large times, hence demonstrating
-    %    a persistent and non-conservative entropic force.
+    
+        \begin{cor}[Shuffling Barely Matters] \label{cor:shuffle}
+            To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
+            expected test loss.
+        \end{cor}
+        Indeed, for any inter-epoch shuffling scheme: 
+        \begin{prop}\label{prop:ordtwo}
+            To order $\eta^2$, the test loss of SGD --- on $N$
+            samples for $M$ epochs with batch size $B$ dividing $N$ and with any
+            shuffling scheme --- has expectation
+            {\small
+            \begin{align*}
+                                                        l              
+                &- MN                                   G_\mu G^\mu       
+                 + MN\wrap{MN - \frac{1}{2}}            G_\mu H^{\mu}_{\nu} G^\nu \\
+                &+ MN\wrap{\frac{M}{2}}                 C_{\mu \nu} H^{\mu \nu}
+                 + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
+            \end{align*}
+            }
+        \end{prop}
+    
+        \begin{cor}[The Effect of Epoch Number] \label{cor:epochs}
+            To order $\eta^2$, one-epoch SGD has 
+            $
+                 \wrap{\frac{M-1}{M}}\wrap{\frac{B+1}{B}}\wrap{\frac{N}{2}}
+                 \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
+            $
+            less test loss than $M$-epoch SGD with learning rate $\eta/M$.
+        \end{cor}
+    
+        Upon analyzing $\sdia{c(01-2)(01-12)}$: given a smooth unbiased
+        estimator $\hat{C}$ of gradient covariance, we may cause GD to mimic
+        SGD:
+        \begin{cor}[The Effect of Batch Size] \label{cor:batch}
+            The expected test loss of pure SGD is, to order $\eta^2$,
+            less than that of pure GD by
+            $
+                  \frac{M(N-1)}{2} ~
+                  \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
+            $.
+            Moreover, GD on a modified loss 
+            $
+                \tilde l_n = l_n +
+                    \frac{N-1}{4N} ~
+                    \hat{C}_\nu^\nu(\theta)
+            $
+            has an expected test loss that agrees with SGD's to second order.
+            We call this method GDC.
+        \end{cor}
+    
+        \begin{cor}[An Entropic Force, Unrenormalized] \label{cor:noncons}
+            When vanilla SGD is initialized at a test minimum, the weight is
+            displaced to order $\eta^3$ by 
+            $
+                -{T \choose 2} C_{\mu \nu} J^{\mu \nu \lambda}
+            $.
+        \end{cor}
+        Corollary \ref{cor:noncons} was first proven by \citet{ya19b}; our
+        methods reproduce it elegantly.  We will renormalize it to Corollary
+        \ref{cor:entropic}, which applies for large times, hence demonstrating
+        a persistent and non-conservative entropic force.
     
     %--------------------------------------------------------------------------
     %           Toward Effective Theories                   
     %--------------------------------------------------------------------------
 
     \subsection{Effective Theories} \label{subsect:effective}
-        %The mathematics of \emph{re-summation} summarizes myriad small-scale
-        %interactions into an effective large-scale theory.  We will renormalize
-        %by pairing diagrams of interest with topologically related diagrams in
-        %order to refine our $d$th order estimates for any fixed $d$.  In some
-        %large-$\eta T$ settings, the unre-summed theory does not converge
-        %while the re-summed theory does.  Thus, re-summation will help us
-        %reason about large-time behavior. 
+        The mathematics of \emph{renormalization} summarizes myriad small-scale
+        interactions into an effective large-scale theory.  We will renormalize
+        by pairing diagrams of interest with topologically related diagrams in
+        order to refine our $d$th order estimates for any fixed $d$.  In some
+        large-$\eta T$ settings, the unrenormalized theory does not converge
+        while the renormalized theory does.  Thus, renormalization will help us
+        reason about large-time behavior. 
 
         As a motivating example, consider that, to order $\eta^1$, SGD reduces
         test loss by $T G_\mu G^\mu$ (c.f. \citet{ne04}).  Though useful for
@@ -1089,7 +1026,7 @@
             \cdot (1+o(\eta))
         $.
         The $\exp(-\eta \Delta t H) \eta$ is thus an ``effective learning
-        rate'' to be used in place of $\eta$ in re-summed calculations.
+        rate'' to be used in place of $\eta$ in renormalized calculations.
         Summed over all embeddings, the above chains contribute $G \sum_{0\leq
         t<T} (I-\eta H)^{T-t-1} \eta G$ to vanilla SGD's test loss, or:
         \begin{align*}
@@ -1098,7 +1035,7 @@
             =
             -G \wrap{\frac{I - \exp(-\eta T H)}{H}} G
         \end{align*}
-        In contrast to the unre-summed prediction $T G_\mu G^\mu$,
+        In contrast to the unrenormalized prediction $T G_\mu G^\mu$,
         the above converges in the large-$T$ limit (when $H$ is positive).
 
         So the chains form a class of diagrams usefully analyzed
@@ -1133,7 +1070,7 @@
             Appendix \ref{subsubsect:mobius}.
         \end{defn}
 
-        \textsc{Re-summed Recipe:}~
+        \textsc{Renormalized Recipe:}~
             In general, one sums over embeddings of irreducible diagrams, using
             $\rvalue_f(D)$ instead of $\dvalue(D)$.  In practice, we prefer to
             approximate sums over embeddings by integrals over times and
@@ -1142,7 +1079,7 @@
             leading order results.  Diagrams thus induce easily evaluated
             integrals of exponentials.
        
-        \begin{thm}[Re-summation Gives Large-$T$ Limits] \label{thm:renorm}
+        \begin{thm}[Renormalization Gives Large-$T$ Limits] \label{thm:renorm}
             For any $T$: for $\eta$ sufficiently small, SGD's expected test
             loss exceeds the noiseless case by 
             \begin{equation*} \label{eq:renorm}
@@ -1159,7 +1096,7 @@
             $d$th order truncation converges as $T$ diverges.
         \end{thm}
         That convergence property formally licenses long-term limits of
-        re-summed predictions.  In fact, the convergence is uniform in $T$
+        renormalized predictions.  In fact, the convergence is uniform in $T$
         for sufficiently regular landscapes.
 
         \begin{figure}[h!]
@@ -1167,7 +1104,7 @@
             \plotmooh{diagrams/spacetime-g}{}{0.210\columnwidth}
             \plotmooh{diagrams/spacetime-h}{}{0.210\columnwidth}
             \caption{
-                {\bf Re-summation summarizes Hessians' long-term effect.}
+                {\bf Renormalization summarizes Hessians' long-term effect.}
                 {\bf Left}:
                     Some contributions to $\rvalue_f(\sdia{(0-1)(01)})$ for an
                     example embedding $f$.  Theorem \ref{thm:renorm} shows how
@@ -1191,8 +1128,6 @@
             }
             \label{fig:renormspacetime}
         \end{figure}
-
-    \subsection{Insights from the Formalism}
 
         Integrating $\rvalue_f(\sdia{(01-2-3)(02-12-23)})$ over embeddings $f$, we see:
         \begin{cor}[A Nonconservative Entropic Force]\label{cor:entropic}
@@ -1254,7 +1189,7 @@
             \plotmooh{diagrams/entropic-force-diagram}{}{0.32\columnwidth} 
             \plotmooh{diagrams/sharp}{}{0.31\columnwidth}
             \caption{
-                {\bf Re-summation reveals novel phenomena
+                {\bf Renormalization reveals novel phenomena
                 with physical interpretations.}
                 {\bf Left}:
                     The entropic force mechanism: gradient noise induces a flow
@@ -1263,7 +1198,7 @@
                     equilibrium nor fast-slow mode separation, we label ``fast
                     and slow directions'' in this figure to ease comparison
                     with \citet{we19b}.  In this figure, red densities denote
-                    the spread predicted by a re-summed $C^{\mu\nu}$, and
+                    the spread predicted by a renormalized $C^{\mu\nu}$, and
                     the spatial variation of curvature corresponds to
                     $J_{\mu\nu\lambda}$. 
                 {\bf Right}:
@@ -1281,8 +1216,6 @@
             }
             \label{fig:cubicandspring}
         \end{figure}
-
-
 
 %==============================================================================
 %    EXPERIMENTS AND APPLICATIONS
@@ -1420,8 +1353,8 @@
         %
         We see that there is a valley of global minima defined by $x=y=0$. 
         If SGD is initialized there, then to leading order in $\eta$ and for
-        large $T$, the re-summed theory predicts a $z$-speed of $\eta^2/6$ 
-        per timestep.  Upon re-summation, our predictions thus agree for
+        large $T$, the renormalized theory predicts a $z$-speed of $\eta^2/6$ 
+        per timestep.  Upon renormalization, our predictions thus agree for
         large $\eta T$ with experiment (Figure \ref{fig:thermoandtak}, left).
 
         By stitching together copies of this example, we may cause SGD to
@@ -1449,7 +1382,7 @@
             \plotmoow{plots/new-thermo-linear-screw}{0.48\columnwidth}{4.0cm}
             \plotmoow{plots/new-tak}{0.48\columnwidth}{4.0cm}
             \caption{
-                {\bf Re-summed predictions excel even for large $\eta T$.}
+                {\bf Renormalized predictions excel even for large $\eta T$.}
                 {\bf Left}: On Linear Screw, the persistent entropic force
                 pushes the weight through a valley of global minima not at a
                 $T^{1/2}$ diffusive rate but at a directional $T^1$ rate.
@@ -1586,7 +1519,7 @@
     %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     We presented an elegant diagram-based framework for understanding
-    small-$\eta T$ SGD.  In fact, our Re-summation Theorem licences
+    small-$\eta T$ SGD.  In fact, our Renormalization Theorem licences
     predictions for large $\eta T$, beyond the reach of direct perturbation.
     The theory makes novel predictions:
 
@@ -1729,13 +1662,13 @@
     corollaries in the text.
     %
     \textsc{Appendix} \ref{sect:tutorial} guides the reader through a hands-on
-        tutorial of the diagram method, including re-summation.  It
+        tutorial of the diagram method, including renormalization.  It
         concludes with a simple project for the reader, the solution of which
         is a novel result easily obtained by the diagram method but not present
         in the literature. 
     \textsc{Appendix} \ref{sect:compare} demonstrates how and why the diagram
         method excels over direct application of the Key Lemma, even if we
-        desire only unre-summed results.
+        desire only unrenormalized results.
     \textsc{Appendix} \ref{sect:calculations} provides the remaining
         computations promised.
 
@@ -1798,11 +1731,11 @@
             $\sdia{(02-1-3)(02-13-23)}$.  Only a redundancy of our ink
             description makes them look different.  The following two diagrams
             are inequivalent but evaluate to the same numbers in an
-            un-re-summed setting: $\sdia{(01-2-3)(03-13-23)}$,
+            un-renormalized setting: $\sdia{(01-2-3)(03-13-23)}$,
             $\sdia{(01-2-3)(02-12-23)}$.  We recognize them as inequivalent
             when we observe that their roots (here {\color{moob}blue}) play
             different roles.  The diagrams thus depict different data-weight
-            processes.  In a re-summed setting, they will evaluate to
+            processes.  In a renormalized setting, they will evaluate to
             different numbers.
 
             We define a diagram with fuzzy \emph{outlines} to represent the
@@ -1996,9 +1929,9 @@
             \end{answ*}
 
     \subsection{Summing a Diagram's Spacetime Embeddings}
-        \subsubsection*{Unre-summed Technique} 
-            The unre-summed technique of Theorem \ref{thm:sgdcoef} is
-            simpler than the re-summed technique of Theorem
+        \subsubsection*{Unrenormalized Technique} 
+            The unrenormalized technique of Theorem \ref{thm:sgdcoef} is
+            simpler than the renormalized technique of Theorem
             \ref{thm:renorm}, but it only has guarantees for small $\eta T$.
 
             We may \emph{embed} a diagram into spacetime by placing each
@@ -2012,22 +1945,22 @@
                     and only if they are fuzzily tied.
             \end{description}
 
-            The un-re-summed contribution of a diagram $D$ to a loss is a
+            The un-renormalized contribution of a diagram $D$ to a loss is a
             sum over all of its embeddings --- each inversely weighted by the
             number of ways to permute the nodes of the diagram such that nodes
             stay within the original cells assigned by the embedding and such
             that each pair of nodes connected by thin edges map by the
             permutation to a pair of nodes connected by thin edges --- of
             \begin{description}
-                \item[un-re-summed value]: $\value(D)$, that is, the
+                \item[un-renormalized value]: $\value(D)$, that is, the
                     expectation over the loss landscape's randomness of the
                     the $-\eta$-contracted tensor expression to which the
                     diagram corresponds.
             \end{description}
 
-        \subsubsection*{Re-summed Technique} 
-            Though the unre-summed technique of Theorem \ref{thm:sgdcoef} is
-            simple, the re-summed technique of Theorem \ref{thm:renorm}
+        \subsubsection*{Renormalized Technique} 
+            Though the unrenormalized technique of Theorem \ref{thm:sgdcoef} is
+            simple, the renormalized technique of Theorem \ref{thm:renorm}
             gives convergent results even for large $\eta T$.
 
             We may \emph{embed} a diagram into spacetime by placing each
@@ -2041,18 +1974,18 @@
                     and only if they are fuzzily tied.
             \end{description}
 
-            In the re-summed theory, we only consider irreducible diagrams,
+            In the renormalized theory, we only consider irreducible diagrams,
             that is, diagrams with the property that every thin-edge-degree two
             node participates in some fuzzy edges.
 
-            The re-summed contribution of a diagram $D$ to a loss is a sum
+            The renormalized contribution of a diagram $D$ to a loss is a sum
             over all of its embeddings $f$ --- each inversely weighted by the
             number of ways to permute the nodes of the diagram such that nodes
             stay within the original cells assigned by the embedding and such
             that each pair of nodes connected by thin edges map by the
             permutation to a pair of nodes connected by thin edges, of:
             \begin{description}
-                \item[re-summed value] $\rvalue_f(D)$, that is, the
+                \item[renormalized value] $\rvalue_f(D)$, that is, the
                     expectation over the loss landscape's randomness of the the
                     $-\exp(-\delta T \eta H)\eta$-contracted tensor expression
                     to which the diagram corresponds.  (minus the noiseless
@@ -2144,7 +2077,7 @@
                 this weighted sum.
             \end{rmk*}
 
-            To illustrate re-summation, we prove Corollary
+            To illustrate renormalization, we prove Corollary
             \ref{cor:overfit}:
 
     \subsection{
@@ -2222,7 +2155,7 @@
         \end{quest*}
 
         \begin{quest*}
-            What is the re-summed contribution of $\sdia{(012-3)(03-13-23)}$
+            What is the renormalized contribution of $\sdia{(012-3)(03-13-23)}$
             as embedded in the spacetime of one-epoch, singleton-batch SGD?
         \end{quest*}
        
@@ -2263,7 +2196,7 @@
     minimum or that the batch size is $1$.  We regard these examples as
     evidence that diagrams offer a practical tool for the theorist.
 
-    We make no attempt to compare the re-summed version of our formalism
+    We make no attempt to compare the renormalized version of our formalism
     to direct perturbation because the algebraic manipulations involved for
     the latter are too complicated to carry out.  
 
@@ -2619,7 +2552,7 @@
         The 3rd Order Curl: Which Minima Does SGD Prefer?
         Proof of Corollaries \ref{cor:noncons} and \ref{cor:entropic}. 
     }
-        \subsubsection*{Un-re-summed}
+        \subsubsection*{Un-renormalized}
             We work in the setting of Corollary \ref{cor:noncons}.
 
             Because we seek to compute a net displacement instead of a test
@@ -2636,7 +2569,7 @@
             {\color{moor}red} nodes and the
             {\color{moog}green} node, respectively.  The result follows.
 
-        \subsubsection*{Re-summed}
+        \subsubsection*{Renormalized}
             We work in the setting of Corollary \ref{cor:entropic}.
 
             The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
@@ -3120,8 +3053,8 @@
                 follows from the now-proven Theorem \ref{thm:sgdcoef}.
             \end{rmk}
 
-    \subsection{Coefficient Convergence upon Re-summation}
-        \subsubsection*{Re-summation: $\rvalue_f(D)$'s General Recipe} \label{subsubsect:mobius}
+    \subsection{Coefficient Convergence upon Renormalization}
+        \subsubsection*{Renormalization: $\rvalue_f(D)$'s General Recipe} \label{subsubsect:mobius}
             As mentioned in Definition \ref{defn:rvalue}, because we wish to
             study the difference between noisy and non-noisy optimization, we
             define our $\rvalue$s as differences of multiple diagrams, all
@@ -3135,7 +3068,7 @@
                 -
                 \sdia{(0-1-2-3)(02-12-23)}
             $.
-            However, because the re-summed picture's every irreducible
+            However, because the renormalized picture's every irreducible
             diagram implicitly represents a whole family of topologically
             related diagrams, to use this difference as our definition for
             larger diagrams leads to combinatorial overcounting.
@@ -3148,7 +3081,7 @@
             irreducible diagram $D_\star$
             ($\sdia{(0-1)(01)}$).
             The overcounting problem arises because some terms in $D_\star$'s
-            re-summed value overlap with some terms in $D$'s re-summed
+            renormalized value overlap with some terms in $D$'s renormalized
             value, even though they are distinct irreducible diagrams in
             correspondingly distinct classes.
 
@@ -3158,7 +3091,7 @@
             this discussion we consider diagrams with isomorphic thin edge
             structures as ordered by refinement of partitions.  We proceed to
             define the relevant M\"obius function.  If $\rvalue^\star_f$ gives
-            the re-summed values as in \ref{defn:rvalue} before replacing
+            the renormalized values as in \ref{defn:rvalue} before replacing
             fuzzy ties by fuzzy outlines, we let for any $D_a \leq D_b$:
             $$
                 \rvalue^\sharp_f(D_a, D_b)
@@ -3181,7 +3114,7 @@
                 -   &~      \rvalue^\star_f(\sdia{(0-1-2-3)(01-12-23)})
             \end{align*}
 
-        \subsubsection*{Re-summation Theorem: Proof Idea}
+        \subsubsection*{Renormalization Theorem: Proof Idea}
             The diagrams summed in Theorem \ref{thm:renorm} may be grouped by
             their geometric realizations.  Each nonempty class of diagrams with
             a given geometric realization has a unique element with minimally
@@ -3196,7 +3129,7 @@
             second we address as described by \label{subsubsect:mobius} via
             M\"obius sums.
            
-        \subsubsection*{Re-summation Theorem: Proof}
+        \subsubsection*{Renormalization Theorem: Proof}
             We focus on test loss instead of generalization gap; the proofs are
             similar. The difference in loss from the noiseless case is given by
             all the diagram embeddings with at least one fuzzy tie, where the
@@ -3810,7 +3743,12 @@
             smooth convex optimization in the quadratic case, the dualization
             step of identifying a point's position from the objective's slope
             at that point.
-        \item[re-summed value] (of a diagram embedding) used when applying
+        \item[renormalization] the theory-building process of summarizing
+            myriad small-scale interactions into a more easily manipulated
+            large-scale interaction, often by appeal to scaling and symmetry.
+            Here and historically, intertwined with resolving issues of
+            convergence.  
+        \item[renormalized value] (of a diagram embedding) used when applying
             Theorem \ref{thm:renorm} to obtain more complicated but precise
             expressions than Theorem \ref{thm:sgdcoef} provides.  See value.
         \item[scattering process] the brief interaction of otherwise
@@ -3877,7 +3815,7 @@
         Actually, the rows are indexed by topological families of diagrams.  For
         example, the diagrams $\sdia{(0-1-2)(01-12)}$ and
         $\sdia{(0-1-2)(02-12)}$, through distinct as diagrams, are
-        topologically equivalent.  They thus have the same unre-summed value
+        topologically equivalent.  They thus have the same unrenormalized value
         (an example of crossing symmetry!), and for brevity we treat them
         in the same row, labeled arbitrarily with one of them (here
         $\sdia{(0-1-2)(02-12)}$).  The interpretation of a diagram as a
@@ -3887,7 +3825,7 @@
     \end{tabular}    
 
     \begin{tabular}{p{0.1\textwidth}p{0.45\textwidth}p{0.4\textwidth}}
-           \textsc{Diagram}             &  \textsc{Unre-summed Value}                                                & \textsc{Interpretation} \\ \hline
+           \textsc{Diagram}             &  \textsc{Unrenormalized Value}                                                & \textsc{Interpretation} \\ \hline
            $\sdia{(0)()}$               &  $+l$                                                                         & Trivial process: no data-weight interaction 
         \\ $\sdia{(0-1)(01)}$           &  $-\eta^{\mu\nu} G_\mu G_\nu$                                                 & A datapoint directly affects the test loss   
         \\ $\sdia{(01-2)(01-12)}$      &  $+\eta^{\mu\nu}\eta^{\lambda\rho} \wrap{\nabla_\lambda C_{\mu\nu}} G_\rho/2$ & A datapoint affects the test loss through a later encountered instance of itself
