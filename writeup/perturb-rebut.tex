@@ -21,7 +21,7 @@
 
 %---------------------  mathematics  ------------------------------------------
 
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{amsmath, amssymb, amsthm, mathtools}
 
 %---------------------  tables  ----------------------------------------------- 
 
@@ -84,7 +84,7 @@
     \newtheorem*{answ*}{Answer}
     \newtheorem{rmk}{Remark}
     \newtheorem*{rmk*}{Remark}
-    \newtheorem*{exm}{Example}
+    \newtheorem{exm}{Example}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Custom Math Commands  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -218,17 +218,17 @@
     %
     %-----------------  applications  -----------------------------------------
     %
-    Illustrating this technique:
-        We construct a regularizer that causes large-batch GD to emulate
-        small-batch SGD.
-        %
-        We exhibit a non-conservative entropic force driving SGD.
-        %
-        We generalize the Akaike Information Criterion (AIC) to a smooth
-        quantity liable to descent.
-        %
-        We quantify the differences between SGD and the popular approximation
-        SDE. 
+    %%Illustrating this technique:
+    %%    We construct a regularizer that causes large-batch GD to emulate
+    %%    small-batch SGD.
+    %%    %
+    %%    We exhibit a non-conservative entropic force driving SGD.
+    %%    %
+    %%    We generalize the Akaike Information Criterion (AIC) to a smooth
+    %%    quantity liable to descent.
+    %%    %
+    %%    We quantify the differences between SGD and the popular approximation
+    %%    SDE. 
     %
     %-----------------  mention of experiments  -------------------------------
     %
@@ -249,8 +249,8 @@
 
     Stochastic gradient descent (SGD) decreases an unknown objective $l$ via
     $T$ steps of discrete-time $\eta$-steepest\footnote{
-        To define ``steepness'' requires a metric for $l$'s domain.  We will
-        consider all (flat) metrics at once by Taylor expanding an (inverse)
+        To define ``steepness'' requires a metric on $l$'s domain.  We will
+        consider all flat metrics by Taylor expanding an (inverse)
         metric $\eta^{\mu\nu}$ around $0$.
     } descent on noisy estimates of $l$.
     %
@@ -264,18 +264,6 @@
     predict how SGD drifts from $\theta$ through macroscopic timescales, i.e.
     $\eta T$ large enough to improve accuracy by $1$ percentage point.   
     
-    %%
-    %%-----------------  questions  --------------------------------------------
-    %%
-    %Natural questions concern this noise's effects:
-    %\begin{quests*}
-    %    Intuitively, SGD and GD differ in their sensitivity to noise; when and
-    %    why does one outperform the other?
-    %    How does SGD select from among a valley of minima?
-    %    By how much do sharp or flat minima overfit to noise?
-    %\end{quests*}
-    %%
-  
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Concrete Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -321,15 +309,15 @@
     toward future work, our conclusion discusses Hessian methods and natural GD
     as low-hanging fruit.
 
-    \subsection{Overview of Approach and Applications}
-    
+    \subsection{Overview of Approach}
+
         Consider an SGD run on $N$ train points for $T$ steps, starting at
         a weight $\theta_0$.  Our method expresses the expectation (over
         randomly sampled train sets) of quantities such as the final weight (or
-        final test or train loss) as a sum of diagrams, where each diagram
+        test or train loss) as a sum of diagrams, where each diagram
         evaluates to a statistic of the loss landscape at initialization.
-        Since diagrams with $e$ edges contribute only $O(\eta^e)$ to the
-        quantities of interest, for small $\eta$ we sum only the few-edged
+        Diagrams with $e$ edges contribute only $O(\eta^e)$ to the
+        quantities of interest, so for small $\eta$ we sum only the few-edged
         diagrams and incur an $o(\eta^e)$ error term.
 
         For example, the diagram $\sdia{(0-1)(01)}$ evaluates to the dot
@@ -338,34 +326,71 @@
         \eta^2 GHG$, where $H=\nabla\nabla l$ is the hessian.  The rule is that
         each degree-$d$ node evaluates to the $d$th derivative of $l$
         evaluated at $\theta_0$, and the edges indicate the order in which
-        those derivatives are multiplied.  The simplest example is $\sdia{(0)()}
-        = l(\theta_0)$, a $0$th derivative.  A more complicated example is
+        those derivatives are multiplied.  Further examples include
+        $\sdia{(0)()} = l(\theta_0)$, a $0$th derivative, and
         $\sdia{(0-1-2-3)(02-12-23)} = \eta^3 GGJG$, where $J=\nabla\nabla\nabla
         l$ is $l$'s third derivative.\footnote{
-            We color nodes for convenient reference (e.g. to a diagram's
-            ``green nodes'').  As mere labels, colors mathematical meaning. 
+            We {\color{moor} color} nodes for convenient reference (e.g. to a
+            diagram's ``green nodes'').  As mere labels, colors lack
+            mathematical meaning. 
         }
 
-        A diagram tells us about the loss landscape but not the SGD parameters
-        such as $T$.  We summarize the parameters of an SGD run as a set of
-        pairs $(n, t)$, one for each time the $n$th datapoint participates in
-        the $t$th update.  Each of a diagram's nodes abstractly represents an
-        event at such a pair, and we may ``concretize'' a diagram by assigning
-        to each node a specific pair $(n, t)$.  Reading a concrete diagram from
-        left to right, an edge  from a pair $(n,t)$ to a pair
-        $(n^\prime,t^\prime)$ represents how the $n$th train point's
-        participation in the $t$th timestep affects the $n^\prime$th train
-        point's participation in the $t^\prime$th timestep.  Therefore, we
-        permit only concretizations whose edges have $t<t^\prime$.  The
-        rightmost node represents measurement at test time, so we do not assign
-        a pair $(n,t)$ to it.
+        A diagram tells us about the loss landscape but not about SGD
+        parameters such as $T$ or inter-epoch shuffling.  We summarize those
+        parameters as set of pairs $(n, t)$, one for each participation of the
+        $n$th datapoint in the $t$th update.  Full-batch GD will have $NT$ many
+        pairs, for instance, while singeleton-batch SGD will have $T$ many
+        pairs.
 
-        \begin{thm*}[Sketch of Thm 1]
-            Fix an SGD run. 
-            Sum the diagrams with at most $e$ edges, with each diagram weighted
-            by the number of assignments of $(n, t)$ pairs to the nodes, times
-            $(-1)^{\text{number of edges}}$.  This sum agrees with SGD's
-            expected final test loss to order $o(\eta^e)$. 
+        \begin{figure}[H] 
+            \centering  
+            \plotmooh{diagrams/spacetime-e}{}{0.265\columnwidth}
+            \plotmooh{diagrams/spacetime-f}{}{0.265\columnwidth}
+            \caption{
+                {\bf Diagrams in spacetime dictate SGD's behavior.}  
+                %Some diagrams embedded in two spacetimes (grids of shaded
+                %cells) for $16$ steps on $8$ datapoints.  We arbitrarily choose
+                %colors to aid reference.  Nodes (here black) outside the grid
+                %represent a post-training measurement of test loss; their
+                %coordinates are arbitrary.
+                %{\bf Left}: SGD run with size-$1$ batches and 
+                %    shuffling.  
+                %    Reading across, we see:
+                %    an illegal embedding of
+                %    $\sdia{(01-2)(01-12)}$, a legal embedding of
+                %    $\sdia{(01-2)(01-12)}$, and a legal embedding of
+                %    $\sdia{(0-1-2)(01-12)}$.
+                %    Since they have $4$ edges, they decay as $\eta^2$.   
+                %{\bf Right}: SGD run with size-$2$ batches and no
+                %    shuffling.  Depicted is an embedding of a $4$-edged
+                %    diagram, annotated with the data-weight interactions it
+                %    represents.
+                %    Since it has $4$ edges, it decays as $\eta^4$.   
+                %    Section \ref{sect:calculus} gives numerical meaning
+                %    to diagrams.  The
+                %    test loss is a sum of infinitely many terms, each given
+                %    by a different diagram embedding.  
+            }
+            \label{fig:spacetimes}
+        \end{figure}
+
+        Each of a diagram's nodes abstractly represents an event at such a
+        pair, and we may ``concretize'' a diagram by assigning to each node a
+        specific pair $(n, t)$.  Reading a concrete diagram from left to right,
+        an edge from $(n,t)$ to $(n^\prime,t^\prime)$ represents
+        how the $n$th train point's participation in the $t$th timestep affects
+        the $n^\prime$th train point's participation in the $t^\prime$th
+        timestep.  Thus, we permit only concretizations whose edges have
+        $t<t^\prime$.  The rightmost node represents measurement at test time,
+        so we do not assign a pair $(n,t)$ to it.
+
+        \begin{thm*}[Main Theorem, Informal]
+            Fix SGD parameters, namely $N$, $T$, a batch size $B$, and a
+            deterministic routine to sample the $t$th batch from a train set.   
+            Sum the diagrams with at most $d$ edges, where a diagram with $e$
+            edges and $c$ many concretizations is weighted by  
+            $c/(-B)^{e}$.  This sum agrees with SGD's expected final test loss
+            to order $o(\eta^d)$. 
         \end{thm*}
 
         \begin{exm} \label{exm:fst}
@@ -387,17 +412,124 @@
         approximation.  Our formalism corrects the expression by introducing 
         new diagrams and hence new terms modeling curvature and noise.
 
-        Our theory shares one of Example \ref{exm:fst}'s limitations: since our
-        predictions depend only on loss statistics near $\theta_0$, they break
-        down once $\eta T$ is large enough that the weight has moved far from
-        initialization.  Our theory is thus most useful in small-movement
-        contexts.  For example, we analyze SGD overfitting near a minimum
-        (Corollary \ref{cor:overfit}).  Moreover, by setting $T$ large enough
-        that SGD dynamics senses curvature and noise yet small enough that our
-        predictions are valid, we analyze how curvature and noise --- and not
-        just gradients --- repel or attract the updating weight
-        (Corollary \ref{cor:entropic}).  Theorem \ref{thm:renorm} establishes
-        that this range of medium $T$s is non-empty. 
+        Like Example \ref{exm:fst}, our predictions depend only on loss
+        statistics near $\theta_0$ and hence break down for $\eta T$ large
+        enough that the weight moves far from initialization.  Our theory
+        is thus most useful in small-movement contexts.  For instance, we
+        analyze SGD overfitting near a minimum (Corollary \ref{cor:overfit}).
+        Moreover, by setting $T$ large enough that SGD dynamics senses
+        curvature and noise yet small enough that our predictions are valid, we
+        analyze how curvature and noise --- and not just gradients --- repel or
+        attract the evolving weight (Corollary \ref{cor:entropic}).  Theorem
+        \ref{thm:renorm} establishes that this range of medium $T$s is
+        non-empty. 
+
+        %Finally, we note that our theorem makes clear that Example $1$ does
+        %not depend on batch size
+
+    \subsection{A First Look at Curvature and Noise}
+
+        Intuitively, our diagrams' edges depict higher derivatives and hence
+        the loss landscape's curvature.  Meanwhile, we depict correlations and
+        hence noise by a new structure: fuzzy ``ties''.  For example,
+        $\sdia{(0-1-2)(01-12)}$ and $\sdia{(01-2)(01-12)}$ are two valid and
+        distinct diagrams.  Fuzzy ties determine which derivatives occur within
+        the same expectation, so we have
+        $$
+            \sdia{(0-1-2)(01-12)}
+                \triangleq
+            \eta^2 \expct{\nabla l_n} \expct{\nabla\nabla l_n} \expct{\nabla l_n}
+                =
+            \eta^2 GHG  
+                =
+            \eta^2 \frac{\nabla\wrap{GG}}{2} G
+        $$
+        and, writing $C$ for the covariance of gradients,
+        $$
+            \sdia{(01-2)(01-12)}
+                \triangleq
+            \eta^2 \expct{\nabla l_n \nabla\nabla l_n} \expct{\nabla l_n}
+                =
+            \eta^2 \frac{\nabla\wrap{GG+C}}{2} G
+        $$
+        The general rule is that nodes in the same fuzzy-tie connected
+        component occur in the same expectation brackets.  Since fuzzy ties
+        depict correlations, we demand that each concretization of a diagram
+        sends any two fuzzily-tied nodes to pairs $(n,t), (n, t^\prime)$ that
+        share a train point index $n$.
+
+        \begin{exm} \label{exm:sgdvs}
+            When $N=T$, then singleton-batch SGD permits permits no
+            concretizations of $\sdia{(01-2)(01-12)}$, since the edge
+            constraint $t<t^\prime$ conflicts with the tie constraint
+            $n=n^\prime$ when, as in this case, the permitted $(n,t)$ pairs
+            comprise a bijection between $n$s and $t$s.  
+        \end{exm}
+
+        \begin{exm}
+            By constrast, when $N=T$, full-batch GD permits $N{N \choose 2}$
+            many concretizations of $\sdia{(01-2)(01-12)}$, since all $NT$
+            possible $(n,t)$ pairs occur.  Those concretizations 
+            $(n,t),(n,t^\prime)$ have as close analogues the concretizations
+            $(n,t), (n^\prime,t^\prime)$ in Example \ref{exm:sgdvs}'s setting
+            of the tie-less diagram $\sdia{(0-1-2)(01-12)}$.
+        \end{exm}
+
+        Comparing the two examples above reveals a difference between
+        batchsize-$1$ and batchsize-$N$ descent for $N=T$: by the Main Theorem,
+        the latter incurs an additional test loss
+        $$
+            \frac{c}{(-B)^e} \wrap{\sdia{(01-2)(01-12)} - \sdia{(0-1-2)(01-12)}}
+                =
+                \stackrel{\mathclap{\mbox{\emph{algebra}}}}{~~~~~\cdots~~~~~}
+                =
+            \frac{\eta^2 (N-1)}{4} G \nabla C
+        $$
+        It turns out that $\sdia{(01-2)(01-12)}$ is the only $2$-edged diagram
+        whose concretizations in SGD and GD differ.  Thus, this test loss
+        difference between SGD and GD is correct to order $\eta^2$.
+
+        \begin{figure}[H] % 
+            \includegraphics[width=0.49\linewidth, height=2cm]{../diagrams/sharp.png}
+            \includegraphics[width=0.49\linewidth, height=2cm]{../diagrams/sharp.png}
+            \caption{Hi}
+        \end{figure}
+
+
+
+        The above generalizes \citet{ro18}'s $T=2$ result, proved without
+        diagrams, to arbitrary $T$.  In principle, one could avoid diagrams
+        completely by direct use of our Key Lemma.  However, as demonstrated by
+        side-by-side comparison in the Appendix, the concept of counting
+        concretizations of diagrams helps to streamline calculation, yielding
+        arguments $4$ times shorter and arguably more insightful conceptual
+        than direct perturbation.  The more complicated the computation, the
+        greater the savings of using diagrams.
+
+        %\begin{exm}
+        %    We will encounter
+        %    $$
+        %        \sdia{(012-3)(03-13-23)}
+        %            \triangleq
+        %        \eta^3
+        %        \expct{\nabla l_n} 
+        %        \expct{\nabla l_n} 
+        %        \expct{\nabla l_n} 
+        %        \expct{\nabla\nabla\nabla l_n}
+        %    $$
+        %    as the leading contribution of non-gaussian noise to test loss.  
+        %\end{exm}
+        %\begin{exm}
+        %    Diagrams whose rightmost node participates in a fuzzy ties
+        %    contribute to train loss instead of test loss:
+        %    $$
+        %        \sdia{(02-13)(03-13-23)}
+        %            \triangleq
+        %        \eta^3
+        %        \expct{\nabla l_n \nabla l_n} 
+        %        \expct{\nabla l_n \nabla\nabla\nabla l_n}
+        %    $$
+        %\end{exm}
 
         %A final limitation we do not address in this work is that the  
         %expressions we derive are often expensive to compute.  Thus, we view
@@ -410,185 +542,39 @@
         %Amusing corollary about NP hardness of predicting final SGD location
         %after exponentially many steps.
 
-    \subsection{Overview of Results}
-
-    %    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    %    %~~~~~  The Idea of Diagrams Embedded in Spacetime  ~~~~~~~~~~~~~~~~~~~
-
-    %    %-------------  intuitive notion of spacetime  ------------------------
-
-    %    Say the $n$th datapoint
-    %    participates in the $t$th update; we represent all such $(n, t)$ pairs
-    %    of an SGD run as the shaded cells of a grid, where datapoints index
-    %    rows and times index columns.  The shaded cells comprise the SGD run's
-    %    \emph{spacetime}.
-
     %    %-------------  illustration of diagrams embedded into spacetime  -----
 
-        \begin{figure}[H] 
-            \centering  
-            \plotmooh{diagrams/spacetime-e}{}{0.265\columnwidth}
-            \plotmooh{diagrams/spacetime-f}{}{0.265\columnwidth}
-            \caption{
-                {\bf Diagrams in spacetime dictate SGD's behavior.}  
-                Some diagrams embedded in two spacetimes (grids of shaded
-                cells) for $16$ steps on $8$ datapoints.  We arbitrarily choose
-                colors to aid reference.  Nodes (here black) outside the grid
-                represent a post-training measurement of test loss; their
-                coordinates are arbitrary.
-                {\bf Left}: SGD run with size-$1$ batches and 
-                    shuffling.  
-                    Reading across, we see:
-                    an illegal embedding of
-                    $\sdia{(01-2)(01-12)}$, a legal embedding of
-                    $\sdia{(01-2)(01-12)}$, and a legal embedding of
-                    $\sdia{(0-1-2)(01-12)}$.
-                    Since they have $4$ edges, they decay as $\eta^2$.   
-                {\bf Right}: SGD run with size-$2$ batches and no
-                    shuffling.  Depicted is an embedding of a $4$-edged
-                    diagram, annotated with the data-weight interactions it
-                    represents.
-                    Since it has $4$ edges, it decays as $\eta^4$.   
-                    Section \ref{sect:calculus} gives numerical meaning
-                    to diagrams.  The
-                    test loss is a sum of infinitely many terms, each given
-                    by a different diagram embedding.  
-            }
-            \label{fig:spacetimes}
-        \end{figure}
-
-    %    %-------------  intuitive notion of diagrams and role of embeddings  --
-
-    %    During an SGD run, weights interact with data through many
-    %    concurrent processes.  Diagrams represent such processes (Figure
-    %    \ref{fig:spacetimes}, right).  We will evaluate diagrams
-    %    to numbers and compute an SGD run's expected test loss as a \emph{sum
-    %    over diagrams}, each weighted by a count of
-    %    the diagram \emph{embeddings} into the SGD run's spacetime.
-
-    %    %-------------  formal notion of diagrams  ----------------------------
-
-    %    Specifically, diagrams are graphs such as $\sdia{(0-1)(01)}$,
-    %    $\sdia{(01-2)(02-12)}$, $\sdia{(01-2)(01-12)}$, and
-    %    $\sdia{(0-123)(02-12-23)}$: they are composed of thin edges and
-    %    fuzzy ties, where the thin edges form a rooted tree --- by
-    %    convention drawn so that children are left of their parents --- and
-    %    where the fuzzy ties represent a partition of nodes.  Intuitively,
-    %    thin edges represent differentiation and fuzzy ties represent
-    %    noise.  We choose {\color{moor} colors} arbitrarily: they are
-    %    labels --- we might refer to a diagram's ``green nodes'' --- and
-    %    lack meaning.
-
-    %    %-------------  formal notion of embeddings  --------------------------
-
-    %    We \emph{embed} a diagram into spacetime by placing each non-root
-    %    node into a shaded cell.  We allow only embeddings that both
-    %    preserve left-right relationships along thin edges and map nodes
-    %    into the same row exactly when they are fuzzily tied.  Figure
-    %    \ref{fig:spacetimes}, left, illustrates these rules.
-
-    %    %-------------  intuitive calculational procedure  --------------------
-
-    %    Each $d$-edged diagram contributes to order $\eta^d$, so, for small
-    %    $\eta$, the few-edged diagrams suffice to predict test losses.  Our
-    %    recipe for predicting test losses to within error $o(\eta^d)$ is
-    %    thus: \textsc{First}, draw all the diagrams with at most $d$ edges.
-    %    \textsc{Then}, for each diagram, compute how many ways it can
-    %    embed into the spacetime.  \textsc{Finally}, sum the diagrams,
-    %    each weighted by its number of embeddings.  We will formally state and
-    %    prove that this correctly models SGD. 
-
-    %   %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    %   %~~~~~~~~~  Epoch Number Example  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    %   \subsection{Appetizing Example: Role of Epoch Number}
-
-    %       %-------------  problem statement  ------------------------------------
-
-    %       As an illustration, let us compare the test losses of one- and
-    %       multi-epoch SGD.  We scale $M$-epoch SGD's $\eta$ by
-    %       $1/M$\footnote{
-    %           This scaling ensures that one- and $M$-epoch SGD
-    %           agree on noiseless linear landscapes and thus a 
-    %           more interesting comparison.
-    %       }.
-    %       %
-    %       %-------------  diagram cancellations  --------------------------------
-    %       %
-    %       One- and $M$-epoch SGD differ in their spacetimes and hence in how
-    %       many times each diagram can embed.  Figure \ref{fig:epoch} shows
-    %       that most diagrams with at most $2$ edges embed in corresponding
-    %       ways into the two spacetimes.  Since those embeddings'
-    %       contributions agree, we may neglect them as we compute the SGDs'
-    %       difference.  Only the diagram
-    %       $\sdia{c(01-2)(01-12)}$ has embeddings in $M$-epoch SGD that do not
-    %       correspond to embeddings in one-epoch SGD (Figure \ref{fig:epoch}). 
-
-    %       %-------------  illustrations of spacetime and embedding differences  -
-
-    %       \begin{figure}[h!] 
-    %           \centering  
-    %           \plotmooh{diagrams/spacetime-d}{}{0.35\columnwidth}
-    %           \plotmooh{diagrams/spacetime-c}{}{0.35\columnwidth}
-    %           \caption{
-    %               {\bf Diagrams streamline computation.}
-    %               Examples of diagrams embedded in spacetime for two-epoch
-    %               ({\bf left}) and one-epoch ({\bf right}) SGD.  The diagrams
-    %               for one and two epochs correspond by horizontal shifts
-    %               \emph{except} when same-row nodes are connected --- such as
-    %               in the top diagram $\sdia{c(01-2)(01-12)}$.  To compute the
-    %               difference between one and two epochs, we need only focus on
-    %               $\sdia{c(01-2)(01-12)}$.
-    %           }
-    %           \label{fig:epoch}
-    %       \end{figure}
-
-    %       %-------------  diagram coefficient  ----------------------------------
-
-    %       Clearly, $\sdia{c(01-2)(01-12)}$ embeds in $M$-epoch spacetime in
-    %       $N\cdot{M\choose 2}$ many ways.  The order $\eta^2$ discrepancy
-    %       between one- and multi- epoch SGD is therefore\footnote{
-    %           The factor $1/M^2$ comes from our choice to scale $M$-epoch's
-    %           learning rate by $1/M$ and that $2$-edged diagrams 
-    %           are in $\Theta(\eta^2)$.
-    %       }
-    %       $$
-    %           \text{test loss difference} =  
-    %           \frac{N\cdot {M\choose 2}}{M^2}~
-    %           \dvalue\wrap{\sdia{c(01-2)(01-12)}}
-    %           + o(\eta^2)
-    %       $$
-    %       %
-    %       %-------------  diagram value  ----------------------------------------
-    %       %
-    %       We complete the calculation by reading from the diagram's graph
-    %       structure that it evaluates to\footnote{
-    %           Hidden in the RHS's notation is a factor $\eta^2$: see  
-    %           Section \ref{sect:background}.
-    %       }
-    %       \begin{align*}
-    %           \dvalue\wrap{\sdia{c(01-2)(01-12)}}
-    %           = 
-    %           \frac{1}{2} G^\mu \nabla_\mu C^{\nu}_{\nu} 
-    %       \end{align*}
-    %       We have thus computed the leading order test loss difference
-    %       between one- and multi-epoch SGD.  Intuitively, the above shows that
-    %       single-epoch SGD tends toward lower-covariance regions of weight space
-    %       than multi-epoch SGD.\footnote{
-    %           This phenomenon parallels Chladni's effect \cite{ch87}.
-    %       }
-
-    %       %-------------  review and defense of diagrams  -----------------------
-
-    %       In short: by using diagrams, we matched terms so that all but the
-    %       $\sdia{c(01-2)(01-12)}$ terms canceled, thus avoiding an algebraic
-    %       mess.  Moreover, when we later renormalize toward the large-$\eta T$
-    %       regime (Sections \ref{subsect:effective}, \ref{subsect:entropic}, and
-    %       \ref{subsect:overfit}), diagrams will become essential.  While diagrams
-    %       may by direct use of our Key Lemma be sometimes avoided, Appendix
-    %       \ref{sect:compare} shows that to avoid them convolutes analysis.  The
-    %       more complicated the computation, the greater the savings of using
-    %       diagrams.
+    %    \begin{figure}[H] 
+    %        \centering  
+    %        \plotmooh{diagrams/spacetime-e}{}{0.265\columnwidth}
+    %        \plotmooh{diagrams/spacetime-f}{}{0.265\columnwidth}
+    %        \caption{
+    %            {\bf Diagrams in spacetime dictate SGD's behavior.}  
+    %            Some diagrams embedded in two spacetimes (grids of shaded
+    %            cells) for $16$ steps on $8$ datapoints.  We arbitrarily choose
+    %            colors to aid reference.  Nodes (here black) outside the grid
+    %            represent a post-training measurement of test loss; their
+    %            coordinates are arbitrary.
+    %            {\bf Left}: SGD run with size-$1$ batches and 
+    %                shuffling.  
+    %                Reading across, we see:
+    %                an illegal embedding of
+    %                $\sdia{(01-2)(01-12)}$, a legal embedding of
+    %                $\sdia{(01-2)(01-12)}$, and a legal embedding of
+    %                $\sdia{(0-1-2)(01-12)}$.
+    %                Since they have $4$ edges, they decay as $\eta^2$.   
+    %            {\bf Right}: SGD run with size-$2$ batches and no
+    %                shuffling.  Depicted is an embedding of a $4$-edged
+    %                diagram, annotated with the data-weight interactions it
+    %                represents.
+    %                Since it has $4$ edges, it decays as $\eta^4$.   
+    %                Section \ref{sect:calculus} gives numerical meaning
+    %                to diagrams.  The
+    %                test loss is a sum of infinitely many terms, each given
+    %                by a different diagram embedding.  
+    %        }
+    %        \label{fig:spacetimes}
+    %    \end{figure}
 
 %==============================================================================
 %=====  BACKGROUND AND NOTATION  ==============================================
@@ -685,6 +671,8 @@
         The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
         The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
 
+    \subsection{Diagrams and Embeddings}
+
 %==============================================================================
 %=====  DIAGRAM CALCULUS FOR SGD  =============================================
 %==============================================================================
@@ -733,7 +721,7 @@
         \end{align*}
         }
         To reduce clutter, we draw contractions as thin edges and datapoint
-        equalities as fuzzy ties\footnote{This visual schema echoes
+        equalities as fuzzy ties\footnote{This visual scheme echoes
         \citet{fe49, pe71}.}.  Then, in expectation over
         $(l_c, l_b, l_a)$ drawn i.i.d.:
         \begin{align}
