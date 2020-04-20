@@ -1652,17 +1652,24 @@
         respect to the current covariance $C$, and that this effect dominates
         in valleys of minima. Initial data rarely suffices to
         predict long-time behavior because landscapes can be arbitrarily
-        complex.  Much as meteorologists understand how warm and cold fronts
-        interact despite the intractability of long-term weather forecasting,
-        our contribution is to quantify the counter-intuitive deterministic
-        dynamics governing SGD's short-time behavior.\footnote{
+        complex.  Instead, our contribution is to quantify the
+        counter-intuitive deterministic dynamics governing SGD's short-time
+        behavior. The resulting qualitative insights, such as that
+        generalization gap increases at a rate proportional to covariance, hold
+        on each small patch of SGD's trajectory, but over long times, error can
+        accumulate.  
+        %
+        Much as meteorologists understand how warm and cold fronts interact
+        without predicting long-term weather, we present the forces governing
+        SGD dynamics without offering a method to integrate those forces over
+        long periods of time.\footnote{
             Because our analysis holds for any initialization, one may imagine
             SGD's coarse-grained trajectory as an integral curve of the vector
             field given by our theory.
         }
-        Our results enhance intuitions relied on by practitioners --- e.g. that
-        "SGD descends on the train loss" --- by accounting for noise through
-        new force laws valid in each short-term patch of SGD's trajectory. 
+        Insofar as practioners rely on intuitions such as that "SGD descends on
+        the average train loss", our results serve to enhance such intuition to
+        account for noise.
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Discuss Limitations: Forces and Computational Difficulties  ~~~

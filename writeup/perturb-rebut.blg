@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: perturb-rebut.aux
 The style file: icml2019.bst
 Database file #1: perturb.bib
-You've used 44 entries,
+You've used 46 entries,
             2773 wiz_defined-function locations,
-            776 strings with 10135 characters,
-and the built_in function-call counts, 18064 in all, are:
-= -- 1483
-> -- 1303
-< -- 23
-+ -- 444
-- -- 399
-* -- 1377
-:= -- 2967
-add.period$ -- 132
-call.type$ -- 44
-change.case$ -- 265
-chr.to.int$ -- 43
-cite$ -- 88
-duplicate$ -- 857
-empty$ -- 1342
-format.name$ -- 463
-if$ -- 3664
-int.to.chr$ -- 2
+            782 strings with 10327 characters,
+and the built_in function-call counts, 18779 in all, are:
+= -- 1543
+> -- 1343
+< -- 24
++ -- 459
+- -- 411
+* -- 1430
+:= -- 3083
+add.period$ -- 138
+call.type$ -- 46
+change.case$ -- 275
+chr.to.int$ -- 44
+cite$ -- 92
+duplicate$ -- 896
+empty$ -- 1403
+format.name$ -- 477
+if$ -- 3810
+int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 44
-newline$ -- 228
-num.names$ -- 176
-pop$ -- 533
+missing$ -- 46
+newline$ -- 238
+num.names$ -- 184
+pop$ -- 554
 preamble$ -- 1
-purify$ -- 221
+purify$ -- 229
 quote$ -- 0
-skip$ -- 679
+skip$ -- 704
 stack$ -- 0
-substring$ -- 88
-swap$ -- 46
+substring$ -- 92
+swap$ -- 50
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 484
+type$ -- 506
 warning$ -- 0
-while$ -- 132
+while$ -- 138
 width$ -- 0
-write$ -- 535
+write$ -- 559
