@@ -250,7 +250,7 @@
     Stochastic gradient descent (SGD) decreases an unknown objective $l$ via
     $T$ steps of discrete-time $\eta$-steepest\footnote{
         To define ``steepness'' requires a metric on $l$'s domain.  We will
-        consider all flat metrics by Taylor expanding an (inverse)
+        consider all  metrics by Taylor expanding an (inverse)
         metric $\eta^{\mu\nu}$ around $0$.
     } descent on noisy estimates of $l$.
     %
@@ -261,8 +261,8 @@
     force can dominate after SGD has reached a valley of train minima.  We
     prove our predictions for small $\eta$, and our experiments show that even
     a single evaluation of our force laws at a weight $\theta$ suffices to
-    predict how SGD drifts from $\theta$ through macroscopic timescales, i.e.
-    $\eta T$ large enough to improve accuracy by $1$ percentage point.   
+    predict how SGD drifts from $\theta$ through macroscopic timescales, e.g.
+    $\eta T$ large enough to decrease error by $0.5$ percentage points.
     
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Concrete Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -309,7 +309,7 @@
     Our conclusion discusses Hessian methods and natural GD
     as low-hanging fruit for future work.
 
-    \subsection{Overview of Approach}
+    \subsection{Overview of the perturbative approach}
 
         Consider running SGD on $N$ train points for $T$ steps, starting at
         a weight $\theta_0$.  Our method expresses the expectation (over
@@ -394,7 +394,7 @@
         %Finally, we note that our theorem makes clear that Example $1$ does
         %not depend on batch size
 
-    \subsection{Concretizations as Embeddings into Spacetime}
+    \subsection{Concretizations as embeddings into spacetime}
 
         \begin{figure}[H] 
             \centering  
@@ -421,7 +421,7 @@
         edge as an effect of the past on the future (right).  We call an SGD
         run's set of shaded cells its ``spacetime''.
 
-    \subsection{A First Look at Curvature and Noise}
+    \subsection{A first look at curvature and noise}
 
         Intuitively, our diagrams' edges depict higher derivatives and hence
         the loss landscape's curvature.  Meanwhile, we depict correlations and
@@ -501,7 +501,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  The Loss Landscape  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    \subsection{The Loss Landscape}
+    \subsection{The loss landscape}
 
         %-------------  the landscape  ----------------------------------------
 
@@ -522,7 +522,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Tensor Conventions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    \subsection{Tensor Conventions}
+    \subsection{Tensor conventions}
         We use $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second,
         and third derivatives of $l$ and $C_{\mu \nu}$ for the covariance of
         gradients.  By convention, repeated Greek indices are implicitly
@@ -562,7 +562,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    \subsection{SGD Terminology}
+    \subsection{SGD terminology}
         We describe SGD in terms of $N,T,B,E,M$:
             $N$ counts train points,
             $T$ counts updates,
@@ -591,7 +591,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    \subsection{Diagrams and Embeddings}
+    \subsection{Diagrams and embeddings}
 
         \begin{defn}[Diagrams] \label{dfn:diagrams}
             A diagram is a finite rooted tree equipped with a partition of
@@ -687,7 +687,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Recipe for Test Loss and Generalization Gap  ~~~~~~~~~~~~~~~~~~
            
-    \subsection{Recipe for SGD's Test Loss and Generalization}
+    \subsection{Recipe for SGD's test loss and generalization}
 
         Our main tool is proved in Appendix \ref{sect:proofs}:
         
@@ -702,7 +702,7 @@
                 %}
                 \frac{\dvalue(D)}{(-B)^{|\edges(D)|}}
             \end{equation*}
-            Here, $D$ is a diagram whose root $r$ participates in no fuzzy
+            Here, $D$ is a diagram whose root $r$ does not participate in any fuzzy
             edge, $f$ is an embedding of $D$ into spacetime, and
             $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
             preserve $f$'s assignment of nodes to cells.
@@ -722,8 +722,8 @@
                 |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
                 \dvalue(D)
             \end{equation*}
-            where $D$ ranges over $d$-edged diagrams whose root $r$
-            participates in no fuzzy edge and each of whose parts contains
+            where $D$ ranges over $d$-edged diagrams whose root
+            does not participate in any fuzzy edge and each of whose parts contains
             none of its nodes' ancestors.  Here, $D$'s parts have sizes
             $d_p: 0\leq p\leq P$, and $|\ords(D)|$ counts the total
             orderings of $D$ s.t.\ children precede parents and parts are
@@ -802,7 +802,7 @@
     %           Toward Effective Theories                   
     %--------------------------------------------------------------------------
 
-    \subsection{Effective Theories} \label{subsect:effective}
+    \subsection{Exploiting curvature} \label{subsect:effective}
         Intuitively, the order-$\eta^d$ truncation of Theorem
         \ref{thm:sgdcoef}'s series depends on simple loss statistics near
         initialization, so it will fail when $\eta T$ is large enough for the
@@ -959,7 +959,7 @@
                 \frac{{\color{moor}\rvalue_f}(D)}{(-B)^{|\edges(D)|}}
             \end{equation*}
             As in Theorem \ref{thm:sgdcoef}: $D$ ranges through diagrams whose
-            root node participates in no fuzzy ties, and $f$ ranges through
+            root does not participate in any fuzzy ties, and $f$ ranges through
             embedding of $d$. 
             In contrast to Theorem \ref{thm:sgdcoef}: when $H$ is positive, the
             $d$th order truncation converges as $T$ diverges and $\eta T$ is
@@ -968,10 +968,10 @@
 
 \section{Insights from the Formalism}
 
-    \subsection{A Nonconservative Entropic Force}
+    \subsection{SGD descends on a $C$-smoothed landscape}
 
         Integrating $\rvalue_f(\sdia{(01-2-3)(02-12-23)})$ over embeddings $f$, we see:
-        \begin{cor}[A Nonconservative Entropic Force]\label{cor:entropic}
+        \begin{cor}[Minima flat w.r.t. $C$ attract SGD]\label{cor:entropic}
             Initialized at a test minimum, vanilla SGD's weight moves to
             order $\eta^2$ with a long-time-averaged\footnote{
                 That is, $T$ so large that $C \exp(-\eta K T)$ is negligible.
@@ -988,16 +988,46 @@
             Here, $F = \eta H \otimes I + I \otimes \eta H$, a
             $4$-valent tensor. 
         \end{cor}
+        
+        The intuition behind the Corollary is that the diagram
+        $
+            \sdia{c(01-2-3)(02-12-23)}
+        $
+        contains a subdiagram
+        $
+            \sdia{c(01-2)(02-12)}=CH
+        $; by a routine check, this subdiagram
+        is the leading-order loss increase when we convolve the landscape
+        with a $C$-shaped Gaussian.  Since
+        $
+            \sdia{c(01-2-3)(02-12-23)}
+        $ connects the subdiagram
+        to the test measurement via 1 edge, it couples
+        $
+            \sdia{c(01-2)(02-12)}
+        $ to the linear part of the test loss and hence represents a
+        displacement of weights away from high $CH$.
+        In short,
+        $
+            \sdia{c(01-2-3)(02-12-23)}
+        $
+        reveals that \emph{SGD descends on a covariance-smoothed landscape}.
+        See Figure \ref{fig:cubicandspring} (right).
+
+        An un-resummed version of this result was first reported by
+        \citet{ya19b}; however, for fixed $T$, the un-resummed result scales
+        with $\eta^3$ while Corollary \ref{cor:entropic} scales with $\eta^2$.
+        The discrepancy occurs, intuitively, because the re-summed analysis
+        accounts for the accumulation of noise from many updates, hence
+        amplifying the contribution of $C$.  Our experiments verify our scaling
+        law.
+
         Unlike \citet{we19b}, we make no assumptions of thermal equilibrium,
         fast-slow mode separation, or constant covariance.  This generality
-        reveals a novel, empirically verified dynamical phenomenon, namely that
-        the velocity field above need not be conservative.
-
-        An un-resummed version of the corollary was first proven by
-        \citet{ya19b}; whereas for fixed $T$, our effect scales with $\eta^1$,
-        the un-resummed result scales with $\eta^3$. 
-   
-    \subsection{On Curvature and Overfitting}
+        reveals a novel dynamical phenomenon, namely that
+        the velocity field above need not be conservative (see Experiments).
+  
+    \subsection{Curvature controls overfitting}
         Integrating $\rvalue_f(\sdia{(01-2)(02-12)})$ and
         $\rvalue_f(\sdia{(01)(01)})$ yields:
         \begin{cor}[Flat, Sharp Minima Overfit Less]\label{cor:overfit}
@@ -1022,13 +1052,12 @@
         \end{cor}
         Corollary \ref{cor:overfit}'s generalization gap converges after large
         $T$ to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$, also known as Takeuchi's
-        Information Criterion (TIC).  In turn, in the classical setting of
-        maximum likelihood (ML) estimation (with no model misspecification)
-        near the ``true'' test minimum, $C=H$ is the Fisher metric, so we
-        recover AIC $(\textnormal{number of parameters})/N$.  Unlike AIC, our
-        more general expression is descendably smooth, may be used with MAP or
-        ELBO tasks instead of just ML, and makes no model well-specification
-        assumptions.
+        Information Criterion (TIC).  In turn,  $C=H$ is the Fisher metric in the classical setting of
+        maximum likelihood (ML) estimation (in well-specified models) near the
+        ``true'' test minimum, so we recover AIC $(\textnormal{number of
+        parameters})/N$.  Unlike AIC, our more general expression is
+        descendably smooth, may be used with MAP or ELBO tasks instead of just
+        ML, and makes no model well-specification assumptions.
 
         \begin{figure}[h!]
             \centering
@@ -1038,7 +1067,7 @@
                 {\bf Re-summation reveals novel phenomena.}
                 {\bf Left}:
                     The entropic force mechanism: gradient noise induces a flow
-                    toward minima flat \emph{with respect to to the
+                    toward minima  \emph{with respect to to the
                     covariance}.  Though our analysis assumes neither thermal
                     equilibrium nor fast-slow mode separation, we label ``fast
                     and slow directions'' to ease comparison
@@ -1059,7 +1088,7 @@
             \label{fig:cubicandspring}
         \end{figure}
 
-    \subsection{Nongaussian Noise and SGD vs ODE vs SDE}
+    \subsection{Nongaussian noise affects SGD and not ODE, SDE}
 
         \begin{cor}[SGD Differs from ODE and SDE] \label{cor:vsode}
             The test loss of vanilla SGD deviates at order $T^{-1}$ from
@@ -1097,7 +1126,7 @@
         respectively become computationally intractable and trivial and hence
         less interesting.
  
-    \subsection{Epoch Number and Batch Size}
+    \subsection{Effects of epoch number and batch size}
 
         \begin{cor}[Shuffling Barely Matters] \label{cor:shuffle}
             To order $\eta^3$, inter-epoch shuffling doesn't affect SGD's
@@ -1154,7 +1183,7 @@
     %           Vanilla SGD; Epochs and Overfitting         
     %--------------------------------------------------------------------------
 
-    \subsection{Basic Predictions}
+    \subsection{Basic predictions}
         We test Theorem \ref{thm:sgdcoef} on smooth convnets on CIFAR-10 and
         Fashion-MNIST.  Our order $\eta^3$ predictions agree with experiment up
         to $\eta T \approx 10^0$ (Figure \ref{fig:vanilla}, left).
@@ -1174,11 +1203,11 @@
                 {\bf Left}: For the instance shown and all $11$ other
                 initializations unshown, our degree-$3$ prediction
                 agrees with experiment through $\eta T \approx 10^0$, which
-                corresponds to an improvement in $0-1$ error of $\approx
+                corresponds to a decrease in $0\mbox{-}1$ error of $\approx
                 10^{-3}$.
                 %
                 {\bf Right}: For larger $\eta T$, our predictions can break
-                down.  Here, the order-$3$ prediction holds until the $0-1$
+                down.  Here, the order-$3$ prediction holds until the $0\mbox{-}1$
                 error improves by $5\cdot 10^{-3}$.  Beyond this, close
                 agreement with experiment is coincidental.
             }
@@ -1191,7 +1220,7 @@
     %           Emulating Small Batches with Large Ones     
     %--------------------------------------------------------------------------
 
-    \subsection{Emulating Small Batches with Large Ones}
+    \subsection{Emulating small batches with large ones}
         By Corollary \ref{cor:batch}, SGD avoids high-$C$ regions more than GD
         We artificially correct GD accordingly, yielding an optimizer, GDC,
         that indeed behaves like SGD on a range of landscapes (Figure
@@ -1238,7 +1267,7 @@
     %           Comparison to Continuous Time               
     %--------------------------------------------------------------------------
 
-    \subsection{Comparison to Continuous Time} \label{subsect:gaussfit}
+    \subsection{Comparison to continuous time} \label{subsect:gaussfit}
         Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some centered
         standard normal data.  We parameterize the landscape by
         $h=\log(\sigma^2)$ so that the Fisher information matches the standard
@@ -1266,7 +1295,7 @@
     %           Thermodynamic Engine                        
     %--------------------------------------------------------------------------
 
-    \subsection{A Nonconservative Entropic Force} \label{subsect:entropic}
+    \subsection{A nonconservative entropic force} \label{subsect:entropic}
         To test Corollary \ref{cor:entropic}'s predicted force, we construct a
         counter-intuitive loss landscape wherein, for arbitrarily small
         learning rates, SGD steadily increases the weight's z component despite
@@ -1277,12 +1306,8 @@
         possible because our analysis does not make any assumptions of
         equilibrium, conservatism, or continuous time.
 
-        Intuitively, the presence of the term
-        $
-            \sdia{c(01-2-3)(02-12-23)}
-        $
-        in our test loss expansion indicates that \emph{SGD descends on a
-        covariance-smoothed landscape}.  So, even in a valley of global minima,
+       
+        So, even in a valley of global minima,
         SGD will move away from minima whose Hessian aligns with the current
         covariance.  However, by the time it moves, the new covariance might
         differ from the old one, and SGD will be repelled by different Hessians
@@ -1319,7 +1344,7 @@
     %           Sharp vs Flat Minima                        
     %--------------------------------------------------------------------------
 
-    \subsection{Sharp and Flat Minima Both Overfit Less} \label{subsect:overfit}
+    \subsection{Sharp and flat minima both overfit less} \label{subsect:overfit}
         Prior work has varyingly found that \emph{sharp} minima overfit less
         (after all, $l^2$ regularization increases curvature) or that
         \emph{flat} minima overfit less (after all, flat minima are more
@@ -1369,7 +1394,12 @@
         \ref{fig:thermoandtak}, right).  
         %
         The resulting \emph{Stabilized TIC} (STIC) uses the metric $\eta^{-1}$
-        implicit in gradient descent to threshold flat from sharp minima.
+        implicit in gradient descent to threshold from sharp minima\footnote{
+            The notion of $H$'s width depends on a choice of
+            metric.  Prior work chooses this metric arbitrarily.  We show that
+            choosing $\eta^{-1}$ is a natural choice because it leads to a
+            prediction of generalization gap.
+        }.
         %
         It thus offers a principled method for
         optimizer-aware model selection easily compatible with automatic
@@ -1483,18 +1513,18 @@
     both overfit less than minima of curvature comparable to $(\eta T)^{-1}$.
     Flat minima are robust to vector-valued noise, sharp minima are robust to
     covector-valued noise, and medium minima attain the worst of both worlds.
-    We thus reconcile prior intuitions that sharp \citep{ ke17, wa18} or flat
+    We thus reconcile prior intuitions that sharp \citep{ ke17, wa18} or 
     \citep{di17, wu18} minima overfit worse.  These considerations lead us to a
     smooth generalization of AIC and to tune hyperparameters by gradient
     descent.
 
     \textbf{Which Minima Does SGD Prefer?}
-    By analyzing $\sdia{c(01-2-3)(02-12-23)}$, we refine \citet{we19b} to
-    nonconstant, nonisotropic covariance, we find that SGD descends on a loss
+    Analyzing $\sdia{c(01-2-3)(02-12-23)}$, we refine \citet{we19b} to
+    nonconstant, nonisotropic covariance to reveal that SGD descends on a loss
     landscape smoothed by the \emph{current} covariance $C$.  In particular,
-    SGD moves toward regions flat with respect to current $C$.  As $C$ evolves,
-    the smoothing mask and thus the effective landscape evolves.  This dynamics
-    is generically nonconservative.  In contrast to \citet{ch18}'s SDE
+    SGD moves toward regions  with respect to $C$.  As $C$ evolves, the
+    smoothing mask and thus the effective landscape evolves.  This dynamics is
+    generically nonconservative.  In contrast to \citet{ch18}'s SDE
     approximation, SGD does not generically converge to a limit cycle. 
 
     \textbf{Can GD Emulate SGD?}
@@ -1515,12 +1545,11 @@
         certain minima --- together offer insight into SGD's success in
         training over-parameterized models. 
 
-        Moreover, our results may help to analyze and design transfer learning
-        and fine-tuning procedures such as the descent-on-descent meta-learning of
-        MAML (\cite{fi17}).  Indeed, those methods strive for models
-        initialized to pre-trained weights and tunable to new data through a
-        small number, $T$, of updates, a setting matched to the assumptions of
-        our theory.
+        Our results may also help to analyze and design fine-tuning procedures
+        such as the meta-learning of MAML (\cite{fi17}).  Indeed, those methods
+        strive for models initialized to pre-trained weights and tunable to new
+        data through a small number, $T$, of updates, a setting matched to the
+        assumptions of our theory.
 
         Since our predictions depend only on loss data near initialization,
         they break down after the weight moves far from initialization.  Our
@@ -1530,7 +1559,7 @@
         
         Yet, even short-time predictions show how curvature and noise ---
         and not just averaged gradients --- repel or attract SGD's current
-        weight.  For example, we proved that SGD moves toward regions flat with
+        weight.  For example, we proved that SGD moves toward regions  with
         respect to the current covariance $C$, and that this effect dominates
         in valleys of minima. Initial data rarely suffices to
         predict long-time behavior because landscapes can be arbitrarily
@@ -1542,9 +1571,11 @@
             SGD's coarse-grained trajectory as an integral curve of the vector
             field given by our theory.
         }
-        Our results enhance intuitions relied on by practitioners --- e.g. that
-        "SGD descends on the train loss" --- by accounting for noise through
-        new force laws valid in each short-term patch of SGD's trajectory. 
+        , 
+        our results enhance intuitions relied on by practitioners --- e.g. that
+        "SGD descends on the train loss" --- by summarizing the effect of noise
+        in closed-form dynamical laws valid valid in each short-term patch of
+        SGD's trajectory.
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Discuss Limitations: Forces and Computational Difficulties  ~~~
@@ -1598,7 +1629,7 @@
             For small $\eta$, SGD's gen. gap decreases as sectional curvature
             grows.
         \end{conj}
-        Though our work so far assumes a flat metric $\eta^{\mu\nu}$, it
+        Though our work so far assumes a  metric $\eta^{\mu\nu}$, it
         generalizes to curved weight spaces\footnote{
             One may represent the affine connection as a node, thus giving
             rise to non-tensorial and hence gauge-dependent diagrams.
@@ -2748,7 +2779,7 @@
         \subsubsection*{The Key Lemma: Proof}
             We work in a neighborhood of the initialization so that the tangent
             space of weight space is a trivial bundle.  For convenience, we fix
-            a flat coordinate system, and with it the induced flat,
+            a  coordinate system, and with it the induced flat,
             non-degenerate inverse metric $\tilde\eta$; the benefit is that we
             may compare our varying $\eta$ against one fixed $\tilde\eta$.
             Henceforth, a ``ball'' unless otherwise specified will mean a ball
@@ -3654,7 +3685,7 @@
             noise scale.  For instance, rubber bands are stretchy due to an
             entropic force arising from the tendency toward disorder of their
             constituent polymers.  We showed that, due to a non-conservative
-            entropic force, SGD tends toward minima that are flat with respect
+            entropic force, SGD tends toward minima that are  with respect
             to the covariance. 
         \item[epoch] a temporal interval (within an SGD run) within which each
             datapoint participates in exactly one update.  Our notation
@@ -3753,7 +3784,7 @@
             springs yields a limper spring.  We thus see that the potential
             energy of a static spring bearing a weight scales \emph{inversely}
             with the spring's stiffness.  This story formally parallels the
-            Takeuchi prediction that flat minima generalize divergently badly.
+            Takeuchi prediction that  minima generalize divergently badly.
         \item[stabilized takeuchi information criterion] an estimate of
             generalization gap defined to be $C_{\mu\nu}\wrap{ I - \exp(-\eta T
             H) }^{\nu}_{\lambda}\wrap{H^{-1}}^{\lambda\mu}$.  Compare to
