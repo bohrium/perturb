@@ -7,8 +7,10 @@ Reviewers expressed interest in our results but had concerns over our
 exposition's accessibility and clarity. In response to these concerns, we
 thoroughly revised the paper; we now:
 * explain in the intro that our goal is to offer new intuition about SGD
- dynamics, e.g. how overfitting scales w/ C and H.
-* state key results in a new *stand-alone* section unobscured by physics and
+ dynamics (e.g. how overfitting scales w/ C and H):
+ "Practitioners benefit from the intuition that SGD descends on l itself. We
+ present a novel framework for refining this intuition to account for noise..."
+* state results in a new *stand-alone* section unobscured by physics and
  discuss how they map onto real, non-asymptotic scenarios.
 * cut jargon. E.g. we introduce our formalism via:
  "Consider running SGD on N train points for T steps, starting at a weight θ0.
@@ -23,11 +25,11 @@ As R4 noted, some claims required discussion. We expand on these claims, e.g.:
  convolve the landscape w/ a C-shaped Gaussian. Since [[A]] connects [[B]]
  to the test measurement using 1 edge, it couples [[B]] to the linear part of
  the test landscape and hence represents a displacement of weights away
- from high [[B]]. In short, [[A]] depicts descent on a smoothed land.
+ from high [[B]]. In short, [[A]] depicts descent on a smoothed landscape.
 * "implicit metric": to define SGD or to measure H's width, we need a metric.
  Prior work on gengap and H-width chose metrics arbitrarily. We show
  that {measuring H-width w/ the metric used to define SGD} yields a gengap
- estimator. So optimization modulates how curvature and gengap relate.
+ estimator.
 
 **PRACTICAL APPLICATIONS**
 
@@ -44,19 +46,19 @@ practitioners (e.g. "SGD descends on the train loss") by giving new force laws
 valid in each short-term patch of SGD's trajectory.
 
 We now show our un-resummed predictions failing beyond small ηT (e.g. after
-CIFAR accu. moves ~1 point). Next to Fig 6a (successful T=10000 prediction on
-synthetic data), we now show an entropic force for CIFAR (T=1000) init'd in a
-valley. Our η^3 predictions explain ~**XXX**% of the variance in final weights.
+FASHION accu. moves ~0.5 points (now T=100 instead of 10)).  We will also
+supplement Fig 6a (successful T=10000 prediction on synthetic data) with a 
+CIFAR analogue, where the weights are initialized in a valley.
 
-Fine-tuners such as MAML seek models near local minima tunable to new
-data within small T, a setting matched to the assumptions of our theory.
+Fine-tuners (e.g. MAML) seek models near local minima tunable to new
+data within small T, a setting matched to our theory's assumptions.
 
 **TERMINOLOGY**
 
-* "renorm.": we thank R1 for their incisive comments. We have no
- UV divergences, so we now use "resummation".
+* "renorm.": we thank R1 for their incisive comments. Lacking UV divergences,
+ we now write "resummation".
   * "eta·T finite, η small": Yes! As η→0 with ηT fixed, SGD becomes ODE, and
-   summing diagrams with f fuzzy ties give the order-f corrections due to
+   the diagrams with f fuzzy ties sum to the order-f correction due to
    η⪈0. Still, even for a quadratic landscape, each such correction
    involves unboundedly many diagrams; resummation remedies this.
   * "2-edged terms dominate": for fixed ηT, each resummed term with d
