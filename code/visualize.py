@@ -189,12 +189,34 @@ def plot_experiment(ol_nm,
     print(CC+'querying losses from @R optimlog @M {} @D ...'.format(ol_nm))
     OL = OptimLog(ol_nm)
     OL.load_from(ol_nm)
+
+    (X,AY,AS) = OL.query_eta_curve(
+        kind=kind, evalset=evalset, sampler=sampler, T=T, N=N, metric='acc'
+    )
+    AY = 1.0-AY
     (X, Y, S) = OL.query_eta_curve(
         kind=kind, evalset=evalset, sampler=sampler, T=T, N=N, metric=metric
     )
-    plot_bars(X, Y, S, color=color, label=label)
 
-    return X, [min(Y)-3*max(S), max(Y)+3*max(S)]
+    ax1 = plt.gca()
+    ax2 = ax1.twinx()
+
+    #
+    plt.sca(ax2)
+    plt.scatter(X, AY, color='gray', label='0-1 error')
+    plt.ylim([min(AY)-3*max(AS), max(AY)+3*max(AS)])
+    plt.xlim([min(X)-(max(X)-min(X))/25, max(X)+(max(X)-min(X))/25])
+    plt.legend(loc='center right')
+    #
+
+    plt.sca(ax1)
+    plot_bars(X, Y, S, color=blue, label='loss')
+
+    return (
+        X,
+        [min(Y)-3*max(S), max(Y)+3*max(S)],
+        [min(AY)-3*max(AS), max(AY)+3*max(AS)],
+    )
 
 def plot_theory(gs_nm,
                 eta_range, coeff_strs, deg=2, mode='poly', T=None, N=None,
@@ -225,12 +247,13 @@ def plot_loss_vs_eta(ol_nm, gs_nm, img_nm, title, ylabel,
     eta_range = [0]
     metric_range = []
     for evalset, sampler, metric, color, label in experiment_params_list:   
-        etas, metrics = plot_experiment(
+        etas, metrics, accs = plot_experiment(
             ol_nm, color=color, label=label,
             T=T, N=N, kind=kind, evalset=evalset, sampler=sampler, metric=metric
         )
         eta_range += list(etas)
         metric_range += list(metrics)
+
     eta_range = interpolate(eta_range)
 
     for coeff_strs, deg, mode, color, label in theory_params_list: 
@@ -350,23 +373,24 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
 def plot_test_loss_vs_eta(model_nm, idx, T):
     title = (
         'Vanilla SGD\'s Test Loss \n'
-        '(T=10, Fashion-MNIST convnet)'.format(T, model_nm)
+        '(T={}, Fashion-MNIST convnet)'.format(T, model_nm)
     )
 
     plt.rcParams.update({'font.size': 14})
     plot_loss_vs_eta(
-        ol_nm  = '../logs/ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
+        ol_nm  = 'ol-{}-T{}-{:02}-rebut.data'.format(model_nm, T, idx),
+        #ol_nm  = '../logs/ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-        img_nm = '../plots/new-test-{}.png'.format(idx),
+        img_nm = '../plots/rebut-test-{}-T{}.png'.format(idx, T),
         title=title, ylabel='test loss',
         T=T, N=T, kind='main',
         experiment_params_list = [
             ('test', 'sgd', 'loss', dark_blue, 'experiment'),
         ], 
         theory_params_list = [
-            (coefficients.sgd_vanilla_test, 1, 'poly', bright_red, 'deg 1 prediction'),
-            (coefficients.sgd_vanilla_test, 2, 'poly', bright_yellow, 'deg 2 prediction'),
-            (coefficients.sgd_vanilla_test, 3, 'poly', bright_green, 'deg 3 prediction'),
+            (coefficients.sgd_vanilla_test, 1, 'poly', bright_red, 'deg 1'),
+            (coefficients.sgd_vanilla_test, 2, 'poly', bright_yellow, 'deg 2'),
+            (coefficients.sgd_vanilla_test, 3, 'poly', bright_green, 'deg 3'),
         ],
     )
 
@@ -852,18 +876,19 @@ def plot_batch_match_loss_vs_loss(idxs_and_model_nms, T):
         ymin=-1.7*10**-4, ymax=+1.7*10**-4,
     )
 
-#for idx in range(6):
-#    plot_test_loss_vs_eta('fashion-lenet', idx, 10)
+for idx in range(1,2):
+    plot_test_loss_vs_eta('fashion-lenet', idx, 100)
+
 #plot_test_vs_hess('quad-1d-reg', N=10)
 #plot_gengap_vs_hess('quad-1d', T=10)
 
 #plot_batch_match_loss_vs_loss(['cifar-lenet', 'fashion-lenet'], idxs=range(0,6), T=10)
-plot_batch_match_loss_vs_loss([
-    (range(0, 6), 'fashion-lenet'),
-    (range(0, 6), 'cifar-lenet'),
-    (range(0, 1), 'fashion-logistic'),
-    (range(0, 1), 'cifar-logistic'),
-], T=10)
+#plot_batch_match_loss_vs_loss([
+#    (range(0, 6), 'fashion-lenet'),
+#    (range(0, 6), 'cifar-lenet'),
+#    (range(0, 1), 'fashion-logistic'),
+#    (range(0, 1), 'cifar-logistic'),
+#], T=10)
 
 #plot_gen_gap_loss_vs_loss('cifar-lenet', [0, 1, 2, 3, 4, 5], 10)
 
