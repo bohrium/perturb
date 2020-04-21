@@ -10,8 +10,8 @@ thoroughly revised the paper; we now:
  dynamics (e.g. how overfitting scales w/ C and H):
  "Practitioners benefit from the intuition that SGD descends on l itself. We
  present a novel framework for refining this intuition to account for noise..."
-* state results in a new *stand-alone* section unobscured by physics and
- discuss how they map onto real, non-asymptotic scenarios.
+* lead w/ a very simple example (order-1) of diagrams
+* state results in a stand-alone section free of physics
 * cut jargon. E.g. we introduce our formalism via:
  "Consider running SGD on N train points for T steps, starting at a weight θ0.
  Our method expresses the expectation (over randomly sampled train sets) of

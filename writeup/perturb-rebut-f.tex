@@ -247,17 +247,22 @@
 
     %-----------------  object of study  --------------------------------------
 
-    This paper studies the dynamics of SGD.  Mainly, how does gradient noise
-    bias learning?
+    Stochastic gradient descent (SGD) decreases an unknown objective $l$ via
+    $T$ steps of discrete-time $\eta$-steepest\footnote{
+        To define ``steepness'' requires a metric on $l$'s domain.  We will
+        consider all  metrics by Taylor expanding an (inverse)
+        metric $\eta^{\mu\nu}$ around $0$.
+    } descent on noisy estimates of $l$.
     %
-    Practitioners benefit from the intuition that SGD approximates noiseless
-    GD.  We present a novel framework for refining this intuition to account
-    for noise.  For instance, we show that noise systematically pushes SGD
-    toward flatter minima.  We prove our predictions for small learning rate
-    and our experiments show that even a single evaluation of our force laws
-    suffices to predict SGD's motion through macroscopic timescales, e.g. long
-    enough to decrease error by $0.5$ percentage points.
-    %
+    Practitioners benefit from the intuition that SGD descends on $l$ itself
+    \cite{bo91}.  We present a novel framework for refining this intuition to
+    account for noise.  For instance, we show that SGD moves to disalign the
+    hessian $H$ from the current covariance $C$ of gradients, and that this
+    force can dominate after SGD has reached a valley of train minima.  We
+    prove our predictions for small $\eta$, and our experiments show that even
+    a single evaluation of our force laws at a weight $\theta$ suffices to
+    predict how SGD drifts from $\theta$ through macroscopic timescales, e.g.
+    $\eta T$ large enough to decrease error by $0.5$ percentage points.
     
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Concrete Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -265,13 +270,14 @@
     %-----------------  vs ODE and SDE  ---------------------------------------
 
     Departing from prior work, we model discrete time and hence non-Gaussian
-    noise.  Indeed, we give the finite-time, finite-learning-rate corrections
-    to continuous-time approximations such as ordinary and stochastic
-    differential equations (ODE, SDE).  
+    noise.  Indeed, we give the finite-$T$, finite-$\eta^{-1}$ corrections to
+    continuous-time approximations such as ordinary and stochastic differential
+    equations (ODE, SDE).  
     %
     %-----------------  hyperparameter effects  -------------------------------
     %
-    We thus quantify how epoch number and batch size affect test loss.
+    We thus obtain new results quantifying how epoch number and batch size
+    affect test loss.
     %
     %-----------------  two novel regularizers  -------------------------------
     %
@@ -293,64 +299,62 @@
     superposition of several concurrent interactions between weights and data,
     each represented by a diagram that echoes the visual schemata of
     \citet{fe49, pe71}.  This viewpoint offers not only quantitative
-    predictions but also qualitative insight, e.g. that, for small learning
-    rates, inter-epoch shuffling does not affect expected test loss.
+    predictions but also qualitative insight, e.g. that to order $\eta^3$,
+    inter-epoch shuffling does not affect expected test loss.
     %
     %-----------------  prospective  ------------------------------------------
     %
     We believe that our diagram method is an elegant and general tool for
-    studying stochastic optimization, especially on short timescales.  Our
-    conclusion discusses Hessian methods and natural GD as low-hanging fruit
-    for future work.
+    studying stochastic optimization for $T$ large and $\eta T$ small.  
+    Our conclusion discusses Hessian methods and natural GD
+    as low-hanging fruit for future work.
 
     \subsection{Overview of the perturbative approach}
 
-        Consider running SGD on $N$ train points for $T$ steps with learning
-        rate $\eta$, starting at a weight $\theta_0$.  Our method expresses the
-        expectation (over randomly sampled train sets) of quantities such as
-        the final weight (or test or train loss) as a sum of diagrams, where
-        each diagram evaluates to a statistic of the loss landscape at
-        initialization.  Diagrams with $e$ edges contribute only $O(\eta^e)$ to
-        the quantities of interest, so for small $\eta$ we sum only the
-        few-edged diagrams and incur an $o(\eta^e)$ error term.
+        Consider running SGD on $N$ train points for $T$ steps, starting at
+        a weight $\theta_0$.  Our method expresses the expectation (over
+        randomly sampled train sets) of quantities such as the final weight (or
+        test or train loss) as a sum of diagrams, where each diagram
+        evaluates to a statistic of the loss landscape at initialization.
+        Diagrams with $e$ edges contribute only $O(\eta^e)$ to the
+        quantities of interest, so for small $\eta$ we sum only the few-edged
+        diagrams and incur an $o(\eta^e)$ error term.
 
-        The rule for evaluating diagrams is that each degree-$d$ node evaluates
-        to the $d$th derivative of the test loss $l$ at $\theta_0$.  The
-        edges indicate the order in which those derivatives are multiplied.
-        Most simply, $\sdia{(0)()} = l(\theta_0)$, a $0$th derivative.  The
-        diagram $\sdia{(0-1)(01)}$\footnote{%\label{note1}
+        For example, the diagram $\sdia{(0-1)(01)}$ evaluates to the dot
+        product $\eta GG$, where $G=\nabla l$ is the gradient of the expected
+        loss $l$, evaluated at $\theta_0$.  Likewise, $\sdia{(0-1-2)(01-12)} =
+        \eta^2 GHG$, where $H=\nabla\nabla l$ is the hessian.  The rule is that
+        each degree-$d$ node evaluates to the $d$th derivative of $l$
+        evaluated at $\theta_0$, and the edges indicate the order in which
+        those derivatives are multiplied.  Further examples include
+        $\sdia{(0)()} = l(\theta_0)$, a $0$th derivative, and
+        $\sdia{(0-1-2-3)(02-12-23)} = \eta^3 GGJG$, where $J=\nabla\nabla\nabla
+        l$ is $l$'s third derivative.\footnote{
             We {\color{moor} color} nodes for convenient reference (e.g. to a
             diagram's ``green nodes'').  As mere labels, colors lack
             mathematical meaning. 
         }
-        evaluates to the dot product $\eta GG$, where $G=\nabla l$ is the
-        gradient of the expected loss $l$, evaluated at $\theta_0$.  Likewise,
-        $\sdia{(0-1-2)(01-12)} = \eta^2 GHG$, where $H=\nabla\nabla l$ is the
-        hessian.  And $\sdia{(0-1-2-3)(02-12-23)} = \eta^3 GGJG$, where
-        $J=\nabla\nabla\nabla l$ is $l$'s third
-        derivative.%\footnotemark[\ref{note1}]
 
         A diagram tells us about the loss landscape but not about SGD
         parameters such as $T$ or inter-epoch shuffling.  We summarize those
-        parameters as sets of pairs $(n, t)$, one for each participation of the
+        parameters as set of pairs $(n, t)$, one for each participation of the
         $n$th datapoint in the $t$th update.  Full-batch GD will have $NT$ many
         pairs, for instance, while singeleton-batch SGD will have $T$ many
         pairs.
 
         Each of a diagram's nodes abstractly represents an event at such a
         pair, and we may ``concretize'' a diagram by assigning to each node a
-        specific pair $(n, t)$.
-        We will intuitively interpret a concretized edge from $(n,t)$ to
-        $(n^\prime,t^\prime)$ (from left to right) as depicting information
-        flow from train point $n$ at time $t$ to train point $n^\prime$ at time
-        $t^\prime$.  Thus, we permit only concretizations
-        whose edges have $t<t^\prime$.  The rightmost node represents
-        measurement at test time, so we do not assign a pair $(n,t)$ to it;
-        it does not participate in $t<t^\prime$ constraints.
+        specific pair $(n, t)$.  Reading a concrete diagram from left to right,
+        an edge from $(n,t)$ to $(n^\prime,t^\prime)$ represents
+        how the $n$th train point's participation in the $t$th timestep affects
+        the $n^\prime$th train point's participation in the $t^\prime$th
+        timestep.  Thus, we permit only concretizations whose edges have
+        $t<t^\prime$.  The rightmost node represents measurement at test time,
+        so we do not assign a pair $(n,t)$ to it.
 
         \begin{thm*}[Theorem \ref{thm:sgdcoef}, Informal]
             Fix SGD parameters, namely $N$, $T$, a batch size $B$, and a
-            deterministic routine to sample each batch from a train set.   
+            deterministic routine to sample the $t$th batch from a train set.   
             Sum the diagrams with at most $d$ edges, where a diagram with $e$
             edges and $c$ many concretizations is weighted by  
             $c/(-B)^{e}$.  This sum agrees with SGD's expected final test loss
@@ -380,12 +384,7 @@
         loss data near $\theta_0$ and hence break down after
         the weight moves far from initialization.  Our theory thus best applies
         to small-movement contexts, whether for long times near a minimum or
-        for short times in general.\footnote{
-            It is routine to check that SGD dynamics can efficiently simulate  
-            a Turing Machine and thus that general long-time prediction should
-            be intractable.
-        }
-        For instance, we analyze SGD overfitting
+        for short times in general.  For instance, we analyze SGD overfitting
         near a minimum (Corollary \ref{cor:overfit}).  Invoking Theorem
         \ref{thm:resum} to find $T$ so large large that SGD senses curvature
         and noise, yet small enough for our theory to hold, we analyze how
@@ -425,15 +424,11 @@
     \subsection{A first look at curvature and noise}
 
         Intuitively, our diagrams' edges depict higher derivatives and hence
-        the test loss $l$'s curvature.  However, to study noise and
-        generalization, we need to represent how different datapoints $n$ induce
-        different loss functions $l_n$.  The test loss $l$ is then the
-        expectated value of $l_n$.
-        We depict correlations and hence noise by a new structure: fuzzy
-        ``ties''.  For example, $\sdia{(0-1-2)(01-12)}$ and
-        $\sdia{(01-2)(01-12)}$ are two valid and distinct diagrams.  Fuzzy ties
-        determine which derivatives occur within the same expectation, so we
-        have
+        the loss landscape's curvature.  Meanwhile, we depict correlations and
+        hence noise by a new structure: fuzzy ``ties''.  For example,
+        $\sdia{(0-1-2)(01-12)}$ and $\sdia{(01-2)(01-12)}$ are two valid and
+        distinct diagrams.  Fuzzy ties determine which derivatives occur within
+        the same expectation, so we have
         $$
             \sdia{(0-1-2)(01-12)}
                 \triangleq
@@ -451,11 +446,11 @@
                 =
             \eta^2 \frac{\nabla\wrap{GG+C}}{2} G
         $$
-        The rule is that nodes in the same fuzzy-tie connected component occur
-        in the same expectation brackets.  Since fuzzy ties depict
-        correlations, we demand that each concretization of a diagram sends any
-        two fuzzily-tied nodes to pairs $(n,t), (n, t^\prime)$ that share a
-        train point index $n$.
+        The general rule is that nodes in the same fuzzy-tie connected
+        component occur in the same expectation brackets.  Since fuzzy ties
+        depict correlations, we demand that each concretization of a diagram
+        sends any two fuzzily-tied nodes to pairs $(n,t), (n, t^\prime)$ that
+        share a train point index $n$.
 
         \begin{exm} \label{exm:sgdvs}
             When $N=T$, then singleton-batch SGD permits permits no
@@ -568,13 +563,6 @@
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     \subsection{SGD terminology}
-        SGD decreases an unknown objective $l$ via
-        $T$ steps of discrete-time $\eta$-steepest\footnote{
-            To define ``steepness'' requires a metric on $l$'s domain.  We will
-            consider all  metrics by Taylor expanding an (inverse)
-            metric $\eta^{\mu\nu}$ around $0$.
-        } descent on noisy estimates of $l$.
-
         We describe SGD in terms of $N,T,B,E,M$:
             $N$ counts train points,
             $T$ counts updates,
@@ -1407,12 +1395,11 @@
         \ref{fig:thermoandtak}, right).  
         %
         The resulting \emph{Stabilized TIC} (STIC) uses the metric $\eta^{-1}$
-        implicit in gradient descent to threshold flat from sharp
-        minima\footnote{
+        implicit in gradient descent to threshold from sharp minima\footnote{
             The notion of $H$'s width depends on a choice of
             metric.  Prior work chooses this metric arbitrarily.  We show that
             choosing $\eta^{-1}$ is a natural choice because it leads to a
-            prediction of the generalization gap.
+            prediction of generalization gap.
         }.
         %
         It thus offers a principled method for
@@ -1518,25 +1505,25 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    We presented an elegant diagram-based framework for studying short-time
-    SGD.  Theorem \ref{thm:resum} justifies long-time predictions of SGD's
-    dynamics near minima.  Our theory answers the following questions.
+    We presented an elegant diagram-based framework for studying small-$\eta T$
+    SGD.  Our Re-summation Theorem justifies large-$\eta T$ predictions of
+    SGD's dynamics near minima.  Our novel predictions include:
 
     \textbf{Which Minima Overfit Less?}
     By analyzing $\sdia{c(01-2)(02-12)}$, we find that flat and sharp minima
     both overfit less than minima of curvature comparable to $(\eta T)^{-1}$.
     Flat minima are robust to vector-valued noise, sharp minima are robust to
     covector-valued noise, and medium minima attain the worst of both worlds.
-    We thus reconcile prior intuitions that sharp \citep{ke17, wa18} or flat 
+    We thus reconcile prior intuitions that sharp \citep{ ke17, wa18} or 
     \citep{di17, wu18} minima overfit worse.  These considerations lead us to a
-    smooth generalization of AIC enabling hyperparameter tuning by gradient
+    smooth generalization of AIC and to tune hyperparameters by gradient
     descent.
 
     \textbf{Which Minima Does SGD Prefer?}
     Analyzing $\sdia{c(01-2-3)(02-12-23)}$, we refine \citet{we19b} to
     nonconstant, nonisotropic covariance to reveal that SGD descends on a loss
     landscape smoothed by the \emph{current} covariance $C$.  In particular,
-    SGD moves toward regions flat with respect to $C$.  As $C$ evolves, the
+    SGD moves toward regions  with respect to $C$.  As $C$ evolves, the
     smoothing mask and thus the effective landscape evolves.  This dynamics is
     generically nonconservative.  In contrast to \citet{ch18}'s SDE
     approximation, SGD does not generically converge to a limit cycle. 
@@ -1554,17 +1541,16 @@
 
     \subsection{Consequences}
 
-        REPHRASE
         Our analysis of which minima SGD moves toward (when in a valley of
         minima) --- and our characterization of when SGD overfits less in
         certain minima --- together offer insight into SGD's success in
         training over-parameterized models. 
 
-        Our results may also help to analyze fine-tuning procedures
+        Our results may also help to analyze and design fine-tuning procedures
         such as the meta-learning of MAML (\cite{fi17}).  Indeed, those methods
-        seek models initialized near minima and tunable to new data
-        through a small number of updates, a setting matched to our
-        theory's assumptions.
+        strive for models initialized to pre-trained weights and tunable to new
+        data through a small number, $T$, of updates, a setting matched to the
+        assumptions of our theory.
 
         Since our predictions depend only on loss data near initialization,
         they break down after the weight moves far from initialization.  Our
@@ -1574,20 +1560,22 @@
         
         Yet, even short-time predictions show how curvature and noise ---
         and not just averaged gradients --- repel or attract SGD's current
-        weight.  For example, we proved that SGD in a valley moves toward
-        regions flat with respect to the current covariance $C$.  Initial data
-        rarely suffices to predict long-time behavior because landscapes can be
-        arbitrarily complex.  Much as meteorologists understand how warm and
-        cold fronts interact despite the intractability of long-term weather
-        forecasting, our contribution is to quantify the counter-intuitive
+        weight.  For example, we proved that SGD moves toward regions  with
+        respect to the current covariance $C$, and that this effect dominates
+        in valleys of minima. Initial data rarely suffices to
+        predict long-time behavior because landscapes can be arbitrarily
+        complex.  Much as meteorologists understand how warm and cold fronts
+        interact despite the intractability of long-term weather forecasting,
+        our contribution is to quantify the counter-intuitive deterministic
         dynamics governing SGD's short-time behavior.\footnote{
             Because our analysis holds for any initialization, one may imagine
             SGD's coarse-grained trajectory as an integral curve of the vector
             field given by our theory.
         }
-        Our results enhance intuitions relied on by practitioners --- e.g. that
+        , 
+        our results enhance intuitions relied on by practitioners --- e.g. that
         "SGD descends on the train loss" --- by summarizing the effect of noise
-        in closed-form dynamical laws valid in each short-term patch of
+        in closed-form dynamical laws valid valid in each short-term patch of
         SGD's trajectory.
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1636,13 +1624,13 @@
         $
         parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
         when we represent the $\lambda$ term as a second type of diagram node.
-        Though diagrams suffice for computation, it is Lagrangians that most
+        Though diagrams suffice for computations, it is Lagrangians that most
         deeply illuminate scaling and conservation laws.
         \begin{conj}[Riemann Curvature Regularizes]
             For small $\eta$, SGD's gen. gap decreases as sectional curvature
             grows.
         \end{conj}
-        Though our work so far assumes a flat metric $\eta^{\mu\nu}$, it
+        Though our work so far assumes a  metric $\eta^{\mu\nu}$, it
         generalizes to curved weight spaces\footnote{
             One may represent the affine connection as a node, thus giving
             rise to non-tensorial and hence gauge-dependent diagrams.
