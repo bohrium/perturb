@@ -1157,48 +1157,83 @@
     \subsection{Basic Predictions}
         We test Theorem \ref{thm:sgdcoef} on smooth convnets on CIFAR-10 and
         Fashion-MNIST.  Our order $\eta^3$ predictions agree with experiment up
-        to $\eta T \approx 10^0$ (Figure \ref{fig:vanillaandbatch}, left).
+        to $\eta T \approx 10^0$ (Figure \ref{fig:vanilla}, left).
         Likewise, Corollary \ref{cor:epochs} correctly predicts the effect of
         multi-epoch training (Appendix \ref{sect:figures}) for $\eta T \approx
         10^{-1/2}$.  These tests verify that our proofs hide no mistakes of
         proportionality or sign.  
+
+        \begin{figure}[h!] 
+            \centering
+            \plotmooh{plots/new-test-0}{}{3.0cm} 
+            \plotmooh{plots/rebut-test-1-T100}{}{3.0cm} 
+            \caption{
+                {\bf Perturbation models SGD for small $\eta T$.}
+                Test loss vs learning rate on a Fashion-MNIST convnet, with
+                un-re-summed predictions.
+                {\bf Left}: For the instance shown and all $11$ other
+                initializations unshown, our degree-$3$ prediction
+                agrees with experiment through $\eta T \approx 10^0$, which
+                corresponds to an improvement in $0-1$ error of $\approx
+                10^{-3}$.
+                %
+                {\bf Right}: For larger $\eta T$, our predictions can break
+                down.  Here, the order-$3$ prediction holds until the $0-1$
+                error improves by $5\cdot 10^{-3}$.  Beyond this, close
+                agreement with experiment is coincidental.
+            }
+            \label{fig:vanilla}
+        \end{figure}
+
+
 
     %--------------------------------------------------------------------------
     %           Emulating Small Batches with Large Ones     
     %--------------------------------------------------------------------------
 
     \subsection{Emulating Small Batches with Large Ones}
-        Figure \ref{fig:vanillaandbatch} (right) shows that the regularizer
-        proposed in Corollary \ref{cor:batch} indeed enables GD to emulate SGD
-        on a range of image-classification landscapes.  For these experiments,
-        we used a covariance estimator $\hat C \propto \nabla l_x (\nabla l_x -
-        \nabla l_y)$ evaluated on two batches $x, y$ that evenly partition the
-        train set.  For architectures composed of linear transforms and
-        coordinate-wise nonlinearities represented by elementary functions, we
-        may compute $\nabla \hat C$ with the same memory and time as the usual
-        gradient $\nabla l_t$, up to a multiplicative constant. 
+        By Corollary \ref{cor:batch}, SGD avoids high-$C$ regions more than GD
+        We artificially correct GD accordingly, yielding an optimizer, GDC,
+        that indeed behaves like SGD on a range of landscapes (Figure
+        \ref{fig:batchandgen} (left)).  It may be important to emulate SGD's
+        avoidance of high-$C$ regions because we $C$ controls the rate at which
+        each new update increases the generalization gap\footnote{Reminder: for
+        us, generalization gap is test minus train loss.} (Figure
+        \ref{fig:batchandgen} (right)).
+        
         \begin{figure}[h!] 
             \centering
-            \plotmoow{plots/new-test-0}{0.48\columnwidth}{3.0cm} 
-            \plotmoow{plots/new-big-bm-new}{0.48\columnwidth}{4.0cm}
+            \plotmooh{plots/new-big-bm-new}{}{3.0cm}
+            \plotmooh{plots/rebut-gen-cifar-lenet-4}{}{3.0cm}
             \caption{
-                {\bf Perturbation models SGD for small $\eta T$.}
-                {\bf Left}: Test loss vs learning rate on a Fashion-MNIST
-                convnet.  For the instance shown and all $11$ other
-                initializations unshown, the degree-$3$ prediction agrees with
-                experiment through $\eta T \approx 10^0$.
-                %
-                {\bf Right}: with equal-scaled axes, this plot shows that GDC
+                {\bf $C$ controls generalization and distinguishes GD from
+                SGD.}
+                {\bf Left}: With equal-scaled axes, this plot shows that GDC
                 matches SGD (small vertical variation) better than GD matches
                 SGD (large horizontal variation) in test loss, for a variety of
-                learning rates (from 0.0025 to 0.1) and initializations (zero
-                and multiple independent Xavier-Glorot trials) on several of
-                image classification landscapes (logistic and convolutional
-                CIFAR-10 and Fashion-MNIST).  $T=10$ throughout.
+                learning rates ($\approx 10^{-3}-10^{-1}$) and initializations
+                (zero and several Xavier-Glorot trials) on logistic and
+                architectures for image classification.  Here, $T=10$. 
+                {\bf Right}: CIFAR-10 generalization gaps.
+                For the instance shown and all $11$ other
+                initializations unshown, the degree-$2$ prediction agrees with
+                experiment through $\eta T \approx 5\cdot 10^{-1}$.
             }
-            \label{fig:vanillaandbatch}
+            \label{fig:batchandgen}
         \end{figure}
-  
+
+        The connection between generalization and covariance was first
+        established by \citet{ro18} in the case $T=2$ and to order $\eta^2$. 
+        In fact, that work conjectures the possibility of emulating GD with
+        SGD.  This sub-section extends that work by generalizing to arbitrary
+        $T$ and arbitrary orders $\eta^d$, and by concretely defining GDC.
+
+        In these experiments, we used a covariance estimator $\hat C \propto
+        \nabla l_x (\nabla l_x - \nabla l_y)$ evaluated on two batches $x, y$
+        that evenly partition the train set.  For typical architectures, we may
+        compute $\nabla \hat C$ with the same memory and time as the usual
+        gradient $\nabla l_t$, up to a multiplicative constant. 
+
     %--------------------------------------------------------------------------
     %           Comparison to Continuous Time               
     %--------------------------------------------------------------------------
@@ -3519,20 +3554,6 @@
             correlations away from the effect of larger $\eta T$.
         }
         \label{fig:multi}
-    \end{figure}
-
-    \begin{figure}[h]
-        \centering
-        \plotmoow{plots/gen-cifar}{0.98\columnwidth}{3.0cm}
-        \caption{
-            Generalization gap (test minus train) vs learning rate on an
-            image classification task.  For the instance shown and all $11$
-            other initializations unshown, the degree-$2$ prediction agrees
-            with experiment through $\eta T \approx 10^0$.  Throughout,
-            measurements are in blue and theory is in other colors.
-            Vertical spans indicate 95\% confidence intervals for the mean.
-        }
-        \label{fig:gen}
     \end{figure}
 
     \begin{figure}[h] 
