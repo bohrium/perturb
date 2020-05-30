@@ -99,10 +99,13 @@ class Fashion(PointedLandscape):
         unflipped = self.imgs[idxs_to_keep]
         flipped = self.imgs[idxs_to_keep, :, ::-1] # reverse order of columns
         intensity = np.linalg.norm(unflipped, axis=(1,2))
-        symmetry = np.linalg.norm(flipped-unflipped, axis=(1,2))
+        asymmetry = np.linalg.norm(flipped-unflipped, axis=(1,2)) #/ intensity
         intensity /= np.amax(intensity)
-        symmetry /= np.amax(symmetry)
+        symmetry = 1.0 - asymmetry / np.amax(asymmetry)
+        intensity -= np.mean(intensity)
+        symmetry -= np.mean(symmetry)
         print(intensity)
+        print(symmetry)
 
         self.imgs = torch.Tensor(
             [[ii,ss] for ii, ss in zip(intensity, symmetry)]
@@ -195,7 +198,7 @@ class FashionAbstractArchitecture(Fashion, FixedInitsLandscape):
             method.
         '''
         reseed(seed)
-        return -1.0 + 0.0 * np.random.randn(self.subweight_offsets[-1])
+        return 0.0 * np.random.randn(self.subweight_offsets[-1])
 
     def get_weight(self):
         '''
@@ -255,35 +258,33 @@ class FashionAbstractArchitecture(Fashion, FixedInitsLandscape):
             'acc':  float(argmax.eq(labels).sum()) / labels.shape[0]
         }
 
-
-
 #=============================================================================#
 #           2. DEFINE ARCHITECTURES FOR Fashion CLASSIFICATION                #
 #=============================================================================#
 
 #-----------------------------------------------------------------------------#
-#                   2.0. logistic                                             #
+#                   2.0. shallow or                                           #
 #-----------------------------------------------------------------------------#
 
 class FashionShallowOr(FashionAbstractArchitecture):
     ''' 
     '''
-    def __init__(self, class_nms=Fashion.CLASS_NMS, weight_scale=1.0,
-                 verbose=False, seed=0):
+    def __init__(self, weight_scale=1.0, verbose=False, seed=0):
         '''
             Define tensor shape of network and initialize weight vector.
         '''
+        class_nms=('T-shirt/top', 'Sandal')
         super().__init__(class_nms, weight_scale)
         self.subweight_shapes = [
-            (self.nb_classes , 1),
-            (self.nb_classes , 1),
+            (1, 1),
+            (1, 1),
         ]
         self.prepare_architecture()
 
         self.set_weight(self.sample_weight(seed))
 
         if verbose:
-            print('Logistic has {} parameters'.format(
+            print('Shallow Or has {} parameters'.format(
                 sum(prod(w) for w in self.subweight_shapes)
             ))
 
@@ -293,12 +294,11 @@ class FashionShallowOr(FashionAbstractArchitecture):
         '''
         x, y = self.imgs[data_idxs], self.lbls[data_idxs]
 
-        x = x.view(-1, 2, 1)
-        x = (
-            torch.exp(matmul(self.subweight(0), x[:, 0:1, :])) + 
-            torch.exp(matmul(self.subweight(1), x[:, 1:2, :])) 
-        )
-        x = x.view(-1, self.nb_classes)
+        x = x.view(-1, 2)
+        x = torch.log((torch.exp(self.subweight(0) * x[:, 0])+  
+                       torch.exp(self.subweight(1) * x[:, 1]) )/2)
+        x = x.view(-1, 1)
+        x = torch.cat((x, torch.zeros(x.shape)), 1)
 
         logits = log_softmax(x, dim=1)
         return logits, y
@@ -313,10 +313,11 @@ if __name__=='__main__':
     #               3.0. descent hyperparameters                              #
     #-------------------------------------------------------------------------#
 
-    N = 256 
-    BATCH = 1#64
+    N = 8192#256 
+    BATCH = 256#64
     TIME = 5000
-    LRATE = 0.01#1.0
+    STEP =  200 
+    LRATE = 0.05#1.0
     pre(N%BATCH==0,
         'batch size must divide train size!'
     )
@@ -331,9 +332,10 @@ if __name__=='__main__':
 
     file_nm = 'saved-weights/fashion-{}.npy'.format(model_nm.lower())
     model = {'SHALLOWOR':FashionShallowOr}[model_nm]
-    ML = model(verbose=True, seed=0, class_nms = ('T-shirt/top', 'Sandal'))
+    ML = model(verbose=True, seed=0)
     ML.load_from(file_nm, nb_inits=nb_inits, seed=0)
     ML.switch_to(model_idx)
+    #ML.set_weight(np.load('saved-weights/fashion-{}-trained.npy'.format(model_nm.lower()))[0])
 
     D = ML.sample_data(N=N, seed=0) 
     for t in range(TIME):
@@ -349,9 +351,11 @@ if __name__=='__main__':
         #           3.3 compute and display gradient statistics               #
         #---------------------------------------------------------------------#
 
-        if (t+1)%200: continue
+        if (t+1)%STEP: continue
 
         L_train= ML.get_loss_stalk(D)
+        acc_train = ML.get_metrics(D)['acc']
+
         data = ML.sample_data(N=3000, seed=1)
         L_test = ML.get_loss_stalk(data[:1500])
         L_test_= ML.get_loss_stalk(data[1500:])
@@ -362,12 +366,16 @@ if __name__=='__main__':
             'grad2 @G {:.2e}'.format(
                 ML.nabla(L_test).dot(ML.nabla(L_test_)).detach().numpy()
             ),
+            'train acc @O {:.2f}'.format(acc_train),
             'train loss @Y {:.2f}'.format(L_train.detach().numpy()),
             'test loss @L {:.2f}'.format(
                 (L_test + L_test_).detach().numpy()/2.0
             ),
             'test acc @O {:.2f}'.format(acc),
-            'weight<intensity> @M {:f}'.format(ML.get_weight()[0]),
-            'weight<symmetry> @M {:f}'.format(ML.get_weight()[1]),
+            'weight<intensity> @M {:.3f}'.format(ML.get_weight()[0]),
+            'weight<symmetry> @M {:.3f}'.format(ML.get_weight()[1]),
         '']))
 
+    np.save('saved-weights/fashion-{}-trained.npy'.format(
+        model_nm.lower()
+    ), [ML.get_weight()])
