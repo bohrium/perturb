@@ -195,7 +195,7 @@ class FashionAbstractArchitecture(Fashion, FixedInitsLandscape):
             method.
         '''
         reseed(seed)
-        return np.random.randn(self.subweight_offsets[-1])
+        return -1.0 + 0.0 * np.random.randn(self.subweight_offsets[-1])
 
     def get_weight(self):
         '''
@@ -367,5 +367,7 @@ if __name__=='__main__':
                 (L_test + L_test_).detach().numpy()/2.0
             ),
             'test acc @O {:.2f}'.format(acc),
+            'weight<intensity> @M {:f}'.format(ML.get_weight()[0]),
+            'weight<symmetry> @M {:f}'.format(ML.get_weight()[1]),
         '']))
 
