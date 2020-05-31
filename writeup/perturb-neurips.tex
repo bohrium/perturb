@@ -213,21 +213,18 @@
     %
     %-----------------  hammer and general nail  ------------------------------
     %
-    We present a novel analysis of Stochastic Gradient Descent (SGD) at small
-    learning rates.
+    We analyze of Stochastic Gradient Descent (SGD) at small learning rates.
+    Unlike prior analyses based on stochastic differential equations, our
+    theory models discrete time and hence non-Gaussian noise.
     %
     %-----------------  applications  -----------------------------------------
     %
-    Our general theory yields several concrete corollaries: we prove that
-    gradient noise systematically pushes SGD toward flatter minima.  We
-    characterize when and why flat minima overfit less than sharp minima.  We
-    generalize the Akaike Info.\ Criterion (AIC) to a smooth estimator of
-    overfitting, hence enabling gradient-based model selection.  We
-    show how non-stochastic GD with a modified loss function may emulate SGD.
-    Without making a continuous-time approximation (whose errors we quantify),
-    %we compute the effects of non-Gaussian gradient noise, and
-    we refine and explain a previous continuous-time result that SGD may
-    converge to limit cycles.
+    We prove that gradient noise systematically pushes SGD toward flatter
+    minima.  We characterize when and why flat minima overfit less than sharp
+    minima.  We generalize the Akaike Info.\ Criterion (AIC) to a smooth
+    estimator of overfitting, hence enabling gradient-based model selection.
+    We show how non-stochastic GD with a modified loss function may emulate
+    SGD.
     %
     %-----------------  mention of experiments  -------------------------------
     %
@@ -246,11 +243,9 @@
     %-----------------  object of study  --------------------------------------
 
     Practitioners benefit from the intuition that SGD approximates noiseless
-    GD \cite{bo91}.  In this paper, we refine that intuition to account for
-    gradient noise.  We will find that gradient noise \emph{biases} learning
-    toward certain areas of weight space. \
-    %Our main contribution is to present a framework for analyzing this bias.
-    %\emph{How does gradient noise bias learning?}.  
+    GD \cite{bo91}.  In this paper, we refine that intuition by showing
+    how gradient noise \emph{biases} learning toward certain areas of weight
+    space.
     
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Concrete Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -258,45 +253,101 @@
     %-----------------  vs ODE and SDE  ---------------------------------------
 
     Departing from prior work, we model discrete time and hence non-Gaussian
-    noise.  Indeed, we give the finite-time, finite-learning-rate corrections
-    to continuous-time approximations such as ordinary and stochastic
-    differential equations (ODE, SDE).  
-    %
-    %-----------------  hyperparameter effects  -------------------------------
-    %
-    We thus quantify how epoch number and batch size affect test loss.
-    %
-    %-----------------  two novel regularizers  -------------------------------
-    %
-    Our theory of noise recommends two novel regularizers that respectively
-    induce GD to mimic SGD and help to tune hyperparameters such as $l_2$
-    coefficients.
-    %
+    noise.  Indeed, we derive corrections to continuous-time, Gaussian-noise
+    approximations such as ordinary and stochastic differential equations (ODE,
+    SDE).
+    For example, we construct a loss landscape on which SGD eternally cycles
+    counterclockwise, a phenomenon impossible with ODEs. 
     %-----------------  experiments  ------------------------------------------
     %
-    We prove our predictions for small learning rates, and our experiments (on
-    loss landscapes such as CIFAR-10 convnets; details in Appendix
-    \ref{sect:landscape}) show that even a single evaluation of our force laws
-    suffices to predict SGD's motion through macroscopic timescales, e.g. long
-    enough to decrease error by $0.5$ percentage points.
+    Our experiments on image classifiers show that even a single evaluation of
+    our force laws may predict SGD's motion through macroscopic timescales,
+    e.g.\ long enough to decrease error by $0.5$ percentage points.
 
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Soft Benefits: Physical Intuition and Further Applications  ~~~
 
     %-----------------  retrospective  ----------------------------------------
 
-    Our novel formalism offers qualitative insight, as well: we interpret SGD
-    as a superposition of several concurrent interactions between weights an
-    data, each represented by a diagram that echoes the visual schemata of
-    \citet{fe49, pe71}.  FILL IN
+    Our work offers a novel interpretation of SGD as a superposition of
+    concurrent interactions between weights an data, each represented by a
+    diagram analogous to those of \citet{fe49, pe71}.
     %
     %-----------------  prospective  ------------------------------------------
     %
-    In short, we present a general tool for studying stochastic optimization,
-    especially on short timescales.  Our conclusion discusses Hessian methods
-    and natural GD as topics for future.
+    In the conclusion, we discuss this bridge to physics --- and its relation
+    to Hessian methods and natural GD --- as topics for future research.
 
-    \subsection{Overview of the perturbative approach}
+    \subsection{Example of diagram-based reasoning}
+        Our theory expresses SGD dynamics in terms of combinatorial objects we
+        call \emph{diagrams}.  Deferring formal details to the following
+        sections, we present a sample computation to illustrate how, by
+        encoding tensors as diagrams, our theory yields non-trivial results via
+        short arguments. 
+        
+        \newcommand{\nb} { \nabla }
+        \newcommand{\lx} { l_x(\theta) }
+        \newcommand{\teq} { \triangleq }
+        \newcommand{\ex}[1] { \expc_x\wasq{ #1 } }
+
+        First, we establish a dictionary between components of diagrams and 
+        statistics of the loss landscape:
+        \begin{table}[h]\centering
+            \begin{tabular}{ccc}
+                $G \teq \ex{\nb\lx}       \teq \sdia{(0-1)(01)}           $ &                                                         \\
+                $H \teq \ex{\nb\nb\lx}    \teq \sdia{(0-1-2)(02-12)}      $ & $C \teq \ex{(\nb\lx - G)^2} \teq \sdia{c(01)(01)}     $ \\
+                $J \teq \ex{\nb\nb\nb\lx} \teq \sdia{(0-1-2-3)(03-13-23)} $ & $S \teq \ex{(\nb\lx - G)^3} \teq \sdia{c(012)(01-12)} $ 
+            \end{tabular}
+            \caption{
+                {\bf Notation}.
+                Throughout, $G, H, J$ denote the first, second, and third
+                derivatives of the loss function.  We write $C, S$ for the
+                second and third cumulants of the gradient distribution.  We
+                differentiate w.r.t.\ the weight $\theta$ and we take
+                expectations w.r.t.\ the datapoints $x$.  Note: the tensors $J,
+                S$ have three indices.
+                %
+                In the diagram notation, each $l_x$ corresponds to a node, 
+                each $\nabla$ corresponds to a thin edge from that node, and
+                the fuzzy ties connect the nodes whose $l_x$'s occur within the
+                same expectation.
+            }
+        \end{table}
+
+        \emph{How does non-Gaussian gradient noise affect test loss?}
+        For simplicity, consider SGD initialized at a minimum $\theta_0$ of
+        test loss and run for $1$ epoch ($T$ steps) with batch size $1$.  When
+        the gradients have a Gaussian distribution, $S=0$.  Our theory shows
+        how to compute the leading-order effect of $S$ on test loss.  First, we
+        identify the smallest diagram containing $S$: in this case,
+        $\sdia{c(012-3)(03-13-23)}$
+        %--- then evaluate the diagram as
+        %$$
+        %    S
+        %    \wrap{
+        %        \int_{0 \leq t < T} 
+        %            \exp\wrap{ t
+        %                ((I - \eta H)^{\otimes 3} - I^{\otimes 3})
+        %            }
+        %    }
+        %    J
+        %$$
+        Then, we evaluate the diagram.  If we work in a basis that diagonalizes
+        $\eta H$, the diagram evaluates to:
+        $$
+            \sum_{\mu\nu\lambda}
+                S_{\mu\nu\lambda}
+                \frac{
+                    1 - \exp(-T\eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda}))
+                }{
+                    \eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda})
+                }
+                J_{\mu\nu\lambda}
+        $$
+
+        \emph{How does heterogeneous gradient noise affect learning?}
+
+    \subsection{Informal overview of the perturbative approach}
 
         Consider running SGD on $N$ training points for $T$ steps with learning
         rate $\eta$, starting at a weight $\theta_0$.  Our method expresses the
@@ -444,11 +495,11 @@
                 =
             \eta^2 \frac{\nabla\wrap{GG+C}}{2} G
         $$
-        The rule is that nodes in the same fuzzy-tie connected component occur
-        in the same expectation brackets.  Since fuzzy ties depict
-        correlations, we demand that each concretization of a diagram sends any
-        two fuzzily-tied nodes to pairs $(n,t), (n, t^\prime)$ that share a
-        training point index $n$.
+        The rule is that two nodes connected by a fuzzy tie occur in the same
+        expectation brackets.  Since fuzzy ties depict correlations, we demand
+        that each embedding of a diagram sends any two nodes that are connected
+        by a fuzzy tie to pairs $(n,t), (n, t^\prime)$ that share a training
+        point index $n$.
 
         \begin{exm} \label{exm:sgdvs}
             When $N=T$, then singleton-batch SGD permits permits no
@@ -485,9 +536,8 @@
         diagrams, to arbitrary $T$.  In principle, one could avoid diagrams
         completely by direct use of our Key Lemma (stated in the Appendix).
         However, as shown in the Appendix, counting embeddings of diagrams
-        streamlines calculation, yielding arguments $4$ times shorter and
-        arguably more illuminating than direct calculation.  The more
-        complicated the computation, the greater the savings from diagrams.
+        streamlines calculation, yielding shorter and more interpretable
+        arguments compared to direct calculation.
 
 %==============================================================================
 %=====  BACKGROUND AND NOTATION  ==============================================
@@ -502,6 +552,11 @@
 
         %-------------  the landscape  ----------------------------------------
 
+        We henceforth fix a space $\Mm$ of weights, on which a loss function 
+        $l:\Mm\to\RR$ is defined.  In stochastic optimization, we train on 
+        unbiased estimates of $l$ instead of $l$ itself.  We fix a probability
+        distribution of these estimates.
+        We assume as given  
         We henceforth fix a loss landscape on a weight space $\Mm$, i.e. a
         distribution over smooth functions $l_n:\Mm\to\RR$ whose mean we call
         $l$.  We refer both to $n$ and to $l_n$ as \emph{datapoints}.  We
@@ -510,7 +565,7 @@
 
         %-------------  specialization to a common case  ----------------------
 
-        For example, these conditions admit $\tanh$ networks with cross entropy
+        For example, our theory applies to $\tanh$ networks with cross entropy
         loss on bounded data --- and with arbitrary weight sharing, skip
         connections, soft attention, dropout, and weight decay.
         
@@ -520,8 +575,9 @@
     \subsection{Tensor conventions}
         We write $G_\mu, H_{\mu\nu}, J_{\mu\nu\lambda}$ for the first, second,
         and third derivatives of $l$ and $C_{\mu \nu}$ for the covariance of
-        gradients.  By convention, we implicitly sum repeated Greek indices:
-        if $A_\mu, B^\mu$ are the coefficients of a covector $A$ and a vector
+        gradients.  Adopting the Einstein summation convention, we implicitly
+        sum repeated Greek indices: if $A_\mu, B^\mu$ are the coefficients of a
+        covector $A$ and a vector
         $B$\footnote{
             Vectors/covectors are also called column/row vectors.
         }, indexed by basis elements $\mu$, then
@@ -586,6 +642,7 @@
         We write $l_t$ for the loss $\frac{1}{B}\sum_\Bb\cdots$ on the $t$th
         batch. 
         %
+        {\color{red} no VANILLA!}  
         The cases $B=1$ and $B=N$ we call \emph{pure SGD} and \emph{pure GD}.
         The $M=1$ case of pure SGD we call \emph{vanilla SGD}.
 
@@ -595,11 +652,11 @@
     \subsection{Diagrams and embeddings}
 
         \begin{defn}[Diagrams] \label{dfn:diagrams}
-            A diagram is a finite rooted tree equipped with a partition of its
-            nodes.  We draw the tree using \emph{thin edges}.  By convention,
+            A \emph{diagram} is a finite rooted tree equipped with a partition of its
+            nodes.  We draw the tree using thin edges.  By convention,
             we draw each node to the right of its children; the root is thus
             always rightmost.  We draw the partition by connecting the nodes
-            within each part via \emph{fuzzy ties}.  For example,
+            within each part via fuzzy ties.  For example,
             $\sdia{(012-3)(03-13-23)}$ has $2$ parts.
             %
             We insist on using as few fuzzy ties as possible so that, if $d$
@@ -647,11 +704,11 @@
         \end{defn}
 
         \begin{defn}[Embedding a Diagram into Spacetime]
-            An embedding of a diagram into a spacetime is an assignment of that
-            diagram's non-root nodes to pairs $(n,t)$ such that each node
-            occurs at a time $t^\prime$ strictly after each of its children and
-            such that two nodes occupy the same row $n$ if and only if they
-            inhabit the same part of $D$'s partition.
+            An \emph{embedding} of a diagram into a spacetime is an assignment
+            of that diagram's non-root nodes to pairs $(n,t)$ such that each
+            node occurs at a time $t^\prime$ strictly after each of its
+            children and such that two nodes occupy the same row $n$ if and
+            only if they inhabit the same part of $D$'s partition.
         \end{defn}
 
         \begin{defn}[Fuzzy Outlines Denote Noise's Net Effect]
@@ -1507,8 +1564,9 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    We presented an elegant diagram-based framework for studying short-time
-    SGD.  Theorem \ref{thm:resum} justifies long-time predictions of SGD's
+    We present a diagram-based method for studying stochastic optimization
+    on short timescales.
+    Theorem \ref{thm:resum} justifies long-time predictions of SGD's
     dynamics near minima.  Our theory answers the following questions.
 
     \textbf{Which Minima Overfit Less?}
@@ -1526,8 +1584,8 @@
     nonconstant, nonisotropic covariance to reveal that SGD descends on a loss
     landscape smoothed by the \emph{current} covariance $C$.  In particular,
     SGD moves toward regions flat with respect to $C$.  As $C$ evolves, the
-    smoothing mask and thus the effective landscape evolves.  This dynamics is
-    generically nonconservative.  In contrast to \citet{ch18}'s SDE
+    smoothing mask and thus the effective landscape evolves.  These dynamics
+    are generically nonconservative.  In contrast to \citet{ch18}'s SDE
     approximation, SGD does not generically converge to a limit cycle. 
 
     \textbf{Can GD Emulate SGD?}
