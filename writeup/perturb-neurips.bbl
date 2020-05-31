@@ -1,4 +1,4 @@
-\begin{thebibliography}{44}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -6,242 +6,232 @@
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
 \bibitem[Absil et~al.(2007)Absil, Mahony, and Sepulchre]{ab07}
-Absil, P.-A., Mahony, R., and Sepulchre, R.
+P.-A. Absil, R.~Mahony, and R.~Sepulchre.
 \newblock Optimization algorithms on matrix manifolds, chapter 4.
 \newblock \emph{Princeton University Press}, 2007.
 
 \bibitem[Amari(1998)]{am98}
-Amari, S.-I.
+S.-I. Amari.
 \newblock Natural gradient works efficiently.
 \newblock \emph{Neural Computation}, 1998.
 
-\bibitem[Bartlett et~al.(2005)Bartlett, Bousquet, and Mendelson]{ba05}
-Bartlett, P., Bousquet, O., and Mendelson, S.
-\newblock Local rademacher complexities.
-\newblock \emph{Annals of Statistics}, 2005.
-
 \bibitem[Bartlett et~al.(2017)Bartlett, Foster, and Telgarsky]{ba17}
-Bartlett, P., Foster, D., and Telgarsky, M.
+P.L. Bartlett, D.J. Foster, and M.J. Telgarsky.
 \newblock Spectrally-normalized margin bounds for neural networks.
 \newblock \emph{NeurIPS}, 2017.
 
 \bibitem[Bonnabel(2013)]{bo13}
-Bonnabel, S.
+S.~Bonnabel.
 \newblock Stochastic gradient descent on riemannian manifolds.
 \newblock \emph{IEEE Transactions on Automatic Control}, 2013.
 
 \bibitem[Bottou(1991)]{bo91}
-Bottou, L.
+L.~Bottou.
 \newblock Stochastic gradient learning in neural networks.
 \newblock \emph{Neuro-N\^imes}, 1991.
 
 \bibitem[Cauchy(1847)]{ca47}
-Cauchy, A.-L.
+A.-L. Cauchy.
 \newblock M\'ethode g\'en\'erale pour la r\'esolution des syst\'emes
   d'\'equations simultan\'ees.
 \newblock \emph{Comptes rendus de l'Acad\'emie des Sciences}, 1847.
 
-\bibitem[Chaudhari \& Soatto(2018)Chaudhari and Soatto]{ch18}
-Chaudhari, P. and Soatto, S.
+\bibitem[Chaudhari and Soatto(2018)]{ch18}
+P.~Chaudhari and S.~Soatto.
 \newblock Stochastic gradient descent performs variational inference, converges
   to limit cycles for deep networks.
 \newblock \emph{ICLR}, 2018.
 
 \bibitem[Dinh et~al.(2017)Dinh, Pascanu, Bengio, and Bengio]{di17}
-Dinh, L., Pascanu, R., Bengio, S., and Bengio, Y.
+Laurent Dinh, R.~Pascanu, S.~Bengio, and Y.~Bengio.
 \newblock Sharp minima can generalize for deep nets.
 \newblock \emph{ICLR}, 2017.
 
-\bibitem[Dixon \& Ward(2018)Dixon and Ward]{di18}
-Dixon, M. and Ward, T.
+\bibitem[Dixon and Ward(2018)]{di18}
+M.F. Dixon and T.~Ward.
 \newblock Takeuchi's information criteria as a form of regularization.
 \newblock \emph{Arxiv Preprint}, 2018.
 
-\bibitem[Dyer \& Gur-Ari(2019)Dyer and Gur-Ari]{dy19}
-Dyer, E. and Gur-Ari, G.
+\bibitem[Dyer and Gur-Ari(2019)]{dy19}
+E.~Dyer and G.~Gur-Ari.
 \newblock Asymptotics of wide networks from feynman diagrams.
 \newblock \emph{ICML Workshop}, 2019.
 
 \bibitem[Feynman(1949)]{fe49}
-Feynman, R.
+R.P. Feynman.
 \newblock A space-time appxoach to quantum electrodynamics.
 \newblock \emph{Physical Review}, 1949.
 
 \bibitem[Finn et~al.(2017)Finn, Abbeel, and Levine]{fi17}
-Finn, C., Abbeel, P., and Levine, S.
+C.~Finn, P.~Abbeel, and S.~Levine.
 \newblock Model-agnostic meta-learning for fast adaptation of deep networks.
 \newblock \emph{ICML}, 2017.
 
 \bibitem[Goyal et~al.(2018)Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski,
   Kyrola, Tulloch, Jia, and He]{go18}
-Goyal, P., Doll\'{a}r, P., Girshick, R., Noordhuis, P., Wesolowski, L., Kyrola,
-  A., Tulloch, A., Jia, Y., and He, K.
+P.~Goyal, P.~Doll\'{a}r, R.~Girshick, P.~Noordhuis, L.~Wesolowski, A.~Kyrola,
+  A.~Tulloch, Yangqing Jia, and Kaiming He.
 \newblock Accurate, large minibatch sgd.
 \newblock \emph{Data @ Scale}, 2018.
 
 \bibitem[Hoffer et~al.(2017)Hoffer, Hubara, and Soudry]{ho17}
-Hoffer, E., Hubara, I., and Soudry, D.
+E.~Hoffer, I.~Hubara, and D.~Soudry.
 \newblock Train longer, generalize better.
 \newblock \emph{NeurIPS}, 2017.
 
 \bibitem[Jastrz\k{e}bski et~al.(2018)Jastrz\k{e}bski, Kenton, Arpit, Ballas,
   Fischer, Bengio, and Storkey]{ja18}
-Jastrz\k{e}bski, S., Kenton, Z., Arpit, D., Ballas, N., Fischer, A., Bengio,
-  Y., and Storkey, A.
+S.~Jastrz\k{e}bski, Z.~Kenton, D.~Arpit, N.~Ballas, A.~Fischer, Y.~Bengio, and
+  A.~Storkey.
 \newblock Three factors influencing minima in sgd.
 \newblock \emph{Arxiv Preprint}, 2018.
 
 \bibitem[Keskar et~al.(2017)Keskar, Mudigere, Nocedal, Smelyanskiy, and
   Tang]{ke17}
-Keskar, N., Mudigere, D., Nocedal, J., Smelyanskiy, M., and Tang, P.
+N.S. Keskar, D.~Mudigere, J.~Nocedal, M.~Smelyanskiy, and P.T.P. Tang.
 \newblock On large-batch training for deep learning: Generalization gap and
   sharp minima.
 \newblock \emph{ICLR}, 2017.
 
-\bibitem[Kiefer \& Wolfowitz(1952)Kiefer and Wolfowitz]{ki52}
-Kiefer, J. and Wolfowitz, J.
+\bibitem[Kiefer and Wolfowitz(1952)]{ki52}
+J.~Kiefer and J.~Wolfowitz.
 \newblock Stochastic estimation of the maximum of a regression function.
 \newblock \emph{Annals of Mathematical Statistics}, 1952.
 
 \bibitem[Kunstner et~al.(2019)Kunstner, Hennig, and Balles]{ku19}
-Kunstner, F., Hennig, P., and Balles, L.
+F.~Kunstner, P.~Hennig, and L.~Balles.
 \newblock Limitations of the empirical fisher approximation for natural
   gradient descent.
 \newblock \emph{NeurIPS}, 2019.
 
-\bibitem[Landau \& Lifshitz(1951)Landau and Lifshitz]{la51}
-Landau, L. and Lifshitz, E.
+\bibitem[Landau and Lifshitz(1951)]{la51}
+L.D. Landau and E.M. Lifshitz.
 \newblock The classical theory of fields.
 \newblock \emph{Addison-Wesley}, 1951.
 
-\bibitem[Landau \& Lifshitz(1960)Landau and Lifshitz]{la60}
-Landau, L. and Lifshitz, E.
+\bibitem[Landau and Lifshitz(1960)]{la60}
+L.D. Landau and E.M. Lifshitz.
 \newblock Mechanics.
 \newblock \emph{Pergamon Press}, 1960.
 
 \bibitem[LeCun et~al.(2015)LeCun, Bengio, and Hinton]{le15}
-LeCun, Y., Bengio, Y., and Hinton, G.
+Y.~LeCun, Y.~Bengio, and G.~Hinton.
 \newblock Deep learning.
 \newblock \emph{Nature}, 2015.
 
 \bibitem[Li et~al.(2017)Li, Tai, and E]{li17}
-Li, Q., Tai, C., and E, W.
+Qianxiao Li, Cheng Tai, and Weinan E.
 \newblock Stochastic modified equations and adaptive stochastic gradient
   algorithms i.
 \newblock \emph{PMLR}, 2017.
 
 \bibitem[Liao et~al.(2018)Liao, Miranda, Banburski, Hidary, and Poggio]{li18}
-Liao, Q., Miranda, B., Banburski, A., Hidary, J., and Poggio, T.
+Qianli Liao, B.~Miranda, A.~Banburski, J.~Hidary, and T.~Poggio.
 \newblock A surprising linear relationship predicts test performance in deep
   networks.
 \newblock \emph{Center for Brains, Minds, and Machines Memo 91}, 2018.
 
-\bibitem[Nesterov(2004)]{ne04}
-Nesterov, Y.
-\newblock Lectures on convex optimization: Minimization of smooth functions.
-\newblock \emph{Springer Applied Optimization 87, Section 2.1}, 2004.
-
 \bibitem[Neyshabur et~al.(2017{\natexlab{a}})Neyshabur, Bhojanapalli,
   McAllester, and Srebro]{ne17a}
-Neyshabur, B., Bhojanapalli, S., McAllester, D., and Srebro, N.
+B.~Neyshabur, S.~Bhojanapalli, D.~McAllester, and N.~Srebro.
 \newblock Exploring generalization in deep learning.
 \newblock \emph{NeurIPS}, 2017{\natexlab{a}}.
 
 \bibitem[Neyshabur et~al.(2017{\natexlab{b}})Neyshabur, Tomioka, Salakhutdinov,
   and Srebro]{ne17b}
-Neyshabur, B., Tomioka, R., Salakhutdinov, R., and Srebro, N.
+B.~Neyshabur, R.~Tomioka, R.~Salakhutdinov, and N.~Srebro.
 \newblock Geometry of optimization and implicit regularization in deep
   learning.
 \newblock \emph{Chapter 4 from Intel CRI-CI: Why and When Deep Learning Works
   Compendium}, 2017{\natexlab{b}}.
 
-\bibitem[Nickel \& Kiela(2017)Nickel and Kiela]{ni17}
-Nickel, M. and Kiela, D.
+\bibitem[Nickel and Kiela(2017)]{ni17}
+M.~Nickel and D.~Kiela.
 \newblock Poincar\'e embeddings for learning hierarchical representations.
 \newblock \emph{ICML}, 2017.
 
 \bibitem[Niu et~al.(2011)Niu, Recht, R\'e, and Wright]{ni11}
-Niu, F., Recht, B., R\'e, C., and Wright, S.
+Feng Niu, B.~Recht, C.~R\'e, and S.J. Wright.
 \newblock Hogwild!: A lock-free approach to parallelizing stochastic gradient
   descent.
 \newblock \emph{NeurIPS}, 2011.
 
 \bibitem[Penrose(1971)]{pe71}
-Penrose, R.
+R.~Penrose.
 \newblock Applications of negative dimensional tensors.
 \newblock \emph{Combinatorial Mathematics and its Applications}, 1971.
 
-\bibitem[Robbins \& Monro(1951)Robbins and Monro]{ro51}
-Robbins, H. and Monro, S.
+\bibitem[Robbins and Monro(1951)]{ro51}
+H.~Robbins and S.~Monro.
 \newblock A stochastic approximation method.
 \newblock \emph{Pages 400-407 of The Annals of Mathematical Statistics.}, 1951.
 
 \bibitem[Roberts(2018)]{ro18}
-Roberts, D.
+D.A. Roberts.
 \newblock Sgd implicitly regularizes generalization error.
 \newblock \emph{NeurIPS: Integration of Deep Learning Theories Workshop}, 2018.
 
 \bibitem[Rota(1964)]{ro64}
-Rota, G.-C.
+G.-C. Rota.
 \newblock Theory of m\"obius functions.
 \newblock \emph{Zeitschrift f\"ur Wahrscheinlichkeitstheoriei und Verwandte
   Gebiete}, 1964.
 
 \bibitem[Roux et~al.(2012)Roux, Bengio, and Fitzgibbon]{ro12}
-Roux, N., Bengio, Y., and Fitzgibbon, A.
+N.L. Roux, Y.~Bengio, and A.~Fitzgibbon.
 \newblock Improving first and second-order methods by modeling uncertainty.
 \newblock \emph{Book Chapter: Optimization for Machine Learning, Chapter 15},
   2012.
 
 \bibitem[Stein(1956)]{st56}
-Stein, C.
+C.~Stein.
 \newblock Inadmissibility of the usual estimator for the mean of a multivariate
   normal distribution.
 \newblock \emph{Berkeley Symposium on Mathematical Probability}, 1956.
 
 \bibitem[Strubell et~al.(2019)Strubell, Ganesh, and McCallum]{st19}
-Strubell, E., Ganesh, A., and McCallum, A.
+E.~Strubell, A.~Ganesh, and A.~McCallum.
 \newblock Energy and policy considerations for deep learning in nlp.
 \newblock \emph{ACL}, 2019.
 
 \bibitem[Wang et~al.(2018)Wang, Keskar, Xiong, and Socher]{wa18}
-Wang, H., Keskar, N., Xiong, C., and Socher, R.
+Huan Wang, N.S. Keskar, Caiming Xiong, and R.~Socher.
 \newblock Identifying generalization properties in neural networks.
 \newblock \emph{Arxiv Preprint}, 2018.
 
-\bibitem[Wei \& Schwab(2019)Wei and Schwab]{we19b}
-Wei, M. and Schwab, D.
+\bibitem[Wei and Schwab(2019)]{we19b}
+Mingwei Wei and D.J. Schwab.
 \newblock How noise affects the hessian spectrum in overparameterized neural
   networks.
 \newblock \emph{Arxiv Preprint}, 2019.
 
 \bibitem[Werbos(1974)]{we74}
-Werbos, P.
+P.~Werbos.
 \newblock Beyond regression: New tools for prediction and analysis.
 \newblock \emph{Harvard Thesis}, 1974.
 
 \bibitem[Wu et~al.(2018)Wu, Ma, and E]{wu18}
-Wu, L., Ma, C., and E, W.
+Lei Wu, Chao Ma, and Weinan E.
 \newblock How sgd selects the global minima in over-parameterized learning.
 \newblock \emph{NeurIPS}, 2018.
 
 \bibitem[Yaida(2019{\natexlab{a}})]{ya19a}
-Yaida, S.
+Sho Yaida.
 \newblock Fluctuation-dissipation relations for stochastic gradient descent.
 \newblock \emph{ICLR}, 2019{\natexlab{a}}.
 
 \bibitem[Yaida(2019{\natexlab{b}})]{ya19b}
-Yaida, S.
+Sho Yaida.
 \newblock A first law of thermodynamics for stochastic gradient descent.
 \newblock \emph{Personal Communication}, 2019{\natexlab{b}}.
 
 \bibitem[Zhang et~al.(2017)Zhang, Bengio, Hardt, Recht, and Vinyals]{zh17}
-Zhang, C., Bengio, S., Hardt, M., Recht, B., and Vinyals, O.
+Chiyuan Zhang, S.~Bengio, M.~Hardt, B.~Recht, and O.~Vinyals.
 \newblock Understanding deep learning requires rethinking generalization.
 \newblock \emph{ICLR}, 2017.
 
 \bibitem[Zhang et~al.(2016)Zhang, Reddi, and Sra]{zh16}
-Zhang, H., Reddi, S., and Sra, S.
+Hongyi Zhang, S.J. Reddi, and S.~Sra.
 \newblock Fast stochastic optimization on riemannian manifolds.
 \newblock \emph{NeurIPS}, 2016.
 

@@ -1,0 +1,193 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{bo91}
+\citation{fe49,pe71}
+\providecommand {\FN@pp@footnotehinttrue }{}
+\providecommand {\FN@pp@footnote@aux }[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Example of diagram-based reasoning}{2}{subsection.1.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  {\bf  Notation}. Throughout, $G, H, J$ denote the $1$st, $2$nd, and $3$rd derivatives of the loss function. We write $C, S$ for the $2$nd and $3$rd cumulants of the gradient distribution. We differentiate w.r.t.\ the weight $\theta $ and we take expectations w.r.t.\ the datapoints $x$. Note: the tensors $J, S$ have three indices. Each $\nabla ^d l_x$ corresponds to a node with $d$ thin edges emanating, and fuzzy outlines connect nodes that occur within the same expectation. }}{2}{table.1}}
+\newlabel{tbl:notation}{{1}{2}{{\bf Notation}. Throughout, $G, H, J$ denote the $1$st, $2$nd, and $3$rd derivatives of the loss function. We write $C, S$ for the $2$nd and $3$rd cumulants of the gradient distribution. We differentiate w.r.t.\ the weight $\theta $ and we take expectations w.r.t.\ the datapoints $x$. Note: the tensors $J, S$ have three indices. Each $\nabla ^d l_x$ corresponds to a node with $d$ thin edges emanating, and fuzzy outlines connect nodes that occur within the same expectation}{table.1}{}}
+\FN@pp@footnote@aux{1}{2}
+\newlabel{lbl:notation}{{1.1}{2}{Example of diagram-based reasoning}{table.1}{}}
+\newlabel{exm:first}{{1}{2}{How does non-Gaussian noise affect test loss?}{exm.1}{}}
+\FN@pp@footnote@aux{2}{2}
+\citation{bo13}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background and Notation}{3}{section.2}}
+\newlabel{sect:background}{{2}{3}{Background and Notation}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Loss landscape}{3}{subsection.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Tensor conventions}{3}{subsection.2.2}}
+\FN@pp@footnote@aux{3}{3}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}SGD terminology}{3}{subsection.2.3}}
+\FN@pp@footnote@aux{4}{3}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Diagrams and embeddings}{4}{subsection.2.4}}
+\newlabel{dfn:diagrams}{{1}{4}{Diagrams}{defn.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  {\bf  Diagrams in Spacetime Depict SGD's Subprocesses.} Two spacetimes with $N=8, T=16$. {\bf  Left}: Batchsize $B=1$ with inter-epoch shuffling. Embeddings, legal and illegal, of $\sizeddia {(01-2)(01-12)}{0.10}$, $\sizeddia {(01-2)(01-12)}{0.10}$, and $\sizeddia {(0-1-2)(01-12)}{0.10}$. {\bf  Right}: Batchsize $B=2$ without inter-epoch shuffling. Interpretation of an order $\eta ^4$ diagram embedding. }}{4}{figure.1}}
+\newlabel{fig:spacetimes}{{1}{4}{{\bf Diagrams in Spacetime Depict SGD's Subprocesses.} Two spacetimes with $N=8, T=16$. {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. Embeddings, legal and illegal, of $\sdia {(01-2)(01-12)}$, $\sdia {(01-2)(01-12)}$, and $\sdia {(0-1-2)(01-12)}$. {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. Interpretation of an order $\eta ^4$ diagram embedding}{figure.1}{}}
+\citation{ro64}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Diagram Calculus for SGD}{5}{section.3}}
+\newlabel{sect:calculus}{{3}{5}{Diagram Calculus for SGD}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Recipe for SGD's expected test loss}{5}{subsection.3.1}}
+\newlabel{thm:resum}{{1}{5}{Test Loss as a Path Integral}{thm.1}{}}
+\newlabel{eq:resum}{{1}{6}{Test Loss as a Path Integral}{thm.1}{}}
+\newlabel{thm:converge}{{2}{6}{Long-Term Behavior at a Local Minimum}{thm.2}{}}
+\newlabel{rmk:unresum}{{3}{6}{Using Un-resummed Values}{rmk.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Single-Epoch, Singleton-Batch SGD}{6}{subsection.3.2}}
+\newlabel{prop:vanilla}{{1}{6}{}{prop.1}{}}
+\newlabel{eq:sgdbasiccoef}{{1}{6}{}{prop.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces  {\bf  Degree-$3$ diagrams for $B=M=1$ SGD's test loss}. The $6$ diagrams have $(4+2)+(2+2+3)+(1)$ total orderings relevant to Proposition \ref  {prop:vanilla}. {\bf  Left:} $(d,c)=(3,0)$. Diagrams for ODE behavior. {\bf  Center:} $(d,c)=(3,1)$. $1$st order deviation of SGD away from ODE. {\bf  Right:} $(d,c)=(3,2)$. $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{7}{table.2}}
+\newlabel{tab:scatthree}{{2}{7}{{\bf Degree-$3$ diagrams for $B=M=1$ SGD's test loss}. The $6$ diagrams have $(4+2)+(2+2+3)+(1)$ total orderings relevant to Proposition \ref {prop:vanilla}. {\bf Left:} $(d,c)=(3,0)$. Diagrams for ODE behavior. {\bf Center:} $(d,c)=(3,1)$. $1$st order deviation of SGD away from ODE. {\bf Right:} $(d,c)=(3,2)$. $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics}{table.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Insights from the Formalism}{7}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}SGD descends on a $C$-smoothed landscape}{7}{subsection.4.1}}
+\newlabel{cor:entropic}{{1}{7}{Minima flat w.r.t. $C$ attract SGD}{cor.1}{}}
+\FN@pp@footnote@aux{5}{7}
+\citation{ya19b}
+\citation{we19b}
+\citation{we19b}
+\citation{we19b}
+\citation{li18}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Curvature controls overfitting}{8}{subsection.4.2}}
+\newlabel{subsect:curvature-and-overfitting}{{4.2}{8}{Curvature controls overfitting}{subsection.4.2}{}}
+\newlabel{cor:overfit}{{2}{8}{Flat, Sharp Minima Overfit Less}{cor.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Effects of epochs and of batch size}{8}{subsection.4.3}}
+\newlabel{subsect:epochs-batch}{{4.3}{8}{Effects of epochs and of batch size}{subsection.4.3}{}}
+\newlabel{cor:epochs}{{3}{8}{Epoch Number}{cor.3}{}}
+\newlabel{cor:batch}{{4}{8}{Batch Size}{cor.4}{}}
+\citation{ch18}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\bf  Re-summation reveals novel phenomena.} {\bf  Left}: The entropic force mechanism: gradient noise induces a flow toward minima \emph  {with respect to to the covariance}. Though our analysis assumes neither thermal equilibrium nor fast-slow mode separation, we label ``fast and slow directions'' to ease comparison with \citet  {we19b}. Here, red densities denote the spread predicted by a re-summed $C^{\mu \nu }$, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf  Right}: Noise structure determines how curvature affects overfitting. Geometrically, for (empirical risk minimization on) a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref  {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows. }}{9}{figure.2}}
+\newlabel{fig:cubicandspring}{{2}{9}{{\bf Re-summation reveals novel phenomena.} {\bf Left}: The entropic force mechanism: gradient noise induces a flow toward minima \emph {with respect to to the covariance}. Though our analysis assumes neither thermal equilibrium nor fast-slow mode separation, we label ``fast and slow directions'' to ease comparison with \citet {we19b}. Here, red densities denote the spread predicted by a re-summed $C^{\mu \nu }$, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf Right}: Noise structure determines how curvature affects overfitting. Geometrically, for (empirical risk minimization on) a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Non-Gaussian noise affects SGD but not SDE}{9}{subsection.4.4}}
+\newlabel{cor:vsode}{{5}{9}{SGD Differs from ODE, SDE}{cor.5}{}}
+\FN@pp@footnote@aux{6}{9}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{9}{section.5}}
+\citation{ro18}
+\citation{am98}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Basic predictions}{10}{subsection.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  {\bf  Perturbation models SGD for small $\eta T$.} Test loss vs learning rate on a Fashion-MNIST convnet, with un-re-summed predictions. {\bf  Left}: For the instance shown and all $11$ other initializations unshown, our degree-$3$ prediction agrees with experiment through $\eta T \approx 10^0$, which corresponds to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. {\bf  Right}: For larger $\eta T$, our predictions can break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, close agreement with experiment is coincidental. }}{10}{figure.3}}
+\newlabel{fig:vanilla}{{3}{10}{{\bf Perturbation models SGD for small $\eta T$.} Test loss vs learning rate on a Fashion-MNIST convnet, with un-re-summed predictions. {\bf Left}: For the instance shown and all $11$ other initializations unshown, our degree-$3$ prediction agrees with experiment through $\eta T \approx 10^0$, which corresponds to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. {\bf Right}: For larger $\eta T$, our predictions can break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, close agreement with experiment is coincidental}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Emulating small batches with large ones}{10}{subsection.5.2}}
+\FN@pp@footnote@aux{7}{10}
+\citation{ch18}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  {\bf  $C$ controls generalization and distinguishes GD from SGD.} {\bf  Left}: With equal-scaled axes, this plot shows that GDC matches SGD (small vertical variation) better than GD matches SGD (large horizontal variation) in test loss, for a variety of learning rates ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) on logistic and architectures for image classification. Here, $T=10$. {\bf  Right}: CIFAR-10 generalization gaps. For the instance shown and all $11$ other initializations unshown, the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. }}{11}{figure.4}}
+\newlabel{fig:batchandgen}{{4}{11}{{\bf $C$ controls generalization and distinguishes GD from SGD.} {\bf Left}: With equal-scaled axes, this plot shows that GDC matches SGD (small vertical variation) better than GD matches SGD (large horizontal variation) in test loss, for a variety of learning rates ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) on logistic and architectures for image classification. Here, $T=10$. {\bf Right}: CIFAR-10 generalization gaps. For the instance shown and all $11$ other initializations unshown, the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Comparison to continuous time}{11}{subsection.5.3}}
+\newlabel{subsect:gaussfit}{{5.3}{11}{Comparison to continuous time}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Nonconservative entropic force}{11}{subsection.5.4}}
+\newlabel{subsect:entropic}{{5.4}{11}{Nonconservative entropic force}{subsection.5.4}{}}
+\citation{di18}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Sharp and flat minima both overfit less}{12}{subsection.5.5}}
+\newlabel{subsect:overfit}{{5.5}{12}{Sharp and flat minima both overfit less}{subsection.5.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  {\bf  Re-summed predictions excel even for large $\eta T$ for SGD near minima.} {\bf  Left}: On Linear Screw, the persistent entropic force pushes the weight through a valley of global minima not at a $T^{1/2}$ diffusive rate but at a directional $T^1$ rate. Since Hessians and covariances are bounded throughout the valley and the effect appears for all sufficiently small $\eta $, the effect is not a pathological artifact of well-chosen learning rate or divergent covariance noise. The net displacement of $\approx 10^{1.5}$ well exceeds the $z$-period of $2\pi $. {\bf  Right}: For Mean Estimation with fixed covariance and a range of Hessians, initialized at the true minimum, the test losses after fixed-$\eta T$ optimization are smallest for very small and very large curvatures. This evidences our prediction that both sharp and flat minima overfit less and that TIC's singularity is suppressed. }}{12}{figure.5}}
+\newlabel{fig:thermoandtak}{{5}{12}{{\bf Re-summed predictions excel even for large $\eta T$ for SGD near minima.} {\bf Left}: On Linear Screw, the persistent entropic force pushes the weight through a valley of global minima not at a $T^{1/2}$ diffusive rate but at a directional $T^1$ rate. Since Hessians and covariances are bounded throughout the valley and the effect appears for all sufficiently small $\eta $, the effect is not a pathological artifact of well-chosen learning rate or divergent covariance noise. The net displacement of $\approx 10^{1.5}$ well exceeds the $z$-period of $2\pi $. {\bf Right}: For Mean Estimation with fixed covariance and a range of Hessians, initialized at the true minimum, the test losses after fixed-$\eta T$ optimization are smallest for very small and very large curvatures. This evidences our prediction that both sharp and flat minima overfit less and that TIC's singularity is suppressed}{figure.5}{}}
+\citation{ki52}
+\citation{ca47}
+\citation{ro51}
+\citation{we74}
+\citation{bo91}
+\citation{le15}
+\citation{ne17a}
+\citation{ba17}
+\citation{zh17}
+\citation{ne17b}
+\citation{ch18}
+\citation{ya19a}
+\citation{ro18}
+\citation{ja18}
+\citation{li18}
+\citation{ho17}
+\citation{ke17}
+\citation{wa18}
+\citation{st56}
+\citation{di17}
+\citation{wu18}
+\citation{dy19}
+\citation{ch18}
+\citation{li17}
+\citation{am98}
+\citation{ro12,ku19}
+\FN@pp@footnote@aux{8}{13}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Related Work}{13}{section.6}}
+\newlabel{sect:related}{{6}{13}{Related Work}{section.6}{}}
+\citation{ke17,wa18}
+\citation{di17,wu18}
+\citation{we19b}
+\citation{ch18}
+\citation{ro18}
+\citation{bo91}
+\citation{go18}
+\citation{fi17}
+\FN@pp@footnote@aux{9}{14}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{14}{section.7}}
+\newlabel{sect:concl}{{7}{14}{Conclusion}{section.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Consequences}{14}{subsection.7.1}}
+\citation{la60,la51}
+\citation{ab07,zh16}
+\citation{am98}
+\citation{ni17}
+\citation{st19}
+\FN@pp@footnote@aux{10}{15}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Questions}{15}{subsection.7.2}}
+\FN@pp@footnote@aux{11}{15}
+\FN@pp@footnote@aux{12}{15}
+\citation{ni11}
+\bibstyle{plainnat}
+\bibdata{perturb}
+\bibcite{ab07}{{1}{2007}{{Absil et~al.}}{{Absil, Mahony, and Sepulchre}}}
+\bibcite{am98}{{2}{1998}{{Amari}}{{}}}
+\bibcite{ba17}{{3}{2017}{{Bartlett et~al.}}{{Bartlett, Foster, and Telgarsky}}}
+\bibcite{bo13}{{4}{2013}{{Bonnabel}}{{}}}
+\bibcite{bo91}{{5}{1991}{{Bottou}}{{}}}
+\bibcite{ca47}{{6}{1847}{{Cauchy}}{{}}}
+\bibcite{ch18}{{7}{2018}{{Chaudhari and Soatto}}{{}}}
+\bibcite{di17}{{8}{2017}{{Dinh et~al.}}{{Dinh, Pascanu, Bengio, and Bengio}}}
+\bibcite{di18}{{9}{2018}{{Dixon and Ward}}{{}}}
+\bibcite{dy19}{{10}{2019}{{Dyer and Gur-Ari}}{{}}}
+\bibcite{fe49}{{11}{1949}{{Feynman}}{{}}}
+\bibcite{fi17}{{12}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
+\bibcite{go18}{{13}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
+\bibcite{ho17}{{14}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
+\bibcite{ja18}{{15}{2018}{{Jastrz\k {e}bski et~al.}}{{Jastrz\k {e}bski, Kenton, Arpit, Ballas, Fischer, Bengio, and Storkey}}}
+\bibcite{ke17}{{16}{2017}{{Keskar et~al.}}{{Keskar, Mudigere, Nocedal, Smelyanskiy, and Tang}}}
+\bibcite{ki52}{{17}{1952}{{Kiefer and Wolfowitz}}{{}}}
+\bibcite{ku19}{{18}{2019}{{Kunstner et~al.}}{{Kunstner, Hennig, and Balles}}}
+\bibcite{la51}{{19}{1951}{{Landau and Lifshitz}}{{}}}
+\bibcite{la60}{{20}{1960}{{Landau and Lifshitz}}{{}}}
+\bibcite{le15}{{21}{2015}{{LeCun et~al.}}{{LeCun, Bengio, and Hinton}}}
+\bibcite{li17}{{22}{2017}{{Li et~al.}}{{Li, Tai, and E}}}
+\bibcite{li18}{{23}{2018}{{Liao et~al.}}{{Liao, Miranda, Banburski, Hidary, and Poggio}}}
+\bibcite{ne17a}{{24}{2017{a}}{{Neyshabur et~al.}}{{Neyshabur, Bhojanapalli, McAllester, and Srebro}}}
+\bibcite{ne17b}{{25}{2017{b}}{{Neyshabur et~al.}}{{Neyshabur, Tomioka, Salakhutdinov, and Srebro}}}
+\bibcite{ni17}{{26}{2017}{{Nickel and Kiela}}{{}}}
+\bibcite{ni11}{{27}{2011}{{Niu et~al.}}{{Niu, Recht, R\'e, and Wright}}}
+\bibcite{pe71}{{28}{1971}{{Penrose}}{{}}}
+\bibcite{ro51}{{29}{1951}{{Robbins and Monro}}{{}}}
+\bibcite{ro18}{{30}{2018}{{Roberts}}{{}}}
+\bibcite{ro64}{{31}{1964}{{Rota}}{{}}}
+\bibcite{ro12}{{32}{2012}{{Roux et~al.}}{{Roux, Bengio, and Fitzgibbon}}}
+\bibcite{st56}{{33}{1956}{{Stein}}{{}}}
+\bibcite{st19}{{34}{2019}{{Strubell et~al.}}{{Strubell, Ganesh, and McCallum}}}
+\bibcite{wa18}{{35}{2018}{{Wang et~al.}}{{Wang, Keskar, Xiong, and Socher}}}
+\bibcite{we19b}{{36}{2019}{{Wei and Schwab}}{{}}}
+\bibcite{we74}{{37}{1974}{{Werbos}}{{}}}
+\bibcite{wu18}{{38}{2018}{{Wu et~al.}}{{Wu, Ma, and E}}}
+\bibcite{ya19a}{{39}{2019{a}}{{Yaida}}{{}}}
+\bibcite{ya19b}{{40}{2019{b}}{{Yaida}}{{}}}
+\bibcite{zh17}{{41}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
+\bibcite{zh16}{{42}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
+\FN@pp@footnotehinttrue 

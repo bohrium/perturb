@@ -1,6 +1,6 @@
 %   author: samtenka
 %   change: 2020-05-31
-%   create: 2020-04-16
+%   create: 2020-05-31
 %   descrp: LaTeX source for perturb project
 %   to use: compile along with perturb.bib and diagram and plot directories
 
@@ -11,17 +11,19 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Document Styling  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-%---------------------  global style  -----------------------------------------
-
 \documentclass{article}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{microtype}
-%\usepackage{icml2019}
-\usepackage[accepted]{icml2019}
+\usepackage{microtype}      
+
+%\usepackage[nonatbib]{neurips_2020}
+\usepackage{natbib}
+%\usepackage[final]{neurips_2020}
 
 %---------------------  mathematics  ------------------------------------------
 
-\usepackage{amsmath, amssymb, amsthm, mathtools}
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+\usepackage{mathtools, nicefrac}
 
 %---------------------  tables  ----------------------------------------------- 
 
@@ -34,11 +36,6 @@
 \usepackage{graphicx}
 \usepackage{float, subfigure}
 \usepackage{hanging, txfonts, ifthen}
-
-%\addtolength{\textfloatsep}    {-5mm}
-%\addtolength{\dbltextfloatsep} {-5mm}
-%\addtolength{\abovecaptionskip}{-5mm}
-%\addtolength{\belowcaptionskip}{-5mm}
 
 %---------------------  colors  -----------------------------------------------
 
@@ -54,7 +51,11 @@
 %---------------------  intertext: footnotes and hyperlinks  ------------------ 
 
 \usepackage[perpage]{footmisc}
-\renewcommand*{\thefootnote}{\color{red}\fnsymbol{footnote}} 
+\renewcommand*{\thefootnote}{
+    \color{red}
+    \arabic{footnote}
+    %\fnsymbol{footnote}
+} 
 
 \usepackage{hyperref}
 
@@ -174,8 +175,6 @@
 
 \newcommand{\mend}{\hfill $\Diamond$}
 
-\begin{document}
-
 %==============================================================================
 %=====  FRONT MATTER  =========================================================
 %==============================================================================
@@ -183,57 +182,47 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Title and Author  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-%---------------------  small title at top of each page  ----------------------
+\title{%
+    A Space-Time Approach to Analyzing Stochastic Gradient Descent
+}
 
-\icmltitlerunning{A Space-Time Approach to Analyzing Stochastic Gradient Descent}
+\author{%
+    Samuel C.~Tenka \\
+    Computer Science and AI Lab \\
+    Massachusetts Institute of Technology \\
+    Cambridge, MA 02139 \\
+    \texttt{colimit@mit.edu}
+}
 
-\twocolumn[
-    %-----------------  big title at top of document  -------------------------
-    \icmltitle{A Space-Time Approach to Analyzing Stochastic Gradient Descent}
-    %-----------------  author data at top of first page  ---------------------
-    \begin{icmlauthorlist}
-        \icmlauthor{Samuel C.~Tenka}{mit}
-    \end{icmlauthorlist}
-    \icmlaffiliation{mit}{
-        Computer Science and AI Lab,
-        Massachusetts Institute of Technology,
-        Cambridge, MA, USA
-    }
-    %-----------------  author data at bottom of first page  ------------------
-    \icmlcorrespondingauthor{Samuel C.~Tenka}{
-        \texttt{colimit.edu};~insert \texttt{@}-sign appropriately
-    }
-    %-----------------  metadata: content tags  -------------------------------
-    \icmlkeywords{Machine Learning, SGD, ICML}
-    \vskip 0.3in
-]
-\printAffiliationsAndNotice{}
+\begin{document}
 
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%~~~~~~~~~~~~~  Abstract  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-\begin{abstract}
-    %
-    %-----------------  hammer and general nail  ------------------------------
-    %
-    We analyze of Stochastic Gradient Descent (SGD) at small learning rates.
-    Unlike prior analyses based on stochastic differential equations, our
-    theory models discrete time and hence non-Gaussian noise.
-    %
-    %-----------------  applications  -----------------------------------------
-    %
-    We prove that gradient noise systematically pushes SGD toward flatter
-    minima.  We characterize when and why flat minima overfit less than sharp
-    minima.  We generalize the Akaike Info.\ Criterion (AIC) to a smooth
-    estimator of overfitting, hence enabling gradient-based model selection.
-    We show how non-stochastic GD with a modified loss function may emulate
-    SGD.
-    %
-    %-----------------  mention of experiments  -------------------------------
-    %
-    We verify our predictions on convnets for CIFAR-10 and Fashion-MNIST.
-\end{abstract}
-
+    \maketitle
+    
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Abstract  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    \begin{abstract}
+        %
+        %-------------  hammer and general nail  ------------------------------
+        %
+        We analyze of Stochastic Gradient Descent (SGD) at small learning rates.
+        Unlike prior analyses based on stochastic differential equations, our
+        theory models discrete time and hence non-Gaussian noise.
+        %
+        %-------------  applications  -----------------------------------------
+        %
+        We prove that gradient noise systematically pushes SGD toward flatter
+        minima.  We characterize when and why flat minima overfit less than sharp
+        minima.  We generalize the Akaike Info.\ Criterion (AIC) to a smooth
+        estimator of overfitting, hence enabling gradient-based model selection.
+        We show how non-stochastic GD with a modified loss function may emulate
+        SGD.
+        %
+        %-------------  mention of experiments  -------------------------------
+        %
+        We verify our predictions on convnets for CIFAR-10 and Fashion-MNIST.
+    \end{abstract}
+    
 %==============================================================================
 %=====  INTRODUCTION  =========================================================
 %==============================================================================
@@ -1334,6 +1323,7 @@
         ku19}.
     }, it applies to inexact-likelihood landscapes such as VAEs'. 
 
+
 %==============================================================================
 %    CONCLUSION      
 %==============================================================================
@@ -1343,10 +1333,10 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    We present a diagram-based method for studying stochastic optimization
-    on short timescales.
-    Theorem \ref{thm:resum} justifies long-time predictions of SGD's
-    dynamics near minima.  Our theory answers the following questions.
+    {\color{red} TODO}
+    We present a diagram-based method for studying stochastic optimization on
+    short timescales.  Theorem \ref{thm:resum} justifies long-time predictions
+    of SGD's dynamics near minima.  Our theory answers the following questions.
 
     \textbf{Which Minima Overfit Less?}
     By analyzing $\sdia{c(01-2)(02-12)}$, we find that flat and sharp minima
@@ -1397,43 +1387,26 @@
         times (large $\eta T$) near an isolated minimum or for short times
         (small $\eta T$) in general.
         
-        Yet, even short-time predictions show how curvature and noise ---
-        and not just averaged gradients --- repel or attract SGD's current
-        weight.  For example, we proved that SGD in a valley moves toward
-        regions flat with respect to the current covariance $C$.
-        %Initial data rarely suffices to predict long-time behavior because
-        %landscapes can be arbitrarily complex.
-        Much as meteorologists understand how warm and
-        cold fronts interact despite the intractability of long-term weather
-        forecasting, we quantify the counter-intuitive dynamics governing SGD's
-        short-time behavior.\footnote{
+        Yet, even short-time predictions show how curvature and noise --- and
+        not just averaged gradients --- repel or attract SGD's current weight.
+        For example, we proved that SGD in a valley moves toward regions flat
+        with respect to the current covariance $C$.  Much as meteorologists
+        understand how warm and cold fronts interact despite the intractability
+        of long-term weather forecasting, we quantify the counter-intuitive
+        dynamics governing SGD's short-time behavior.%
+        %
+        \footnote{
+            %
             Because our analysis holds for any initialization, one may imagine
             SGD's coarse-grained trajectory as an integral curve of the vector
             field given by our theory.
+            %
         }
+        %
         Our results enhance the intuitions of practitioners --- e.g. that "SGD
         descends on the train loss" --- by summarizing the effect of noise in
         closed-form dynamical laws valid in each short-term interval of SGD's
         trajectory.
-
-        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        %~~~~~  Discuss Limitations: Forces and Computational Difficulties  ~~~
-
-        %As expected for truncated Taylor series, our perturbative predictions
-        %of final test loss based on initial data typically disagree with
-        %experiment for large $\eta T$.  Moreover, our predictions often involve
-        %many-indexed tensors (such as $J$ or $(I\otimes I)/(\eta H \otimes I +
-        %I \otimes \eta H)$) inconvenient to compute in real-world settings. 
-        %
-        %That said, we have demonstrated that our predictions agree with
-        %experiment for $\eta T$ large enough that continuous time
-        %approximations fail.  That is, we predict force laws different from
-        %those of continuous-time approximations.  For example, we supplement
-        %the intuition that ``SGD performs steepest descent on the train
-        %landscape'' by showing that, even at a train loss minimum, SGD drifts
-        %in a specific direction so as to dis-align $H$ from the current $C$.
-        %To the practitioner, our contributions may thus play the same role as
-        %that intuition of steepest descent.
 
     \subsection{Questions}
 
@@ -1442,8 +1415,7 @@
 
         The diagram method opens the door to exploration of Lagrangian
         formalisms and curved backgrounds\footnote{
-            Landau and Lifshitz introduce these concepts
-            \yrcite{la60, la51}.
+            \cite{la60, la51} introduce these concepts.
         }:
         \begin{quest}
             Does some least-action principle govern SGD; if not, what is an
@@ -1479,16 +1451,16 @@
         \emph{hyperbolic embeddings}.  We are optimistic our formalism may
         resolve conjectures such as above.
 
+
+    
 %==============================================================================
 %    CODA               
 %==============================================================================
 
-    \newpage
-
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Broader Impacts  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\subsection{Broader Impacts}
+\section*{Broader Impacts}
 
     Though machine learning has the long-term potential for vast improvements
     in world-wide quality of life, it is today a source of enormous carbon
@@ -1525,6 +1497,15 @@
     sets and test sets may differ.  By quantifying effect of sample noise in
     learning, our work contributes to this goal. 
 
+    %Authors are required to include a statement of the broader impact of their
+    %work, including its ethical aspects and future societal consequences.
+    %Authors should discuss both positive and negative outcomes, if any. For
+    %instance, authors should discuss a) who may benefit from this research, b)
+    %who may be put at disadvantage from this research, c) what are the
+    %consequences of failure of the system, and d) whether the task/method
+    %leverages biases in the data. If authors believe this is not applicable to
+    %them, authors can simply state this.
+
     %By connecting to physics, we strengthen the bridge between
     %two vibrant research communities.
 
@@ -1548,550 +1529,43 @@
     %have downstream impact — that’s after all a motivation for much
     %theoretical work — and so we encourage researchers to make an attempt,
     %perhaps reflecting on their subfield more broadly.
-
+            
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\vfill
-\subsection{Acknowledgements}
-    We feel deep gratitude to
-        Sho Yaida,
-        Dan A. Roberts, and
-        Josh Tenenbaum
-    for posing several of the questions this work resolves and for their
-    patient guidance.  We appreciate the generosity of
-        Andrzej Banburski,
-        Ben R. Bray,
-        Jeff Lagarias,
-        Sasha Rakhlin,
-        Greg Wornell, and
-        Wenli Zhao
-    in critiquing our drafts.
-    Without the encouragement of
-        Jason Corso,
-        Chloe Kleinfeldt,
-        Alex Lew, 
-        Ari Morcos, and
-        David Schwab,
-    this paper would not be.
-    Finally, we thank our anonymous reviewers for inspiring an improved
-    presentation of our work.
+\section*{Acknowledgements}
 
-%==============================================================================
-%    REFERENCES      
-%==============================================================================
+    %\begin{ack}
+        We feel deep gratitude to
+            \textsf{Sho Yaida},
+            \textsf{Dan A. Roberts}, and
+            \textsf{Josh Tenenbaum}
+        for posing some of the problems this work resolves and for their
+        patient guidance.  We appreciate the generosity of
+            \textsf{Andrzej Banburski},
+            \textsf{Ben R. Bray},
+            \textsf{Jeff Lagarias}, and
+            \textsf{Wenli Zhao}
+        in critiquing our drafts.
+        Without the encouragement of
+            \textsf{Jason Corso},
+            \textsf{Chloe Kleinfeldt},
+            \textsf{Alex Lew}, 
+            \textsf{Ari Morcos}, and
+            \textsf{David Schwab},
+        this paper would not be.
+        Finally, we thank our anonymous reviewers for inspiring an improved
+        presentation.
+        %
+        This work was funded in part by MIT's Jacobs Presidential Fellowship
+        and in part by Facebook AI Research.
+    %\end{ack}
+        
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 %\section*{References}
+    \bibliographystyle{plainnat}
     \bibliography{perturb}
-    \bibliographystyle{icml2019}
-
-%==============================================================================
-%    APPENDICES      
-%==============================================================================
-
-\clearpage
-\newpage
-\renewcommand{\thesection}{\Alph{section}}
-\setcounter{section}{0}
-
-\section*{Organization of Appendices}
-    These three appendices respectively serve three functions:
-    \begin{itemize}
-        \item to explain how to calculate using diagrams;
-        \item to prove our theorems, corollaries, and claims; and
-        \item to specify our experimental methods and results.
-    \end{itemize}
-
-\section{How to Calculate Expected Test Losses Using Diagrams}
-    Our work introduces a novel technique for calculating the expected learning
-    curves of SGD in terms of statistics of the loss landscape near
-    initialization.  Here, we explain this technique.  There are {\bf four
-    steps} to computing the expected test loss after a specific number of
-    gradient updates: 
-    \begin{itemize}
-        \item Based on the chosen optimization hyperparameters (namely, batch
-              size, training set size, and number of epochs):
-              {\bf draw the spacetime grid} that encodes these hyperparameters.
-        \item Based on our desired level of precision,
-              {\bf draw all the relevant embeddings} of diagrams into the
-              spacetime.
-        \item {\bf Evaluate each diagram embedding}.
-        \item {\bf Sum the embeddings' values} to obtain the quantity of
-              interest as a function of the learning rate.
-    \end{itemize}
-
-    After presenting a small, complete example calculation that follows these
-    four steps, we explain how to perform each of these steps in its own
-    sub-section.  We then discuss how diagrams often offer intuition as well as
-    calculational help.  Though we focus on the computation of expected test
-    losses, we explain how a small change in the above four steps allows for
-    the computation also of variances (instead of expectations) and of train
-    losses (instead of test losses).  We conclude by comparing direct
-    calculation based on our Key Lemma to the diagram method; we point out when
-    and why diagrams streamline computation.
-
-    \subsection{An example calculation}                             %\label{subsect:simple-example}
-        Let's compute the expected test loss of batchsize-$1$ SGD on $N$
-        training points after $E$ epochs.  We'll do this calculation to order
-        $\eta^2$, meaning that our answer will be a function of the learning
-        rate $\eta$ and that its error will shrink faster than quadratically as
-        $\eta$ becomes small. 
-
-        First, we identify the relevant spacetime.  A spacetime is a set of
-        cells indicating which training points are used in which gradient
-        update.  Since our problem has $N E$ many updates, each on a
-        batch of size $1$, there will be $N E\times 1$ many cells in the
-        relevant spacetime.  We arrange these cells in a grid whose vertical
-        axis indexes training points and whose horizontal axis indexes training 
-        times:
-        {\color{red} FILL IN}
-        %The benefit of drawing a spacetime is that .  
-
-        Next, we identify the relevant diagram embeddings.
-        The benefit of drawing this diagram.  
-
-        Then, we evaluate each diagram embedding.
-        The benefit of drawing this diagram.  
-
-        Finally, we sum the embeddings' values to arrive at an answer.
-        The benefit of drawing this diagram.  
-
-    \subsection{How to identify the relevant space-time}            %\label{subsect:draw-spacetime}
-    \subsection{How to identify the relevant diagram embeddings}    %\label{subsect:draw-embeddings}
-    \subsection{How to evaluate each embedding}                     %\label{subsect:evaluate-embeddings}
-    \subsection{How to sum the embeddings' values}                  %\label{subsect:sum-embeddings}
-    \subsection{Interpreting diagrams to build intuition}           %\label{subsect:interpret-diagrams}
-    \subsection{How to solve variant problems}                      %\label{subsect:solve-variants}
-    \subsection{Do diagrams streamline computation?}                %\label{subsect:diagrams-streamline}
-
-\section{Assumptions and Proofs}
-    \subsection{Setup and assumptions of our theory}                %\label{subsect:assumptions}
-    \subsection{Proof of the Key Lemma}                             %\label{subsect:key-lemme}
-    \subsection{Proof of Theorem 1}                                 %\label{subsect:un-resummed}
-    \subsection{On Mobius inversion for resummed diagrams}          %\label{subsect:mobius}
-    \subsection{Proof of Theorem 2}                                 %\label{subsect:resummed}
-    \subsection{Proofs of corollaries}                              %\label{subsect:corollaries}
-    \subsection{Proofs of miscellaneous claims}                     %\label{subsect:claims}
-
-\section{Exerimental Methods and Results}
-    \subsection{What loss landscapes did we use?}                   %\label{subsect:tutorial}
-    \subsection{Implementing optimizers}                            %\label{subsect:tutorial}
-    \subsection{Evaluating diagrams on a given landscape}           %\label{subsect:tutorial}
-    \subsection{Software frameworks and hardware}                   %\label{subsect:tutorial}
-    \subsection{Additional figures}                                 %\label{subsect:tutorial}
-
-\subsection{Informal overview of the perturbative approach}
-
-        Consider running SGD on $N$ training points for $T$ steps with learning
-        rate $\eta$, starting at a weight $\theta_0$.  Our method expresses the
-        expectation (over randomly sampled training sets) of quantities such as
-        the final weight (or test or train loss) as a sum of diagrams, where
-        each diagram evaluates to a statistic of the loss landscape at
-        initialization.  Diagrams with $e$ edges contribute only $O(\eta^e)$ to
-        the quantities of interest, so for small $\eta$ we sum only the
-        few-edged diagrams and incur an $o(\eta^e)$ error term.
-
-        The rule for evaluating diagrams is that each degree-$d$ node evaluates
-        to the $d$th derivative of the test loss $l$ at $\theta_0$.  The
-        edges indicate the order in which those derivatives are multiplied.
-        Most simply, $\sdia{(0)()} = l(\theta_0)$, a $0$th derivative.  The
-        diagram $\sdia{(0-1)(01)}$.
-        evaluates to the dot product $\eta GG$, where $G=\nabla l$ is the
-        gradient of the expected loss $l$, evaluated at $\theta_0$.  Likewise,
-        $\sdia{(0-1-2)(01-12)} = \eta^2 GHG$, where $H=\nabla\nabla l$ is the
-        hessian.  And $\sdia{(0-1-2-3)(02-12-23)} = \eta^3 GGJG$, where
-        $J=\nabla\nabla\nabla l$ is $l$'s third
-        derivative.%\footnotemark[\ref{note1}]
-
-        A diagram tells us about the loss landscape but not about SGD
-        parameters such as $T$ or inter-epoch shuffling.  We summarize those
-        parameters as sets of pairs $(n, t)$, one for each participation of the
-        $n$th datapoint in the $t$th update.  Full-batch GD will have $NT$ many
-        pairs, for instance, while singeleton-batch SGD will have $T$ many
-        pairs.
-
-        Each of a diagram's nodes abstractly represents an event at such a
-        pair, and we may \emph{embed} a diagram by assigning to each node a
-        concrete pair $(n, t)$.  We will intuitively interpret an embedded edge
-        from $(n,t)$ to $(n^\prime,t^\prime)$ (from left to right) as depicting
-        information flow from training point $n$ at time $t$ to training point
-        $n^\prime$ at time $t^\prime$.  Thus, we permit only embeddings whose
-        edges have $t<t^\prime$.  The rightmost node represents measurement at
-        test time, so we do not assign a pair $(n,t)$ to it; it does not
-        participate in $t<t^\prime$ constraints.
-
-        \begin{thm*}[Theorem \ref{thm:sgdcoef}, Informal]
-            Fix SGD parameters, namely $N$, $T$, a batch size $B$, and a
-            deterministic routine to sample each batch from a train set.   
-            Sum the diagrams with at most $d$ edges, where a diagram with $e$
-            edges and $c$ many embeddings is weighted by  
-            $c/(-B)^{e}$.  This sum agrees with SGD's expected final test loss
-            to order $o(\eta^d)$. 
-        \end{thm*}
-
-        \begin{exm} \label{exm:fst}
-            What is SGD's expected test loss to order $\eta^1$?  Two
-            diagrams have $\leq 1$ edges: $\sdia{(0)()} = l(\theta_0)$ and
-            $\sdia{(0-1)(01)} = \eta GG$.  For SGD with batchsize $1$,
-            $\sdia{(0-1)(01)}$ has $T$ many embeddings, since its rightmost
-            node must represent the test measurement and its other node can
-            represent any of $T$ many $(n,t)$ pairs.  By the Theorem, the
-            answer is $l(\theta_0) - T \cdot \eta GG + o(\eta^1)$. 
-        \end{exm}
-
-        Example \ref{exm:fst} is well-known (e.g. \citet{ne04}).  Indeed, it 
-        quantifies the intuition that, in each of $T$ steps, SGD moves the
-        weight by $\eta G$ and hence decreases the loss by $\eta GG$.  The
-        expression is exact for a noiseless linear landscape, but, because it
-        fails to model how gradients depend on the current weight (curvature)
-        or on the current training point (noise), it is typically an
-        approximation.  Diagrams beyond $\sdia{(0-1)(01)}$ correct the
-        expression by modeling curvature and noise.
-
-        Like Example \ref{exm:fst}, our predictions depend only on loss data
-        near $\theta_0$ and hence break down after the weight moves far from
-        initialization.  Our theory thus best applies to small-movement
-        contexts, whether for long times near a minimum or for short times in
-        general.
-        %\footnote{
-        %    It is routine to check that SGD dynamics can efficiently simulate  
-        %    a Turing Machine and thus that general long-time prediction should
-        %    be intractable.
-        %}
-        For instance, we analyze SGD overfitting near a minimum (Corollary
-        \ref{cor:overfit}).  Invoking Theorem \ref{thm:resum}
-        %to find $T$ so large that SGD senses curvature and noise
-        ,
-        %yet small enough for our theory to hold, 
-        we analyze how curvature and noise --- and not just
-        gradients --- repel or attract the evolving weight (Corollary
-        \ref{cor:entropic}).
-
-    \subsection{Embeddings into spacetime}
-
-        \begin{figure}[H] 
-            \centering  
-            \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
-            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-            \caption{
-                {\bf Diagrams in Spacetime Depict SGD's Subprocesses.}
-                Two spacetimes with $N=8, T=16$.
-                {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. 
-                    Embeddings, legal and illegal, of
-                        $\sdia{(01-2)(01-12)}$,
-                        $\sdia{(01-2)(01-12)}$, and
-                        $\sdia{(0-1-2)(01-12)}$.
-                {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. 
-                    Interpretation of an order $\eta^4$ diagram embedding. 
-            }
-            \label{fig:spacetimes}
-        \end{figure}
-
-        To visualize embeddings, we draw $(n,t)$ pairs as shaded cells in
-        an $N\times T$ grid.  A diagram embedding is then an assignment of
-        nodes to shaded cells.  The $t<t^\prime$ constraint then forbids
-        intra-cell edges (Figure \ref{fig:spacetimes} left), and we may
-        interpret each edge as an effect of the past on the future (right).  We
-        call an SGD run's set of shaded cells its \emph{spacetime}.
-
-    \subsection{A first look at curvature and noise}
-
-        Intuitively, our diagrams' edges depict higher derivatives and hence
-        the test loss $l$'s curvature.  However, to study noise and
-        generalization, we need to represent how different datapoints $n$
-        induce different loss functions $l_n$.  The test loss $l$ is then the
-        expectated value of $l_n$.
-        %
-        We depict correlations and hence noise by a new structure: fuzzy
-        ``ties''.  For example, $\sdia{(0-1-2)(01-12)}$ and
-        $\sdia{(01-2)(01-12)}$ are two valid and distinct diagrams.  Fuzzy ties
-        determine which derivatives occur within the same expectation, so we
-        have
-        $$
-            \sdia{(0-1-2)(01-12)}
-                \triangleq
-            \eta^2 \expct{\nabla l_n} \expct{\nabla\nabla l_n} \expct{\nabla l_n}
-                =
-            \eta^2 GHG  
-                =
-            \eta^2 \frac{\nabla\wrap{GG}}{2} G
-        $$
-        and, writing $C$ for the covariance of gradients,
-        $$
-            \sdia{(01-2)(01-12)}
-                \triangleq
-            \eta^2 \expct{\nabla l_n \nabla\nabla l_n} \expct{\nabla l_n}
-                =
-            \eta^2 \frac{\nabla\wrap{GG+C}}{2} G
-        $$
-        The rule is that two nodes connected by a fuzzy tie occur in the same
-        expectation brackets.  Since fuzzy ties depict correlations, we demand
-        that each embedding of a diagram sends any two nodes that are connected
-        by a fuzzy tie to pairs $(n,t), (n, t^\prime)$ that share a training
-        point index $n$.
-
-        \begin{exm} \label{exm:sgdvs}
-            When $N=T$, then singleton-batch SGD permits permits no
-            concretizations of $\sdia{(01-2)(01-12)}$, since the edge
-            constraint $t<t^\prime$ conflicts with the tie constraint
-            $n=n^\prime$ when, as in this case, the permitted $(n,t)$ pairs
-            comprise a bijection between $n$s and $t$s.  
-        \end{exm}
-
-        \begin{exm}
-            By constrast, when $N=T$, full-batch GD permits $N{N \choose 2}$
-            many concretizations of $\sdia{(01-2)(01-12)}$, since all $NT$
-            possible $(n,t)$ pairs occur.  Those concretizations 
-            $(n,t),(n,t^\prime)$ have as close analogues the concretizations
-            $(n,t), (n^\prime,t^\prime)$ in Example \ref{exm:sgdvs}'s setting
-            of the tie-less diagram $\sdia{(0-1-2)(01-12)}$.
-        \end{exm}
-
-        Comparing the two examples above reveals a difference between
-        batchsize-$1$ and batchsize-$N$ descent for $N=T$: by the Main Theorem,
-        the latter incurs an additional test loss
-        $$
-            \frac{c}{(-B)^e} \wrap{\sdia{(01-2)(01-12)} - \sdia{(0-1-2)(01-12)}}
-                =
-                \stackrel{\mathclap{\mbox{\emph{algebra}}}}{~~~~~\cdots~~~~~}
-                =
-            \frac{\eta^2 (N-1)}{4} G \nabla C
-        $$
-        It turns out that $\sdia{(01-2)(01-12)}$ is the only $2$-edged diagram
-        whose concretizations in SGD and GD differ.  Thus, this test loss
-        difference between SGD and GD is correct to order $\eta^2$.
-
-        The above generalizes \citet{ro18}'s $T=2$ result, proved without
-        diagrams, to arbitrary $T$.  In principle, one could avoid diagrams
-        completely by direct use of our Key Lemma (stated in the Appendix).
-        However, as shown in the Appendix, counting embeddings of diagrams
-        streamlines calculation, yielding shorter and more interpretable
-        arguments compared to direct calculation.
-
-        \begin{defn}[Un-resummed Value of a Diagram]
-            In the context of a loss landscape and an initial weight
-            $\theta_0$, a diagram evaluates to the expectation (over all i.i.d.
-            of datapoints to parts) of a product of derivatives, one $d$th
-            derivative $\nabla^d l(\theta_0)$ for each degree-$d$ node.   Each
-            edge denotes a contraction of its two nodes by the inverse metric
-            $\eta$.  For example, 
-            $$
-                \sdia{(0-1)(01)}
-                    \triangleq
-                \expc_{
-                    {\color{moor}n},
-                    {\color{moog}n^\prime}
-                }\wasq{
-                    (\nabla_\mu l_{\color{moor}n})
-                    (\nabla^\mu l_{\color{moog}n^\prime})
-                }(\theta_0)
-            $$
-            $$
-                \sdia{(01-2-3)(02-12-23)}
-                    \triangleq
-                \expc_{
-                    {\color{moor}n},
-                    {\color{moog}n^\prime},
-                    {\color{moob}n^{\prime\prime}}
-                }\wasq{
-                    (\nabla_\mu l_{\color{moor}n})
-                    (\nabla_\nu l_{\color{moor}n})
-                    (\nabla^\mu \nabla^\nu \nabla_\lambda l_{\color{moog}n^\prime})
-                    (\nabla^\lambda l_{\color{moob}n^{\prime\prime}})
-                }(\theta_0)
-            $$
-            We write $\dvalue(D)$ for a diagram $D$'s
-            value, or $D$ when clear.
-        \end{defn}
-
-        \begin{defn}[Fuzzy Outlines Denote Noise's Net Effect]
-            We may join any two parts $p, \tilde p$ of a diagram $D$ to obtain
-            a new diagram $D_{p\tilde p}$.  For instance,
-            $
-                (\sdia{(01-2-3)(02-12-23)})_{\text{\color{moor}red}~\text{\color{moob}blue}}
-                    \triangleq
-                \sdia{(013-2)(02-12-23)}
-            $.
-            Since fuzzy ties denote correlation and noise, differences such as
-            $D_{p\tilde p}-D$ quantify noise's net effect.  So, for
-            convenience, we define a diagram with fuzzy \emph{outlines} as the
-            difference between its fuzzy tied and untied versions, e.g.:
-            $$
-                \sdia{c(0-12)(01-12)}
-                    \triangleq
-                (\sdia{(0-1-2)(01-12)})_{\text{\color{moog}green}~\text{\color{moob}blue}}
-                    -
-                \sdia{(0-1-2)(01-12)}
-                    =
-                \sdia{(0-12)(01-12)}
-                    -
-                \sdia{(0-1-2)(01-12)}
-            $$
-        \end{defn}
-
-        \begin{defn}[Embedding-Sensitive Values]
-            \label{defn:rvalue}
-            Let $\rvalue_f(D)$ be the expected value of $D$'s corresponding
-            tensor expression, where instead of using $\eta$ to contract
-            two tensors embedded to times $t, t+\Delta t$, we use
-            $
-                K(\Delta t) = (I-\eta H)^{\Delta t - 1} \eta
-            $.
-            %
-            Actually, it will be most convenient to let $\rvalue$s represent a
-            \emph{difference} from the noiseless case.  For example, to compute
-            $\rvalue(\sdia{(01-2)(01-12)})$, we will replace $\eta$ by
-            $K(\Delta t)$ in $\value(\sdia{c(01-2)(01-12)})$ instead of in
-            $\value(\sdia{(01-2)(01-12)})$. 
-            %
-            This way, each diagram represents a net effect of noise.  For the
-            small diagrams we consider, we obtain $\rvalue$s by replacing fuzzy
-            ties by fuzzy outlines; larger diagrams present complications
-            addressed in Appendix \ref{subsubsect:mobius}.
-        \end{defn}
-
-        \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
-            For all $T$: for $\eta$ sufficiently small, SGD's expected test
-            loss is
-            \begin{equation*}\label{eq:sgdcoef}
-                \sum_{D}
-                %\wrap{
-                    \sum_{\text{embeddings}~f}
-                    \frac{1}{\wabs{\Aut_f(D)}}
-                %}
-                \frac{\dvalue(D)}{(-B)^{|\edges(D)|}}
-            \end{equation*}
-            Here, $D$ is a diagram whose root $r$ does not participate in any fuzzy
-            edge, $f$ is an embedding of $D$ into spacetime, and
-            $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
-            preserve $f$'s assignment of nodes to cells.
-            %
-            If we replace $D$ by 
-            $
-                \wrap{-\sum_{p \in \parts(D)} (D_{rp} - D)/N}
-            $, where $r$ is $D$'s root,
-            we obtain the expected generalization gap (test minus train loss).
-        \end{thm}
- 
-        %\begin{exm}
-        By Proposition \ref{prop:vanilla}, a diagram with $d$ thin edges and
-        $f$ fuzzy ties (hence $d+1-c$ parts), contributes $\Theta\wrap{(\eta
-        T)^d T^{-c}}$ to vanilla SGD's test loss.  
-        
-        Intuitively, $\eta T$ measures the physical time of descent and
-        $T^{-1}$ measures the coarseness of time discretization.  We thus
-        obtain a double series in $(\eta T)^d T^{-c}$; the $c=0$ terms
-        correspond to a noiseless, discretization-agnostic (hence ODE)
-        approximation to SGD, the the remaining terms model time-discretization
-        and noise.  See Table \ref{tab:scatthree}. 
-
-                %\end{exm}
-
-
-    %--------------------------------------------------------------------------
-    %           Toward Effective Theories                   
-    %--------------------------------------------------------------------------
-
-    \subsection{Exploiting curvature} \label{subsect:effective}
-        Intuitively, the order-$\eta^d$ truncation of Theorem
-        \ref{thm:sgdcoef}'s series depends on simple loss statistics near
-        initialization, so it will fail when $\eta T$ is large enough for the
-        weight to drift far from initialization.  An especially interesting
-        case where weights do not drift far is the case of SGD dynamics near an
-        isolated minimum.  A generic minimum is characterized among critical
-        points by its curvature, so we analyze the case where $H$ is positive.
-        In doing so, we follow prior work that uses lower bounds on the loss
-        landscape's curvature to restrict the hypothesis space to a small basin
-        near a minimum and thus sharpen analyses of optimization and
-        generalization \cite{ba05}.
-
-        We will incorporate the positive-$H$ assumption into our theory via
-        ``re-summation'' so that our re-summed order-$\eta^d$ predictions near
-        isolated minima will remain finite for fixed $\eta T$ and arbitrary
-        $T$.  More concretely, whenever we compute a diagram, we will also
-        compute the unboundedly many cousins of that diagram that arise by
-        inserting degree-$2$ nodes onto thin edges.  We will sum these
-        diagrams' contributions to Theorem \ref{thm:sgdcoef}'s series, arriving
-        at a closed form expression.  Theorem \ref{thm:resum} establishes the
-        correctness of this approach.  Thus, by thoroughly incorporating
-        curvature information, re-summation will help us reason about long-term
-        equilibrium near an isolated minimum and short-term drifts within a
-        valley of minima.
-
-        To illustrate the idea, consider this class of topologically related
-        diagrams:
-        $
-            \sdia{(0-1)(01)},
-            \sdia{(0-1-2)(01-12)},
-            \sdia{(0-1-2-3)(01-12-23)},
-            \cdots
-        $.
-        Intuitively, these diagrams all represent the effect of the leftmost
-        node on the rightmost node, with some number of degree-$2$ nodes
-        mediating.  Since degree-$2$ nodes evaluate to hessians $H$, we regard
-        these diagrams as versions of $\sdia{(0-1)(01)}$ modulated by
-        curvature.  
-        %
-        Each of the above diagrams has some number of embeddings into spacetime.
-        Here (but not in Theorem \ref{thm:resum}), we will for simplicity consider embeddings
-        into vanilla SGD's spacetime.  Moreover, let us consider only embeddings
-        that map the start and end nodes to fixed cells $(n_0,t_0)$ and $(n_+,t_+)$
-        separated $\Delta t=t_+-t_0$ timesteps.  We will also temporarily relax
-        the constraint on embeddings by allowing each of the middle nodes to occupy
-        any row --- and in particular the same row as other nodes.\footnote{
-            Because we here allow more embeddings than occur in Theorem
-            \ref{thm:sgdcoef}, we are overcounting.  It turns out that our use
-            of differences as mentioned in Definition \ref{defn:rvalue} leads
-            to a telescoping cancellation that exactly counters this
-            overcounting.  We offer mathematical details in Appendix E.4 and
-            the proof of Theorem \ref{thm:resum}.  For now, we note that
-            Theorem \ref{thm:resum} will abstract away the middle nodes
-            altogether, meaning that the problem of overcounting is relevant
-            only to proof details.
-        }
-        Then, a routine invocation of the
-        Binomial Theorem shows that these embeddings together contribute the
-        following to Theorem \ref{thm:sgdcoef}'s series:
-        $$
-            -G (I-\eta H)^{\Delta t-1} \eta G
-        $$
-        For comparison, the analogous embeddings (in this case, there is only
-        one) of the smallest diagram $\sdia{(0-1)(01)}$ sum to 
-        $$
-            -G \eta G
-        $$
-        which matches like the overall sum if we replace $\eta$ by an
-        ``effective learning rate''
-        $$
-            K(\Delta t) \triangleq (I-\eta H)^{\Delta t-1} \eta
-        $$
-
-        In the proof of Theorem \ref{thm:resum}, we see that this generalizes:
-        in order to sum over a class of related diagrams' embeddings, we may
-        sum over embeddings of the smallest diagram in that class, then
-        replace each $\eta$ corresponding to a duration-$\Delta t$ edge by
-        $K(\Delta t)$.
-
-        \begin{exm}
-            The family
-            $
-                \sdia{c(01-2)(01-12)},
-                \sdia{c(02-1-3)(01-12-23)},
-                \sdia{c(01-2-3)(01-13-23)},
-                \cdots
-            $
-            includes variants of $\sdia{c(01-2)(01-12)}$ where we insert new
-            nodes along $\sdia{c(01-2)(01-12)}$'s two thin edges.
-            The diagram $\sdia{c(01-2)(01-12)}$ evaluates to
-            $$
-                \frac{1}{2}
-                (\nabla_\mu C_{\nu\lambda}) \eta^{\nu\lambda} \eta^{\mu\rho} G_\rho 
-            $$  
-            So the overall family evaluates to  
-            $$
-                \frac{1}{2}
-                (\nabla_\mu C_{\nu\lambda}) K(\Delta t)^{\nu\lambda} K(\Delta t)^{\mu\rho} G_\rho 
-            $$
-        \end{exm}
-
+            
 \end{document}
