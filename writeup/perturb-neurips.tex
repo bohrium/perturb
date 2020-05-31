@@ -1,5 +1,5 @@
 %   author: samtenka
-%   change: 2020-05-29
+%   change: 2020-05-31
 %   create: 2020-04-16
 %   descrp: LaTeX source for perturb project
 %   to use: compile along with perturb.bib and diagram and plot directories
@@ -280,69 +280,6 @@
     %
     In the conclusion, we discuss this bridge to physics --- and its relation
     to Hessian methods and natural GD --- as topics for future research.
-
-    \subsection{Broader Impacts}
-
-        Though machine learning has the long-term potential for vast
-        improvements in world-wide quality of life, it is today a source of
-        enormous carbon emissions \cite{st19}.  Our analysis of SGD may lead to
-        a reduced carbon footprint in three ways. 
-        %
-        First, Section \ref{subsect:epochs-batch} shows how to modify the loss
-        landscape so that large-batch GD enjoys the stochastic
-        regularizing properties of small-batch SGD, dually, so that
-        small-batch SGD enjoys the stability of large-batch GD.  By
-        unchaining the effective batch size from the actual batch size, we 
-        raise the possibility of training neural networks on a wider range of
-        hardware than currently practical.  For example, asynchronous
-        concurrent small-batch SGD (e.g. \citet{ni11}) might require less
-        inter-GPU communication and therefore less power.
-        %
-        Second, Section \ref{sect:concl} discusses an application to
-        meta-learning, which has the potential to decrease the per-task
-        sample complexity and hence carbon footprint of modern ML.
-        %
-        Third, the generalization of AIC developed in  Sections
-        \ref{subsect:curvature-and-overfitting} and \ref{subsect:overfit}
-        permits certain forms of model selection by gradient descent rather
-        than brute force search.  This might drastically reduce the energy
-        consumed during model selection.
-
-        That said, insofar as our theory furthers practice, it may instead
-        contribute to the rapidly growing popularity of GPU-intensive
-        learning, thus negating the aforementioned benefits and accelerating
-        climate change.
-
-        More broadly, this paper analyzes \emph{optimization in the face of
-        uncertainty}.  As ML systems deployed today must increasingly address
-        privacy, adversaries, pedestrian safety, and bias reflected in training
-        data, it becomes increasingly important to model the fact that training
-        sets and test sets may differ.  By quantifying effect of sample noise
-        in learning, our work contributes to this goal. 
-
-        %By connecting to physics, we strengthen the bridge between
-        %two vibrant research communities.
-
-        %Highlight both benefits and risks from your research. The NeurIPS
-        %requirement asks that “Authors should take care to discuss both
-        %positive and negative outcomes.” Systematically doing so will help us
-        %push through the various biases, personal and institutional, towards
-        %overly positive or overly negative assessments.
-
-        %Highlight uncertainties. Foreseeing the impacts of research,
-        %especially basic research, is notoriously difficult. We recommend
-        %acknowledging your uncertainties, while also not letting it stop you
-        %from reflecting about impact.
-
-        %Focus on tractable, neglected, and significant impacts. Scientific
-        %research tends to have a bewildering array of potential impacts, more
-        %so as the research is more foundational or the considered impacts are
-        %more long term.  It will be infeasible to consider them all.
-
-        %Think about impacts even for theoretical work. Theoretical work does
-        %have downstream impact — that’s after all a motivation for much
-        %theoretical work — and so we encourage researchers to make an attempt,
-        %perhaps reflecting on their subfield more broadly.
 
     \subsection{Example of diagram-based reasoning}
 
@@ -1543,9 +1480,79 @@
         resolve conjectures such as above.
 
 %==============================================================================
-%    ACKNOWLEDGEMENTS
+%    CODA               
 %==============================================================================
 
+    \newpage
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Broader Impacts  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\subsection{Broader Impacts}
+
+    Though machine learning has the long-term potential for vast improvements
+    in world-wide quality of life, it is today a source of enormous carbon
+    emissions \cite{st19}.  Our analysis of SGD may lead to a reduced carbon
+    footprint in three ways. 
+     
+    First, Section \ref{subsect:epochs-batch} shows how to modify the loss
+    landscape so that large-batch GD enjoys the stochastic regularizing
+    properties of small-batch SGD, dually, so that small-batch SGD enjoys the
+    stability of large-batch GD.  By unchaining the effective batch size from
+    the actual batch size, we raise the possibility of training neural networks
+    on a wider range of hardware than currently practical.  For example,
+    asynchronous concurrent small-batch SGD (e.g. \citet{ni11}) might require
+    less inter-GPU communication and therefore less power.
+     
+    Second, Section \ref{sect:concl} discusses an application to meta-learning,
+    which has the potential to decrease the per-task sample complexity and
+    hence carbon footprint of modern ML.
+     
+    Third, the generalization of AIC developed in  Sections
+    \ref{subsect:curvature-and-overfitting} and \ref{subsect:overfit} permits
+    certain forms of model selection by gradient descent rather than brute
+    force search.  This might drastically reduce the energy consumed during
+    model selection.
+
+    That said, insofar as our theory furthers practice, it may instead
+    contribute to the rapidly growing popularity of GPU-intensive learning,
+    thus negating the aforementioned benefits and accelerating climate change.
+
+    More broadly, this paper analyzes \emph{optimization in the face of
+    uncertainty}.  As ML systems deployed today must increasingly address
+    privacy, adversaries, pedestrian safety, and bias reflected in training
+    data, it becomes increasingly important to model the fact that training
+    sets and test sets may differ.  By quantifying effect of sample noise in
+    learning, our work contributes to this goal. 
+
+    %By connecting to physics, we strengthen the bridge between
+    %two vibrant research communities.
+
+    %Highlight both benefits and risks from your research. The NeurIPS
+    %requirement asks that “Authors should take care to discuss both
+    %positive and negative outcomes.” Systematically doing so will help us
+    %push through the various biases, personal and institutional, towards
+    %overly positive or overly negative assessments.
+
+    %Highlight uncertainties. Foreseeing the impacts of research,
+    %especially basic research, is notoriously difficult. We recommend
+    %acknowledging your uncertainties, while also not letting it stop you
+    %from reflecting about impact.
+
+    %Focus on tractable, neglected, and significant impacts. Scientific
+    %research tends to have a bewildering array of potential impacts, more
+    %so as the research is more foundational or the considered impacts are
+    %more long term.  It will be infeasible to consider them all.
+
+    %Think about impacts even for theoretical work. Theoretical work does
+    %have downstream impact — that’s after all a motivation for much
+    %theoretical work — and so we encourage researchers to make an attempt,
+    %perhaps reflecting on their subfield more broadly.
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\vfill
 \subsection{Acknowledgements}
     We feel deep gratitude to
         Sho Yaida,
