@@ -75,16 +75,16 @@ def draw_partial(parts, partial_arcs, filename, outline, partial_scale=0.5):
     for p,color in zip(parts, colors):
         for s,e in zip(p, p[1:]):
             draw_blob_aa(img, baseline, 40+80*s, 40+80*e, abs(s-e), outline=outline)
-        for i in p:
-            R, C = baseline, 40+80*i
-            draw_disk_aa(img, R, C, RADIN, color)
+        #for i in p:
+        #    R, C = baseline, 40+80*i
+        #    draw_disk_aa(img, R, C, RADIN, color)
 
     js = []
     for i, in partial_arcs:
         while True:
             j = i + partial_scale * (2.0 * np.random.random() - 1.0)
             if int(40+80*i) == int(40+80*j):
-                break
+                continue
             for jj in js: 
                 if abs(jj-j) < 2.0 * partial_scale / (len(partial_arcs)+1.0):
                     break
@@ -92,14 +92,23 @@ def draw_partial(parts, partial_arcs, filename, outline, partial_scale=0.5):
                 break
         js.append(j)
 
-        dr = 40.0 * (2.0 * partial_scale**2 - (j-i)**2)**0.5 
+        vshift = 40.0 * (2.0 * partial_scale**2 - (j-i)**2)**0.5
 
-        draw_arc_aa(img, curve = 0.1,
-            row_a = baseline,
-            row_b = baseline - dr,
-            col_a = int(40+80*i),
-            col_b = int(40+80*j),
-        )
+        for dr in [-1,0,1]: 
+            for dc in [-1,0,1]: 
+                draw_arc_aa(img, curve = 0.1,
+                    row_a = baseline          + dr,
+                    row_b = baseline - vshift + dr, 
+                    col_a = int(40+80*i) + dc,
+                    col_b = int(40+80*j) + dc,
+                )
+
+    for p,color in zip(parts, colors):
+        #for s,e in zip(p, p[1:]):
+        #    draw_blob_aa(img, baseline, 40+80*s, 40+80*e, abs(s-e), outline=outline)
+        for i in p:
+            R, C = baseline, 40+80*i
+            draw_disk_aa(img, R, C, RADIN, color)
 
     plt.imsave(filename, img)
 

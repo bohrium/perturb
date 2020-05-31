@@ -95,11 +95,20 @@ def draw(parts, arcs, filename, outline):
     for p,color in zip(parts, colors):
         for s,e in zip(p, p[1:]):
             draw_blob_aa(img, baseline, 30+80*s, 30+80*e, abs(s-e), outline=outline)
+        #for i in p:
+        #    R, C = baseline, 30+80*i
+        #    draw_disk_aa(img, R, C, RADIN, color)
+    for i,j in arcs:
+        for dr in [-1, 0, 1]:
+            for dc in [-1, 0, 1]: 
+                draw_arc_aa(img, baseline+dr, 30+80*i+dc, 30+80*j+dc, abs(i-j))
+    for p,color in zip(parts, colors):
+        #for s,e in zip(p, p[1:]):
+        #    draw_blob_aa(img, baseline, 30+80*s, 30+80*e, abs(s-e), outline=outline)
         for i in p:
             R, C = baseline, 30+80*i
             draw_disk_aa(img, R, C, RADIN, color)
-    for i,j in arcs:
-        draw_arc_aa(img, baseline, 30+80*i, 30+80*j, abs(i-j))
+
 
     plt.imsave(filename, img)
 

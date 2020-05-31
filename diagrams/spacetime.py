@@ -321,7 +321,7 @@ def draw_i(filename):
     queue_text(7   ,  11.5  , 'diagram A', color=colors[6])
     
     draw_diagram(img, [[(1, 9-0.2),                 (-1   ,    19)], 
-                       [(1, 9+0.2),         (0,14), (-1   ,    19)]])
+                       [(1, 9+0.2),         (0,15), (-1   ,    19)]])
     queue_text(1   ,   9.5  , 'diagram B', color=colors[1])
 
     draw_diagram(img, [[(4-0.2,19-0.2),                 ( 3   ,    T )], 
