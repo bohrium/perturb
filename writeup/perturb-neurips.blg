@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: perturb-neurips.aux
 The style file: icml2019.bst
 Database file #1: perturb.bib
-You've used 42 entries,
+You've used 44 entries,
             2773 wiz_defined-function locations,
-            767 strings with 9653 characters,
-and the built_in function-call counts, 16442 in all, are:
-= -- 1366
-> -- 1099
+            775 strings with 9890 characters,
+and the built_in function-call counts, 17318 in all, are:
+= -- 1437
+> -- 1168
 < -- 22
-+ -- 377
-- -- 333
-* -- 1221
-:= -- 2689
-add.period$ -- 126
-call.type$ -- 42
-change.case$ -- 237
-chr.to.int$ -- 40
-cite$ -- 84
-duplicate$ -- 818
-empty$ -- 1281
-format.name$ -- 393
-if$ -- 3351
++ -- 400
+- -- 354
+* -- 1295
+:= -- 2832
+add.period$ -- 132
+call.type$ -- 44
+change.case$ -- 250
+chr.to.int$ -- 42
+cite$ -- 88
+duplicate$ -- 858
+empty$ -- 1343
+format.name$ -- 416
+if$ -- 3528
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 42
-newline$ -- 218
-num.names$ -- 168
-pop$ -- 478
+missing$ -- 44
+newline$ -- 228
+num.names$ -- 176
+pop$ -- 504
 preamble$ -- 1
-purify$ -- 195
+purify$ -- 206
 quote$ -- 0
-skip$ -- 628
+skip$ -- 659
 stack$ -- 0
-substring$ -- 84
-swap$ -- 46
+substring$ -- 88
+swap$ -- 48
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 462
+type$ -- 484
 warning$ -- 0
-while$ -- 126
+while$ -- 132
 width$ -- 0
-write$ -- 511
+write$ -- 535

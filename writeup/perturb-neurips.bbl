@@ -1,4 +1,4 @@
-\begin{thebibliography}{42}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -160,6 +160,12 @@ Nickel, M. and Kiela, D.
 \newblock Poincar\'e embeddings for learning hierarchical representations.
 \newblock \emph{ICML}, 2017.
 
+\bibitem[Niu et~al.(2011)Niu, Recht, R\'e, and Wright]{ni11}
+Niu, F., Recht, B., R\'e, C., and Wright, S.
+\newblock Hogwild!: A lock-free approach to parallelizing stochastic gradient
+  descent.
+\newblock \emph{NeurIPS}, 2011.
+
 \bibitem[Penrose(1971)]{pe71}
 Penrose, R.
 \newblock Applications of negative dimensional tensors.
@@ -192,6 +198,11 @@ Stein, C.
 \newblock Inadmissibility of the usual estimator for the mean of a multivariate
   normal distribution.
 \newblock \emph{Berkeley Symposium on Mathematical Probability}, 1956.
+
+\bibitem[Strubell et~al.(2019)Strubell, Ganesh, and McCallum]{st19}
+Strubell, E., Ganesh, A., and McCallum, A.
+\newblock Energy and policy considerations for deep learning in nlp.
+\newblock \emph{ACL}, 2019.
 
 \bibitem[Wang et~al.(2018)Wang, Keskar, Xiong, and Socher]{wa18}
 Wang, H., Keskar, N., Xiong, C., and Socher, R.
