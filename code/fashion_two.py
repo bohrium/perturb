@@ -273,11 +273,11 @@ class FashionShallowOr(FashionAbstractArchitecture):
         '''
             Define tensor shape of network and initialize weight vector.
         '''
-        class_nms=('T-shirt/top', 'Sandal')
+        class_nms=('Pullover', 'Bag')
         super().__init__(class_nms, weight_scale)
         self.subweight_shapes = [
-            (1, 1),
-            (1, 1),
+            (1,),
+            (1,),
         ]
         self.prepare_architecture()
 
@@ -317,7 +317,7 @@ if __name__=='__main__':
     BATCH = 256#64
     TIME = 5000
     STEP =  200 
-    LRATE = 0.05#1.0
+    LRATE = 0.00#1.0
     pre(N%BATCH==0,
         'batch size must divide train size!'
     )
@@ -376,6 +376,6 @@ if __name__=='__main__':
             'weight<symmetry> @M {:.3f}'.format(ML.get_weight()[1]),
         '']))
 
-    np.save('saved-weights/fashion-{}-trained.npy'.format(
-        model_nm.lower()
-    ), [ML.get_weight()])
+    #np.save('saved-weights/fashion-{}-trained.npy'.format(
+    #    model_nm.lower()
+    #), [ML.get_weight()])
