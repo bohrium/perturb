@@ -839,7 +839,7 @@
     interval based on the standard error of the mean.  Appendix
     \ref{sect:landscape} lists architectures, procedure, and further tests.
 
-    \subsubsection{Training time, epochs, and batch size}
+    \subsubsection{Training time and batch size}
         %----------------------------------------------------------------------
         %       Vanilla SGD; Epochs and Overfitting         
         %----------------------------------------------------------------------
@@ -866,7 +866,7 @@
                 un-re-summed predictions.
                 %
                 \protect\ofsix{0}: For all init.s tested ($1$ shown,
-                $11$ unshown), our degree-$3$ prediction agrees with experiment
+                $11$ unshown), the order $3$ prediction agrees with experiment
                 through $\eta T \approx 10^0$, corresponding to a decrease
                 in $0\mbox{-}1$ error of $\approx 10^{-3}$.
                 %
@@ -879,7 +879,7 @@
                 {\bf Center: $C$ controls gen.\ gap and distinguishes GD
                 from SGD.}
                 %
-                \protect\ofsix{2}: With equal-scaled axes, this plot shows that
+                With equal-scaled axes, \protect\ofsix{2} shows that
                 GDC matches SGD (small vertical varianec) better than GD
                 matches SGD (large horizontal variance) in test loss for a
                 range of $\eta$ ($\approx 10^{-3}-10^{-1}$) and
@@ -893,20 +893,18 @@
                 %%%
                 %%%
                 \newline
-                {\bf Right: Re-summed predictions excel even for large $\eta T$.}
+                {\bf Right: Predictions near minima excel even for large $\eta T$.}
                 %
                 \protect\ofsix{4}: On \Archimedes, SGD travels the valley of
-                global minima in the positive $z$ direction.  Since $H$ and $C$
-                are bounded and the effect appears for all small $\eta$, the
-                effect is not a pathology of well-chosen learning rate or
-                divergent noise.  The net displacement of $\approx 10^{1.5}$
-                well exceeds the $z$-period of $2\pi$. 
+                global minima in the positive $z$ direction.  $H$ and $C$
+                are bounded, and the effect appears for all small $\eta$, so
+                the effect is not a pathology of well-chosen learning rate or
+                divergent noise. 
                 %
                 \protect\ofsix{5}: For \MeanEstimation\ with fixed $C$ and a
                 range of $H$s, initialized at the truth, the test losses after
                 fixed-$T$ optimization are smallest for very small and very
-                large curvatures.  As predicted: both sharp and flat minima
-                overfit less.
+                large curvatures.  Both sharp and flat minima overfit less.
             }
             \label{fig:vanilla}
         %    \label{fig:batchandgen}
