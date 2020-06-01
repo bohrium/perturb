@@ -1,6 +1,6 @@
 %   author: samtenka
-%   change: 2020-05-31
-%   create: 2020-05-31
+%   change: 2020-06-01
+%   create: 2020-05-29
 %   descrp: LaTeX source for perturb project
 %   to use: compile along with perturb.bib and diagram and plot directories
 
@@ -198,7 +198,7 @@
 %~~~~~~~~~~~~~  Title and Author  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \title{%
-    A Space-Time Approach to Analyzing SGD
+    A Perturbative Analysis of Stochastic Descent
 }
 
 \author{%
@@ -252,43 +252,40 @@
     Practitioners benefit from the intuition that SGD approximates noiseless GD
     \cite{bo91}.  In this paper, we refine that intuition by showing how
     gradient noise biases learning toward certain areas of weight space.
-    
-    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    %~~~~~~~~~  Concrete Applications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+    %
     %-----------------  vs ODE and SDE  ---------------------------------------
-
+    %
     Departing from prior work, we model discrete time and hence non-Gaussian
     noise.  Indeed, we derive corrections to continuous-time, Gaussian-noise
     approximations such as ordinary and stochastic differential equations (ODE,
     SDE).
     For example, we construct a loss landscape on which SGD eternally cycles
     counterclockwise, a phenomenon impossible with ODEs. 
-    %-----------------  experiments  ------------------------------------------
     %
-    Our experiments on image classifiers show that even a single evaluation of
-    our force laws may predict SGD's motion through macroscopic timescales,
-    e.g.\ long enough to decrease error by $0.5$ percentage points.
+    %-----------------  organization Plan  ------------------------------------
+    %
+    Leaving the rigorous development of our general theory to {\color{red}
+    APPENDIX}, our paper body highlights and intuitively discusses the theory's
+    main corollaries.
 
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Soft Benefits: Physical Intuition and Further Applications  ~~~
 
     %-----------------  retrospective  ----------------------------------------
-
+    %
     Our work offers a novel viewpoint of SGD as many concurrent interactions
     between weights and data.  Diagrams such as $\sdia{c(01-2-3)(02-12-23)}$,
-    analogous to those of \cite{fe49, pe71}, depict these interactions.
+    analogous to those of \cite{fe49, pe71}, depict these interactions. 
     %
     %-----------------  prospective  ------------------------------------------
     %
-    In the appendix, we discuss this bridge to physics --- and its relation
-    to Hessian methods and natural GD --- as topics for future research.
-    %
-    We also discuss how this work may ameliorate or exacerbate the learning
-    community's disproportionate contribution to climate change.  More broadly,
-    our work adds to the body of theory on optimization in the face of
-    uncertainty, theory that may inform practitioners confronting emerging
-    issues in user privacy and pedestrian safety.
+    In the appendix, we discuss this bridge to physics --- and its relation to
+    Hessian methods and natural GD --- as topics for future research.  We also
+    discuss how this work may ameliorate or exacerbate the learning community's
+    disproportionate contribution to climate change.  More broadly, our work
+    adds to the body of theory on optimization in the face of uncertainty,
+    theory that may one day inform solutions to emerging issues in user privacy
+    and pedestrian safety.
 
     \subsection{Example of diagram-based computation of SGD's test loss}
 
@@ -427,7 +424,8 @@
             \triangleq
             \sum_\mu A_\mu \cdot B^\mu
         $.
-        To expedite dimensional analysis, we regard the learning rate as an
+        %To expedite dimensional analysis,
+        We regard the learning rate as an
         inverse metric $\eta^{\mu\nu}$ that converts gradient covectors to
         displacement vectors \citep{bo13}.  We use the learning rate
         $\eta$ to raise indices: e.g.,
@@ -443,8 +441,7 @@
         $.
         Though $\eta$ is a tensor, we may still define $o(\eta^d)$: a quantity
         $q$ \emph{vanishes to order $\eta^d$} when $\lim_{\eta\to 0} q/p(\eta)
-        = 0$ for some homogeneous degree-$d$ polynomial $p$.  We then write $q
-        \in o(\eta^d)$.
+        = 0$ for some homogeneous degree-$d$ polynomial $p$.
 
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  The Loss Landscape  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -458,8 +455,8 @@
         drawn.  We write $l_x$ for a generic sample from $\Dd$ and $(l_n: 0\leq
         n<N)$ for a training sequence drawn i.i.d.\ from $\Dd$.  We refer both
         to $n$ and to $l_n$ as \emph{training points}.  We assume Appendix
-        {\color{red} FILL IN}'s regularity conditions, e.g.\ that $l, l_x$ are
-        analytic and that all moments exist.
+        {\color{red} FILL IN}'s hypotheses, e.g.\ that $l, l_x$ are
+        analytic and that moments exist.
         %
         %-------------  specialization to a common case  ----------------------
         %
@@ -471,23 +468,24 @@
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     %\subsection{SGD terminology}
-        SGD performs $\eta$-steepest descent on the estimates $l_n$.
+        %SGD performs $\eta$-steepest descent on the estimates $l_n$.
         %
-        We describe SGD in terms of $N,T,B,E,M$:
-            $N$ counts training points,
-            $T$ counts updates,
-            $B$ counts points per batch,
-            $E=TN/B$ counts epochs, 
-            and $M=E/B=T/N$ counts updates per point.
-        So SGD performs $T=NM$ updates
+        Our general theory describes SGD with any number
+             $N$ of training points,
+             $T$ of updates, and 
+             $B$ of points per batch.
+        SGD then runs $T$ many updates (i.e. $E=TN/B$ epochs, i.e. $M=T/N$
+        updates per point)
         $
             \theta^\mu
             \coloneqq
             \theta^\mu -
             \eta^{\mu\nu} \nabla_\nu
                 \sum_{n\in \Bb_t} l_n(\theta) / B
-        $
-        where $\Bb_t$ is the $t$th batch.
+        $,
+        where $\Bb_t$ is the $t$th batch.  Our paper's body --- but not
+        appendices --- will assume \textbf{SGD has $E=B=1$ and GD has $T=B=N$}
+        unless otherwise stated.
 
 %==============================================================================
 %    RELATED WORK    
@@ -547,41 +545,60 @@
     }
     so we may model VAEs. 
 
-
-
 %==============================================================================
 %=====  DIAGRAM CALCULUS FOR SGD  =============================================
 %==============================================================================
 
-\section{Diagram Calculus} \label{sect:calculus}
+\section{Theory, Specialized to One Epoch, Batchsize One SGD} \label{sect:calculus}
+
+    \subsection{Diagrams and Embeddings}
+        A \emph{diagram} is a finite rooted tree equipped with a partition
+        of its nodes obeying the \emph{path condition}: no path from leaf to
+        root may encounter any part more than once.
+        We specify the root by drawing it rightmost.  We draw
+        the partition by grouping the nodes within each part via fuzzy
+        outlines.  For instance, the diagrams
+        $\sdia{c(0-1)(01)}$, 
+        $\sdia{c(012-3)(03-13-23)}$ each have $2$ parts, and
+        $\sdia{c(0-12-3)(03-13-23)}$,
+        $\sdia{c(01-2-3)(02-13-23)}$ each have $3$; the non-diagrams
+        $\sdia{c(02-1)(01-12)}$, $\sdia{c(012-3)(01-12-23)}$, and
+        $\sdia{c(0-12-3)(02-12-23)}$ violate the path condition.
+        %
+        A diagram is \emph{irreducible} when each of its degree-$2$ non-root
+        nodes is in a part of size one.
+        So
+        $\sdia{c(0-1-2)(02-12)},
+        \sdia{c(01-2)(01-12)}$
+        are irreducible, but, due to their green nodes,
+        $\sdia{c(0-1-2)(01-12)},
+        \sdia{c(02-1-3)(01-12-23)}$ are not.%
+        %Intuitively, we may pluck the green node from
+        %$\sdia{c(02-1-3)(01-12-23)}$ to obtain $\sdia{c(02-1-3)(01-12-23)}$ 
+
+        An \emph{embedding} of a diagram $D$ is an assignment of  
+
+    \subsection{Main result}
 
     %\subsection{Recipe for SGD's expected test loss}
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Recipe for Test Loss  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-               
         Theorem \ref{thm:resum} expresses SGD's test loss as a sum over
-        diagrams.  Recalling that a diagram with $d$ edges is $O(\eta^d)$, we
-        read the following as a Taylor series in $\eta$.  In
-        practice, we truncate the series to small $d$, thus focusing on the
-        few-edged diagrams.
-        \begin{thm} \label{thm:resum}
-            For any $T$: for $\eta$ sufficiently small, SGD's expected test
-            loss is
+        diagrams.  A diagram with $d$ edges scales as $O(\eta^d)$, so the
+        following is a series in $\eta$.  We will truncate the series to
+        small $d$, thus focusing on the few-edged diagrams and easing the
+        combinatorics of embeddings.
+        %
+        \begin{thm}[Special Case] \label{thm:resum}
+            For any $T$: for $\eta$ small enough, SGD has expected test loss
             \begin{equation*} \label{eq:resum}
-                \sum_{\substack{D \\ \text{irreducible}}}
-                \sum_{\substack{\text{embeddings} \\ f}}
-                \frac{1}{\wabs{\Aut_f(D)}}
-                \frac{{\rvalue_f}(D)}{(-B)^{|\edges(D)|}}
+                \sum_{\substack{\text{irreducible} \\ \text{diagrams}~D }}
+                \sum_{\substack{\text{embeddings} \\ f~\text{of}~D}}
+                \frac{(-1)^{|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \,
+                {\rvalue_f}(D)
             \end{equation*}
-            Here, $D$ ranges through irreducible outlined diagrams,
-            $f$ ranges through embeddings of $D$ into
-            the SGD's spacetime, and $\wabs{\Aut_f(D)}$ counts the graph
-            automorphisms of $D$ that preserve $f$'s assignment of nodes to
-            $(n,t)$ pairs.  As a reminder, $B$ is batch size.
         \end{thm}
-        Though the combinatorics of embeddings and graph automorphisms may seem
-        forbidding, our focus on few-edged diagrams will make this counting
-        nearly trivial.
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Convergence  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -597,18 +614,18 @@
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Simplifications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-        \begin{rmk} \label{rmk:unresum}
-            We may approximate sums over embeddings by integrals over
-            times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, incurring a
-            multiplicative error of $1 + o(\eta)$.  We thus reduce to routine
-            integration of exponentials.
-            %
-            Sometimes, we may prefer $\uvalue(D)$ to $\rvalue_f(D)$ for its
-            simplicity.  Theorem \ref{thm:resum} persists if we replace each
-            $\rvalue_f(D)$ by $\uvalue(D)$ and sum all tied diagrams instead
-            of irreducible outlined diagrams.  But the large-$T$ convergence
-            guarantee no longer applies {\color{red} PLOT}.
+        \begin{rmk}
+            We may approximate sums by integrals and $(I-\eta H)^t$ by $\exp(-
+            \eta H t)$, reducing to a routine integration of exponentials
+            at the cost of an error factor $1 + o(\eta)$.
         \end{rmk}
+        %\begin{rmk} \label{rmk:unresum}
+        %    Sometimes, we prefer $\uvalue(D)$ to $\rvalue_f(D)$ for its
+        %    simplicity.  Theorem \ref{thm:resum} persists if we replace each
+        %    $\rvalue_f(D)$ by $\uvalue(D)$ and sum all tied diagrams instead
+        %    of irreducible outlined diagrams.  But the large-$T$ convergence
+        %    no longer holds {\color{red} PLOT}.
+        %\end{rmk}
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Variants  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1013,505 +1030,533 @@
         refine intuitions (e.g.\ that SGD descends on the train loss) to
         account for noise.
        
-%%==============================================================================
-%%    CODA               
-%%==============================================================================
-%
-%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%%~~~~~~~~~~~~~  Broader Impacts  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%
-%\section*{Broader Impacts}
-%
-%    Though machine learning has the long-term potential for vast improvements
-%    in world-wide quality of life, it is today a source of enormous carbon
-%    emissions \citep{st19}.  Our analysis of SGD may lead to a reduced carbon
-%    footprint in three ways. 
-%     
-%    First, Section \ref{subsect:epochs-batch} shows how to modify the loss
-%    landscape so that large-batch GD enjoys the stochastic regularizing
-%    properties of small-batch SGD, or (symmetrically) so that small-batch SGD
-%    enjoys the stability of large-batch GD.  By unchaining the effective batch
-%    size from the actual batch size, we raise the possibility of training
-%    neural networks on a wider range of hardware than currently practical.  For
-%    example, asynchronous concurrent small-batch SGD (e.g., \cite{ni11}) might
-%    require less inter-GPU communication and therefore less power.
-%     
-%    Second, Section \ref{sect:concl} discusses an application to meta-learning,
-%    which has the potential to decrease the per-task sample complexity and
-%    hence carbon footprint of modern ML.
-%     
-%    Third, the generalization of AIC developed in  Sections
-%    \ref{subsect:curvature-and-overfitting} and \ref{subsect:overfit} permits
-%    certain forms of model selection by gradient descent rather than brute
-%    force search.  This might drastically reduce the energy consumed during
-%    model selection.
-%
-%    That said, insofar as our theory furthers practice, it may instead
-%    contribute to the rapidly growing popularity of GPU-intensive learning,
-%    thus negating the aforementioned benefits and accelerating climate change.
-%
-%    More broadly, this paper analyzes optimization in the face of uncertainty.
-%    As ML systems deployed today must increasingly address \emph{user privacy},
-%    \emph{pedestrian safety}, and \emph{dataset diversity}, it becomes
-%    increasingly important to recognize that training sets and test sets
-%    differ.  Toward this end, theoretical work relating to non-Gaussian noise
-%    may assist practitioners in building provably non-discriminatory, safe, or
-%    private models (e.g., \cite{dw06}).  By quantifying how correlated,
-%    non-Gaussian gradient noise affects descent-based learning, this paper
-%    contributes to such broader theory.
-%
-%    %Authors are required to include a statement of the broader impact of their
-%    %work, including its ethical aspects and future societal consequences.
-%    %Authors should discuss both positive and negative outcomes, if any. For
-%    %instance, authors should discuss a) who may benefit from this research, b)
-%    %who may be put at disadvantage from this research, c) what are the
-%    %consequences of failure of the system, and d) whether the task/method
-%    %leverages biases in the data. If authors believe this is not applicable to
-%    %them, authors can simply state this.
-%
-%    %By connecting to physics, we strengthen the bridge between
-%    %two vibrant research communities.
-%
-%    %Highlight both benefits and risks from your research. The NeurIPS
-%    %requirement asks that “Authors should take care to discuss both
-%    %positive and negative outcomes.” Systematically doing so will help us
-%    %push through the various biases, personal and institutional, towards
-%    %overly positive or overly negative assessments.
-%
-%    %Highlight uncertainties. Foreseeing the impacts of research,
-%    %especially basic research, is notoriously difficult. We recommend
-%    %acknowledging your uncertainties, while also not letting it stop you
-%    %from reflecting about impact.
-%
-%    %Focus on tractable, neglected, and significant impacts. Scientific
-%    %research tends to have a bewildering array of potential impacts, more
-%    %so as the research is more foundational or the considered impacts are
-%    %more long term.  It will be infeasible to consider them all.
-%
-%    %Think about impacts even for theoretical work. Theoretical work does
-%    %have downstream impact — that’s after all a motivation for much
-%    %theoretical work — and so we encourage researchers to make an attempt,
-%    %perhaps reflecting on their subfield more broadly.
-%            
-%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%%~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%
-%\section*{Acknowledgements}
-%
-%    %\begin{ack}
-%        We feel deep gratitude to
-%            \textsc{Sho Yaida},
-%            \textsc{Dan A. Roberts}, and
-%            \textsc{Josh Tenenbaum}
-%        for posing some of the problems this work resolves and for their
-%        patient guidance.  We appreciate the generosity of
-%            \textsc{Andy Banburski},
-%            \textsc{Ben R. Bray},
-%            \textsc{Jeff Lagarias}, and
-%            \textsc{Wenli Zhao}
-%        in critiquing our drafts.
-%        Without the encouragement of
-%            \textsc{Jason Corso},
-%            \textsc{Chloe Kleinfeldt},
-%            \textsc{Alex Lew}, 
-%            \textsc{Ari Morcos}, and
-%            \textsc{David Schwab},
-%        this paper would not be.
-%        Finally, we thank our anonymous reviewers for inspiring an improved
-%        presentation.
-%        %
-%        This work was funded in part by MIT's Jacobs Presidential Fellowship
-%        and in part by Facebook AI Research.
-%    %\end{ack}
-%        
-%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%%~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%
-%%\section*{References}
-%    \bibliographystyle{plainnat}
-%    \bibliography{perturb}
-%
-%    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%    %~~~~~~~~~  Diagrams as Graphs  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%
-%    \subsection{Diagrams and embeddings}
-%
-%        Though a rough, intuitive understanding of concepts such as
-%        \emph{diagram} suffices for absorbing this paper's main results, the
-%        following definitions may help the reader who wishes to follow our
-%        mathematics closely.
-%
-%        \begin{defn}[Diagrams] \label{dfn:diagrams}
-%            A \emph{diagram} is a finite rooted tree equipped with a partition
-%            of its nodes.  We draw the tree using thin edges.  By convention,
-%            we draw each node to the right of its children; the root is thus
-%            always rightmost.  We draw the partition by connecting the nodes
-%            within each part via fuzzy ties.  For example,
-%            $\sdia{(012-3)(03-13-23)}$ has $2$ parts.
-%            %
-%            We insist on using as few fuzzy ties as possible so that, if $d$
-%            counts edges and $c$ counts ties, then $d+1-c$ counts the parts
-%            of the partition. 
-%            %
-%            There may be multiple ways to draw a single diagram, e.g.
-%            $\sdia{(01-23)(03-13-23)} = \sdia{(02-13)(03-13-23)}$. 
-%        \end{defn}
-%
-%        \begin{defn}[Spacetime] 
-%            The \emph{spacetime} associated with an SGD run is the set of pairs
-%            $(n,t)$ where the $n$th datapoint participates in the $t$th
-%            gradient update.  Spacetimes thus encode batch size, training
-%            set size, and epoch number.
-%        \end{defn}
-%
-%        \begin{defn}[Embedding Diagrams into Spacetime]
-%            An \emph{embedding} of a diagram $D$ into a spacetime is an
-%            assignment of $D$'s non-root nodes to pairs $(n,t)$ such that each
-%            node occurs at a time $t^\prime$ strictly after each of its
-%            children and such that two nodes occupy the same row $n$ if and
-%            only if they inhabit the same part of $D$'s partition.
-%        \end{defn}
-%
-%        To visualize embeddings, we draw the $(n,t)$ pairs of a space-time as
-%        shaded cells in an $N\times T$ grid.  A diagram embedding is then an
-%        assignment of nodes to shaded cells.  The $t<t^\prime$ constraint 
-%        forbids intra-cell edges (Figure \ref{fig:spacetimes} left), and we may
-%        interpret each edge as an effect of the past on the future (right).
-%
-%        \begin{defn}[A Diagram's Un-resummed Value]
-%            The \emph{un-resummed value} of a diagram $D$ is the product of the
-%            values of each part $p$ in its partition.  The value
-%            of a part $p$ with $\wabs{p}$ many nodes is the expectation
-%            $\expc_x\wasq{(\nabla l_x(\theta))^{\wabs{p}}}$.  The edges of
-%            $D$'s tree indicate how to multiply the values of these
-%            parts: each edge indicates a contraction.  For instance,
-%            since the training points are independent:
-%            $$
-%                \sdia{(01-2-3)(02-12-23)}
-%                    \triangleq
-%                \expc_{
-%                    {\color{moor}n},
-%                    {\color{moog}n^\prime},
-%                    {\color{moob}n^{\prime\prime}}
-%                }\wasq{
-%                    (\nabla_\mu l_{\color{moor}n})
-%                    (\nabla_\nu l_{\color{moor}n})
-%                    (\nabla^\mu \nabla^\nu \nabla_\lambda l_{\color{moog}n^\prime})
-%                    (\nabla^\lambda l_{\color{moob}n^{\prime\prime}})
-%                }%(\theta_0)
-%            $$
-%            Implicit in the three raised indices are three factors of $\eta$.
-%            We denote $D$'s un-resummed value by $\uvalue(D)$, or by $D$ when
-%            clear.
-%        \end{defn}
-%
-%        \begin{defn}[An Embedding's Re-summed Value]
-%            The \emph{re-summed value} $\rvalue_f(D)$ of an embedding $f$ of a
-%            diagram $D$ is the same as the un-resummed value of $D$, save for
-%            one change having to do with edges.  Consider an edge between two
-%            nodes embedded to $(n,t)$ and $(n^\prime, t+\Delta t)$.  Whereas
-%            $\uvalue(D)$ has a factor of $\eta^{\mu\nu}$ for this edge,
-%            $\rvalue_f(D)$ instead has a factor of
-%            $
-%                ((I-\eta H)^{\Delta t - 1})^\mu_\lambda \eta^{\lambda\nu}
-%            $.  Here, $1 \leq \Delta t$ is the temporal distance between
-%            the two nodes' embeddings.  
-%        \end{defn}
-%
-%        We will often seek \emph{differences}, e.g.\ between ODE's and SGD's
-%        test loss or between a test loss and a train loss.  We thus define a
-%        compact notation for differences of diagrams:
-%        \begin{defn}[Fuzzy Outlines Denote Noise's Net Effect]
-%            A diagram drawn with one \emph{fuzzy outline} denotes the
-%            difference between the versions with and without fuzzy ties.  E.g.:
-%            $$
-%                \mdia{c(0-12)(01-12)}
-%                    \triangleq
-%                \mdia{(0-12)(01-12)}
-%                    -
-%                \mdia{(0-1-2)(01-12)}
-%            $$
-%            We define a diagram drawn with more than one fuzzy outline as the
-%            fully tied version minus all the versions with fewer fuzzy outlines
-%            (these are the M\"obius sums of \cite{ro64}):
-%            \begin{align*}
-%                \sdia{c(012-3)(01-13-23)}
-%                    &\triangleq
-%                \sdia{(012-3)(01-13-23)}
-%                    -
-%                \sdia{c(01-2-3)(01-13-23)}
-%                    -
-%                \sdia{c(02-1-3)(01-13-23)}
-%                    -
-%                \sdia{c(0-12-3)(01-13-23)}
-%                    -
-%                \sdia{(0-1-2-3)(01-13-23)} \\
-%                    &\triangleq
-%                \sdia{(012-3)(01-13-23)}
-%                    -
-%                \sdia{(01-2-3)(01-13-23)}
-%                    -
-%                \sdia{(02-1-3)(01-13-23)}
-%                    -
-%                \sdia{(0-12-3)(01-13-23)}
-%                    +
-%                2 \sdia{(0-1-2-3)(01-13-23)}
-%            \end{align*}
-%        \end{defn}
-%
-%        \begin{defn}[Irreducible Diagrams]
-%            A diagram, drawn with fuzzy outlines instead of ties, is
-%            \emph{irreducible} when none of its degree-$2$ non-root nodes
-%            participates in fuzzy outlines. 
-%            So
-%            $\sdia{c(0-1-2)(02-12)},
-%            \sdia{c(01-2)(01-12)}$
-%            are irreducible, 
-%            but not
-%            $\sdia{c(0-1-2)(01-12)},
-%            \sdia{c(02-1-3)(01-12-23)}$.
-%        \end{defn}
-%
-%        \begin{figure}[h] 
-%            \centering  
-%            \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
-%            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-%            \caption{
-%                {\bf Diagrams in Spacetime Depict SGD's Subprocesses.}
-%                Two spacetimes with $N=8, T=16$.
-%                {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. 
-%                    Embeddings, legal and illegal, of
-%                        $\sdia{(01-2)(01-12)}$,
-%                        $\sdia{(01-2)(01-12)}$, and
-%                        $\sdia{(0-1-2)(01-12)}$.
-%                {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. 
-%                    Interpretation of an order $\eta^4$ diagram embedding. 
-%            }
-%            \label{fig:spacetimes}
-%        \end{figure}
-%            
-%
-%        \begin{table}[H]
-%            \centering 
-%            \resizebox{0.99\columnwidth}{!}{
-%            \begin{tabular}{c|c|c}
-%                {\LARGE $\Theta\left((\eta T)^3 T^{-0}\right)$} &
-%                {\LARGE $\Theta\left((\eta T)^3 T^{-1}\right)$} &
-%                {\LARGE $\Theta\left((\eta T)^3 T^{-2}\right)$} \\ \hline
-%                \begin{tabular}{c}
-%                    \begin{tabular}{LL}
-%                        \bdia{(0-1-2-3)(01-12-23)} & \bdia{(0-1-2-3)(01-13-23)}
-%                    \end{tabular} \\
-%                    \begin{tabular}{LL}
-%                        \bdia{(0-1-2-3)(02-13-23)} & \bdia{(0-1-2-3)(03-12-23)}
-%                    \end{tabular} \\ \hline
-%                    \begin{tabular}{LL}
-%                        \bdia{(0-1-2-3)(03-13-23)} & \bdia{(0-1-2-3)(02-12-23)}
-%                    \end{tabular}
-%                \end{tabular}
-%                &
-%                \begin{tabular}{c}
-%                    \begin{tabular}{LL}
-%                        \bdia{(01-2-3)(02-13-23)} & \bdia{(01-2-3)(03-12-23)}
-%                    \end{tabular} \\ \hline
-%                    \begin{tabular}{LL}
-%                        \bdia{(0-12-3)(01-13-23)} & \bdia{(0-12-3)(02-13-23)}
-%                    \end{tabular} \\ \hline
-%                    \begin{tabular}{LLL}
-%                        \bdia{(01-2-3)(03-13-23)} & \bdia{(0-12-3)(03-13-23)} & \bdia{(01-2-3)(02-12-23)} 
-%                    \end{tabular}
-%                \end{tabular}
-%                &
-%                \begin{tabular}{c}
-%                    \begin{tabular}{L}
-%                        \bdia{(012-3)(03-13-23)}
-%                    \end{tabular}
-%                \end{tabular}
-%            \end{tabular}
-%        }
-%            \caption{
-%                {\bf Degree-$3$ diagrams for $B=M=1$ SGD's test loss}.
-%                The $6$ diagrams have $(4+2)+(2+2+3)+(1)$ total orderings
-%                relevant to Proposition \ref{prop:vanilla}.
-%                {\bf Left:} $(d,c)=(3,0)$.  Diagrams for ODE behavior.
-%                {\bf Center:} $(d,c)=(3,1)$.  $1$st order deviation of SGD
-%                away from ODE.
-%                {\bf Right:} $(d,c)=(3,2)$.  $2$nd order deviation of SGD
-%                from ODE with appearance of non-Gaussian statistics.
-%            }
-%            \label{tab:scatthree}
-%        \end{table}
-% 
-%        %The connection between generalization and covariance was first
-%        %established by \cite{ro18} in the case $T=2$ and to order $\eta^2$. 
-%        %In fact, that work conjectures the possibility of emulating GD with
-%        %SGD.  This sub-section extends that work by generalizing to arbitrary
-%        %$T$ and arbitrary orders $\eta^d$, and by concretely defining GDC.
-%
-%        %In these experiments, we used a covariance estimator $\hat C \propto
-%        %\nabla l_x (\nabla l_x - \nabla l_y)$ evaluated on two batches $x, y$
-%        %that evenly partition the train set.  For typical architectures, we may
-%        %compute $\nabla \hat C$ with the same memory and time as the usual
-%        %gradient $\nabla l_t$, up to a multiplicative constant. 
-%
-%
-%    %--------------------------------------------------------------------------
-%    %           Comparison to Continuous Time               
-%    %--------------------------------------------------------------------------
-%
-%    \subsection{Comparison to continuous time} \label{subsect:gaussfit}
-%        Consider fitting a centered normal $\Nn(0, \sigma^2)$ to data $x$ drawn 
-%        i.i.d. from a centered standard normal.  We parameterize the landscape
-%        by $h=\log(\sigma^2)$ so that the Fisher information matches the
-%        standard dot product \citep{am98}.  The gradient at sample $x$ and
-%        weight $h$ is then $g_x(h) = (1-x^2\exp(-h))/2$.  Since $x\sim
-%        \Nn(0, 1)$, $g_x(h)$ will be affinely related to a chi-squared and in
-%        particular non-Gaussian.
-%        %At $h=0$, the expected gradient vanishes, so
-%        %each diagram with a singleton leaf evaluates to $0$.  The test loss of
-%        %SGD thus involves only the remaining diagrams; to $3$rd order, it is
-%        %$$
-%        %    \sdia{(0)()}
-%        %    +\frac{T}{2} \sdia{c(01-2)(02-12)}
-%        %    -{T\choose 2} \sdia{c(03-1-2)(01-12-23)}
-%        %    -\frac{T}{6} \sdia{c(012-3)(03-13-23)}
-%        %$$
-%        {\color{red} FIGURE} shows that even for this simple learning problem, 
-%        SGD and SDE differ as predicted.
-%
-%        It is routine to check that, by stitching together copies of this
-%        example, we may cause SGD to travel along paths that are closed loops
-%        or unbounded curvesWe may even add a small linear component so
-%        that SGD steadily climbs uphill.  
-%
-%        So, even in a valley of global minima,
-%        SGD will move away from minima whose Hessian aligns with the current
-%        covariance.  However, by the time it moves, the new covariance might
-%        differ from the old one, and SGD will be repelled by different Hessians
-%        than before.  Setting the covariance to lag the Hessian by a phase, we
-%        construct a landscape in which this entropic force dominates.  This
-%        ``\emph{linear screw}'' landscape has
-%
-%
-%        %{\color{red} CITE TIC}
-%        %Because the TIC estimates a smooth hypothesis class's generalization
-%        %gap, it is tempting to use it as an additive regularization term.
-%        %However, since the TIC is singular where the Hessian is singular, it
-%        %gives insensible results for over-parameterized models.  E.g.,
-%        %\cite{di18} report numerical difficulties requiring an arbitrary
-%        %cutoff. 
-%
-%        %Fortunately, by Corollary \ref{cor:overfit}, the implicit
-%        %regularization of gradient descent both demands and enables a
-%        %singularity-removing correction to the TIC (Figure
-%        %\ref{fig:thermoandtak}, right).  
-%        %%
-%        %The resulting \emph{Stabilized TIC} (STIC) uses the metric $\eta^{-1}$
-%        %implicit in gradient descent to threshold flat from sharp
-%        %minima\footnote{
-%        %    The notion of $H$'s width depends on a choice of
-%        %    metric.  Prior work chooses this metric arbitrarily.  We show that
-%        %    choosing $\eta^{-1}$ is a natural choice because it leads to a
-%        %    prediction of the gen.\ gap.
-%        %}.
-%        %%
-%        %It thus offers a principled method for
-%        %optimizer-aware model selection easily compatible with automatic
-%        %differentiation systems.  By descending on STIC, we may tune smooth
-%        %hyperparameters such as $l_2$ coefficients.  Experiments on an
-%        %artificial Mean Estimation problem (task in Appendix
-%        %\ref{sect:landscape}, plot in Appendix \ref{sect:figures}) recommend
-%        %STIC for model selection when $H$ is negligible compared to $C/N$ as in
-%        %the noisy, small-$N$ regime.  Because diagonalization typically takes
-%        %time cubic in dimension, exact STIC regularization is most useful for
-%        %small models on noisy and limited data.
-%
-%    \subsection{Questions}
-%
-%        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%        %~~~~~  Ask Questions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%
-%        The diagram method opens the door to exploration of Lagrangian
-%        formalisms and curved backgrounds\footnote{
-%            \cite{la60, la51} introduce these concepts.
-%        }:
-%        \begin{quest}
-%            Does some least-action principle govern SGD; if not, what is an
-%            essential obstacle to this characterization?
-%        \end{quest}
-%        Lagrange's least-action formalism intimately intertwines with the
-%        diagrams of physics.  Together, they afford a modular framework for
-%        introducing new interactions as new terms or diagram nodes.  In fact,
-%        we find that some \emph{higher-order} methods --- such as the
-%        Hessian-based update
-%        $
-%            \theta \leftsquigarrow
-%            \theta -
-%            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
-%            \nabla l_t(\theta)
-%        $
-%        parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
-%        when we represent the $\lambda$ term as a second type of diagram node.
-%        Though diagrams suffice for computation, it is Lagrangians that most
-%        deeply illuminate scaling and conservation laws.
-%        \begin{conj}[Riemann Curvature Regularizes]
-%            For small $\eta$, SGD's gen. gap decreases as sectional curvature
-%            grows.
-%        \end{conj}
-%        Though our work so far assumes a flat metric $\eta^{\mu\nu}$, it
-%        generalizes to curved weight spaces\footnote{
-%            One may represent the affine connection as a node, thus giving
-%            rise to non-tensorial and hence gauge-dependent diagrams.
-%        }.
-%        Curvature finds concrete application in the \emph{learning on
-%        manifolds} paradigm of \cite{ab07, zh16}, notably specialized to
-%        \cite{am98}'s \emph{natural gradient descent} and \cite{ni17}'s
-%        \emph{hyperbolic embeddings}.  We are optimistic our formalism may
-%        resolve conjectures such as above.
-%
-%
-%    %%--------------------------------------------------------------------------
-%    %%           History of SGD
-%    %%--------------------------------------------------------------------------
-%
-%    %It was \cite{ki52} who, in uniting gradient descent \citep{ca47} with
-%    %stochastic approximation \citep{ro51}, invented SGD.  Since the development
-%    %of back-propagation for efficient differentiation \citep{we74}, SGD has
-%    %been used to train connectionist models including neural networks
-%    %\citep{bo91}, in recent years to remarkable success \citep{le15}.
-%
-%    %\subsection{Single-Epoch, Singleton-Batch SGD}
-%        For SGD with $1$ epoch and batch size $1$, Theorem \ref{thm:resum} then
-%        specializes to: 
-%        \begin{prop} \label{prop:vanilla}
-%            Single-epoch singleton-batch SGD has expected test loss
-%            \begin{equation*}\label{eq:sgdbasiccoef}
-%                \sum_{0\leq d<\infty}
-%                \frac{(-1)^d}{d!} \sum_{D} 
-%                |\ords(D)| \, {N \choose P-1} \, \frac{d!}{\prod d_p!}
-%                \uvalue(D)
-%            \end{equation*}
-%            where $D$ has $P$ parts with sizes $d_p$.
-%            Here, $D$ ranges over $d$-edged diagrams none of whose parts
-%            contains any of its nodes' ancestors, and
-%            $|\ords(D)|$ counts the total orderings of $D$'s nodes s.t.\
-%            children precede parents and parts are contiguous.
-%        \end{prop}
-%        A diagram with $d$ thin edges and $c$ fuzzy ties (hence $d+1-c$
-%        parts) thus contributes $\Theta\wrap{(\eta T)^d T^{-c}}$ to SGD's test
-%        loss. 
-%        %
-%        Intuitively, $\eta T$ measures the physical time of descent and
-%        $T^{-1}$ measures the coarseness of time discretization.  We thus
-%        regard Proposition \ref{prop:vanilla} as a double series in $(\eta T)^d
-%        T^{-c}$, where each term isolates the $d$th order effect of time and
-%        the $c$th order effect of noise.  Indeed, $c$ counts fuzzy ties and
-%        hence the $c=0$ terms do not model correlations and hence do not model
-%        noise.  That is, the $c=0$ terms give an ODE approximation to SGD.  The
-%        remaining terms give the corrections due to noise.  See Table
-%        \ref{tab:scatthree}. 
-%
-%            {\color{red} APPENDIX}'s estimators for $C$ et al.
-%            take time comparable to backpropogation.
+%==============================================================================
+%    CODA               
+%==============================================================================
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Broader Impacts  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\section*{Broader Impacts}
+
+    Though machine learning has the long-term potential for vast improvements
+    in world-wide quality of life, it is today a source of enormous carbon
+    emissions \citep{st19}.  Our analysis of SGD may lead to a reduced carbon
+    footprint in three ways. 
+     
+    First, Section \ref{subsect:epochs-batch} shows how to modify the loss
+    landscape so that large-batch GD enjoys the stochastic regularizing
+    properties of small-batch SGD, or (symmetrically) so that small-batch SGD
+    enjoys the stability of large-batch GD.  By unchaining the effective batch
+    size from the actual batch size, we raise the possibility of training
+    neural networks on a wider range of hardware than currently practical.  For
+    example, asynchronous concurrent small-batch SGD (e.g., \cite{ni11}) might
+    require less inter-GPU communication and therefore less power.
+     
+    Second, Section \ref{sect:concl} discusses an application to meta-learning,
+    which has the potential to decrease the per-task sample complexity and
+    hence carbon footprint of modern ML.
+     
+    Third, the generalization of AIC developed in  Sections
+    \ref{subsect:curvature-and-overfitting} and \ref{subsect:overfit} permits
+    certain forms of model selection by gradient descent rather than brute
+    force search.  This might drastically reduce the energy consumed during
+    model selection.
+
+    That said, insofar as our theory furthers practice, it may instead
+    contribute to the rapidly growing popularity of GPU-intensive learning,
+    thus negating the aforementioned benefits and accelerating climate change.
+
+    More broadly, this paper analyzes optimization in the face of uncertainty.
+    As ML systems deployed today must increasingly address \emph{user privacy},
+    \emph{pedestrian safety}, and \emph{dataset diversity}, it becomes
+    increasingly important to recognize that training sets and test sets
+    differ.  Toward this end, theoretical work relating to non-Gaussian noise
+    may assist practitioners in building provably non-discriminatory, safe, or
+    private models (e.g., \cite{dw06}).  By quantifying how correlated,
+    non-Gaussian gradient noise affects descent-based learning, this paper
+    contributes to such broader theory.
+
+    %Authors are required to include a statement of the broader impact of their
+    %work, including its ethical aspects and future societal consequences.
+    %Authors should discuss both positive and negative outcomes, if any. For
+    %instance, authors should discuss a) who may benefit from this research, b)
+    %who may be put at disadvantage from this research, c) what are the
+    %consequences of failure of the system, and d) whether the task/method
+    %leverages biases in the data. If authors believe this is not applicable to
+    %them, authors can simply state this.
+
+    %By connecting to physics, we strengthen the bridge between
+    %two vibrant research communities.
+
+    %Highlight both benefits and risks from your research. The NeurIPS
+    %requirement asks that “Authors should take care to discuss both
+    %positive and negative outcomes.” Systematically doing so will help us
+    %push through the various biases, personal and institutional, towards
+    %overly positive or overly negative assessments.
+
+    %Highlight uncertainties. Foreseeing the impacts of research,
+    %especially basic research, is notoriously difficult. We recommend
+    %acknowledging your uncertainties, while also not letting it stop you
+    %from reflecting about impact.
+
+    %Focus on tractable, neglected, and significant impacts. Scientific
+    %research tends to have a bewildering array of potential impacts, more
+    %so as the research is more foundational or the considered impacts are
+    %more long term.  It will be infeasible to consider them all.
+
+    %Think about impacts even for theoretical work. Theoretical work does
+    %have downstream impact — that’s after all a motivation for much
+    %theoretical work — and so we encourage researchers to make an attempt,
+    %perhaps reflecting on their subfield more broadly.
+            
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\section*{Acknowledgements}
+
+    %\begin{ack}
+        We feel deep gratitude to
+            \textsc{Sho Yaida},
+            \textsc{Dan A. Roberts}, and
+            \textsc{Josh Tenenbaum}
+        for posing some of the problems this work resolves and for their
+        patient guidance.  We appreciate the generosity of
+            \textsc{Andy Banburski},
+            \textsc{Ben R. Bray},
+            \textsc{Jeff Lagarias}, and
+            \textsc{Wenli Zhao}
+        in critiquing our drafts.
+        Without the encouragement of
+            \textsc{Jason Corso},
+            \textsc{Chloe Kleinfeldt},
+            \textsc{Alex Lew}, 
+            \textsc{Ari Morcos}, and
+            \textsc{David Schwab},
+        this paper would not be.
+        Finally, we thank our anonymous reviewers for inspiring an improved
+        presentation.
+        %
+        This work was funded in part by MIT's Jacobs Presidential Fellowship
+        and in part by Facebook AI Research.
+    %\end{ack}
+        
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%\section*{References}
+    \bibliographystyle{plainnat}
+    \bibliography{perturb}
+
+    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %~~~~~~~~~  Diagrams as Graphs  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    \subsection{Diagrams and embeddings}
+
+        %Though a rough, intuitive understanding of concepts such as
+        %\emph{diagram} suffices for absorbing this paper's main results, the
+        %following definitions may help the reader who wishes to follow our
+        %mathematics closely.
+
+        \begin{defn}[Diagrams] \label{dfn:diagrams}
+            A \emph{diagram} is a finite rooted tree equipped with a partition
+            of its nodes.  We draw the tree using thin edges.  By convention,
+            we draw each node to the right of its children; the root is thus
+            always rightmost.  We draw the partition by connecting the nodes
+            within each part via fuzzy ties.  For example,
+            $\sdia{(012-3)(03-13-23)}$ has $2$ parts.
+            %
+            We insist on using as few fuzzy ties as possible so that, if $d$
+            counts edges and $c$ counts ties, then $d+1-c$ counts the parts
+            of the partition. 
+            %
+            There may be multiple ways to draw a single diagram, e.g.
+            $\sdia{(01-23)(03-13-23)} = \sdia{(02-13)(03-13-23)}$. 
+        \end{defn}
+
+        \begin{defn}[Spacetime] 
+            The \emph{spacetime} associated with an SGD run is the set of pairs
+            $(n,t)$ where the $n$th datapoint participates in the $t$th
+            gradient update.  Spacetimes thus encode batch size, training
+            set size, and epoch number.
+        \end{defn}
+
+        \begin{defn}[Embedding Diagrams into Spacetime]
+            An \emph{embedding} of a diagram $D$ into a spacetime is an
+            assignment of $D$'s non-root nodes to pairs $(n,t)$ such that each
+            node occurs at a time $t^\prime$ strictly after each of its
+            children and such that two nodes occupy the same row $n$ if and
+            only if they inhabit the same part of $D$'s partition.
+        \end{defn}
+
+        To visualize embeddings, we draw the $(n,t)$ pairs of a space-time as
+        shaded cells in an $N\times T$ grid.  A diagram embedding is then an
+        assignment of nodes to shaded cells.  The $t<t^\prime$ constraint 
+        forbids intra-cell edges (Figure \ref{fig:spacetimes} left), and we may
+        interpret each edge as an effect of the past on the future (right).
+
+        \begin{defn}[A Diagram's Un-resummed Value]
+            The \emph{un-resummed value} of a diagram $D$ is the product of the
+            values of each part $p$ in its partition.  The value
+            of a part $p$ with $\wabs{p}$ many nodes is the expectation
+            $\expc_x\wasq{(\nabla l_x(\theta))^{\wabs{p}}}$.  The edges of
+            $D$'s tree indicate how to multiply the values of these
+            parts: each edge indicates a contraction.  For instance,
+            since the training points are independent:
+            $$
+                \sdia{(01-2-3)(02-12-23)}
+                    \triangleq
+                \expc_{
+                    {\color{moor}n},
+                    {\color{moog}n^\prime},
+                    {\color{moob}n^{\prime\prime}}
+                }\wasq{
+                    (\nabla_\mu l_{\color{moor}n})
+                    (\nabla_\nu l_{\color{moor}n})
+                    (\nabla^\mu \nabla^\nu \nabla_\lambda l_{\color{moog}n^\prime})
+                    (\nabla^\lambda l_{\color{moob}n^{\prime\prime}})
+                }%(\theta_0)
+            $$
+            Implicit in the three raised indices are three factors of $\eta$.
+            We denote $D$'s un-resummed value by $\uvalue(D)$, or by $D$ when
+            clear.
+        \end{defn}
+
+        \begin{defn}[An Embedding's Re-summed Value]
+            The \emph{re-summed value} $\rvalue_f(D)$ of an embedding $f$ of a
+            diagram $D$ is the same as the un-resummed value of $D$, save for
+            one change having to do with edges.  Consider an edge between two
+            nodes embedded to $(n,t)$ and $(n^\prime, t+\Delta t)$.  Whereas
+            $\uvalue(D)$ has a factor of $\eta^{\mu\nu}$ for this edge,
+            $\rvalue_f(D)$ instead has a factor of
+            $
+                ((I-\eta H)^{\Delta t - 1})^\mu_\lambda \eta^{\lambda\nu}
+            $.  Here, $1 \leq \Delta t$ is the temporal distance between
+            the two nodes' embeddings.  
+        \end{defn}
+
+        We will often seek \emph{differences}, e.g.\ between ODE's and SGD's
+        test loss or between a test loss and a train loss.  We thus define a
+        compact notation for differences of diagrams:
+        \begin{defn}[Fuzzy Outlines Denote Noise's Net Effect]
+            A diagram drawn with one \emph{fuzzy outline} denotes the
+            difference between the versions with and without fuzzy ties.  E.g.:
+            $$
+                \mdia{c(0-12)(01-12)}
+                    \triangleq
+                \mdia{(0-12)(01-12)}
+                    -
+                \mdia{(0-1-2)(01-12)}
+            $$
+            We define a diagram drawn with more than one fuzzy outline as the
+            fully tied version minus all the versions with fewer fuzzy outlines
+            (these are the M\"obius sums of \cite{ro64}):
+            \begin{align*}
+                \sdia{c(012-3)(01-13-23)}
+                    &\triangleq
+                \sdia{(012-3)(01-13-23)}
+                    -
+                \sdia{c(01-2-3)(01-13-23)}
+                    -
+                \sdia{c(02-1-3)(01-13-23)}
+                    -
+                \sdia{c(0-12-3)(01-13-23)}
+                    -
+                \sdia{(0-1-2-3)(01-13-23)} \\
+                    &\triangleq
+                \sdia{(012-3)(01-13-23)}
+                    -
+                \sdia{(01-2-3)(01-13-23)}
+                    -
+                \sdia{(02-1-3)(01-13-23)}
+                    -
+                \sdia{(0-12-3)(01-13-23)}
+                    +
+                2 \sdia{(0-1-2-3)(01-13-23)}
+            \end{align*}
+        \end{defn}
+
+        \begin{defn}[Irreducible Diagrams]
+            A diagram, drawn with fuzzy outlines instead of ties, is
+            \emph{irreducible} when none of its degree-$2$ non-root nodes
+            participates in fuzzy outlines. 
+            So
+            $\sdia{c(0-1-2)(02-12)},
+            \sdia{c(01-2)(01-12)}$
+            are irreducible, 
+            but not
+            $\sdia{c(0-1-2)(01-12)},
+            \sdia{c(02-1-3)(01-12-23)}$.
+        \end{defn}
+
+        \begin{figure}[h] 
+            \centering  
+            \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
+            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
+            \caption{
+                {\bf Diagrams in Spacetime Depict SGD's Subprocesses.}
+                Two spacetimes with $N=8, T=16$.
+                {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. 
+                    Embeddings, legal and illegal, of
+                        $\sdia{(01-2)(01-12)}$,
+                        $\sdia{(01-2)(01-12)}$, and
+                        $\sdia{(0-1-2)(01-12)}$.
+                {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. 
+                    Interpretation of an order $\eta^4$ diagram embedding. 
+            }
+            \label{fig:spacetimes}
+        \end{figure}
+            
+
+        \begin{table}[H]
+            \centering 
+            \resizebox{0.99\columnwidth}{!}{
+            \begin{tabular}{c|c|c}
+                {\LARGE $\Theta\left((\eta T)^3 T^{-0}\right)$} &
+                {\LARGE $\Theta\left((\eta T)^3 T^{-1}\right)$} &
+                {\LARGE $\Theta\left((\eta T)^3 T^{-2}\right)$} \\ \hline
+                \begin{tabular}{c}
+                    \begin{tabular}{LL}
+                        \bdia{(0-1-2-3)(01-12-23)} & \bdia{(0-1-2-3)(01-13-23)}
+                    \end{tabular} \\
+                    \begin{tabular}{LL}
+                        \bdia{(0-1-2-3)(02-13-23)} & \bdia{(0-1-2-3)(03-12-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LL}
+                        \bdia{(0-1-2-3)(03-13-23)} & \bdia{(0-1-2-3)(02-12-23)}
+                    \end{tabular}
+                \end{tabular}
+                &
+                \begin{tabular}{c}
+                    \begin{tabular}{LL}
+                        \bdia{(01-2-3)(02-13-23)} & \bdia{(01-2-3)(03-12-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LL}
+                        \bdia{(0-12-3)(01-13-23)} & \bdia{(0-12-3)(02-13-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LLL}
+                        \bdia{(01-2-3)(03-13-23)} & \bdia{(0-12-3)(03-13-23)} & \bdia{(01-2-3)(02-12-23)} 
+                    \end{tabular}
+                \end{tabular}
+                &
+                \begin{tabular}{c}
+                    \begin{tabular}{L}
+                        \bdia{(012-3)(03-13-23)}
+                    \end{tabular}
+                \end{tabular}
+            \end{tabular}
+        }
+            \caption{
+                {\bf Degree-$3$ diagrams for $B=M=1$ SGD's test loss}.
+                The $6$ diagrams have $(4+2)+(2+2+3)+(1)$ total orderings
+                relevant to Proposition \ref{prop:vanilla}.
+                {\bf Left:} $(d,c)=(3,0)$.  Diagrams for ODE behavior.
+                {\bf Center:} $(d,c)=(3,1)$.  $1$st order deviation of SGD
+                away from ODE.
+                {\bf Right:} $(d,c)=(3,2)$.  $2$nd order deviation of SGD
+                from ODE with appearance of non-Gaussian statistics.
+            }
+            \label{tab:scatthree}
+        \end{table}
  
+        %The connection between generalization and covariance was first
+        %established by \cite{ro18} in the case $T=2$ and to order $\eta^2$. 
+        %In fact, that work conjectures the possibility of emulating GD with
+        %SGD.  This sub-section extends that work by generalizing to arbitrary
+        %$T$ and arbitrary orders $\eta^d$, and by concretely defining GDC.
+
+        %In these experiments, we used a covariance estimator $\hat C \propto
+        %\nabla l_x (\nabla l_x - \nabla l_y)$ evaluated on two batches $x, y$
+        %that evenly partition the train set.  For typical architectures, we may
+        %compute $\nabla \hat C$ with the same memory and time as the usual
+        %gradient $\nabla l_t$, up to a multiplicative constant. 
+
+
+    %--------------------------------------------------------------------------
+    %           Comparison to Continuous Time               
+    %--------------------------------------------------------------------------
+
+    \subsection{Comparison to continuous time} \label{subsect:gaussfit}
+        Consider fitting a centered normal $\Nn(0, \sigma^2)$ to data $x$ drawn 
+        i.i.d. from a centered standard normal.  We parameterize the landscape
+        by $h=\log(\sigma^2)$ so that the Fisher information matches the
+        standard dot product \citep{am98}.  The gradient at sample $x$ and
+        weight $h$ is then $g_x(h) = (1-x^2\exp(-h))/2$.  Since $x\sim
+        \Nn(0, 1)$, $g_x(h)$ will be affinely related to a chi-squared and in
+        particular non-Gaussian.
+        %At $h=0$, the expected gradient vanishes, so
+        %each diagram with a singleton leaf evaluates to $0$.  The test loss of
+        %SGD thus involves only the remaining diagrams; to $3$rd order, it is
+        %$$
+        %    \sdia{(0)()}
+        %    +\frac{T}{2} \sdia{c(01-2)(02-12)}
+        %    -{T\choose 2} \sdia{c(03-1-2)(01-12-23)}
+        %    -\frac{T}{6} \sdia{c(012-3)(03-13-23)}
+        %$$
+        {\color{red} FIGURE} shows that even for this simple learning problem, 
+        SGD and SDE differ as predicted.
+
+        It is routine to check that, by stitching together copies of this
+        example, we may cause SGD to travel along paths that are closed loops
+        or unbounded curvesWe may even add a small linear component so
+        that SGD steadily climbs uphill.  
+
+        So, even in a valley of global minima,
+        SGD will move away from minima whose Hessian aligns with the current
+        covariance.  However, by the time it moves, the new covariance might
+        differ from the old one, and SGD will be repelled by different Hessians
+        than before.  Setting the covariance to lag the Hessian by a phase, we
+        construct a landscape in which this entropic force dominates.  This
+        ``\emph{linear screw}'' landscape has
+
+
+        %{\color{red} CITE TIC}
+        %Because the TIC estimates a smooth hypothesis class's generalization
+        %gap, it is tempting to use it as an additive regularization term.
+        %However, since the TIC is singular where the Hessian is singular, it
+        %gives insensible results for over-parameterized models.  E.g.,
+        %\cite{di18} report numerical difficulties requiring an arbitrary
+        %cutoff. 
+
+        %Fortunately, by Corollary \ref{cor:overfit}, the implicit
+        %regularization of gradient descent both demands and enables a
+        %singularity-removing correction to the TIC (Figure
+        %\ref{fig:thermoandtak}, right).  
+        %%
+        %The resulting \emph{Stabilized TIC} (STIC) uses the metric $\eta^{-1}$
+        %implicit in gradient descent to threshold flat from sharp
+        %minima\footnote{
+        %    The notion of $H$'s width depends on a choice of
+        %    metric.  Prior work chooses this metric arbitrarily.  We show that
+        %    choosing $\eta^{-1}$ is a natural choice because it leads to a
+        %    prediction of the gen.\ gap.
+        %}.
+        %%
+        %It thus offers a principled method for
+        %optimizer-aware model selection easily compatible with automatic
+        %differentiation systems.  By descending on STIC, we may tune smooth
+        %hyperparameters such as $l_2$ coefficients.  Experiments on an
+        %artificial Mean Estimation problem (task in Appendix
+        %\ref{sect:landscape}, plot in Appendix \ref{sect:figures}) recommend
+        %STIC for model selection when $H$ is negligible compared to $C/N$ as in
+        %the noisy, small-$N$ regime.  Because diagonalization typically takes
+        %time cubic in dimension, exact STIC regularization is most useful for
+        %small models on noisy and limited data.
+
+    \subsection{Questions}
+
+        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        %~~~~~  Ask Questions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        The diagram method opens the door to exploration of Lagrangian
+        formalisms and curved backgrounds\footnote{
+            \cite{la60, la51} introduce these concepts.
+        }:
+        \begin{quest}
+            Does some least-action principle govern SGD; if not, what is an
+            essential obstacle to this characterization?
+        \end{quest}
+        Lagrange's least-action formalism intimately intertwines with the
+        diagrams of physics.  Together, they afford a modular framework for
+        introducing new interactions as new terms or diagram nodes.  In fact,
+        we find that some \emph{higher-order} methods --- such as the
+        Hessian-based update
+        $
+            \theta \leftsquigarrow
+            \theta -
+            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
+            \nabla l_t(\theta)
+        $
+        parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
+        when we represent the $\lambda$ term as a second type of diagram node.
+        Though diagrams suffice for computation, it is Lagrangians that most
+        deeply illuminate scaling and conservation laws.
+        \begin{conj}[Riemann Curvature Regularizes]
+            For small $\eta$, SGD's gen. gap decreases as sectional curvature
+            grows.
+        \end{conj}
+        Though our work so far assumes a flat metric $\eta^{\mu\nu}$, it
+        generalizes to curved weight spaces\footnote{
+            One may represent the affine connection as a node, thus giving
+            rise to non-tensorial and hence gauge-dependent diagrams.
+        }.
+        Curvature finds concrete application in the \emph{learning on
+        manifolds} paradigm of \cite{ab07, zh16}, notably specialized to
+        \cite{am98}'s \emph{natural gradient descent} and \cite{ni17}'s
+        \emph{hyperbolic embeddings}.  We are optimistic our formalism may
+        resolve conjectures such as above.
+
+
+    %%--------------------------------------------------------------------------
+    %%           History of SGD
+    %%--------------------------------------------------------------------------
+
+    %It was \cite{ki52} who, in uniting gradient descent \citep{ca47} with
+    %stochastic approximation \citep{ro51}, invented SGD.  Since the development
+    %of back-propagation for efficient differentiation \citep{we74}, SGD has
+    %been used to train connectionist models including neural networks
+    %\citep{bo91}, in recent years to remarkable success \citep{le15}.
+
+    %\subsection{Single-Epoch, Singleton-Batch SGD}
+        For SGD with $1$ epoch and batch size $1$, Theorem \ref{thm:resum} then
+        specializes to: 
+        \begin{prop} \label{prop:vanilla}
+            Single-epoch singleton-batch SGD has expected test loss
+            \begin{equation*}\label{eq:sgdbasiccoef}
+                \sum_{0\leq d<\infty}
+                \frac{(-1)^d}{d!} \sum_{D} 
+                |\ords(D)| \, {N \choose P-1} \, \frac{d!}{\prod d_p!}
+                \uvalue(D)
+            \end{equation*}
+            where $D$ has $P$ parts with sizes $d_p$.
+            Here, $D$ ranges over $d$-edged diagrams none of whose parts
+            contains any of its nodes' ancestors, and
+            $|\ords(D)|$ counts the total orderings of $D$'s nodes s.t.\
+            children precede parents and parts are contiguous.
+        \end{prop}
+        A diagram with $d$ thin edges and $c$ fuzzy ties (hence $d+1-c$
+        parts) thus contributes $\Theta\wrap{(\eta T)^d T^{-c}}$ to SGD's test
+        loss. 
+        %
+        Intuitively, $\eta T$ measures the physical time of descent and
+        $T^{-1}$ measures the coarseness of time discretization.  We thus
+        regard Proposition \ref{prop:vanilla} as a double series in $(\eta T)^d
+        T^{-c}$, where each term isolates the $d$th order effect of time and
+        the $c$th order effect of noise.  Indeed, $c$ counts fuzzy ties and
+        hence the $c=0$ terms do not model correlations and hence do not model
+        noise.  That is, the $c=0$ terms give an ODE approximation to SGD.  The
+        remaining terms give the corrections due to noise.  See Table
+        \ref{tab:scatthree}. 
+
+            {\color{red} APPENDIX}'s estimators for $C$ et al.
+            take time comparable to backpropogation.
+ 
+    %-----------------  experiments  ------------------------------------------
+    Our experiments on image classifiers show that even a single evaluation of
+    our force laws may predict SGD's motion through macroscopic timescales,
+    e.g.\ long enough to decrease error by $0.5$ percentage points.
+
+        \begin{thm}
+            For any $T$: for $\eta$ small enough, SGD has expected test loss
+            \begin{equation*} \label{eq:resum}
+                \sum_{\substack{D \\ \text{irreducible}}}
+                \sum_{\substack{\text{embeddings} \\ f}}
+                \frac{1}{\wabs{\Aut_f(D)}}
+                \frac{{\rvalue_f}(D)}{(-B)^{|\edges(D)|}}
+            \end{equation*}
+            Here, $D$ ranges through irreducible outlined diagrams, $f$ ranges
+            through embeddings of $D$ into the SGD's spacetime, and
+            $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$ that
+            preserve $f$'s assignment of nodes to $(n,t)$ pairs.
+        \end{thm}
+
+        \begin{rmk}
+            Sometimes, we prefer $\uvalue(D)$ to $\rvalue_f(D)$ for its
+            simplicity.  Theorem \ref{thm:resum} persists if we replace each
+            $\rvalue_f(D)$ by $\uvalue(D)$ and sum all tied diagrams instead
+            of irreducible outlined diagrams.  But the large-$T$ convergence
+            no longer holds {\color{red} PLOT}.
+        \end{rmk}
+
+
 \end{document}
