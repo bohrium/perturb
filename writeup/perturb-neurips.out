@@ -1,18 +1,16 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [2][-]{subsection.1.1}{Example of diagram-based reasoning}{section.1}% 2
-\BOOKMARK [2][-]{subsection.1.2}{Background and Notation}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.1}{Example of diagram-based computation of SGD's test loss}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Background, Notation, and Assumptions}{section.1}% 3
 \BOOKMARK [2][-]{subsection.1.3}{Related Work}{section.1}% 4
-\BOOKMARK [1][-]{section.2}{Diagram Calculus: Formalism and Corollaries}{}% 5
+\BOOKMARK [1][-]{section.2}{Diagram Calculus}{}% 5
 \BOOKMARK [2][-]{subsection.2.1}{Insights from the Formalism}{section.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.1.1}{SGD descends on a C-smoothed landscape}{subsection.2.1}% 7
+\BOOKMARK [3][-]{subsubsection.2.1.1}{SGD descends on a C-smoothed landscape and favors minima flat w.r.t. C.}{subsection.2.1}% 7
 \BOOKMARK [3][-]{subsubsection.2.1.2}{Both flat and sharp minima overfit less}{subsection.2.1}% 8
 \BOOKMARK [3][-]{subsubsection.2.1.3}{Epochs and batch size}{subsection.2.1}% 9
 \BOOKMARK [3][-]{subsubsection.2.1.4}{Non-Gaussian noise affects SGD but not SDE}{subsection.2.1}% 10
-\BOOKMARK [1][-]{section.3}{Experiments}{}% 11
-\BOOKMARK [2][-]{subsubsection.3.0.1}{High-C regions repel few-epoch and small-batch SGD}{section.3}% 12
-\BOOKMARK [3][-]{subsubsection.3.0.2}{Minima that are flat with respect to C attract SGD}{subsubsection.3.0.1}% 13
-\BOOKMARK [3][-]{subsubsection.3.0.3}{Sharp and flat minima both overfit less than medium minima}{subsubsection.3.0.1}% 14
-\BOOKMARK [1][-]{section.4}{Conclusion}{}% 15
-\BOOKMARK [2][-]{subsection.4.1}{Diagrams and embeddings}{section.4}% 16
-\BOOKMARK [2][-]{subsection.4.2}{Comparison to continuous time}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.3}{Questions}{section.4}% 18
+\BOOKMARK [1][-]{section.3}{Applying the Theory}{}% 11
+\BOOKMARK [2][-]{subsection.3.1}{Experiments}{section.3}% 12
+\BOOKMARK [3][-]{subsubsection.3.1.1}{High-C regions repel few-epoch and small-batch SGD}{subsection.3.1}% 13
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Minima that are flat with respect to C attract SGD}{subsection.3.1}% 14
+\BOOKMARK [3][-]{subsubsection.3.1.3}{Sharp and flat minima both overfit less than medium minima}{subsection.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.2}{Conclusion}{section.3}% 16
