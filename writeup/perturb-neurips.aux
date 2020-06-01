@@ -51,49 +51,119 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Related Work}{3}{subsection.1.3}}
 \newlabel{sect:related}{{1.3}{3}{Related Work}{subsection.1.3}{}}
 \FN@pp@footnote@aux{4}{3}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Theory, Specialized to $E=B=1$ SGD's Test Loss}{4}{section.2}}
+\newlabel{sect:calculus}{{2}{4}{Theory, Specialized to $E=B=1$ SGD's Test Loss}{section.2}{}}
+\FN@pp@footnote@aux{5}{4}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Main result}{4}{subsection.2.1}}
+\newlabel{thm:resum}{{1}{4}{Special Case}{thm.1}{}}
+\newlabel{eq:resum}{{1}{4}{Special Case}{thm.1}{}}
+\newlabel{thm:converge}{{2}{4}{Long-Term Behavior near a Local Minimum}{thm.2}{}}
+\newlabel{rmk:integrate}{{2}{4}{}{rmk.2}{}}
 \citation{ya19b}
 \citation{we19b}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Diagram Calculus}{4}{section.2}}
-\newlabel{sect:calculus}{{2}{4}{Diagram Calculus}{section.2}{}}
-\newlabel{thm:resum}{{1}{4}{}{thm.1}{}}
-\newlabel{eq:resum}{{1}{4}{}{thm.1}{}}
-\newlabel{thm:converge}{{2}{4}{Long-Term Behavior near a Local Minimum}{thm.2}{}}
-\newlabel{rmk:unresum}{{2}{4}{}{rmk.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Insights from the Formalism}{4}{subsection.2.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}SGD descends on a $C$-smoothed landscape and favors minima flat w.r.t.\ $C$.}{4}{subsubsection.2.1.1}}
-\newlabel{cor:entropic}{{1}{4}{}{cor.1}{}}
 \citation{we19b}
 \citation{we19b}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Both flat and sharp minima overfit less}{5}{subsubsection.2.1.2}}
-\newlabel{subsect:curvature-and-overfitting}{{2.1.2}{5}{Both flat and sharp minima overfit less}{subsubsection.2.1.2}{}}
-\newlabel{cor:overfit}{{2}{5}{}{cor.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  {\bf  Re-summation reveals novel phenomena.} {\bf  Left}: The entropic force mechanism: gradient noise induces a flow toward minima \emph  {with respect to to the covariance}. Though our analysis assumes neither thermal equilibrium nor fast-slow mode separation, we label ``fast and slow directions'' to ease comparison with \cite  {we19b}. Here, red densities denote the spread predicted by a re-summed $C^{\mu \nu }$, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf  Right}: Noise structure determines how curvature affects overfitting. Geometrically, for (empirical risk minimization on) a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref  {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows. }}{5}{figure.1}}
-\newlabel{fig:cubicandspring}{{1}{5}{{\bf Re-summation reveals novel phenomena.} {\bf Left}: The entropic force mechanism: gradient noise induces a flow toward minima \emph {with respect to to the covariance}. Though our analysis assumes neither thermal equilibrium nor fast-slow mode separation, we label ``fast and slow directions'' to ease comparison with \cite {we19b}. Here, red densities denote the spread predicted by a re-summed $C^{\mu \nu }$, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf Right}: Noise structure determines how curvature affects overfitting. Geometrically, for (empirical risk minimization on) a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows}{figure.1}{}}
 \citation{li18}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Insights from the Formalism}{5}{subsection.2.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}SGD descends on a $C$-smoothed landscape and favors minima flat w.r.t.\ $C$.}{5}{subsubsection.2.2.1}}
+\newlabel{cor:entropic}{{1}{5}{}{cor.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Both flat and sharp minima overfit less}{5}{subsubsection.2.2.2}}
+\newlabel{subsect:curvature-and-overfitting}{{2.2.2}{5}{Both flat and sharp minima overfit less}{subsubsection.2.2.2}{}}
+\newlabel{cor:overfit}{{2}{5}{}{cor.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}Epochs and batch size}{5}{subsubsection.2.2.3}}
+\newlabel{subsect:epochs-batch}{{2.2.3}{5}{Epochs and batch size}{subsubsection.2.2.3}{}}
+\newlabel{cor:epochs}{{3}{5}{Epoch Number}{cor.3}{}}
+\newlabel{cor:batch}{{4}{5}{Batch Size}{cor.4}{}}
 \citation{ch18}
-\citation{ch18}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Epochs and batch size}{6}{subsubsection.2.1.3}}
-\newlabel{subsect:epochs-batch}{{2.1.3}{6}{Epochs and batch size}{subsubsection.2.1.3}{}}
-\newlabel{cor:epochs}{{3}{6}{Epoch Number}{cor.3}{}}
-\newlabel{cor:batch}{{4}{6}{Batch Size}{cor.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Non-Gaussian noise affects SGD but not SDE}{6}{subsubsection.2.1.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  {\bf  Re-summation reveals novel phenomena.} {\bf  Left}: The entropic force mechanism: gradient noise induces a flow toward minima \emph  {with respect to to the covariance}. Though our analysis assumes neither thermal equilibrium nor fast-slow mode separation, we label ``fast and slow directions'' to ease comparison with \cite  {we19b}. Here, red densities denote the spread predicted by a re-summed $C^{\mu \nu }$, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf  Right}: Noise structure determines how curvature affects overfitting. Geometrically, for (empirical risk minimization on) a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref  {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows. }}{6}{figure.1}}
+\newlabel{fig:cubicandspring}{{1}{6}{{\bf Re-summation reveals novel phenomena.} {\bf Left}: The entropic force mechanism: gradient noise induces a flow toward minima \emph {with respect to to the covariance}. Though our analysis assumes neither thermal equilibrium nor fast-slow mode separation, we label ``fast and slow directions'' to ease comparison with \cite {we19b}. Here, red densities denote the spread predicted by a re-summed $C^{\mu \nu }$, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf Right}: Noise structure determines how curvature affects overfitting. Geometrically, for (empirical risk minimization on) a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Non-Gaussian noise affects SGD but not SDE}{6}{subsubsection.2.2.4}}
 \newlabel{cor:vsode}{{5}{6}{SGD Differs from ODE, SDE}{cor.5}{}}
-\FN@pp@footnote@aux{5}{6}
+\FN@pp@footnote@aux{6}{6}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Applying the Theory}{6}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experiments}{6}{subsection.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}High-$C$ regions repel few-epoch and small-batch SGD}{6}{subsubsection.3.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), our degree-$3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline  {\bf  Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} \ofsix {2}: With equal-scaled axes, this plot shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Re-summed predictions excel even for large $\eta T$.} \ofsix {4}: On \textsc  {Archimedes}, SGD travels the valley of global minima in the positive $z$ direction. Since $H$ and $C$ are bounded and the effect appears for all small $\eta $, the effect is not a pathology of well-chosen learning rate or divergent noise. The net displacement of $\approx 10^{1.5}$ well exceeds the $z$-period of $2\pi $. \ofsix {5}: For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ optimization are smallest for very small and very large curvatures. As predicted: both sharp and flat minima overfit less. }}{7}{figure.2}}
-\newlabel{fig:vanilla}{{2}{7}{{\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \protect \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), our degree-$3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline {\bf Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} \protect \ofsix {2}: With equal-scaled axes, this plot shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Re-summed predictions excel even for large $\eta T$.} \protect \ofsix {4}: On \Archimedes , SGD travels the valley of global minima in the positive $z$ direction. Since $H$ and $C$ are bounded and the effect appears for all small $\eta $, the effect is not a pathology of well-chosen learning rate or divergent noise. The net displacement of $\approx 10^{1.5}$ well exceeds the $z$-period of $2\pi $. \protect \ofsix {5}: For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ optimization are smallest for very small and very large curvatures. As predicted: both sharp and flat minima overfit less}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Minima that are flat with respect to $C$ attract SGD}{7}{subsubsection.3.1.2}}
-\newlabel{subsect:entropic}{{3.1.2}{7}{Minima that are flat with respect to $C$ attract SGD}{subsubsection.3.1.2}{}}
-\FN@pp@footnote@aux{6}{7}
+\citation{ch18}
 \citation{we19b}
 \citation{ro18}
 \citation{bo91}
 \citation{go18}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}High-$C$ regions repel few-epoch and small-batch SGD}{7}{subsubsection.3.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Minima that are flat with respect to $C$ attract SGD}{7}{subsubsection.3.1.2}}
+\newlabel{subsect:entropic}{{3.1.2}{7}{Minima that are flat with respect to $C$ attract SGD}{subsubsection.3.1.2}{}}
+\FN@pp@footnote@aux{7}{7}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Sharp and flat minima both overfit less than medium minima}{7}{subsubsection.3.1.3}}
+\newlabel{subsect:overfit}{{3.1.3}{7}{Sharp and flat minima both overfit less than medium minima}{subsubsection.3.1.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conclusion}{7}{subsection.3.2}}
+\newlabel{sect:concl}{{3.2}{7}{Conclusion}{subsection.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), our degree-$3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline  {\bf  Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} \ofsix {2}: With equal-scaled axes, this plot shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Re-summed predictions excel even for large $\eta T$.} \ofsix {4}: On \textsc  {Archimedes}, SGD travels the valley of global minima in the positive $z$ direction. Since $H$ and $C$ are bounded and the effect appears for all small $\eta $, the effect is not a pathology of well-chosen learning rate or divergent noise. The net displacement of $\approx 10^{1.5}$ well exceeds the $z$-period of $2\pi $. \ofsix {5}: For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ optimization are smallest for very small and very large curvatures. As predicted: both sharp and flat minima overfit less. }}{8}{figure.2}}
+\newlabel{fig:vanilla}{{2}{8}{{\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \protect \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), our degree-$3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline {\bf Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} \protect \ofsix {2}: With equal-scaled axes, this plot shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Re-summed predictions excel even for large $\eta T$.} \protect \ofsix {4}: On \Archimedes , SGD travels the valley of global minima in the positive $z$ direction. Since $H$ and $C$ are bounded and the effect appears for all small $\eta $, the effect is not a pathology of well-chosen learning rate or divergent noise. The net displacement of $\approx 10^{1.5}$ well exceeds the $z$-period of $2\pi $. \protect \ofsix {5}: For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ optimization are smallest for very small and very large curvatures. As predicted: both sharp and flat minima overfit less}{figure.2}{}}
 \citation{fi17}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Sharp and flat minima both overfit less than medium minima}{8}{subsubsection.3.1.3}}
-\newlabel{subsect:overfit}{{3.1.3}{8}{Sharp and flat minima both overfit less than medium minima}{subsubsection.3.1.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conclusion}{8}{subsection.3.2}}
-\newlabel{sect:concl}{{3.2}{8}{Conclusion}{subsection.3.2}{}}
+\citation{st19}
+\citation{ni11}
+\citation{dw06}
+\bibstyle{plainnat}
+\bibdata{perturb}
+\bibcite{ab07}{{1}{2007}{{Absil et~al.}}{{Absil, Mahony, and Sepulchre}}}
+\bibcite{am98}{{2}{1998}{{Amari}}{{}}}
+\bibcite{ba17}{{3}{2017}{{Bartlett et~al.}}{{Bartlett, Foster, and Telgarsky}}}
+\bibcite{bo13}{{4}{2013}{{Bonnabel}}{{}}}
+\bibcite{bo91}{{5}{1991}{{Bottou}}{{}}}
+\bibcite{ca47}{{6}{1847}{{Cauchy}}{{}}}
+\bibcite{ch18}{{7}{2018}{{Chaudhari and Soatto}}{{}}}
+\bibcite{di17}{{8}{2017}{{Dinh et~al.}}{{Dinh, Pascanu, Bengio, and Bengio}}}
+\bibcite{di18}{{9}{2018}{{Dixon and Ward}}{{}}}
+\bibcite{dw06}{{10}{2006}{{Dwork et~al.}}{{Dwork, McSherry, Nissim, and Smith}}}
+\bibcite{dy19}{{11}{2019}{{Dyer and Gur-Ari}}{{}}}
+\bibcite{fe49}{{12}{1949}{{Feynman}}{{}}}
+\bibcite{fi17}{{13}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
+\bibcite{go18}{{14}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
+\bibcite{ho17}{{15}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
+\bibcite{ja18}{{16}{2018}{{Jastrz\k {e}bski et~al.}}{{Jastrz\k {e}bski, Kenton, Arpit, Ballas, Fischer, Bengio, and Storkey}}}
+\bibcite{ke17}{{17}{2017}{{Keskar et~al.}}{{Keskar, Mudigere, Nocedal, Smelyanskiy, and Tang}}}
+\bibcite{ki52}{{18}{1952}{{Kiefer and Wolfowitz}}{{}}}
+\bibcite{ku19}{{19}{2019}{{Kunstner et~al.}}{{Kunstner, Hennig, and Balles}}}
+\bibcite{la51}{{20}{1951}{{Landau and Lifshitz}}{{}}}
+\bibcite{la60}{{21}{1960}{{Landau and Lifshitz}}{{}}}
+\bibcite{le15}{{22}{2015}{{LeCun et~al.}}{{LeCun, Bengio, and Hinton}}}
+\bibcite{li17}{{23}{2017}{{Li et~al.}}{{Li, Tai, and E}}}
+\bibcite{li18}{{24}{2018}{{Liao et~al.}}{{Liao, Miranda, Banburski, Hidary, and Poggio}}}
+\bibcite{ne17a}{{25}{2017{a}}{{Neyshabur et~al.}}{{Neyshabur, Bhojanapalli, McAllester, and Srebro}}}
+\bibcite{ne17b}{{26}{2017{b}}{{Neyshabur et~al.}}{{Neyshabur, Tomioka, Salakhutdinov, and Srebro}}}
+\bibcite{ni17}{{27}{2017}{{Nickel and Kiela}}{{}}}
+\bibcite{ni11}{{28}{2011}{{Niu et~al.}}{{Niu, Recht, R\'e, and Wright}}}
+\bibcite{pe71}{{29}{1971}{{Penrose}}{{}}}
+\bibcite{ro51}{{30}{1951}{{Robbins and Monro}}{{}}}
+\bibcite{ro18}{{31}{2018}{{Roberts}}{{}}}
+\bibcite{ro64}{{32}{1964}{{Rota}}{{}}}
+\bibcite{ro12}{{33}{2012}{{Roux et~al.}}{{Roux, Bengio, and Fitzgibbon}}}
+\bibcite{st56}{{34}{1956}{{Stein}}{{}}}
+\bibcite{st19}{{35}{2019}{{Strubell et~al.}}{{Strubell, Ganesh, and McCallum}}}
+\bibcite{wa18}{{36}{2018}{{Wang et~al.}}{{Wang, Keskar, Xiong, and Socher}}}
+\bibcite{we19b}{{37}{2019}{{Wei and Schwab}}{{}}}
+\bibcite{we74}{{38}{1974}{{Werbos}}{{}}}
+\bibcite{wu18}{{39}{2018}{{Wu et~al.}}{{Wu, Ma, and E}}}
+\bibcite{ya19a}{{40}{2019{a}}{{Yaida}}{{}}}
+\bibcite{ya19b}{{41}{2019{b}}{{Yaida}}{{}}}
+\bibcite{zh17}{{42}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
+\bibcite{zh16}{{43}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Diagrams and embeddings}{12}{subsection.3.3}}
+\newlabel{dfn:diagrams}{{1}{12}{Diagrams}{defn.1}{}}
+\citation{ro64}
+\citation{am98}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  {\bf  Diagrams in Spacetime Depict SGD's Subprocesses.} Two spacetimes with $N=8, T=16$. {\bf  Left}: Batchsize $B=1$ with inter-epoch shuffling. Embeddings, legal and illegal, of $\sizeddia {(01-2)(01-12)}{0.10}$, $\sizeddia {(01-2)(01-12)}{0.10}$, and $\sizeddia {(0-1-2)(01-12)}{0.10}$. {\bf  Right}: Batchsize $B=2$ without inter-epoch shuffling. Interpretation of an order $\eta ^4$ diagram embedding. }}{14}{figure.3}}
+\newlabel{fig:spacetimes}{{3}{14}{{\bf Diagrams in Spacetime Depict SGD's Subprocesses.} Two spacetimes with $N=8, T=16$. {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. Embeddings, legal and illegal, of $\sdia {(01-2)(01-12)}$, $\sdia {(01-2)(01-12)}$, and $\sdia {(0-1-2)(01-12)}$. {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. Interpretation of an order $\eta ^4$ diagram embedding}{figure.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  {\bf  Degree-$3$ diagrams for $B=M=1$ SGD's test loss}. The $6$ diagrams have $(4+2)+(2+2+3)+(1)$ total orderings relevant to Proposition \ref  {prop:vanilla}. {\bf  Left:} $(d,c)=(3,0)$. Diagrams for ODE behavior. {\bf  Center:} $(d,c)=(3,1)$. $1$st order deviation of SGD away from ODE. {\bf  Right:} $(d,c)=(3,2)$. $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{14}{table.1}}
+\newlabel{tab:scatthree}{{1}{14}{{\bf Degree-$3$ diagrams for $B=M=1$ SGD's test loss}. The $6$ diagrams have $(4+2)+(2+2+3)+(1)$ total orderings relevant to Proposition \ref {prop:vanilla}. {\bf Left:} $(d,c)=(3,0)$. Diagrams for ODE behavior. {\bf Center:} $(d,c)=(3,1)$. $1$st order deviation of SGD away from ODE. {\bf Right:} $(d,c)=(3,2)$. $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Comparison to continuous time}{14}{subsection.3.4}}
+\newlabel{subsect:gaussfit}{{3.4}{14}{Comparison to continuous time}{subsection.3.4}{}}
+\citation{la60,la51}
+\citation{ab07,zh16}
+\citation{am98}
+\citation{ni17}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Questions}{15}{subsection.3.5}}
+\FN@pp@footnote@aux{8}{15}
+\FN@pp@footnote@aux{9}{15}
+\newlabel{prop:vanilla}{{1}{15}{}{prop.1}{}}
+\newlabel{eq:sgdbasiccoef}{{1}{15}{}{prop.1}{}}
+\newlabel{eq:resum}{{3}{16}{}{thm.3}{}}
 \FN@pp@footnotehinttrue 
