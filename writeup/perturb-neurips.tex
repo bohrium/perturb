@@ -25,6 +25,7 @@
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
 \usepackage{mathtools, nicefrac}
 
+\usepackage{setspace}
 %---------------------  tables  ----------------------------------------------- 
 
 \usepackage{booktabs}
@@ -361,13 +362,7 @@
         
         %
         \begin{exm} \label{exm:first}
-            Does non-Gaussian noise affect SGD?%
-            \footnote{
-                Here but not in our Theorems, we assume that $\theta_0$
-                minimizes $l$ and that we run SGD for $1$ epoch with batch size
-                $1$.  This simplifies our analysis by limiting the number of
-                relevant diagrams (see Proposition \ref{prop:vanilla}).
-            }
+            Does non-Gaussian noise affect SGD?
             Specifically, since the skew $S$ measures non-gaussianity, let's
             compute how $S$ affects test loss. The recipe is to identify the
             fewest-edged diagrams containing $S = \sdia{MOOc(012)(0-1-2)}$.  In
@@ -552,28 +547,27 @@
 \section{Theory, Specialized to $E=B=1$ SGD's Test Loss} \label{sect:calculus}
 
     %\subsection{Diagrams, embeddings, and re-summed values}
-        %\addtolength{\parskip}{-1.0cm}
         \begin{wraptable}{r}{5cm}
-          %\caption{Sample table title}
-          %\label{sample-table}
-          %\centering
-          \begin{tabular}{p{5cm}}
-              \textbf{Examples}:
-              The diagrams
-              $\sdia{c(0-1)(01)}$, $\sdia{c(012-3)(03-13-23)}$ each have $2$
-              parts; $\sdia{c(0-12-3)(03-13-23)}$, $\sdia{c(01-2-3)(02-13-23)}$
-              each have $3$.
-              %
-              The non-diagrams
-              $\sdia{c(02-1)(01-12)}$, $\sdia{c(012-3)(01-12-23)}$,
-              $\sdia{c(0-12-3)(02-12-23)}$ violate the path condition.
-              %
-              The diagrams $\sdia{c(0-1-2)(02-12)}$, $\sdia{c(01-2)(01-12)}$
-              are irreducible; due to their green nodes,
-              $\sdia{c(0-1-2)(01-12)}$, $\sdia{c(01-2-3)(03-12-23)}$ are not.
-          \end{tabular}
+            \begin{spacing}{0.8}
+            \begin{tabular}{p{5cm}}
+                \textbf{Examples}:
+                The diagrams
+                $\sdia{c(0-1)(01)}$, $\sdia{c(012-3)(03-13-23)}$ each have $2$
+                parts; $\sdia{c(0-12-3)(03-13-23)}$, $\sdia{c(01-2-3)(02-13-23)}$
+                each have $3$.
+                %
+                Corollaries \ref{cor:overfit}, \ref{cor:epochs},
+                \ref{cor:batch} do not assume $E=B=1$, so they feature
+                $\sdia{c(01)(01)}$ and $\sdia{c(01-2)(01-12)}$, generalized
+                diagrams that violate the path condition. 
+                %
+                The diagrams $\sdia{c(0-1-2)(02-12)}$, $\sdia{c(01-2)(01-12)}$
+                are irreducible; due to their green nodes,
+                $\sdia{c(0-1-2)(01-12)}$, $\sdia{c(01-2-3)(03-12-23)}$ are not.
+            \end{tabular}
+            \end{spacing}
         \end{wraptable}
-        %\addtolength{\parskip}{+1.0cm}
+
         A \emph{diagram} is a finite rooted tree equipped with a partition
         of its nodes obeying the \emph{path condition}: no path from leaf to
         root may encounter any part more than once.
@@ -591,8 +585,8 @@
         $\sdia{c(01-2-3)(02-13-23)}$'s red part to $t=3$ and its green part to
         $t=4$, but not vice versa.
         %
-        {\color{red} Let $\wabs{\Aut_f(D)}$ count the
-        automorphisms of $D$ that commute with $f$.}
+        {\color{red} Let $\wabs{\Aut_f(D)}$ count the graph automorphisms of
+        $D$ that commute with $f$.}
 
         %%%%%%%%%
 
@@ -600,7 +594,7 @@
             E.g., we actually define $\sdia{MOOc(01)(0-1)}$ to be the cumulant
             $C = \ex{(\nb\lx - G)^2}$, not the moment $\ex{(\nb\lx)^2}$.
             This centering is routine (see {\color{red} APPENDIX}), tedious to
-            keep notating, and ungermane, so we ignore it.
+            keep notating, and un-germane, so we ignore it.
         }
         the \emph{re-summed value} $\rvalue_f(D)$ is constructed as follows.
         %
@@ -615,8 +609,8 @@
         brackets $\expc_x{}$.
         %
         %
-        E.g., $f$ maps $\sdia{c(012-3)(03-13-23)}$'s red part
-        to time $t = T-\Delta t$, then (c.f. Example \ref{exm:first}):
+        E.g., if $f$ maps $\sdia{c(012-3)(03-13-23)}$'s red part to time $t =
+        T-\Delta t$, then (the red part gives $S$; the green part, $J$):
         $$
             \rvalue_f\wrap{\sdia{c(012-3)(03-13-23)}} = 
             S_{\mu\lambda\rho}
@@ -635,11 +629,9 @@
         %~~~~~  Recipe for Test Loss  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Theorem \ref{thm:resum} expresses SGD's test loss as a sum over
         diagrams.  A diagram with $d$ edges scales as $O(\eta^d)$, so the
-        following is a series in $\eta$.  We will truncate the series to
-        small $d$, thus focusing on the few-edged diagrams.
-        %and easing the
-        %combinatorics of embeddings.
-        %
+        following is a series in $\eta$.  We will truncate the series to small
+        $d$, thus focusing on few-edged diagrams and easing the combinatorics
+        of embeddings.
         \begin{thm}[Special Case] \label{thm:resum}
             For any $T$: for $\eta$ small enough, SGD has expected test loss
             \begin{equation*} \label{eq:resum}
@@ -673,14 +665,13 @@
       
     \subsection{Insights from the Formalism}
     
-        \subsubsection{SGD descends on a $C$-smoothed landscape and favors
+        \subsubsection{SGD descends on a $C$-smoothed landscape and prefers
         minima flat w.r.t.\ $C$.}
     
-            \begin{cor} \label{cor:entropic}
-                Initialized at a test minimum, and run for long times
-                $T \gg 1/\eta H$ single-epoch singleton-batch SGD's weight moves
-                with an expected average velocity of
-                %{\color{red} DISCUSS $\rvalue_f(\sdia{(01-2-3)(02-12-23)})$}
+            \begin{cor}[Computed from $\sdia{(01-2-3)(02-12-23)}$] \label{cor:entropic}
+                Initialized at a test minimum, and run for long times $T \gg
+                1/\eta H$, SGD drifts with an expected time-averaged velocity
+                of
                 $$
                     v^\lambda
                     =
@@ -698,23 +689,17 @@
                 $$
             \end{cor}
             
-            This corollary results from evaluating
-            $
-                \sdia{c(01-2-3)(02-12-23)}
-            $
-            (call this $D$).  Intuitively, $D$ contains a subdiagram
-            $
-                \sdia{c(01-2)(02-12)} = CH
-            $; by a routine check, $CH$ is the leading-order loss increase upon
-            convolve $l$ with a $C$-shaped Gaussian.  Since
-            $
-                D
-            $ connects the subdiagram $CH$ to {\color{red} to the test
+            Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$
+            contains a subdiagram $\sdia{c(01-2)(02-12)} = (K\eta)^2 CH$.
+            By a routine check, $CH+o(\eta^2)$ is the loss increase upon
+            convolving $l$ with a $C$-shaped Gaussian.  Since
+            $D$ connects the subdiagram to {\color{red} to the test
             measurement} via $1$ edge, it couples $CH$ to $l$'s linear part, so
             it represents a displacement of $\theta$ away from high $CH$.  In
             short, \emph{SGD descends on a covariance-smoothed landscape}.
-            That is, SGD prefers minima that are flat w.r.t.\ $C$ (Figure
-            \ref{fig:cubicandspring}, left).
+            That is, SGD prefers from among a valley's minima those that are
+            flat w.r.t.\ $C$.  Figure \ref{fig:cubicandspring} (left)
+            illustrates this intuition.
     
             \cite{ya19b} reports a small-$T$ version of this result that
             scales with $\eta^3$.  Meanwhile, Corollary \ref{cor:entropic}'s
@@ -728,10 +713,7 @@
             generically non-conservative (Section \ref{subsect:entropic}).
       
         \subsubsection{Both flat and sharp minima overfit less} \label{subsect:curvature-and-overfitting}
-    
-            %Integrating $\rvalue_f(\sdia{(01-2)(02-12)})$ and
-            %Integrating $\rvalue_f(\sdia{(01)(01)})$ yields:
-            \begin{cor}\label{cor:overfit}
+            \begin{cor}[Computed from $\sdia{(01-2)(02-12)}$ and $\sdia{(01)(01)}$]\label{cor:overfit}
                 Initialize GD at a test minimum.  The test-loss-increase and the
                 generalization-gap (test minus train loss) due to training are,
                 with errors $o(\eta^2)$ and $o(\eta^1)$:
