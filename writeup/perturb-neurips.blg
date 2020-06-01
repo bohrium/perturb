@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: perturb-neurips.aux
 The style file: plainnat.bst
 Database file #1: perturb.bib
-You've used 43 entries,
+You've used 36 entries,
             2773 wiz_defined-function locations,
-            769 strings with 9794 characters,
-and the built_in function-call counts, 17070 in all, are:
-= -- 1414
-> -- 1167
-< -- 21
-+ -- 399
-- -- 354
-* -- 1277
-:= -- 2792
-add.period$ -- 129
-call.type$ -- 43
-change.case$ -- 247
-chr.to.int$ -- 41
-cite$ -- 86
-duplicate$ -- 839
-empty$ -- 1313
-format.name$ -- 415
-if$ -- 3475
+            739 strings with 9021 characters,
+and the built_in function-call counts, 14359 in all, are:
+= -- 1186
+> -- 988
+< -- 16
++ -- 338
+- -- 300
+* -- 1086
+:= -- 2350
+add.period$ -- 108
+call.type$ -- 36
+change.case$ -- 208
+chr.to.int$ -- 34
+cite$ -- 72
+duplicate$ -- 704
+empty$ -- 1101
+format.name$ -- 348
+if$ -- 2919
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 43
-newline$ -- 223
-num.names$ -- 172
-pop$ -- 506
+missing$ -- 36
+newline$ -- 188
+num.names$ -- 144
+pop$ -- 426
 preamble$ -- 1
-purify$ -- 204
+purify$ -- 172
 quote$ -- 0
-skip$ -- 647
+skip$ -- 539
 stack$ -- 0
-substring$ -- 86
-swap$ -- 47
+substring$ -- 72
+swap$ -- 40
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 473
+type$ -- 396
 warning$ -- 0
-while$ -- 129
+while$ -- 108
 width$ -- 0
-write$ -- 523
+write$ -- 439
