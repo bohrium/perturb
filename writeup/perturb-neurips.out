@@ -7,11 +7,11 @@
 \BOOKMARK [2][-]{subsection.2.2}{Insights from the formalism}{section.2}% 7
 \BOOKMARK [3][-]{subsubsection.2.2.1}{SGD descends on a C-smoothed landscape and prefers minima flat w.r.t. C.}{subsection.2.2}% 8
 \BOOKMARK [3][-]{subsubsection.2.2.2}{Both flat and sharp minima overfit less}{subsection.2.2}% 9
-\BOOKMARK [3][-]{subsubsection.2.2.3}{High-C regions repel small-E, B SGD}{subsection.2.2}% 10
+\BOOKMARK [3][-]{subsubsection.2.2.3}{High-C regions more strongly repel small-E,B SGD than large-E,B SGD}{subsection.2.2}% 10
 \BOOKMARK [3][-]{subsubsection.2.2.4}{Non-Gaussian noise affects SGD but not SDE}{subsection.2.2}% 11
 \BOOKMARK [1][-]{section.3}{Applying the theory}{}% 12
 \BOOKMARK [2][-]{subsection.3.1}{Experiments}{section.3}% 13
-\BOOKMARK [3][-]{subsubsection.3.1.1}{Training time and batch size}{subsection.3.1}% 14
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Training time, epochs, and batch size; C repels SGD more than GD}{subsection.3.1}% 14
 \BOOKMARK [3][-]{subsubsection.3.1.2}{Minima that are flat with respect to C attract SGD}{subsection.3.1}% 15
 \BOOKMARK [3][-]{subsubsection.3.1.3}{Sharp and flat minima both overfit less than medium minima}{subsection.3.1}% 16
 \BOOKMARK [2][-]{subsection.3.2}{Conclusion}{section.3}% 17

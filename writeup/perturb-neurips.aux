@@ -17,12 +17,14 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \citation{bo91}
-\citation{fe49,pe71}
+\citation{fe49}
+\citation{pe71}
 \providecommand {\FN@pp@footnotehinttrue }{}
 \providecommand {\FN@pp@footnote@aux }[2]{}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
 \citation{bo13}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Example of diagram-based computation of SGD's test loss}{2}{subsection.1.1}}
+\newlabel{subsect:example}{{1.1}{2}{Example of diagram-based computation of SGD's test loss}{subsection.1.1}{}}
 \FN@pp@footnote@aux{1}{2}
 \newlabel{exm:first}{{1}{2}{}{exm.1}{}}
 \citation{ne17a}
@@ -55,44 +57,46 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Main result}{4}{subsection.2.1}}
 \newlabel{thm:resum}{{1}{4}{Special Case}{thm.1}{}}
 \newlabel{eq:resum}{{1}{4}{Special Case}{thm.1}{}}
-\newlabel{thm:converge}{{2}{4}{Long-Term Behavior near a Local Minimum}{thm.2}{}}
+\newlabel{thm:converge}{{2}{4}{}{thm.2}{}}
 \newlabel{rmk:integrate}{{2}{4}{}{rmk.2}{}}
 \citation{ya19b}
 \citation{we19b}
 \citation{we19b}
 \citation{we19b}
-\citation{li18}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Insights from the formalism}{5}{subsection.2.2}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}SGD descends on a $C$-smoothed landscape and prefers minima flat w.r.t.\ $C$.}{5}{subsubsection.2.2.1}}
-\newlabel{cor:entropic}{{1}{5}{Computed from $\sdia {(01-2-3)(02-12-23)}$}{cor.1}{}}
+\newlabel{cor:entropic}{{1}{5}{Computed from $\sdia {c(01-2-3)(02-12-23)}$}{cor.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Both flat and sharp minima overfit less}{5}{subsubsection.2.2.2}}
 \newlabel{subsect:curvature-and-overfitting}{{2.2.2}{5}{Both flat and sharp minima overfit less}{subsubsection.2.2.2}{}}
-\newlabel{cor:overfit}{{2}{5}{from $\sdia {(01-2)(02-12)}$, $\sdia {(01)(01)}$}{cor.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}High-$C$ regions repel small-$E, B$ SGD}{5}{subsubsection.2.2.3}}
-\newlabel{subsect:epochs-batch}{{2.2.3}{5}{High-$C$ regions repel small-$E, B$ SGD}{subsubsection.2.2.3}{}}
-\newlabel{cor:epochs}{{3}{5}{Epoch Number}{cor.3}{}}
-\newlabel{cor:batch}{{4}{5}{Batch Size}{cor.4}{}}
+\newlabel{cor:overfit}{{2}{5}{from $\sdia {c(01-2)(02-12)}$, $\sdia {c(01)(01)}$}{cor.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}High-$C$ regions more strongly repel small-$E,B$ SGD than large-$E,B$ SGD}{5}{subsubsection.2.2.3}}
+\newlabel{subsect:epochs-batch}{{2.2.3}{5}{High-$C$ regions more strongly repel small-$E,B$ SGD than large-$E,B$ SGD}{subsubsection.2.2.3}{}}
+\newlabel{cor:epochs}{{3}{5}{$\sdia {c(01-2)(01-12)}$}{cor.3}{}}
+\newlabel{cor:batch}{{4}{5}{$\sdia {c(01-2)(01-12)}$}{cor.4}{}}
+\citation{li18}
 \citation{ch18}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces  {\bf  Novel phenomena.} {\bf  Left}: Gradient noise induces a flow toward minima \emph  {with respect to to the covariance}. Our analysis assumes neither thermal equilibrium nor fast-slow mode separation, but we label ``fast and slow directions'' to ease comparison with \cite  {we19b}. Red densities depict a typical locations for $\theta $ in each cross-section of the valley, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf  Right}: Noise structure determines how curvature affects overfitting. Geometrically, for a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref  {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows. }}{6}{figure.1}}
-\newlabel{fig:cubicandspring}{{1}{6}{{\bf Novel phenomena.} {\bf Left}: Gradient noise induces a flow toward minima \emph {with respect to to the covariance}. Our analysis assumes neither thermal equilibrium nor fast-slow mode separation, but we label ``fast and slow directions'' to ease comparison with \cite {we19b}. Red densities depict a typical locations for $\theta $ in each cross-section of the valley, and the spatial variation of curvature corresponds to $J_{\mu \nu \lambda }$. {\bf Right}: Noise structure determines how curvature affects overfitting. Geometrically, for a vector-perturbed landscape, small Hessians are favored (top row), while for covector-perturbed landscapes, large Hessians are favored (bottom row). Corollary \ref {cor:overfit} shows how the implicit regularization of fixed-$\eta T$ descent interpolates between the two rows}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Geometric intuition for curvature-noise interactions.} \textbf  {Left}: Gradient noise pushes SGD toward minima that are flat. \emph  {with respect to the covariance} (Corollary \ref  {cor:entropic}). Our theory does not assume \cite  {we19b}'s mode separation, but we label ``fast/slow modes'' to ease comparison. In red are typical $\theta $s in each cross-section of the valley. $J = \nabla H$ measures the change in curvature across the valley. \textbf  {\bf  Right}: Both noise structure and curvature affect overfitting. \ofthreemoo {1}: small $H$s are favored in \emph  {vector}-perturbed landscapes. \ofthreemoo {2}: large $H$s are favored in \emph  {covector}-perturbed landscapes. SGD's implicit regularization interpolates between these rows (Corollary \ref  {cor:overfit}). }}{6}{figure.1}}
+\newlabel{fig:cubicandspring}{{1}{6}{\textbf {Geometric intuition for curvature-noise interactions.} \textbf {Left}: Gradient noise pushes SGD toward minima that are flat. \emph {with respect to the covariance} (Corollary \ref {cor:entropic}). Our theory does not assume \cite {we19b}'s mode separation, but we label ``fast/slow modes'' to ease comparison. In red are typical $\theta $s in each cross-section of the valley. $J = \nabla H$ measures the change in curvature across the valley. \textbf {\bf Right}: Both noise structure and curvature affect overfitting. \protect \ofthreemoo {1}: small $H$s are favored in \emph {vector}-perturbed landscapes. \protect \ofthreemoo {2}: large $H$s are favored in \emph {covector}-perturbed landscapes. SGD's implicit regularization interpolates between these rows (Corollary \ref {cor:overfit})}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.4}Non-Gaussian noise affects SGD but not SDE}{6}{subsubsection.2.2.4}}
 \newlabel{cor:vsode}{{5}{6}{$\sdia {c(01-2)(02-12)}$, $\sdia {c(012-3)(03-13-23)}$}{cor.5}{}}
 \FN@pp@footnote@aux{5}{6}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Applying the theory}{6}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Experiments}{6}{subsection.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Training time and batch size}{6}{subsubsection.3.1.1}}
+\citation{di18}
+\citation{di18}
 \citation{ch18}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline  {\bf  Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Predictions near minima excel even for large $\eta T$.} \ofsix {4}: On \textsc  {Archimedes}, SGD travels the valley of global minima in the positive $z$ direction. $H$ and $C$ are bounded, and the effect appears for all small $\eta $, so the effect is not a pathology of well-chosen learning rate or divergent noise. \ofsix {5}: For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ optimization are smallest for very small and very large curvatures. Both sharp and flat minima overfit less. }}{7}{figure.2}}
-\newlabel{fig:vanilla}{{2}{7}{{\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \protect \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline {\bf Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel even for large $\eta T$.} \protect \ofsix {4}: On \Archimedes , SGD travels the valley of global minima in the positive $z$ direction. $H$ and $C$ are bounded, and the effect appears for all small $\eta $, so the effect is not a pathology of well-chosen learning rate or divergent noise. \protect \ofsix {5}: For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ optimization are smallest for very small and very large curvatures. Both sharp and flat minima overfit less}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Minima that are flat with respect to $C$ attract SGD}{7}{subsubsection.3.1.2}}
-\newlabel{subsect:entropic}{{3.1.2}{7}{Minima that are flat with respect to $C$ attract SGD}{subsubsection.3.1.2}{}}
-\FN@pp@footnote@aux{6}{7}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Training time, epochs, and batch size; $C$ repels SGD more than GD}{7}{subsubsection.3.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline  {\bf  Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Predictions near minima excel for large $\eta T$.}\ofsix {4}: SGD travels \textsc  {Archimedes}' valley of global minima in the positive $z$ direction. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the effect is not a pathology of well-chosen learning rate, divergent noise, or ephemeral initial conditions. SGD's motion depends smoothly on the landscape, so our special case shows non-conservativity is generic. \ofsix {5}: For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very small and very large $H$. Both sharp and flat minima overfit less. Our result improves on Takeuchi information and hence on AIC \citep  {di18}, especially near $H=0$. }}{7}{figure.2}}
+\newlabel{fig:vanilla}{{2}{7}{{\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate; un-re-summed predictions. \protect \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. \newline {\bf Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel for large $\eta T$.}\protect \ofsix {4}: SGD travels \Archimedes ' valley of global minima in the positive $z$ direction. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the effect is not a pathology of well-chosen learning rate, divergent noise, or ephemeral initial conditions. SGD's motion depends smoothly on the landscape, so our special case shows non-conservativity is generic. \protect \ofsix {5}: For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very small and very large $H$. Both sharp and flat minima overfit less. Our result improves on Takeuchi information and hence on AIC \citep {di18}, especially near $H=0$}{figure.2}{}}
 \citation{we19b}
 \citation{ro18}
 \citation{bo91}
 \citation{go18}
 \citation{fi17}
 \citation{st19}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Minima that are flat with respect to $C$ attract SGD}{8}{subsubsection.3.1.2}}
+\newlabel{subsect:entropic}{{3.1.2}{8}{Minima that are flat with respect to $C$ attract SGD}{subsubsection.3.1.2}{}}
+\FN@pp@footnote@aux{6}{8}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Sharp and flat minima both overfit less than medium minima}{8}{subsubsection.3.1.3}}
 \newlabel{subsect:overfit}{{3.1.3}{8}{Sharp and flat minima both overfit less than medium minima}{subsubsection.3.1.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Conclusion}{8}{subsection.3.2}}
@@ -109,46 +113,48 @@
 \bibcite{ca47}{{6}{1847}{{Cauchy}}{{}}}
 \bibcite{ch18}{{7}{2018}{{Chaudhari and Soatto}}{{}}}
 \bibcite{di17}{{8}{2017}{{Dinh et~al.}}{{Dinh, Pascanu, Bengio, and Bengio}}}
-\bibcite{dw06}{{9}{2006}{{Dwork et~al.}}{{Dwork, McSherry, Nissim, and Smith}}}
-\bibcite{dy19}{{10}{2019}{{Dyer and Gur-Ari}}{{}}}
-\bibcite{dy49a}{{11}{1949}{{Dyson}}{{}}}
-\bibcite{fe49}{{12}{1949}{{Feynman}}{{}}}
-\bibcite{fi17}{{13}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
-\bibcite{ga23}{{14}{1823}{{Gauss}}{{}}}
-\bibcite{go18}{{15}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
-\bibcite{ho17}{{16}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
-\bibcite{ke17}{{17}{2017}{{Keskar et~al.}}{{Keskar, Mudigere, Nocedal, Smelyanskiy, and Tang}}}
-\bibcite{ki52}{{18}{1952}{{Kiefer and Wolfowitz}}{{}}}
-\bibcite{kr09}{{19}{2009}{{Krizhevsky}}{{}}}
-\bibcite{ku19}{{20}{2019}{{Kunstner et~al.}}{{Kunstner, Hennig, and Balles}}}
-\bibcite{la51}{{21}{1951}{{Landau and Lifshitz}}{{}}}
-\bibcite{la60}{{22}{1960}{{Landau and Lifshitz}}{{}}}
-\bibcite{le15}{{23}{2015}{{LeCun et~al.}}{{LeCun, Bengio, and Hinton}}}
-\bibcite{li17}{{24}{2017}{{Li et~al.}}{{Li, Tai, and E}}}
-\bibcite{li18}{{25}{2018}{{Liao et~al.}}{{Liao, Miranda, Banburski, Hidary, and Poggio}}}
-\bibcite{ne17a}{{26}{2017{a}}{{Neyshabur et~al.}}{{Neyshabur, Bhojanapalli, McAllester, and Srebro}}}
-\bibcite{ne17b}{{27}{2017{b}}{{Neyshabur et~al.}}{{Neyshabur, Tomioka, Salakhutdinov, and Srebro}}}
-\bibcite{ni17}{{28}{2017}{{Nickel and Kiela}}{{}}}
-\bibcite{ni11}{{29}{2011}{{Niu et~al.}}{{Niu, Recht, R\'e, and Wright}}}
-\bibcite{pa19}{{30}{2019}{{Paszke et~al.}}{{Paszke, Gross, Massa, Lerer, Bradbury, Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala}}}
-\bibcite{pe71}{{31}{1971}{{Penrose}}{{}}}
-\bibcite{ro51}{{32}{1951}{{Robbins and Monro}}{{}}}
-\bibcite{ro18}{{33}{2018}{{Roberts}}{{}}}
-\bibcite{ro12}{{34}{2012}{{Roux et~al.}}{{Roux, Bengio, and Fitzgibbon}}}
-\bibcite{st56}{{35}{1956}{{Stein}}{{}}}
-\bibcite{st19}{{36}{2019}{{Strubell et~al.}}{{Strubell, Ganesh, and McCallum}}}
-\bibcite{wa18}{{37}{2018}{{Wang et~al.}}{{Wang, Keskar, Xiong, and Socher}}}
-\bibcite{we19b}{{38}{2019}{{Wei and Schwab}}{{}}}
-\bibcite{we74}{{39}{1974}{{Werbos}}{{}}}
-\bibcite{wu18}{{40}{2018}{{Wu et~al.}}{{Wu, Ma, and E}}}
-\bibcite{xi17}{{41}{2017}{{Xiao et~al.}}{{Xiao, Rasul, and Vollgraf}}}
-\bibcite{ya19a}{{42}{2019{a}}{{Yaida}}{{}}}
-\bibcite{ya19b}{{43}{2019{b}}{{Yaida}}{{}}}
-\bibcite{zh17}{{44}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
-\bibcite{zh16}{{45}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
+\bibcite{di18}{{9}{2018}{{Dixon and Ward}}{{}}}
+\bibcite{dw06}{{10}{2006}{{Dwork et~al.}}{{Dwork, McSherry, Nissim, and Smith}}}
+\bibcite{dy19}{{11}{2019}{{Dyer and Gur-Ari}}{{}}}
+\bibcite{dy49a}{{12}{1949}{{Dyson}}{{}}}
+\bibcite{fe49}{{13}{1949}{{Feynman}}{{}}}
+\bibcite{fi17}{{14}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
+\bibcite{ga23}{{15}{1823}{{Gauss}}{{}}}
+\bibcite{go18}{{16}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
+\bibcite{ho17}{{17}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
+\bibcite{ke17}{{18}{2017}{{Keskar et~al.}}{{Keskar, Mudigere, Nocedal, Smelyanskiy, and Tang}}}
+\bibcite{ki52}{{19}{1952}{{Kiefer and Wolfowitz}}{{}}}
+\bibcite{kr09}{{20}{2009}{{Krizhevsky}}{{}}}
+\bibcite{ku19}{{21}{2019}{{Kunstner et~al.}}{{Kunstner, Hennig, and Balles}}}
+\bibcite{la51}{{22}{1951}{{Landau and Lifshitz}}{{}}}
+\bibcite{la60}{{23}{1960}{{Landau and Lifshitz}}{{}}}
+\bibcite{le15}{{24}{2015}{{LeCun et~al.}}{{LeCun, Bengio, and Hinton}}}
+\bibcite{li17}{{25}{2017}{{Li et~al.}}{{Li, Tai, and E}}}
+\bibcite{li18}{{26}{2018}{{Liao et~al.}}{{Liao, Miranda, Banburski, Hidary, and Poggio}}}
+\bibcite{ne17a}{{27}{2017{a}}{{Neyshabur et~al.}}{{Neyshabur, Bhojanapalli, McAllester, and Srebro}}}
+\bibcite{ne17b}{{28}{2017{b}}{{Neyshabur et~al.}}{{Neyshabur, Tomioka, Salakhutdinov, and Srebro}}}
+\bibcite{ni17}{{29}{2017}{{Nickel and Kiela}}{{}}}
+\bibcite{ni11}{{30}{2011}{{Niu et~al.}}{{Niu, Recht, R\'e, and Wright}}}
+\bibcite{pa19}{{31}{2019}{{Paszke et~al.}}{{Paszke, Gross, Massa, Lerer, Bradbury, Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala}}}
+\bibcite{pe71}{{32}{1971}{{Penrose}}{{}}}
+\bibcite{ro51}{{33}{1951}{{Robbins and Monro}}{{}}}
+\bibcite{ro18}{{34}{2018}{{Roberts}}{{}}}
+\bibcite{ro12}{{35}{2012}{{Roux et~al.}}{{Roux, Bengio, and Fitzgibbon}}}
+\bibcite{st56}{{36}{1956}{{Stein}}{{}}}
+\bibcite{st19}{{37}{2019}{{Strubell et~al.}}{{Strubell, Ganesh, and McCallum}}}
+\bibcite{wa18}{{38}{2018}{{Wang et~al.}}{{Wang, Keskar, Xiong, and Socher}}}
+\bibcite{we19b}{{39}{2019}{{Wei and Schwab}}{{}}}
+\bibcite{we74}{{40}{1974}{{Werbos}}{{}}}
+\bibcite{wu18}{{41}{2018}{{Wu et~al.}}{{Wu, Ma, and E}}}
+\bibcite{xi17}{{42}{2017}{{Xiao et~al.}}{{Xiao, Rasul, and Vollgraf}}}
+\bibcite{ya19a}{{43}{2019{a}}{{Yaida}}{{}}}
+\bibcite{ya19b}{{44}{2019{b}}{{Yaida}}{{}}}
+\bibcite{zh17}{{45}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
+\bibcite{zh16}{{46}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
 \FN@pp@footnotehinttrue 
 \citation{dy49a}
 \@writefile{toc}{\contentsline {section}{\numberline {A}How to calculate expected test losses}{13}{section.1}}
+\newlabel{appendix:tutorial}{{A}{13}{How to calculate expected test losses}{section.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.1}An example calculation}{14}{subsection.1.1}}
 \newlabel{appendix:example}{{A.1}{14}{An example calculation}{subsection.1.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.2}How to identify the relevant space-time}{14}{subsection.1.2}}
@@ -166,6 +172,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.8}Do diagrams streamline computation?}{14}{subsection.1.8}}
 \newlabel{appendix:diagrams-streamline}{{A.8}{14}{Do diagrams streamline computation?}{subsection.1.8}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {B}Assumptions, results, proofs, and future topics}{14}{section.2}}
+\newlabel{appendix:math}{{B}{14}{Assumptions, results, proofs, and future topics}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Setup and assumptions}{14}{subsection.2.1}}
 \newlabel{appendix:assumptions}{{B.1}{14}{Setup and assumptions}{subsection.2.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {B.2}A key lemma \`a la Dyson}{14}{subsection.2.2}}
@@ -208,6 +215,7 @@
 \FN@pp@footnote@aux{8}{22}
 \FN@pp@footnote@aux{9}{22}
 \@writefile{toc}{\contentsline {section}{\numberline {C}Exerimental methods}{22}{section.3}}
+\newlabel{appendix:experiments}{{C}{22}{Exerimental methods}{section.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.1}What artificial landscapes did we use?}{22}{subsection.3.1}}
 \newlabel{appendix:artificial}{{C.1}{22}{What artificial landscapes did we use?}{subsection.3.1}{}}
 \citation{kr09}
@@ -216,10 +224,10 @@
 \newlabel{appendix:natural}{{C.2}{23}{What image-classification landscapes did we use?}{subsection.3.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement process}{24}{subsection.3.3}}
 \newlabel{appendix:measure}{{C.3}{24}{Measurement process}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{24}{subsection.3.4}}
-\newlabel{appendix:optimizers}{{C.4}{24}{Implementing optimizers}{subsection.3.4}{}}
 \citation{pa19}
 \citation{ga23}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{25}{subsection.3.4}}
+\newlabel{appendix:optimizers}{{C.4}{25}{Implementing optimizers}{subsection.3.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Software frameworks and hardware}{25}{subsection.3.5}}
 \newlabel{appendix:frameworks}{{C.5}{25}{Software frameworks and hardware}{subsection.3.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.6}Unbiased estimators of landscape statistics}{25}{subsection.3.6}}
