@@ -1,5 +1,5 @@
 %   author: samtenka
-%   change: 2020-06-02
+%   change: 2020-06-03
 %   create: 2020-05-29
 %   descrp: LaTeX source for perturb project
 %   to use: compile along with perturb.bib and diagram and plot directories
@@ -303,7 +303,7 @@
     relation to Hessian methods and natural GD --- as topics for future
     research.  We also discuss how this work may lessen the energy footprint
     required to train machine learning models.  More broadly, our work adds to
-    the body of theory on \emph{optimization in the face of uncertainty},
+    the body of theory on optimization in the face of uncertainty,
     theory that may one day inform solutions to emerging issues in user privacy
     and pedestrian safety.
 
@@ -603,9 +603,9 @@
         An \emph{embedding} $f$ of a diagram $D$ is an injection from
         $D$'s parts to (integer) times $0 \leq t \leq T$ that sends the
         root to $T$ and such that, for each path from leaf to root, the
-        corresponding sequence of times is increasing.  For instance, $f$ might send
-        $\sdia{c(01-2-3)(02-13-23)}$'s red part to $t=3$ and its green part to
-        $t=4$, but not vice versa.
+        corresponding sequence of times is increasing.  For instance, $f$ might
+        send $\sdia{c(01-2-3)(03-12-23)}$'s red part to $t=3$ and its green
+        part to $t=4$, but not vice versa.
         %
         Let $\wabs{\Aut(D)}$ count automorphisms of $D$ that preserve $f$.
 
@@ -794,8 +794,8 @@
         \subsubsection{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}
             \label{subsect:epochs-batch}
 
-            Physical intuition suggests that gradient noise is repulsive
-            \cite{ch87}.  Indeed:
+            Intuition (\S\ref{appendix:interpret-diagrams}) suggests that noise
+            repels SGD.  This effect is strongest for small $E, B$:
     
             \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
                 $(M=1, \eta=\eta_0)$ SGD's weight avoids 
@@ -941,14 +941,14 @@
                 $2\pi$.  So: the drift is not a pathology of well-chosen
                 $\eta$, of divergent noise, or of ephemeral initial conditions.
                 Since SGD's motion depends smoothly on the landscape, the
-                special of \Archimedes\ establishes that non-conservativity is
-                generic.    
+                special case of \Archimedes\ establishes that
+                non-conservativity is generic.    
                 %
                 \protect\ofsix{5}: For \MeanEstimation\ with fixed $C$ and a
                 range of $H$s, initialized at the truth, the test losses after
                 fixed-$T$ GD are smallest for very sharp and very flat $H$.
-                Near $H=0$, we improve on Takeuchi information \citep{di18} and
-                hence on AIC.
+                Near $H=0$, our predictions improve on Takeuchi information
+                \citep{di18} and thus on AIC.
             }
             \label{fig:vanilla}
         %    \label{fig:batchandgen}
@@ -1114,8 +1114,8 @@
     Zooming out: the authors have long prized sample efficiency --- and yet,
     should efficiency always be our goal?  Reflecting on optimization in
     general, \cite{ar19} suggests:
-    perhaps we it is not efficiency we should seek, but rather delight,
-    surprise, and beauty.
+    perhaps it is not efficiency we should seek, but rather delight, surprise,
+    and beauty.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1173,11 +1173,47 @@
         \item to precisely state and prove our results, then pose a conjecture;
         \item to specify our experimental methods and results.
     \end{itemize}
-    We end with a historical note.
+    In more detail, we organize the appendices as follows.\\
+
+    {\bf
+    \par\noindent A ~ How to calculate expected test losses}                \hfill {\bf page \pageref{appendix:tutorial}}
+    \par\indent     A.1 ~~ An example calculation                           \hfill \pageref{appendix:example}
+    \par\indent     A.2 ~~ How to identify the relevant space-time          \hfill \pageref{appendix:draw-spacetime} 
+    \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
+    \par\indent     A.4 ~~ How to evaluate each embedding                   \hfill \pageref{appendix:evaluate-embeddings}
+    \par\indent     A.5 ~~ How to sum the embeddings' values                \hfill \pageref{appendix:sum-embeddings}
+    \par\indent     A.6 ~~ Interpreting diagrams to build intuition         \hfill \pageref{appendix:interpret-diagrams}
+    \par\indent     A.7 ~~ How to solve variant problems                    \hfill \pageref{appendix:solve-variants}
+    \par\indent     A.8 ~~ Do diagrams streamline computation               \hfill \pageref{appendix:diagrams-streamline}
+
+    {\bf
+    \par\noindent B ~ Mathematics of the theory}                            \hfill {\bf page \pageref{appendix:math}}
+    \par\indent     B.1 ~~ Setup and assumptions                            \hfill \pageref{appendix:assumptions}
+    \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
+    \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
+    \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
+    \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
+    \par\indent     B.6 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
+    \par\indent     B.7 ~~ Proofs of miscellaneous claims                   \hfill \pageref{appendix:claims}
+    \par\indent     B.8 ~~ Future topics                                    \hfill \pageref{appendix:future}
+
+    {\bf
+    \par\noindent C ~ Experimental methods}                                 \hfill {\bf page \pageref{appendix:experiments}}
+    \par\indent     C.1 ~~ What artificial landscapes did we use?           \hfill \pageref{appendix:artificial}  
+    \par\indent     C.2 ~~ What image-classification landscapes did we use? \hfill \pageref{appendix:natural}
+    \par\indent     C.3 ~~ Measurement process                              \hfill \pageref{appendix:measure}
+    \par\indent     C.4 ~~ Implementing optimizers                          \hfill \pageref{appendix:optimizers}
+    \par\indent     C.5 ~~ Software frameworks and hardware                 \hfill \pageref{appendix:frameworks}
+    \par\indent     C.6 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
+    \par\indent     C.7 ~~ Additional figures                               \hfill \pageref{appendix:figures}
+    
+    {\bf
+    \par\noindent D ~ History of SGD}                                       \hfill {\bf page \pageref{appendix:history}}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Tutorial  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+\newpage
 \section{How to calculate expected test losses}\label{appendix:tutorial}
     Our work introduces a novel technique for calculating the expected learning
     curves of SGD in terms of statistics of the loss landscape near
@@ -1213,13 +1249,14 @@
         Make sure to also discuss un-re-summed values!!!
     \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
     \subsection{Interpreting diagrams to build intuition}           \label{appendix:interpret-diagrams}
+        Make sure to also discuss Chladni effect \cite{ch87}!!!
     \subsection{How to solve variant problems}                      \label{appendix:solve-variants}
     \subsection{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Math  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\section{Assumptions, results, proofs, and future topics}\label{appendix:math}
+\section{Mathematics of the theory}\label{appendix:math}
     \subsection{Setup and assumptions}                              \label{appendix:assumptions}
 
     \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
@@ -1590,7 +1627,7 @@
 
     \subsection{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
 
-    \subsection{Theorems \ref{thm:resum} and \ref{thm:converge}}    \label{appendix:re-summation}
+    \subsection{Theorems \ref{thm:resum} and \ref{thm:converge}}    \label{appendix:resum}
 
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
         may be grouped by their geometric realizations.  Each nonempty class of
@@ -1876,7 +1913,7 @@
             \end{proof}
 
     \subsection{Proofs of miscellaneous claims}                     \label{appendix:claims}
-    \subsection{Future Topics}                                      \label{appendix:future}
+    \subsection{Future topics}                                      \label{appendix:future}
 
         The diagram method opens the door to exploration of Lagrangian
         formalisms and curved backgrounds\footnote{
@@ -1919,7 +1956,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Experiments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\section{Exerimental methods}\label{appendix:experiments}
+\section{Experimental methods}\label{appendix:experiments}
 
     \subsection{What artificial landscapes did we use?}             \label{appendix:artificial}
 
@@ -2036,7 +2073,7 @@
     \subsection{Measurement process}                                \label{appendix:measure}
 
         \subsubsection*{Diagram evaluation on real landscapes}
-            We implemented the formulae of Appendix \ref{sect:bessel} in order
+            We implemented the formulae of \S\ref{sect:bessel} in order
             to estimate diagram values from real data measured at
             initialization from batch averages of products of derivatives.
 
@@ -2071,6 +2108,7 @@
             initialization of $0$. 
 
     \subsection{Implementing optimizers}                            \label{appendix:optimizers}
+
         We approximated SDE by refining time discretization by a factor of
         $16$, scaling learning rate down by a factor of $16$, and introducing
         additional noise in the shape of the covariance in proportion as
@@ -2101,7 +2139,7 @@
         We ran experiments on a Lenovo laptop and on our institution's
         clusters; we consumed about $100$ GPU-hours.
 
-    \subsection{Unbiased estimators of landscape statistics}        \label{appendix:bessel-factors}
+    \subsection{Unbiased estimators of landscape statistics}        \label{appendix:bessel}
         %
         We use the following method --- familiar to some of our colleagues but
         hard to find writings on --- for obtaining unbiased estimates for
@@ -2254,6 +2292,7 @@
         $$
 
     \subsection{Additional figures}                                 \label{appendix:figures}
+
         \begin{figure}[H] 
             \centering
             \pmoo{3.0cm}{multi-fashion-logistic-0}
@@ -2295,7 +2334,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  History of SGD  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\section{History of SGD}
+\section{History of SGD} \label{appendix:history}
     We were surprised to learn of gradient descent's pre-silicon history:
 
     It was \cite{ki52} who, in uniting gradient descent \citep{ca47} with
