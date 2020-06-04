@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.8)  4 JUN 2020 02:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.8)  4 JUN 2020 14:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -380,9 +380,50 @@ Package: natbib 2009/07/16 8.31 (PWD, AO)
 \bibsep=\skip45
 LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count89
-) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+) (./neurips_2020.sty
+Package: neurips_2020 2020/01/31 NeurIPS 2020 submission/camera-ready style fil
+e
+
+(/usr/share/texlive/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(/usr/share/texlive/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+)
+\@envbody=\toks18
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count90
+\Gm@cntv=\count91
+\c@Gm@tempcnt=\count92
+\Gm@bindingoffset=\dimen104
+\Gm@wd@mp=\dimen105
+\Gm@odd@mp=\dimen106
+\Gm@even@mp=\dimen107
+\Gm@layoutwidth=\dimen108
+\Gm@layoutheight=\dimen109
+\Gm@layouthoffset=\dimen110
+\Gm@layoutvoffset=\dimen111
+\Gm@dimlist=\toks19
+)
+\@neuripsabovecaptionskip=\skip46
+\@neuripsbelowcaptionskip=\skip47
+)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2017/09/02 v2.17a AMS math features
-\@mathmargin=\skip46
+\@mathmargin=\skip48
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -390,51 +431,51 @@ Package: amstext 2000/06/29 v2.01 AMS text
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks18
-\ex@=\dimen104
+\@emptytoks=\toks20
+\ex@=\dimen112
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen105
+\pmbraise@=\dimen113
 )
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count90
+\inf@bad=\count93
 LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count91
-\leftroot@=\count92
+\uproot@=\count94
+\leftroot@=\count95
 LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count93
-\DOTSCASE@=\count94
+\classnum@=\count96
+\DOTSCASE@=\count97
 LaTeX Info: Redefining \ldots on input line 472.
 LaTeX Info: Redefining \dots on input line 475.
 LaTeX Info: Redefining \cdots on input line 596.
 \Mathstrutbox@=\box26
 \strutbox@=\box27
-\big@size=\dimen106
+\big@size=\dimen114
 LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count95
-\c@MaxMatrixCols=\count96
+\macc@depth=\count98
+\c@MaxMatrixCols=\count99
 \dotsspace@=\muskip10
-\c@parentequation=\count97
-\dspbrk@lvl=\count98
-\tag@help=\toks19
-\row@=\count99
-\column@=\count100
-\maxfields@=\count101
-\andhelp@=\toks20
-\eqnshift@=\dimen107
-\alignsep@=\dimen108
-\tagshift@=\dimen109
-\tagwidth@=\dimen110
-\totwidth@=\dimen111
-\lineht@=\dimen112
-\@envbody=\toks21
-\multlinegap=\skip47
-\multlinetaggap=\skip48
-\mathdisplay@stack=\toks22
+\c@parentequation=\count100
+\dspbrk@lvl=\count101
+\tag@help=\toks21
+\row@=\count102
+\column@=\count103
+\maxfields@=\count104
+\andhelp@=\toks22
+\eqnshift@=\dimen115
+\alignsep@=\dimen116
+\tagshift@=\dimen117
+\tagwidth@=\dimen118
+\totwidth@=\dimen119
+\lineht@=\dimen120
+\@envbody=\toks23
+\multlinegap=\skip49
+\multlinetaggap=\skip50
+\mathdisplay@stack=\toks24
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
 )
@@ -450,31 +491,31 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2017/10/31 v2.20.4
-\thm@style=\toks23
-\thm@bodyfont=\toks24
-\thm@headfont=\toks25
-\thm@notefont=\toks26
-\thm@headpunct=\toks27
-\thm@preskip=\skip49
-\thm@postskip=\skip50
-\thm@headsep=\skip51
-\dth@everypar=\toks28
+\thm@style=\toks25
+\thm@bodyfont=\toks26
+\thm@headfont=\toks27
+\thm@notefont=\toks28
+\thm@headpunct=\toks29
+\thm@preskip=\skip51
+\thm@postskip=\skip52
+\thm@headsep=\skip53
+\dth@everypar=\toks30
 )
 (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mathtools.sty
 Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
 
 (/usr/share/texlive/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count102
-\calc@Bcount=\count103
-\calc@Adimen=\dimen113
-\calc@Bdimen=\dimen114
-\calc@Askip=\skip52
-\calc@Bskip=\skip53
+\calc@Acount=\count105
+\calc@Bcount=\count106
+\calc@Adimen=\dimen121
+\calc@Bdimen=\dimen122
+\calc@Askip=\skip54
+\calc@Bskip=\skip55
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count104
-\calc@Cskip=\skip54
+\calc@Ccount=\count107
+\calc@Cskip=\skip56
 )
 (/usr/share/texlive/texmf-dist/tex/latex/mathtools/mhsetup.sty
 Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
@@ -483,21 +524,21 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count105
-\l_MT_multwidth_dim=\dimen115
-\origjot=\skip55
-\l_MT_shortvdotswithinadjustabove_dim=\dimen116
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen117
-\l_MT_above_intertext_sep=\dimen118
-\l_MT_below_intertext_sep=\dimen119
-\l_MT_above_shortintertext_sep=\dimen120
-\l_MT_below_shortintertext_sep=\dimen121
+\g_MT_multlinerow_int=\count108
+\l_MT_multwidth_dim=\dimen123
+\origjot=\skip57
+\l_MT_shortvdotswithinadjustabove_dim=\dimen124
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen125
+\l_MT_above_intertext_sep=\dimen126
+\l_MT_below_intertext_sep=\dimen127
+\l_MT_above_shortintertext_sep=\dimen128
+\l_MT_below_shortintertext_sep=\dimen129
 )
 (/usr/share/texlive/texmf-dist/tex/latex/units/nicefrac.sty
 Package: nicefrac 1998/08/04 v0.9b Nice fractions
-\L@UnitsRaiseDisplaystyle=\skip56
-\L@UnitsRaiseTextstyle=\skip57
-\L@UnitsRaiseScriptstyle=\skip58
+\L@UnitsRaiseDisplaystyle=\skip58
+\L@UnitsRaiseTextstyle=\skip59
+\L@UnitsRaiseScriptstyle=\skip60
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
@@ -505,41 +546,49 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
 (/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
 \@xs@message=\write3
-\integerpart=\count106
-\decimalpart=\count107
+\integerpart=\count109
+\decimalpart=\count110
 )
 Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip61
+\enit@outerparindent=\dimen130
+\enit@toks=\toks31
+\enit@inbox=\box28
+\enitdp@description=\count111
 )
 (/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
 )
 (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2016/04/27 v1.618033 publication quality tables
-\heavyrulewidth=\dimen122
-\lightrulewidth=\dimen123
-\cmidrulewidth=\dimen124
-\belowrulesep=\dimen125
-\belowbottomsep=\dimen126
-\aboverulesep=\dimen127
-\abovetopsep=\dimen128
-\cmidrulesep=\dimen129
-\cmidrulekern=\dimen130
-\defaultaddspace=\dimen131
-\@cmidla=\count108
-\@cmidlb=\count109
-\@aboverulesep=\dimen132
-\@belowrulesep=\dimen133
-\@thisruleclass=\count110
-\@lastruleclass=\count111
-\@thisrulewidth=\dimen134
+\heavyrulewidth=\dimen131
+\lightrulewidth=\dimen132
+\cmidrulewidth=\dimen133
+\belowrulesep=\dimen134
+\belowbottomsep=\dimen135
+\aboverulesep=\dimen136
+\abovetopsep=\dimen137
+\cmidrulesep=\dimen138
+\cmidrulekern=\dimen139
+\defaultaddspace=\dimen140
+\@cmidla=\count112
+\@cmidlb=\count113
+\@aboverulesep=\dimen141
+\@belowrulesep=\dimen142
+\@thisruleclass=\count114
+\@lastruleclass=\count115
+\@thisrulewidth=\dimen143
 )
 (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
 Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
-\col@sep=\dimen135
-\extrarowheight=\dimen136
-\NC@list=\toks29
-\extratabsurround=\skip59
-\backup@length=\skip60
+\col@sep=\dimen144
+\extrarowheight=\dimen145
+\NC@list=\toks32
+\extratabsurround=\skip62
+\backup@length=\skip63
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
@@ -558,55 +607,55 @@ Package graphics Info: Driver file: pdftex.def on input line 99.
 (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen137
-\Gin@req@width=\dimen138
+\Gin@req@height=\dimen146
+\Gin@req@width=\dimen147
 )
 (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen139
-\WF@size=\dimen140
-\c@WF@wrappedlines=\count112
-\WF@box=\box28
-\WF@everypar=\toks30
+\wrapoverhang=\dimen148
+\WF@size=\dimen149
+\c@WF@wrappedlines=\count116
+\WF@box=\box29
+\WF@everypar=\toks33
 Package: wrapfig 2003/01/31  v 3.6
 )
 (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count113
-\float@exts=\toks31
-\float@box=\box29
-\@float@everytoks=\toks32
-\@floatcapt=\box30
+\c@float@type=\count117
+\float@exts=\toks34
+\float@box=\box30
+\@float@everytoks=\toks35
+\@floatcapt=\box31
 )
 (/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.sty
 Package: subfigure 2002/03/15 v2.1.5 subfigure package
-\subfigtopskip=\skip61
-\subfigcapskip=\skip62
-\subfigcaptopadj=\dimen141
-\subfigbottomskip=\skip63
-\subfigcapmargin=\dimen142
-\subfiglabelskip=\skip64
-\c@subfigure=\count114
-\c@lofdepth=\count115
-\c@subtable=\count116
-\c@lotdepth=\count117
+\subfigtopskip=\skip64
+\subfigcapskip=\skip65
+\subfigcaptopadj=\dimen150
+\subfigbottomskip=\skip66
+\subfigcapmargin=\dimen151
+\subfiglabelskip=\skip67
+\c@subfigure=\count118
+\c@lofdepth=\count119
+\c@subtable=\count120
+\c@lotdepth=\count121
 
 ****************************************
 * Local config file subfigure.cfg used *
 ****************************************
 (/usr/share/texlive/texmf-dist/tex/latex/subfigure/subfigure.cfg)
-\subfig@top=\skip65
-\subfig@bottom=\skip66
+\subfig@top=\skip68
+\subfig@bottom=\skip69
 )
 (/usr/share/texlive/texmf-dist/tex/latex/hanging/hanging.sty
 Package: hanging 2009/09/02 v1.2b hanging paragraphs and punctuation
-\h@ngcommawd=\skip67
-\h@ngfstopwd=\skip68
-\h@ngquotewd=\skip69
-\h@ngdquotewd=\skip70
-\h@ngquerywd=\skip71
-\h@ngexclwd=\skip72
-\h@ngcolonwd=\skip73
-\h@ngscolonwd=\skip74
+\h@ngcommawd=\skip70
+\h@ngfstopwd=\skip71
+\h@ngquotewd=\skip72
+\h@ngdquotewd=\skip73
+\h@ngquerywd=\skip74
+\h@ngexclwd=\skip75
+\h@ngcolonwd=\skip76
+\h@ngscolonwd=\skip77
 )
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/txfonts.sty
 Package: txfonts 2008/01/22 v3.2.1
@@ -714,18 +763,18 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/framed/framed.sty
 Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
-\OuterFrameSep=\skip75
-\fb@frw=\dimen143
-\fb@frh=\dimen144
-\FrameRule=\dimen145
-\FrameSep=\dimen146
+\OuterFrameSep=\skip78
+\fb@frw=\dimen152
+\fb@frh=\dimen153
+\FrameRule=\dimen154
+\FrameSep=\dimen155
 )
 (/usr/share/texlive/texmf-dist/tex/latex/footmisc/footmisc.sty
 Package: footmisc 2011/06/06 v5.5b a miscellany of footnote facilities
-\FN@temptoken=\toks33
-\footnotemargin=\dimen147
-\c@pp@next@reset=\count118
-\c@@fnserial=\count119
+\FN@temptoken=\toks36
+\footnotemargin=\dimen156
+\c@pp@next@reset=\count122
+\c@@fnserial=\count123
 Package footmisc Info: Declaring symbol style bringhurst on input line 855.
 Package footmisc Info: Declaring symbol style chicago on input line 863.
 Package footmisc Info: Declaring symbol style wiley on input line 872.
@@ -749,10 +798,9 @@ Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
 Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
-Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
-Package ifvtex Info: VTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
 Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
-Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
 Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
@@ -782,25 +830,22 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
 Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
-Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
-)
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
-\@linkdim=\dimen148
-\Hy@linkcounter=\count120
-\Hy@pagecounter=\count121
+\@linkdim=\dimen157
+\Hy@linkcounter=\count124
+\Hy@pagecounter=\count125
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count122
+\Hy@SavedSpaceFactor=\count126
 
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -812,17 +857,17 @@ Package hyperref Info: Plain pages OFF on input line 4524.
 Package hyperref Info: Backreferencing OFF on input line 4529.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4762.
-\c@Hy@tempcnt=\count123
+\c@Hy@tempcnt=\count127
 
 (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 5115.
-\XeTeXLinkMargin=\dimen149
-\Fld@menulength=\count124
-\Field@Width=\dimen150
-\Fld@charsize=\dimen151
+\XeTeXLinkMargin=\dimen158
+\Fld@menulength=\count128
+\Field@Width=\dimen159
+\Fld@charsize=\dimen160
 Package hyperref Info: Hyper figures OFF on input line 6369.
 Package hyperref Info: Link nesting OFF on input line 6374.
 Package hyperref Info: Hyper index ON on input line 6377.
@@ -832,32 +877,32 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6394.
 Package hyperref Info: PDF/A mode OFF on input line 6399.
 LaTeX Info: Redefining \ref on input line 6439.
 LaTeX Info: Redefining \pageref on input line 6443.
-\Hy@abspage=\count125
-\c@Item=\count126
-\c@Hfootnote=\count127
+\Hy@abspage=\count129
+\c@Item=\count130
+\c@Hfootnote=\count131
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2018/02/06 v6.86b Hyperref driver for pdfTeX
-\Fld@listcount=\count128
-\c@bookmark@seq@number=\count129
+\Fld@listcount=\count132
+\c@bookmark@seq@number=\count133
 
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip76
+\Hy@SectionHShift=\skip79
 )
-\c@thm=\count130
-\c@cor=\count131
-\c@prop=\count132
-\c@conj=\count133
-\c@quest=\count134
-\c@defn=\count135
-\c@rmk=\count136
-\c@exm=\count137
+\c@thm=\count134
+\c@cor=\count135
+\c@prop=\count136
+\c@conj=\count137
+\c@quest=\count138
+\c@defn=\count139
+\c@rmk=\count140
+\c@exm=\count141
 
 (./perturb-neurips.aux
 
@@ -922,19 +967,85 @@ Package microtype Info: No adjustment of character kerning.
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-ptm.cfg
 File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 )
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: letterpaper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
+* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=430.00462pt
+* \textheight=556.47656pt
+* \oddsidemargin=19.8752pt
+* \evensidemargin=19.8752pt
+* \topmargin=-13.87262pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+*geometry* verbose mode - [ newgeometry ] result:
+* driver: pdftex
+* paper: letterpaper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(108.405pt, 397.48499pt, 108.40501pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43pt, 72.27pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=397.48499pt
+* \textheight=650.43pt
+* \oddsidemargin=36.13501pt
+* \evensidemargin=36.13501pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count138
-\scratchdimen=\dimen152
-\scratchbox=\box31
-\nofMPsegments=\count139
-\nofMParguments=\count140
-\everyMPshowfont=\toks34
-\MPscratchCnt=\count141
-\MPscratchDim=\dimen153
-\MPnumerator=\count142
-\makeMPintoPDFobject=\count143
-\everyMPtoPDFconversion=\toks35
+\scratchcounter=\count142
+\scratchdimen=\dimen161
+\scratchbox=\box32
+\nofMPsegments=\count143
+\nofMParguments=\count144
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count145
+\MPscratchDim=\dimen162
+\MPnumerator=\count146
+\makeMPintoPDFobject=\count147
+\everyMPtoPDFconversion=\toks38
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -952,7 +1063,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\AtBeginShipoutBox=\box32
+\AtBeginShipoutBox=\box33
 Package hyperref Info: Link coloring OFF on input line 229.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
@@ -961,7 +1072,7 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count144
+\c@section@level=\count148
 )
 LaTeX Info: Redefining \ref on input line 229.
 LaTeX Info: Redefining \pageref on input line 229.
@@ -1011,7 +1122,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `txtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<../diagrams/c(01-2-3)(02-12-23).png, id=193, 301.125pt x 160.6pt>
+<../diagrams/c(01-2-3)(02-12-23).png, id=184, 301.125pt x 160.6pt>
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
@@ -1019,79 +1130,80 @@ e 297.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
  [1
 
+
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <../diagrams/c(01-2-3)(02-1
 2-23).png>]
-<../diagrams/MOO(0)(0).png, id=214, 80.3pt x 80.3pt>
+<../diagrams/MOO(0)(0).png, id=208, 80.3pt x 80.3pt>
 File: ../diagrams/MOO(0)(0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0).png  used on input line 337.
+Package pdftex.def Info: ../diagrams/MOO(0)(0).png  used on input line 342.
 (pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
-<../diagrams/MOO(0)(0-0).png, id=215, 80.3pt x 80.3pt>
+<../diagrams/MOO(0)(0-0).png, id=209, 80.3pt x 80.3pt>
 File: ../diagrams/MOO(0)(0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 338.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 343.
 (pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
-<../diagrams/MOOc(01)(0-1).png, id=216, 160.6pt x 120.45pt>
+<../diagrams/MOOc(01)(0-1).png, id=210, 160.6pt x 120.45pt>
 File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(0-1).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 338.
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 343.
 
 (pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
-<../diagrams/MOO(0)(0-0-0).png, id=217, 80.3pt x 80.3pt>
+<../diagrams/MOO(0)(0-0-0).png, id=211, 80.3pt x 80.3pt>
 File: ../diagrams/MOO(0)(0-0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 339.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 344.
 
 (pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
-<../diagrams/MOOc(012)(0-1-2).png, id=218, 240.9pt x 160.6pt>
+<../diagrams/MOOc(012)(0-1-2).png, id=212, 240.9pt x 160.6pt>
 File: ../diagrams/MOOc(012)(0-1-2).png Graphic file (type png)
 <use ../diagrams/MOOc(012)(0-1-2).png>
 Package pdftex.def Info: ../diagrams/MOOc(012)(0-1-2).png  used on input line 3
-39.
+44.
 (pdftex.def)             Requested size: 33.72575pt x 22.48384pt.
 File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(0-1).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 358.
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 364.
 
 (pdftex.def)             Requested size: 16.06093pt x 12.0457pt.
 File: ../diagrams/MOO(0)(0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 362.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 368.
 (pdftex.def)             Requested size: 8.03046pt x 8.03046pt.
-<../diagrams/c(01-2)(02-12).png, id=220, 220.825pt x 120.45pt>
+<../diagrams/c(01-2)(02-12).png, id=214, 220.825pt x 120.45pt>
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 366
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 372
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/MOO(0)(0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0).png  used on input line 370.
+Package pdftex.def Info: ../diagrams/MOO(0)(0).png  used on input line 376.
 (pdftex.def)             Requested size: 8.03046pt x 8.03046pt.
 File: ../diagrams/MOO(0)(0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 374.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 380.
 (pdftex.def)             Requested size: 8.03046pt x 8.03046pt.
-<../diagrams/c(0-1-2-3)(01-12-23).png, id=221, 301.125pt x 160.6pt>
+<../diagrams/c(0-1-2-3)(01-12-23).png, id=215, 301.125pt x 160.6pt>
 File: ../diagrams/c(0-1-2-3)(01-12-23).png Graphic file (type png)
 <use ../diagrams/c(0-1-2-3)(01-12-23).png>
 Package pdftex.def Info: ../diagrams/c(0-1-2-3)(01-12-23).png  used on input li
-ne 378.
+ne 384.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/MOOc(012)(0-1-2).png Graphic file (type png)
 <use ../diagrams/MOOc(012)(0-1-2).png>
 Package pdftex.def Info: ../diagrams/MOOc(012)(0-1-2).png  used on input line 3
-89.
+95.
 (pdftex.def)             Requested size: 24.0914pt x 16.06093pt.
-<../diagrams/c(012-3)(03-13-23).png, id=223, 301.125pt x 160.6pt>
+<../diagrams/c(012-3)(03-13-23).png, id=217, 301.125pt x 160.6pt>
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 391.
+ 397.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/MOO(0)(0-0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 392.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 398.
 
 (pdftex.def)             Requested size: 8.03046pt x 8.03046pt.
 
@@ -1101,488 +1213,493 @@ Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 392.
 iagrams/c(012-3)(03-13-23).png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 566.
+(hyperref)                removing `math shift' on input line 586.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 566.
+(hyperref)                removing `math shift' on input line 586.
 
-<../diagrams/c(0-1)(01).png, id=289, 140.525pt x 80.3pt>
+<../diagrams/c(0-1)(01).png, id=295, 140.525pt x 80.3pt>
 File: ../diagrams/c(0-1)(01).png Graphic file (type png)
 <use ../diagrams/c(0-1)(01).png>
-Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 574.
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 594.
 (pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 574.
+ 594.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-<../diagrams/c(0-12-3)(03-13-23).png, id=290, 301.125pt x 160.6pt>
+<../diagrams/c(0-12-3)(03-13-23).png, id=296, 301.125pt x 160.6pt>
 File: ../diagrams/c(0-12-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(0-12-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(0-12-3)(03-13-23).png  used on input lin
-e 575.
+e 595.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 575.
+e 595.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-<../diagrams/c(01)(01).png, id=294, 140.525pt x 80.3pt>
+<../diagrams/c(01)(01).png, id=300, 140.525pt x 80.3pt>
 File: ../diagrams/c(01)(01).png Graphic file (type png)
 <use ../diagrams/c(01)(01).png>
-Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 580.
+Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 600.
 (pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
-<../diagrams/c(01-2)(01-12).png, id=295, 220.825pt x 120.45pt>
+<../diagrams/c(01-2)(01-12).png, id=301, 220.825pt x 120.45pt>
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 580
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 600
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(0-1)(01).png Graphic file (type png)
 <use ../diagrams/c(0-1)(01).png>
-Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 583.
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 603.
 (pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
-<../diagrams/c(0-1-2)(02-12).png, id=296, 220.825pt x 120.45pt>
+<../diagrams/c(0-1-2)(02-12).png, id=302, 220.825pt x 120.45pt>
 File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(0-1-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 58
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 60
 3.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-<../diagrams/c(0-1-2)(01-12).png, id=297, 220.825pt x 120.45pt>
+<../diagrams/c(0-1-2)(01-12).png, id=303, 220.825pt x 120.45pt>
 File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(0-1-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 58
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 60
 5.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-<../diagrams/c(01-2-3)(03-12-23).png, id=298, 301.125pt x 160.6pt>
+<../diagrams/c(01-2-3)(03-12-23).png, id=304, 301.125pt x 160.6pt>
 File: ../diagrams/c(01-2-3)(03-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(03-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(03-12-23).png  used on input lin
-e 585.
+e 605.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(01-2-3)(03-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(03-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(03-12-23).png  used on input lin
-e 588.
+e 608.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 589.
+e 609.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 
-Underfull \hbox (badness 4316) in paragraph at lines 572--590
+Underfull \hbox (badness 4316) in paragraph at lines 592--610
 []|\T1/txr/bx/n/10 Examples\T1/txr/m/n/10 (+20) : The di-a-grams $[][]$,
  []
 
 
-Overfull \hbox (12.0pt too wide) in paragraph at lines 571--591
+Overfull \hbox (12.0pt too wide) in paragraph at lines 591--611
 [][] 
  []
 
-[3]
 File: ../diagrams/c(01-2-3)(03-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(03-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(03-12-23).png  used on input lin
-e 607.
+e 627.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(0-1).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 620.
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 641.
 
 (pdftex.def)             Requested size: 16.06093pt x 12.0457pt.
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 633.
+ 654.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 636.
+ 657.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 691.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 691.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 691.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 691.
-
-File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
-<use ../diagrams/c(01-2-3)(02-12-23).png>
-Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 693.
-(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-[4 <../diagrams/c(0-1)(01).png> <../diagrams/c(0-12-3)(03-13-23).png> <../diagr
+[3 <../diagrams/c(0-1)(01).png> <../diagrams/c(0-12-3)(03-13-23).png> <../diagr
 ams/c(01)(01).png> <../diagrams/c(01-2)(01-12).png> <../diagrams/c(0-1-2)(02-12
 ).png> <../diagrams/c(0-1-2)(01-12).png> <../diagrams/c(01-2-3)(03-12-23).png>]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 712.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 712.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 712.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 712.
+
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 709.
+e 714.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
+e 730.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 710
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 731
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 741
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 770
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01)(01).png Graphic file (type png)
 <use ../diagrams/c(01)(01).png>
-Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 741.
+Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 770.
 (pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
-<../diagrams/entropic-force-diagram.jpg, id=361, 2310.6325pt x 1504.62125pt>
+<../diagrams/entropic-force-diagram.jpg, id=359, 2310.6325pt x 1504.62125pt>
 File: ../diagrams/entropic-force-diagram.jpg Graphic file (type jpg)
 <use ../diagrams/entropic-force-diagram.jpg>
 Package pdftex.def Info: ../diagrams/entropic-force-diagram.jpg  used on input 
-line 766.
-(pdftex.def)             Requested size: 169.51743pt x 110.40253pt.
-<../diagrams/sharp.png, id=362, 1471.4975pt x 973.6375pt>
+line 794.
+(pdftex.def)             Requested size: 195.32582pt x 127.1981pt.
+<../diagrams/sharp.png, id=360, 1471.4975pt x 973.6375pt>
 File: ../diagrams/sharp.png Graphic file (type png)
 <use ../diagrams/sharp.png>
-Package pdftex.def Info: ../diagrams/sharp.png  used on input line 767.
-(pdftex.def)             Requested size: 161.61824pt x 106.94916pt.
+Package pdftex.def Info: ../diagrams/sharp.png  used on input line 795.
+(pdftex.def)             Requested size: 186.20451pt x 123.21936pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
+(hyperref)                removing `math shift' on input line 824.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
+(hyperref)                removing `math shift' on input line 824.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
+(hyperref)                removing `math shift' on input line 824.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
+(hyperref)                removing `math shift' on input line 824.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
+(hyperref)                removing `math shift' on input line 824.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
+(hyperref)                removing `math shift' on input line 824.
 
+[4]
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 800
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 835
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 812
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 847
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-[5]
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 837
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 877
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 837.
+ 877.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+ [5 <../diagrams/entropic-force-diagram.jpg> <../diagrams/sharp.png>]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 919.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 875.
+(hyperref)                removing `math shift' on input line 919.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 875.
-
-[6 <../diagrams/entropic-force-diagram.jpg> <../diagrams/sharp.png>]
-<../plots/new-test-0.png, id=409, 383.7537pt x 302.8113pt>
+<../plots/new-test-0.png, id=410, 383.7537pt x 302.8113pt>
 File: ../plots/new-test-0.png Graphic file (type png)
 <use ../plots/new-test-0.png>
-Package pdftex.def Info: ../plots/new-test-0.png  used on input line 899.
-(pdftex.def)             Requested size: 108.17639pt x 85.35826pt.
-<../plots/new-big-bm-new.png, id=410, 388.8126pt x 300.6432pt>
+Package pdftex.def Info: ../plots/new-test-0.png  used on input line 943.
+(pdftex.def)             Requested size: 126.20578pt x 99.58464pt.
+<../plots/new-big-bm-new.png, id=411, 388.8126pt x 300.6432pt>
 File: ../plots/new-big-bm-new.png Graphic file (type png)
 <use ../plots/new-big-bm-new.png>
-Package pdftex.def Info: ../plots/new-big-bm-new.png  used on input line 899.
-(pdftex.def)             Requested size: 110.39151pt x 85.35826pt.
-<../plots/new-thermo-linear-screw.png, id=411, 396.0396pt x 302.8113pt>
+Package pdftex.def Info: ../plots/new-big-bm-new.png  used on input line 943.
+(pdftex.def)             Requested size: 128.78911pt x 99.58464pt.
+<../plots/new-thermo-linear-screw.png, id=412, 396.0396pt x 302.8113pt>
 File: ../plots/new-thermo-linear-screw.png Graphic file (type png)
 <use ../plots/new-thermo-linear-screw.png>
 Package pdftex.def Info: ../plots/new-thermo-linear-screw.png  used on input li
-ne 899.
-(pdftex.def)             Requested size: 111.63966pt x 85.35826pt.
-<../plots/rebut-test-1-T100.png, id=412, 430.0065pt x 320.8788pt>
+ne 943.
+(pdftex.def)             Requested size: 130.24628pt x 99.58464pt.
+<../plots/rebut-test-1-T100.png, id=413, 430.0065pt x 320.8788pt>
 File: ../plots/rebut-test-1-T100.png Graphic file (type png)
 <use ../plots/rebut-test-1-T100.png>
-Package pdftex.def Info: ../plots/rebut-test-1-T100.png  used on input line 900
+Package pdftex.def Info: ../plots/rebut-test-1-T100.png  used on input line 944
 .
-(pdftex.def)             Requested size: 114.38422pt x 85.35826pt.
-<../plots/rebut-gen-cifar-lenet-4.png, id=413, 383.7537pt x 314.3745pt>
+(pdftex.def)             Requested size: 133.45154pt x 99.58464pt.
+<../plots/rebut-gen-cifar-lenet-4.png, id=414, 383.7537pt x 314.3745pt>
 File: ../plots/rebut-gen-cifar-lenet-4.png Graphic file (type png)
 <use ../plots/rebut-gen-cifar-lenet-4.png>
 Package pdftex.def Info: ../plots/rebut-gen-cifar-lenet-4.png  used on input li
-ne 900.
-(pdftex.def)             Requested size: 104.19458pt x 85.35826pt.
-<../plots/new-tak.png, id=414, 401.0985pt x 302.8113pt>
+ne 944.
+(pdftex.def)             Requested size: 121.5623pt x 99.58464pt.
+<../plots/new-tak.png, id=415, 401.0985pt x 302.8113pt>
 File: ../plots/new-tak.png Graphic file (type png)
 <use ../plots/new-tak.png>
-Package pdftex.def Info: ../plots/new-tak.png  used on input line 900.
-(pdftex.def)             Requested size: 113.06572pt x 85.35826pt.
+Package pdftex.def Info: ../plots/new-tak.png  used on input line 944.
+(pdftex.def)             Requested size: 131.91pt x 99.58464pt.
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1009.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 963.
+(hyperref)                removing `math shift' on input line 1009.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 963.
-
-[7 <../plots/new-test-0.png> <../plots/new-big-bm-new.png> <../plots/new-thermo
+[6 <../plots/new-test-0.png> <../plots/new-big-bm-new.png> <../plots/new-thermo
 -linear-screw.png> <../plots/rebut-test-1-T100.png> <../plots/rebut-gen-cifar-l
 enet-4.png> <../plots/new-tak.png>]
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 101
-8.
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 107
+5.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 1024.
+e 1081.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 103
-0.
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 108
+7.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
- [8] [9] (./perturb-neurips.bbl [10]
-[11]) [12]
-LaTeX Font Info:    Try loading font information for OMS+txr on input line 1172
+ [7] [8] (./perturb-neurips.bbl [9])
+[10]
+LaTeX Font Info:    Try loading font information for OMS+txr on input line 1231
 .
  (/usr/share/texlive/texmf-dist/tex/latex/txfonts/omstxr.fd
 File: omstxr.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Font shape `OMS/txr/m/n' in size <10> not available
-(Font)              Font shape `OMS/txsy/m/n' tried instead on input line 1172.
+(Font)              Font shape `OMS/txsy/m/n' tried instead on input line 1231.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1176--1177
+Underfull \hbox (badness 10000) in paragraph at lines 1235--1236
 
  []
 
-[13
+[11
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{section.1}) 
 has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1217 ...n{How to calculate expected test losses}
+l.1276 ...alculate test losses: a practical guide}
                                                   \label{appendix:tutorial}pdfT
 eX warning (ext4): destination with the same identifier (name{subsection.1.1}) 
 has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1245     \subsection{An example calculation}
+l.1304     \subsection{An example calculation}
                                                                            \...
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.1.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1246 ...How to identify the relevant space-time}
+l.1305 ...How to identify the relevant space-time}
                                                               \label{appendi...
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.1.
 3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1247 ...dentify the relevant diagram embeddings}
+l.1306 ...dentify the relevant diagram embeddings}
                                                       \label{appendix:draw-e...
 pdfTeX warning (ext4): destination with the same identifier (name{section.2}) h
 as been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1259 \section{Mathematics of the theory}
+l.1318 \section{Mathematics of the theory}
                                           \label{appendix:math}pdfTeX warning (
 ext4): destination with the same identifier (name{subsection.2.1}) has been alr
 eady used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1260     \subsection{Setup and assumptions}
-                                                                           \...
+l.1319 ...\subsection{Assumptions and definitions}
+                                                                          \l...
 pdfTeX warning (ext4): destination with the same identifier (name{subsection.2.
 2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1262     \subsection{A key lemma \`a la Dyson}
+l.1321     \subsection{A key lemma \`a la Dyson}
                                                                            \...
-[14] [15] [16]
-<../diagrams/(0)().png, id=586, 60.225pt x 40.15pt>
+[12] [13]
+<../diagrams/(0)().png, id=575, 60.225pt x 40.15pt>
 File: ../diagrams/(0)().png Graphic file (type png)
 <use ../diagrams/(0)().png>
-Package pdftex.def Info: ../diagrams/(0)().png  used on input line 1490.
+Package pdftex.def Info: ../diagrams/(0)().png  used on input line 1549.
 (pdftex.def)             Requested size: 6.02284pt x 4.01523pt.
- [17 <../diagrams/(0)().png>]
+ [14 <../diagrams/(0)().png>]
 
-LaTeX Warning: Reference `eqn:countclaim' on page 18 undefined on input line 15
-97.
+LaTeX Warning: Reference `eqn:countclaim' on page 15 undefined on input line 16
+56.
 
-[18]
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 1619.
+(amsmath)                 on input line 1678.
 
-[19]
+[15]
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 1770.
+e 1835.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
- [20]
-<../diagrams/(01-2)(02-12).png, id=631, 220.825pt x 120.45pt>
+
+Underfull \vbox (badness 6658) has occurred while \output is active []
+
+ [16]
+<../diagrams/(01-2)(02-12).png, id=618, 220.825pt x 120.45pt>
 File: ../diagrams/(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/(01-2)(02-12).png  used on input line 1794
+Package pdftex.def Info: ../diagrams/(01-2)(02-12).png  used on input line 1859
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 179
-5.
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 186
+0.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+
+
+LaTeX Warning: Reference `prove-variants' on page 17 undefined on input line 18
+89.
+
 File: ../diagrams/c(01)(01).png Graphic file (type png)
 <use ../diagrams/c(01)(01).png>
-Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 1829.
+Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 1893.
 (pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
- [21 <../diagrams/(01-2)(02-12).png>]
 File: ../diagrams/(0)().png Graphic file (type png)
 <use ../diagrams/(0)().png>
-Package pdftex.def Info: ../diagrams/(0)().png  used on input line 1876.
+Package pdftex.def Info: ../diagrams/(0)().png  used on input line 1940.
 (pdftex.def)             Requested size: 6.02284pt x 4.01523pt.
-<../diagrams/(0-1)(01).png, id=647, 140.525pt x 80.3pt>
+<../diagrams/(0-1)(01).png, id=628, 140.525pt x 80.3pt>
 File: ../diagrams/(0-1)(01).png Graphic file (type png)
 <use ../diagrams/(0-1)(01).png>
-Package pdftex.def Info: ../diagrams/(0-1)(01).png  used on input line 1877.
+Package pdftex.def Info: ../diagrams/(0-1)(01).png  used on input line 1941.
 (pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
-<../diagrams/(0-1-2)(01-12).png, id=648, 220.825pt x 120.45pt>
+<../diagrams/(0-1-2)(01-12).png, id=629, 220.825pt x 120.45pt>
 File: ../diagrams/(0-1-2)(01-12).png Graphic file (type png)
 <use ../diagrams/(0-1-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/(0-1-2)(01-12).png  used on input line 187
-8.
+Package pdftex.def Info: ../diagrams/(0-1-2)(01-12).png  used on input line 194
+2.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 187
-9.
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 194
+3.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-<../diagrams/(0-1-2)(02-12).png, id=649, 220.825pt x 120.45pt>
+<../diagrams/(0-1-2)(02-12).png, id=630, 220.825pt x 120.45pt>
 File: ../diagrams/(0-1-2)(02-12).png Graphic file (type png)
 <use ../diagrams/(0-1-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/(0-1-2)(02-12).png  used on input line 188
-0.
+Package pdftex.def Info: ../diagrams/(0-1-2)(02-12).png  used on input line 194
+4.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 188
-1.
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 194
+5.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+[17 <../diagrams/(01-2)(02-12).png>]
 
-
-LaTeX Warning: Reference `rmk:vsode' on page 22 undefined on input line 1895.
+LaTeX Warning: Reference `rmk:vsode' on page 18 undefined on input line 1959.
 
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 1905.
+ 1969.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-[22 <../diagrams/(0-1)(01).png> <../diagrams/(0-1-2)(01-12).png> <../diagrams/(
+[18 <../diagrams/(0-1)(01).png> <../diagrams/(0-1-2)(01-12).png> <../diagrams/(
 0-1-2)(02-12).png>]pdfTeX warning (ext4): destination with the same identifier 
 (name{section.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1959 \section{Experimental methods}
+l.2033 \section{Experimental methods}
                                      \label{appendix:experiments}pdfTeX warning
  (ext4): destination with the same identifier (name{subsection.3.1}) has been a
 lready used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1961 ...{What artificial landscapes did we use?}
+l.2035 ...{What artificial landscapes did we use?}
                                                                \label{append...
-[23]pdfTeX warning (ext4): destination with the same identifier (name{subsectio
-n.3.2}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{subsection.3.
+2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.2040 ...e-classification landscapes did we use?}
+l.2114 ...e-classification landscapes did we use?}
                                                      \label{appendix:natural}
-[24]
+[19]pdfTeX warning (ext4): destination with the same identifier (name{subsectio
+n.3.3}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.2147     \subsection{Measurement process}
+                                                                           \...
 
-LaTeX Warning: Reference `sect:bessel' on page 25 undefined on input line 2076.
+LaTeX Warning: Reference `sect:bessel' on page 20 undefined on input line 2150.
 
 
-[25]
-Overfull \hbox (1.69398pt too wide) in paragraph at lines 2122--2128
-[]\T1/txr/m/n/10 (-20) For our tests of reg-u-lar-iza-tion based on Corol-lary 
-[]2[], we ex-ploited the low-dimensional
- []
-
-LaTeX Font Info:    Try loading font information for T1+txss on input line 2156
+[20]
+LaTeX Font Info:    Try loading font information for T1+txss on input line 2230
 .
-(/usr/share/texlive/texmf-dist/tex/latex/txfonts/t1txss.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/txfonts/t1txss.fd
 File: t1txss.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Font shape `T1/txss/m/n' will be
-(Font)              scaled to size 9.49997pt on input line 2156.
+(Font)              scaled to size 9.49997pt on input line 2230.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `txss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [26]
-<../plots/multi-fashion-logistic-0.png, id=717, 385.1991pt x 293.4162pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21]
+<../plots/multi-fashion-logistic-0.png, id=701, 385.1991pt x 293.4162pt>
 File: ../plots/multi-fashion-logistic-0.png Graphic file (type png)
 <use ../plots/multi-fashion-logistic-0.png>
 Package pdftex.def Info: ../plots/multi-fashion-logistic-0.png  used on input l
-ine 2298.
-(pdftex.def)             Requested size: 112.05753pt x 85.35826pt.
-<../plots/vs-sde.png, id=718, 380.1402pt x 289.08pt>
+ine 2372.
+(pdftex.def)             Requested size: 130.73085pt x 99.58464pt.
+<../plots/vs-sde.png, id=702, 380.1402pt x 289.08pt>
 File: ../plots/vs-sde.png Graphic file (type png)
 <use ../plots/vs-sde.png>
-Package pdftex.def Info: ../plots/vs-sde.png  used on input line 2299.
-(pdftex.def)             Requested size: 112.24478pt x 85.35826pt.
-<../plots/tak-reg.png, id=719, 380.1402pt x 289.08pt>
+Package pdftex.def Info: ../plots/vs-sde.png  used on input line 2373.
+(pdftex.def)             Requested size: 130.95128pt x 99.58464pt.
+<../plots/tak-reg.png, id=703, 380.1402pt x 289.08pt>
 File: ../plots/tak-reg.png Graphic file (type png)
 <use ../plots/tak-reg.png>
-Package pdftex.def Info: ../plots/tak-reg.png  used on input line 2300.
-(pdftex.def)             Requested size: 112.24478pt x 85.35826pt.
- [27]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2346.
- [28 <../plots/multi-fashion-logistic-0.png> <../plots/vs-sde.png> <../plots/ta
-k-reg.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2346.
+Package pdftex.def Info: ../plots/tak-reg.png  used on input line 2374.
+(pdftex.def)             Requested size: 130.95128pt x 99.58464pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2420.
+
+[22 <../plots/multi-fashion-logistic-0.png> <../plots/vs-sde.png> <../plots/tak
+-reg.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2420.
  (./perturb-neurips.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2346.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2346.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2420.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2420.
 
 Package rerunfilecheck Info: File `perturb-neurips.out' has not changed.
-(rerunfilecheck)             Checksum: 0DCBE89CE551C7A34FA1D700B3C19FBF;4023.
+(rerunfilecheck)             Checksum: 784E1E2F73A7B45DF20BB3CEC96F2394;3853.
 
 
 LaTeX Warning: There were undefined references.
@@ -1590,16 +1707,16 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2346.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2420.
  ) 
 Here is how much of TeX's memory you used:
- 12256 strings out of 494923
- 174508 string characters out of 6180743
- 302681 words of memory out of 5000000
- 14554 multiletter control sequences out of 15000+600000
- 141296 words of font info for 579 fonts, out of 8000000 for 9000
+ 13010 strings out of 494923
+ 186420 string characters out of 6180743
+ 324018 words of memory out of 5000000
+ 15301 multiletter control sequences out of 15000+600000
+ 126590 words of font info for 559 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 31i,23n,38p,2268b,513s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,23n,38p,2336b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/txfonts/rtxb.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/txfonts/rtxbsc.pfb></usr/share/texlive/texmf-dist/fonts/typ
@@ -1616,10 +1733,10 @@ are/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
 /utmri8a.pfb>
-Output written on perturb-neurips.pdf (28 pages, 1471541 bytes).
+Output written on perturb-neurips.pdf (22 pages, 1468827 bytes).
 PDF statistics:
- 840 PDF objects out of 1000 (max. 8388607)
- 715 compressed objects within 8 object streams
- 164 named destinations out of 1000 (max. 500000)
- 80937 words of extra memory for PDF output out of 89155 (max. 10000000)
+ 804 PDF objects out of 1000 (max. 8388607)
+ 686 compressed objects within 7 object streams
+ 155 named destinations out of 1000 (max. 500000)
+ 72217 words of extra memory for PDF output out of 74296 (max. 10000000)
 

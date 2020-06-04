@@ -16,14 +16,14 @@
 \usepackage[T1]{fontenc}
 \usepackage{microtype}      
 
-%\usepackage[nonatbib]{neurips_2020}
 \usepackage{natbib}
-%\usepackage[final]{neurips_2020}
+%\usepackage{neurips_2020}
+\usepackage[final]{neurips_2020}
 
 %---------------------  mathematics  ------------------------------------------
 
 \usepackage{amsmath, amssymb, amsthm, amsfonts}
-\usepackage{mathtools, nicefrac, xstring}
+\usepackage{mathtools, nicefrac, xstring, enumitem}
 
 \usepackage{setspace}
 %---------------------  tables  ----------------------------------------------- 
@@ -283,7 +283,7 @@
     %
     %-----------------  organization Plan  ------------------------------------
     %
-    Leaving the rigorous development of our general theory to
+    Leaving the rigorous development of the general theory to
     \S\ref{appendix:math}, our paper body highlights our theory's intuition and
     main corollaries.
 
@@ -322,16 +322,21 @@
         series via combinatorial objects we call
         \emph{diagrams}:
         \begin{midea*}[Informal]
-            We can enumerate all diagrams, and assign to each diagram a number
-            depending on $\eta, T$, such that summing these numbers over all
-            diagrams yields SGD's expected test loss.  Restricting to 
-            diagrams with $\leq d$ edges leads to $o(\eta^d)$ error.
+            We may enumerate the diagrams, and we may assign to
+            each diagram a number that depends on $\eta, T$, such that
+            summing those numbers over all diagrams yields SGD's expected test
+            loss.  Restricting to the finitely many diagrams with $\leq d$
+            edges leads to $o(\eta^d)$ error.
         \end{midea*}
 
-        Deferring details, we illustrate this work flow.  First, let
-        $l_x(\theta)$ be weight $\theta$'s loss on datapoint $x$.
-        We define a dictionary between tensors relating to this loss
-        landscape, and diagram fragments that we will soon assemble:
+        Deferring details, we illustrate the Main Idea.  This shows our
+        formalism's work flow, but only in later sections will we explain the
+        mathematics.
+
+        First, let $l_x(\theta)$ be weight
+        $\theta$'s loss on datapoint $x$.  We define a dictionary between
+        tensors relating to this loss landscape, and diagram fragments that we
+        will soon assemble:
         \begin{center}
             \begin{tabular}{ll}
                 $G \teq \ex{\nb\lx}       \teq \mdia{MOO(0)(0)}     $ &                                                             \\
@@ -339,15 +344,16 @@
                 $J \teq \ex{\nb\nb\nb\lx} \teq \mdia{MOO(0)(0-0-0)} $ & $ S \teq \ex{(\nb\lx - G)^3} \teq \mdia{MOOc(012)(0-1-2)} $ 
             \end{tabular}
         \end{center}
-        Here, $G, H, J$ denote the loss's derivatives w.r.t.\
+        Here, $G, H, J$ denote the loss's derivatives with respect to 
         $\theta$, and $G, C, S$ denote the gradient's 
-        cumulants w.r.t.\ the randomness in $x$.
-        Each $\nabla^d l_x$ corresponds to a degree-$d$ node, and
-        fuzzy outlines group nodes that occur within the same expectation.  
+        cumulants with respect to the randomness in $x$.
+        There are infinitely many analogues (with more edges), but they will
+        not play a role in our our leading order results.  Each $\nabla^d l_x$
+        corresponds to a degree-$d$ node, and fuzzy outlines group nodes that
+        occur within the same expectation.  
 
-        We may pair together the loose ends of the above (and of
-        analogues with more edges) to obtain
-        \emph{diagrams}.\footnote{
+        We obtain \emph{diagrams} by pairing together the loose ends of the
+        above fragments.\footnote{
             A diagram's colors and geometric layout lack meaning: we
             {\color{moor} color} only for convenient reference, e.g.\ to
             a diagram's ``green nodes''.  Only the topology of a diagram
@@ -377,11 +383,11 @@
         $
             \sdia{c(0-1-2-3)(01-12-23)} 
         $.
-        Intuitively, each diagram represents the interaction of its parts: of
-        gradients ($G$), noise ($C, S, \cdots$) and curvature ($H, J, \cdots$). 
-        In fact, \S\ref{appendix:interpret-diagrams} physically interprets
-        edges as carrying information between updates and toward
-        the test measurement.
+        Intuitively, each diagram represents the interaction of its components:
+        of gradients ($G$), noise ($C, S, \cdots$) and curvature ($H, J,
+        \cdots$).  In fact, \S\ref{appendix:interpret-diagrams} physically
+        interprets edges as carrying information between updates and toward the
+        test measurement.
         %
         \begin{exm} \label{exm:first}
             Does non-Gaussian noise affect SGD?  Specifically,
@@ -391,7 +397,8 @@
             $\sdia{c(012-3)(03-13-23)}$; it results from joining $S$ with
             $J=\sdia{MOO(0)(0-0-0)}$.  To evaluate a diagram, we multiply its
             components (here, $S, J$) with exponentiated $\eta H$'s, one for
-            each edge (here, there are three edges):
+            each edge (here, there are three edges).  The result is easiest
+            to write in terms of an eigenbasis of $\eta H$:
             \begin{align*} %\label{eqn:nongauss}
                 -\frac{\eta^3}{3!}
                 \sum_{\mu\nu\lambda}
@@ -403,8 +410,7 @@
                     }
                     J_{\mu\nu\lambda}
             \end{align*}
-            This is $S$'s leading order contribution to SGD's test loss
-            written in an eigenbasis of $\eta H$.
+            This is $S$'s leading order contribution to SGD's test loss.
         \end{exm}
         \begin{rmk}
             When $\eta H = \|\eta H\|_2 I$, the large $T$ limit is 
@@ -414,8 +420,10 @@
                     S_{\mu\nu\lambda} J_{\mu\nu\lambda} / 3 \|\eta H\|_2
             $.
             Since $J = \nabla H$, $J / \|\eta H\|_2$ measures the relative
-            change in curvature $H$ w.r.t.\ $\theta$.  So skewed noise affects
-            SGD in proportion to the logarithmic derivative of curvature.
+            change in the curvature, $H$, with respect to $\theta$.  So skewed
+            noise affects SGD in proportion to the logarithmic derivative of
+            curvature.
+            Gaussian approximations (e.g.\ SDE) miss this effect. 
         \end{rmk}
 
 %==============================================================================
@@ -428,10 +436,13 @@
     %~~~~~~~~~  Tensor Conventions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     %\subsection{Tensor conventions}
-        Let $G, H, J, C, S$ be as in \S \ref{subsect:example}.
+        Let $G, H, J; C, S$ be as in \S \ref{subsect:example}.  They are
+        tensors with $1, 2, 3; 2, 3$ indices, respectively.
         We implicitly sum repeated Greek indices: if a covector $A$ and a
         vector $B$\footnote{
-            Vectors/covectors are also called column/row vectors.
+            Vectors/covectors are also called column/row vectors. 
+            %Their coordinates transform differently, so they represent
+            %distinct geometric types.
         } have coefficients $A_\mu, B^\mu$, then 
         $
             A_\mu B^\mu
@@ -442,7 +453,7 @@
         We regard the learning rate as an
         inverse metric $\eta^{\mu\nu}$ that converts gradient covectors to
         displacement vectors \citep{bo13}.  We use the learning rate
-        $\eta$ to raise indices:
+        $\eta$ to raise indices; for example,
         $
             H^{\mu}_{\lambda}
             \triangleq
@@ -475,9 +486,10 @@
         %
         %-------------  specialization to a common case  ----------------------
         %
-        So our theory models $\tanh$ networks with cross entropy loss on
-        bounded data --- with weight sharing, skip connections, dropout, and
-        weight decay.
+        For instance, our theory models $\tanh$ networks with cross entropy
+        loss on bounded data --- and with weight sharing, skip connections,
+        soft attention, dropout, and weight decay.  But it does not model
+        $\text{ReLU}$ networks.
         
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -498,15 +510,23 @@
             \eta^{\mu\nu} \nabla_\nu
                 \sum_{n\in \Bb_t} l_n(\theta) / B
         $,
-        where $\Bb_t$, the $t$th batch, is sampled without replacement.
-        For simplicity, we will assume unless otherwise stated that
-        \textbf{SGD has $\mathbf{E=B=1}$ and GD has $\mathbf{T=B=N}$}.
+        where in each epoch, $\Bb_t$, the $t$th batch, is sampled without
+        replacement from the training set.
+        For simplicity, our paper body (but not the appendices) will assume
+        unless otherwise stated that \textbf{SGD has $\mathbf{E=B=1}$ and GD
+        has $\mathbf{T=B=N}$}.
 
 %==============================================================================
 %    RELATED WORK    
 %==============================================================================
 
 \subsection{Related work} \label{sect:related}
+
+    It was \cite{ki52} who, in uniting gradient descent \citep{ca47} with
+    stochastic approximation \citep{ro51}, invented SGD.  Since the development
+    of back-propagation for efficient differentiation \citep{we74}, SGD has
+    been used to train connectionist models, e.g.\ neural networks
+    \citep{bo91}, recently to remarkable success \citep{le15}.
 
     %--------------------------------------------------------------------------
     %           Analyzing Overfitting; Relevance of Optimization; SDE Errs  
@@ -539,7 +559,7 @@
     correlates of gen.\ gap \citep{li18}, by showing that \emph{flat} minima
     generalize (\cite{ho17}, \cite{ke17}, \cite{wa18}), or by showing that
     \emph{sharp} minima generalize (\cite{st56}, \cite{di17}, \cite{wu18}).
-    Our theory reconciles these clashing claims.
+    At least for small $\eta$, our theory reconciles these clashing claims.
     
     %--------------------------------------------------------------------------
     %           Our Work vs Other Perturbative Approaches            
@@ -605,7 +625,8 @@
         root to $T$ and such that, for each path from leaf to root, the
         corresponding sequence of times is increasing.  For instance, $f$ might
         send $\sdia{c(01-2-3)(03-12-23)}$'s red part to $t=3$ and its green
-        part to $t=4$, but not vice versa.
+        part to $t=4$, but --- because the green node has a red child ---
+        not vice versa.
         %
         Let $\wabs{\Aut(D)}$ count automorphisms of $D$ that preserve $f$.
 
@@ -711,19 +732,20 @@
             the green (an extra $\nabla$ on $H$), to $D$'s degree-$1$ root,
             $G$.  By l'H\^opital,\footnote{
                 %
-                If a displacement $\Delta \theta$ increases loss by $C\nabla H
-                G$ nats, and by $G$ nats per meter, then $\Delta \theta$ is
-                $C\nabla H$ meters.
+                Roughly:
+                if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
+                nats, and by $G$ nats per foot, then $\Delta \theta$ is
+                $C\nabla H$ foot.
                 %
             } the displacement is $\propto C\nabla H$.  That is, SGD moves
-            toward minima that are flat w.r.t.\ $C$ (Figure
+            toward minima that are flat \emph{with respect to} $C$ (Figure
             \ref{fig:cubicandspring}\ofthreemoo{0}).
             %
             Taking limits to drop the non-degeneracy hypothesis, we expect
-            sustained motion toward flat regions in a valley of minima.  By
-            avoiding \cite{we19b}'s assumptions of constant $C$, we find that
-            SGD's velocity field is typically non-conservative, i.e.\ has curl
-            (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
+            \emph{sustained} motion toward flat regions in a valley of minima.
+            By avoiding \cite{we19b}'s assumptions of constant $C$, we find
+            that SGD's velocity field is typically non-conservative, i.e.\ has
+            curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
             derivative but $C\nabla H$ is not.  Since $CH/2+o(C)$ is the loss
             increase upon convolving $l$ with a $C$-shaped Gaussian, we say
             that SGD descends on a $C$-smoothed landscape that changes as $C$
@@ -737,6 +759,13 @@
       
         \subsubsection{Both flat and sharp minima overfit less}
             \label{subsect:curvature-and-overfitting}%
+
+            \par TestG
+            \par TestG
+            \par TestG
+            \par TestG
+            Figure \ref{fig:cubicandspring}\protect\ofthreemoo{12} illustrates
+            this result's intuition.  
 
             \begin{cor}[from $\sdia{c(01-2)(02-12)}$, $\sdia{c(01)(01)}$]\label{cor:overfit}
                 Initialize GD at a non-degenerate test minimum $\theta_\star$.
@@ -752,8 +781,7 @@
                         + o(\eta)
                 $$
             \end{cor}
-            Figure \ref{fig:cubicandspring}\protect\ofthreemoo{12} illustrates
-            this result's intuition.  The gen.\ gap tends  
+            The gen.\ gap tends  
             to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$ as $T\to\infty$.  For maximum
             likelihood (ML) estimation in well-specified models near the ``true''
             minimum, $C=H$ is the Fisher metric, so we recover AIC:
@@ -769,18 +797,20 @@
                     \textbf{Geometric intuition for curvature-noise interactions.}
                     \textbf{Left}:
                         Gradient noise pushes SGD toward minima that are flat
-                        \emph{w.r.t.\ the covariance} (Corollary
-                        \ref{cor:entropic}).  Our theory does not assume
-                        \cite{we19b}'s mode separation, but we label
-                        ``fast/slow modes'' to ease comparison. 
-                        In red are typical $\theta$s in each cross-section of
-                        the valley.  $J = \nabla H$ measures how 
-                        curvature changes across the valley.
+                        \emph{with respect to the covariance} (Corollary
+                        \ref{cor:entropic}).  The red densities show the 
+                        typical $\theta$s, perturbed from the
+                        minimum due to noise $C$, in two cross sections of the
+                        loss valley.  $J = \nabla H$ measures
+                        how curvature changes across the valley.  Our theory
+                        does not assume separation between ``fast'' and
+                        ``slow'' modes, but we label them in the picture to
+                        ease comparison with \cite{we19b}.
                     \textbf{\bf Right}:
                         Both curvature and the structure of noise affect
-                        overfitting.
-                        %$\leftrightarrow$ shows weights; $\updownarrow$ shows
-                        %loss.
+                        overfitting.  In each of the four subplots, the  
+                        $\leftrightarrow$ axis represents weight space and the
+                        $\updownarrow$ axis represents loss.
                         \protect\ofthreemoo{1}:
                         \emph{covector}-perturbed landscapes favor large $H$s.
                         \protect\ofthreemoo{2}:
@@ -796,6 +826,11 @@
 
             Intuition (\S\ref{appendix:interpret-diagrams}) suggests that noise
             repels SGD.  This effect is strongest for small $E, B$:
+
+            \par TestG
+            \par TestG
+            \par TestG
+            \par TestG
     
             \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
                 $(M=1, \eta=\eta_0)$ SGD's weight avoids 
@@ -803,7 +838,7 @@
                 $
                     \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
                         =
-                    \wrap{\frac{M_0-1}{M_0}} \frac{N}{2}
+                    \wrap{\frac{M_0-1}{M_0}} N
                     \wrap{\nabla^\mu C^{\nu}_{\nu}}
                     + o(\eta^2)
                 $.
@@ -823,16 +858,21 @@
                 on $l + \hat{l_c}$ has an expected test loss that agrees with
                 SGD's to order $\eta^2$.  We call this method GDC.
             \end{cor}
+
+            \par TestG
+            \par TestG
+ 
     
         \subsubsection{Non-Gaussian noise affects SGD but not SDE}
     
             Stochastic differential equations (SDE: see \cite{li18}) are a
-            popular theoretical approximation to SGD, but SDE and SGD differ in
+            popular theoretical approximation of SGD, but SDE and SGD differ in
             several ways.  For instance, the inter-epoch noise correlations in
             multi-epoch SGD measurably affect SGD's final test loss (Corollary
             \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
             Even if we restrict to single-epoch SDE, differences arise due to
-            time discretization and non-gaussian noise. 
+            time discretization and non-Gaussian noise.  Intuitively, SGD and
+            SDE respond differently to changes in curvature:
             %
             \begin{cor}[$\sdia{c(01-2)(02-12)}$, $\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
                 SGD's test loss is
@@ -850,54 +890,58 @@
                     $\eta$.
                 }
             \end{cor}
-            %
+
+            \par TestG
+            \par TestG
+ 
 %==============================================================================
 %    EXPERIMENTS and CONCLUSION  
 %==============================================================================
 
-\section{Evaluation: correctness and significance of results}
-
-\subsection{Experiments}
+\section{Experiments}
 
     Despite the convergence results in Theorems \ref{thm:resum} and
     \ref{thm:converge}, we have no theoretical bounds for the domain and
-    \emph{rate} of convergence.  Instead, we thus test our predictions by
-    experiment.  We find support for our theory in drastic rejections of the
-    null hypothesis.  E.g., in Figure \ref{fig:vanilla}\ofsix{4},
+    \emph{rate} of convergence.  Instead, we test our predictions by
+    experiment.  We perceive support for our theory in drastic rejections of
+    the null hypothesis.  For instance, in Figure \ref{fig:vanilla}\ofsix{4},
     \citep{ch18} predicts a velocity of $0$ while we predict a velocity of
-    $\eta^2/6$.  
+    $\eta^2/6$
     %
-    Here, \texttt{I} bars and \texttt{+} signs mark $95\%$ confidence
-    intervals based on the standard error of the mean.
-    \S\ref{appendix:experiments} lists architectures, procedures, and further
-    plots.
+    Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark $95\%$
+    confidence intervals based on the standard error of the mean.
+    \S\ref{appendix:experiments} describes neural architectures, the definitions
+    of artificial landscapes, sample sizes, and further plots.
 
-    \subsubsection{Training time, epochs, and batch size; $C$ repels SGD more than GD}
+    \par TestG
+    \par TestG
+
+    \subsection{Training time, epochs, and batch size; $C$ repels SGD more than GD}
         %----------------------------------------------------------------------
         %       Vanilla SGD                                 
         %----------------------------------------------------------------------
         We test Theorem \ref{thm:resum}'s order $\eta^3$ truncation on smooth
         convnets for CIFAR-10 and Fashion-MNIST.  Theory agrees with experiment
-        through on timescales long enough for accuracy to increase by $0.5\%$
+        through timescales long enough for accuracy to increase by $0.5\%$
         (Figure \ref{fig:vanilla}\ofsix{0},\ofsix{1}).
         %----------------------------------------------------------------------
         %       Epochs and Overfitting                      
         %----------------------------------------------------------------------
         \S\ref{appendix:figures} supports Corollary \ref{cor:epochs}'s
-        predictions relating to epoch number.
+        predictions about epoch number.
         %----------------------------------------------------------------------
         %       Emulating Small Batches with Large Ones     
         %----------------------------------------------------------------------
         Figure \ref{fig:vanilla}\ofsix{2} tests Corollary \ref{cor:batch}'s
-        claim that (relative to GD's motion) high-$C$ regions \emph{repel} SGD.
-        This is significant because $C$ controls the rate at which the gen.\
-        gap (test minus train loss) grows (Corollary \ref{cor:overfit}, Figure
+        claim that, relative to GD, high-$C$ regions \emph{repel} SGD.  This is
+        significant because $C$ controls the rate at which the gen.\ gap (test
+        minus train loss) grows (Corollary \ref{cor:overfit}, Figure
         \ref{fig:vanilla}\ofsix{3}).
       
         \begin{figure}[h!] 
             \centering
-            \pmoo{3.0cm}{new-test-0}        \pmoo{3.0cm}{new-big-bm-new}          \pmoo{3.0cm}{new-thermo-linear-screw}
-            \pmoo{3.0cm}{rebut-test-1-T100} \pmoo{3.0cm}{rebut-gen-cifar-lenet-4} \pmoo{3.0cm}{new-tak}
+            \pmoo{3.5cm}{new-test-0}        \pmoo{3.5cm}{new-big-bm-new}          \pmoo{3.5cm}{new-thermo-linear-screw}
+            \pmoo{3.5cm}{rebut-test-1-T100} \pmoo{3.5cm}{rebut-gen-cifar-lenet-4} \pmoo{3.5cm}{new-tak}
             \caption{
                 {\bf Left: Perturbation models SGD for small $\eta T$.}
                 Fashion-MNIST convnet's test loss vs learning rate.  In this
@@ -913,6 +957,8 @@
                 \protect\ofsix{1}: For large $\eta T$, our predictions
                 break down.  Here, the order-$3$ prediction holds until the
                 $0\mbox{-}1$ error improves by $5\cdot 10^{-3}$.
+                Beyond this, $2$nd order agreement with experiment is
+                coincidental.  
                 %%%
                 %%%
                 \newline
@@ -960,9 +1006,9 @@
     %           Thermodynamic Engine                        
     %--------------------------------------------------------------------------
 
-    \subsubsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
+    \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
         \label{subsect:entropic}
-        To test that ``flatness'' depends on $C$, \S\ref{appendix:artificial}
+        To test the claimed dependence on $C$, \S\ref{appendix:artificial}
         constructs a landscape, \Archimedes, with non-constant $C$ throughout
         its valley of global minima.  As in Archimedes' screw or
         Rock-Paper-Scissors, each point $\theta$ has a neighbor that,
@@ -979,18 +1025,23 @@
         \ref{fig:vanilla}\ofsix{4}).
         %
 
+        \par TestG
+        \par TestG
+        \par TestG
+        \par TestG
+
     %--------------------------------------------------------------------------
     %           Sharp vs Flat Minima                        
     %--------------------------------------------------------------------------
 
-    \subsubsection{Sharp and flat minima both overfit less than medium minima} \label{subsect:overfit}
+    \subsection{Sharp and flat minima both overfit less than medium minima} \label{subsect:overfit}
 
-        Prior work finds both that \emph{sharp} minima overfit less (for, $l^2$
-        regularization sharpens minima) or that \emph{flat} minima overfit less
-        (for, flat minima are robust to small displacements).  In fact, both
-        phenomena occur, and noise structure determines which dominates
-        (Corollary \ref{cor:overfit}).  This effect appears even in
-        \MeanEstimation\, (\S\ref{appendix:artificial}): Figure
+        Prior work (\S\ref{sect:related}) finds both that \emph{sharp} minima
+        overfit less (for, $l^2$ regularization sharpens minima) or that
+        \emph{flat} minima overfit less (for, flat minima are robust to small
+        displacements).  In fact, both phenomena occur, and noise structure
+        determines which dominates (Corollary \ref{cor:overfit}).  This effect
+        appears even in \MeanEstimation\, (\S\ref{appendix:artificial}): Figure
         \ref{fig:vanilla}\ofsix{5}.
         %
         To combat overfitting, we may add Corollary \ref{cor:overfit}'s
@@ -1000,11 +1051,17 @@
         (\S\ref{appendix:figures}).  Since matrix exponentiation takes time
         cubic in dimension, this regularizer is most useful for small models.
 
+        \par TestG
+        \par TestG
+        \par TestG
+
+
+
 %==============================================================================
 %    CONCLUSION      
 %==============================================================================
 
-\subsection{Conclusion: implications for practice} \label{sect:concl}
+\section{Conclusion: implications for practice} \label{sect:concl}
 
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1120,6 +1177,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+\vfill
 \section*{Acknowledgements}
 
     %\begin{ack}
@@ -1129,12 +1187,12 @@
             \textsc{Josh Tenenbaum}
         for
         %posing some of the problems this work resolves and for
-        their patient guidance.  We appreciate how
+        their patient guidance.  We appreciate the time that
             \textsc{Andy Banburski},
             \textsc{Ben R. Bray},
             \textsc{Jeff Lagarias}, and
             \textsc{Wenli Zhao}
-        took time to critique our drafts.
+        took to critique our drafts.
         Without the encouragement of
             \textsc{Jason Corso},
             \textsc{Chloe Kleinfeldt},
@@ -1168,7 +1226,8 @@
 
 \section*{Organization of the appendices}
     The following three appendices serve three respective functions:
-    \begin{itemize}
+    \setlist{nolistsep}
+    \begin{itemize}[noitemsep]
         \item to explain how to calculate using diagrams;
         \item to precisely state and prove our results, then pose a conjecture;
         \item to specify our experimental methods and results.
@@ -1176,7 +1235,7 @@
     In more detail, we organize the appendices as follows.\\
 
     {\bf
-    \par\noindent A ~ How to calculate expected test losses}                \hfill {\bf page \pageref{appendix:tutorial}}
+    \par\noindent A ~ How to calculate test losses: a practical guide}      \hfill {\bf page \pageref{appendix:tutorial}}
     \par\indent     A.1 ~~ An example calculation                           \hfill \pageref{appendix:example}
     \par\indent     A.2 ~~ How to identify the relevant space-time          \hfill \pageref{appendix:draw-spacetime} 
     \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
@@ -1184,17 +1243,17 @@
     \par\indent     A.5 ~~ How to sum the embeddings' values                \hfill \pageref{appendix:sum-embeddings}
     \par\indent     A.6 ~~ Interpreting diagrams to build intuition         \hfill \pageref{appendix:interpret-diagrams}
     \par\indent     A.7 ~~ How to solve variant problems                    \hfill \pageref{appendix:solve-variants}
-    \par\indent     A.8 ~~ Do diagrams streamline computation               \hfill \pageref{appendix:diagrams-streamline}
+    \par\indent     A.8 ~~ Do diagrams streamline computation?              \hfill \pageref{appendix:diagrams-streamline}
 
     {\bf
     \par\noindent B ~ Mathematics of the theory}                            \hfill {\bf page \pageref{appendix:math}}
-    \par\indent     B.1 ~~ Setup and assumptions                            \hfill \pageref{appendix:assumptions}
+    \par\indent     B.1 ~~ Assumptions and definitions                      \hfill \pageref{appendix:assumptions}
     \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
     \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
     \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
     \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
-    \par\indent     B.6 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
-    \par\indent     B.7 ~~ Proofs of miscellaneous claims                   \hfill \pageref{appendix:claims}
+    \par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
+    \par\indent     B.7 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
     \par\indent     B.8 ~~ Future topics                                    \hfill \pageref{appendix:future}
 
     {\bf
@@ -1207,14 +1266,14 @@
     \par\indent     C.6 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
     \par\indent     C.7 ~~ Additional figures                               \hfill \pageref{appendix:figures}
     
-    {\bf
-    \par\noindent D ~ History of SGD}                                       \hfill {\bf page \pageref{appendix:history}}
+    %{\bf
+    %\par\noindent D ~ History of SGD}                                       \hfill {\bf page \pageref{appendix:history}}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Tutorial  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \newpage
-\section{How to calculate expected test losses}\label{appendix:tutorial}
+\section{How to calculate test losses: a practical guide}\label{appendix:tutorial}
     Our work introduces a novel technique for calculating the expected learning
     curves of SGD in terms of statistics of the loss landscape near
     initialization.  Here, we explain this technique.  There are {\bf four
@@ -1257,7 +1316,7 @@
 %~~~~~~~~~~~~~  Math  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \section{Mathematics of the theory}\label{appendix:math}
-    \subsection{Setup and assumptions}                              \label{appendix:assumptions}
+    \subsection{Assumptions and definitions}                        \label{appendix:assumptions}
 
     \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
 
@@ -1400,10 +1459,10 @@
         We now describe the terms that appear in the Key Lemma.  The following
         result looks like Theorem \ref{thm:resum}, except it has $\uvalue(D)$
         instead of $\uvalue_f(D)$, and the sum is over all diagrams, not just
-        irreducible ones.  In fact, we will use Theorem \ref{thm:sgdcoef} to
+        irreducible ones.  In fact, we will use Theorem \ref{thm:pathint} to
         prove Theorem \ref{thm:resum}.
 
-        \begin{thm}[Test Loss as a Path Integral] \label{thm:sgdcoef}
+        \begin{thm}[Test Loss as a Path Integral] \label{thm:pathint}
             For all $T$: for $\eta$ sufficiently small, SGD's expected test
             loss is
             \begin{equation*}\label{eq:sgdcoef}
@@ -1426,7 +1485,7 @@
             we obtain the expected generalization gap (test minus train loss).
         \end{thm}
 
-        Theorem \ref{thm:sgdcoef} describe the terms that appear in the Key
+        Theorem \ref{thm:pathint} describe the terms that appear in the Key
         Lemma by matching each term to an embedding of a diagram in spacetime,
         so that the infinite sum becomes a sum over all diagram spacetime
         configurations.  The main idea is that the combinatorics of diagrams
@@ -1436,7 +1495,7 @@
         denominators, again from the Key Lemma, that we summarize in terms of
         the sizes of automorphism groups.
 
-        \begin{proof}[Proof of Theorem \ref{thm:sgdcoef}]
+        \begin{proof}[Proof of Theorem \ref{thm:pathint}]
             We first prove the statement about test losses.
             Due to the analyticity property established in our proof of the
             Key Lemma, it suffices to show agreement at each degree $d$ and
@@ -1599,7 +1658,7 @@
  
             The argument for generalization gaps parallels the above when we
             use $l-\sum_n l_n/N$ instead of $l$ as the value for $s$. 
-            Theorem \ref{thm:sgdcoef} is proved.
+            Theorem \ref{thm:pathint} is proved.
         \end{proof}
 
         \begin{rmk}[The Case of $E=B=1$ SGD]
@@ -1608,7 +1667,7 @@
             distinct cell.  Such embeddings factor through a diagram
             ordering and are thus easily counted using factorials per
             Proposition \ref{prop:vanilla}.  That proposition immediately
-            follows from the now-proven Theorem \ref{thm:sgdcoef}.
+            follows from the now-proven Theorem \ref{thm:pathint}.
         \end{rmk}
 
         \begin{prop} \label{prop:vanilla}
@@ -1643,12 +1702,16 @@
         described by \label{subsubsect:mobius} via M\"obius sums.
            
         \begin{proof}[Proof of Theorem \ref{thm:resum}]
-            We focus on test loss instead of generalization gap; the proofs are
-            similar. The difference in loss from the noiseless case is given by
-            all the diagram embeddings with at least one fuzzy tie, where the
-            fuzzy tie pattern is actually replaced by a difference between
-            noisy and noiseless cases as prescribed by the preceding discussion
-            on M\"obius Sums.  Beware that even relatively noiseless embeddings
+            We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
+            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).  The result
+            is that chains of embeddings  
+            {\color{red} FILL IN}
+
+            The difference in loss from the noiseless case is given by all the
+            diagram embeddings with at least one fuzzy tie, where the fuzzy tie
+            pattern is actually replaced by a difference between noisy and
+            noiseless cases as prescribed by the preceding discussion on
+            M\"obius Sums.  Beware that even relatively noiseless embeddings
             may have illegal collisions of non-fuzzily-tied nodes within a
             single spacetime (data) row.  Throughout the rest of this proof, we
             permit such illegal embeddings of the fuzz-less diagrams that arise
@@ -1658,11 +1721,11 @@
             absolutely in the interior of the disk of convergence, the
             rearrangement of terms corresponding to a grouping by geometric
             realizations preserves the convergence result of Theorem
-            \ref{thm:sgdcoef}.  
+            \ref{thm:pathint}.  
 
             Let us then focus on those diagrams $\sigma$ with a given geometric
             realization represented by an irreducible diagram $\rho$.  By
-            Theorem \ref{thm:sgdcoef}, it suffices to show that
+            Theorem \ref{thm:pathint}, it suffices to show that
             \begin{equation} \label{eq:hard}
                 \sum_{f:\rho\to S}
                 \sum_{\substack{
@@ -1694,7 +1757,7 @@
             In equation \ref{eq:hard}, we have introduced
             redundant sums to structurally align the two expressions on the
             page; besides this rewriting, we see that equation \ref{eq:hard}'s
-            left hand side matches Theorem \ref{thm:sgdcoef} resulting formula
+            left hand side matches Theorem \ref{thm:pathint} resulting formula
             and tgat its right hand side is the desired formula of Theorem
             \ref{thm:resum}. 
 
@@ -1744,7 +1807,7 @@
             $
             So the orbit has the claimed size, and by the Orbit Stabilizer
             Theorem, the coefficients in the expansions of Theorems 
-            \ref{thm:resum} and \ref{thm:sgdcoef} match.
+            \ref{thm:resum} and \ref{thm:pathint} match.
         \end{proof}
 
         \begin{proof}[Proof of Theorem \ref{thm:converge}]
@@ -1761,6 +1824,8 @@
             each term overwhelms the polynomial growth in the number of terms,
             and the convergence statement follows.
         \end{proof}
+
+    \subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
 
     \subsection{Proofs of corollaries}                              \label{appendix:corollaries}
 
@@ -1820,10 +1885,9 @@
 
         \subsubsection{Corollary \ref{cor:overfit}'s second part}
 
-            We apply the generalization gap modification {\color{red}
-            described in Theorem \ref{thm:sgdcoef}} to Theorem
-            \ref{thm:resum}'s result about test losses; this is licensed,
-            as seen by inspecting their proofs.  
+            We apply the generalization gap modification (described in
+            \S\ref{prove-variants}) to Theorem \ref{thm:resum}'s result about
+            test losses.
 
             \begin{proof}[Proof]
                 The relevant irreducible diagram is $\sdia{c(01)(01)}$.  This
@@ -1912,13 +1976,12 @@
                 $$
             \end{proof}
 
-    \subsection{Proofs of miscellaneous claims}                     \label{appendix:claims}
     \subsection{Future topics}                                      \label{appendix:future}
 
-        The diagram method opens the door to exploration of Lagrangian
-        formalisms and curved backgrounds\footnote{
-            \cite{la60, la51} introduce these concepts.
-        }:
+        Our diagrams invite exploration of Lagrangian formalisms and curved
+        backgrounds:\footnote{
+            \cite{la60, la51} review these concepts.
+        }
         \begin{quest}
             Does some least-action principle govern SGD; if not, what is an
             essential obstacle to this characterization?
@@ -1938,20 +2001,31 @@
         when we represent the $\lambda$ term as a second type of diagram node.
         Though diagrams suffice for computation, it is Lagrangians that most
         deeply illuminate scaling and conservation laws.
-        %
-        \begin{conj}[Riemann Curvature Regularizes]
-            SGD's gen.\ gap decreases as sectional curvature grows. 
-        \end{conj}
-        Though our work assumes a flat metric $\eta^{\mu\nu}$, it might
-        generalize to curved weight spaces\footnote{
+
+        Our work assumes a flat metric $\eta^{\mu\nu}$, but it might
+        generalize to weight spaces curved in the sense of Riemann.\footnote{
             One may represent the affine connection as a node, thus giving
             rise to non-tensorial and hence gauge-dependent diagrams.
-        }.
-        Curvature finds concrete application in the \emph{learning on
+        }  Such curvature finds concrete application in the \emph{learning on
         manifolds} paradigm of \cite{ab07, zh16}, notably specialized to
         \cite{am98}'s \emph{natural gradient descent} and \cite{ni17}'s
-        \emph{hyperbolic embeddings}.  We are optimistic our formalism may
-        resolve conjectures such as above.
+        \emph{hyperbolic embeddings}.  While that work focuses on
+        \emph{optimization} on curved weight spaces, in machine learning we
+        also wish to analyze \emph{generalization}.
+        %
+        Starting with the intuition that ``smaller'' hypothesis classes
+        generalize better and that curvature controls the volume of small
+        neighborhoods, we conjecture that sectional curvature regularizes
+        learning:
+        \begin{conj}[Sectional curvature regularizes]
+            If $\eta(\tau)$ is a Riemann metric on weight space, smoothly
+            parameterized by $\tau$, and if the sectional curvature through
+            every $2$-form at $\theta_0$ increases as $\tau$ grows, then
+            the gen.\ gap attained by fixed-$T$ SGD with learning rate $c
+            \eta(\tau)$ (when initialized from $\theta_0$) decreases as $\tau$
+            grows, for all sufficiently small $c>0$.
+        \end{conj}
+        We are optimistic our formalism may resolve conjectures such as above.
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Experiments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1960,7 +2034,7 @@
 
     \subsection{What artificial landscapes did we use?}             \label{appendix:artificial}
 
-        We define three artificial landscapes, evocatively called
+        We define three artificial landscapes, called
         \Gauss, \Archimedes, and \MeanEstimation.
 
         \subsubsection*{\Gauss}
@@ -2295,9 +2369,9 @@
 
         \begin{figure}[H] 
             \centering
-            \pmoo{3.0cm}{multi-fashion-logistic-0}
-            \pmoo{3.0cm}{vs-sde}
-            \pmoo{3.0cm}{tak-reg}
+            \pmoo{3.5cm}{multi-fashion-logistic-0}
+            \pmoo{3.5cm}{vs-sde}
+            \pmoo{3.5cm}{tak-reg}
             \caption{
                 \textbf{Further experimental results}.
                 %
@@ -2334,13 +2408,13 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  History of SGD  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\section{History of SGD} \label{appendix:history}
-    We were surprised to learn of gradient descent's pre-silicon history:
-
-    It was \cite{ki52} who, in uniting gradient descent \citep{ca47} with
-    stochastic approximation \citep{ro51}, invented SGD.  Since the development
-    of back-propagation for efficient differentiation \citep{we74}, SGD has
-    been used to train connectionist models including neural networks
-    \citep{bo91}, in recent years to remarkable success \citep{le15}.
+%\section{History of SGD} \label{appendix:history}
+%    We were surprised to learn of gradient descent's pre-silicon history:
+%
+%    It was \cite{ki52} who, in uniting gradient descent \citep{ca47} with
+%    stochastic approximation \citep{ro51}, invented SGD.  Since the development
+%    of back-propagation for efficient differentiation \citep{we74}, SGD has
+%    been used to train connectionist models including neural networks
+%    \citep{bo91}, in recent years to remarkable success \citep{le15}.
 
 \end{document}
