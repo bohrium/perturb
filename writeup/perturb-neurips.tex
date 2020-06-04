@@ -49,7 +49,7 @@
     }$}}%
 }
 
-\newcommand{\ofthreemoo}[1]{
+\newcommand{\offive}[1]{
     {\tiny
         \raisebox{-0.025cm}{\color{gray}\scalebox{2.5}{$\substack{
             \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
@@ -61,6 +61,14 @@
             \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
         }$}%
     }%
+}
+
+\newcommand{\ofthree}[1]{
+    {\tiny \raisebox{0.04cm}{$
+        \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{1}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{2}}{{\color{moor}\blacksquare}}{\square}
+    $}}%
 }
 
 %---------------------  colors  -----------------------------------------------
@@ -317,9 +325,10 @@
         If we run SGD for $T$ gradient steps with learning rate $\eta$ starting
         at weight $\theta_0$, then by Taylor expansion we may express the
         expected test loss of the final weight $\theta_T$ in terms of
-        statistics of the loss landscape evaluated at $\theta_0$.  Our
-        technical contribution is to organize the computation of this Taylor
-        series via combinatorial objects we call
+        statistics of the loss landscape evaluated at $\theta_0$.
+        As is, this Taylor series is unwieldy to write and interpret.
+        Our technical contribution is to organize the computation of this
+        Taylor series via combinatorial objects we call
         \emph{diagrams}:
         \begin{midea*}[Informal]
             We may enumerate the diagrams, and we may assign to
@@ -329,14 +338,14 @@
             edges leads to $o(\eta^d)$ error.
         \end{midea*}
 
-        Deferring details, we illustrate the Main Idea.  This shows our
-        formalism's work flow, but only in later sections will we explain the
-        mathematics.
+        Deferring details, we illustrate the Main Idea by deriving a new result
+        (Example \ref{exm:first}).  This shows our formalism's work flow,
+        but only in later sections will we explain the mathematics.
 
         First, let $l_x(\theta)$ be weight
-        $\theta$'s loss on datapoint $x$.  We define a dictionary between
-        tensors relating to this loss landscape, and diagram fragments that we
-        will soon assemble:
+        $\theta$'s loss on datapoint $x$.  We define a dictionary between (a)
+        tensors relating to this loss landscape and (b) diagram fragments that
+        we will soon assemble:
         \begin{center}
             \begin{tabular}{ll}
                 $G \teq \ex{\nb\lx}       \teq \mdia{MOO(0)(0)}     $ &                                                             \\
@@ -410,10 +419,13 @@
                     }
                     J_{\mu\nu\lambda}
             \end{align*}
-            This is $S$'s leading order contribution to SGD's test loss.
+            This is leading order contribution of skewed noise ($S$) to SGD's
+            test loss.
         \end{exm}
         \begin{rmk}
-            When $\eta H = \|\eta H\|_2 I$, the large $T$ limit is 
+            To understand Example \ref{exm:first}'s result, we specialize
+            to isotropic curvature ($\eta H = \|\eta H\|_2 I$) and take $T\to
+            \infty$, obtaining:
             $
                 - (\eta^3/3!)
                 \sum_{\mu\nu\lambda}
@@ -422,8 +434,7 @@
             Since $J = \nabla H$, $J / \|\eta H\|_2$ measures the relative
             change in the curvature, $H$, with respect to $\theta$.  So skewed
             noise affects SGD in proportion to the logarithmic derivative of
-            curvature.
-            Gaussian approximations (e.g.\ SDE) miss this effect. 
+            curvature.  Gaussian approximations (e.g.\ SDE) miss this effect. 
         \end{rmk}
 
 %==============================================================================
@@ -438,8 +449,8 @@
     %\subsection{Tensor conventions}
         Let $G, H, J; C, S$ be as in \S \ref{subsect:example}.  They are
         tensors with $1, 2, 3; 2, 3$ indices, respectively.
-        We implicitly sum repeated Greek indices: if a covector $A$ and a
-        vector $B$\footnote{
+        We may implicitly sum repeated Greek indices: if a covector $A$
+        and a vector $B$\footnote{
             Vectors/covectors are also called column/row vectors. 
             %Their coordinates transform differently, so they represent
             %distinct geometric types.
@@ -453,7 +464,7 @@
         We regard the learning rate as an
         inverse metric $\eta^{\mu\nu}$ that converts gradient covectors to
         displacement vectors \citep{bo13}.  We use the learning rate
-        $\eta$ to raise indices; for example,
+        $\eta$ to raise indices; thus,
         $
             H^{\mu}_{\lambda}
             \triangleq
@@ -587,7 +598,7 @@
 
     %\subsection{Diagrams, embeddings, and re-summed values}
         \begin{wraptable}{r}{5cm}
-            \begin{spacing}{0.8}
+            \begin{spacing}{0.5}
             \begin{tabular}{p{5cm}}
                 \textbf{Examples}:
                 The diagrams
@@ -622,36 +633,33 @@
         %
         An \emph{embedding} $f$ of a diagram $D$ is an injection from
         $D$'s parts to (integer) times $0 \leq t \leq T$ that sends the
-        root to $T$ and such that, for each path from leaf to root, the
-        corresponding sequence of times is increasing.  For instance, $f$ might
+        root to $T$ and s.t., for each path from leaf to root, the
+        corresponding sequence of times increases.  So $f$ might
         send $\sdia{c(01-2-3)(03-12-23)}$'s red part to $t=3$ and its green
         part to $t=4$, but --- because the green node has a red child ---
         not vice versa.
         %
-        Let $\wabs{\Aut(D)}$ count automorphisms of $D$ that preserve $f$.
-
+        Let $\wabs{\Aut_f(D)}$ count automorphisms of $D$ that preserve $f$.
         %%%%%%%%%
-
         Up to unbiasing terms,\footnote{
             For example, we actually define $\sdia{MOOc(01)(0-1)}$ to be the
             cumulant $C = \expc\,[(\nb\lx - G)^2]$, not the moment
             $\expc\,[(\nb\lx)^2]$.  This centering is routine (see \S
             \ref{appendix:mobius}), tedious to notate, and un-germane, so we
-            ignore it.
+            ignore it in the paper body.
         }
-        the \emph{re-summed value} $\rvalue_f(D)$ is constructed as follows.
+        we construct the \emph{re-summed value} $\rvalue_f(D)$ as follows.
         %
-        \textbf{Node rule}: insert a factor a $\nabla^d l_x$for each degree $d$
+        \par\textbf{Node rule}: insert a factor a $\nabla^d l_x$for each degree $d$
         node. 
         %
-        \textbf{Outline rule}: group the nodes in each part within expectation
-        brackets $\expc_x{}$.
+        \par\textbf{Outline rule}: group each part's nodes within brackets $\expc_x []$.
         %
-        \textbf{Edge rule}: for each edge whose endpoints are sent by $f$ to
-        times $t, t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$
-        where $K \triangleq (I-\eta H)$.
+        \par\textbf{Edge rule}: if $f$ sends an edge's endpoints to times $t,
+        t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$, where $K
+        \triangleq (I-\eta H)$.
         %
-        So if $f$ maps $\sdia{c(012-3)(03-13-23)}$'s red part to time $t =
+        \par So if $f$ maps $\sdia{c(012-3)(03-13-23)}$'s red part to time $t =
         T-\Delta t$, then (the red part gives $S$; the green part, $J$):
         $$
             \rvalue_f\wrap{\sdia{c(012-3)(03-13-23)}} = 
@@ -674,7 +682,7 @@
         following is a series in $\eta$.  We later truncate the series to small
         $d$, thus focusing on few-edged diagrams and simplifying the
         combinatorics of embeddings.
-        \begin{thm}[Special Case] \label{thm:resum}
+        \begin{thm}[Special case of $E=B=1$] \label{thm:resum}
             For any $T$: for $\eta$ small enough, SGD has expected test loss
             \begin{equation*} \label{eq:resum}
                 \sum_{\substack{D~\text{an irreduc-} \\ \text{-ible diagram}}}
@@ -691,9 +699,9 @@
         %~~~~~  Convergence  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
         \begin{thm} \label{thm:converge}
-            If $\theta_\star$ locally minimizes $l$ and $H$ is strictly
-            positive, then for SGD initialized sufficiently close to
-            $\theta_\star$, the $d$th-order truncation of Theorem
+            If $\theta_\star$ is a local minimum of $l$ and $H(\theta_\star)$
+            is strictly positive, then for SGD initialized sufficiently close
+            to $\theta_\star$, the $d$th-order truncation of Theorem
             \ref{thm:resum} converges as $T\to \infty$.
         \end{thm}
 
@@ -701,9 +709,10 @@
         %~~~~~  Simplifications  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
         \begin{rmk} \label{rmk:integrate}
-            We may approximate sums by integrals and $(I-\eta H)^t$ by $\exp(-
-            \eta H t)$, reducing to a routine integration of exponentials
-            at the cost of an error factor $1 + o(\eta)$.
+            In practice, we approximate sums over embeddings by integrals over
+            times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, reducing to a
+            routine integration of exponentials at the cost of an error factor
+            $1 + o(\eta)$.
         \end{rmk}
       
     \subsection{Insights from the formalism}
@@ -717,7 +726,7 @@
                 minimum.  Written in an eigenbasis of $\eta H$, $\theta$ has an
                 expected displacement of
                 $$
-                    \frac{\eta^3}{2}
+                    - \frac{\eta^3}{2}
                     \sum_{\mu\nu}
                         C_{\mu\nu}
                         \frac{1}{\eta (H_{\mu\mu} + H_{\nu\nu})}
@@ -729,27 +738,27 @@
 
             Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$ connects the
             subdiagram $\sdia{c(01-2)(02-12)} \propto CH$, via an extra edge on
-            the green (an extra $\nabla$ on $H$), to $D$'s degree-$1$ root,
-            $G$.  By l'H\^opital,\footnote{
+            the green node (an extra $\nabla$ on $H$), to $D$'s degree-$1$
+            root, $G$.  By l'H\^opital,\footnote{
                 %
                 Roughly:
                 if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
                 nats, and by $G$ nats per foot, then $\Delta \theta$ is
                 $C\nabla H$ foot.
                 %
-            } the displacement is $\propto C\nabla H$.  That is, SGD moves
+            } the displacement is $\propto -C\nabla H$.  That is, SGD moves
             toward minima that are flat \emph{with respect to} $C$ (Figure
-            \ref{fig:cubicandspring}\ofthreemoo{0}).
+            \ref{fig:cubicandspring}\offive{0}).
             %
             Taking limits to drop the non-degeneracy hypothesis, we expect
             \emph{sustained} motion toward flat regions in a valley of minima.
             By avoiding \cite{we19b}'s assumptions of constant $C$, we find
             that SGD's velocity field is typically non-conservative, i.e.\ has
             curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
-            derivative but $C\nabla H$ is not.  Since $CH/2+o(C)$ is the loss
-            increase upon convolving $l$ with a $C$-shaped Gaussian, we say
-            that SGD descends on a $C$-smoothed landscape that changes as $C$
-            does.
+            derivative but $C\nabla H$ is not.  Since, by low-pass
+            filter theory, $CH/2+o(C)$ is the loss increase upon convolving $l$
+            with a $C$-shaped Gaussian, we say that SGD descends on a
+            $C$-smoothed landscape that changes as $C$ does.
             %
             Our $T\gg 1$ result is $\Theta(\eta^2)$, while \cite{ya19b}'s
             similar $T=2$ result is $\Theta(\eta^3)$.  Indeed, our analysis
@@ -764,7 +773,7 @@
             \par TestG
             \par TestG
             \par TestG
-            Figure \ref{fig:cubicandspring}\protect\ofthreemoo{12} illustrates
+            Figure \ref{fig:cubicandspring}\protect\offive{12} illustrates
             this result's intuition.  
 
             \begin{cor}[from $\sdia{c(01-2)(02-12)}$, $\sdia{c(01)(01)}$]\label{cor:overfit}
@@ -811,9 +820,9 @@
                         overfitting.  In each of the four subplots, the  
                         $\leftrightarrow$ axis represents weight space and the
                         $\updownarrow$ axis represents loss.
-                        \protect\ofthreemoo{1}:
+                        \protect\offive{1}:
                         \emph{covector}-perturbed landscapes favor large $H$s.
-                        \protect\ofthreemoo{2}:
+                        \protect\offive{2}:
                         \emph{vector}-perturbed landscapes favor small $H$s.
                         SGD's implicit regularization interpolates between
                         these rows (Corollary \ref{cor:overfit}).
@@ -990,7 +999,7 @@
                 special case of \Archimedes\ establishes that
                 non-conservativity is generic.    
                 %
-                \protect\ofsix{5}: For \MeanEstimation\ with fixed $C$ and a
+                \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and a
                 range of $H$s, initialized at the truth, the test losses after
                 fixed-$T$ GD are smallest for very sharp and very flat $H$.
                 Near $H=0$, our predictions improve on Takeuchi information
@@ -1177,7 +1186,6 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\vfill
 \section*{Acknowledgements}
 
     %\begin{ack}
@@ -1276,30 +1284,34 @@
 \section{How to calculate test losses: a practical guide}\label{appendix:tutorial}
     Our work introduces a novel technique for calculating the expected learning
     curves of SGD in terms of statistics of the loss landscape near
-    initialization.  Here, we explain this technique.  There are {\bf four
-    steps} to computing the expected test loss after a specific number of
-    gradient updates: 
+    initialization.  Here, we explain this technique.  Note that a new
+    combinatorial object object --- \emph{spacetime} --- arises as we relax the
+    paper body's assumption that $E=B=1$.  This, too, we will explain.  We note
+    for now that there are are {\bf four steps} to computing the expected test
+    loss, or other quantities of interest, after a specific number of gradient
+    updates: 
     \begin{itemize}
-        \item Based on the chosen optimization hyperparameters (namely, batch
-              size, training set size, and number of epochs):
-              {\bf draw the spacetime grid} that encodes these hyperparameters.
-        \item Based on our desired level of precision,
-              {\bf draw all the relevant embeddings} of diagrams into the
-              spacetime.
-        \item {\bf Evaluate each diagram embedding}.
+        \item {\bf Draw the spacetime grid} that encodes our chosen SGD
+            hyperparameters (namely, batch size, training set size, and number
+            of epochs).
+        \item {\bf Draw embeddings}, of diagrams into the
+            spacetime, as needed for our desired precision.
+        \item {\bf Evaluate each diagram embedding}, whether exactly
+            (via $\rvalue$s) or roughly (via $\uvalue$s).
         \item {\bf Sum the embeddings' values} to obtain the quantity of
-              interest as a function of the learning rate.
+              interest as a function of $\eta$.
     \end{itemize}
 
     After presenting a small, complete example calculation that follows these
-    four steps, we explain how to perform each of these steps in its own
-    sub-section.  We then discuss how diagrams often offer intuition as well as
-    calculational help.  Though we focus on the computation of expected test
-    losses, we explain how a small change in the above four steps allows for
-    the computation also of variances (instead of expectations) and of train
-    losses (instead of test losses).  We conclude by comparing direct
-    calculation based on our Key Lemma to the diagram method; we point out when
-    and why diagrams streamline computation.
+    four steps, we explain each of the respective steps in its own sub-section.
+    We then discuss how diagrams often offer intuition as well as calculational
+    help.  Though we focus on the computation of expected test losses, we
+    describe how a small change in the above four steps allows for the
+    computation also of variances (instead of expectations), of train losses
+    (instead of test losses), or of weight displacements (instead of losses).
+    We conclude by noting that our mathematical theory may be phrased without
+    reference to diagrams; we compare such direct calculation to the diagram
+    method, pointing out when and why diagrams streamline computation.
 
     \subsection{An example calculation}                             \label{appendix:example}
     \subsection{How to identify the relevant space-time}            \label{appendix:draw-spacetime}
@@ -1315,6 +1327,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Math  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+\newpage
 \section{Mathematics of the theory}\label{appendix:math}
     \subsection{Assumptions and definitions}                        \label{appendix:assumptions}
 
@@ -2030,6 +2043,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Experiments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+\newpage
 \section{Experimental methods}\label{appendix:experiments}
 
     \subsection{What artificial landscapes did we use?}             \label{appendix:artificial}
@@ -2038,23 +2052,34 @@
         \Gauss, \Archimedes, and \MeanEstimation.
 
         \subsubsection*{\Gauss}
-            The \Gauss\, landscape is a simple case of fitting a gaussian to
-            data.  In particular, it is a probability distribution $\Dd$ over
-            functions $l_x:\RR^1\to \RR$ on $1$-dimensional weight space,
-            indexed by standard-normally distributed $1$-dimensional datapoints
-            $x$ and defined by the expression:
+            Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
+            centered standard normal data.  We parameterize the landscape by
+            $h=\log(\sigma^2)$ so that the Fisher information matches the
+            standard dot product \citep{am98}.   
+            %
+            More explicitly, the \Gauss\, landscape is a probability
+            distribution $\Dd$ over functions $l_x:\RR^1\to \RR$ on
+            $1$-dimensional weight space, indexed by standard-normally
+            distributed $1$-dimensional datapoints $x$ and defined by the
+            expression:
             $$
                 l_x(h)
                 \triangleq
                 \frac{1}{2} \wrap{h + x^2 \exp(-h)}
             $$
+            The gradient at sample $x$ and weight $\sigma$ is then $g_x(h) =
+            (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0, 1)$, the gradient $g_x(h)$
+            will be affinely related to a chi-squared, and in particular
+            non-Gaussian.
+            
             To measure overfitting, we initialize at the true test minimum
-            $h=0$, then train and see how much the test loss increases.
+            $h=0$, then train and see how much the test loss increases.  At
+            $h=0$, the expected gradient vanishes, and the test loss of SGD
+            involves only diagrams that have no leaves of size one.
             
         \subsubsection*{\Archimedes}
-            The \Archimedes\, landscape has chirality, much like the ancient
-            screw of Archimedes.  
-            Specifically, the \Archimedes\ landscape has
+            The \Archimedes\, landscape has chirality, much like its namesake's
+            screw \cite{vi00}.  Specifically, the \Archimedes\ landscape has
             %
             weights     $\theta = (u,v,z) \in \RR^3$,
             %
@@ -2063,17 +2088,23 @@
             and loss:
             %
             $$
-                l_x(w)
+                l_x(\theta)
                 \triangleq
                 \frac{1}{2} H(\theta) + x \cdot S(\theta)
             $$
             %
-            Here, $$H(\theta) = u^2 + v^2 + (\cos(z) u + \sin(z) v)^2$$
+            Here,
+            $$
+                H(\theta) = u^2 + v^2 + (\cos(z) u + \sin(z) v)^2
+            $$
+            is quadratic in $u, v$, and
+            $$
+                S(\theta) = \cos(z-\pi/4) u + \sin(z-\pi/4) v
+            $$
+            is linear in $u, v$.
+            Also, since $x \sim \Nn(0,1)$, the $x \cdot S(\theta)$ term has
+            expectation $0$.
             %
-            and   $$S(\theta) = \cos(z-\pi/4) u + \sin(z-\pi/4) v$$
-            Note that for fixed $z$, $H$ is quadratic and $S$ is linear.  Also,
-            since $x \sim \Nn(0,1)$, $x S(\theta)$ has expectation $0$.
- 
             In fact, the landscape has a three-dimensional continuous screw
             symmetry consisting of translation along $z$ and simulateous
             rotation in the $u-v$ plane.  Our experiments are initialized at
@@ -2081,35 +2112,37 @@
             $u=v=0$.  
 
             The paper body showed that SGD travels in \Archimedes' $+z$
-            direction.  By topologically quotienting the weight space, we may
-            turn the the line-shaped valley into a circle-shaped valley.  Then
-            SGD eternally travels counterclockwise in this circle.
+            direction.  By topologically quotienting the weight space, say by
+            identifying points related by a translation by $\Delta z = 200\pi$,
+            we may turn the line-shaped valley into a circle-shaped valley.
+            Then SGD eternally travels, say, counterclockwise.
            
         \subsubsection*{\MeanEstimation}
             The \MeanEstimation\, family of landscapes has $1$ dimensional
-            weights $1$-dimensional datapoints $x$ and defined by the
-            expression:
+            weights $\theta$ and $1$-dimensional datapoints $x$.  It is defined
+            by the expression:
             $$
-                l_x(w)
+                l_x(\theta)
                 \triangleq
-                \frac{1}{2} H w^2 + x S w
+                \frac{1}{2} H \theta^2 + x S \theta
             $$
             Here, $H, S$ are positive reals parameterizing the family; they
             give the hessian and (square root of) gradient covariance,
             respectively.
 
-            For our hyperparameter-selection experiment {\color{red} FIGURE},
-            we introduce an $l_2$ term $\lambda$ as follows:
+            For our hyperparameter-selection experiment (Figure
+            \ref{fig:takreg}\ofthree{2}) we introduce an $l_2$
+            regularization term as follows:
             $$
-                l_x(w, \lambda)
+                l_x(\theta, \lambda)
                 \triangleq
-                \frac{1}{2} (H + \lambda) w^2 + x S w
+                \frac{1}{2} (H + \lambda) \theta^2 + x S \theta
             $$
             Here, we constrain $\lambda\geq 0$ during optimization using
-            projections; we found similar results when parameterizing
-            $\lambda = \exp(h)$, which obviates the need for projection but
-            necessitates a non-canonical choice of initialization.  We
-            initialize $\lambda=0$.
+            projections; we found similar results when parameterizing $\lambda
+            = \exp(h)$, which obviates the need for projection but necessitates
+            a non-canonical choice of initialization.  We initialize
+            $\lambda=0$.
 
     \subsection{What image-classification landscapes did we use?}   \label{appendix:natural}
 
@@ -2384,18 +2417,17 @@
                 T$.
                 %
                 \textbf{Center}: SGD's difference from SDE after $\eta T
-                \approx 10^{-1}$ with maximal coarseness on the Gaussian-fit
-                problem.  Two effects not modeled by SDE ---
-                time-discretization and non-Gaussian noise oppose on this
-                landscape but do not completely cancel.  Our theory
-                approximates the above curve with a correct sign and order of
-                magnitude; we expect that the fourth order corrections would
-                improve it further.
+                \approx 10^{-1}$ with maximal coarseness on \Gauss.  Two
+                effects not modeled by SDE --- time-discretization and
+                non-Gaussian noise oppose on this landscape but do not
+                completely cancel.  Our theory approximates the above curve
+                with a correct sign and order of magnitude; we expect that the
+                fourth order corrections would improve it further.
                 %
                 \textbf{Right}: Blue intervals regularization using Corollary
                 \ref{cor:overfit}.  When the blue intervals fall below the
                 black bar, this proposed method outperforms plain GD.  For
-                \MeanEstimation with fixed $C$ and a range of $H$s, initialized
+                \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized
                 a fixed distance \emph{away} from the true minimum, descent on
                 an $l_2$ penalty coefficient $\lambda$ improves on plain GD for
                 most Hessians.  The new method does not always outperform GD,
