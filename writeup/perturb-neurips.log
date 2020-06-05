@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.8)  5 JUN 2020 14:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.8)  5 JUN 2020 14:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1470,12 +1470,12 @@ File: ../plots/new-big-bm-new.png Graphic file (type png)
 <use ../plots/new-big-bm-new.png>
 Package pdftex.def Info: ../plots/new-big-bm-new.png  used on input line 982.
 (pdftex.def)             Requested size: 125.10484pt x 96.73918pt.
-<../plots/new-thermo-linear-screw.png, id=425, 396.0396pt x 302.8113pt>
-File: ../plots/new-thermo-linear-screw.png Graphic file (type png)
-<use ../plots/new-thermo-linear-screw.png>
-Package pdftex.def Info: ../plots/new-thermo-linear-screw.png  used on input li
-ne 982.
-(pdftex.def)             Requested size: 126.52374pt x 96.73918pt.
+<../plots/neurips-thermo-linear-screw.png, id=425, 383.7537pt x 320.8788pt>
+File: ../plots/neurips-thermo-linear-screw.png Graphic file (type png)
+<use ../plots/neurips-thermo-linear-screw.png>
+Package pdftex.def Info: ../plots/neurips-thermo-linear-screw.png  used on inpu
+t line 982.
+(pdftex.def)             Requested size: 115.69498pt x 96.73918pt.
 <../plots/rebut-test-1-T100.png, id=426, 430.0065pt x 320.8788pt>
 File: ../plots/rebut-test-1-T100.png Graphic file (type png)
 <use ../plots/rebut-test-1-T100.png>
@@ -1493,9 +1493,9 @@ File: ../plots/new-tak.png Graphic file (type png)
 <use ../plots/new-tak.png>
 Package pdftex.def Info: ../plots/new-tak.png  used on input line 983.
 (pdftex.def)             Requested size: 128.13992pt x 96.73918pt.
-[6 <../plots/new-test-0.png> <../plots/new-big-bm-new.png> <../plots/new-thermo
--linear-screw.png> <../plots/rebut-test-1-T100.png> <../plots/neurips-gen-cifar
--lenet.png> <../plots/new-tak.png>]
+[6 <../plots/new-test-0.png> <../plots/new-big-bm-new.png> <../plots/neurips-th
+ermo-linear-screw.png> <../plots/rebut-test-1-T100.png> <../plots/neurips-gen-c
+ifar-lenet.png> <../plots/new-tak.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 1057.
@@ -1764,7 +1764,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2531.
  ) 
 Here is how much of TeX's memory you used:
  13246 strings out of 494923
- 190077 string characters out of 6180743
+ 190097 string characters out of 6180743
  329165 words of memory out of 5000000
  15548 multiletter control sequences out of 15000+600000
  127721 words of font info for 543 fonts, out of 8000000 for 9000
@@ -1786,7 +1786,7 @@ are/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
 /utmri8a.pfb>
-Output written on perturb-neurips.pdf (23 pages, 2669104 bytes).
+Output written on perturb-neurips.pdf (23 pages, 2665246 bytes).
 PDF statistics:
  837 PDF objects out of 1000 (max. 8388607)
  711 compressed objects within 8 object streams
