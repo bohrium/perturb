@@ -773,6 +773,8 @@
             \par TestG
             \par TestG
             \par TestG
+            \par TestG
+
             Figure \ref{fig:cubicandspring}\protect\offive{12} illustrates
             this result's intuition.  
 
@@ -833,28 +835,34 @@
         \subsubsection{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}
             \label{subsect:epochs-batch}
 
-            Intuition (\S\ref{appendix:interpret-diagrams}) suggests that noise
-            repels SGD.  This effect is strongest for small $E, B$:
-
-            \par TestG
-            \par TestG
-            \par TestG
-            \par TestG
-    
-            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
-                $(M=1, \eta=\eta_0)$ SGD's weight avoids 
-                high-$C$ regions more than $(M=M_0, \eta=\eta_0/M_0)$ SGD's:
-                $
-                    \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
-                        =
-                    \wrap{\frac{M_0-1}{M_0}} N
-                    \wrap{\nabla^\mu C^{\nu}_{\nu}}
-                    + o(\eta^2)
-                $.
-            \end{cor}
-        
+            \begin{wrapfigure}[14]{r}{0.25\textwidth} 
+                \centering
+                \pmoo{3.5cm}{chladni}
+                \caption{
+                    \textbf{Chladni plate}. 
+                    Grains of sand on a vibrating plate tend toward
+                    stationary regions.
+                }
+                \label{fig:chladni}
+            \end{wrapfigure}
+            Physical intuition (\S\ref{appendix:interpret-diagrams}) suggests
+            that noise repels SGD.  
+            In particular, if two neighboring regions
+            of weight space have high and low levels of gradient noise,
+            respectively, then we expect the rate at which $\theta$ jumps from
+            the former to the latter to exceed the opposite rate.  There is 
+            thus a net movement toward regions of small $C$! 
+            This mechanism parallels the Chladni effect \cite{ch87}
+             (Figure \ref{fig:chladni}).\footnote{
+                From Pierre Dragicevic and Yvonne Jansen's
+                \url{dataphys.org}, Creative Commons BY-SA 3.0. 
+            }
+            %
+            Our theory makes this intuition precise; the drift is in the
+            direction of $-\nabla C$, the effect is strongest when gradient
+            noise is not averaged out by large batch sizes.
             \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:batch}
-                SGD's weight avoids high $C$s more than GD's:
+                SGD avoids high-$C$ regions more than GD:
                 $
                     l_{C}
                         \triangleq
@@ -868,9 +876,20 @@
                 SGD's to order $\eta^2$.  We call this method GDC.
             \end{cor}
 
-            \par TestG
-            \par TestG
- 
+            An analogous form of averaging occurs over multiple epochs.  For a
+            tight comparison, we scale the learning rates appropriately so
+            that, to leading order, few-epoch and many-epoch SGD agree.  Then:
+            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
+                SGD with $M=1$ and $\eta=\eta_0$ avoids high-$C$ regions more
+                than SGD with $M=M_0$ and $\eta=\eta_0/M_0$:
+                $
+                    \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
+                        =
+                    \wrap{\frac{M_0-1}{M_0}} N
+                    \wrap{\nabla^\mu C^{\nu}_{\nu}}
+                    + o(\eta^2)
+                $.
+            \end{cor}
     
         \subsubsection{Non-Gaussian noise affects SGD but not SDE}
     
@@ -900,9 +919,6 @@
                 }
             \end{cor}
 
-            \par TestG
-            \par TestG
- 
 %==============================================================================
 %    EXPERIMENTS and CONCLUSION  
 %==============================================================================
@@ -1014,13 +1030,23 @@
 
     \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
         %
-        \begin{wrapfigure}{r}{0.5\textwidth} 
+        \begin{wrapfigure}[17]{r}{0.48\textwidth} 
             \centering
+            \vspace{-15pt}
             \pmoo{3.0cm}{from-above}
             \pmoo{3.0cm}{from-side}
             \caption{
-                \textbf{Left}:   
-                \textbf{Right}:  
+                \textbf{Two views of \Archimedes.}
+                Green sheet: a level surface of $l$ with a valley of minima
+                ($z$ axis) at its center; $l$ is large outside this surface.
+                Magenta tubes: typical $\theta$s due to non-isotropic noise.
+                %
+                \textbf{Left}: $z$ axis points into the page.  \textbf{Right}:
+                $z$ axis points upward.
+                %
+                The typical locations of $\theta$ are pulled
+                toward lower loss (steepest descent toward the level surface)
+                and so toward larger $z$.
             }
             \label{fig:landscapes}
         \end{wrapfigure}
@@ -1028,26 +1054,29 @@
         \label{subsect:entropic}
         To test the claimed dependence on $C$, \S\ref{appendix:artificial}
         constructs a landscape, \Archimedes, with non-constant $C$ throughout
-        its valley of global minima.  Figure \ref{fig:landscapes} intuitively
-        depicts \Archimedes' mechanism.\footnote{We made these plots with the
-        help of Paul Seeburger's online applet, \emph{CalcPlot3D}.}  As in
+        its valley of global minima.  Figure \ref{fig:landscapes} 
+        depicts \Archimedes' chiral shape.\footnote{We made these plots with
+        the help of Paul Seeburger's online applet, \emph{CalcPlot3D}.}  As in
         Archimedes' screw or Rock-Paper-Scissors, each point $\theta$ has a
         neighbor that, from $C(\theta)$'s perspective but not absolutely, is
         flatter.  This permits eternal cyclic motion.
         %
         Indeed, Corollary \ref{cor:entropic} predicts 
         a $z$-velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
-        SDE-based analysis predicts a velocity of $0$.\footnote{
+        SDE-based analysis predicts a constant velocity of $0$.\footnote{
             Indeed, \Archimedes' velocity is $\eta$-perpendicular to the image
             of $(\eta C)^\mu_\nu$ in tangent space.
         }
         Our prediction agrees with experiment, even for large $T$ (Figure
         \ref{fig:vanilla}\ofsix{4}).
         %
-        Because SGD's motion depends smoothly on the landscape, the
-        special case of \Archimedes\ establishes that non-conservativity is
-        generic.  That is, SGD's macroscopic motion cannot be characterized
-        as descending on any metric. 
+        Because SGD's motion depends smoothly on the landscape, the special
+        case of \Archimedes\ implies that non-conservativity is typical.
+        %
+        We may have sought an ``effective loss'' so that, up to $\sqrt{T}$
+        diffusion terms, SGD on the old loss is like ODE on the new loss.  The
+        non-conservativity of SGD's velocity shows that there is no such
+        ``effective loss''.
         %
 
 
