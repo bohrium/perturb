@@ -89,8 +89,8 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     ylow, yhigh = smart_round(*plt.gca().get_ylim())
     plt.yticks([ylow, yhigh])
 
-    plt.gca().xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2e'))
-    plt.gca().yaxis.set_major_formatter(ticker.FormatStrFormatter('%.2e'))
+    plt.gca().xaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
+    plt.gca().yaxis.set_major_formatter(ticker.FormatStrFormatter('%.2f'))
     plt.yticks(rotation=90)
 
     plt.gca().tick_params(axis='both', which='major', labelsize=14)
@@ -101,7 +101,7 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     plt.ylabel(ylabel, fontsize=14)
     plt.gca().yaxis.set_label_coords(-0.01, 0.5)
 
-    plt.legend(loc='center left')
+    plt.legend(loc='lower left')
     #plt.legend(bbox_to_anchor=(0.4, 0.9), loc=2)
 
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
@@ -190,7 +190,7 @@ def plot_experiment(ol_nm,
     OL = OptimLog(ol_nm)
     OL.load_from(ol_nm)
 
-    if False:
+    if True:
         (X,AY,AS) = OL.query_eta_curve(
             kind='main', evalset='test', sampler=sampler, T=T, N=N, metric='acc'
         )
@@ -199,7 +199,7 @@ def plot_experiment(ol_nm,
         kind=kind, evalset=evalset, sampler=sampler, T=T, N=N, metric=metric
     )
 
-    if False:
+    if True:
         ax1 = plt.gca()
         ax2 = ax1.twinx()
 
@@ -207,13 +207,15 @@ def plot_experiment(ol_nm,
         plt.sca(ax2)
         plt.scatter(X, AY, color='gray', label='0-1 err')
         plt.ylim([min(AY)-3*max(AS), max(AY)+3*max(AS)])
-        plt.yticks([89, 88])
+        plt.yticks([85.8, 86.5])
+        #plt.yticks([88.3, 88.8])
         plt.ylabel('0-1 error (%)', fontsize=14)
+        plt.yticks(rotation=90)
         plt.gca().yaxis.set_label_coords(+1.01, 0.5)
         plt.xlim([min(X)-(max(X)-min(X))/25, max(X)+(max(X)-min(X))/25])
         ax2.spines['top'].set_visible(False)
         #ax2.spines['right'].set_visible(False)
-        plt.legend(loc='lower right')
+        plt.legend(loc='center right')
         #
 
         plt.sca(ax1)
@@ -369,7 +371,7 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
         ol_nm  = 'ol-{}-T{}-{:02}-gen.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
         img_nm = '../plots/neurips-gen-{}-{}.png'.format(model_nm, idx),
-        title=title, ylabel='\u0394 loss',
+        title=title, ylabel='\u0394 loss (nats)',
         T=T, N=T, kind='diff',
         experiment_params_list = [
             (('test', 'train'), 'sgd', 'loss', dark_blue, 'gen gap'),
@@ -382,7 +384,7 @@ def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
 
 def plot_test_loss_vs_eta(model_nm, idx, T):
     title = (
-        'Vanilla SGD\'s Test Loss \n'
+        'Test Loss of SGD\n'
         '(T={}, Fashion-MNIST convnet)\n\n'.format(T, model_nm)
     )
 
@@ -391,16 +393,16 @@ def plot_test_loss_vs_eta(model_nm, idx, T):
         ol_nm  = 'ol-{}-T{}-{:02}-rebut.data'.format(model_nm, T, idx),
         #ol_nm  = '../logs/ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-        img_nm = '../plots/rebut-test-{}-T{}.png'.format(idx, T),
-        title=title, ylabel='test loss',
+        img_nm = '../plots/neurips-test-{}-T{}.png'.format(idx, T),
+        title=title, ylabel='loss (nats)',
         T=T, N=T, kind='main',
         experiment_params_list = [
-            ('test', 'sgd', 'loss', dark_blue, 'experiment'),
+            ('test', 'sgd', 'loss', dark_blue, 'test loss'),
         ], 
         theory_params_list = [
-            (coefficients.sgd_vanilla_test, 1, 'poly', bright_red, 'deg 1'),
-            (coefficients.sgd_vanilla_test, 2, 'poly', bright_yellow, 'deg 2'),
-            (coefficients.sgd_vanilla_test, 3, 'poly', bright_green, 'deg 3'),
+            (coefficients.sgd_vanilla_test, 1, 'poly', bright_red, '\u03b7\u00b9 uvalue'),
+            (coefficients.sgd_vanilla_test, 2, 'poly', bright_yellow, '\u03b7\u00b2 uvalue'),
+            (coefficients.sgd_vanilla_test, 3, 'poly', bright_green, '\u03b7\u00b3 uvalue'),
         ],
     )
 
@@ -886,8 +888,8 @@ def plot_batch_match_loss_vs_loss(idxs_and_model_nms, T):
         ymin=-1.7*10**-4, ymax=+1.7*10**-4,
     )
 
-#for idx in range(1,2):
-#    plot_test_loss_vs_eta('fashion-lenet', idx, 100)
+for idx in range(1,2):
+    plot_test_loss_vs_eta('fashion-lenet', idx, 100)
 
 #plot_test_vs_hess('quad-1d-reg', N=10)
 #plot_gengap_vs_hess('quad-1d', T=10)
@@ -912,7 +914,7 @@ def plot_batch_match_loss_vs_loss(idxs_and_model_nms, T):
 
 #plt.figure(figsize=(8,4))
 #plot_gauss_nongauss_vs_eta('cubicchi', idx=0, T=4)
-plot_thermo_vs_eta('linear-screw', idx=0, T=10000)
+#plot_thermo_vs_eta('linear-screw', idx=0, T=10000)
 
 #plot_sgd_sde_diff_vs_eta('fitgauss', idx=0, T=1)
 #plot_multi_vs_eta('cifar-logistic', idx=0)
