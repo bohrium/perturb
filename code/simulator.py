@@ -28,7 +28,7 @@ opts = [
 ]
 
 def compute_losses(land, eta, Ts, N, I=1, idx=None, opts=opts, test_extra=30,
-                   seed=0, record_train=True, SDE_alpha=16):
+                   seed=0, record_train=True, SDE_alpha=16, load_or_set='load'):
     '''
         Simulate optimizers on  
 
@@ -116,7 +116,10 @@ def compute_losses(land, eta, Ts, N, I=1, idx=None, opts=opts, test_extra=30,
             #       0.2 perform optimization loop                             #
             #-----------------------------------------------------------------#
 
-            land.switch_to(idx)
+            if load_or_set=='load':
+                land.switch_to(idx)
+            else:
+                land.set_weight(land.inits[idx])
             for t in range((actual_T)):
                 land.update_weight(
                     -actual_eta * compute_update(
@@ -172,18 +175,21 @@ def test_on_quad_landscape(T=100):
 #-----------------------------------------------------------------------------#
 
 def simulate_lenet(idxs, T, N, I, eta_d, eta_max, model, opts,
-                   in_nm, out_nm_by_idx):
+                   in_nm, out_nm_by_idx, load_or_set='load'):
     '''
     '''
     LC = model()
-    LC.load_from(in_nm, nb_inits=6, seed=0)
+    if load_or_set=='load':
+        LC.load_from(in_nm, nb_inits=1, seed=0, idx=0)
+    else: 
+        LC.load_from(in_nm, nb_inits=1, seed=0, idx=None)
     for idx in tqdm.tqdm(idxs):
         ol = OptimLog()
         for eta in tqdm.tqdm(np.arange(eta_d, eta_max+eta_d/2, eta_d)):
             for T in [T]:
                 ol.absorb_buffer(compute_losses(
-                    LC, eta=eta, T=T, N=N, I=I, idx=idx,
-                    opts=opts
+                    LC, eta=eta, Ts=[T], N=N, I=I, idx=idx,
+                    opts=opts, load_or_set=load_or_set
                 ))
 
         with open(out_nm_by_idx(idx), 'w') as f:
@@ -257,25 +263,25 @@ if __name__=='__main__':
     from nongauss_landscapes import FitGauss, CubicChi
     from thermo_landscapes import LinearScrew, Quad1D, Quad1DReg
 
-    hesses = ([]
-        + [10**(-4.0), 1.5*10**(-4), 2.5*10**(-4), 4.0*10**(-4), 6.5*10**(-4)]
-        + [10**(-3.0), 1.5*10**(-3), 2.5*10**(-3), 4.0*10**(-3), 6.5*10**(-3)]
-        + [10**(-2.0), 1.5*10**(-2), 2.5*10**(-2), 4.0*10**(-2), 6.5*10**(-2)]
-        + [10**(-1.0), 1.5*10**(-1), 2.5*10**(-1), 4.0*10**(-1), 6.5*10**(-1)]
-        + [10**( 0.0), 1.5*10**( 0), 2.5*10**( 0), 4.0*10**( 0), 6.5*10**( 0)]
-        + [10**( 1.0)] 
-    )
-    simulate_tak_reg(
-        hesses = hesses,
-        Ts=[range(20, 1001, 20)],
-        mus=[10.0],
-        N=10, IT=1000000,
-        eta=0.01,
-        model = Quad1DReg,
-        opts=['GDS', 'GD', 'GDT'],
-        in_nm = 'saved-weights/quad1d-reg.npy',
-        out_nm_by_hess_mu= lambda h, mu: '../quad-logs/ol-quad-1d-reg-h{:0.4f}-m{:0.2f}'.format(h, mu),
-    )
+    #hesses = ([]
+    #    + [10**(-4.0), 1.5*10**(-4), 2.5*10**(-4), 4.0*10**(-4), 6.5*10**(-4)]
+    #    + [10**(-3.0), 1.5*10**(-3), 2.5*10**(-3), 4.0*10**(-3), 6.5*10**(-3)]
+    #    + [10**(-2.0), 1.5*10**(-2), 2.5*10**(-2), 4.0*10**(-2), 6.5*10**(-2)]
+    #    + [10**(-1.0), 1.5*10**(-1), 2.5*10**(-1), 4.0*10**(-1), 6.5*10**(-1)]
+    #    + [10**( 0.0), 1.5*10**( 0), 2.5*10**( 0), 4.0*10**( 0), 6.5*10**( 0)]
+    #    + [10**( 1.0)] 
+    #)
+    #simulate_tak_reg(
+    #    hesses = hesses,
+    #    Ts=[range(20, 1001, 20)],
+    #    mus=[10.0],
+    #    N=10, IT=1000000,
+    #    eta=0.01,
+    #    model = Quad1DReg,
+    #    opts=['GDS', 'GD', 'GDT'],
+    #    in_nm = 'saved-weights/quad1d-reg.npy',
+    #    out_nm_by_hess_mu= lambda h, mu: '../quad-logs/ol-quad-1d-reg-h{:0.4f}-m{:0.2f}'.format(h, mu),
+    #)
 
     #hesses = (
     #    [                             2.5*10**(-2), 4.0*10**(-2), 6.5*10**(-2)] +
@@ -334,7 +340,13 @@ if __name__=='__main__':
             CifarLeNet,
             'saved-weights/cifar-lenet.npy',
             'ol-cifar-lenet-T{}-{:02d}-bm.data',
-            int( 40000/T),
+            int( 25000/T),
+        ),
+        'cifar-logistic-bm': (
+            CifarLogistic,
+            'saved-weights/cifar-logistic.npy',
+            'ol-cifar-logistic-T{}-{:02d}-bm.data',
+            int( 90000/T),
         ),
         'cifar-lenet': (
             CifarLeNet,
@@ -342,6 +354,21 @@ if __name__=='__main__':
             'ol-cifar-lenet-T{}-{:02d}-sde.data',
             int(20000/T),
         ),
+        'cifar-lenet-smalleta': (
+            CifarLeNet,
+            'saved-weights/cifar-lenet.npy',
+            'ol-cifar-lenet-T{}-{:02d}-rebut-smalleta.data',
+            int(20000/T),
+        ),
+
+        ##################################################################
+        'cifar-lenet-valley': (
+            CifarLeNet,
+            'saved-weights/valley-cifar-lenet-0-49999.npy',
+            'ol-valley-cifar-lenet-T{}-0.data',
+            int(2000/T),
+        ),
+
         'fashion-logistic': (
             FashionLogistic,
             'saved-weights/fashion-logistic.npy',
@@ -352,7 +379,13 @@ if __name__=='__main__':
             FashionLeNet,
             'saved-weights/fashion-lenet.npy',
             'ol-fashion-lenet-T{}-{:02d}-bm.data',
-            int( 40000/T),
+            int( 90000/T),
+        ),
+        'fashion-logistic-bm': (
+            FashionLogistic,
+            'saved-weights/fashion-logistic.npy',
+            'ol-fashion-logistic-T{}-{:02d}-bm.data',
+            int( 30000/T),
         ),
         'fashion-lenet': (
             FashionLeNet,
@@ -360,11 +393,24 @@ if __name__=='__main__':
             'ol-fashion-lenet-T{}-{:02d}-sde.data',
             int(20000/T),
         ),
+        'fashion-lenet-rebut': (
+            FashionLeNet,
+            'saved-weights/fashion-lenet.npy',
+            'ol-fashion-lenet-T{}-{:02d}-rebut.data',
+            int(300000/T),
+        ),
+
+        'fashion-logistic-rebut': (
+            FashionLeNet,
+            'saved-weights/fashion-logistic.npy',
+            'ol-fashion-logistic-T{}-{:02d}-rebut.data',
+            int(150000/T),
+        ),
         'fit-gauss-sde':   (
             FitGauss,
             'saved-weights/fitgauss.npy',
             'ol-fitgauss-T{}-{:02d}-sde-smalleta-new-superfine.data',
-            int(2000/T),
+            int(20000/T),
         ),
         'fit-gauss-sgd':   (
             FitGauss,
@@ -409,7 +455,9 @@ if __name__=='__main__':
         idxs=idxs, T=T, N=N, I=I,
         eta_d=eta_d, eta_max=eta_max,
         model=model, opts=opts,
-        in_nm=in_nm, out_nm_by_idx=lambda idx: out_nm.format(T, idx)
+        in_nm=in_nm,
+        out_nm_by_idx=lambda idx: out_nm.format(T, idx),
+        load_or_set='set',
     )
 
 

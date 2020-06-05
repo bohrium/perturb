@@ -88,6 +88,7 @@ class OptimLog(object):
                 if hamming(okey_base, okey_comp) not in [1, 2]:  continue
                 if okey_base.metric != okey_comp.metric: continue
                 if len(value_base) != len(value_comp): continue
+                if okey_comp.T != okey_base.T: continue
 
                 value_diff = np.array(value_comp) - np.array(value_base)
                 okey_diff = OptimKey(
@@ -119,7 +120,7 @@ class OptimLog(object):
 
     def load_from(self, file_nm):
         with open(file_nm) as f:
-            self.summary = eval(f.read())
+            self.summary = eval(f.read(), {'OptimKey':OptimKey, 'inf':float('inf')})
 
     def query_eta_curve(self, kind='main', metric='loss', evalset='test',
                         sampler='sgd', T=None, N=None):
@@ -127,12 +128,12 @@ class OptimLog(object):
         '''
         X, Y, S = [], [], []
         for okey in self.summary:
+            if okey.T != T: continue
             if okey.kind != kind: continue
             if okey.metric != metric: continue
             if okey.evalset != evalset: continue
             if okey.sampler != sampler: continue
             if type(okey.eta) == type(()): continue
-            if okey.T != T: continue
             if okey.N != N: continue
             X.append(okey.eta)
             Y.append(self.summary[okey]['mean'])

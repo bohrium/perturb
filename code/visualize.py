@@ -1,5 +1,5 @@
 ''' author: samtenka
-    change: 2020-01-15
+    change: 2020-06-05
     create: 2019-02-14
     descrp: compare and plot descent losses as dependent on learning rate.
             Valid plotting modes are
@@ -101,7 +101,7 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     plt.ylabel(ylabel, fontsize=14)
     plt.gca().yaxis.set_label_coords(-0.01, 0.5)
 
-    plt.legend(loc='lower left')
+    plt.legend(loc='lower center')
     #plt.legend(bbox_to_anchor=(0.4, 0.9), loc=2)
 
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
@@ -190,32 +190,39 @@ def plot_experiment(ol_nm,
     OL = OptimLog(ol_nm)
     OL.load_from(ol_nm)
 
-    (X,AY,AS) = OL.query_eta_curve(
-        kind=kind, evalset=evalset, sampler=sampler, T=T, N=N, metric='acc'
-    )
-    AY = 1.0-AY
+    if True:
+        (X,AY,AS) = OL.query_eta_curve(
+            kind='main', evalset='test', sampler=sampler, T=T, N=N, metric='acc'
+        )
+        AY = 100*(1.0-AY)
     (X, Y, S) = OL.query_eta_curve(
         kind=kind, evalset=evalset, sampler=sampler, T=T, N=N, metric=metric
     )
 
-    ax1 = plt.gca()
-    ax2 = ax1.twinx()
+    if True:
+        ax1 = plt.gca()
+        ax2 = ax1.twinx()
 
-    #
-    plt.sca(ax2)
-    plt.scatter(X, AY, color='gray', label='0-1 error')
-    plt.ylim([min(AY)-3*max(AS), max(AY)+3*max(AS)])
-    plt.xlim([min(X)-(max(X)-min(X))/25, max(X)+(max(X)-min(X))/25])
-    plt.legend(loc='center right')
-    #
+        #
+        plt.sca(ax2)
+        plt.scatter(X, AY, color='gray', label='0-1 err')
+        plt.ylim([min(AY)-3*max(AS), max(AY)+3*max(AS)])
+        plt.yticks([89, 88])
+        plt.ylabel('0-1 error (%)', fontsize=14)
+        plt.gca().yaxis.set_label_coords(+1.01, 0.5)
+        plt.xlim([min(X)-(max(X)-min(X))/25, max(X)+(max(X)-min(X))/25])
+        ax2.spines['top'].set_visible(False)
+        #ax2.spines['right'].set_visible(False)
+        plt.legend(loc='lower right')
+        #
 
-    plt.sca(ax1)
-    plot_bars(X, Y, S, color=blue, label='loss')
+        plt.sca(ax1)
+    plot_bars(X, Y, S, color=color, label=label)
 
     return (
         X,
         [min(Y)-3*max(S), max(Y)+3*max(S)],
-        [min(AY)-3*max(AS), max(AY)+3*max(AS)],
+        #[min(AY)-3*max(AS), max(AY)+3*max(AS)],
     )
 
 def plot_theory(gs_nm,
@@ -247,7 +254,7 @@ def plot_loss_vs_eta(ol_nm, gs_nm, img_nm, title, ylabel,
     eta_range = [0]
     metric_range = []
     for evalset, sampler, metric, color, label in experiment_params_list:   
-        etas, metrics, accs = plot_experiment(
+        etas, metrics = plot_experiment(
             ol_nm, color=color, label=label,
             T=T, N=N, kind=kind, evalset=evalset, sampler=sampler, metric=metric
         )
@@ -349,31 +356,34 @@ def plot_batch_match_loss_vs_eta(model_nm, idx, T):
         ],
     )
 
+
 def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
-        'GENERALIZATION GAP \n'
-        '(gen gap after {} steps on {})'.format(T, model_nm)
+        'Covariance controls SGD\'s Generalization\n'
+        '(T={}, CIFAR-10 convnet)\n\n'.format(T, model_nm)
     )
+
+    plt.rcParams.update({'font.size': 14})
     plot_loss_vs_eta(
         ol_nm  = 'ol-{}-T{}-{:02}-gen.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
-        img_nm = '../plots/_gen-{}-{}.png'.format(model_nm, idx),
-        title=title, ylabel='loss difference',
+        img_nm = '../plots/neurips-gen-{}-{}.png'.format(model_nm, idx),
+        title=title, ylabel='\u0394 loss',
         T=T, N=T, kind='diff',
         experiment_params_list = [
-            (('test', 'train'), 'sgd', 'loss', dark_blue, 'sgd gen gap'),
+            (('test', 'train'), 'sgd', 'loss', dark_blue, 'gen gap'),
         ], 
         theory_params_list = [
-            (coefficients.sgd_vanilla_gen, 1, 'poly', bright_red, 'degree 1 prediction of gen gap'),
-            (coefficients.sgd_vanilla_gen, 2, 'poly', bright_yellow, 'degree 2 prediction of gen gap'),
+            (coefficients.sgd_vanilla_gen, 1, 'poly', bright_red, '\u03b7\u00b9 uvalue'),
+            (coefficients.sgd_vanilla_gen, 2, 'poly', bright_yellow, '\u03b7\u00b2 uvalue'),
         ],
     )
 
 def plot_test_loss_vs_eta(model_nm, idx, T):
     title = (
         'Vanilla SGD\'s Test Loss \n'
-        '(T={}, Fashion-MNIST convnet)'.format(T, model_nm)
+        '(T={}, Fashion-MNIST convnet)\n\n'.format(T, model_nm)
     )
 
     plt.rcParams.update({'font.size': 14})
@@ -399,7 +409,7 @@ def plot_gen_gap_loss_vs_loss(model_nm, idxs, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
         'GENERALIZATION GAP \n'
-        '(gen gap after {} steps on {})'.format(T, model_nm)
+        '(gen gap after {} steps on {})\n\n'.format(T, model_nm)
     )
 
     true_mean = [] 
@@ -876,8 +886,8 @@ def plot_batch_match_loss_vs_loss(idxs_and_model_nms, T):
         ymin=-1.7*10**-4, ymax=+1.7*10**-4,
     )
 
-for idx in range(1,2):
-    plot_test_loss_vs_eta('fashion-lenet', idx, 100)
+#for idx in range(1,2):
+#    plot_test_loss_vs_eta('fashion-lenet', idx, 100)
 
 #plot_test_vs_hess('quad-1d-reg', N=10)
 #plot_gengap_vs_hess('quad-1d', T=10)
@@ -892,10 +902,10 @@ for idx in range(1,2):
 
 #plot_gen_gap_loss_vs_loss('cifar-lenet', [0, 1, 2, 3, 4, 5], 10)
 
-#for model_nm in ['cifar-lenet', 'fashion-lenet']:
-#    for idx in range(0,6):
-#        plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
-#        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
+for model_nm in ['cifar-lenet']:
+    for idx in range(0,6):
+        plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
+        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
 
 #plot_test()
 #plot_gauss_nongauss_vs_eta('fitgauss', idx=0, T=4)

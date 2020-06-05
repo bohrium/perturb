@@ -162,7 +162,7 @@ class FixedInitsLandscape(PointedLandscape):
         ))
         self.switch_to(0)
 
-    def load_from(self, file_nm, nb_inits=None, seed=0):
+    def load_from(self, file_nm, nb_inits=None, seed=0, idx=0):
         '''
             Load a set of weight initializations from the file named.
         '''
@@ -179,7 +179,10 @@ class FixedInitsLandscape(PointedLandscape):
         print(CC + 'loaded @R {} @D initial weights from @M {} @D '.format(
             len(self.inits), file_nm
         ))
-        self.switch_to(0)
+        if idx is None:
+            self.set_weight(self.inits[idx])
+        else:
+            self.switch_to(idx)
 
     def switch_to(self, init_idx):  
         '''

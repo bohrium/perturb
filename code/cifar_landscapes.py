@@ -352,10 +352,11 @@ if __name__=='__main__':
     #               3.0. descent hyperparameters                              #
     #-------------------------------------------------------------------------#
 
-    N = 256
-    BATCH = 64
-    TIME = 512
-    LRATE = 1.0
+    N = 100000
+    BATCH = 100
+    STEP = 1000
+    TIME = STEP * 10
+    LRATE = 5.0
     pre(N%BATCH==0,
         'batch size must divide train size!'
     )
@@ -368,7 +369,7 @@ if __name__=='__main__':
     nb_inits = 1
     model_idx = 0 
 
-    file_nm = 'saved-weights/cifar-{}.npy'.format(model_nm.lower())
+    file_nm = 'saved-weights/moo-cifar-{}.npy'.format(model_nm.lower())
     model = {'LENET':CifarLeNet, 'LOGISTIC':CifarLogistic}[model_nm]
     ML = model(verbose=True, seed=0)
     ML.load_from(file_nm, nb_inits=nb_inits, seed=0)
@@ -382,22 +383,22 @@ if __name__=='__main__':
 
         L = ML.get_loss_stalk(D[(BATCH*t)%N:(BATCH*(t+1)-1)%N+1])
         G = ML.nabla(L)
-        ML.update_weight(-LRATE * G)
+        ML.update_weight(-(LRATE *  5000 / ( 5000.0 + t)) * G)
 
         #---------------------------------------------------------------------#
         #           3.3 compute and display gradient statistics               #
         #---------------------------------------------------------------------#
 
-        if (t+1)%10: continue
+        if (t+1)%50: continue
 
-        L_train= ML.get_loss_stalk(D)
-        data = ML.sample_data(N=3000, seed=1)
-        L_test = ML.get_loss_stalk(data[:1500])
-        L_test_= ML.get_loss_stalk(data[1500:])
+        L_train = ML.get_loss_stalk(np.random.choice(D, 10000))
+        data = ML.sample_data(N=1000, seed=1)
+        L_test = ML.get_loss_stalk(data[:500])
+        L_test_= ML.get_loss_stalk(data[500:])
         acc = ML.get_metrics(data)['acc']
 
         print(CC+' @D \t'.join([
-            'after @M {:4d} @D steps'.format(t+1),
+            'after @M {:6d} @D steps'.format(t+1),
             'grad2 @G {:.2e}'.format(
                 ML.nabla(L_test).dot(ML.nabla(L_test_)).detach().numpy()
             ),
@@ -408,3 +409,17 @@ if __name__=='__main__':
             'test acc @O {:.2f}'.format(acc),
         '']))
 
+        if (t+1)%STEP: continue
+
+        #xx = np.load('saved-weights/valley-cifar-{}-{}-{}.npy'.format(
+        #    model_nm.lower(), model_idx, t
+        #))
+        #print(xx.shape)
+
+        print('saved-weights/valley-cifar-{}-{}-{}.npy'.format(
+            model_nm.lower(), model_idx, t
+        ))
+
+        np.save('saved-weights/valley-cifar-{}-{}-{}.npy'.format(
+            model_nm.lower(), model_idx, t
+        ), [ML.get_weight()])

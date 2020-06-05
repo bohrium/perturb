@@ -365,7 +365,7 @@ if __name__=='__main__':
     #               3.1 specify and load model                                #
     #-------------------------------------------------------------------------#
 
-    model_nm = 'LOGISTIC'
+    model_nm = 'LENET'
     nb_inits = 1
     model_idx = 0 
 

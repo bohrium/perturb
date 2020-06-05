@@ -16,11 +16,13 @@ from utils import pre, CC
 
 
 OptimKey_old = namedtuple('OptimKey_old',
-    ('metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
+    #('metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
+    ('kind', 'metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
 )
 
 OptimKey = namedtuple('OptimKey',
-    ('kind', 'metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
+    #('kind', 'metric', 'sampler', 'beta', 'eta', 'T', 'N', 'evalset')
+    ('kind', 'metric', 'evalset', 'sampler', 'eta', 'T', 'N')
 )
 
 hamming = lambda x, y: sum((1 if xx!=yy else 0) for xx,yy in zip(x, y))
@@ -48,7 +50,7 @@ def translate_optimlog(file_nm):
             k_new = OptimKey(
                 kind    = 'diff',
                 sampler = shrink(k.sampler[0], k.sampler[1]),
-                beta    = shrink(k.beta   [0], k.beta   [1]),
+                #beta    = shrink(k.beta   [0], k.beta   [1]),
                 eta     = shrink(k.eta    [0], k.eta    [1]),
                 T       = shrink(k.T      [0], k.T      [1]),
                 N       = shrink(k.N      [0], k.N      [1]),
@@ -60,7 +62,7 @@ def translate_optimlog(file_nm):
             k_new = OptimKey(
                 kind    = 'main',
                 sampler = k.sampler,
-                beta    = k.beta   ,
+                #beta    = k.beta   ,
                 eta     = k.eta    ,
                 T       = k.T      ,
                 N       = k.N      ,
