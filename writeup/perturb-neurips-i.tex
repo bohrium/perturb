@@ -878,12 +878,10 @@
 
             An analogous form of averaging occurs over multiple epochs.  For a
             tight comparison, we scale the learning rates appropriately so
-            that, to leading order, few-epoch and many-epoch SGD agree.  Then
-            few and many- epoch SGD differ, to leading order, in their
-            sensitivity to $\nabla C$:
+            that, to leading order, few-epoch and many-epoch SGD agree.  Then:
             \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
                 SGD with $M=1$ and $\eta=\eta_0$ avoids high-$C$ regions more
-                than SGD with $M=M_0$ and $\eta=\eta_0/M_0$.  Precisely:
+                than SGD with $M=M_0$ and $\eta=\eta_0/M_0$:
                 $
                     \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
                         =
@@ -940,6 +938,9 @@
     \S\ref{appendix:experiments} describes neural architectures, the definitions
     of artificial landscapes, sample sizes, and further plots.
 
+    \par TestG
+    \par TestG
+
     \subsection{Training time, epochs, and batch size; $C$ repels SGD more than GD}
         %----------------------------------------------------------------------
         %       Vanilla SGD                                 
@@ -961,7 +962,7 @@
         significant because $C$ controls the rate at which the gen.\ gap (test
         minus train loss) grows (Corollary \ref{cor:overfit}, Figure
         \ref{fig:vanilla}\ofsix{3}).
-
+      
         \begin{figure}[h!] 
             \centering
             \pmoo{3.5cm}{new-test-0}        \pmoo{3.5cm}{new-big-bm-new}          \pmoo{3.5cm}{new-thermo-linear-screw}
@@ -1016,17 +1017,6 @@
                 fixed-$T$ GD are smallest for very sharp and very flat $H$.
                 Near $H=0$, our predictions improve on Takeuchi information
                 \citep{di18} and thus on AIC.
-                %%%
-                %%%
-                \newline
-                \textbf{Throughout}:the \emph{re-normed} predictions refer to
-                those of Theorem \ref{thm:resum}, approximated as in Remark
-                \ref{rmk:integrate}.  Predictions not labeled as
-                \emph{re-normed} are more drastic (namely, polynomial)
-                approximations of Theorem \ref{thm:resum}'s result.
-                We the authors should have written ``re-summed'' instead of
-                ``re-normed'', and ``single-epoch, singleton-batch'' instead of
-                ``vanilla''.
             }
             \label{fig:vanilla}
         %    \label{fig:batchandgen}
@@ -1047,16 +1037,16 @@
             \pmoo{3.0cm}{from-side}
             \caption{
                 \textbf{Two views of \Archimedes.}
-                Green: a level surface of $l$ twisting around a valley of minima
+                Green sheet: a level surface of $l$ with a valley of minima
                 ($z$ axis) at its center; $l$ is large outside this surface.
-                Purple tubes: $\theta$s typical due to non-isotropic noise.
+                Magenta tubes: typical $\theta$s due to non-isotropic noise.
+                %
+                \textbf{Left}: $z$ axis points into the page.  \textbf{Right}:
+                $z$ axis points upward.
                 %
                 The typical locations of $\theta$ are pulled
                 toward lower loss (steepest descent toward the level surface)
                 and so toward larger $z$.
-                %
-                The $z$ axis points into the page (\textbf{left}) or upward
-                (\textbf{right}).
             }
             \label{fig:landscapes}
         \end{wrapfigure}
