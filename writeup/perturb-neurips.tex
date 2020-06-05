@@ -1,5 +1,5 @@
 %   author: samtenka
-%   change: 2020-06-03
+%   change: 2020-06-05
 %   create: 2020-05-29
 %   descrp: LaTeX source for perturb project
 %   to use: compile along with perturb.bib and diagram and plot directories
@@ -17,8 +17,8 @@
 \usepackage{microtype}      
 
 \usepackage{natbib}
-%\usepackage{neurips_2020}
-\usepackage[final]{neurips_2020}
+\usepackage{neurips_2020}
+%\usepackage[final]{neurips_2020}
 
 %---------------------  mathematics  ------------------------------------------
 
@@ -51,7 +51,7 @@
 
 \newcommand{\offive}[1]{
     {\tiny
-        \raisebox{-0.025cm}{\color{gray}\scalebox{2.5}{$\substack{
+        \raisebox{-0.04cm}{\color{gray}\scalebox{2.5}{$\substack{
             \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
         }$}}%
         \raisebox{0.04cm}{$\substack{
@@ -342,62 +342,65 @@
         (Example \ref{exm:first}).  This shows our formalism's work flow,
         but only in later sections will we explain the mathematics.
 
-        First, let $l_x(\theta)$ be weight
-        $\theta$'s loss on datapoint $x$.  We define a dictionary between (a)
-        tensors relating to this loss landscape and (b) diagram fragments that
-        we will soon assemble:
-        \begin{center}
-            \begin{tabular}{ll}
-                $G \teq \ex{\nb\lx}       \teq \mdia{MOO(0)(0)}     $ &                                                             \\
-                $H \teq \ex{\nb\nb\lx}    \teq \mdia{MOO(0)(0-0)}   $ & $ C \teq \ex{(\nb\lx - G)^2} \teq \mdia{MOOc(01)(0-1)}    $ \\
-                $J \teq \ex{\nb\nb\nb\lx} \teq \mdia{MOO(0)(0-0-0)} $ & $ S \teq \ex{(\nb\lx - G)^3} \teq \mdia{MOOc(012)(0-1-2)} $ 
-            \end{tabular}
-        \end{center}
-        Here, $G, H, J$ denote the loss's derivatives with respect to 
-        $\theta$, and $G, C, S$ denote the gradient's 
-        cumulants with respect to the randomness in $x$.
-        There are infinitely many analogues (with more edges), but they will
-        not play a role in our our leading order results.  Each $\nabla^d l_x$
-        corresponds to a degree-$d$ node, and fuzzy outlines group nodes that
-        occur within the same expectation.  
+        \begin{defn}[Informal]
+            Let $l_x(\theta)$ be weight
+            $\theta$'s loss on datapoint $x$.  We define a dictionary between (a)
+            tensors relating to this loss landscape and (b) diagram fragments that
+            we will soon assemble:
+            \begin{center}
+                \begin{tabular}{ll}
+                    $G \teq \ex{\nb\lx}       \teq \mdia{MOO(0)(0)}     $ &                                                             \\
+                    $H \teq \ex{\nb\nb\lx}    \teq \mdia{MOO(0)(0-0)}   $ & $ C \teq \ex{(\nb\lx - G)^2} \teq \mdia{MOOc(01)(0-1)}    $ \\
+                    $J \teq \ex{\nb\nb\nb\lx} \teq \mdia{MOO(0)(0-0-0)} $ & $ S \teq \ex{(\nb\lx - G)^3} \teq \mdia{MOOc(012)(0-1-2)} $ 
+                \end{tabular}
+            \end{center}
+            Here, $G, H, J$ denote the loss's derivatives with respect to 
+            $\theta$, and $G, C, S$ denote the gradient's 
+            cumulants with respect to the randomness in $x$.
+            There are infinitely many analogues (with more edges), but they will
+            not play a role in our our leading order results.  Each $\nabla^d l_x$
+            corresponds to a degree-$d$ node, and fuzzy outlines group nodes that
+            occur within the same expectation.  
 
-        We obtain \emph{diagrams} by pairing together the loose ends of the
-        above fragments.\footnote{
-            A diagram's colors and geometric layout lack meaning: we
-            {\color{moor} color} only for convenient reference, e.g.\ to
-            a diagram's ``green nodes''.  Only the topology of a diagram
-            --- not its size or angles --- appear in our theory.
-        }
-        For instance, we may join
-        $
-            C = \sdia{MOOc(01)(0-1)}
-        $
-        with
-        $
-            H = \sdia{MOO(0)(0-0)}
-        $
-        to get
-        $
-            \sdia{c(01-2)(02-12)}
-        $.
-        As another example, we may join two copies of
-        $
-            G = \sdia{MOO(0)(0)}
-        $
-        with two copies of
-        $
-            H = \sdia{MOO(0)(0-0)}
-        $
-        to get
-        $
-            \sdia{c(0-1-2-3)(01-12-23)} 
-        $.
-        Intuitively, each diagram represents the interaction of its components:
-        of gradients ($G$), noise ($C, S, \cdots$) and curvature ($H, J,
-        \cdots$).  In fact, \S\ref{appendix:interpret-diagrams} physically
-        interprets edges as carrying information between updates and toward the
-        test measurement.
-        %
+            We obtain \textbf{diagrams} by pairing together the loose ends of the
+            above fragments.\footnote{
+                A diagram's colors and geometric layout lack meaning: we
+                {\color{moor} color} only for convenient reference, e.g.\ to
+                a diagram's ``green nodes''.  Only the topology of a diagram
+                --- not its size or angles --- appear in our theory.
+            }
+            For instance, we may join
+            $
+                C = \sdia{MOOc(01)(0-1)}
+            $
+            with
+            $
+                H = \sdia{MOO(0)(0-0)}
+            $
+            to get
+            $
+                \sdia{c(01-2)(02-12)}
+            $.
+            As another example, we may join two copies of
+            $
+                G = \sdia{MOO(0)(0)}
+            $
+            with two copies of
+            $
+                H = \sdia{MOO(0)(0-0)}
+            $
+            to get
+            $
+                \sdia{c(0-1-2-3)(01-12-23)} 
+            $.
+            Intuitively, each diagram represents the interaction of its components:
+            of gradients ($G$), noise ($C, S, \cdots$) and curvature ($H, J,
+            \cdots$).  In fact, \S\ref{appendix:interpret-diagrams} physically
+            interprets edges as carrying information between updates and toward the
+            test measurement.
+            \mend
+        \end{defn}
+
         \begin{exm} \label{exm:first}
             Does non-Gaussian noise affect SGD?  Specifically,
             let's compute how the \emph{skewness} $S$ affects SGD's test loss. The recipe is to identify
@@ -421,6 +424,7 @@
             \end{align*}
             This is leading order contribution of skewed noise ($S$) to SGD's
             test loss.
+            \mend
         \end{exm}
         \begin{rmk}
             To understand Example \ref{exm:first}'s result, we specialize
@@ -451,9 +455,8 @@
         tensors with $1, 2, 3; 2, 3$ indices, respectively.
         We may implicitly sum repeated Greek indices: if a covector $A$
         and a vector $B$\footnote{
-            Vectors/covectors are also called column/row vectors. 
-            %Their coordinates transform differently, so they represent
-            %distinct geometric types.
+            Vectors/covectors, a.k.a.\ column/row vectors,
+            represent distinct geometric concepts \citep{ko93}. 
         } have coefficients $A_\mu, B^\mu$, then 
         $
             A_\mu B^\mu
@@ -817,8 +820,8 @@
                 \caption{%
                     \textbf{Geometric intuition for curvature-noise interactions.}
                     \textbf{Left}:
-                        Gradient noise pushes SGD toward minima that are flat
-                        \emph{with respect to the covariance} (Corollary
+                        Gradient noise pushes SGD toward flat minima
+                        (Corollary
                         \ref{cor:entropic}).  The red densities show the 
                         typical $\theta$s, perturbed from the
                         minimum due to noise $C$, in two cross sections of the
@@ -827,6 +830,7 @@
                         does not assume separation between ``fast'' and
                         ``slow'' modes, but we label them in the picture to
                         ease comparison with \cite{we19b}.
+                        Compare with Figure \ref{fig:archimedes}.
                     \textbf{\bf Right}:
                         Both curvature and the structure of noise affect
                         overfitting.  In each of the four subplots, the  
@@ -1069,13 +1073,13 @@
                 The $z$ axis points into the page (\textbf{left}) or upward
                 (\textbf{right}).
             }
-            \label{fig:landscapes}
+            \label{fig:archimedes}
         \end{wrapfigure}
         %
         \label{subsect:entropic}
         To test the claimed dependence on $C$, \S\ref{appendix:artificial}
         constructs a landscape, \Archimedes, with non-constant $C$ throughout
-        its valley of global minima.  Figure \ref{fig:landscapes} 
+        its valley of global minima.  Figure \ref{fig:archimedes} 
         depicts \Archimedes' chiral shape.\footnote{
             We made these plots with
             the help of Paul Seeburger's online applet,
@@ -1083,7 +1087,7 @@
         }  As in
         Archimedes' screw or Rock-Paper-Scissors, each point $\theta$ has a
         neighbor that, from $C(\theta)$'s perspective but not absolutely, is
-        flatter.  This permits eternal cyclic motion.
+        flatter.  This permits eternal motion despite the landscape's symmetry.
         %
         Indeed, Corollary \ref{cor:entropic} predicts 
         a $z$-velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
@@ -1091,16 +1095,16 @@
             Indeed, \Archimedes' velocity is $\eta$-perpendicular to the image
             of $(\eta C)^\mu_\nu$ in tangent space.
         }
-        Our prediction agrees with experiment, even for large $T$ (Figure
+        Our prediction agrees with experiment (Figure
         \ref{fig:vanilla}\ofsix{4}).
         %
         Because SGD's motion depends smoothly on the landscape, the special
         case of \Archimedes\ implies that non-conservativity is typical.
         %
-        We may have sought an ``effective loss'' so that, up to $\sqrt{T}$
-        diffusion terms, SGD on the old loss is like ODE on the new loss.  The
-        non-conservativity of SGD's velocity shows that there is no such
-        ``effective loss''.
+        One may have sought an ``effective loss'' $\tilde{l}$ such that, up to
+        $\sqrt{T}$ diffusion terms, SGD on $l$ matches ODE on $\tilde{l}$.  The
+        non-conservativity of SGD's velocity shows that no such $\tilde{l}$
+        exists.
         %
 
 
@@ -1248,37 +1252,45 @@
 
 \section*{Acknowledgements}
 
-    %\begin{ack}
-        We would like to thank
-            \textsc{Sho Yaida},
-            \textsc{Dan A.\ Roberts}, and
-            \textsc{Josh Tenenbaum}
-        for their patient guidance.
-        %
-        Through their incisive questions, \textsc{Dan A.\ Roberts}, \textsc{Ben
-        R.\ Bray}, \textsc{Sasha Rakhlin}, \textsc{Sho Yaida}, and
-        \textsc{Wenli Zhao} led us to the questions we answer here.
-        %
-        We appreciate the time and energy of
-            \textsc{Andy Banburski},
-            \textsc{Ben R.\ Bray},
-            \textsc{Jeff Lagarias}, and
-            \textsc{Wenli Zhao}
-        spent in critiqueing our drafts.
-        %
-        Without the encouragement of
-            \textsc{Jason Corso},
-            \textsc{Chloe Kleinfeldt},
-            \textsc{Alex Lew}, 
-            \textsc{Ari Morcos}, and
-            \textsc{David Schwab},
-        this paper would not be.
-        %
-        Finally, we thank our anonymous reviewers for inspiring an improved
-        presentation.
-        %
-        This work was funded in part by MIT's Jacobs Presidential Fellowship.
-    %\end{ack}
+    Redacted during double-blind peer review.
+
+%    %\begin{ack}
+%        We would like to thank
+%            \textsc{Sho Yaida},
+%            \textsc{Dan A.\ Roberts}, and
+%            \textsc{Josh Tenenbaum}
+%        for their patient guidance.
+%        %
+%        It was \textsc{Dan A.\ Roberts} who recognized that interesting
+%        questions lie in the analysis of epoch number and batch size; it
+%        was he who introduced us to much of \S\ref{sect:related}.  Only with
+%        \textsc{Sho Yaida}'s advice to re-sum did our theory attain its most
+%        precise and conceptual form.
+%        %
+%        We appreciate the time and energy that
+%            \textsc{Andy Banburski},
+%            \textsc{Ben R.\ Bray},
+%            \textsc{Jeff Lagarias}, and
+%            \textsc{Wenli Zhao}
+%        spent to critique our drafts.
+%        In particular, \textsc{Wenli Zhao} nudged us to consider and discuss
+%        connections to physics, and \textsc{Ben R.\ Bray} taught us
+%        that gradient noise is rarely istropic, homogeneous, or Gaussian.  
+%        %
+%        Without the encouragement of
+%            \textsc{Jason Corso},
+%            \textsc{Chloe Kleinfeldt},
+%            \textsc{Alex Lew}, 
+%            \textsc{Ari Morcos}, and
+%            \textsc{David Schwab},
+%        this paper would not be.
+%        %
+%        Finally, we thank our anonymous reviewers for inspiring an improved
+%        presentation.
+%        %
+%        This work was funded in part by MIT's Jacobs Presidential Fellowship
+%        and in part by FAIR.
+%    %\end{ack}
         
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

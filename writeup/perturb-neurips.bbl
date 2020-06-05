@@ -1,4 +1,4 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{50}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -27,7 +27,7 @@ P.L. Bartlett, D.J. Foster, and M.J. Telgarsky.
 
 \bibitem[Bonnabel(2013)]{bo13}
 S.~Bonnabel.
-\newblock Stochastic gradient descent on riemannian manifolds.
+\newblock Sgd on riemannian manifolds.
 \newblock \emph{IEEE Transactions on Automatic Control}, 2013.
 
 \bibitem[Bottou(1991)]{bo91}
@@ -43,8 +43,8 @@ A.-L. Cauchy.
 
 \bibitem[Chaudhari and Soatto(2018)]{ch18}
 P.~Chaudhari and S.~Soatto.
-\newblock Stochastic gradient descent performs variational inference, converges
-  to limit cycles for deep networks.
+\newblock Sgd performs variational inference, converges to limit cycles for
+  deep networks.
 \newblock \emph{ICLR}, 2018.
 
 \bibitem[Chladni(1787)]{ch87}
@@ -59,7 +59,7 @@ Laurent Dinh, R.~Pascanu, S.~Bengio, and Y.~Bengio.
 
 \bibitem[Dixon and Ward(2018)]{di18}
 M.F. Dixon and T.~Ward.
-\newblock Takeuchi's information criteria as a form of regularization.
+\newblock Takeuchi information as a form of regularization.
 \newblock \emph{Arxiv Preprint}, 2018.
 
 \bibitem[Dwork et~al.(2006)Dwork, McSherry, Nissim, and Smith]{dw06}
@@ -116,6 +116,11 @@ N.S. Keskar, D.~Mudigere, J.~Nocedal, M.~Smelyanskiy, and P.T.P. Tang.
 J.~Kiefer and J.~Wolfowitz.
 \newblock Stochastic estimation of the maximum of a regression function.
 \newblock \emph{Annals of Mathematical Statistics}, 1952.
+
+\bibitem[Kol\'{a}\u{r} et~al.(1993)Kol\'{a}\u{r}, Michor, and Slov\'{a}k]{ko93}
+I.~Kol\'{a}\u{r}, P.W. Michor, and J.~Slov\'{a}k.
+\newblock Natural operations in differential geometry.
+\newblock \emph{Springer}, 1993.
 
 \bibitem[Krizhevsky(2009)]{kr09}
 A.~Krizhevsky.
@@ -176,8 +181,7 @@ M.~Nickel and D.~Kiela.
 
 \bibitem[Niu et~al.(2011)Niu, Recht, R\'e, and Wright]{ni11}
 Feng Niu, B.~Recht, C.~R\'e, and S.J. Wright.
-\newblock Hogwild!: A lock-free approach to parallelizing stochastic gradient
-  descent.
+\newblock Hogwild!: A lock-free approach to parallelizing sgd.
 \newblock \emph{NeurIPS}, 2011.
 
 \bibitem[Paszke et~al.(2019)Paszke, Gross, Massa, Lerer, Bradbury, Killeen,
@@ -256,12 +260,12 @@ Han Xiao, L.~Rasul, and R.~Vollgraf.
 
 \bibitem[Yaida(2019{\natexlab{a}})]{ya19a}
 Sho Yaida.
-\newblock Fluctuation-dissipation relations for stochastic gradient descent.
+\newblock Fluctuation-dissipation relations for sgd.
 \newblock \emph{ICLR}, 2019{\natexlab{a}}.
 
 \bibitem[Yaida(2019{\natexlab{b}})]{ya19b}
 Sho Yaida.
-\newblock A first law of thermodynamics for stochastic gradient descent.
+\newblock A first law of thermodynamics for sgd.
 \newblock \emph{Personal Communication}, 2019{\natexlab{b}}.
 
 \bibitem[Zhang et~al.(2017)Zhang, Bengio, Hardt, Recht, and Vinyals]{zh17}
