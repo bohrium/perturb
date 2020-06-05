@@ -648,7 +648,7 @@
             \ref{appendix:mobius}), tedious to notate, and un-germane, so we
             ignore it in the paper body.
         }
-        we construct the \emph{re-summed value} $\rvalue_f(D)$ as follows.
+        we construct the \emph{re-summed value} $\rvalue_f(D)$ as follows:
         %
         \par\textbf{Node rule}: insert a factor a $\nabla^d l_x$for each degree $d$
         node. 
@@ -995,9 +995,6 @@
                 and we see displacement exceeding the landscape's period of
                 $2\pi$.  So: the drift is not a pathology of well-chosen
                 $\eta$, of divergent noise, or of ephemeral initial conditions.
-                Since SGD's motion depends smoothly on the landscape, the
-                special case of \Archimedes\ establishes that
-                non-conservativity is generic.    
                 %
                 \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and a
                 range of $H$s, initialized at the truth, the test losses after
@@ -1016,15 +1013,29 @@
     %--------------------------------------------------------------------------
 
     \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
+        %
+        \begin{wrapfigure}{r}{0.5\textwidth} 
+            \centering
+            \pmoo{3.0cm}{from-above}
+            \pmoo{3.0cm}{from-side}
+            \caption{
+                \textbf{Left}:   
+                \textbf{Right}:  
+            }
+            \label{fig:landscapes}
+        \end{wrapfigure}
+        %
         \label{subsect:entropic}
         To test the claimed dependence on $C$, \S\ref{appendix:artificial}
         constructs a landscape, \Archimedes, with non-constant $C$ throughout
-        its valley of global minima.  As in Archimedes' screw or
-        Rock-Paper-Scissors, each point $\theta$ has a neighbor that,
-        from $C(\theta)$'s perspective but not absolutely, is flatter.  This
-        permits eternal cyclic motion.
+        its valley of global minima.  Figure \ref{fig:landscapes} intuitively
+        depicts \Archimedes' mechanism.\footnote{We made these plots with the
+        help of Paul Seeburger's online applet, \emph{CalcPlot3D}.}  As in
+        Archimedes' screw or Rock-Paper-Scissors, each point $\theta$ has a
+        neighbor that, from $C(\theta)$'s perspective but not absolutely, is
+        flatter.  This permits eternal cyclic motion.
         %
-        Corollary \ref{cor:entropic} predicts 
+        Indeed, Corollary \ref{cor:entropic} predicts 
         a $z$-velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
         SDE-based analysis predicts a velocity of $0$.\footnote{
             Indeed, \Archimedes' velocity is $\eta$-perpendicular to the image
@@ -1033,11 +1044,12 @@
         Our prediction agrees with experiment, even for large $T$ (Figure
         \ref{fig:vanilla}\ofsix{4}).
         %
+        Because SGD's motion depends smoothly on the landscape, the
+        special case of \Archimedes\ establishes that non-conservativity is
+        generic.  That is, SGD's macroscopic motion cannot be characterized
+        as descending on any metric. 
+        %
 
-        \par TestG
-        \par TestG
-        \par TestG
-        \par TestG
 
     %--------------------------------------------------------------------------
     %           Sharp vs Flat Minima                        
@@ -1056,15 +1068,9 @@
         To combat overfitting, we may add Corollary \ref{cor:overfit}'s
         expression for gen.\ gap to $l$.  By descending on this regularized
         loss, we may tune smooth hyperparameters such as $l_2$ regularization
-        coefficients in the noisy, small-$N$ regime $H \ll C/N$
+        coefficients for small datasets ($H \ll C/N$)
         (\S\ref{appendix:figures}).  Since matrix exponentiation takes time
         cubic in dimension, this regularizer is most useful for small models.
-
-        \par TestG
-        \par TestG
-        \par TestG
-
-
 
 %==============================================================================
 %    CONCLUSION      
@@ -1078,8 +1084,8 @@
     We presented a diagram-based method for studying stochastic optimization on
     short timescales or near minima.
         Corollaries \ref{cor:entropic} and \ref{cor:overfit} together offer
-        insight into SGD's success in training deep networks: SGD senses
-        curvature, and curvature controls generalization.
+        insight into SGD's success in training deep networks: SGD avoids
+        curvature and noise, and curvature and noise control generalization.
 
     Analyzing $\sdia{c(01-2)(02-12)}$, we proved that \textbf{flat and sharp
     minima both overfit less} than medium minima.  Intuitively, flat minima are
@@ -1107,16 +1113,15 @@
         they break down after the weight moves far from initialization.  Our
         theory thus best applies to small-movement contexts, whether for long
         times (large $\eta T$) near an isolated minimum or for short times
-        (small $\eta T$) in general.  Thus, our theory might especially
-        help to analyze meta-learners that are based on fine-tuning (e.g.\
-        \cite{fi17}'s MAML).
+        (small $\eta T$) in general.  Thus, the theory might help to analyze
+        meta-learners based on fine-tuning (e.g.\ \cite{fi17}'s MAML).
 
         Much as meteorologists understand how warm and cold fronts interact
-        despite long-term forecasting's intractability, we quantify the
-        counter-intuitive dynamics governing each short-term interval of SGD's
-        trajectory.  Equipped with our theory, practitioners may now
-        refine intuitions (e.g.\ that SGD descends on the train loss) to
-        account for noise.
+        despite long-term forecasting's intractability, we quantify how
+        curvature and noise contribute to counter-intuitive dynamics governing
+        each short-term interval of SGD's trajectory.  Equipped with our
+        theory, practitioners may now refine intuitions --- e.g.\ that SGD
+        descends on the training loss --- to account for noise.
        
 %==============================================================================
 %    CODA               
@@ -1191,16 +1196,21 @@
     %\begin{ack}
         We would like to thank
             \textsc{Sho Yaida},
-            \textsc{Dan A. Roberts}, and
+            \textsc{Dan A.\ Roberts}, and
             \textsc{Josh Tenenbaum}
-        for
-        %posing some of the problems this work resolves and for
-        their patient guidance.  We appreciate the time that
+        for their patient guidance.
+        %
+        Through their incisive questions, \textsc{Dan A.\ Roberts}, \textsc{Ben
+        R.\ Bray}, \textsc{Sasha Rakhlin}, \textsc{Satinder Singh}, \textsc{Sho
+        Yaida}, and \textsc{Wenli Zhao} led us to the questions we answer here.
+        %
+        We appreciate the time that
             \textsc{Andy Banburski},
-            \textsc{Ben R. Bray},
+            \textsc{Ben R.\ Bray},
             \textsc{Jeff Lagarias}, and
             \textsc{Wenli Zhao}
         took to critique our drafts.
+        %
         Without the encouragement of
             \textsc{Jason Corso},
             \textsc{Chloe Kleinfeldt},
@@ -1208,11 +1218,11 @@
             \textsc{Ari Morcos}, and
             \textsc{David Schwab},
         this paper would not be.
+        %
         Finally, we thank our anonymous reviewers for inspiring an improved
         presentation.
         %
-        This work was funded in part by MIT's Jacobs Presidential Fellowship
-        and in part by FAIR.
+        This work was funded in part by MIT's Jacobs Presidential Fellowship.
     %\end{ack}
         
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2401,6 +2411,7 @@
     \subsection{Additional figures}                                 \label{appendix:figures}
 
         \begin{figure}[H] 
+            \centering
             \centering
             \pmoo{3.5cm}{multi-fashion-logistic-0}
             \pmoo{3.5cm}{vs-sde}
