@@ -101,7 +101,7 @@ def finish_plot(title, xlabel, ylabel, img_filenm, ymax=1.0, ymin=0.0):
     plt.ylabel(ylabel, fontsize=14)
     plt.gca().yaxis.set_label_coords(-0.01, 0.5)
 
-    plt.legend(loc='lower left')
+    plt.legend(loc='lower center')
     #plt.legend(bbox_to_anchor=(0.4, 0.9), loc=2)
 
     plt.savefig(img_filenm, pad_inches=0.05, bbox_inches='tight')
@@ -207,15 +207,15 @@ def plot_experiment(ol_nm,
         plt.sca(ax2)
         plt.scatter(X, AY, color='gray', label='0-1 err')
         plt.ylim([min(AY)-3*max(AS), max(AY)+3*max(AS)])
-        plt.yticks([85.8, 86.5])
-        #plt.yticks([88.3, 88.8])
+        #plt.yticks([85.8, 86.5])
+        plt.yticks([88.3, 88.8])
         plt.ylabel('0-1 error (%)', fontsize=14)
         plt.yticks(rotation=90)
         plt.gca().yaxis.set_label_coords(+1.01, 0.5)
         plt.xlim([min(X)-(max(X)-min(X))/25, max(X)+(max(X)-min(X))/25])
         ax2.spines['top'].set_visible(False)
         #ax2.spines['right'].set_visible(False)
-        plt.legend(loc='center right')
+        plt.legend(loc='lower right')
         #
 
         plt.sca(ax1)
@@ -362,7 +362,7 @@ def plot_batch_match_loss_vs_eta(model_nm, idx, T):
 def plot_gen_gap_loss_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
-        'Covariance controls SGD\'s Generalization\n'
+        'Covariance Controls SGD\'s Generalization\n'
         '(T={}, CIFAR-10 convnet)\n\n'.format(T, model_nm)
     )
 
@@ -390,8 +390,8 @@ def plot_test_loss_vs_eta(model_nm, idx, T):
 
     plt.rcParams.update({'font.size': 14})
     plot_loss_vs_eta(
-        ol_nm  = 'ol-{}-T{}-{:02}-rebut.data'.format(model_nm, T, idx),
-        #ol_nm  = '../logs/ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
+        #ol_nm  = 'ol-{}-T{}-{:02}-rebut.data'.format(model_nm, T, idx),
+        ol_nm  = '../logs/ol-{}-T{}-{:02}.data'.format(model_nm, T, idx),
         gs_nm  = '../logs/gs-{}-{:02}.data'.format(model_nm, idx),
         img_nm = '../plots/neurips-test-{}-T{}.png'.format(idx, T),
         title=title, ylabel='loss (nats)',
@@ -558,7 +558,7 @@ def plot_gauss_nongauss_vs_eta(model_nm, idx, T):
 def plot_thermo_vs_eta(model_nm, idx, T):
     # TODO: change default ol_nm to ../logs/....
     title = (
-        'SGD SEEKS MINIMA FLAT wrt COVARIANCE\n'
+        'SGD Seeks Minima Flat wrt Covariance\n'
         #'A NON-CONSERVATIVE ENTROPIC FORCE\n'
         '(T={} SGD on {})\n\n'.format(T, 'archimedes')
         #'(displacement after {} steps on {})'.format(T, model_nm)
@@ -585,7 +585,7 @@ def plot_multi_vs_eta(model_nm, idx):
     # TODO: change default ol_nm to ../logs/....
     title = (
         'EPOCHS DULL SGD\'s CHLADNI EFFECT \n'
-        '(test loss difference on {})'.format(model_nm)
+        '(test loss difference on {})'.format('mean est.')
     )
 
     ol_nm = 'ol-{}-T-{:02}-multi.data'.format(model_nm, idx)
@@ -622,8 +622,8 @@ def plot_multi_vs_eta(model_nm, idx):
 
 def plot_gengap_vs_hess(model_nm, T, N=10):
     title = (
-        'SHARP AND FLAT MINIMA BOTH OVERFIT LESS\n'
-        '(test loss difference on {})'.format(model_nm)
+        'Sharp and Flat Minima both Overfit Less\n'
+        '(test loss difference on {})\n\n'.format('mean est.')
     )
  
     prime_plot()
@@ -670,7 +670,7 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
         predictions = 0.5*(1.0 - np.exp(-T*eta*interp_hesses))**2/(N*interp_hesses)
         plot_fill(
             interp_hesses, predictions, 0.0*interp_hesses,
-            color=col, label='deg 2 prediction, renorm'
+            color=col, label='\u03b7\u00b2 rvalue'
         )
 
         #predictions = 0.5 * T*eta* (T*eta*interp_hesses)/N
@@ -679,21 +679,26 @@ def plot_gengap_vs_hess(model_nm, T, N=10):
         #    color=black, label=None
         #)
 
-    ih = interp_hesses[int(0.23*len(interp_hesses)):]
+    ih = interp_hesses[int(0.18*len(interp_hesses)):]
     predictions = 0.5/(N*ih)
+
+    #ax1 = plt.gca()
+    #ax2 = ax1.twinx()
+    #plt.sca(ax2)
     plot_fill(
         ih, predictions, 0.0*ih,
-        color=black, label='Takeuchi Information'
+        color=black, label='TIC'
     )
-
+    #plt.legend(loc='center right')
+    #plt.sca(ax1)
 
     print(CC+'@R rendering plot @D ...')
     finish_plot(
         title=title, xlabel='hessian eigenvalue',
-        ylabel='test loss - min',
+        ylabel='test loss - min (nats)',
         #img_filenm='../plots/tak.png',
-        img_filenm='../plots/new-tak.png',
-        ymin=(0.0), ymax=(0.05),
+        img_filenm='../plots/neurips-tak.png',
+        ymin=(0.0), ymax=(0.06),
     )
 
 
@@ -888,8 +893,8 @@ def plot_batch_match_loss_vs_loss(idxs_and_model_nms, T):
         ymin=-1.7*10**-4, ymax=+1.7*10**-4,
     )
 
-for idx in range(1,2):
-    plot_test_loss_vs_eta('fashion-lenet', idx, 100)
+#for idx in range(0,6):
+#    plot_test_loss_vs_eta('fashion-lenet', idx, 10)
 
 #plot_test_vs_hess('quad-1d-reg', N=10)
 #plot_gengap_vs_hess('quad-1d', T=10)
@@ -904,10 +909,10 @@ for idx in range(1,2):
 
 #plot_gen_gap_loss_vs_loss('cifar-lenet', [0, 1, 2, 3, 4, 5], 10)
 
-#for model_nm in ['cifar-lenet']:
-#    for idx in range(0,6):
-#        plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
-#        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
+for model_nm in ['cifar-lenet']:
+    for idx in range(0,6):
+        plot_gen_gap_loss_vs_eta(model_nm, idx=idx, T=10)
+        #plot_batch_match_loss_vs_eta(model_nm, idx=idx, T=10)
 
 #plot_test()
 #plot_gauss_nongauss_vs_eta('fitgauss', idx=0, T=4)
