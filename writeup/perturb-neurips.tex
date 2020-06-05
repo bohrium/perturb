@@ -291,7 +291,7 @@
     %
     %-----------------  organization Plan  ------------------------------------
     %
-    Leaving the rigorous development of the general theory to
+    Leaving the rigorous development of the general theory to Appendix
     \S\ref{appendix:math}, our paper body highlights our theory's intuition and
     main corollaries.
 
@@ -712,10 +712,10 @@
         %~~~~~  Convergence  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
         \begin{thm} \label{thm:converge}
-            If $\theta_\star$ is a local minimum of $l$ and $H(\theta_\star)$
-            is strictly positive, then for SGD initialized sufficiently close
-            to $\theta_\star$, the $d$th-order truncation of Theorem
-            \ref{thm:resum} converges as $T\to \infty$.
+            If $\theta_\star$is a non-degenerate local minimum of $l$ (i.e.\
+            $G(\theta_\star)=0$ and $H(\theta_\star) > 0$), then for SGD
+            initialized sufficiently close to $\theta_\star$, the $d$th-order
+            truncation of Theorem \ref{thm:resum} converges as $T\to \infty$.
         \end{thm}
 
         Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge} might
@@ -979,8 +979,8 @@
 
         \begin{figure}[h!] 
             \centering
-            \pmoo{3.5cm}{new-test-0}        \pmoo{3.5cm}{new-big-bm-new}          \pmoo{3.5cm}{new-thermo-linear-screw}
-            \pmoo{3.5cm}{rebut-test-1-T100} \pmoo{3.5cm}{rebut-gen-cifar-lenet-4} \pmoo{3.5cm}{new-tak}
+            \pmoo{3.4cm}{new-test-0}        \pmoo{3.4cm}{new-big-bm-new}          \pmoo{3.4cm}{new-thermo-linear-screw}
+            \pmoo{3.4cm}{rebut-test-1-T100} \pmoo{3.4cm}{neurips-gen-cifar-lenet} \pmoo{3.4cm}{new-tak}
             \caption{
                 {\bf Left: Perturbation models SGD for small $\eta T$.}
                 Fashion-MNIST convnet's test loss vs learning rate.  In this
@@ -1029,19 +1029,19 @@
                 \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and a
                 range of $H$s, initialized at the truth, the test losses after
                 fixed-$T$ GD are smallest for very sharp and very flat $H$.
-                Near $H=0$, our predictions improve on Takeuchi information
-                \citep{di18} and thus on AIC.
+                Near $H=0$, our predictions improve on TIC \citep{di18} and
+                thus on AIC.
                 %%%
                 %%%
-                \newline
-                \textbf{Throughout}:the \emph{re-normed} predictions refer to
-                those of Theorem \ref{thm:resum}, approximated as in Remark
-                \ref{rmk:integrate}.  Predictions not labeled as
-                \emph{re-normed} are more drastic (namely, polynomial)
-                approximations of Theorem \ref{thm:resum}'s result.
-                We the authors should have written ``re-summed'' instead of
-                ``re-normed'', and ``single-epoch, singleton-batch'' instead of
-                ``vanilla''.
+                %\newline
+                %\textbf{Throughout}:the \emph{re-normed} predictions refer to
+                %those of Theorem \ref{thm:resum}, approximated as in Remark
+                %\ref{rmk:integrate}.  Predictions not labeled as
+                %\emph{re-normed} are more drastic (namely, polynomial)
+                %approximations of Theorem \ref{thm:resum}'s result.
+                %We the authors should have written ``re-summed'' instead of
+                %``re-normed'', and ``single-epoch, singleton-batch'' instead of
+                %``vanilla''.
             }
             \label{fig:vanilla}
         %    \label{fig:batchandgen}
@@ -1053,6 +1053,7 @@
     %           Thermodynamic Engine                        
     %--------------------------------------------------------------------------
 
+    \newpage
     \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
         %
         \begin{wrapfigure}[17]{r}{0.48\textwidth} 
@@ -1061,14 +1062,14 @@
             \pmoo{3.0cm}{from-above}
             \pmoo{3.0cm}{from-side}
             \caption{
-                \textbf{Two views of \Archimedes.}
-                Green: a level surface of $l$ twisting around a valley of minima
-                ($z$ axis) at its center; $l$ is large outside this surface.
-                Purple tubes: $\theta$s typical due to non-isotropic noise.
+                \textbf{\Archimedes.}
+                A \textbf{green} level surface of $l$ twists around a valley of
+                minima ($z$ axis) at its center; $l$ is large outside this
+                surface.  Due to anisotropic noise, $\theta$ scatters away from
+                from the $z$ axis toward the \textbf{purple} tubes.
                 %
-                The typical locations of $\theta$ are pulled
-                toward lower loss (steepest descent toward the level surface)
-                and so toward larger $z$.
+                SGD pushes the scattered $\theta$s toward lower loss, i.e.\
+                toward the level surface, and so toward larger $z$.
                 %
                 The $z$ axis points into the page (\textbf{left}) or upward
                 (\textbf{right}).
