@@ -1384,16 +1384,13 @@
               interest as a function of $\eta$.
     \end{itemize}
 
-    After presenting a small, complete example calculation that follows these
-    four steps, we explain each of the respective steps in its own sub-section.
-    We then discuss how diagrams often offer intuition as well as calculational
-    help.  Though we focus on the computation of expected test losses, we
-    describe how a small change in the above four steps allows for the
-    computation also of variances (instead of expectations), of train losses
-    (instead of test losses), or of weight displacements (instead of losses).
-    We conclude by noting that our mathematical theory may be phrased without
-    reference to diagrams; we compare such direct calculation to the diagram
-    method, pointing out when and why diagrams streamline computation.
+    After presenting an example calculation that follows these four steps, we
+    detail each of the steps in its own sub-section.  We then discuss the
+    intuition that diagrams offer.  Though we focus on the computation of
+    expected test losses, we describe how the four steps also give us
+    variances, train losses, of weight displacements.  Finally, we note that
+    our theory may be phrased without reference to diagrams; we illustrate on
+    sample problems when and why diagrams streamline computation.
 
     \subsection{An example calculation: the effect of epochs}       \label{appendix:example}
 
@@ -1409,8 +1406,18 @@
             We seek an answer expressed in terms of the landscape statistics
             at initialization: $G,H,C, \cdots$.
         \end{quest}
-        To make our discussion concrete, we will set $M_0=2$, but our analysis 
+        To make our discussion concrete, we will set $M_0=2$; our analysis 
         generalizes directly to larger $M_0$.
+
+        We scaled the above two versions of SGD deliberately, to create an
+        interesting comparison.
+        Specifically, a routine and explicit check shows that, on a noiseless
+        linear landscape $l_x=l \in (\RR^n)^*$, the versions
+        attain equal test losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
+        %
+        Thus, the answer to Question \ref{qst:multi} will vanish to first order
+        in $\eta$; that is, the answer will be second-order (or higher-order)
+        in $\eta$.
 
         \subsubsection*{Space-time grids}
             We encode the training set size, batch size, and number of epochs
@@ -1423,7 +1430,7 @@
             \emph{space-time grid}.
             To answer Question \ref{qst:multi}, we consider two space-time
             grids: one for multi-epoch SGD and another for single-epoch SGD.
-            Figure \ref{fig:spacetimes-epoch} depicts these two grids:
+            Figure \ref{fig:spacetimes-epoch} depicts these two grids.
             \begin{figure}[h!] 
                 \centering
                 \dmoo{3.55cm}{spacetime-b1-e2-nosh}
@@ -1448,7 +1455,19 @@
                 \label{fig:spacetimes-epoch}
             \end{figure}
 
+        \newpage
         \subsubsection*{Embeddings of diagrams into space-time}
+            A \emph{diagram} is a finite rooted tree equipped with a partition
+            of its nodes, such that the root node occupies a part of size $1$.
+            Note that this definition generalizes the special case reported in
+            the paper body; in particular, we no longer require the paper
+            body's ``path condition'' to hold.  Thus, there are four diagrams
+            with two edges:
+            $\protect\sdia{c(0-1-2)(02-12)}$,
+            $\protect\sdia{c(01-2)(02-12)}$,
+            $\protect\sdia{c(0-1-2)(01-12)}$, and
+            $\protect\sdia{c(01-2)(01-12)}$.
+
             An \emph{embedding} of a diagram $D$ into a space-time grid is an
             assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
             obeys the following two criteria:
@@ -1465,7 +1484,7 @@
             cells to which they are assigned.  Figure
             \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
             order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
-            space-times relevant to Question \ref{qst:multi}:
+            space-times relevant to Question \ref{qst:multi}.
             \begin{figure}[h!] 
                 \centering
                 \dmoo{3.55cm}{spacetime-d}
@@ -1503,10 +1522,14 @@
             \end{figure}
 
             Figure \ref{fig:multi-embeddings} shows us that the diagram
-            $\sdia{(0-1-2)(02-12)}$ embeds similarly into multi-epoch
+            $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
             and single-epoch spacetimes.  More precisely,
-            its multi-epoch embeddings correspond by a $2^2:1$ map to
-            its single-epoch embeddings.
+            its multi-epoch embeddings correspond by a $M_0^2:1$ map to
+            its single-epoch embeddings.  In fact, this is true for all of the
+            order-$2$ diagrams \emph{except} for $\sdia{c(01-2)(01-12)}$.
+            Therefore, to second order, the answer to Question \ref{qst:multi}
+            will be (some multiple of) $\sdia{c(01-2)(01-12)}$.  We now turn
+            to the evaluation of this diagram.
 
         \subsubsection*{Values of the embeddings}
         \subsubsection*{Sum of the values}
