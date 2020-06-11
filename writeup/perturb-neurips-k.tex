@@ -17,8 +17,8 @@
 \usepackage{microtype}      
 
 \usepackage{natbib}
-%\usepackage{neurips_2020}
-\usepackage[final]{neurips_2020}
+\usepackage{neurips_2020}
+%\usepackage[final]{neurips_2020}
 
 %---------------------  mathematics  ------------------------------------------
 
@@ -195,7 +195,6 @@
 \newcommand{\plotmoow}[3]{\includegraphics[width=#2          ]{../#1}}
 \newcommand{\plotmooh}[3]{\includegraphics[         height=#3]{../#1}}
 \newcommand{\pmoo}[2]{\includegraphics[height=#1]{../plots/#2}}
-\newcommand{\dmoo}[2]{\includegraphics[height=#1]{../diagrams/#2}}
 
 %---------------------  inline diagrams of various sizes  ---------------------
 
@@ -867,7 +866,7 @@
             respectively, then we expect the rate at which $\theta$ jumps from
             the former to the latter to exceed the opposite rate.  There is 
             thus a net movement toward regions of small $C$! 
-            This mechanism parallels the Chladni effect \citep{ch87}
+            This mechanism parallels the Chladni effect \cite{ch87}
              (Figure \ref{fig:chladni}).\footnote{
                 From Pierre Dragicevic and Yvonne Jansen's
                 \href{http://www.dataphys.org/list/gallery/}{data physicalization project}, Creative
@@ -875,7 +874,7 @@
             }
             %
             Our theory makes this intuition precise; the drift is in the
-            direction of $-\nabla C$, and the effect is strongest when gradient
+            direction of $-\nabla C$, the effect is strongest when gradient
             noise is not averaged out by large batch sizes.
             \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:batch}
                 SGD avoids high-$C$ regions more than GD:
@@ -903,7 +902,7 @@
                 $
                     \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
                         =
-                    \wrap{\frac{M_0-1}{4 M_0}} N
+                    \wrap{\frac{M_0-1}{M_0}} N
                     \wrap{\nabla^\mu C^{\nu}_{\nu}}
                     + o(\eta^2)
                 $.
@@ -983,17 +982,6 @@
             \pmoo{3.55cm}{neurips-test-small} \pmoo{3.55cm}{new-big-bm-new}          \pmoo{3.55cm}{neurips-thermo-linear-screw}
             \pmoo{3.55cm}{neurips-test-large} \pmoo{3.55cm}{neurips-gen-cifar-lenet} \pmoo{3.55cm}{neurips-tak}
             \caption{
-                {\bf Experiments on natural and artificial losses.}
-                The label \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
-                predictions, approximated as in Remark \ref{rmk:integrate}.
-                Curves marked \texttt{uvalue} are polynomial approximations to
-                Theorem \ref{thm:resum}'s result (see
-                \S\ref{appendix:sum-embeddings}).  \texttt{uvalue}s are simpler
-                to work with but (see \protect\ofsix{4}) may be less
-                accurate.
-                %%%
-                %%%
-                \newline
                 {\bf Left: Perturbation models SGD for small $\eta T$.}
                 Fashion-MNIST convnet's test loss vs learning rate.  In this
                 small $T$ setting, we choose to use our theory's simpler 
@@ -1045,6 +1033,15 @@
                 thus on AIC.
                 %%%
                 %%%
+                %\newline
+                %\textbf{Throughout}:the \emph{re-normed} predictions refer to
+                %those of Theorem \ref{thm:resum}, approximated as in Remark
+                %\ref{rmk:integrate}.  Predictions not labeled as
+                %\emph{re-normed} are more drastic (namely, polynomial)
+                %approximations of Theorem \ref{thm:resum}'s result.
+                %We the authors should have written ``re-summed'' instead of
+                %``re-normed'', and ``single-epoch, singleton-batch'' instead of
+                %``vanilla''.
             }
             \label{fig:vanilla}
         %    \label{fig:batchandgen}
@@ -1068,7 +1065,7 @@
                 \textbf{\Archimedes.}
                 A \textbf{green} level surface of $l$ twists around a valley of
                 minima ($z$ axis) at its center; $l$ is large outside this
-                surface.  Due to anisotropic noise, $\theta$ scatters away
+                surface.  Due to anisotropic noise, $\theta$ scatters away from
                 from the $z$ axis toward the \textbf{purple} tubes.
                 %
                 SGD pushes the scattered $\theta$s toward lower loss, i.e.\
@@ -1254,48 +1251,47 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\vfill
 \section*{Acknowledgements}
 
-%   Redacted during double-blind peer review.
+    Redacted during double-blind peer review.
 
-    %\begin{ack}
-        We would like to thank
-            \textsc{Sho Yaida},
-            \textsc{Dan A.\ Roberts}, and
-            \textsc{Josh Tenenbaum}
-        for their patient guidance.
-        %
-        It was \textsc{Dan A.\ Roberts} who recognized that interesting
-        questions lie in the analysis of epoch number and batch size; it
-        was he who introduced us to much of \S\ref{sect:related}.  Only with
-        \textsc{Sho Yaida}'s advice to re-sum did our theory attain its most
-        precise and conceptual form.
-        %
-        We appreciate the time and energy that
-            \textsc{Andy Banburski},
-            \textsc{Ben R.\ Bray},
-            \textsc{Jeff Lagarias}, and
-            \textsc{Wenli Zhao}
-        spent to critique our drafts.
-        In particular, \textsc{Wenli Zhao} nudged us to consider and discuss
-        connections to physics, and \textsc{Ben R.\ Bray} taught us
-        that gradient noise is rarely istropic, homogeneous, or Gaussian.  
-        %
-        Without the encouragement of
-            \textsc{Jason Corso},
-            \textsc{Chloe Kleinfeldt},
-            \textsc{Alex Lew}, 
-            \textsc{Ari Morcos}, and
-            \textsc{David Schwab},
-        this paper would not be.
-        %
-        Finally, we thank our anonymous reviewers for inspiring an improved
-        presentation.
-        %
-        This work was funded in part by MIT's Jacobs Presidential Fellowship
-        and in part by FAIR.
-    %\end{ack}
+%    %\begin{ack}
+%        We would like to thank
+%            \textsc{Sho Yaida},
+%            \textsc{Dan A.\ Roberts}, and
+%            \textsc{Josh Tenenbaum}
+%        for their patient guidance.
+%        %
+%        It was \textsc{Dan A.\ Roberts} who recognized that interesting
+%        questions lie in the analysis of epoch number and batch size; it
+%        was he who introduced us to much of \S\ref{sect:related}.  Only with
+%        \textsc{Sho Yaida}'s advice to re-sum did our theory attain its most
+%        precise and conceptual form.
+%        %
+%        We appreciate the time and energy that
+%            \textsc{Andy Banburski},
+%            \textsc{Ben R.\ Bray},
+%            \textsc{Jeff Lagarias}, and
+%            \textsc{Wenli Zhao}
+%        spent to critique our drafts.
+%        In particular, \textsc{Wenli Zhao} nudged us to consider and discuss
+%        connections to physics, and \textsc{Ben R.\ Bray} taught us
+%        that gradient noise is rarely istropic, homogeneous, or Gaussian.  
+%        %
+%        Without the encouragement of
+%            \textsc{Jason Corso},
+%            \textsc{Chloe Kleinfeldt},
+%            \textsc{Alex Lew}, 
+%            \textsc{Ari Morcos}, and
+%            \textsc{David Schwab},
+%        this paper would not be.
+%        %
+%        Finally, we thank our anonymous reviewers for inspiring an improved
+%        presentation.
+%        %
+%        This work was funded in part by MIT's Jacobs Presidential Fellowship
+%        and in part by FAIR.
+%    %\end{ack}
         
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1319,14 +1315,14 @@
     \setlist{nolistsep}
     \begin{itemize}[noitemsep]
         \item to explain how to calculate using diagrams;
-        \item to precisely prove our results (and pose a conjecture);
+        \item to precisely state and prove our results, then pose a conjecture;
         \item to specify our experimental methods and results.
     \end{itemize}
     In more detail, we organize the appendices as follows.\\
 
     {\bf
     \par\noindent A ~ How to calculate test losses: a practical guide}      \hfill {\bf page \pageref{appendix:tutorial}}
-    \par\indent     A.1 ~~ An example calculation: the effect of epochs     \hfill \pageref{appendix:example}
+    \par\indent     A.1 ~~ An example calculation                           \hfill \pageref{appendix:example}
     \par\indent     A.2 ~~ How to identify the relevant space-time          \hfill \pageref{appendix:draw-spacetime} 
     \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
     \par\indent     A.4 ~~ How to evaluate each embedding                   \hfill \pageref{appendix:evaluate-embeddings}
@@ -1337,7 +1333,7 @@
 
     {\bf
     \par\noindent B ~ Mathematics of the theory}                            \hfill {\bf page \pageref{appendix:math}}
-    \par\indent     B.1 ~~ Assumptions                                      \hfill \pageref{appendix:assumptions}
+    \par\indent     B.1 ~~ Assumptions and definitions                      \hfill \pageref{appendix:assumptions}
     \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
     \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
     \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
@@ -1366,351 +1362,38 @@
 \section{How to calculate test losses: a practical guide}\label{appendix:tutorial}
     Our work introduces a novel technique for calculating the expected learning
     curves of SGD in terms of statistics of the loss landscape near
-    initialization.  Here, we explain this technique.  Note that new
-    combinatorial objects --- \emph{space-time grids} --- arise as we relax
-    the paper body's assumption that $E=B=1$.  This, too, we will explain.  We
-    note for now that there are are {\bf four steps} to computing the expected
-    test loss, or other quantities of interest, after a specific number of
-    gradient updates: 
+    initialization.  Here, we explain this technique.  Note that a new
+    combinatorial object object --- \emph{spacetime} --- arises as we relax the
+    paper body's assumption that $E=B=1$.  This, too, we will explain.  We note
+    for now that there are are {\bf four steps} to computing the expected test
+    loss, or other quantities of interest, after a specific number of gradient
+    updates: 
     \begin{itemize}
-        \item {\bf Specify, as a space-time grid}, the batch size, training set
-            size, and number of epochs. 
+        \item {\bf Draw the spacetime grid} that encodes our chosen SGD
+            hyperparameters (namely, batch size, training set size, and number
+            of epochs).
         \item {\bf Draw embeddings}, of diagrams into the
-            space-time grid, as needed for our desired precision.
-        \item {\bf Evaluate each diagram embedding}, whether exactly (via what
-            we will call $\rvalue$s) or roughly (via what we will call
-            $\uvalue$s).
+            spacetime, as needed for our desired precision.
+        \item {\bf Evaluate each diagram embedding}, whether exactly
+            (via $\rvalue$s) or roughly (via $\uvalue$s).
         \item {\bf Sum the embeddings' values} to obtain the quantity of
               interest as a function of $\eta$.
     \end{itemize}
 
-    After presenting an example calculation that follows these four steps, we
-    detail each of the steps in its own sub-section.  We then discuss the
-    intuition that diagrams offer.  Though we focus on the computation of
-    expected test losses, we describe how the four steps also give us
-    variances, train losses, of weight displacements.  Finally, we note that
-    our theory may be phrased without reference to diagrams; we illustrate on
-    sample problems when and why diagrams streamline computation.
+    After presenting a small, complete example calculation that follows these
+    four steps, we explain each of the respective steps in its own sub-section.
+    We then discuss how diagrams often offer intuition as well as calculational
+    help.  Though we focus on the computation of expected test losses, we
+    describe how a small change in the above four steps allows for the
+    computation also of variances (instead of expectations), of train losses
+    (instead of test losses), or of weight displacements (instead of losses).
+    We conclude by noting that our mathematical theory may be phrased without
+    reference to diagrams; we compare such direct calculation to the diagram
+    method, pointing out when and why diagrams streamline computation.
 
-    \subsection{An example calculation: the effect of epochs}       \label{appendix:example}
-
-        \begin{quest}\label{qst:multi}
-            How does multi-epoch SGD differ from single-epoch SGD?
-            Specifically, what is the difference between the expected
-            test losses of the following two versions of SGD?
-            \begin{itemize}
-                \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
-                    batch size $B=1$
-                \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
-            \end{itemize}
-            We seek an answer expressed in terms of the landscape statistics
-            at initialization: $G,H,C, \cdots$.
-        \end{quest}
-        To make our discussion concrete, we will set $M_0=2$; our analysis 
-        generalizes directly to larger $M_0$.
-
-        We scaled the above two versions of SGD deliberately, to create an
-        interesting comparison.
-        Specifically, a routine and explicit check shows that, on a noiseless
-        linear landscape $l_x=l \in (\RR^n)^*$, the versions
-        attain equal test losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
-        %
-        Thus, the answer to Question \ref{qst:multi} will vanish to first order
-        in $\eta$; that is, the answer will be second-order (or higher-order)
-        in $\eta$.
-
-        \subsubsection*{Space-time grids}
-            We encode the training set size, batch size, and number of epochs
-            by considering a set of pairs $(n,t)$, with one pair for each
-            participation of the $n$th datapoint in the $t$th update.  It will
-            be convenient to draw these $(n,t)$ pairs as shaded cells in an
-            $N\times T$ grid.  Thus, each column contains $B$ (batch size) many
-            shaded cells, and each row contains $E$ (epoch number) many shaded
-            cells.  This shaded grid is the SGD's \emph{space-time} or
-            \emph{space-time grid}.
-            To answer Question \ref{qst:multi}, we consider two space-time
-            grids: one for multi-epoch SGD and another for single-epoch SGD.
-            Figure \ref{fig:spacetimes-epoch} depicts these two grids.
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-b1-e2-nosh}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b1-e1-nosh}
-                \caption{
-                    \textbf{The space-time grids of single-epoch and of
-                    multi-epoch SGD.}  A cell at row $n$ and column $t$ is
-                    shaded provided that the $n$th training sample inhabits the
-                    $t$th batch.  Both grids depict $N=7$
-                    training points and batch size $B=1$; neither
-                    depicts training-set permutation between epochs.
-                    \newline
-                    \textbf{Left}:
-                        SGD with $M=2$ update per training sample for a total
-                        of $T = MN = 2N$ many updates.
-                    \newline
-                    \textbf{Right}:
-                        SGD with $M=1$ update per training sample for a total
-                        of $T = MN = N$ many updates.
-                }
-                \label{fig:spacetimes-epoch}
-            \end{figure}
-
-        \newpage
-        \subsubsection*{Embeddings of diagrams into space-time}
-            A \emph{diagram} is a finite rooted tree equipped with a partition
-            of its nodes, such that the root node occupies a part of size $1$.
-            Note that this definition generalizes the special case reported in
-            the paper body; in particular, we no longer require the paper
-            body's ``path condition'' to hold.  Thus, there are four diagrams
-            with two edges:
-            $\protect\sdia{c(0-1-2)(02-12)}$,
-            $\protect\sdia{c(01-2)(02-12)}$,
-            $\protect\sdia{c(0-1-2)(01-12)}$, and
-            $\protect\sdia{c(01-2)(01-12)}$.
-
-            An \emph{embedding} of a diagram $D$ into a space-time grid is an
-            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
-            obeys the following two criteria:
-            \begin{itemize}
-                \item \textbf{time-ordering condition}: the times $t$ strictly increase 
-                    along each path from leaf to root; and
-                \item \textbf{correlation condition}: if two nodes are in the same
-                    part of $D$'s partition, then they are assigned to the same
-                    datapoint $n$.
-            \end{itemize}
-
-            We may conveniently draw embeddings by placing nodes in the shaded
-            cells to which they are assigned.  Figure
-            \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
-            order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
-            space-times relevant to Question \ref{qst:multi}.
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-d}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-c}
-                \caption{
-                    \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
-                        into multi-epoch but not single-epoch space-time.}
-                    Drawn on each of the two grids are examples of embeddings.
-                    The black nodes external to the grids are positioned
-                    arbitrarily. 
-                    From top to bottom in each grid, the five 
-                        diagrams embedded are
-                        $\protect\sdia{c(01-2)(01-12)}$ (or $\protect\sdia{c(0-1-2)(01-12)}$), 
-                        $\protect\sdia{c(0-1)(01)}$,
-                        $\protect\sdia{c(0-1-2)(01-12)}$, 
-                        $\protect\sdia{c(0-1-2)(02-12)}$, and 
-                        $\protect\sdia{c(01-2)(02-12)}$ (or $\protect\sdia{c(0-1-2)(02-12)}$).
-                    The diagram $\protect\sdia{c(0-1-2)(01-12)}$ may be embedded
-                    wherever the diagram $\protect\sdia{c(01-2)(01-12)}$ may
-                    be embedded, but not vice versa.  Likewise for
-                    $\protect\sdia{c(0-1-2)(02-12)}$
-                    and
-                    $\protect\sdia{c(01-2)(02-12)}$.
-                    \textbf{Left}: $\protect\sdia{c(01-2)(01-12)}$
-                        embeds into multi-epoch space-time. 
-                    \textbf{Right}: $\protect\sdia{c(01-2)(01-12)}$ cannot
-                        embed into single-epoch space-time.  Indeed, 
-                        the correlation condition forces both red nodes into 
-                        the same row and thus the same cell, while the
-                        time-ordering condition forces the red nodes into
-                        distinct columns and thus distinct cells.
-                }
-                \label{fig:multi-embeddings}
-            \end{figure}
-
-        \subsubsection*{Values of the embeddings}
-
-            We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
-            are an approximation of the latter, appropriate when $T$ is fixed
-            instead of taken to infinity.  Though $\uvalue$s are less accurate
-            for non-fixed $T$, they have the same asymptotic error as
-            $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s are
-            simpler to calculate, since their numeric values depend only on
-            diagrams, not on embeddings.  So to compute a test loss, we will
-            we will multiply each diagram's $\uvalue$ by the number of ways
-            that diagram embeds.
-
-            Figure \ref{fig:multi-embeddings} shows us that the diagram
-            $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
-            and single-epoch spacetimes.  More precisely,
-            its multi-epoch embeddings correspond by a $M_0^2:1$ map to
-            its single-epoch embeddings.  Since we scaled the learning rate of
-            the two SGD versions by a factor of $M_0$, and since $2$-edged
-            diagrams such as $\sdia{c(0-1-2)(02-12)}$ scale as $\eta^2$, the
-            total $\uvalue$ of the diagram's multi-epoch embeddings will match
-            the total $\uvalue$ of the diagram's single-epoch embeddings. 
-            %
-            In fact, Figure \ref{fig:multi-embeddings} shows that this
-            cancellation happens for all of the order-$2$ diagrams
-            \emph{except} for $\sdia{c(01-2)(01-12)}$.
-            %
-            Therefore, to second order, the answer to Question \ref{qst:multi}
-            will be (some multiple of) $\uvalue(\sdia{c(01-2)(01-12)})$.
-
-            To compute $\sdia{c(01-2)(01-12)}$'s value, we follow the rules
-            in Section \ref{sect:calculus}; the edge rule for $\uvalue$s is
-            that each edge becomes an $\eta$.
-            So
-            $
-                \uvalue(\sdia{c(01-2)(01-12)}) =
-                \expct{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x}
-                \expct{\nabla_\rho l_x}
-                \eta^{\mu\lambda}
-                \eta^{\nu\rho}
-                =
-                (\nabla_\nu C_{\mu\lambda} / 2)
-                G^\rho
-                \eta^{\mu\lambda}
-                \eta^{\nu\rho}
-            $.
-
-        \subsubsection*{Sum of the values}
-
-            Referring again to Figure \ref{fig:multi-embeddings}, we see that
-            $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
-            into the multi-epoch space-time (one embedding per pair
-            of distinct epochs, per row) --- and no embeddings into the 
-            single-epoch space-time.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
-            has $\wabs{\Aut_f(D)}= 1$.  Now we plug into the overall formula
-            for test loss: 
-            \begin{equation*}
-                \sum_{\substack{D~\text{a} \\ \text{diagram}}}
-                ~
-                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
-                ~
-                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
-                \,
-                {\uvalue}(D)
-            \end{equation*}
-            We conclude that the test loss of $M=M_0$ SGD exceeds the test loss
-            of $M=1$ SGD by this much:
-            $$
-                {M_0 \choose 2} \, N \cdot
-                \frac{(-1)^2}{1} \cdot
-                (\nabla_\nu C_{\mu\lambda} / 2)
-                G^\rho
-                \eta^{\mu\lambda}
-                \eta^{\nu\rho}
-                + o(\eta^2)
-            $$
-            Since Question \ref{qst:multi} defines $\eta^2 = \eta_0^2/M_0^2$,
-            we can rewrite our answer as:
-            $$
-                l(\theta_{M=M_0,\eta=\eta_0/M_0}) - l(\theta_{M=1,\eta=\eta_0})
-                =
-                \frac{M_0-1}{4 M_0} N \cdot
-                G^\nu (\nabla_\nu C_\mu^\mu)
-                + o(\eta_0^2)
-            $$
-            where we use $\eta_0$ to raise indices.
-            This completes the example problem.
-            An essentially similar
-            argument proves Corollary \ref{cor:epochs}.
-
+    \subsection{An example calculation}                             \label{appendix:example}
     \subsection{How to identify the relevant space-time}            \label{appendix:draw-spacetime}
-            Diagrams tell us about the loss landscape but not about parameters
-            such as $T$.  We summarize SGD parameters as sets of pairs $(n,t)$,
-            one for each participation of the $n$th datapoint in the $t$th
-            update.  For instance, full-batch GD has $NT$ many pairs, and
-            singeleton-batch SGD has $T$ many pairs.  We will draw these
-            $(n,t)$ pairs as shaded cells in an $N\times T$ grid; we will call
-            the shaded grid the SGD's \emph{space-time grid} or
-            \emph{space-time}.  See Figure \ref{fig:spacetimes}.
-            We see that each column contains $B$ (batch size)
-            many shaded cells and that each row contains $E$ (epoch number)
-            many shaded cells.
-
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-b1-e2-shuf}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b2-e4-nosh}
-                \\
-                \dmoo{3.55cm}{spacetime-b1-e1-nosh}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b1-e2-nosh}
-                \caption{
-                    \textbf{The space-time grids of two SGD variants.}
-                    Shaded cells show $(n,t)$ pairs (see text).
-                    \newline
-                    \textbf{Left}: Two epoch SGD with batch size one.
-                        The training set is permuted between epochs.
-                    \newline
-                    \textbf{Right}: Four epoch SGD with batch size
-                        two.  The training set is not permuted between epochs.
-                    \textbf{The space-time grids of single- and multi-epoch
-                    SGD.}
-                }
-                \label{fig:spacetimes}
-            \end{figure}
-            
-            A space-time grid also depicts the permutation --- or lack thereof
-            --- of training sets between epochs.  Since each grid commits to a
-            concrete sequence of training set permutations, we may analyze
-            SGD with randomized permutations by taking expectations over
-            multiple space-time grids.  However, all of the corollaries in
-            this text are invariant to inter-epoch training set permutations,
-            so we will not focus on this point.\footnote{A routine check shows
-            that for fixed $T$, inter-epoch shuffling yields only an
-            $o(\eta^3)$ effect on test losses.}
-
     \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
-            \begin{figure}[H] 
-                \centering  
-                \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
-                \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-                \caption{
-                    {\bf Diagrams in Spacetime Depict SGD's Subprocesses.}
-                    Two spacetimes with $N=8, T=16$.
-                    {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. 
-                        Embeddings, legal and illegal, of
-                            $\sdia{(01-2)(01-12)}$,
-                            $\sdia{(01-2)(01-12)}$, and
-                            $\sdia{(0-1-2)(01-12)}$.
-                    {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. 
-                        Interpretation of an order $\eta^4$ diagram embedding. 
-                }
-                \label{fig:spacetimes}
-            \end{figure}
-    
-            To visualize concretizations, we draw $(n,t)$ pairs as shaded cells in
-            an $N\times T$ grid.  A concretization is then an embedding of nodes to
-            shaded cells.  The $t<t^\prime$ constraint then forbids intra-cell
-            edges (Figure \ref{fig:spacetimes} left), and we may interpret each
-            edge as an effect of the past on the future (right).  We call an SGD
-            run's set of shaded cells its ``spacetime''.
-            %Each of a diagram's nodes abstractly represents an event at such a
-            %pair, and we may ``concretize'' a diagram by assigning to each node a
-            %specific pair $(n, t)$.
-            %We will intuitively interpret a concretized edge from $(n,t)$ to
-            %$(n^\prime,t^\prime)$ (from left to right) as depicting information
-            %flow from train point $n$ at time $t$ to train point $n^\prime$ at time
-            %$t^\prime$.  Thus, we permit only concretizations
-            %whose edges have $t<t^\prime$.  The rightmost node represents
-            %measurement at test time, so we do not assign a pair $(n,t)$ to it;
-            %it does not participate in $t<t^\prime$ constraints.
-
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-e}
-                \caption{
-                    Moo
-                }
-                \label{fig:embedding-rules}
-            \end{figure}
-
-            Specifically, let's compute how the \emph{skewness} $S$ affects
-            SGD's test loss. The recipe is to identify the fewest-edged
-            diagrams containing $S = \sdia{MOOc(012)(0-1-2)}$.  In this case,
-            there is one fewest-edged diagram --- $\sdia{c(012-3)(03-13-23)}$;
-            it results from joining $S$ with $J=\sdia{MOO(0)(0-0-0)}$.  To
-            evaluate a diagram, we multiply its components (here, $S, J$) with
-            exponentiated $\eta H$'s, one for each edge (here, there are three
-            edges).  The result is easiest to write in terms of an eigenbasis
-            of $\eta H$:
-
     \subsection{How to evaluate each embedding}                     \label{appendix:evaluate-embeddings}
         Make sure to also discuss un-re-summed values!!!
     \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
@@ -1724,48 +1407,7 @@
 
 \newpage
 \section{Mathematics of the theory}\label{appendix:math}
-    \subsection{Assumptions}                                        \label{appendix:assumptions}
-        We assume throughout this work the following regularity properties of
-        the loss landscape.
-        
-        \textbf{Existence of Taylor Moments} --- we assume
-        that each finite collection of polynomials of the $0$th and higher
-        derivatives of the $l_x$, all evaluated at any point $\theta$, may be
-        considered together as a random variable insofar as they are equipped
-        with a probability measure upon of the standard Borel algebra.
-
-        \textbf{Analyticity Uniform in Randomness} --- we assume that
-        the functions $\theta \mapsto l_x(\theta)$ --- and the expectations
-        of polynomials of their $0$th and higher derivatives --- exist and are
-        analytic with radii of convergence bounded from $0$ (by a potentially
-        $\theta$-dependent function).  So expectations and derivatives commute. 
-
-        \textbf{Boundedness of Gradients} --- we also assume that the gradients
-        $\nabla l_x(\theta)$, considered as random covectors, are bounded by
-        some continuous function of $\theta$.\footnote{
-            Some of our experiments involve Gaussian noise, which is not
-            bounded and so violates the hypothesis.  In practice, Gaussians are
-            effectively bounded, on the one hand in that with high
-            probability no standard normal sample encountered on Gigahertz
-            hardware within the age of the universe will much exceed $\sqrt{2
-            \log(10^{30})} \approx 12$, and on the other hand in that
-            our predictions vary smoothly with the first few moments of this
-            distribution, so that a $\pm 12$-clipped Gaussian will yield almost
-            the same predictions.
-        }
-        A metric-independent way of expressing this boundedness constraint
-        is that the gradients all lie in some subset $\Ss \subseteq TM$ of
-        the tangent bundle of weight space, where, for any compact $\Cc
-        \subseteq M$, we have that the topological pullback --- of
-        $\Ss \hookrightarrow TM \twoheadrightarrow M$
-        and
-        $\Cc \hookrightarrow M$ ---
-        is compact.
-        
-        %Kol\'{a}\u{r} gives a careful introduction to these differential
-        %geometric ideas \citep{ko93}.
-
-
+    \subsection{Assumptions and definitions}                        \label{appendix:assumptions}
 
     \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
 
@@ -1817,7 +1459,7 @@
             \end{equation}
             as norms, SGD after $T$ steps on any train set
             will necessarily stay within the $\rho$-ball.\footnote{
-                The $2$ ensures that SGD initialized at
+                In fact, the factor of $2$ helps ensure that SGD initialized at
                 any point within a $\rho/2$ ball will necessarily stay within
                 the $\rho$-ball.
             } We note that the above condition on $\eta$ is weak enough to

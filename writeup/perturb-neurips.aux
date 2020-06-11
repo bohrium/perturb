@@ -27,17 +27,17 @@
 \newlabel{subsect:example}{{1.1}{1}{Example of diagram-based computation of SGD's test loss}{subsection.1.1}{}}
 \citation{ko93}
 \citation{bo13}
-\FN@pp@footnote@aux{1}{2}
-\newlabel{exm:first}{{1}{2}{}{exm.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Background, notation, and assumptions}{2}{subsection.1.2}}
-\newlabel{sect:background}{{1.2}{2}{Background, notation, and assumptions}{subsection.1.2}{}}
-\FN@pp@footnote@aux{2}{2}
 \citation{ki52}
 \citation{ca47}
 \citation{ro51}
 \citation{we74}
 \citation{bo91}
 \citation{le15}
+\FN@pp@footnote@aux{1}{2}
+\newlabel{exm:first}{{1}{2}{}{exm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Background, notation, and assumptions}{2}{subsection.1.2}}
+\newlabel{sect:background}{{1.2}{2}{Background, notation, and assumptions}{subsection.1.2}{}}
+\FN@pp@footnote@aux{2}{2}
 \citation{ne17a}
 \citation{ba17}
 \citation{zh17}
@@ -79,6 +79,7 @@
 \newlabel{cor:overfit}{{2}{4}{from $\sdia {c(01-2)(02-12)}$, $\sdia {c(01)(01)}$}{cor.2}{}}
 \citation{ch87}
 \citation{li18}
+\citation{ch18}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \textbf  {Geometric intuition for curvature-noise interactions.} \textbf  {Left}: Gradient noise pushes SGD toward flat minima (Corollary \ref  {cor:entropic}). The red densities show the typical $\theta $s, perturbed from the minimum due to noise $C$, in two cross sections of the loss valley. $J = \nabla H$ measures how curvature changes across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them in the picture to ease comparison with \cite  {we19b}. Compare with Figure \ref  {fig:archimedes}. \textbf  {\bf  Right}: Both curvature and the structure of noise affect overfitting. In each of the four subplots, the $\leftrightarrow $ axis represents weight space and the $\delimiter "326C33F $ axis represents loss. \offive {1}: \emph  {covector}-perturbed landscapes favor large $H$s. \offive {2}: \emph  {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref  {cor:overfit}). }}{5}{figure.1}}
 \newlabel{fig:cubicandspring}{{1}{5}{\textbf {Geometric intuition for curvature-noise interactions.} \textbf {Left}: Gradient noise pushes SGD toward flat minima (Corollary \ref {cor:entropic}). The red densities show the typical $\theta $s, perturbed from the minimum due to noise $C$, in two cross sections of the loss valley. $J = \nabla H$ measures how curvature changes across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them in the picture to ease comparison with \cite {we19b}. Compare with Figure \ref {fig:archimedes}. \textbf {\bf Right}: Both curvature and the structure of noise affect overfitting. In each of the four subplots, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. \protect \offive {1}: \emph {covector}-perturbed landscapes favor large $H$s. \protect \offive {2}: \emph {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref {cor:overfit})}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}{5}{subsection.2.4}}
@@ -91,30 +92,29 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Non-Gaussian noise affects SGD but not SDE}{5}{subsection.2.5}}
 \newlabel{cor:vsode}{{5}{5}{$\sdia {c(01-2)(02-12)}$, $\sdia {c(012-3)(03-13-23)}$}{cor.5}{}}
 \FN@pp@footnote@aux{7}{5}
-\citation{ch18}
 \citation{di18}
 \citation{di18}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Experiments}{6}{section.3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Training time, epochs, and batch size; $C$ repels SGD more than GD}{6}{subsection.3.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref  {appendix:evaluate-embeddings}) instead of the more precise $\text  {\textnormal  {rvalue}}$s. \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline  {\bf  Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Predictions near minima excel for large $\eta T$.}\ofsix {4}: SGD travels \textsc  {Archimedes}' valley of global minima in the positive $z$ direction. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \ofsix {5}: For \textsc  {Mean Estimation}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on TIC \citep  {di18} and thus on AIC. }}{6}{figure.3}}
-\newlabel{fig:vanilla}{{3}{6}{{\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref {appendix:evaluate-embeddings}) instead of the more precise $\rvalue $s. \protect \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline {\bf Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel for large $\eta T$.}\protect \ofsix {4}: SGD travels \Archimedes ' valley of global minima in the positive $z$ direction. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \protect \ofsix {5}: For \MeanEstimation \, with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on TIC \citep {di18} and thus on AIC}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces  {\bf  Experiments on natural and artificial losses.} The label \texttt  {rvalue} refers to Theorem \ref  {thm:resum}'s predictions, approximated as in Remark \ref  {rmk:integrate}. Curves marked \texttt  {uvalue} are polynomial approximations to Theorem \ref  {thm:resum}'s result (see \S  \ref  {appendix:sum-embeddings}). \texttt  {uvalue}s are simpler to work with but (see \ofsix {4}) may be less accurate. \newline  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref  {appendix:evaluate-embeddings}) instead of the more precise $\text  {\textnormal  {rvalue}}$s. \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\unhbox \voidb@x \hbox {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\unhbox \voidb@x \hbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline  {\bf  Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Predictions near minima excel for large $\eta T$.}\ofsix {4}: SGD travels \textsc  {Archimedes}' valley of global minima in the positive $z$ direction. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \ofsix {5}: For \textsc  {Mean Estimation}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on TIC \citep  {di18} and thus on AIC. }}{6}{figure.3}}
+\newlabel{fig:vanilla}{{3}{6}{{\bf Experiments on natural and artificial losses.} The label \texttt {rvalue} refers to Theorem \ref {thm:resum}'s predictions, approximated as in Remark \ref {rmk:integrate}. Curves marked \texttt {uvalue} are polynomial approximations to Theorem \ref {thm:resum}'s result (see \S \ref {appendix:sum-embeddings}). \texttt {uvalue}s are simpler to work with but (see \protect \ofsix {4}) may be less accurate. \newline {\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's test loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref {appendix:evaluate-embeddings}) instead of the more precise $\rvalue $s. \protect \ofsix {0}: For all init.s tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order-$3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline {\bf Center: $C$ controls gen.\ gap and distinguishes GD from SGD.} With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical varianec) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and init.s\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all init.s tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel for large $\eta T$.}\protect \ofsix {4}: SGD travels \Archimedes ' valley of global minima in the positive $z$ direction. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \protect \ofsix {5}: For \MeanEstimation \, with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on TIC \citep {di18} and thus on AIC}{figure.3}{}}
 \citation{ch18}
 \citation{we19b}
 \citation{ro18}
 \citation{bo91}
 \citation{go18}
 \citation{fi17}
+\citation{st19}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Minima that are flat \emph  {with respect to} $C$ attract SGD}{7}{subsection.3.2}}
 \newlabel{subsect:entropic}{{3.2}{7}{Minima that are flat \emph {with respect to} $C$ attract SGD}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  \textbf  {\textsc  {Archimedes}.} A \textbf  {green} level surface of $l$ twists around a valley of minima ($z$ axis) at its center; $l$ is large outside this surface. Due to anisotropic noise, $\theta $ scatters away from from the $z$ axis toward the \textbf  {purple} tubes. SGD pushes the scattered $\theta $s toward lower loss, i.e.\ toward the level surface, and so toward larger $z$. The $z$ axis points into the page (\textbf  {left}) or upward (\textbf  {right}). }}{7}{figure.4}}
-\newlabel{fig:archimedes}{{4}{7}{\textbf {\Archimedes .} A \textbf {green} level surface of $l$ twists around a valley of minima ($z$ axis) at its center; $l$ is large outside this surface. Due to anisotropic noise, $\theta $ scatters away from from the $z$ axis toward the \textbf {purple} tubes. SGD pushes the scattered $\theta $s toward lower loss, i.e.\^^Mtoward the level surface, and so toward larger $z$. The $z$ axis points into the page (\textbf {left}) or upward (\textbf {right})}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  \textbf  {\textsc  {Archimedes}.} A \textbf  {green} level surface of $l$ twists around a valley of minima ($z$ axis) at its center; $l$ is large outside this surface. Due to anisotropic noise, $\theta $ scatters away from the $z$ axis toward the \textbf  {purple} tubes. SGD pushes the scattered $\theta $s toward lower loss, i.e.\ toward the level surface, and so toward larger $z$. The $z$ axis points into the page (\textbf  {left}) or upward (\textbf  {right}). }}{7}{figure.4}}
+\newlabel{fig:archimedes}{{4}{7}{\textbf {\Archimedes .} A \textbf {green} level surface of $l$ twists around a valley of minima ($z$ axis) at its center; $l$ is large outside this surface. Due to anisotropic noise, $\theta $ scatters away from the $z$ axis toward the \textbf {purple} tubes. SGD pushes the scattered $\theta $s toward lower loss, i.e.\^^Mtoward the level surface, and so toward larger $z$. The $z$ axis points into the page (\textbf {left}) or upward (\textbf {right})}{figure.4}{}}
 \FN@pp@footnote@aux{8}{7}
 \FN@pp@footnote@aux{9}{7}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Sharp and flat minima both overfit less than medium minima}{7}{subsection.3.3}}
 \newlabel{subsect:overfit}{{3.3}{7}{Sharp and flat minima both overfit less than medium minima}{subsection.3.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion: implications for practice}{7}{section.4}}
 \newlabel{sect:concl}{{4}{7}{Conclusion: implications for practice}{section.4}{}}
-\citation{st19}
 \citation{ni11}
 \citation{dw06}
 \citation{ar19}
@@ -171,95 +171,108 @@
 \bibcite{zh17}{{49}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
 \bibcite{zh16}{{50}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
 \FN@pp@footnotehinttrue 
-\citation{ch87}
 \@writefile{toc}{\contentsline {section}{\numberline {A}How to calculate test losses: a practical guide}{12}{section.1}}
 \newlabel{appendix:tutorial}{{A}{12}{How to calculate test losses: a practical guide}{section.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}An example calculation}{12}{subsection.1.1}}
-\newlabel{appendix:example}{{A.1}{12}{An example calculation}{subsection.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}How to identify the relevant space-time}{12}{subsection.1.2}}
-\newlabel{appendix:draw-spacetime}{{A.2}{12}{How to identify the relevant space-time}{subsection.1.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}How to identify the relevant diagram embeddings}{12}{subsection.1.3}}
-\newlabel{appendix:draw-embeddings}{{A.3}{12}{How to identify the relevant diagram embeddings}{subsection.1.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}How to evaluate each embedding}{12}{subsection.1.4}}
-\newlabel{appendix:evaluate-embeddings}{{A.4}{12}{How to evaluate each embedding}{subsection.1.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}How to sum the embeddings' values}{12}{subsection.1.5}}
-\newlabel{appendix:sum-embeddings}{{A.5}{12}{How to sum the embeddings' values}{subsection.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.6}Interpreting diagrams to build intuition}{12}{subsection.1.6}}
-\newlabel{appendix:interpret-diagrams}{{A.6}{12}{Interpreting diagrams to build intuition}{subsection.1.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.7}How to solve variant problems}{12}{subsection.1.7}}
-\newlabel{appendix:solve-variants}{{A.7}{12}{How to solve variant problems}{subsection.1.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.8}Do diagrams streamline computation?}{12}{subsection.1.8}}
-\newlabel{appendix:diagrams-streamline}{{A.8}{12}{Do diagrams streamline computation?}{subsection.1.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}An example calculation: the effect of epochs}{12}{subsection.1.1}}
+\newlabel{appendix:example}{{A.1}{12}{An example calculation: the effect of epochs}{subsection.1.1}{}}
+\newlabel{qst:multi}{{1}{12}{}{quest.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  \textbf  {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline  \textbf  {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline  \textbf  {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates. }}{12}{figure.5}}
+\newlabel{fig:spacetimes-epoch}{{5}{12}{\textbf {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline \textbf {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline \textbf {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces  \textbf  {The diagram $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\sdia {c(01-2)(01-12)}$ (or $\sdia {c(0-1-2)(01-12)}$), $\sdia {c(0-1)(01)}$, $\sdia {c(0-1-2)(01-12)}$, $\sdia {c(0-1-2)(02-12)}$, and $\sdia {c(01-2)(02-12)}$ (or $\sdia {c(0-1-2)(02-12)}$). The diagram $\sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\sdia {c(0-1-2)(02-12)}$ and $\sdia {c(01-2)(02-12)}$. \textbf  {Left}: $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf  {Right}: $\sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells. }}{13}{figure.6}}
+\newlabel{fig:multi-embeddings}{{6}{13}{\textbf {The diagram $\protect \sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\protect \sdia {c(01-2)(01-12)}$ (or $\protect \sdia {c(0-1-2)(01-12)}$), $\protect \sdia {c(0-1)(01)}$, $\protect \sdia {c(0-1-2)(01-12)}$, $\protect \sdia {c(0-1-2)(02-12)}$, and $\protect \sdia {c(01-2)(02-12)}$ (or $\protect \sdia {c(0-1-2)(02-12)}$). The diagram $\protect \sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\protect \sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\protect \sdia {c(0-1-2)(02-12)}$ and $\protect \sdia {c(01-2)(02-12)}$. \textbf {Left}: $\protect \sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf {Right}: $\protect \sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}How to identify the relevant space-time}{14}{subsection.1.2}}
+\newlabel{appendix:draw-spacetime}{{A.2}{14}{How to identify the relevant space-time}{subsection.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \textbf  {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline  \textbf  {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline  \textbf  {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. \textbf  {The space-time grids of single- and multi-epoch SGD.} }}{14}{figure.7}}
+\newlabel{fig:spacetimes}{{7}{14}{\textbf {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline \textbf {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline \textbf {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. \textbf {The space-time grids of single- and multi-epoch SGD.}}{figure.7}{}}
+\citation{ch87}
+\FN@pp@footnote@aux{10}{15}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}How to identify the relevant diagram embeddings}{15}{subsection.1.3}}
+\newlabel{appendix:draw-embeddings}{{A.3}{15}{How to identify the relevant diagram embeddings}{subsection.1.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  {\bf  Diagrams in Spacetime Depict SGD's Subprocesses.} Two spacetimes with $N=8, T=16$. {\bf  Left}: Batchsize $B=1$ with inter-epoch shuffling. Embeddings, legal and illegal, of $\sizeddia {(01-2)(01-12)}{0.10}$, $\sizeddia {(01-2)(01-12)}{0.10}$, and $\sizeddia {(0-1-2)(01-12)}{0.10}$. {\bf  Right}: Batchsize $B=2$ without inter-epoch shuffling. Interpretation of an order $\eta ^4$ diagram embedding. }}{15}{figure.8}}
+\newlabel{fig:spacetimes}{{8}{15}{{\bf Diagrams in Spacetime Depict SGD's Subprocesses.} Two spacetimes with $N=8, T=16$. {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. Embeddings, legal and illegal, of $\sdia {(01-2)(01-12)}$, $\sdia {(01-2)(01-12)}$, and $\sdia {(0-1-2)(01-12)}$. {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. Interpretation of an order $\eta ^4$ diagram embedding}{figure.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  Moo }}{15}{figure.9}}
+\newlabel{fig:embedding-rules}{{9}{15}{Moo}{figure.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}How to evaluate each embedding}{15}{subsection.1.4}}
+\newlabel{appendix:evaluate-embeddings}{{A.4}{15}{How to evaluate each embedding}{subsection.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}How to sum the embeddings' values}{15}{subsection.1.5}}
+\newlabel{appendix:sum-embeddings}{{A.5}{15}{How to sum the embeddings' values}{subsection.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.6}Interpreting diagrams to build intuition}{15}{subsection.1.6}}
+\newlabel{appendix:interpret-diagrams}{{A.6}{15}{Interpreting diagrams to build intuition}{subsection.1.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.7}How to solve variant problems}{16}{subsection.1.7}}
+\newlabel{appendix:solve-variants}{{A.7}{16}{How to solve variant problems}{subsection.1.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.8}Do diagrams streamline computation?}{16}{subsection.1.8}}
+\newlabel{appendix:diagrams-streamline}{{A.8}{16}{Do diagrams streamline computation?}{subsection.1.8}{}}
 \citation{dy49a}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Mathematics of the theory}{13}{section.2}}
-\newlabel{appendix:math}{{B}{13}{Mathematics of the theory}{section.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Assumptions and definitions}{13}{subsection.2.1}}
-\newlabel{appendix:assumptions}{{B.1}{13}{Assumptions and definitions}{subsection.2.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}A key lemma \`a la Dyson}{13}{subsection.2.2}}
-\newlabel{appendix:key-lemma}{{B.2}{13}{A key lemma \`a la Dyson}{subsection.2.2}{}}
-\newlabel{lem:dyson}{{B.2}{13}{}{subsection.2.2}{}}
-\newlabel{eq:dyson}{{1}{13}{}{equation.2.1}{}}
-\newlabel{eq:smalleta}{{2}{13}{A key lemma \`a la Dyson}{equation.2.2}{}}
-\FN@pp@footnote@aux{10}{13}
-\newlabel{eq:expansion}{{3}{13}{A key lemma \`a la Dyson}{equation.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}From Dyson to diagrams}{14}{subsection.2.3}}
-\newlabel{appendix:toward-diagrams}{{B.3}{14}{From Dyson to diagrams}{subsection.2.3}{}}
-\newlabel{thm:pathint}{{3}{14}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:sgdcoef}{{3}{14}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:toprove}{{4}{14}{From Dyson to diagrams}{equation.2.4}{}}
-\newlabel{rmk:leibniz}{{3}{14}{Differentiating Products}{rmk.3}{}}
-\newlabel{rmk:leibniz}{{B.3}{15}{From Dyson to diagrams}{rmk.3}{}}
-\newlabel{prop:vanilla}{{1}{16}{}{prop.1}{}}
-\newlabel{eq:sgdbasiccoef}{{1}{16}{}{prop.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Interlude: a review of M\"obius inversion}{16}{subsection.2.4}}
-\newlabel{appendix:mobius}{{B.4}{16}{Interlude: a review of M\"obius inversion}{subsection.2.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Theorems \ref  {thm:resum} and \ref  {thm:converge}}{16}{subsection.2.5}}
-\newlabel{appendix:resum}{{B.5}{16}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
-\newlabel{subsubsect:mobius}{{B.5}{16}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
-\newlabel{eq:hard}{{5}{16}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.6}How to modify proofs to handle variants}{17}{subsection.2.6}}
-\newlabel{appendix:prove-variants}{{B.6}{17}{How to modify proofs to handle variants}{subsection.2.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.7}Proofs of corollaries}{17}{subsection.2.7}}
-\newlabel{appendix:corollaries}{{B.7}{17}{Proofs of corollaries}{subsection.2.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.1}Corollary \ref  {cor:entropic}}{17}{subsubsection.2.7.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.2}Corollary \ref  {cor:overfit}'s first part}{17}{subsubsection.2.7.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.3}Corollary \ref  {cor:overfit}'s second part}{17}{subsubsection.2.7.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Mathematics of the theory}{17}{section.2}}
+\newlabel{appendix:math}{{B}{17}{Mathematics of the theory}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Assumptions}{17}{subsection.2.1}}
+\newlabel{appendix:assumptions}{{B.1}{17}{Assumptions}{subsection.2.1}{}}
+\FN@pp@footnote@aux{11}{17}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}A key lemma \`a la Dyson}{17}{subsection.2.2}}
+\newlabel{appendix:key-lemma}{{B.2}{17}{A key lemma \`a la Dyson}{subsection.2.2}{}}
+\newlabel{lem:dyson}{{B.2}{17}{}{subsection.2.2}{}}
+\newlabel{eq:dyson}{{1}{17}{}{equation.2.1}{}}
+\newlabel{eq:smalleta}{{2}{17}{A key lemma \`a la Dyson}{equation.2.2}{}}
+\FN@pp@footnote@aux{12}{17}
+\newlabel{eq:expansion}{{3}{18}{A key lemma \`a la Dyson}{equation.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}From Dyson to diagrams}{18}{subsection.2.3}}
+\newlabel{appendix:toward-diagrams}{{B.3}{18}{From Dyson to diagrams}{subsection.2.3}{}}
+\newlabel{thm:pathint}{{3}{18}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:sgdcoef}{{3}{18}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:toprove}{{4}{19}{From Dyson to diagrams}{equation.2.4}{}}
+\newlabel{rmk:leibniz}{{3}{19}{Differentiating Products}{rmk.3}{}}
+\newlabel{rmk:leibniz}{{B.3}{19}{From Dyson to diagrams}{rmk.3}{}}
+\newlabel{prop:vanilla}{{1}{20}{}{prop.1}{}}
+\newlabel{eq:sgdbasiccoef}{{1}{20}{}{prop.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Interlude: a review of M\"obius inversion}{20}{subsection.2.4}}
+\newlabel{appendix:mobius}{{B.4}{20}{Interlude: a review of M\"obius inversion}{subsection.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Theorems \ref  {thm:resum} and \ref  {thm:converge}}{20}{subsection.2.5}}
+\newlabel{appendix:resum}{{B.5}{20}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
+\newlabel{subsubsect:mobius}{{B.5}{20}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
+\newlabel{eq:hard}{{5}{20}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.6}How to modify proofs to handle variants}{21}{subsection.2.6}}
+\newlabel{appendix:prove-variants}{{B.6}{21}{How to modify proofs to handle variants}{subsection.2.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.7}Proofs of corollaries}{21}{subsection.2.7}}
+\newlabel{appendix:corollaries}{{B.7}{21}{Proofs of corollaries}{subsection.2.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.1}Corollary \ref  {cor:entropic}}{21}{subsubsection.2.7.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.2}Corollary \ref  {cor:overfit}'s first part}{21}{subsubsection.2.7.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.3}Corollary \ref  {cor:overfit}'s second part}{22}{subsubsection.2.7.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.4}Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{22}{subsubsection.2.7.4}}
+\newlabel{prop:ordtwo}{{2}{22}{}{prop.2}{}}
+\newlabel{tbl:ordtwo}{{B.7.4}{22}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.2}{}}
 \citation{la60,la51}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.4}Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{18}{subsubsection.2.7.4}}
-\newlabel{prop:ordtwo}{{2}{18}{}{prop.2}{}}
-\newlabel{tbl:ordtwo}{{B.7.4}{18}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.5}Corollary \ref  {cor:vsode}}{18}{subsubsection.2.7.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.8}Future topics}{18}{subsection.2.8}}
-\newlabel{appendix:future}{{B.8}{18}{Future topics}{subsection.2.8}{}}
-\FN@pp@footnote@aux{11}{18}
 \citation{ab07,zh16}
 \citation{am98}
 \citation{ni17}
-\FN@pp@footnote@aux{12}{19}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.5}Corollary \ref  {cor:vsode}}{23}{subsubsection.2.7.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.8}Future topics}{23}{subsection.2.8}}
+\newlabel{appendix:future}{{B.8}{23}{Future topics}{subsection.2.8}{}}
+\FN@pp@footnote@aux{13}{23}
+\FN@pp@footnote@aux{14}{23}
 \citation{am98}
 \citation{vi00}
 \citation{kr09}
 \citation{xi17}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Experimental methods}{20}{section.3}}
-\newlabel{appendix:experiments}{{C}{20}{Experimental methods}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}What artificial landscapes did we use?}{20}{subsection.3.1}}
-\newlabel{appendix:artificial}{{C.1}{20}{What artificial landscapes did we use?}{subsection.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}What image-classification landscapes did we use?}{21}{subsection.3.2}}
-\newlabel{appendix:natural}{{C.2}{21}{What image-classification landscapes did we use?}{subsection.3.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement process}{21}{subsection.3.3}}
-\newlabel{appendix:measure}{{C.3}{21}{Measurement process}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{21}{subsection.3.4}}
-\newlabel{appendix:optimizers}{{C.4}{21}{Implementing optimizers}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Experimental methods}{24}{section.3}}
+\newlabel{appendix:experiments}{{C}{24}{Experimental methods}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}What artificial landscapes did we use?}{24}{subsection.3.1}}
+\newlabel{appendix:artificial}{{C.1}{24}{What artificial landscapes did we use?}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}What image-classification landscapes did we use?}{25}{subsection.3.2}}
+\newlabel{appendix:natural}{{C.2}{25}{What image-classification landscapes did we use?}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement process}{25}{subsection.3.3}}
+\newlabel{appendix:measure}{{C.3}{25}{Measurement process}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{25}{subsection.3.4}}
+\newlabel{appendix:optimizers}{{C.4}{25}{Implementing optimizers}{subsection.3.4}{}}
 \citation{pa19}
 \citation{ga23}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Software frameworks and hardware}{22}{subsection.3.5}}
-\newlabel{appendix:frameworks}{{C.5}{22}{Software frameworks and hardware}{subsection.3.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.6}Unbiased estimators of landscape statistics}{22}{subsection.3.6}}
-\newlabel{appendix:bessel}{{C.6}{22}{Unbiased estimators of landscape statistics}{subsection.3.6}{}}
-\newlabel{eq:bessel}{{6}{22}{Unbiased estimators of landscape statistics}{equation.3.6}{}}
-\newlabel{eq:newbessel}{{7}{22}{Unbiased estimators of landscape statistics}{equation.3.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.7}Additional figures}{23}{subsection.3.7}}
-\newlabel{appendix:figures}{{C.7}{23}{Additional figures}{subsection.3.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  \textbf  {Further experimental results}. \textbf  {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf  {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textsc  {Gauss}. Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf  {Right}: Blue intervals regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph  {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. }}{23}{figure.5}}
-\newlabel{fig:takreg}{{5}{23}{\textbf {Further experimental results}. \textbf {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \Gauss . Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf {Right}: Blue intervals regularization using Corollary \ref {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Software frameworks and hardware}{26}{subsection.3.5}}
+\newlabel{appendix:frameworks}{{C.5}{26}{Software frameworks and hardware}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.6}Unbiased estimators of landscape statistics}{26}{subsection.3.6}}
+\newlabel{appendix:bessel}{{C.6}{26}{Unbiased estimators of landscape statistics}{subsection.3.6}{}}
+\newlabel{eq:bessel}{{6}{26}{Unbiased estimators of landscape statistics}{equation.3.6}{}}
+\newlabel{eq:newbessel}{{7}{26}{Unbiased estimators of landscape statistics}{equation.3.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.7}Additional figures}{27}{subsection.3.7}}
+\newlabel{appendix:figures}{{C.7}{27}{Additional figures}{subsection.3.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  \textbf  {Further experimental results}. \textbf  {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf  {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textsc  {Gauss}. Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf  {Right}: Blue intervals regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph  {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. }}{27}{figure.10}}
+\newlabel{fig:takreg}{{10}{27}{\textbf {Further experimental results}. \textbf {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \Gauss . Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf {Right}: Blue intervals regularization using Corollary \ref {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$}{figure.10}{}}
 \FN@pp@footnotehinttrue 
