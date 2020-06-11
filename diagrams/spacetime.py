@@ -80,10 +80,15 @@ def draw_arc_aa(img, row_s, col_s, row_e, col_e, curve=1.0, color=black):
 #T = 12
 #dT = 11
 
-N = 9
-dN = 4
-T = 27
-dT = 13
+#N = 9
+#dN = 4
+#T = 27
+#dT = 13
+
+N = 4
+dN = 3
+T = 12
+dT = 11
 
 #MARG = 30
 MARG = 45
@@ -331,15 +336,15 @@ def draw_i(filename):
  
     plt.imsave(filename, img)
 
-FILE_NM = 'spacetime-i.png' 
+FILE_NM = 'spacetime-g.png' 
 #title = "One-Epoch SGD"
 #title = "Spacetime for Two-Epoch SGD"
 #title = "Singleton Batches with Shuffling"
 #title = "Size-Two Batches without Shuffling"
-#title = "Renorm. Collects Related Diagrams"
-#title = "Renorm. Propagates Noise"
-title = "Practice Spacetime: (N,M,B)=(9,3,3) SGD without Shuffling"
-draw_i(FILE_NM)
+title = "Resumm. Collects Related Diagrams"
+#title = "Resummation Propagates Noise"
+#title = "Practice Spacetime: (N,M,B)=(9,3,3) SGD without Shuffling"
+draw_g(FILE_NM)
 
 #=============================================================================
 

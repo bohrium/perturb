@@ -17,8 +17,8 @@
 \usepackage{microtype}      
 
 \usepackage{natbib}
-%\usepackage{neurips_2020}
-\usepackage[final]{neurips_2020}
+\usepackage{neurips_2020}
+%\usepackage[final]{neurips_2020}
 
 %---------------------  mathematics  ------------------------------------------
 
@@ -1257,45 +1257,45 @@
 \vfill
 \section*{Acknowledgements}
 
-%   Redacted during double-blind peer review.
+Redacted during double-blind peer review.
 
-    %\begin{ack}
-        We would like to thank
-            \textsc{Sho Yaida},
-            \textsc{Dan A.\ Roberts}, and
-            \textsc{Josh Tenenbaum}
-        for their patient guidance.
-        %
-        It was \textsc{Dan A.\ Roberts} who recognized that interesting
-        questions lie in the analysis of epoch number and batch size; it
-        was he who introduced us to much of \S\ref{sect:related}.  Only with
-        \textsc{Sho Yaida}'s advice to re-sum did our theory attain its most
-        precise and conceptual form.
-        %
-        We appreciate the time and energy that
-            \textsc{Andy Banburski},
-            \textsc{Ben R.\ Bray},
-            \textsc{Jeff Lagarias}, and
-            \textsc{Wenli Zhao}
-        spent to critique our drafts.
-        In particular, \textsc{Wenli Zhao} nudged us to consider and discuss
-        connections to physics, and \textsc{Ben R.\ Bray} taught us
-        that gradient noise is rarely istropic, homogeneous, or Gaussian.  
-        %
-        Without the encouragement of
-            \textsc{Jason Corso},
-            \textsc{Chloe Kleinfeldt},
-            \textsc{Alex Lew}, 
-            \textsc{Ari Morcos}, and
-            \textsc{David Schwab},
-        this paper would not be.
-        %
-        Finally, we thank our anonymous reviewers for inspiring an improved
-        presentation.
-        %
-        This work was funded in part by MIT's Jacobs Presidential Fellowship
-        and in part by FAIR.
-    %\end{ack}
+%    %\begin{ack}
+%        We would like to thank
+%            \textsc{Sho Yaida},
+%            \textsc{Dan A.\ Roberts}, and
+%            \textsc{Josh Tenenbaum}
+%        for their patient guidance.
+%        %
+%        It was \textsc{Dan A.\ Roberts} who recognized that interesting
+%        questions lie in the analysis of epoch number and batch size; it
+%        was he who introduced us to much of \S\ref{sect:related}.  Only with
+%        \textsc{Sho Yaida}'s advice to re-sum did our theory attain its most
+%        precise and conceptual form.
+%        %
+%        We appreciate the time and energy that
+%            \textsc{Andy Banburski},
+%            \textsc{Ben R.\ Bray},
+%            \textsc{Jeff Lagarias}, and
+%            \textsc{Wenli Zhao}
+%        spent to critique our drafts.
+%        In particular, \textsc{Wenli Zhao} nudged us to consider and discuss
+%        connections to physics, and \textsc{Ben R.\ Bray} taught us
+%        that gradient noise is rarely istropic, homogeneous, or Gaussian.  
+%        %
+%        Without the encouragement of
+%            \textsc{Jason Corso},
+%            \textsc{Chloe Kleinfeldt},
+%            \textsc{Alex Lew}, 
+%            \textsc{Ari Morcos}, and
+%            \textsc{David Schwab},
+%        this paper would not be.
+%        %
+%        Finally, we thank our anonymous reviewers for inspiring an improved
+%        presentation.
+%        %
+%        This work was funded in part by MIT's Jacobs Presidential Fellowship
+%        and in part by FAIR.
+%    %\end{ack}
         
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1331,7 +1331,7 @@
     \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
     \par\indent     A.4 ~~ How to evaluate each embedding                   \hfill \pageref{appendix:evaluate-embeddings}
     \par\indent     A.5 ~~ How to sum the embeddings' values                \hfill \pageref{appendix:sum-embeddings}
-    \par\indent     A.6 ~~ Interpreting diagrams to build intuition         \hfill \pageref{appendix:interpret-diagrams}
+    \par\indent     A.6 ~~ Interpreting diagrams intuitively                \hfill \pageref{appendix:interpret-diagrams}
     \par\indent     A.7 ~~ How to solve variant problems                    \hfill \pageref{appendix:solve-variants}
     \par\indent     A.8 ~~ Do diagrams streamline computation?              \hfill \pageref{appendix:diagrams-streamline}
 
@@ -2091,11 +2091,92 @@
         edge involved in the relevant degrees of freedom over which we
         integrate).  As another example, see Example \ref{exm:first}.
 
-    \subsection{Interpreting diagrams to build intuition}           \label{appendix:interpret-diagrams}
+    \subsection{Interpreting diagrams intuitively}                  \label{appendix:interpret-diagrams}
 
-            %\plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-        Make sure to also discuss Chladni effect \cite{ch87}!!!
+        We may intuitively interpret edges as carrying influence from the
+        training set toward the test measurement.  See Figure
+        \ref{fig:intuition}.  From this perspective, we may intuitively
+        interpret edges in an $\rvalue$ calculation as carrying influence from
+        the training set toward the test measurement.  See Figure
+        \ref{fig:intuition}.
+
+        \begin{figure}[h!] 
+            \centering  
+            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
+            \caption{
+                \textbf{Edges carry information}.
+                Embedding of a $4$-edged diagram.
+            }
+            \label{fig:intuition}
+        \end{figure}
+
+
+        \begin{figure}[h!] 
+            \centering  
+            \dmoo{3cm}{spacetime-g}
+            \dmoo{3cm}{spacetime-h}
+            \caption{
+                \textbf{Resummation propagates information, damped by
+                curvature}.  Each resummed valuerepresents many un-resummed
+                values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
+                in a different way.
+                \textbf{Left}: Here is one of many un-resummed terms captured by
+                a single resummed embedding for $\sdia{c(0-1)(01)}$.
+                \textbf{Left}: each resummed value represents many un-resummed
+                values.  Here is one of many un-resummed terms captured by
+                a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
+            }
+            \label{fig:intuition}
+        \end{figure}
+
+    %        \subsubsection{Chladni effect}
+    %(\S\ref{appendix:interpret-diagrams})
+    %            {\color{red} Make sure to also discuss Chladni effect
+    %            \cite{ch87}!!!}
+
     \subsection{How to solve variant problems}                      \label{appendix:solve-variants}
+        In \S\ref{appendix:future}, we briefly discuss second-order methods
+        and natural gradient descent.  Here, we briefly discuss modifications.
+        We omit proofs, which would closely follow \S\ref{appendix:math}'s
+        proof of the expectation-of-test-loss case.
+
+        \subsubsection*{Variance (instead of expectation)}
+            To compute variances instead of expectations (with respect to the
+            noise in the training set), one considers generalized diagrams   
+            that have ``two roots'' instead of one.  More precisely, to
+            compute, say, the un-centered second moment of test loss, one uses
+            diagrams whose edge structures are not rooted trees but instead
+            forests consisting of two rooted trees.  As in the case of test
+            loss expectations, we require that the set of roots (now a set
+            of size two instead of size one) is a part of the diagram's
+            partition.  We draw the two roots rightmost. 
+            %
+            For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
+            $\mdia{MOOc(01-23)(02-13)}$ may appear in this computation.
+
+        \subsubsection*{Measuring on the training (instead of test) set}
+
+            To compute the training loss, we compute with all the same
+            diagrams as the test loss, and we also allow all the additional
+            generalized diagrams that violate the constraint that a diagram's
+            root should be in a part of size one.
+            %
+            Therefore, to compute the generalization gap (i.e.\ test loss minus
+            training loss), we sum over all the diagrams that expressly 
+            violate this constraint (and then, since gen.\ gp is test minus
+            train instead of train minus test, we multiply the whole answer
+            by $-1$).
+            %
+            For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
+            $\mdia{MOOc(0-123)(02-12-23)}$ may appear in this computation.
+
+        \subsubsection*{Weight displacement (instead of loss)}
+            To compute displacements instead of losses, one considers
+            generalized diagrams that have a ``loose end'' instead of a root.
+            %
+            For example, the generalized diagrams $\mdia{MOOc(0)(0)}$ or
+            $\mdia{MOOc(01)(01-1)}$ may appear in this computation.
+
     \subsection{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
