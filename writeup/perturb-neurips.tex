@@ -1319,13 +1319,13 @@
     \setlist{nolistsep}
     \begin{itemize}[noitemsep]
         \item to explain how to calculate using diagrams;
-        \item to precisely prove our results (and pose a conjecture);
+        \item to prove our results (and pose a conjecture);
         \item to specify our experimental methods and results.
     \end{itemize}
     In more detail, we organize the appendices as follows.\\
 
     {\bf
-    \par\noindent A ~ How to calculate test losses: a practical guide}      \hfill {\bf page \pageref{appendix:tutorial}}
+    \par\noindent A ~ How to calculate test losses}                         \hfill {\bf page \pageref{appendix:tutorial}}
     \par\indent     A.1 ~~ An example calculation: the effect of epochs     \hfill \pageref{appendix:example}
     \par\indent     A.2 ~~ How to identify the relevant space-time          \hfill \pageref{appendix:draw-spacetime} 
     \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
@@ -1363,20 +1363,19 @@
 %~~~~~~~~~~~~~  Tutorial  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \newpage
-\section{How to calculate test losses: a practical guide}\label{appendix:tutorial}
+\section{How to calculate test losses}                   \label{appendix:tutorial}
     Our work introduces a novel technique for calculating the expected learning
     curves of SGD in terms of statistics of the loss landscape near
-    initialization.  Here, we explain this technique.  Note that new
-    combinatorial objects --- \emph{space-time grids} --- arise as we relax
-    the paper body's assumption that $E=B=1$.  This, too, we will explain.  We
-    note for now that there are are {\bf four steps} to computing the expected
-    test loss, or other quantities of interest, after a specific number of
-    gradient updates: 
+    initialization.  Here, we explain this technique.  New combinatorial
+    objects --- \emph{space-time grids} --- arise as we relax the paper body's
+    assumption that $E=B=1$.  This, too, we will explain.  We note for now that
+    there are are {\bf four steps} to computing the expected test loss, or
+    other quantities of interest, after a specific number of gradient updates: 
     \begin{itemize}
         \item {\bf Specify, as a space-time grid}, the batch size, training set
             size, and number of epochs. 
         \item {\bf Draw embeddings}, of diagrams into the
-            space-time grid, as needed for our desired precision.
+            space-time grid, as needed for the desired precision.
         \item {\bf Evaluate each diagram embedding}, whether exactly (via what
             we will call $\rvalue$s) or roughly (via what we will call
             $\uvalue$s).
@@ -1384,13 +1383,10 @@
               interest as a function of $\eta$.
     \end{itemize}
 
-    After presenting an example calculation that follows these four steps, we
-    detail each of the steps in its own sub-section.  We then discuss the
-    intuition that diagrams offer.  Though we focus on the computation of
+    After, presenting an example calculation that follows these four steps,
+    we detail each step individually.  Though we focus on the computation of
     expected test losses, we describe how the four steps also give us
-    variances, train losses, of weight displacements.  Finally, we note that
-    our theory may be phrased without reference to diagrams; we illustrate on
-    sample problems when and why diagrams streamline computation.
+    variances, train losses, of weight displacements.  
 
     \subsection{An example calculation: the effect of epochs}       \label{appendix:example}
 
@@ -1411,26 +1407,22 @@
 
         We scaled the above two versions of SGD deliberately, to create an
         interesting comparison.
-        Specifically, a routine and explicit check shows that, on a noiseless
+        Specifically, on a noiseless
         linear landscape $l_x=l \in (\RR^n)^*$, the versions
         attain equal test losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
         %
-        Thus, the answer to Question \ref{qst:multi} will vanish to first order
-        in $\eta$; that is, the answer will be second-order (or higher-order)
-        in $\eta$.
+        So Question \ref{qst:multi}'s answer will be second-order (or
+        higher-order) in $\eta$.
 
         \subsubsection*{Space-time grids}
-            We encode the training set size, batch size, and number of epochs
-            by considering a set of pairs $(n,t)$, with one pair for each
-            participation of the $n$th datapoint in the $t$th update.  It will
-            be convenient to draw these $(n,t)$ pairs as shaded cells in an
-            $N\times T$ grid.  Thus, each column contains $B$ (batch size) many
-            shaded cells, and each row contains $E$ (epoch number) many shaded
-            cells.  This shaded grid is the SGD's \emph{space-time} or
-            \emph{space-time grid}.
-            To answer Question \ref{qst:multi}, we consider two space-time
-            grids: one for multi-epoch SGD and another for single-epoch SGD.
-            Figure \ref{fig:spacetimes-epoch} depicts these two grids.
+            We take an $N\times T$ grid and shade its cells, shading the
+            $(n,t)$th cell when the $t$th update involves the $n$th data point.
+            Thus, each column contains $B$ (batch size) many shaded cells and
+            that each row contains $E$ (epoch number) many shaded cells.
+            The shaded grid is SGD's \emph{space-time}.
+            Two space-times are relevant to Question \ref{qst:multi}: one for
+            multi-epoch SGD and another for single-epoch SGD --- see Figure
+            \ref{fig:spacetimes-epoch}.
             \begin{figure}[h!] 
                 \centering
                 \dmoo{3.55cm}{spacetime-b1-e2-nosh}
@@ -1457,17 +1449,15 @@
 
         \newpage
         \subsubsection*{Embeddings of diagrams into space-time}
-            A \emph{diagram} is a finite rooted tree equipped with a partition
-            of its nodes, such that the root node occupies a part of size $1$.
-            Note that this definition generalizes the special case reported in
-            the paper body; in particular, we no longer require the paper
-            body's ``path condition'' to hold.  Thus, there are four diagrams
-            with two edges:
-            $\protect\sdia{c(0-1-2)(02-12)}$,
-            $\protect\sdia{c(01-2)(02-12)}$,
-            $\protect\sdia{c(0-1-2)(01-12)}$, and
-            $\protect\sdia{c(01-2)(01-12)}$.
-
+            There are four two-edged diagrams: 
+            $\sdia{c(0-1-2)(02-12)}$,
+            $\sdia{c(01-2)(02-12)}$,
+            $\sdia{c(0-1-2)(01-12)}$, and
+            $\sdia{c(01-2)(01-12)}$.
+            We permit the diagram $\sdia{c(01-2)(02-12)}$, which violates the
+            path condition mentioned in \S\ref{sect:calculus}, because we are
+            no longer restricting to the special case $E=B=1$.
+            %
             An \emph{embedding} of a diagram $D$ into a space-time grid is an
             assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
             obeys the following two criteria:
@@ -1524,13 +1514,12 @@
 
             We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
             are an approximation of the latter, appropriate when $T$ is fixed
-            instead of taken to infinity.  Though $\uvalue$s are less accurate
-            for non-fixed $T$, they have the same asymptotic error as
-            $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s are
-            simpler to calculate, since their numeric values depend only on
-            diagrams, not on embeddings.  So to compute a test loss, we will
-            we will multiply each diagram's $\uvalue$ by the number of ways
-            that diagram embeds.
+            instead of taken to infinity.  $\uvalue$s have the same asymptotic
+            error as $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s
+            are simpler to calculate, since their numeric values depend only on
+            diagrams, not on embeddings.  So to compute a test loss, we will we
+            will multiply each diagram's $\uvalue$ by the number of ways that
+            diagram embeds.
 
             Figure \ref{fig:multi-embeddings} shows us that the diagram
             $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
@@ -1553,7 +1542,7 @@
             in Section \ref{sect:calculus}; the edge rule for $\uvalue$s is
             that each edge becomes an $\eta$.
             So
-            $
+            $$
                 \uvalue(\sdia{c(01-2)(01-12)}) =
                 \expct{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x}
                 \expct{\nabla_\rho l_x}
@@ -1564,7 +1553,7 @@
                 G^\rho
                 \eta^{\mu\lambda}
                 \eta^{\nu\rho}
-            $.
+            $$
 
         \subsubsection*{Sum of the values}
 
@@ -1606,115 +1595,217 @@
             $$
             where we use $\eta_0$ to raise indices.
             This completes the example problem.
-            An essentially similar
-            argument proves Corollary \ref{cor:epochs}.
+
+            \begin{rmk*}
+                An essentially similar
+                argument proves Corollary \ref{cor:epochs}.
+                \mend
+            \end{rmk*}
 
     \subsection{How to identify the relevant space-time}            \label{appendix:draw-spacetime}
-            Diagrams tell us about the loss landscape but not about parameters
-            such as $T$.  We summarize SGD parameters as sets of pairs $(n,t)$,
-            one for each participation of the $n$th datapoint in the $t$th
-            update.  For instance, full-batch GD has $NT$ many pairs, and
-            singeleton-batch SGD has $T$ many pairs.  We will draw these
-            $(n,t)$ pairs as shaded cells in an $N\times T$ grid; we will call
-            the shaded grid the SGD's \emph{space-time grid} or
-            \emph{space-time}.  See Figure \ref{fig:spacetimes}.
-            We see that each column contains $B$ (batch size)
-            many shaded cells and that each row contains $E$ (epoch number)
-            many shaded cells.
 
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-b1-e2-shuf}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b2-e4-nosh}
-                \\
-                \dmoo{3.55cm}{spacetime-b1-e1-nosh}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b1-e2-nosh}
-                \caption{
-                    \textbf{The space-time grids of two SGD variants.}
-                    Shaded cells show $(n,t)$ pairs (see text).
-                    \newline
-                    \textbf{Left}: Two epoch SGD with batch size one.
-                        The training set is permuted between epochs.
-                    \newline
-                    \textbf{Right}: Four epoch SGD with batch size
-                        two.  The training set is not permuted between epochs.
-                    \textbf{The space-time grids of single- and multi-epoch
-                    SGD.}
-                }
-                \label{fig:spacetimes}
-            \end{figure}
-            
-            A space-time grid also depicts the permutation --- or lack thereof
-            --- of training sets between epochs.  Since each grid commits to a
-            concrete sequence of training set permutations, we may analyze
-            SGD with randomized permutations by taking expectations over
-            multiple space-time grids.  However, all of the corollaries in
-            this text are invariant to inter-epoch training set permutations,
-            so we will not focus on this point.\footnote{A routine check shows
+        Diagrams tell us about the loss landscape but not about
+        SGD's batch size, number of epochs, and training set size
+        We encode this SGD data as a set of pairs $(n,t)$, where we have
+        one pair for each participation of the $n$th datapoint in the $t$th
+        update.  For instance, full-batch GD has $NT$ many pairs, and
+        singeleton-batch SGD has $T$ many pairs.  We will draw these
+        $(n,t)$ pairs as shaded cells in an $N\times T$ grid; we will call
+        the shaded grid the SGD's \emph{space-time grid} or
+        \emph{space-time}.  See Figure \ref{fig:spacetimes}.  
+
+        \begin{figure}[h!] 
+            \centering
+            \dmoo{3.55cm}{spacetime-b1-e2-shuf}
+            ~~~~~
+            \dmoo{3.55cm}{spacetime-b2-e4-nosh}
+            \caption{
+                \textbf{The space-time grids of two SGD variants.}
+                Shaded cells show $(n,t)$ pairs (see text).
+                \newline
+                \textbf{Left}: Two epoch SGD with batch size one.
+                    The training set is permuted between epochs.
+                \newline
+                \textbf{Right}: Four epoch SGD with batch size
+                    two.  The training set is not permuted between epochs.
+            }
+            \label{fig:spacetimes}
+        \end{figure}
+
+        In sum, when using the diagram method to solve a problem relating
+        to SGD with batch size $B$ and $E$ many epochs (over $T$ many time
+        steps and on $N$ many training samples), one shades the 
+        cells of an $N\times T$ grid with $B$ shaded cells per column and
+        $E$ shaded cells per row.
+        
+        \begin{rmk*}
+            A space-time grid also depicts the shuffling of training sets
+            between epochs.  Since each grid commits to a concrete sequence
+            of training set permutations, we may analyze SGD with
+            randomized permutations by taking expectations over multiple
+            space-time grids.  However, all of the corollaries in this text
+            are invariant to inter-epoch training set permutations, so we
+            will not focus on this point.\footnote{A routine check shows
             that for fixed $T$, inter-epoch shuffling yields only an
             $o(\eta^3)$ effect on test losses.}
+            \mend
+        \end{rmk*}
 
+    \newpage
     \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
-            \begin{figure}[H] 
-                \centering  
-                \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
-                \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-                \caption{
-                    {\bf Diagrams in Spacetime Depict SGD's Subprocesses.}
-                    Two spacetimes with $N=8, T=16$.
-                    {\bf Left}: Batchsize $B=1$ with inter-epoch shuffling. 
-                        Embeddings, legal and illegal, of
-                            $\sdia{(01-2)(01-12)}$,
-                            $\sdia{(01-2)(01-12)}$, and
-                            $\sdia{(0-1-2)(01-12)}$.
-                    {\bf Right}: Batchsize $B=2$ without inter-epoch shuffling. 
-                        Interpretation of an order $\eta^4$ diagram embedding. 
-                }
-                \label{fig:spacetimes}
-            \end{figure}
-    
-            To visualize concretizations, we draw $(n,t)$ pairs as shaded cells in
-            an $N\times T$ grid.  A concretization is then an embedding of nodes to
-            shaded cells.  The $t<t^\prime$ constraint then forbids intra-cell
-            edges (Figure \ref{fig:spacetimes} left), and we may interpret each
-            edge as an effect of the past on the future (right).  We call an SGD
-            run's set of shaded cells its ``spacetime''.
-            %Each of a diagram's nodes abstractly represents an event at such a
-            %pair, and we may ``concretize'' a diagram by assigning to each node a
-            %specific pair $(n, t)$.
-            %We will intuitively interpret a concretized edge from $(n,t)$ to
-            %$(n^\prime,t^\prime)$ (from left to right) as depicting information
-            %flow from train point $n$ at time $t$ to train point $n^\prime$ at time
-            %$t^\prime$.  Thus, we permit only concretizations
-            %whose edges have $t<t^\prime$.  The rightmost node represents
-            %measurement at test time, so we do not assign a pair $(n,t)$ to it;
-            %it does not participate in $t<t^\prime$ constraints.
+        A \emph{diagram} is a finite rooted tree equipped with a partition of
+        its nodes, such that the root node occupies a part of size $1$.  Note
+        that this definition generalizes the special case reported in the paper
+        body; in particular, we no longer require the paper body's ``path
+        condition'' to hold.  For example, there are four diagrams with two
+        edges:
+        $\protect\sdia{c(0-1-2)(02-12)}$,
+        $\protect\sdia{c(01-2)(02-12)}$,
+        $\protect\sdia{c(0-1-2)(01-12)}$, and
+        $\protect\sdia{c(01-2)(01-12)}$.
+        As always, we specify a diagram's root by drawing it rightmost.
 
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-e}
-                \caption{
-                    Moo
-                }
-                \label{fig:embedding-rules}
-            \end{figure}
+        An \emph{embedding} of a diagram $D$ into a space-time grid is an
+        assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
+        obeys the following two criteria:
+        \begin{itemize}
+            \item \textbf{time-ordering condition}: the times $t$ strictly increase 
+                along each path from leaf to root; and
+            \item \textbf{correlation condition}: if two nodes are in the same
+                part of $D$'s partition, then they are assigned to the same
+                datapoint $n$.
+        \end{itemize}
+        We may conveniently draw embeddings by placing nodes in the shaded
+        cells to which they are assigned.  Then, the time-ordering condition 
+        forbids (among other things) intra-cell edges, and the correlation
+        condition demands that fuzzily tied nodes are in the same row.  See
+        Figure \ref{fig:embeddings}.
+        \begin{figure}[H] 
+            \centering  
+            \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
+            \caption{
+                Embeddings, legal and illegal.
+                \textbf{Left}: illegal embedding of $\sdia{c(0-1-2)(01-12)}$,
+                    since the time-ordering condition is not obeyed. 
+                    For the same reason, not a legal embedding of $\sdia{c(01-2)(01-12)}$.
+                \textbf{Middle}: an embedding of $\sdia{c(0-1-2)(01-12)}$.
+                Also an embedding of $\sdia{c(01-2)(01-12)}$,
+                since the correlation condition is obeyed.
+                \textbf{Right}: a legal embedding of $\sdia{c(0-1-2)(01-12)}$.
+                    Not an embedding of
+                    $\sdia{c(01-2)(01-12)}$, since the correlation condition is
+                    not obeyed.
+            }
+            \label{fig:embeddings}
+        \end{figure}
 
-            Specifically, let's compute how the \emph{skewness} $S$ affects
-            SGD's test loss. The recipe is to identify the fewest-edged
-            diagrams containing $S = \sdia{MOOc(012)(0-1-2)}$.  In this case,
-            there is one fewest-edged diagram --- $\sdia{c(012-3)(03-13-23)}$;
-            it results from joining $S$ with $J=\sdia{MOO(0)(0-0-0)}$.  To
-            evaluate a diagram, we multiply its components (here, $S, J$) with
-            exponentiated $\eta H$'s, one for each edge (here, there are three
-            edges).  The result is easiest to write in terms of an eigenbasis
-            of $\eta H$:
+        Table \ref{tab:scatthree} shows the $6$ diagrams that may embed into
+        the space-time grid of $E=B=1$.  It shows each diagram in multiple
+        ways to underscore that diagrams are purely topological and to suggest
+        the ways in which these diagrams may embed into space-time.
+        \begin{table}[h!]
+            \centering 
+            \resizebox{\columnwidth}{!}{%
+            \begin{tabular}{ccccc}
+                {\LARGE $\Theta\left((\eta N)^3 N^{-0}\right)$} &&
+                {\LARGE $\Theta\left((\eta N)^3 N^{-1}\right)$} &&
+                {\LARGE $\Theta\left((\eta N)^3 N^{-2}\right)$} \\ \hline
+                \begin{tabular}{c}
+                    \begin{tabular}{LL}
+                        \bdia{c(0-1-2-3)(01-12-23)} & \bdia{c(0-1-2-3)(01-13-23)}
+                    \end{tabular} \\
+                    \begin{tabular}{LL}
+                        \bdia{c(0-1-2-3)(02-13-23)} & \bdia{c(0-1-2-3)(03-12-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LL}
+                        \bdia{c(0-1-2-3)(03-13-23)} & \bdia{c(0-1-2-3)(02-12-23)}
+                    \end{tabular}
+                \end{tabular}
+                &&
+                \begin{tabular}{c}
+                    \begin{tabular}{LL}
+                        \bdia{c(01-2-3)(02-13-23)} & \bdia{c(01-2-3)(03-12-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LL}
+                        \bdia{c(0-12-3)(01-13-23)} & \bdia{c(0-12-3)(02-13-23)}
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{LLL}
+                        \bdia{c(01-2-3)(03-13-23)} & \bdia{c(0-12-3)(03-13-23)} & \bdia{c(01-2-3)(02-12-23)} 
+                    \end{tabular}
+                \end{tabular}
+                &&
+                \begin{tabular}{c}
+                    \begin{tabular}{L}
+                        \bdia{c(012-3)(03-13-23)}
+                    \end{tabular}
+                \end{tabular}
+            \end{tabular}
+            }
+            \caption{
+                \textbf{Multiple ways to draw the $6$ distinct degree-$3$
+                diagrams for $B=E=1$ SGD's test loss.}
+                Because the space-time of $B=E=1$ SGD has only one cell per row
+                and one cell per column, the only diagrams that have a non-zero
+                number of embeddings are the diagrams that obey
+                \S\ref{sect:calculus}'s path condition. 
+                We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams.
+                In fact, these drawings show all of the time-orderings of the
+                diagrams' nodes that are consistent with the time-ordering
+                condition.
+                %
+                \textbf{Organization}:
+                We organize the diagrams into columns by the number
+                of parts in their partitions.  Because partitions (fuzzy
+                outlines) indicate correlations between nodes (i.e. noise), 
+                diagrams with fuzzy outlines show deviations of SGD away from
+                deterministic ODE.  The big-$\Theta$ notation that heads the
+                columns gives the asymptotics of the sum-over-embeddings of 
+                each diagram's $\uvalue$s 
+                (for $N$ large and $\eta$ small even relative to $1/N$).
+                {\bf Left}: Diagrams for ODE behavior.
+                {\bf Center}: $1$st order deviation of SGD
+                away from ODE.
+                {\bf Right}: $2$nd order deviation of SGD
+                from ODE with appearance of non-Gaussian statistics.
+            }
+            \label{tab:scatthree}
+        \end{table}
+ 
+        In principle, the relevant diagrams for a calculation with error
+        $o(\eta^d)$ are the diagrams with at most $d$ edges.  For $d$ greater
+        than $2$, there will be many such diagrams.  However, in practice
+        we gain insight even from considering one diagram at a time:
+        \begin{rmk*}
+            In this paper's corollaries, we seek to extract the specific effect
+            of a specific landscape or optimization feature such as skewed
+            noise (Example \ref{exm:first}) or multiple epochs
+            (\S\ref{appendix:example}).  In these cases, it is usually the case
+            that most diagrams are irrelevant.  For example, because a diagram
+            evaluates to a product of its components, the only way the skewness
+            of gradient noise can appear in our calculations is through 
+            diagrams such as $\sdia{c(012-3)(03-13-23)}$ that have a part of
+            size $3$.  Thus, the analysis in Example \ref{exm:first} was able
+            to ignore diagrams such as $\sdia{c(01-2)(02-12)}$. 
+            Likewise, in \S\ref{appendix:example} we argued by considering 
+            which embeddings that the only diagram relevant to Question
+            \ref{qst:multi} is $\sdia{c(01-2)(01-12)}$.  
+            \mend
+        \end{rmk*}
 
+        In sum, when using the diagram method to analyze how a quantity affects
+        SGD to order $o(\eta^d)$, we must consider all diagrams with $d$ or
+        fewer edges that include that quantity as a component and that have a
+        non-zero number of embeddings into the relevant space-time.  For each
+        diagram, we must enumerate the embeddings, i.e. the assignments of the
+        diagram's nodes to space-time cells that obey both the time-ordering
+        condition and correlation condition.
+   
     \subsection{How to evaluate each embedding}                     \label{appendix:evaluate-embeddings}
         Make sure to also discuss un-re-summed values!!!
     \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
     \subsection{Interpreting diagrams to build intuition}           \label{appendix:interpret-diagrams}
+
+            %\plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
         Make sure to also discuss Chladni effect \cite{ch87}!!!
     \subsection{How to solve variant problems}                      \label{appendix:solve-variants}
     \subsection{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
