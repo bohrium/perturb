@@ -1309,8 +1309,8 @@ Redacted during double-blind peer review.
 %    APPENDICES      
 %==============================================================================
 
-%\clearpage
-%\newpage
+\clearpage
+\newpage
 \renewcommand{\thesection}{\Alph{section}}
 \setcounter{section}{0}
 
@@ -1337,14 +1337,14 @@ Redacted during double-blind peer review.
 
     {\bf
     \par\noindent B ~ Mathematics of the theory}                            \hfill {\bf page \pageref{appendix:math}}
-    \par\indent     B.1 ~~ Assumptions and definitions                      \hfill \pageref{appendix:assumptions}
+    \par\indent     B.1 ~~ Assumptions                                      \hfill \pageref{appendix:assumptions}
     \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
     \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
     \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
     \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
-    %\par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
-    \par\indent     B.6 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
-    \par\indent     B.7 ~~ Future topics                                    \hfill \pageref{appendix:future}
+    \par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
+    \par\indent     B.7 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
+    \par\indent     B.8 ~~ Future topics                                    \hfill \pageref{appendix:future}
 
     {\bf
     \par\noindent C ~ Experimental methods}                                 \hfill {\bf page \pageref{appendix:experiments}}
@@ -1899,7 +1899,7 @@ Redacted during double-blind peer review.
                         +
                     2 \mdia{(0-1-2-3)(01-13-23)}
                 \end{align*}
-                We will use the concept of ``moment values'' again in \S\ref{appendix:mobius}.
+                We will not use the phrase ``moment value'' after this example.
                 \mend
             \end{exm}
 
@@ -2005,8 +2005,6 @@ Redacted during double-blind peer review.
                 {\uvalue}(D)
             \end{equation*}
             Here, $B$ is the batch size.
-            %We say an embedding is \emph{strict} if it assigns to each part
-            %a different datapoint $n$.
         \end{thm*}
 
         How do we evaluate the above sum?
@@ -2181,334 +2179,12 @@ Redacted during double-blind peer review.
 
     \subsection{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
 
-        Diagram methods from Stueckelberg to Peierls have flourished in physics
-        because they enable swift computations and offer immediate intuition that
-        would otherwise require laborious algebraic manipulation.  We demonstrate
-        how our diagram formalism likewise streamlines analysis of descent by
-        comparing direct perturbation\footnote{
-            By ``direct perturbation'', we mean direct application of our Key
-            Lemma (\S\ref{appendix:key-lemma}).
-        }
-        to the new formalism on two sample problems.
-
-        Aiming for a conservative comparison of derivation ergonomics, we lean
-        toward explicit routine when using diagrams and allow ourselves to use
-        clever and lucky simplifications when doing direct perturbation.  For
-        example, while solving the first sample problem by direct perturbation,
-        we structure the SGD and GD computations so that the coefficients (that in
-        both the SGD and GD cases are) called $a(T)$ manifestly agree in their
-        first and second moments.  This allows us to save some lines of argument.
-
-        Despite these efforts, the diagram method yields arguments about \emph{four
-        times shorter} --- and strikingly more conceptual --- than direct
-        perturbation yields.  These examples specifically suggest that: diagrams
-        obviate the need for meticulous index-tracking, from the start focus one's
-        attention on non-cancelling terms by making visually obvious which terms
-        will eventually cancel, and allow immediate exploitation of a setting's
-        special posited structure, for instance that we are initialized at a test
-        minimum or that the batch size is $1$.  We regard these examples as
-        evidence that diagrams offer a practical tool for the theorist.
-
-        We make no attempt to compare the re-summed version of our formalism
-        to direct perturbation because the algebraic manipulations involved for
-        the latter are too complicated to carry out.  
-
-        We now compare {\colorbox{moolime}{Diagram Rules}} vs
-        {\colorbox{moosky}{Direct Perturbation}}.
-
-        \subsubsection{Effect of batch size}
-            We compare the test losses of pure SGD and pure GD.  Because pure
-            SGD and pure GD differ in how samples are correlated, their test loss
-            difference involves a covariance and hence occurs at order $\eta^2$.  
-
-            \subsubsubsection{Diagram Method}
-            \colorlet{shadecolor}{moolime}
-            \begin{shaded}
-                Since SGD and GD agree on noiseless landscapes, we consider only
-                diagrams with fuzzy ties.  Since we are working to second order, we
-                consider only two-edged diagrams.  There are only two such
-                diagrams, $\sdia{(01-2)(02-12)}$ and $\sdia{(01-2)(01-12)}$.  The
-                first diagram, $\sdia{(01-2)(02-12)}$, embeds in GD's space time in
-                $N^2$ as many ways as it embeds in SGD's spacetime, due to
-                horizontal shifts.  Likewise, there are $N^2$ times as many
-                embeddings of $\sdia{(01-2)(02-12)}$ in distinct epochs of GD's
-                spacetime as there are in distinct epochs of SGD's spacetime.
-                However, each same-epoch embedding of $\sdia{(01-2)(01-12)}$ within
-                any one epoch of GD's spacetime corresponds by vertical shifts to
-                an embedding of $\sdia{(0-1-2)(01-12)}$ in SGD.  There are
-                $MN{N\choose 2}$ many such embeddings in GD's spacetime, so GD's
-                test loss exceeds SGD's by 
-                $
-                    \frac{MN{N\choose 2}}{N^2}~
-                    \sdia{c(01-2)(01-12)}
-                $.
-                Reading the diagram's value from its graph structure, we
-                unpack that expression as:
-                $$
-                    \eta^2 \frac{M(N-1)}{4} G \nabla C 
-                $$
-            \end{shaded}
-
-            \newpage
-            \subsubsubsection{Direct Perturbation} 
-            \colorlet{shadecolor}{moosky}
-            \begin{shaded}
-                We compute the displacement $\theta_T-\theta_0$ to order $\eta^2$ 
-                for pure SGD and separately for pure GD.  Expanding
-                $
-                    \theta_t \in \theta_0 + \eta a(t) + \eta^2 b(t) + o(\eta^2)
-                $, we find:
-                \begin{align*}
-                    \theta_{t+1} &=     \theta_t - \eta \nabla l_{n_t} (\theta_t) \\
-                                 &\in       \theta_0
-                                        +   \eta a(t) + \eta^2 b(t)
-                                        -   \eta (
-                                                    \nabla l_{n_t}
-                                                +   \eta \nabla^2 l_{n_t} a(t) 
-                                            )
-                                        +   o(\eta^2) \\
-                                 &=     \theta_0
-                                    +   \eta (a(t) - \nabla l_{n_t})
-                                    +   \eta^2 (b(t) - \nabla^2 l_{n_t} a(t)) 
-                                    +   o(\eta^2)
-                \end{align*}
-                To save space, we write $l_{n_t}$ for $l_{n_t}(\theta_0)$.  It's
-                enough to solve the recurrence $a(t+1) = a(t) - \nabla l_{n_t}$ and
-                $b(t+1) = b(t) - \nabla^2 l_{n_t} a(t)$.  Since $a(0), b(0)$
-                vanish, we have $a(t) =-\sum_{0\leq t<T} \nabla l_{n_t}$ and $b(t)
-                = \sum_{0\leq t_0 < t_1 < T} \nabla^2 l_{n_{t_1}} \nabla
-                l_{n_{t_0}}$.  We now expand $l$:
-                \begin{align*}
-                    l(\theta_T) \in    l   &+   (\nabla l) (\eta a(T) + \eta^2 b(T)) \\
-                                           &+   \frac{1}{2} (\nabla^2 l) (\eta a(T) + \eta^2 b(T))^2
-                                            +   o(\eta^2) \\
-                                =      l   &+   \eta ((\nabla l) a(T))
-                                            +   \eta^2 ((\nabla l) b(T) + \frac{1}{2} (\nabla^2 l) a(T)^2 )
-                                            +   o(\eta^2)
-                \end{align*}
-                Then $\expct{a(T)} = -MN(\nabla l)$ and, since the $N$ many
-                singleton batches in each of $M$ many epochs are pairwise
-                independent,
-                \begin{align*}
-                    \expct{(a(T))^2}
-                    ~&=
-                    \sum_{0\leq t<T} \sum_{0\leq s<T} \nabla l_{n_t} \nabla l_{n_s} \\
-                    ~&= 
-                    M^2N(N-1)   \expct{\nabla l}^2 +
-                    M^2N        \expct{(\nabla l)^2}
-                \end{align*}
-                Likewise, 
-                \begin{align*}
-                    \expct{b(T)}
-                    = 
-                    ~&\sum_{0\leq t_0 < t_1 < T} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}} \\
-                    =
-                    ~&\frac{M^2N(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
-                    ~&\frac{M(M-1)N}{2}  \expct{(\nabla^2 l) (\nabla l)} 
-                \end{align*}
-                %
-                Similarly, for pure GD, we may demand that $a, b$ obey recurrence
-                relations $a(t+1) = a(t) - \sum_n \nabla l_n/N$ and
-                $b(t+1) = b(t) - \sum_n \nabla^2 l_n a(t)/N$, meaning that
-                $a(t) = -t \sum_n \nabla l_n/N$ and
-                $b(t) = {t \choose 2} \sum_{n_0} \sum_{n_1} \nabla^2 l_{n_0} \nabla l_{n_1}/N^2$.
-                So $\expct{a(T)} = -MN(\nabla l)$ and
-                \begin{align*}
-                    \expct{(a(T))^2}
-                    ~&=
-                    M^2 
-                    \sum_{n_0} \sum_{n_1} \nabla l_{n_0} \nabla l_{n_1} \\
-                    ~&= 
-                    M^2 N(N-1)  \expct{\nabla l}^2 + 
-                    M^2 N       \expct{(\nabla l)^2}
-                \end{align*}
-                and
-                \begin{align*}
-                    \expct{b(T)}
-                    = 
-                    ~&{MN \choose 2}\frac{1}{N^2}
-                    \sum_{n_0} \sum_{n_1} \nabla^2 l_{n_0} \nabla l_{n_1} \\
-                    =
-                    ~&\frac{M(MN-1)(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
-                    ~&\frac{M(MN-1)}{2}      \expct{(\nabla^2 l) (\nabla l)} 
-                \end{align*}
-                $\cdots$
-            \end{shaded}
-            \newpage
-            \begin{shaded}
-                $\cdots$ We see that the expectations for $a$ and $a^2$ agree
-                between pure SGD and pure GD.  So only $b$ contributes.  We
-                conclude that pure GD's test loss exceeds pure SGD's by
-                \begin{align*}
-                       ~&\eta^2
-                        \wrap{\frac{M(MN-1)(N-1)}{2}  - \frac{M^2N(N-1)}{2}}
-                        \expct{\nabla^2 l} \expct{\nabla l}^2 \\
-                    +   ~&\eta^2 
-                        \wrap{\frac{M(MN-1)N}{2} - \frac{M(M-1)N}{2}}
-                        \expct{(\nabla^2 l) (\nabla l)} \expct{\nabla l} \\
-                    = 
-                        ~&\eta^2     \frac{M(N-1)}{2}
-                    \expct{\nabla l} \wrap{
-                          \expct{(\nabla^2 l) (\nabla l)}
-                        - \expct{\nabla^2 l} \expct{\nabla l}
-                    }
-                \end{align*}
-                Since $(\nabla^2 l) (\nabla l) = \nabla((\nabla l)^2)/2$, we can 
-                summarize this difference as
-                $$
-                    \eta^2 \frac{M(N-1)}{4}
-                    G \nabla C 
-                $$
-            \end{shaded}
-
-        \subsubsection{Effect of non-Gaussian noise at a minimum.}
-            We consider vanilla SGD initialized at a local minimum of the test loss.
-            One expects $\theta$ to diffuse around that minimum according to
-            gradient noise.  We compute the effect on test loss of non-Gaussian
-            diffusion.  Specifically, we compare SGD test loss on the loss
-            landscape to SGD test loss on a different loss landscape defined as a
-            Gaussian process whose every covariance agrees with the original
-            landscape's.  We work to order $\eta^3$ because at lower orders,
-            the Gaussian landscapes will by construction match their non-Gaussian
-            counterparts.
-
-            \subsubsubsection{Diagram Method}
-            \colorlet{shadecolor}{moolime}
-            \begin{shaded}
-                Because $\expct{\nabla l}$ vanishes at initialization, all diagrams
-                with a degree-one vertex that is a singleton vanish.  Because we
-                work at order $\eta^3$, we consider $3$-edged diagrams.  Finally,
-                because all first and second moments match between the two
-                landscapes, we consider only diagrams with at least one partition
-                of size at least $3$.  The only such test diagram is
-                $\sdia{c(012-3)(03-13-23)}$.  This embeds in $T$ ways (one for each
-                spacetime cell of vanilla SGD) and has symmetry factor $1/3!$ for a
-                total of
-                $$
-                    \frac{T \eta^3 }{6}
-                    \expct{\nabla^3 l}
-                    \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
-                $$
-            \end{shaded}
-
-            \newpage
-            \subsubsubsection{Direct Perturbation}
-            \colorlet{shadecolor}{moosky}
-            \begin{shaded}
-                We compute the displacement $\theta_T-\theta_0$ to order $\eta^3$ 
-                for vanilla SGD.  Expanding
-                $
-                    \theta_t \in \theta_0 + \eta a_t + \eta^2 b_t + \eta^3 c_t 
-                    + o(\eta^3)
-                $, we find:
-                \begin{align*}
-                    \theta_{t+1}
-                    =
-                    \theta_t    &-  \eta \nabla l_{n_t} (\theta_t) \\
-                    \in\theta_0 &+  \eta a_t + \eta^2 b_t + \eta^3 c_t \\
-                                &-  \eta \wrap{
-                                         \nabla l_{n_t}
-                                        +\nabla^2 l_{n_t} (\eta a_t + \eta^2 b_t)
-                                        +\frac{1}{2} \nabla^3 l_{n_t} (\eta a_t)^2
-                                    }
-                                 +  o(\eta^3) \\
-                    =
-                    \theta_0    &+   \eta   \wrap{a_t - \nabla l_{n_t}} \\
-                                &+   \eta^2 \wrap{b_t - \nabla^2 l_{n_t} a_t} \\ 
-                                &+   \eta^3 \wrap{
-                                         c_t
-                                        -\nabla^2 l_{n_t} b_t
-                                        -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
-                                     }
-                                 +   o(\eta^3)
-                \end{align*}
-                We thus have the recurrences
-                $
-                    a_{t+1} = a_t - \nabla l_{n_t}
-                $,
-                $
-                    b_{t+1} = b_t - \nabla^2 l_{n_t} a_t
-                $, and
-                $
-                    c_{t+1} = c_t -\nabla^2 l_{n_t} b_t 
-                                  -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
-                $
-                with solutions:
-                $a_t = -\sum_{t} \nabla l_{n_t}$ and
-                $\eta^2 b_t = +\eta^2 \sum_{t_0 < t_1} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}$.
-                We do not compute $c_t$ because we will soon see that it will be
-                multiplied by $0$.
-                %
-                To third order, the test loss of SGD is
-                \begin{align*}
-                    l(\theta_T)
-                    \in
-                            l(\theta_0)
-                    &+     (\nabla   l)   (\eta a_T + \eta^2 b_T + \eta^3 c_T)                              \\
-                    &+\frac{\nabla^2 l}{2}(\eta a_T + \eta^2 b_T             )^2                            \\
-                    &+\frac{\nabla^3 l}{6}(\eta a_T                          )^3 
-                     +o(\eta)^3                                                                             \\
-                    =
-                        l(\theta_0)
-                    &+  \eta       \wrap{(\nabla l) a_T                               }                     \\
-                    &+  \eta^2     \wrap{(\nabla l) b_T + \frac{\nabla^2 l}{2} a_T^2  }                     \\
-                    &+  \eta^3     \wrap{(\nabla l) c_T + (\nabla^2 l) a_T b_T + \frac{\nabla^3 l}{6} a_T^3}
-                     +o(\eta)^3                                                                             
-                \end{align*}
-                Because $\expct{\nabla l}$ vanishes at initialization, we neglect
-                the $(\nabla l)$ terms.  The remaining $\eta^3$ terms involve
-                $a_T b_T$, and $a_T^3$.  So let us
-                compute their expectations:
-                \begin{align*}
-                    \expct{a_T b_T}
-                        =&- \sum_{t} \sum_{t_0 < t_1}
-                            \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}}
-                        \\
-                        =&- \sum_{t_0 < t_1}  
-                            \sum_{t \notin \{t_0, t_1\}} 
-                                \expct{\nabla l_{n_t}} \expct{\nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
-                        \\&- \sum_{t_0 < t_1}  
-                            \sum_{t = t_0}
-                                \expct{\nabla l_{n_t} \nabla l_{n_{t_0}}} \expct{\nabla^2 l_{n_{t_1}}}
-                        \\&- \sum_{t_0 < t_1}  
-                            \sum_{t = t_1}
-                                \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
-                \end{align*}
-            \end{shaded}
-            \newpage
-            \begin{shaded}
-                Since $\expct{\nabla l}$ divides $\expct{a_T b_T}$, the latter
-                vanishes.
-                \begin{align*}
-                    \expct{a_T^3}
-                        =&- \sum_{t_a, t_b, t_c}
-                                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
-                        \\
-                        =&- \sum_{\substack{t_a, t_b, t_c\\ \text{disjoint}}}  
-                                \expct{\nabla l_{n_{t_a}}} \expct{\nabla l_{n_{t_b}}} \expct{\nabla l_{n_{t_c}}}
-                        \\&-3 \sum_{t_a=t_b\neq t_c}  
-                                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}}} \expct{\nabla l_{n_{t_c}}}
-                        \\&-\sum_{t_a=t_b=t_c}  
-                                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
-                \end{align*}
-                As we initialize at a test minimum, only the last line remains, at
-                it has $T$ identical summands.
-                When we plug into the expression for SGD test loss, we get
-                $$
-                    \frac{T \eta^3 }{6}
-                    \expct{\nabla^3 l}
-                    \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
-                $$
-            \end{shaded}
-
-
-
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Math  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \newpage
 \section{Mathematics of the theory}\label{appendix:math}
-    \subsection{Assumptions and Definitions}                        \label{appendix:assumptions}
+    \subsection{Assumptions}                                        \label{appendix:assumptions}
         We assume throughout this work the following regularity properties of
         the loss landscape.
         
@@ -2546,35 +2222,10 @@ Redacted during double-blind peer review.
         $\Cc \hookrightarrow M$ ---
         is compact.
         
-        Now we turn to definitions.
+        %Kol\'{a}\u{r} gives a careful introduction to these differential
+        %geometric ideas \citep{ko93}.
 
-        \begin{defn}[Diagrams] \label{dfn:diagrams}
-            A diagram is a finite rooted tree equipped with a partition of
-            nodes.  We draw the tree using thin ``edges''.  By
-            convention, we draw each node to the right of its children; the
-            root is thus always rightmost.  We draw the partition
-            by connecting the nodes within each part via fuzzy ``ties''.  For
-            example, $\sdia{c(012-3)(03-13-23)}$ has $2$ parts.
-            %
-            We insist on using as few fuzzy ties as possible so that, if $d$
-            counts edges and $c$ counts ties, then $d+1-c$ counts parts. 
-            %
-            There may
-            be multiple ways to draw a single diagram, e.g.
-            $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
-        \end{defn}
-        \begin{defn}[Embedding a Diagram into Spacetime]
-            An embedding of a diagram into a spacetime is an assignment of that
-            diagram's non-root nodes to pairs $(n,t)$ such that each node
-            occurs at a time $t^\prime$ strictly after each of its children and
-            such that two nodes occupy the same row $n$ if they
-            inhabit the same part of $D$'s partition.
-            %
-            %We say an embedding is \emph{strict} if it assigns to each part
-            %a different datapoint $n$.
-        \end{defn}
-        We define $\uvalue(D)$ and $\rvalue_f(D)$ as in
-        \S\ref{appendix:evaluate-embeddings}.
+
 
     \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
 
@@ -2944,12 +2595,6 @@ Redacted during double-blind peer review.
 
     \subsection{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
 
-        We say an embedding is \textbf{strict} if it assigns to each part
-        a different datapoint $n$.
-        Then, by M\"obius inversion (\cite{ro64}), a sum over strict embeddings
-        of moment values (\S\ref{appendix:evaluate-embeddings}) matches 
-        a sum over all embeddings of $\uvalue$s.
-
     \subsection{Theorems \ref{thm:resum} and \ref{thm:converge}}    \label{appendix:resum}
 
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
@@ -3089,7 +2734,7 @@ Redacted during double-blind peer review.
             and the convergence statement follows.
         \end{proof}
 
-    %\subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
+    \subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
 
     \subsection{Proofs of corollaries}                              \label{appendix:corollaries}
 
@@ -3150,8 +2795,8 @@ Redacted during double-blind peer review.
         \subsubsection{Corollary \ref{cor:overfit}'s second part}
 
             We apply the generalization gap modification (described in
-            \S\ref{appendix:solve-variants}) to Theorem \ref{thm:resum}'s
-            result about test losses.
+            \S\ref{prove-variants}) to Theorem \ref{thm:resum}'s result about
+            test losses.
 
             \begin{proof}[Proof]
                 The relevant irreducible diagram is $\sdia{c(01)(01)}$.  This
@@ -3171,9 +2816,9 @@ Redacted during double-blind peer review.
  
         \subsubsection{Corollaries \ref{cor:epochs} and \ref{cor:batch}}
 
-            Corollary \ref{cor:epochs} and Corollary \ref{cor:batch} follow
-            from plugging appropriate values of $M, N, B$ into the following
-            proposition.
+            Corollary \ref{cor:epochs} and the first part of Corollary
+            \ref{cor:batch} follow from plugging appropriate values of $M,
+            N, B$ into the following proposition.
 
             \begin{prop}\label{prop:ordtwo}
                 To order $\eta^2$, the test loss of SGD --- on $N$
@@ -3212,10 +2857,16 @@ Redacted during double-blind peer review.
                 \end{table}
             \end{proof}
 
+            \begin{proof}[Proof of Corollary \ref{cor:batch}'s second part]
+                {\color{red} FILL IN}
+            \end{proof}
+
         \subsubsection{Corollary \ref{cor:vsode}}
 
-            The corollary's first part follows immediately from 
-            Proposition \ref{prop:ordtwo}.
+            The corollary's first part follows immediately from {\color{red}
+            Remark
+            \ref{rmk:vsode} in the case that $d=2$, $P=2$, and $(\eta N)^d$ is
+            considered fixed while $N^{P-d-1}$ is considered changing.}
 
             \begin{proof}[Proof of second part]
                 Because $\expct{\nabla l}$ vanishes at initialization, all

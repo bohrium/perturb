@@ -171,129 +171,131 @@
 \bibcite{ya19b}{{49}{2019{b}}{{Yaida}}{{}}}
 \bibcite{zh17}{{50}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
 \bibcite{zh16}{{51}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
-\FN@pp@footnotehinttrue 
-\@writefile{toc}{\contentsline {section}{\numberline {A}How to calculate test losses}{13}{section.1}}
-\newlabel{appendix:tutorial}{{A}{13}{How to calculate test losses}{section.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}An example calculation: the effect of epochs}{13}{subsection.1.1}}
-\newlabel{appendix:example}{{A.1}{13}{An example calculation: the effect of epochs}{subsection.1.1}{}}
-\newlabel{qst:multi}{{1}{13}{}{quest.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.1}Space-time grids}{13}{subsubsection.1.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  \textbf  {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline  \textbf  {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline  \textbf  {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates. }}{13}{figure.5}}
-\newlabel{fig:spacetimes-epoch}{{5}{13}{\textbf {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline \textbf {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline \textbf {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.2}Embeddings of diagrams into space-time}{14}{subsubsection.1.1.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces  \textbf  {The diagram $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\sdia {c(01-2)(01-12)}$ (or $\sdia {c(0-1-2)(01-12)}$), $\sdia {c(0-1)(01)}$, $\sdia {c(0-1-2)(01-12)}$, $\sdia {c(0-1-2)(02-12)}$, and $\sdia {c(01-2)(02-12)}$ (or $\sdia {c(0-1-2)(02-12)}$). The diagram $\sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\sdia {c(0-1-2)(02-12)}$ and $\sdia {c(01-2)(02-12)}$. \textbf  {Left}: $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf  {Right}: $\sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells. }}{14}{figure.6}}
-\newlabel{fig:multi-embeddings}{{6}{14}{\textbf {The diagram $\protect \sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\protect \sdia {c(01-2)(01-12)}$ (or $\protect \sdia {c(0-1-2)(01-12)}$), $\protect \sdia {c(0-1)(01)}$, $\protect \sdia {c(0-1-2)(01-12)}$, $\protect \sdia {c(0-1-2)(02-12)}$, and $\protect \sdia {c(01-2)(02-12)}$ (or $\protect \sdia {c(0-1-2)(02-12)}$). The diagram $\protect \sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\protect \sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\protect \sdia {c(0-1-2)(02-12)}$ and $\protect \sdia {c(01-2)(02-12)}$. \textbf {Left}: $\protect \sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf {Right}: $\protect \sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.3}Values of the embeddings}{14}{subsubsection.1.1.3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.4}Sum of the values}{15}{subsubsection.1.1.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}How to identify the relevant space-time}{15}{subsection.1.2}}
-\newlabel{appendix:draw-spacetime}{{A.2}{15}{How to identify the relevant space-time}{subsection.1.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \textbf  {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline  \textbf  {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline  \textbf  {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. }}{15}{figure.7}}
-\newlabel{fig:spacetimes}{{7}{15}{\textbf {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline \textbf {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline \textbf {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs}{figure.7}{}}
-\FN@pp@footnote@aux{10}{15}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}How to identify the relevant diagram embeddings}{16}{subsection.1.3}}
-\newlabel{appendix:draw-embeddings}{{A.3}{16}{How to identify the relevant diagram embeddings}{subsection.1.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  Embeddings, legal and illegal. \textbf  {Left}: illegal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$, since the time-ordering condition is not obeyed. For the same reason, not a legal embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$. \textbf  {Middle}: an embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Also an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is obeyed. \textbf  {Right}: a legal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Not an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is not obeyed. }}{16}{figure.8}}
-\newlabel{fig:embeddings}{{8}{16}{Embeddings, legal and illegal. \textbf {Left}: illegal embedding of $\sdia {c(0-1-2)(01-12)}$, since the time-ordering condition is not obeyed. For the same reason, not a legal embedding of $\sdia {c(01-2)(01-12)}$. \textbf {Middle}: an embedding of $\sdia {c(0-1-2)(01-12)}$. Also an embedding of $\sdia {c(01-2)(01-12)}$, since the correlation condition is obeyed. \textbf {Right}: a legal embedding of $\sdia {c(0-1-2)(01-12)}$. Not an embedding of $\sdia {c(01-2)(01-12)}$, since the correlation condition is not obeyed}{figure.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S  \ref  {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{17}{table.1}}
-\newlabel{tab:scatthree}{{1}{17}{\textbf {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S \ref {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\uvalue $s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf Left}: Diagrams for ODE behavior. {\bf Center}: $1$st order deviation of SGD away from ODE. {\bf Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics}{table.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}How to evaluate each embedding}{17}{subsection.1.4}}
-\newlabel{appendix:evaluate-embeddings}{{A.4}{17}{How to evaluate each embedding}{subsection.1.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.4.1}Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{17}{subsubsection.1.4.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}How to calculate test losses}{12}{section.1}}
+\newlabel{appendix:tutorial}{{A}{12}{How to calculate test losses}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}An example calculation: the effect of epochs}{12}{subsection.1.1}}
+\newlabel{appendix:example}{{A.1}{12}{An example calculation: the effect of epochs}{subsection.1.1}{}}
+\newlabel{qst:multi}{{1}{12}{}{quest.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.1}Space-time grids}{12}{subsubsection.1.1.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces  \textbf  {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline  \textbf  {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline  \textbf  {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates. }}{12}{figure.5}}
+\newlabel{fig:spacetimes-epoch}{{5}{12}{\textbf {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline \textbf {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline \textbf {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates}{figure.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.2}Embeddings of diagrams into space-time}{13}{subsubsection.1.1.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces  \textbf  {The diagram $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\sdia {c(01-2)(01-12)}$ (or $\sdia {c(0-1-2)(01-12)}$), $\sdia {c(0-1)(01)}$, $\sdia {c(0-1-2)(01-12)}$, $\sdia {c(0-1-2)(02-12)}$, and $\sdia {c(01-2)(02-12)}$ (or $\sdia {c(0-1-2)(02-12)}$). The diagram $\sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\sdia {c(0-1-2)(02-12)}$ and $\sdia {c(01-2)(02-12)}$. \textbf  {Left}: $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf  {Right}: $\sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells. }}{13}{figure.6}}
+\newlabel{fig:multi-embeddings}{{6}{13}{\textbf {The diagram $\protect \sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\protect \sdia {c(01-2)(01-12)}$ (or $\protect \sdia {c(0-1-2)(01-12)}$), $\protect \sdia {c(0-1)(01)}$, $\protect \sdia {c(0-1-2)(01-12)}$, $\protect \sdia {c(0-1-2)(02-12)}$, and $\protect \sdia {c(01-2)(02-12)}$ (or $\protect \sdia {c(0-1-2)(02-12)}$). The diagram $\protect \sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\protect \sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\protect \sdia {c(0-1-2)(02-12)}$ and $\protect \sdia {c(01-2)(02-12)}$. \textbf {Left}: $\protect \sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf {Right}: $\protect \sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.3}Values of the embeddings}{13}{subsubsection.1.1.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.4}Sum of the values}{14}{subsubsection.1.1.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}How to identify the relevant space-time}{14}{subsection.1.2}}
+\newlabel{appendix:draw-spacetime}{{A.2}{14}{How to identify the relevant space-time}{subsection.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \textbf  {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline  \textbf  {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline  \textbf  {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. }}{14}{figure.7}}
+\newlabel{fig:spacetimes}{{7}{14}{\textbf {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline \textbf {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline \textbf {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs}{figure.7}{}}
+\FN@pp@footnote@aux{10}{14}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}How to identify the relevant diagram embeddings}{15}{subsection.1.3}}
+\newlabel{appendix:draw-embeddings}{{A.3}{15}{How to identify the relevant diagram embeddings}{subsection.1.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  Embeddings, legal and illegal. \textbf  {Left}: illegal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$, since the time-ordering condition is not obeyed. For the same reason, not a legal embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$. \textbf  {Middle}: an embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Also an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is obeyed. \textbf  {Right}: a legal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Not an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is not obeyed. }}{15}{figure.8}}
+\newlabel{fig:embeddings}{{8}{15}{Embeddings, legal and illegal. \textbf {Left}: illegal embedding of $\sdia {c(0-1-2)(01-12)}$, since the time-ordering condition is not obeyed. For the same reason, not a legal embedding of $\sdia {c(01-2)(01-12)}$. \textbf {Middle}: an embedding of $\sdia {c(0-1-2)(01-12)}$. Also an embedding of $\sdia {c(01-2)(01-12)}$, since the correlation condition is obeyed. \textbf {Right}: a legal embedding of $\sdia {c(0-1-2)(01-12)}$. Not an embedding of $\sdia {c(01-2)(01-12)}$, since the correlation condition is not obeyed}{figure.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S  \ref  {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{16}{table.1}}
+\newlabel{tab:scatthree}{{1}{16}{\textbf {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S \ref {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\uvalue $s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf Left}: Diagrams for ODE behavior. {\bf Center}: $1$st order deviation of SGD away from ODE. {\bf Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}How to evaluate each embedding}{16}{subsection.1.4}}
+\newlabel{appendix:evaluate-embeddings}{{A.4}{16}{How to evaluate each embedding}{subsection.1.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.4.1}Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{16}{subsubsection.1.4.1}}
 \citation{ro64}
-\newlabel{exm:unresum}{{3}{18}{Un-resummed value}{exm.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.4.2}Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{18}{subsubsection.1.4.2}}
-\newlabel{exm:resum}{{4}{18}{Re-summed value}{exm.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.4.3}Overall}{18}{subsubsection.1.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}How to sum the embeddings' values}{18}{subsection.1.5}}
-\newlabel{appendix:sum-embeddings}{{A.5}{18}{How to sum the embeddings' values}{subsection.1.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.6}Interpreting diagrams intuitively}{19}{subsection.1.6}}
-\newlabel{appendix:interpret-diagrams}{{A.6}{19}{Interpreting diagrams intuitively}{subsection.1.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  \textbf  {Edges carry information}. Embedding of a $4$-edged diagram. }}{20}{figure.9}}
-\newlabel{fig:intuition}{{9}{20}{\textbf {Edges carry information}. Embedding of a $4$-edged diagram}{figure.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  \textbf  {Resummation propagates information, damped by curvature}. Each resummed valuerepresents many un-resummed values, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \textbf  {Left}: Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(0-1)(01)}{0.10}$. \textbf  {Left}: each resummed value represents many un-resummed values. Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(01-2)(02-12)}{0.10}$. }}{20}{figure.10}}
-\newlabel{fig:intuition}{{10}{20}{\textbf {Resummation propagates information, damped by curvature}. Each resummed valuerepresents many un-resummed values, each modulated by the Hessian ($\sdia {MOOc(0)(0-0)}$) in a different way. \textbf {Left}: Here is one of many un-resummed terms captured by a single resummed embedding for $\sdia {c(0-1)(01)}$. \textbf {Left}: each resummed value represents many un-resummed values. Here is one of many un-resummed terms captured by a single resummed embedding for $\sdia {c(01-2)(02-12)}$}{figure.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.7}How to solve variant problems}{20}{subsection.1.7}}
-\newlabel{appendix:solve-variants}{{A.7}{20}{How to solve variant problems}{subsection.1.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.8}Do diagrams streamline computation?}{21}{subsection.1.8}}
-\newlabel{appendix:diagrams-streamline}{{A.8}{21}{Do diagrams streamline computation?}{subsection.1.8}{}}
+\newlabel{exm:unresum}{{3}{17}{Un-resummed value}{exm.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.4.2}Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{17}{subsubsection.1.4.2}}
+\newlabel{exm:resum}{{4}{17}{Re-summed value}{exm.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.4.3}Overall}{17}{subsubsection.1.4.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}How to sum the embeddings' values}{17}{subsection.1.5}}
+\newlabel{appendix:sum-embeddings}{{A.5}{17}{How to sum the embeddings' values}{subsection.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.6}Interpreting diagrams intuitively}{18}{subsection.1.6}}
+\newlabel{appendix:interpret-diagrams}{{A.6}{18}{Interpreting diagrams intuitively}{subsection.1.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  \textbf  {Edges carry information}. Embedding of a $4$-edged diagram. }}{19}{figure.9}}
+\newlabel{fig:intuition}{{9}{19}{\textbf {Edges carry information}. Embedding of a $4$-edged diagram}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  \textbf  {Resummation propagates information, damped by curvature}. Each resummed valuerepresents many un-resummed values, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \textbf  {Left}: Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(0-1)(01)}{0.10}$. \textbf  {Left}: each resummed value represents many un-resummed values. Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(01-2)(02-12)}{0.10}$. }}{19}{figure.10}}
+\newlabel{fig:intuition}{{10}{19}{\textbf {Resummation propagates information, damped by curvature}. Each resummed valuerepresents many un-resummed values, each modulated by the Hessian ($\sdia {MOOc(0)(0-0)}$) in a different way. \textbf {Left}: Here is one of many un-resummed terms captured by a single resummed embedding for $\sdia {c(0-1)(01)}$. \textbf {Left}: each resummed value represents many un-resummed values. Here is one of many un-resummed terms captured by a single resummed embedding for $\sdia {c(01-2)(02-12)}$}{figure.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.7}How to solve variant problems}{19}{subsection.1.7}}
+\newlabel{appendix:solve-variants}{{A.7}{19}{How to solve variant problems}{subsection.1.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.8}Do diagrams streamline computation?}{20}{subsection.1.8}}
+\newlabel{appendix:diagrams-streamline}{{A.8}{20}{Do diagrams streamline computation?}{subsection.1.8}{}}
+\FN@pp@footnote@aux{11}{20}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.8.1}Effect of batch size}{20}{subsubsection.1.8.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.8.2}Effect of non-Gaussian noise at a minimum.}{22}{subsubsection.1.8.2}}
 \citation{dy49a}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Mathematics of the theory}{22}{section.2}}
-\newlabel{appendix:math}{{B}{22}{Mathematics of the theory}{section.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Assumptions}{22}{subsection.2.1}}
-\newlabel{appendix:assumptions}{{B.1}{22}{Assumptions}{subsection.2.1}{}}
-\FN@pp@footnote@aux{11}{22}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}A key lemma \`a la Dyson}{22}{subsection.2.2}}
-\newlabel{appendix:key-lemma}{{B.2}{22}{A key lemma \`a la Dyson}{subsection.2.2}{}}
-\newlabel{lem:dyson}{{B.2}{22}{}{subsection.2.2}{}}
-\newlabel{eq:dyson}{{1}{22}{}{equation.2.1}{}}
-\newlabel{eq:smalleta}{{2}{22}{A key lemma \`a la Dyson}{equation.2.2}{}}
-\FN@pp@footnote@aux{12}{22}
-\newlabel{eq:expansion}{{3}{23}{A key lemma \`a la Dyson}{equation.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}From Dyson to diagrams}{23}{subsection.2.3}}
-\newlabel{appendix:toward-diagrams}{{B.3}{23}{From Dyson to diagrams}{subsection.2.3}{}}
-\newlabel{thm:pathint}{{3}{23}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:sgdcoef}{{3}{23}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:toprove}{{4}{24}{From Dyson to diagrams}{equation.2.4}{}}
-\newlabel{rmk:leibniz}{{3}{24}{Differentiating Products}{rmk.3}{}}
-\newlabel{rmk:leibniz}{{B.3}{24}{From Dyson to diagrams}{rmk.3}{}}
-\newlabel{prop:vanilla}{{1}{25}{}{prop.1}{}}
-\newlabel{eq:sgdbasiccoef}{{1}{25}{}{prop.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Interlude: a review of M\"obius inversion}{25}{subsection.2.4}}
-\newlabel{appendix:mobius}{{B.4}{25}{Interlude: a review of M\"obius inversion}{subsection.2.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Theorems \ref  {thm:resum} and \ref  {thm:converge}}{25}{subsection.2.5}}
-\newlabel{appendix:resum}{{B.5}{25}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
-\newlabel{subsubsect:mobius}{{B.5}{25}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
-\newlabel{eq:hard}{{5}{25}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.6}How to modify proofs to handle variants}{26}{subsection.2.6}}
-\newlabel{appendix:prove-variants}{{B.6}{26}{How to modify proofs to handle variants}{subsection.2.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.7}Proofs of corollaries}{26}{subsection.2.7}}
-\newlabel{appendix:corollaries}{{B.7}{26}{Proofs of corollaries}{subsection.2.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.1}Corollary \ref  {cor:entropic}}{26}{subsubsection.2.7.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.2}Corollary \ref  {cor:overfit}'s first part}{26}{subsubsection.2.7.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.3}Corollary \ref  {cor:overfit}'s second part}{27}{subsubsection.2.7.3}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.4}Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{27}{subsubsection.2.7.4}}
-\newlabel{prop:ordtwo}{{2}{27}{}{prop.2}{}}
-\newlabel{tbl:ordtwo}{{B.7.4}{27}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Mathematics of the theory}{25}{section.2}}
+\newlabel{appendix:math}{{B}{25}{Mathematics of the theory}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Assumptions and Definitions}{25}{subsection.2.1}}
+\newlabel{appendix:assumptions}{{B.1}{25}{Assumptions and Definitions}{subsection.2.1}{}}
+\FN@pp@footnote@aux{12}{25}
+\newlabel{dfn:diagrams}{{2}{25}{Diagrams}{defn.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}A key lemma \`a la Dyson}{25}{subsection.2.2}}
+\newlabel{appendix:key-lemma}{{B.2}{25}{A key lemma \`a la Dyson}{subsection.2.2}{}}
+\newlabel{lem:dyson}{{B.2}{25}{}{subsection.2.2}{}}
+\newlabel{eq:dyson}{{1}{25}{}{equation.2.1}{}}
+\newlabel{eq:smalleta}{{2}{26}{A key lemma \`a la Dyson}{equation.2.2}{}}
+\FN@pp@footnote@aux{13}{26}
+\newlabel{eq:expansion}{{3}{26}{A key lemma \`a la Dyson}{equation.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}From Dyson to diagrams}{26}{subsection.2.3}}
+\newlabel{appendix:toward-diagrams}{{B.3}{26}{From Dyson to diagrams}{subsection.2.3}{}}
+\newlabel{thm:pathint}{{3}{27}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:sgdcoef}{{3}{27}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:toprove}{{4}{27}{From Dyson to diagrams}{equation.2.4}{}}
+\newlabel{rmk:leibniz}{{3}{27}{Differentiating Products}{rmk.3}{}}
+\citation{ro64}
+\newlabel{rmk:leibniz}{{B.3}{28}{From Dyson to diagrams}{rmk.3}{}}
+\newlabel{prop:vanilla}{{1}{28}{}{prop.1}{}}
+\newlabel{eq:sgdbasiccoef}{{1}{28}{}{prop.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Interlude: a review of M\"obius inversion}{28}{subsection.2.4}}
+\newlabel{appendix:mobius}{{B.4}{28}{Interlude: a review of M\"obius inversion}{subsection.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.5}Theorems \ref  {thm:resum} and \ref  {thm:converge}}{28}{subsection.2.5}}
+\newlabel{appendix:resum}{{B.5}{28}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
+\newlabel{subsubsect:mobius}{{B.5}{28}{Theorems \ref {thm:resum} and \ref {thm:converge}}{subsection.2.5}{}}
+\newlabel{eq:hard}{{5}{29}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.6}Proofs of corollaries}{30}{subsection.2.6}}
+\newlabel{appendix:corollaries}{{B.6}{30}{Proofs of corollaries}{subsection.2.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.1}Corollary \ref  {cor:entropic}}{30}{subsubsection.2.6.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.2}Corollary \ref  {cor:overfit}'s first part}{30}{subsubsection.2.6.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.3}Corollary \ref  {cor:overfit}'s second part}{30}{subsubsection.2.6.3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.4}Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{30}{subsubsection.2.6.4}}
+\newlabel{prop:ordtwo}{{2}{30}{}{prop.2}{}}
 \citation{la60,la51}
 \citation{ab07,zh16}
 \citation{am98}
 \citation{ni17}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.7.5}Corollary \ref  {cor:vsode}}{28}{subsubsection.2.7.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.8}Future topics}{28}{subsection.2.8}}
-\newlabel{appendix:future}{{B.8}{28}{Future topics}{subsection.2.8}{}}
-\FN@pp@footnote@aux{13}{28}
-\FN@pp@footnote@aux{14}{28}
+\newlabel{tbl:ordtwo}{{B.6.4}{31}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.5}Corollary \ref  {cor:vsode}}{31}{subsubsection.2.6.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.7}Future topics}{31}{subsection.2.7}}
+\newlabel{appendix:future}{{B.7}{31}{Future topics}{subsection.2.7}{}}
+\FN@pp@footnote@aux{14}{31}
+\FN@pp@footnote@aux{15}{31}
 \citation{am98}
 \citation{vi00}
 \citation{kr09}
 \citation{xi17}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Experimental methods}{29}{section.3}}
-\newlabel{appendix:experiments}{{C}{29}{Experimental methods}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}What artificial landscapes did we use?}{29}{subsection.3.1}}
-\newlabel{appendix:artificial}{{C.1}{29}{What artificial landscapes did we use?}{subsection.3.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.1}\textsc  {Gauss}}{29}{subsubsection.3.1.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.2}\textsc  {Archimedes}}{29}{subsubsection.3.1.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.3}\textsc  {Mean Estimation}}{29}{subsubsection.3.1.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}What image-classification landscapes did we use?}{30}{subsection.3.2}}
-\newlabel{appendix:natural}{{C.2}{30}{What image-classification landscapes did we use?}{subsection.3.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.1}Architectures}{30}{subsubsection.3.2.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.2}Datasets}{30}{subsubsection.3.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement process}{30}{subsection.3.3}}
-\newlabel{appendix:measure}{{C.3}{30}{Measurement process}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.1}Diagram evaluation on real landscapes}{30}{subsubsection.3.3.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.2}Descent simulations}{30}{subsubsection.3.3.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{30}{subsection.3.4}}
-\newlabel{appendix:optimizers}{{C.4}{30}{Implementing optimizers}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Experimental methods}{32}{section.3}}
+\newlabel{appendix:experiments}{{C}{32}{Experimental methods}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}What artificial landscapes did we use?}{32}{subsection.3.1}}
+\newlabel{appendix:artificial}{{C.1}{32}{What artificial landscapes did we use?}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.1}\textsc  {Gauss}}{32}{subsubsection.3.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.2}\textsc  {Archimedes}}{32}{subsubsection.3.1.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.3}\textsc  {Mean Estimation}}{32}{subsubsection.3.1.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}What image-classification landscapes did we use?}{33}{subsection.3.2}}
+\newlabel{appendix:natural}{{C.2}{33}{What image-classification landscapes did we use?}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.1}Architectures}{33}{subsubsection.3.2.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.2}Datasets}{33}{subsubsection.3.2.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement process}{33}{subsection.3.3}}
+\newlabel{appendix:measure}{{C.3}{33}{Measurement process}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.1}Diagram evaluation on real landscapes}{33}{subsubsection.3.3.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.2}Descent simulations}{33}{subsubsection.3.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{33}{subsection.3.4}}
+\newlabel{appendix:optimizers}{{C.4}{33}{Implementing optimizers}{subsection.3.4}{}}
 \citation{pa19}
 \citation{ga23}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Software frameworks and hardware}{31}{subsection.3.5}}
-\newlabel{appendix:frameworks}{{C.5}{31}{Software frameworks and hardware}{subsection.3.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.6}Unbiased estimators of landscape statistics}{31}{subsection.3.6}}
-\newlabel{appendix:bessel}{{C.6}{31}{Unbiased estimators of landscape statistics}{subsection.3.6}{}}
-\newlabel{eq:bessel}{{6}{31}{Unbiased estimators of landscape statistics}{equation.3.6}{}}
-\newlabel{eq:newbessel}{{7}{31}{Unbiased estimators of landscape statistics}{equation.3.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {C.7}Additional figures}{32}{subsection.3.7}}
-\newlabel{appendix:figures}{{C.7}{32}{Additional figures}{subsection.3.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces  \textbf  {Further experimental results}. \textbf  {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf  {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textsc  {Gauss}. Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf  {Right}: Blue intervals regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph  {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. }}{32}{figure.11}}
-\newlabel{fig:takreg}{{11}{32}{\textbf {Further experimental results}. \textbf {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \Gauss . Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf {Right}: Blue intervals regularization using Corollary \ref {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$}{figure.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Software frameworks and hardware}{34}{subsection.3.5}}
+\newlabel{appendix:frameworks}{{C.5}{34}{Software frameworks and hardware}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.6}Unbiased estimators of landscape statistics}{34}{subsection.3.6}}
+\newlabel{appendix:bessel}{{C.6}{34}{Unbiased estimators of landscape statistics}{subsection.3.6}{}}
+\newlabel{eq:bessel}{{6}{34}{Unbiased estimators of landscape statistics}{equation.3.6}{}}
+\newlabel{eq:newbessel}{{7}{34}{Unbiased estimators of landscape statistics}{equation.3.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.7}Additional figures}{35}{subsection.3.7}}
+\newlabel{appendix:figures}{{C.7}{35}{Additional figures}{subsection.3.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces  \textbf  {Further experimental results}. \textbf  {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf  {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textsc  {Gauss}. Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf  {Right}: Blue intervals regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph  {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. }}{35}{figure.11}}
+\newlabel{fig:takreg}{{11}{35}{\textbf {Further experimental results}. \textbf {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \Gauss . Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf {Right}: Blue intervals regularization using Corollary \ref {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$}{figure.11}{}}
 \FN@pp@footnotehinttrue 
