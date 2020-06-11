@@ -1666,18 +1666,8 @@
         $\protect\sdia{c(01-2)(01-12)}$.
         As always, we specify a diagram's root by drawing it rightmost.
 
-        A diagram is \emph{irreducible} when each of its degree-$2$ nodes is in
-        a part of size one.  Intuitively, this rules out multi-edge chains
-        unadorned by fuzzy ties.
-        Thus, only the first diagram in the list 
-        $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
-        \sdia{c(0-1-2-3)(01-12-23)}, \cdots$
-        is irreducible.  Only the first diagram in the list
-        $\sdia{c(01-2)(01-12)}, \sdia{c(01-2-3)(01-12-23)}, \cdots$
-        is irreducible.
-        Only the first diagram in the list
-        $\sdia{c(0-1-2)(02-12)}, \sdia{c(0-1-2-3)(01-13-23)}, \cdots$
-        is irreducible.
+        {\color{red} TODO: in the diagram section, talk about
+        irreducibility}
 
         An \emph{embedding} of a diagram $D$ into a space-time grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
@@ -1737,9 +1727,7 @@
         In sum, when using the diagram method to analyze how a quantity affects
         SGD to order $o(\eta^d)$, we must consider all diagrams with $d$ or
         fewer edges that include that quantity as a component and that have a
-        non-zero number of embeddings into the relevant space-time.  If we
-        are using $\rvalue$s (see next section for discussion of $\rvalue$s and
-        $\uvalue$s), then we consider only the irreducible diagrams.  For each
+        non-zero number of embeddings into the relevant space-time.  For each
         diagram, we must enumerate the embeddings, i.e. the assignments of the
         diagram's nodes to space-time cells that obey both the time-ordering
         condition and correlation condition.
@@ -1874,33 +1862,31 @@
             (see \cite{ro64}).
 
             \begin{exm}
-                For example, if we denote moment values by solid
+                For example, if we temporarily denote moment values by solid
                 gray fuzzy ties (instead of fuzzy outlines), then: 
                 \begin{align*}
-                    \mdia{c(012-3)(01-13-23)}
+                    \sdia{c(012-3)(01-13-23)}
                         &\triangleq
-                    \mdia{(012-3)(01-13-23)}
+                    \sdia{(012-3)(01-13-23)}
                         -
-                    \mdia{c(01-2-3)(01-13-23)}
+                    \sdia{c(01-2-3)(01-13-23)}
                         -
-                    \mdia{c(02-1-3)(01-13-23)}
+                    \sdia{c(02-1-3)(01-13-23)}
                         -
-                    \mdia{c(0-12-3)(01-13-23)}
+                    \sdia{c(0-12-3)(01-13-23)}
                         -
-                    \mdia{(0-1-2-3)(01-13-23)} \\
+                    \sdia{(0-1-2-3)(01-13-23)} \\
                         &\triangleq
-                    \mdia{(012-3)(01-13-23)}
+                    \sdia{(012-3)(01-13-23)}
                         -
-                    \mdia{(01-2-3)(01-13-23)}
+                    \sdia{(01-2-3)(01-13-23)}
                         -
-                    \mdia{(02-1-3)(01-13-23)}
+                    \sdia{(02-1-3)(01-13-23)}
                         -
-                    \mdia{(0-12-3)(01-13-23)}
+                    \sdia{(0-12-3)(01-13-23)}
                         +
-                    2 \mdia{(0-1-2-3)(01-13-23)}
+                    2 \sdia{(0-1-2-3)(01-13-23)}
                 \end{align*}
-                We will not use the phrase ``moment value'' after this example.
-                \mend
             \end{exm}
 
             Finally, we come to edges. 
@@ -1908,31 +1894,51 @@
             edge.  The indices $\mu, \nu$ should match the corresponding
             indices of the two nodes incident to the edge.
 
-            \begin{exm}[Un-resummed value] \label{exm:unresum}
-                Remember that
-                $
-                    \mdia{MOOc(01)(0-1)} = C_{\mu\nu}
-                $ and
-                $
-                    \mdia{MOOc(0)(0-0)} = H_{\lambda\rho}
-                $, so that
-                $
-                    \mdia{MOOc(01)(0-1)}
-                    \mdia{MOOc(0)(0-0)}
-                    = C_{\mu\nu} H_{\lambda\rho}
-                $.
-                Then 
-                $$
-                    \uvalue(\mdia{c(01-2)(02-12)})
-                    = C_{\mu\nu} H_{\lambda\rho}
-                    \eta^{\mu\lambda}
-                    \eta^{\nu\rho}
-                $$
-                Here, $\mdia{c(01-2)(02-12)}$ has two edges, which correspond
-                in this example to the tensor contractions via
-                $\eta^{\mu\lambda}$ and via $\eta^{\nu\rho}$, respectively.
-                \mend
+            \begin{exm}
             \end{exm}
+
+            %\begin{exm}
+            %    This example is more complicated than any we will actually use.
+            %    Moreover, the depicted graphs are not actally diagrams because
+            %    their edges don't form trees.  However, we include this example
+            %    because it depicts in one place all the features of the node
+            %    and edge rules.
+
+            %    Remember that
+            %    $
+            %        \mdia{MOOc(012)(0-1-2)} = S_{\mu\nu\rho}
+            %    $, 
+            %    $
+            %        \mdia{MOOc(0)(0-0)} = H_{\lambda\pi}
+            %    $, and
+            %    $
+            %        \mdia{MOOc(0)(0)} = G_{\sigma}
+            %    $, so that
+            %    $$
+            %        \mdia{MOOc(012)(0-1-2)} 
+            %        \mdia{MOOc(0)(0-0)}
+            %        \mdia{MOOc(0)(0)}
+            %        = S_{\mu\nu\rho} H_{\lambda\pi} G_{\sigma}
+            %    $$
+            %    Then
+            %    $$
+            %        \mdia{MOOc(012-3-4)(01-23-34)}
+            %        = S_{\mu\nu\rho} H_{\lambda\pi} G_{\sigma}
+            %          \eta^{\mu\nu}
+            %          \eta^{\rho\lambda}
+            %          \eta^{\pi\sigma}
+            %    $$
+            %    and, in contrast,
+            %    $$
+            %        \mdia{MOOc(012-3-4)(03-13-24)}
+            %        = S_{\mu\nu\rho} H_{\lambda\pi} G_{\sigma}
+            %          \eta^{\mu\lambda}
+            %          \eta^{\nu\pi}
+            %          \eta^{\rho\sigma}
+            %    $$
+            %    The two graphs have different values because their
+            %    edges connect the nodes in different ways.  \mend
+            %\end{exm}
 
         \subsubsection{Resummed values: $\rvalue_f(D)$}
             The only difference between $\rvalue$s and $\uvalue$s is in their
@@ -1940,156 +1946,9 @@
 
             \textbf{Edge rule}: if an edge's endpoints are embedded to times
             $t, t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$,
-            where $K \triangleq (I-\eta H)$.  Here, we consider the root node
-            as embedded to the time $T$.
-
-            \begin{exm}[Re-summed value] \label{exm:resum}
-                Recall as in Example \ref{exm:unresum} that 
-                $
-                    \mdia{MOOc(01)(0-1)} = C_{\mu\nu}
-                $ and
-                $
-                    \mdia{MOOc(0)(0-0)} = H_{\lambda\rho}
-                $, so that
-                $
-                    \mdia{MOOc(01)(0-1)}
-                    \mdia{MOOc(0)(0-0)}
-                    = C_{\mu\nu} H_{\lambda\rho}
-                $.
-                Then if $f$ is an embedding of $\mdia{c(01-2)(02-12)}$ that
-                sends the diagram's red part to a time $t$ (and its green root
-                to $T$), we have:
-                $$
-                    \rvalue_f(\mdia{c(01-2)(02-12)})
-                    = C_{\mu\nu} H_{\lambda\rho}
-                    \wrap{K^{T-t-1} \eta}^{\mu\lambda}
-                    \wrap{K^{T-t-1} \eta}^{\nu\rho}
-                $$
-                Here, $\mdia{c(01-2)(02-12)}$ has two edges, which correspond
-                in this example to the tensor contractions via
-                $\wrap{K^{\cdots}\eta}^{\mu\lambda}$ and via
-                $\wrap{K^{\cdots}\eta}^{\nu\rho}$, respectively.
-                \mend
-            \end{exm}
-
-        \subsubsection{Overall}
-            In sum, we evaluate an embedding of a diagram by using the 
-            \textbf{node}, 
-            \textbf{outline}, and
-            \textbf{edge}
-            rules to build an expression of $\nabla^d l_x$s, $\expc_x$s and
-            $\eta$s.  The difference between $\uvalue$s and $\rvalue$s lies
-            only in their edge rule.
+            where $K \triangleq (I-\eta H)$.
 
     \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
-        Theorem \ref{thm:resum} in the paper body generalizes to
-        \begin{thm*}
-            For any $T$: for $\eta$ small enough, SGD has expected test loss
-            \begin{equation*}
-                \sum_{\substack{D~\text{an irreduc-} \\ \text{-ible diagram}}}
-                ~
-                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
-                ~
-                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
-                \,
-                {\rvalue_f}(D)
-            \end{equation*}
-            which is the same as
-            \begin{equation*}
-                \sum_{\substack{D~\text{a} \\ \text{diagram}}}
-                ~
-                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
-                ~
-                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
-                \,
-                {\uvalue}(D)
-            \end{equation*}
-            Here, $B$ is the batch size.
-        \end{thm*}
-
-        How do we evaluate the above sum?
-        Summing $\uvalue$s reduces to counting embeddings, which in all the
-        applications reported in this text is a routine combinatorial exercise. 
-        However, when summing $\rvalue$s, it is often convenient to replace
-        a sum over embeddings by an integral over times, and
-        the power $\wrap{I-\eta H}^{\Delta t-1}$ by
-        the exponential $\exp{-\Delta t \eta H}$.  This incurs a term-by-term
-        $1+o(\eta)$ error factor, meaning that it preserves leading order
-        results. 
-
-        \begin{exm}
-            Let us return to $D=\mdia{c(01-2)(02-12)}$, embedded, say, in the
-            space-time of one-epoch one-sample-per-batch SGD.
-            From Example \ref{exm:resum}, we know that we want to sum the 
-            following value over all embeddings $f$, i.e. over all $0\leq t<T$
-            to which the red part of the diagram's partition may be assigned:
-            $$
-                \rvalue_f(\mdia{c(01-2)(02-12)})
-                = C_{\mu\nu} 
-                \wrap{K^{T-t-1} \eta}^{\mu\lambda}
-                \wrap{K^{T-t-1} \eta}^{\nu\rho}
-                H_{\lambda\rho}
-            $$
-            Each embedding has a factor 
-                $(-B)^{-|\edges(D)|}/\wabs{\Aut_f(D)} = (-B)^{-2}/2$;
-            we will multiply in this factor at the end so we now we focus on
-            the $\sum_f$.
-            So, using the aforementioned approximation, we seek to evaluate
-            \begin{align*}
-                \int_{0\leq t<T} \, dt \, 
-                    C_{\mu\nu} 
-                    \wrap{\exp\wrap{-(T-t)\eta H} \eta}^{\mu\lambda}
-                    \wrap{\exp\wrap{-(T-t)\eta H} \eta}^{\nu\rho}
-                    H_{\lambda\rho}
-                = \\
-                C_{\mu\nu} 
-                \wrap{
-                \int_{0\leq t<T} \, dt \, 
-                    \exp\wrap{-(T-t)((\eta H)\otimes I + I \otimes (\eta H))}^{\mu\nu}_{\pi\sigma}
-                }
-                \eta^{\pi\lambda}
-                \eta^{\sigma\rho}
-                H_{\lambda\rho}
-            \end{align*}
-            We know from linear algebra and calculus that
-            $\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$ 
-            (when $A$ is a non-singular linear endomorphism).
-            Applying this rule for $u=T-t$ and $A=(\eta H)\otimes I + I \otimes
-            (\eta H)$, we evaluate the integral as:
-            \begin{align*}
-                \cdots =
-                C_{\mu\nu} 
-                \wrap{\frac{I - \exp\wrap{-T ((\eta H)\otimes I + I \otimes (\eta H))}}
-                           {(\eta H)\otimes I + I \otimes (\eta H)}
-                     }^{\mu\nu}_{\pi\sigma}
-                \eta^{\pi\lambda}
-                \eta^{\sigma\rho}
-                H_{\lambda\rho}
-            \end{align*}
-            This is perhaps easier to write in an eigenbasis of $\eta H$:
-            \begin{align*}
-                \cdots = 
-                \sum_{\mu\nu}
-                C_{\mu\nu} 
-                \,
-                \frac{1 - \exp\wrap{-T ((\eta H)^\mu_\mu + (\eta H)^\nu_\nu)}}{(\eta H)^\mu_\mu + (\eta H)^\nu_\nu}
-                \,
-                (\eta H \eta)^{\mu\nu}
-            \end{align*}
-            Multiplying this expression by the aforementioned $(-B)^{-2}/2$
-            gives the contribution of $\mdia{c(01-2)(02-12)}$ to SGD's test
-            loss.
-            \mend
-        \end{exm}
-
-        In short, we sum embeddings of $\uvalue$s directly.
-        We sum embeddings of $\rvalue$s using an integral-of-exponentials
-        approximation along with the rule 
-            $\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$. 
-        When written in an eigenbasis of $\eta H$, this $A$'s coefficients are
-        sums of one or more eigenvalues of $\eta H$ (one eigenvalue for each
-        edge involved in the relevant degrees of freedom over which we
-        integrate).  As another example, see Example \ref{exm:first}.
 
     \subsection{Interpreting diagrams to build intuition}           \label{appendix:interpret-diagrams}
 
