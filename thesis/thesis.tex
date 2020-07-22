@@ -42,6 +42,8 @@
 \usepackage{wrapfig, float, subfigure}
 \usepackage{hanging, txfonts, ifthen}
 
+\newcommand{\moolor}[2]{\par\hrulefill\\#2\vspace{#1 cm}\par\hrulefill\\}
+
 \newcommand{\ofsix}[1]{
     {\tiny \raisebox{0.04cm}{$\substack{
         \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
@@ -89,11 +91,48 @@
 %---------------------  intertext: footnotes and hyperlinks  ------------------ 
 
 %\usepackage[perpage]{footmisc}
-%\renewcommand*{\thefootnote}{
-%    \color{red}
-%    \arabic{footnote}
-%    %\fnsymbol{footnote}
-%} 
+\renewcommand*{\thefootnote}{
+    \color{red}
+    %\arabic{footnote}
+    \fnsymbol{footnote}
+} 
+%\makeatletter
+%    \def\thempfn{\fnsymbol{\@mpfn}}
+%\makeatother
+\usepackage{perpage}
+\MakePerPage{footnote}
+
+\makeatletter
+\def\@fnsymbol#1{%
+  \ensuremath{%
+    \ifcase#1\or
+      *\or
+      \dagger\or
+      \ddagger\or
+      \mathsection\or
+      \mathparagraph\or
+      \|\or
+      **\or
+      \dagger\dagger\or
+      \ddagger\ddagger\or
+      \mathsection\mathsection\or
+      \mathparagraph\mathparagraph\or
+      \|\|\or
+      ***\or
+      \dagger\dagger\dagger\or
+      \ddagger\ddagger\ddagger\or
+      \mathsection\mathsection\mathsection\or
+      \mathparagraph\mathparagraph\mathparagraph\or
+      \|\|\|
+    \else
+      % We've run out of footnote symbols for this page.
+      % We would normally emit an error here,
+      % but because the perpage package won't work until the
+      % second pass, we need to do something less abrupt.
+    \fi
+  }%
+}
+\makeatother
 
 \usepackage{hyperref}
 
@@ -620,8 +659,16 @@
             to get
             $
                 \sdia{c(01-2)(02-12)}
-            $.
-            As another example, we may join two copies of
+            $:
+            $$
+                \mdia{MOOc(01)(0-1)},
+                \mdia{MOO(0)(0-0)}
+                ~~~~~
+                \implies
+                ~~~~~
+                \mdia{c(01-2)(02-12)}
+            $$
+            As another example, one of the ways that we may join two copies of
             $
                 G = \sdia{MOO(0)(0)}
             $
@@ -629,10 +676,20 @@
             $
                 H = \sdia{MOO(0)(0-0)}
             $
-            to get
+            happens to yield
             $
                 \sdia{c(0-1-2-3)(01-12-23)} 
-            $.
+            $:
+            $$
+                \mdia{MOO(0)(0)},
+                \mdia{MOO(0)(0-0)},
+                \mdia{MOO(0)(0-0)},
+                \mdia{MOO(0)(0)}
+                ~~~~~
+                \implies
+                ~~~~~
+                \mdia{c(0-1-2-3)(01-12-23)}
+            $$
             Intuitively, each diagram represents the interaction of its components:
             of gradients ($G$), noise ($C, S, \cdots$) and curvature ($H, J,
             \cdots$).  In fact, \S\ref{appendix:interpret-diagrams} physically
@@ -642,8 +699,9 @@
         \end{defn}
 
         \begin{exm} \label{exm:first}
-            Does non-Gaussian noise affect SGD?  Specifically,
-            let's compute how the \emph{skewness} $S$ affects SGD's test loss. The recipe is to identify
+            Does non-Gaussian noise affect SGD?  Specifically, let's compute how
+            the \emph{skewness} $S$ affects SGD's test loss. 
+            The recipe is to identify
             the fewest-edged diagrams containing $S = \sdia{MOOc(012)(0-1-2)}$.
             In this case, there is one fewest-edged diagram ---
             $\sdia{c(012-3)(03-13-23)}$; it results from joining $S$ with
@@ -693,8 +751,8 @@
 
         Let $G, H, J; C, S$ be as in \S \ref{subsect:example}.  They are
         tensors with $1, 2, 3; 2, 3$ indices, respectively.
-        We will sometimes implicitly sum repeated Greek indices: if a covector
-        $A$ and a vector $B$\footnote{
+        We adopt the standard sum convention: if a covector $A$ and a vector
+        $B$\footnote{
             Vectors/covectors, also known as column/row vectors,
             represent distinct geometric concepts \citep{ko93}. 
         } have coefficients $A_\mu, B^\mu$, then 
@@ -735,14 +793,13 @@
         n<N)$ for a training sequence drawn i.i.d.\ from $\Dd$.  We refer both
         to $n$ and to $l_n$ as \textbf{training points}.  We assume
         \S\ref{appendix:assumptions}'s hypotheses, e.g.\ that $l, l_x$ are
-        analytic and that all moments exist.
-         
-        %-------------  specialization to a common case  ----------------------
-         
-        For instance, our theory models $\tanh$ networks with cross entropy
-        loss on bounded data --- and with weight sharing, skip connections,
-        soft attention, dropout, and weight decay.  But it does not model
-        $\text{ReLU}$ networks.
+        analytic and that all moments exist.\footnote{
+            %-------------  specialization to a common case  ----------------------
+            For instance, our theory models $\tanh$ networks with cross entropy
+            loss on bounded data --- and with weight sharing, skip connections,
+            soft attention, dropout, and weight decay.  But it does not model
+            $\text{ReLU}$ networks.
+        }
         
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Names of SGD Parameters  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -982,80 +1039,87 @@
             truncation of Theorem \ref{thm:resum} converges as $T\to \infty$.
         \end{thm}
 
-        Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge} might
-        not measure any well-defined limit of SGD, since the limit might not
-        commute with the infinite sum.  We have not seen such pathologies in
-        practice, so we will freely speak of ``SGD in the large-$T$ limit'' as
-        informal shorthand when referencing this Theorem.
+        \begin{rmk}[Convergence caution]
+            The $T\to \infty$ limit in Theorem \ref{thm:converge} might
+            not measure any well-defined limit of SGD, since the limit might not
+            commute with the infinite sum.  We have not seen such pathologies in
+            practice, so we will freely speak of ``SGD in the large-$T$ limit'' as
+            informal shorthand when referencing this Theorem.
+        \end{rmk}
+
+        \moolor{5}{Detailed example of theorem}
+        \moolor{1}{Mention of how changes with $E,B \neq 1$}
       
     \section{SGD descends on a $C$-smoothed landscape and prefers
         minima flat with respect to $C$.}
+
+        \moolor{2}{Intuition for repulsion from sharp valleys}
+        %
+        \begin{figure}
+            \centering
+            \plotmoow{diagrams/entropic-force-diagram}{0.5\columnwidth}{} 
+            \caption{%
+                \textbf{ Gradient noise pushes SGD toward flat minima.} The
+                red densities show the typical $\theta$s, perturbed from
+                the minimum due to noise $C$, in two cross sections of the
+                loss valley.  $J = \nabla H$ measures how curvature changes
+                across the valley.  Our theory does not assume separation
+                between ``fast'' and ``slow'' modes, but we label them in
+                the picture to ease comparison with \citep{we19b}.  Compare
+                with Figure \ref{fig:archimedes}, and see Corollary
+                \ref{cor:entropic}.
+            }
+            \label{fig:cubic}
+        \end{figure}
+        %
+        \moolor{2}{continue Intuition for repulsion from sharp valleys}
     
-            \begin{cor}[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
-                \label{cor:entropic}
-                Run SGD for $T \gg 1/\eta H$ from a non-degenerate test
-                minimum.  Written in an eigenbasis of $\eta H$, $\theta$ has an
-                expected displacement of
-                $$
-                    - \frac{\eta^3}{2}
-                    \sum_{\mu\nu}
-                        C_{\mu\nu}
-                        \frac{1}{\eta (H_{\mu\mu} + H_{\nu\nu})}
-                        J_{\mu\nu\lambda}
-                        \frac{1}{H_{\lambda\lambda}}
-                    + o(\eta^2)
-                $$
-            \end{cor}
+        \begin{cor}[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
+            \label{cor:entropic}
+            Run SGD for $T \gg 1/\eta H$ from a non-degenerate test
+            minimum.  Written in an eigenbasis of $\eta H$, $\theta$ has an
+            expected displacement of
+            $$
+                - \frac{\eta^3}{2}
+                \sum_{\mu\nu}
+                    C_{\mu\nu}
+                    \frac{1}{\eta (H_{\mu\mu} + H_{\nu\nu})}
+                    J_{\mu\nu\lambda}
+                    \frac{1}{H_{\lambda\lambda}}
+                + o(\eta^2)
+            $$
+        \end{cor}
+        Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$ connects the
+        subdiagram $\sdia{c(01-2)(02-12)} \propto CH$, via an extra edge on
+        the green node (an extra $\nabla$ on $H$), to $D$'s degree-$1$
+        root, $G$.  By l'H\^opital,\footnote{
             %
-            \begin{marginfigure}
-                \plotmoow{diagrams/entropic-force-diagram}{\columnwidth}{} 
-                \caption{%
-                    \textbf{ Gradient noise pushes SGD toward flat minima.} The
-                    red densities show the typical $\theta$s, perturbed from
-                    the minimum due to noise $C$, in two cross sections of the
-                    loss valley.  $J = \nabla H$ measures how curvature changes
-                    across the valley.  Our theory does not assume separation
-                    between ``fast'' and ``slow'' modes, but we label them in
-                    the picture to ease comparison with \citep{we19b}.  Compare
-                    with Figure \ref{fig:archimedes}, and see Corollary
-                    \ref{cor:entropic}.
-                }
-                \label{fig:cubic}
-            \end{marginfigure}
+            Roughly:
+            if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
+            nats, and by $G$ nats per foot, then $\Delta \theta$ is
+            $C\nabla H$ feet.
+            %
+        } the displacement is $\propto -C\nabla H$.  That is, SGD moves
+        toward minima that are flat \emph{with respect to} $C$ (Figure
+        \ref{fig:cubicandspring}\offive{0}).
+        %
+        Taking limits to drop the non-degeneracy hypothesis, we expect
+        \emph{sustained} motion toward flat regions in a valley of minima.
+        By avoiding \citep{we19b}'s assumptions of constant $C$, we find
+        that SGD's velocity field is typically non-conservative, i.e.\ has
+        curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
+        derivative but $C\nabla H$ is not.  Since, by low-pass
+        filter theory, $CH/2+o(C)$ is the loss increase upon convolving $l$
+        with a $C$-shaped Gaussian, we say that SGD descends on a
+        $C$-smoothed landscape that changes as $C$ does.
+        %
+        Our $T\gg 1$ result is $\Theta(\eta^2)$, while \citep{ya19b}'s
+        similar $T=2$ result is $\Theta(\eta^3)$.  Indeed, our analysis
+        integrates the noise over many updates, hence amplifying $C$'s 
+        effect.
+        Experiments verify our law.
 
-            Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$ connects the
-            subdiagram $\sdia{c(01-2)(02-12)} \propto CH$, via an extra edge on
-            the green node (an extra $\nabla$ on $H$), to $D$'s degree-$1$
-            root, $G$.  By l'H\^opital,\footnote{
-                %
-                Roughly:
-                if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
-                nats, and by $G$ nats per foot, then $\Delta \theta$ is
-                $C\nabla H$ feet.
-                %
-            } the displacement is $\propto -C\nabla H$.  That is, SGD moves
-            toward minima that are flat \emph{with respect to} $C$ (Figure
-            \ref{fig:cubicandspring}\offive{0}).
-            %
-            Taking limits to drop the non-degeneracy hypothesis, we expect
-            \emph{sustained} motion toward flat regions in a valley of minima.
-            By avoiding \citep{we19b}'s assumptions of constant $C$, we find
-            that SGD's velocity field is typically non-conservative, i.e.\ has
-            curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
-            derivative but $C\nabla H$ is not.  Since, by low-pass
-            filter theory, $CH/2+o(C)$ is the loss increase upon convolving $l$
-            with a $C$-shaped Gaussian, we say that SGD descends on a
-            $C$-smoothed landscape that changes as $C$ does.
-            %
-            Our $T\gg 1$ result is $\Theta(\eta^2)$, while \citep{ya19b}'s
-            similar $T=2$ result is $\Theta(\eta^3)$.  Indeed, our analysis
-            integrates the noise over many updates, hence amplifying $C$'s 
-            effect.
-            Experiments verify our law.
-
-            
-      
-        \section{Both flat and sharp minima overfit less}
+    \section{Both flat and sharp minima overfit less}
             \label{subsect:curvature-and-overfitting}%
 
             Intuitively, sharp minima are robust to slight changes in the
@@ -1067,8 +1131,9 @@
             definition equates displacements with gradients, it may be unclear
             how to reason about overfitting in the presence of curvature.
             %
-            \begin{marginfigure}
-                \plotmoow{diagrams/sharp}{\columnwidth}{}
+            \begin{figure}
+                \centering
+                \plotmoow{diagrams/sharp}{0.5\columnwidth}{}
                 \caption{%
                    \textbf{
                         Both curvature and the structure of noise affect
@@ -1083,7 +1148,7 @@
                         these rows (Corollary \ref{cor:overfit}).
                 }
                 \label{fig:cubicandspring}
-            \end{marginfigure}
+            \end{figure}
             %
             Our theory, by (automatically) accounting for the implicit
             regularization of fixed-$T$ descent, shows that both effects play
@@ -1114,9 +1179,11 @@
             $(\textnormal{model dimension})/N$.  Unlike AIC, our more general
             expression is descendably smooth, may be used with MAP or ELBO tasks
             instead of just ML, and does not assume a well-specified model.
-    
+
+            \moolor{1}{Discussion of Takeuchi?}
+            \moolor{1}{Discussion of Takeuchi?}
    
-        \section{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}
+    \section{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}
             \label{subsect:epochs-batch}
 
             Physical intuition (\S\ref{appendix:interpret-diagrams}) suggests
@@ -1176,9 +1243,14 @@
                     + o(\eta^2)
                 $.
             \end{cor}
+
+            \moolor{3}{Implications for generalization?}
+            \moolor{3}{PSPACE result}
     
         \section{Non-Gaussian noise affects SGD but not SDE}
     
+            \moolor{2}{cubic landscape where SGD and SDE differ? --- nongauss not exotic!}
+
             Stochastic differential equations (SDE: see \citep{li18}) are a
             popular theoretical approximation of SGD, but SDE and SGD differ in
             several ways.  For instance, the inter-epoch noise correlations in
@@ -1204,6 +1276,8 @@
                     $\eta$.
                 }
             \end{cor}
+
+            \moolor{4}{Double series}
 
 %==============================================================================
 %    EXPERIMENTS and CONCLUSION  
@@ -1436,13 +1510,211 @@
             \label{fig:takreg}
         \end{figure}
 
+    \section{Methods}\label{appendix:experiments}
 
+        We defined three artificial landscapes, called
+        \Gauss, \Archimedes, and \MeanEstimation.
+
+        \subsection{\Gauss}
+            Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
+            centered standard normal data.  We parameterize the landscape by
+            $h=\log(\sigma^2)$ so that the Fisher information matches the
+            standard dot product \citep{am98}.   
+            %
+            More explicitly, the \Gauss\, landscape is a probability
+            distribution $\Dd$ over functions $l_x:\RR^1\to \RR$ on
+            $1$-dimensional weight space, indexed by standard-normally
+            distributed $1$-dimensional datapoints $x$ and defined by the
+            expression:
+            $$
+                l_x(h)
+                \triangleq
+                \frac{1}{2} \wrap{h + x^2 \exp(-h)}
+            $$
+            The gradient at sample $x$ and weight $\sigma$ is then $g_x(h) =
+            (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0, 1)$, the gradient $g_x(h)$
+            will be affinely related to a chi-squared, and in particular
+            non-Gaussian.
+            
+            To measure overfitting, we initialize at the true test minimum
+            $h=0$, then train and see how much the test loss increases.  At
+            $h=0$, the expected gradient vanishes, and the test loss of SGD
+            involves only diagrams that have no leaves of size one.
+            
+        \subsection{\Archimedes}
+            The \Archimedes\, landscape has chirality, much like its namesake's
+            screw \citep{vi00}.  Specifically, the \Archimedes\ landscape has
+            %
+            weights     $\theta = (u,v,z) \in \RR^3$,
+            %
+            data points $x \sim \Nn(0, 1)$,
+            %
+            and loss:
+            %
+            $$
+                l_x(\theta)
+                \triangleq
+                \frac{1}{2} H(\theta) + x \cdot S(\theta)
+            $$
+            %
+            Here,
+            $$
+                H(\theta) = u^2 + v^2 + (\cos(z) u + \sin(z) v)^2
+            $$
+            is quadratic in $u, v$, and
+            $$
+                S(\theta) = \cos(z-\pi/4) u + \sin(z-\pi/4) v
+            $$
+            is linear in $u, v$.
+            Also, since $x \sim \Nn(0,1)$, the $x \cdot S(\theta)$ term has
+            expectation $0$.
+            %
+            In fact, the landscape has a three-dimensional continuous screw
+            symmetry consisting of translation along $z$ and simulateous
+            rotation in the $u-v$ plane.  Our experiments are initialized at
+            $u=v=z=0$, which lies within a valley of global minima defined by
+            $u=v=0$.  
+
+            The thesis body showed that SGD travels in \Archimedes' $+z$
+            direction.  By topologically quotienting the weight space, say by
+            identifying points related by a translation by $\Delta z = 200\pi$,
+            we may turn the line-shaped valley into a circle-shaped valley.
+            Then SGD eternally travels, say, counterclockwise.
+           
+        \subsection{\MeanEstimation}
+            The \MeanEstimation\, family of landscapes has $1$ dimensional
+            weights $\theta$ and $1$-dimensional datapoints $x$.  It is defined
+            by the expression:
+            $$
+                l_x(\theta)
+                \triangleq
+                \frac{1}{2} H \theta^2 + x S \theta
+            $$
+            Here, $H, S$ are positive reals parameterizing the family; they
+            give the hessian and (square root of) gradient covariance,
+            respectively.
+
+            For our hyperparameter-selection experiment (Figure
+            \ref{fig:takreg}\ofthree{2}) we introduce an $l_2$
+            regularization term as follows:
+            $$
+                l_x(\theta, \lambda)
+                \triangleq
+                \frac{1}{2} (H + \lambda) \theta^2 + x S \theta
+            $$
+            Here, we constrain $\lambda\geq 0$ during optimization using
+            projections; we found similar results when parameterizing $\lambda
+            = \exp(h)$, which obviates the need for projection but necessitates
+            a non-canonical choice of initialization.  We initialize
+            $\lambda=0$.
+
+    \section{What image-classification landscapes did we use?}   \label{appendix:natural}
+
+        \paragraph{Architectures}
+            In addition to the artificial loss landscapes
+            \Gauss, \Archimedes, and \MeanEstimation, 
+            we tested our predictions on logistic linear regression
+            and simple convolutional networks (2 convolutional weight layers
+            each with kernel $5$, stride $2$, and $10$ channels, followed by
+            two dense weight layers with hidden dimension $10$) for the
+            CIFAR-10 \citep{kr09} and Fashion-MNIST datasets \citep{xi17}.  The
+            convolutional architectures used $\tanh$ activations and Gaussian
+            Xavier initialization.  To set a standard distance scale on weight
+            space, we parameterized the model so that the
+            Gaussian-Xavier initialization of the linear maps in each layer
+            differentially pulls back to standard normal initializations of the
+            parameters.
+            
+        \paragraph{Datasets}
+            For image classification landscapes, we regard the finite amount of
+            available data as the true (sum of diracs) distribution $\Dd$ from
+            which we sample test and training sets in i.i.d.\ manner (and hence
+            ``with replacement'').  We do this to gain practical access to a
+            ground truth against which we may compare our predictions.  One
+            might object that this sampling procedure would cause test and
+            training sets to overlap, hence biasing test loss measurements.  In
+            fact, test and training sets overlap only in reference, not in
+            sense: the situation is analogous to a text prediction task in
+            which two training points culled from different corpora happen to
+            record the same sequence of words, say, ``Thank you!''.  In any
+            case, all of our experiments focus on the limited-data regime, e.g.
+            $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
+            are rare.
+
+    \section{Measurement process}                                \label{appendix:measure}
+
+        \paragraph{Diagram evaluation on real landscapes}
+            We implemented the formulae of \S\ref{sect:bessel} in order
+            to estimate diagram values from real data measured at
+            initialization from batch averages of products of derivatives.
+
+        \paragraph{Descent simulations}
+            We recorded test and train losses for each of the trials below.  To
+            improve our estimation of average differences, when we compared two
+            optimizers, we gave them the same random seed (and hence the same
+            training sets).
+
+            We ran $2 \cdot 10^5$ trials of \Gauss\, with SDE and SGD,
+            initialized at the test minimum with $T=1$ and $\eta$ ranging from
+            $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
+            We ran $5 \cdot 10^1$ trials of \Archimedes with SGD with $T=10^4$
+            and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
+            We ran $10^3$ trials of \MeanEstimation with GD and STIC
+            with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
+            a covariance of gradients of $10^2$, and the true mean $0$ or
+            $10$ units away from initialization.
+
+            We ran $5 \cdot 10^4$ trials of the CIFAR-10 convnet on each of $6$
+            Glorot-Xavier initializations we fixed once and for all through
+            these experiments for the optimizers SGD, GD, and GDC, with $T=10$
+            and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We did
+            likewise for the linear logistic model on the one initialization of
+            $0$.
+
+            We ran $4 \cdot 10^4$ trials of the Fashion-MNIST convnet on each
+            of $6$ Glorot-Xavier initializations we fixed once and for all
+            through these experiments for the optimizers SGD, GD, and GDC with
+            $T=10$ and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We
+            did likewise for the linear logistic model on the one
+            initialization of $0$. 
+
+    \section{Implementing optimizers}                            \label{appendix:optimizers}
+
+        We approximated SDE by refining time discretization by a factor of
+        $16$, scaling learning rate down by a factor of $16$, and introducing
+        additional noise in the shape of the covariance in proportion as
+        prescribed by the Wiener process scaling.
+
+        Our GDC regularizer was implemented using the unbiased estimator
+        $$
+            \hat{C} \triangleq (l_x - l_y)_\mu {l_x}_\nu / 2
+        $$
+        
+        For our tests of regularization based on Corollary \ref{cor:overfit},
+        we exploited the low-dimensional special structure of the artificial
+        landscape in order to avoid diagonalizing to perform the matrix
+        exponentiation: precisely, we used that, even on training landscapes,
+        the covariance of gradients would be degenerate in all but one
+        direction, and so we need only exponentiate a scalar.
+
+    \section{Software frameworks and hardware}                   \label{appendix:frameworks}
+
+        All code and data-wrangling scripts can be found on
+        {\color{mooteal}github.com/bohrium/perturb}.
+
+        Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
+        other substantive dependencies.  The code's randomness is parameterized
+        by random seeds and hence reproducible.
+
+        We ran experiments on a Lenovo laptop and on our institution's
+        clusters; we consumed about $100$ GPU-hours.
 
 %==============================================================================
 %    CONCLUSION      
 %==============================================================================
+\chapter{Conclusion} \label{sect:concl}
 
-    \section{Conclusion} \label{sect:concl}
+    \section{Contributions}
 
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1492,6 +1764,7 @@
     meta-learning outer loops (e.g.\ \citep{fi17}'s MAML).  This might
     drastically reduce the energy consumed during model selection.
 
+
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Anticipate Criticism of Limitations  ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1508,6 +1781,61 @@
     of SGD's trajectory.  Equipped with our theory, practitioners may now
     refine intuitions --- e.g.\ that SGD descends on the training loss --- to
     account for noise.
+
+    \section{Future topics}                                      \label{appendix:future}
+
+        Our diagrams invite exploration of Lagrangian formalisms and curved
+        backgrounds:\footnote{
+            \citep{la60, la51} review these concepts.
+        }
+        \begin{quest}
+            Does some least-action principle govern SGD; if not, what is an
+            essential obstacle to this characterization?
+        \end{quest}
+        Lagrange's least-action formalism intimately intertwines with the
+        diagrams of physics.  Together, they afford a modular framework for
+        introducing new interactions as new terms or diagram nodes.  In fact,
+        we find that some \emph{higher-order} methods --- such as the
+        Hessian-based update
+        $
+            \theta \leftsquigarrow
+            \theta -
+            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
+            \nabla l_t(\theta)
+        $
+        parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
+        when we represent the $\lambda$ term as a second type of diagram node.
+        Though diagrams suffice for computation, it is Lagrangians that most
+        deeply illuminate scaling and conservation laws.
+
+        Our work assumes a flat metric $\eta^{\mu\nu}$, but it might
+        generalize to weight spaces curved in the sense of Riemann.\footnote{
+            One may represent the affine connection as a node, thus giving
+            rise to non-tensorial and hence gauge-dependent diagrams.
+        }  Such curvature finds concrete application in the \emph{learning on
+        manifolds} paradigm of \citep{ab07, zh16}, notably specialized to
+        \citep{am98}'s \emph{natural gradient descent} and \citep{ni17}'s
+        \emph{hyperbolic embeddings}.  While that work focuses on
+        \emph{optimization} on curved weight spaces, in machine learning we
+        also wish to analyze \emph{generalization}.
+        %
+        Starting with the intuition that ``smaller'' hypothesis classes
+        generalize better and that curvature controls the volume of small
+        neighborhoods, we conjecture that sectional curvature regularizes
+        learning:
+        \begin{conj}[Sectional curvature regularizes]
+            If $\eta(\tau)$ is a Riemann metric on weight space, smoothly
+            parameterized by $\tau$, and if the sectional curvature through
+            every $2$-form at $\theta_0$ increases as $\tau$ grows, then
+            the generalization\ gap attained by fixed-$T$ SGD with learning rate $c
+            \eta(\tau)$ (when initialized from $\theta_0$) decreases as $\tau$
+            grows, for all sufficiently small $c>0$.
+        \end{conj}
+        We are optimistic our formalism may resolve conjectures such as above.
+
+
+
+
        
 %==============================================================================
 %    CODA               
@@ -1533,14 +1861,9 @@
 \setcounter{chapter}{0}
 
 \chapter*{Organization of the appendices}
-    The following three appendices serve three respective functions:
-    \setlist{nolistsep}
-    \begin{itemize}[noitemsep]
-        \item to explain how to calculate using diagrams;
-        \item to prove our results (and pose a conjecture);
-        \item to specify our experimental methods and results.
-    \end{itemize}
-    In more detail, we organize the appendices as follows.\\
+    The following two appendices serve respectively as informal and formal
+    guides to our theory.  The first is a user-friendly tutorial; the second
+    contains our proofs.\\
 
     {\bf
     \par\noindent A ~ How to calculate test losses}                         \hfill {\bf page \pageref{appendix:tutorial}}
@@ -1560,18 +1883,9 @@
     \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
     \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
     \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
-    %\par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
-    \par\indent     B.6 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
-    \par\indent     B.7 ~~ Future topics                                    \hfill \pageref{appendix:future}
-
-    {\bf
-    \par\noindent C ~ Experimental methods}                                 \hfill {\bf page \pageref{appendix:experiments}}
-    \par\indent     C.1 ~~ What artificial landscapes did we use?           \hfill \pageref{appendix:artificial}  
-    \par\indent     C.2 ~~ What image-classification landscapes did we use? \hfill \pageref{appendix:natural}
-    \par\indent     C.3 ~~ Measurement process                              \hfill \pageref{appendix:measure}
-    \par\indent     C.4 ~~ Implementing optimizers                          \hfill \pageref{appendix:optimizers}
-    \par\indent     C.5 ~~ Software frameworks and hardware                 \hfill \pageref{appendix:frameworks}
-    \par\indent     C.6 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
+    \par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
+    \par\indent     B.7 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
+    \par\indent     B.8 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
 
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -2721,7 +3035,6 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Math  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-\newpage
 \chapter{Mathematics of the theory}\label{appendix:math}
     \section{Assumptions and Definitions}                        \label{appendix:assumptions}
         We assume throughout this work the following regularity properties of
@@ -3308,7 +3621,7 @@
 
     \section{Proofs of corollaries}                              \label{appendix:corollaries}
 
-        \paragraph{Corollary \ref{cor:entropic}}
+        \subsection{Corollary \ref{cor:entropic}}
 
             \begin{proof}
                 The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
@@ -3332,9 +3645,9 @@
                 Standard calculus then gives the desired result.
             \end{proof}
 
-        \paragraph{Corollary \ref{cor:overfit}'s first part}
+        \subsection{Corollary \ref{cor:overfit}'s first part}
 
-            \begin{proof}[Proof.]
+            \begin{proof}
                 The relevant irreducible diagram is $\sdia{(01-2)(02-12)}$
                 (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
                 minimum).  This diagram has one embedding for each pair of
@@ -3362,13 +3675,13 @@
                 T))/a$, the desired result follows. 
             \end{proof}
 
-        \paragraph{Corollary \ref{cor:overfit}'s second part}
+        \subsection{Corollary \ref{cor:overfit}'s second part}
 
             We apply the generalization gap modification (described in
             \S\ref{appendix:solve-variants}) to Theorem \ref{thm:resum}'s
             result about test losses.
 
-            \begin{proof}[Proof]
+            \begin{proof}
                 The relevant irreducible diagram is $\sdia{c(01)(01)}$.  This
                 diagram has one embedding for each shaded cell of spacetime;
                 for GD, the spacetime has every cell shaded, so each duration
@@ -3384,7 +3697,7 @@
                 finishes the proof.
             \end{proof}
  
-        \paragraph{Corollaries \ref{cor:epochs} and \ref{cor:batch}}
+        \subsection{Corollaries \ref{cor:epochs} and \ref{cor:batch}}
 
             Corollary \ref{cor:epochs} and Corollary \ref{cor:batch} follow
             from plugging appropriate values of $M, N, B$ into the following
@@ -3405,17 +3718,12 @@
                 }
             \end{prop}
 
-            \begin{proof}[of Proposition \ref{prop:ordtwo}]
-                To prove Proposition \ref{prop:ordtwo}, we simply count
-                the embeddings of the diagrams, noting that the automorphism groups
-                are all of size $1$ or $2$.  Since we use fuzzy outlines instead of
-                fuzzy ties, we allow untied nodes to occupy the same row, since the
-                excess will be canceled out by the term subtract in the definition of
-                fuzzy outlines.  See Table \ref{tbl:ordtwo}.
+            \begin{proof}[Proof of Proposition \ref{prop:ordtwo}]
                 \begin{margintable}
                     \centering
                     \begin{tabular}{cll}
-                        diagram                 & embed.s w/ $\wabs{\Aut_f}=1$  & embed.s w/ $\wabs{\Aut_f}=2$   \\ \hline
+                        diagram                 & embed.s w/                    & embed.s w/                     \\
+                                                &            $\wabs{\Aut_f}=1$  &            $\wabs{\Aut_f}=2$   \\ \hline
                         $\sdia{(0)()}$          & $1$                           & $0$                            \\  
                         $\sdia{(0-1)(01)}$      & $MNB$                         & $0$                            \\                  
                         $\sdia{(0-1-2)(01-12)}$ & ${MNB\choose 2}$              & $0$                            \\
@@ -3425,9 +3733,15 @@
                     \end{tabular}
                     \label{tbl:ordtwo}
                 \end{margintable}
+                To prove Proposition \ref{prop:ordtwo}, we simply count
+                the embeddings of the diagrams, noting that the automorphism groups
+                are all of size $1$ or $2$.  Since we use fuzzy outlines instead of
+                fuzzy ties, we allow untied nodes to occupy the same row, since the
+                excess will be canceled out by the term subtract in the definition of
+                fuzzy outlines.  See Table \ref{tbl:ordtwo}.
             \end{proof}
 
-        \paragraph{Corollary \ref{cor:vsode}}
+        \subsection{Corollary \ref{cor:vsode}}
 
             The corollary's first part follows immediately from 
             Proposition \ref{prop:ordtwo}.
@@ -3449,262 +3763,8 @@
                 $$
             \end{proof}
 
-    \section{Future topics}                                      \label{appendix:future}
-
-        Our diagrams invite exploration of Lagrangian formalisms and curved
-        backgrounds:\footnote{
-            \citep{la60, la51} review these concepts.
-        }
-        \begin{quest}
-            Does some least-action principle govern SGD; if not, what is an
-            essential obstacle to this characterization?
-        \end{quest}
-        Lagrange's least-action formalism intimately intertwines with the
-        diagrams of physics.  Together, they afford a modular framework for
-        introducing new interactions as new terms or diagram nodes.  In fact,
-        we find that some \emph{higher-order} methods --- such as the
-        Hessian-based update
-        $
-            \theta \leftsquigarrow
-            \theta -
-            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
-            \nabla l_t(\theta)
-        $
-        parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
-        when we represent the $\lambda$ term as a second type of diagram node.
-        Though diagrams suffice for computation, it is Lagrangians that most
-        deeply illuminate scaling and conservation laws.
-
-        Our work assumes a flat metric $\eta^{\mu\nu}$, but it might
-        generalize to weight spaces curved in the sense of Riemann.\footnote{
-            One may represent the affine connection as a node, thus giving
-            rise to non-tensorial and hence gauge-dependent diagrams.
-        }  Such curvature finds concrete application in the \emph{learning on
-        manifolds} paradigm of \citep{ab07, zh16}, notably specialized to
-        \citep{am98}'s \emph{natural gradient descent} and \citep{ni17}'s
-        \emph{hyperbolic embeddings}.  While that work focuses on
-        \emph{optimization} on curved weight spaces, in machine learning we
-        also wish to analyze \emph{generalization}.
-        %
-        Starting with the intuition that ``smaller'' hypothesis classes
-        generalize better and that curvature controls the volume of small
-        neighborhoods, we conjecture that sectional curvature regularizes
-        learning:
-        \begin{conj}[Sectional curvature regularizes]
-            If $\eta(\tau)$ is a Riemann metric on weight space, smoothly
-            parameterized by $\tau$, and if the sectional curvature through
-            every $2$-form at $\theta_0$ increases as $\tau$ grows, then
-            the generalization\ gap attained by fixed-$T$ SGD with learning rate $c
-            \eta(\tau)$ (when initialized from $\theta_0$) decreases as $\tau$
-            grows, for all sufficiently small $c>0$.
-        \end{conj}
-        We are optimistic our formalism may resolve conjectures such as above.
-
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Experiments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-\newpage
-\chapter{Experimental methods}\label{appendix:experiments}
-
-    \section{What artificial landscapes did we use?}             \label{appendix:artificial}
-
-        We define three artificial landscapes, called
-        \Gauss, \Archimedes, and \MeanEstimation.
-
-        \paragraph{\Gauss}
-            Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
-            centered standard normal data.  We parameterize the landscape by
-            $h=\log(\sigma^2)$ so that the Fisher information matches the
-            standard dot product \citep{am98}.   
-            %
-            More explicitly, the \Gauss\, landscape is a probability
-            distribution $\Dd$ over functions $l_x:\RR^1\to \RR$ on
-            $1$-dimensional weight space, indexed by standard-normally
-            distributed $1$-dimensional datapoints $x$ and defined by the
-            expression:
-            $$
-                l_x(h)
-                \triangleq
-                \frac{1}{2} \wrap{h + x^2 \exp(-h)}
-            $$
-            The gradient at sample $x$ and weight $\sigma$ is then $g_x(h) =
-            (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0, 1)$, the gradient $g_x(h)$
-            will be affinely related to a chi-squared, and in particular
-            non-Gaussian.
-            
-            To measure overfitting, we initialize at the true test minimum
-            $h=0$, then train and see how much the test loss increases.  At
-            $h=0$, the expected gradient vanishes, and the test loss of SGD
-            involves only diagrams that have no leaves of size one.
-            
-        \paragraph{\Archimedes}
-            The \Archimedes\, landscape has chirality, much like its namesake's
-            screw \citep{vi00}.  Specifically, the \Archimedes\ landscape has
-            %
-            weights     $\theta = (u,v,z) \in \RR^3$,
-            %
-            data points $x \sim \Nn(0, 1)$,
-            %
-            and loss:
-            %
-            $$
-                l_x(\theta)
-                \triangleq
-                \frac{1}{2} H(\theta) + x \cdot S(\theta)
-            $$
-            %
-            Here,
-            $$
-                H(\theta) = u^2 + v^2 + (\cos(z) u + \sin(z) v)^2
-            $$
-            is quadratic in $u, v$, and
-            $$
-                S(\theta) = \cos(z-\pi/4) u + \sin(z-\pi/4) v
-            $$
-            is linear in $u, v$.
-            Also, since $x \sim \Nn(0,1)$, the $x \cdot S(\theta)$ term has
-            expectation $0$.
-            %
-            In fact, the landscape has a three-dimensional continuous screw
-            symmetry consisting of translation along $z$ and simulateous
-            rotation in the $u-v$ plane.  Our experiments are initialized at
-            $u=v=z=0$, which lies within a valley of global minima defined by
-            $u=v=0$.  
-
-            The thesis body showed that SGD travels in \Archimedes' $+z$
-            direction.  By topologically quotienting the weight space, say by
-            identifying points related by a translation by $\Delta z = 200\pi$,
-            we may turn the line-shaped valley into a circle-shaped valley.
-            Then SGD eternally travels, say, counterclockwise.
-           
-        \paragraph{\MeanEstimation}
-            The \MeanEstimation\, family of landscapes has $1$ dimensional
-            weights $\theta$ and $1$-dimensional datapoints $x$.  It is defined
-            by the expression:
-            $$
-                l_x(\theta)
-                \triangleq
-                \frac{1}{2} H \theta^2 + x S \theta
-            $$
-            Here, $H, S$ are positive reals parameterizing the family; they
-            give the hessian and (square root of) gradient covariance,
-            respectively.
-
-            For our hyperparameter-selection experiment (Figure
-            \ref{fig:takreg}\ofthree{2}) we introduce an $l_2$
-            regularization term as follows:
-            $$
-                l_x(\theta, \lambda)
-                \triangleq
-                \frac{1}{2} (H + \lambda) \theta^2 + x S \theta
-            $$
-            Here, we constrain $\lambda\geq 0$ during optimization using
-            projections; we found similar results when parameterizing $\lambda
-            = \exp(h)$, which obviates the need for projection but necessitates
-            a non-canonical choice of initialization.  We initialize
-            $\lambda=0$.
-
-    \section{What image-classification landscapes did we use?}   \label{appendix:natural}
-
-        \paragraph{Architectures}
-            In addition to the artificial loss landscapes
-            \Gauss, \Archimedes, and \MeanEstimation, 
-            we tested our predictions on logistic linear regression
-            and simple convolutional networks (2 convolutional weight layers
-            each with kernel $5$, stride $2$, and $10$ channels, followed by
-            two dense weight layers with hidden dimension $10$) for the
-            CIFAR-10 \citep{kr09} and Fashion-MNIST datasets \citep{xi17}.  The
-            convolutional architectures used $\tanh$ activations and Gaussian
-            Xavier initialization.  To set a standard distance scale on weight
-            space, we parameterized the model so that the
-            Gaussian-Xavier initialization of the linear maps in each layer
-            differentially pulls back to standard normal initializations of the
-            parameters.
-            
-        \paragraph{Datasets}
-            For image classification landscapes, we regard the finite amount of
-            available data as the true (sum of diracs) distribution $\Dd$ from
-            which we sample test and training sets in i.i.d.\ manner (and hence
-            ``with replacement'').  We do this to gain practical access to a
-            ground truth against which we may compare our predictions.  One
-            might object that this sampling procedure would cause test and
-            training sets to overlap, hence biasing test loss measurements.  In
-            fact, test and training sets overlap only in reference, not in
-            sense: the situation is analogous to a text prediction task in
-            which two training points culled from different corpora happen to
-            record the same sequence of words, say, ``Thank you!''.  In any
-            case, all of our experiments focus on the limited-data regime, e.g.
-            $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
-            are rare.
-
-    \section{Measurement process}                                \label{appendix:measure}
-
-        \paragraph{Diagram evaluation on real landscapes}
-            We implemented the formulae of \S\ref{sect:bessel} in order
-            to estimate diagram values from real data measured at
-            initialization from batch averages of products of derivatives.
-
-        \paragraph{Descent simulations}
-            We recorded test and train losses for each of the trials below.  To
-            improve our estimation of average differences, when we compared two
-            optimizers, we gave them the same random seed (and hence the same
-            training sets).
-
-            We ran $2 \cdot 10^5$ trials of \Gauss\, with SDE and SGD,
-            initialized at the test minimum with $T=1$ and $\eta$ ranging from
-            $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
-            We ran $5 \cdot 10^1$ trials of \Archimedes with SGD with $T=10^4$
-            and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
-            We ran $10^3$ trials of \MeanEstimation with GD and STIC
-            with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
-            a covariance of gradients of $10^2$, and the true mean $0$ or
-            $10$ units away from initialization.
-
-            We ran $5 \cdot 10^4$ trials of the CIFAR-10 convnet on each of $6$
-            Glorot-Xavier initializations we fixed once and for all through
-            these experiments for the optimizers SGD, GD, and GDC, with $T=10$
-            and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We did
-            likewise for the linear logistic model on the one initialization of
-            $0$.
-
-            We ran $4 \cdot 10^4$ trials of the Fashion-MNIST convnet on each
-            of $6$ Glorot-Xavier initializations we fixed once and for all
-            through these experiments for the optimizers SGD, GD, and GDC with
-            $T=10$ and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We
-            did likewise for the linear logistic model on the one
-            initialization of $0$. 
-
-    \section{Implementing optimizers}                            \label{appendix:optimizers}
-
-        We approximated SDE by refining time discretization by a factor of
-        $16$, scaling learning rate down by a factor of $16$, and introducing
-        additional noise in the shape of the covariance in proportion as
-        prescribed by the Wiener process scaling.
-
-        Our GDC regularizer was implemented using the unbiased estimator
-        $$
-            \hat{C} \triangleq (l_x - l_y)_\mu {l_x}_\nu / 2
-        $$
-        
-        For our tests of regularization based on Corollary \ref{cor:overfit},
-        we exploited the low-dimensional special structure of the artificial
-        landscape in order to avoid diagonalizing to perform the matrix
-        exponentiation: precisely, we used that, even on training landscapes,
-        the covariance of gradients would be degenerate in all but one
-        direction, and so we need only exponentiate a scalar.
-
-    \section{Software frameworks and hardware}                   \label{appendix:frameworks}
-
-        All code and data-wrangling scripts can be found on
-        {\color{mooteal}github.com/???????/perturb}.  This link will be made
-        available after the period of double-blind review.
-
-        Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
-        other substantive dependencies.  The code's randomness is parameterized
-        by random seeds and hence reproducible.
-
-        We ran experiments on a Lenovo laptop and on our institution's
-        clusters; we consumed about $100$ GPU-hours.
 
     \section{Unbiased estimators of landscape statistics}        \label{appendix:bessel}
         %
