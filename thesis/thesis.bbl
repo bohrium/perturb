@@ -1,9 +1,24 @@
-\begin{thebibliography}{36}
+\begin{thebibliography}{51}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Absil et~al.(2007)Absil, Mahony, and Sepulchre]{ab07}
+P.-A. Absil, R.~Mahony, and R.~Sepulchre.
+\newblock Optimization algorithms on matrix manifolds, chapter 4.
+\newblock \emph{Princeton University Press}, 2007.
+
+\bibitem[Abu-Mostafa et~al.(2012)Abu-Mostafa, Magdon-Ismail, and Lin]{ab12}
+Y.S. Abu-Mostafa, M.~Magdon-Ismail, and Hsuan-Tien Lin.
+\newblock Learning from data.
+\newblock \emph{Caltech}, 2012.
+
+\bibitem[Amari(1998)]{am98}
+S.-I. Amari.
+\newblock Natural gradient works efficiently.
+\newblock \emph{Neural Computation}, 1998.
 
 \bibitem[Bartlett et~al.(2017)Bartlett, Foster, and Telgarsky]{ba17}
 P.L. Bartlett, D.J. Foster, and M.J. Telgarsky.
@@ -52,6 +67,11 @@ E.~Dyer and G.~Gur-Ari.
 \newblock Asymptotics of wide networks from feynman diagrams.
 \newblock \emph{ICML Workshop}, 2019.
 
+\bibitem[Dyson(1949)]{dy49a}
+F.~Dyson.
+\newblock The radiation theories of tomonaga, schwinger, and feynman.
+\newblock \emph{Physical Review}, 1949.
+
 \bibitem[Feynman(1949)]{fe49}
 R.P. Feynman.
 \newblock A space-time appxoach to quantum electrodynamics.
@@ -61,6 +81,12 @@ R.P. Feynman.
 C.~Finn, P.~Abbeel, and S.~Levine.
 \newblock Model-agnostic meta-learning for fast adaptation of deep networks.
 \newblock \emph{ICML}, 2017.
+
+\bibitem[Gauss(1823)]{ga23}
+C.F. Gauss.
+\newblock Theoria combinationis obsevationum erroribus minimis obnoxiae,
+  section 39.
+\newblock \emph{Proceedings of the Royal Society of Gottingen}, 1823.
 
 \bibitem[Goyal et~al.(2018)Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski,
   Kyrola, Tulloch, Jia, and He]{go18}
@@ -91,11 +117,26 @@ I.~Kol\'{a}\u{r}, P.W. Michor, and J.~Slov\'{a}k.
 \newblock Natural operations in differential geometry.
 \newblock \emph{Springer}, 1993.
 
+\bibitem[Krizhevsky(2009)]{kr09}
+A.~Krizhevsky.
+\newblock Learning multiple layers of features from tiny images.
+\newblock \emph{UToronto Thesis}, 2009.
+
 \bibitem[Kunstner et~al.(2019)Kunstner, Hennig, and Balles]{ku19}
 F.~Kunstner, P.~Hennig, and L.~Balles.
 \newblock Limitations of the empirical fisher approximation for natural
   gradient descent.
 \newblock \emph{NeurIPS}, 2019.
+
+\bibitem[Landau and Lifshitz(1951)]{la51}
+L.D. Landau and E.M. Lifshitz.
+\newblock The classical theory of fields.
+\newblock \emph{Addison-Wesley}, 1951.
+
+\bibitem[Landau and Lifshitz(1960)]{la60}
+L.D. Landau and E.M. Lifshitz.
+\newblock Mechanics.
+\newblock \emph{Pergamon Press}, 1960.
 
 \bibitem[LeCun et~al.(2015)LeCun, Bengio, and Hinton]{le15}
 Y.~LeCun, Y.~Bengio, and G.~Hinton.
@@ -128,15 +169,35 @@ B.~Neyshabur, R.~Tomioka, R.~Salakhutdinov, and N.~Srebro.
 \newblock \emph{Chapter 4 from Intel CRI-CI: Why and When Deep Learning Works
   Compendium}, 2017{\natexlab{b}}.
 
+\bibitem[Nickel and Kiela(2017)]{ni17}
+M.~Nickel and D.~Kiela.
+\newblock Poincar\'e embeddings for learning hierarchical representations.
+\newblock \emph{ICML}, 2017.
+
 \bibitem[Niu et~al.(2011)Niu, Recht, R\'e, and Wright]{ni11}
 Feng Niu, B.~Recht, C.~R\'e, and S.J. Wright.
 \newblock Hogwild!: A lock-free approach to parallelizing sgd.
 \newblock \emph{NeurIPS}, 2011.
 
+\bibitem[Paszke et~al.(2019)Paszke, Gross, Massa, Lerer, Bradbury, Killeen,
+  Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani,
+  Chilamkurthy, Steiner, Fang, Bai, and Chintala]{pa19}
+A.~Paszke, S.~Gross, F.~Massa, A.~Lerer, J.~Bradbury, T.~Killeen, Zeming Lin,
+  N.~Gimelshein, L.~Antiga, A.~Desmaison, A.~Kopf, Edward Yang, Z.~DeVito,
+  M.~Raison, A.~Tejani, S.~Chilamkurthy, B.~Steiner, Lu~Fang, Junjie Bai, and
+  S.~Chintala.
+\newblock Pytorch: An imperative style, high-performance deep learning library.
+\newblock \emph{NeurIPS}, 2019.
+
 \bibitem[Penrose(1971)]{pe71}
 R.~Penrose.
 \newblock Applications of negative dimensional tensors.
 \newblock \emph{Combinatorial Mathematics and its Applications}, 1971.
+
+\bibitem[Rakhlin(2019)]{ra19}
+A.~Rakhlin.
+\newblock Course notes on learning.
+\newblock \emph{www.mit.edu/~rakhlin/courses}, 2019.
 
 \bibitem[Robbins and Monro(1951)]{ro51}
 H.~Robbins and S.~Monro.
@@ -147,6 +208,12 @@ H.~Robbins and S.~Monro.
 D.A. Roberts.
 \newblock Sgd implicitly regularizes generalization error.
 \newblock \emph{NeurIPS: Integration of Deep Learning Theories Workshop}, 2018.
+
+\bibitem[Rota(1964)]{ro64}
+G.-C. Rota.
+\newblock Theory of m\"obius functions.
+\newblock \emph{Zeitschrift f\"ur Wahrscheinlichkeitstheoriei und Verwandte
+  Gebiete}, 1964.
 
 \bibitem[Roux et~al.(2012)Roux, Bengio, and Fitzgibbon]{ro12}
 N.L. Roux, Y.~Bengio, and A.~Fitzgibbon.
@@ -164,6 +231,11 @@ C.~Stein.
 E.~Strubell, A.~Ganesh, and A.~McCallum.
 \newblock Energy and policy considerations for deep learning in nlp.
 \newblock \emph{ACL}, 2019.
+
+\bibitem[Vitruvius(circa $10^{1/2}$ b.c.e.)]{vi00}
+M.P. Vitruvius.
+\newblock De architectura (book 10, chapter 6).
+\newblock \emph{Self-published}, circa $10^{1/2}$ b.c.e.
 
 \bibitem[Wang et~al.(2018)Wang, Keskar, Xiong, and Socher]{wa18}
 Huan Wang, N.S. Keskar, Caiming Xiong, and R.~Socher.
@@ -186,6 +258,12 @@ Lei Wu, Chao Ma, and Weinan E.
 \newblock How sgd selects the global minima in over-parameterized learning.
 \newblock \emph{NeurIPS}, 2018.
 
+\bibitem[Xiao et~al.(2017)Xiao, Rasul, and Vollgraf]{xi17}
+Han Xiao, L.~Rasul, and R.~Vollgraf.
+\newblock Fashion-mnist: a novel image dataset for benchmarking machine
+  learning algorithms.
+\newblock \emph{Arxiv Preprint}, 2017.
+
 \bibitem[Yaida(2019{\natexlab{a}})]{ya19a}
 Sho Yaida.
 \newblock Fluctuation-dissipation relations for sgd.
@@ -200,5 +278,10 @@ Sho Yaida.
 Chiyuan Zhang, S.~Bengio, M.~Hardt, B.~Recht, and O.~Vinyals.
 \newblock Understanding deep learning requires rethinking generalization.
 \newblock \emph{ICLR}, 2017.
+
+\bibitem[Zhang et~al.(2016)Zhang, Reddi, and Sra]{zh16}
+Hongyi Zhang, S.J. Reddi, and S.~Sra.
+\newblock Fast stochastic optimization on riemannian manifolds.
+\newblock \emph{NeurIPS}, 2016.
 
 \end{thebibliography}

@@ -17,7 +17,6 @@
 \usepackage[T1]{fontenc}
 \usepackage{microtype}      
 \usepackage{datetime}      
-\usepackage{listings}      
 
 \usepackage{natbib}
 \setcounter{secnumdepth}{1}
@@ -329,14 +328,16 @@
     This thesis refines that intuition by showing how gradient noise biases
     learning toward certain areas of weight space. 
 
+    %
+    Leaving rigorous development to \S\ref{appendix:math}, we highlight in the
+    thesis body our theory's intuition and main corollaries.
+    %
     For example, we demonstrate that \textbf{noise} (the dependence of
     gradients on datapoints) interacts with \textbf{curvature} (the dependence
     of gradients on current weights) to push SGD toward flat minima, and we
     also explain when and why flatter minima overfit less.  These results shed
     partial light on the surprising generalization properties observed in deep
     learning practice.  
-    Our thesis body highlights and intuitively motivates results such as these,
-    leaving rigorous development to \S\ref{appendix:math}.
 
     %-----------------  retrospective  ----------------------------------------
     %
@@ -351,14 +352,20 @@
     relation to Hessian methods and natural GD --- as topics for future
     research.  
 
+
     \section{Background on Learning} \label{sect:background}
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Optimization and Generalization  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         This thesis discusses generalization and optimization of neural
-        networks.  We first orient these notions by reviewing in broad 
-        strokes a standard\cite{ab12, ra19} learning framework.
+        networks.  We first orient these notions by reviewing a standard
+        learning framework.\footnote{
+            This section is only schematic.  In actuality, learning rules are
+            typically randomized algorithms rather than pure functions, we must
+            replace minima by infima, and we must take care that the relevant
+            expectations exist.
+        }
 
         \newcommand{\Eout}{\Ee_{\text{out}}}
         \newcommand{\Ein }{\Ee_{\text{in},\Ss}}
@@ -366,30 +373,23 @@
         \newcommand{\amH }{\argmin_{\Hh}\,}
         \newcommand{\amC }{\argmin_{\Cc}\,}
 
-        Learning involves mapping a training sequence $\Ss \sim \Dd^N$ to a
-        hypothesis $p\in \Cc$ that is accurate at test time.
-        More precisely, we posit a set $|\Dd|$ of
-        \textbf{datapoints} equipped\footnote{
-            via a (partially defined) expectation operator
+        Learning involves mapping training data $\Ss \sim \Dd$ to a hypothesis
+        $p\in \Hh$ that is accurate with respect to an error function $E$.  More
+        precisely, we posit a set $|\Dd|$ of \textbf{datapoints}
+        equipped\footnote{
+            via an expectation operator
             $$\EE:(|\Dd|\to\RR)\to\RR\sqcup 1$$ 
-            We must later take care that expectations exist, but
-            for now we work loosely.
+            considered as a partial function
         } with a probability distribution $\Dd$,
         a set $\Cc$ of \textbf{hypotheses}, and an \textbf{error
         function} written in curried form as $E:\Cc\to|\Dd|\to\RR$.
         By averaging, $E$ extends to $E:\Cc\to|\Dd|^N\to\RR$.  For a
         training sequence $\Ss \sim \Dd^N$, the train and test
         errors $\Eout, \Ein: \Cc\to \RR$ are $\Eout = \EE_{\Dd} \circ E$ and
-        $\Ein = \EE_{\Ss} \circ E$.  Observe that if $p\in \Cc$ is a
-        hypothesis-valued random variable independent from $\Ss$, then
-        $\Ein(p)$ is an unbiased estimator of $\Eout(p)$; the conclusion
-        famously fails when $p, \Ss$ are dependent, a phenomenon we know as
-        \textbf{overfitting}.
-
-        A \textbf{learning rule} is then a
+        $\Ein = \EE_{\Ss} \circ E$.  A \textbf{learning rule} is then a
         map $\Ll:|\Dd|^N\to \Cc$ from training sequences to hypotheses;\footnote{
-            Real learning rules are typically randomized algorithms rather than
-            pure functions.
+            In practice, learning rules are
+            typically randomized algorithms rather than pure functions.
         } we seek
         rules that achieve low test error, that is, rules for which the test
         error
@@ -398,11 +398,12 @@
         $$
         does not far exceed the best we dare hope for, namely the minimum
         training error $\Ein(\amC\Ein)$.\footnote{
-            To be precise, we should replace minima by infima.
+            We must replace minima by infima, and we must take care that the
+            relevant expectations exist.
         }
 
         While $\Cc$ is typically uncountable, computers are finite; if for no
-        other reason,\footnote{
+        other reason than this,\footnote{
             Of course, there are other reasons, primarily control over
             generalization and optimization.
         }
@@ -428,10 +429,7 @@
            Intuitively,
             $\Dd$ controls generalization,
             $\Ll$ controls   optimization, 
-        and $\Hh$ controls  approximation.\footnote{
-            This sentence pains the author's Bayesian sensibilities, but the 
-            fact is that this thesis is quite frequentist.
-        } To the extent this intuition holds,
+        and $\Hh$ controls  approximation.  To the extent this intuition holds,
         it permits disentangled analysis of the three separate concerns.
         In reality, the three concerns typically interact, for instance because
         the approximation term encourages large hypothesis classes $\Hh$,
@@ -440,81 +438,24 @@
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Neural Networks and Gradient Descent  ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        Deep learning partially solves the problem of learning by offering a 
-        class of $\Hh$'s with small approximation error and a heuristically
-        motivated $\Ll$ that in practice optimizes well.  In particular, 
-        \textbf{neural networks} are smoothly parameterized hypothesis classes
+        \textbf{Neural networks} are smoothly parameterized hypothesis classes
         for the supervised setting where $|\Dd| = \Xx\times \Yy$ and $\Cc =
         \Yy^\Xx$.  In practice, they arise as compositions of simple functions
         that, via dynamic programming, afford efficient computation of
         parameter-output Jacobians.  More precisely, we posit that $\Hh, \Yy$
         are smooth manifolds, and that the canonical map $\Hh\to\Cc$ is given
         by an \textbf{architecture} written in curried forms as $A:\Xx\to
-        \Hh\to \Yy$ or $\tilde{A}:\Hh\to\Xx\to\Yy$, where each $A(x)$ is
+        \Hh\to \Yy$ or $\tilde{A}:\Pp\to\Xx\to\Yy$, where each $A(x)$ is a
         smooth.  We also posit an objective funcion written in
         curried form as $O:|\Dd|\to\Yy\to\RR$, with each $O(d)$ smooth.
-        Then the error function, restricted to $\Hh$, is 
-        $E(p)(d) = O(d)\circ \tilde{A}(p)$ for $p\in \Hh$ and $d\in \Dd$.
+        Then the error function restricted to $\Hh$, is 
+        $E(p)(d) = O(d)\circ \tilde{A}(p)$ for $p\in \Pp$ and $d\in \Dd$.
         This error function $E:\Hh\to |\Dd|\to\RR$ alternatively curries to
-        a loss landscape $l:|\Dd|\to\Hh\to\RR$, which we regard as
-        parameterizing a random variable $l_d: \Hh\to\RR$ valued in the smooth
-        functions. 
+        a loss landscape $l:|\Dd|\to\Hh\to\RR$, which we think of as parametrizing 
+        a function-valued random variable $l_d: \Hh\to\RR$. 
 
         By construction, each $l_d$ is smooth, so we may implement $\optH$ by
-        gradient descent.  Explicitly, we choose an initial point $p_0\in \Hh$
-        and then repeatedly update using learning rate $\eta$:
-        $$
-            p_{t+1} = p_t - \eta (\nabla \Ein)(p) 
-        $$
-        Observe that $p$ takes values in $\Hh$ while $(\nabla \Ein)(p)$ takes
-        values in the cotangent bundle $T^\star\Hh$.  The above update is
-        thus not yet well-defined.  To bridge the two type signatures, we
-        interpret $\eta$ as a map $\eta: T^\star\Hh\to T\Hh$ from
-        covectors to vectors.  In other words, $\eta$ has the type signature
-        of an (inverse) metric.\footnote{
-            We assume a flat metric until \S\ref{appendix:future}, where we
-            briefly discuss curvature.
-        } Then $-\eta (\nabla \Ein)(p)$ is a vector, and we may flow along this
-        vector geodesically from $p_t$ to $p_{t+1}$. 
-
-        The special case of linear image classification illustrates the
-        metric's role in learning.  Here, $\Xx$ is a 
-        vector space\footnote{
-            Here and henceforth, all spaces will be finite-dimensional unless
-            obviously otherwise.
-        } of images and $\Hh = \Xx^\star$ is the space of linear features.
-        Since $\Hh$ and $\Xx$ are dual, we may regard whatever inverse metric
-        on $\Hh$ we use for descent as a metric on $\Xx$.  If, intuitively,
-        each feature is a question that can be asked of an image, then the
-        metric $\eta:\Xx\to\Xx^\star$ turns an image $x$ itself into a
-        question, namely the question of ``is this image like $x$?''  Crucially,
-        different choices of $\eta$ will yield different questions for the same
-        $x$ ---
-        %
-        ranging from
-        \emph{is this image like $x$ in that both are blue near the center?}
-        (for a center-masked pixel-wise metric)
-        to
-        \emph{is this image like $x$ in that their edges are aligned?}
-        (for a Sobelev-inspired grayscale metric)
-        %
-        --- and will thus lead to different generalization behaviors. 
-
-        In sum, complete Riemannian manifolds are the natural
-        setting for gradient descent.\footnote{
-            much as symplectic manifolds are the natural setting for classical
-            mechanics
-        }
-        %
-        Many subfields of Computing Science have recognized the importance ---
-        both to optimization and to generalization --- of the choice of metric,
-        so the same circle of ideas takes the varied names of \emph{learning on
-        manifolds} \citep{bo13}, \emph{Legendre duality}, \emph{the kernel
-        trick}, \emph{matrix pre-conditioning}, and \emph{Galois
-        connections}.
-        %
-        To understand and exploit this choice of metric is a theme of this
-        thesis. 
+        gradient descent.
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Motivation for Stochasticity  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
