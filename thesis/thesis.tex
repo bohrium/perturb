@@ -340,7 +340,7 @@
 
     %-----------------  retrospective  ----------------------------------------
     %
-    In addition to quantitative predictions, our analysis offers a novel
+    Beyond quantitative predictions, our analysis offers a novel
     interpretation of SGD as a sum of many concurrent interactions between
     weights and data.  Diagrams such as $\sdia{c(01-2-3)(02-12-23)}$, evocative
     of those of \citet{fe49} and \citet{pe71}, depict these interactions. 
@@ -355,10 +355,11 @@
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Optimization and Generalization  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        \subsection{Generalization, Optimization, and Approximation}
 
-        This thesis discusses generalization and optimization of neural
-        networks.  We first orient these notions by reviewing in broad 
-        strokes a standard\cite{ab12, ra19} learning framework.
+        This thesis studies generalization and optimization of neural networks.
+        We first orient ourselves by reviewing in broad strokes a
+        standard\cite{ab12, ra19} learning framework.
 
         \newcommand{\Eout}{\Ee_{\text{out}}}
         \newcommand{\Ein }{\Ee_{\text{in},\Ss}}
@@ -378,27 +379,25 @@
         a set $\Cc$ of \textbf{hypotheses}, and an \textbf{error
         function} written in curried form as $E:\Cc\to|\Dd|\to\RR$.
         By averaging, $E$ extends to $E:\Cc\to|\Dd|^N\to\RR$.  For a
-        training sequence $\Ss \sim \Dd^N$, the train and test
+        training sequence $\Ss \sim \Dd^N$, the training and test
         errors $\Eout, \Ein: \Cc\to \RR$ are $\Eout = \EE_{\Dd} \circ E$ and
         $\Ein = \EE_{\Ss} \circ E$.  Observe that if $p\in \Cc$ is a
         hypothesis-valued random variable independent from $\Ss$, then
         $\Ein(p)$ is an unbiased estimator of $\Eout(p)$; the conclusion
-        famously fails when $p, \Ss$ are dependent, a phenomenon we know as
+        fails when $p, \Ss$ are dependent, a phenomenon we know as
         \textbf{overfitting}.
 
         A \textbf{learning rule} is then a
         map $\Ll:|\Dd|^N\to \Cc$ from training sequences to hypotheses;\footnote{
-            Real learning rules are typically randomized algorithms rather than
-            pure functions.
-        } we seek
-        rules that achieve low test error, that is, rules for which the test
-        error
+            Real-life learning rules are typically randomized algorithms rather
+            than pure functions.
+        } we seek low-error rules, that is, rules for which the test error
         $$
             \EE_{\Ss}(\Eout \circ \Ll)
         $$
-        does not far exceed the best we dare hope for, namely the minimum
-        training error $\Ein(\amC\Ein)$.\footnote{
-            To be precise, we should replace minima by infima.
+        doesn't far exceed the best for which we dare to hope, namely the
+        minimum training error $\Ein(\amC\Ein)$.\footnote{
+            A puritan would replace minima by infima.
         }
 
         While $\Cc$ is typically uncountable, computers are finite; if for no
@@ -439,26 +438,39 @@
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Neural Networks and Gradient Descent  ~~~~~~~~~~~~~~~~~~~~~~~~~
+        \subsection{Neural Networks}
 
         Deep learning partially solves the problem of learning by offering a 
         class of $\Hh$'s with small approximation error and a heuristically
         motivated $\Ll$ that in practice optimizes well.  In particular, 
         \textbf{neural networks} are smoothly parameterized hypothesis classes
         for the supervised setting where $|\Dd| = \Xx\times \Yy$ and $\Cc =
-        \Yy^\Xx$.  In practice, they arise as compositions of simple functions
-        that, via dynamic programming, afford efficient computation of
+        \Yy^\Xx$.  In practice, they arise as compositions of simple
+        functions that, via dynamic programming, afford efficient computation of
         parameter-output Jacobians.  More precisely, we posit that $\Hh, \Yy$
         are smooth manifolds, and that the canonical map $\Hh\to\Cc$ is given
         by an \textbf{architecture} written in curried forms as $A:\Xx\to
         \Hh\to \Yy$ or $\tilde{A}:\Hh\to\Xx\to\Yy$, where each $A(x)$ is
-        smooth.  We also posit an objective funcion written in
+        smooth.\footnote{
+            Concretely, $\tilde{A}(p)$ is typical of the form
+            $$
+                a_{100} \circ f_{99}(p) \circ a_{98} \circ
+                               \cdots \circ f_1(p) \circ a_0 
+            $$
+            where $a, f$ are smooth and each $f$ is bilinear.
+        }  We also posit an objective funcion written in
         curried form as $O:|\Dd|\to\Yy\to\RR$, with each $O(d)$ smooth.
         Then the error function, restricted to $\Hh$, is 
         $E(p)(d) = O(d)\circ \tilde{A}(p)$ for $p\in \Hh$ and $d\in \Dd$.
         This error function $E:\Hh\to |\Dd|\to\RR$ alternatively curries to
-        a loss landscape $l:|\Dd|\to\Hh\to\RR$, which we regard as
+        a \textbf{loss landscape} $l:|\Dd|\to\Hh\to\RR$, which we regard as
         parameterizing a random variable $l_d: \Hh\to\RR$ valued in the smooth
-        functions. 
+        functions.\footnote{
+            Caution: we will overload notation by using $l$ to mean $l_d$'s 
+            expectation.
+        }
+
+        \subsection{Gradient Descent}
 
         By construction, each $l_d$ is smooth, so we may implement $\optH$ by
         gradient descent.  Explicitly, we choose an initial point $p_0\in \Hh$
@@ -468,9 +480,9 @@
         $$
         Observe that $p$ takes values in $\Hh$ while $(\nabla \Ein)(p)$ takes
         values in the cotangent bundle $T^\star\Hh$.  The above update is
-        thus not yet well-defined.  To bridge the two type signatures, we
+        thus not yet well-defined.  To bridge the two types, we
         interpret $\eta$ as a map $\eta: T^\star\Hh\to T\Hh$ from
-        covectors to vectors.  In other words, $\eta$ has the type signature
+        covectors to vectors.  That is, $\eta$ has the type signature
         of an (inverse) metric.\footnote{
             We assume a flat metric until \S\ref{appendix:future}, where we
             briefly discuss curvature.
@@ -480,7 +492,7 @@
         The special case of linear image classification illustrates the
         metric's role in learning.  Here, $\Xx$ is a 
         vector space\footnote{
-            Here and henceforth, all spaces will be finite-dimensional unless
+            All of our spaces will be finite-dimensional unless
             obviously otherwise.
         } of images and $\Hh = \Xx^\star$ is the space of linear features.
         Since $\Hh$ and $\Xx$ are dual, we may regard whatever inverse metric
@@ -506,8 +518,10 @@
             mechanics
         }
         %
-        Many subfields of Computing Science have recognized the importance ---
-        both to optimization and to generalization --- of the choice of metric,
+        Many subfields of Computing Science have recognized the importance
+        %---
+        %both to optimization and to generalization ---
+        of the choice of metric,
         so the same circle of ideas takes the varied names of \emph{learning on
         manifolds} \citep{bo13}, \emph{Legendre duality}, \emph{the kernel
         trick}, \emph{matrix pre-conditioning}, and \emph{Galois
@@ -518,6 +532,26 @@
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Motivation for Stochasticity  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        \subsection{Stochastic Gradient Descent}
+
+            Ideally, we would descend on $\Eout$ rather than the estimator
+            $\Ein = \sum_{d\in\Ss} l_d/|\Ss|$ or more generally $l_\Bb =
+            \sum_{d\in\Bb} l_d/|\Bb|$ for non-empty \textbf{batches}
+            $\Bb\subseteq\Ss$.  But we have access only to estimators, and we
+            are confronted with a choice of which to use.  This is the problem
+            of batching, which represents a trade-off in optimization: while
+            each large-batch update more precisely decreases the objective, we
+            may perform more small-batch updates per unit time.
+
+            Though it may be efficiency in optimization that motivates smaller,
+            randomly chosen batches, we will show that such \emph{stochastic
+            gradient descent} (SGD) biases learning away from certain regions
+            of weight space, and we discuss when and why this helps
+            generalization.
+            %
+            Overall, we find that SGD differs from descent on $\Ein$, not only
+            through diffusion terms sublinear ($\sqrt{T}$) in the number $T$ of
+            updates but also through a linear drift that scales with $T$.
 
     \section{Example of diagram-based computation of SGD's test loss} \label{subsect:example}
 

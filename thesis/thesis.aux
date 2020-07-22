@@ -26,20 +26,26 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Background on Learning}{2}{section.1.1}\protected@file@percent }
 \newlabel{sect:background}{{1.1}{2}{Background on Learning}{section.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{Generalization, Optimization, and Approximation}{2}{subsection*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Neural Networks}{3}{subsection*.2}\protected@file@percent }
 \citation{bo13}
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Example of diagram-based computation of SGD's test loss}{4}{section.1.2}\protected@file@percent }
-\newlabel{subsect:example}{{1.2}{4}{Example of diagram-based computation of SGD's test loss}{section.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{Gradient Descent}{4}{subsection*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Stochastic Gradient Descent}{4}{subsection*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Example of diagram-based computation of SGD's test loss}{5}{section.1.2}\protected@file@percent }
+\newlabel{subsect:example}{{1.2}{5}{Example of diagram-based computation of SGD's test loss}{section.1.2}{}}
+\newlabel{exm:first}{{1}{5}{}{exm.1}{}}
 \citation{ko93}
 \citation{bo13}
-\newlabel{exm:first}{{1}{5}{}{exm.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Notation and assumptions}{5}{section.1.3}\protected@file@percent }
-\newlabel{sect:notation}{{1.3}{5}{Notation and assumptions}{section.1.3}{}}
 \citation{ki52}
 \citation{ca47}
 \citation{ro51}
 \citation{we74}
 \citation{bo91}
 \citation{le15}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Notation and assumptions}{6}{section.1.3}\protected@file@percent }
+\newlabel{sect:notation}{{1.3}{6}{Notation and assumptions}{section.1.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Related work}{6}{section.1.4}\protected@file@percent }
+\newlabel{sect:related}{{1.4}{6}{Related work}{section.1.4}{}}
 \citation{ne17a}
 \citation{ba17}
 \citation{zh17}
@@ -54,8 +60,6 @@
 \citation{st56}
 \citation{di17}
 \citation{wu18}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Related work}{6}{section.1.4}\protected@file@percent }
-\newlabel{sect:related}{{1.4}{6}{Related work}{section.1.4}{}}
 \citation{dy19}
 \citation{ch18}
 \citation{li17}
@@ -138,7 +142,7 @@
 \bibcite{fi17}{{15}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
 \bibcite{ga23}{{16}{1823}{{Gauss}}{{}}}
 \bibcite{go18}{{17}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{15}{chapter*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{15}{chapter*.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \bibcite{ho17}{{18}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
@@ -181,14 +185,14 @@
 \newlabel{appendix:tutorial}{{A}{19}{How to calculate test losses}{chapter.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {A.1}An example calculation: the effect of epochs}{19}{section.1.1}\protected@file@percent }
 \newlabel{qst:multi}{{1}{19}{}{quest.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Space-time grids}{20}{paragraph*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Space-time grids}{20}{paragraph*.7}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {A.1}{\ignorespaces  \textbf  {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline  \textbf  {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline  \textbf  {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates. }}{20}{figure.1.1}\protected@file@percent }
 \newlabel{fig:spacetimes-epoch}{{A.1}{20}{Space-time grids}{figure.1.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{Embeddings of diagrams into space-time}{21}{paragraph*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Embeddings of diagrams into space-time}{21}{paragraph*.8}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {A.2}{\ignorespaces  \textbf  {The diagram $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\sdia {c(01-2)(01-12)}$ (or $\sdia {c(0-1-2)(01-12)}$), $\sdia {c(0-1)(01)}$, $\sdia {c(0-1-2)(01-12)}$, $\sdia {c(0-1-2)(02-12)}$, and $\sdia {c(01-2)(02-12)}$ (or $\sdia {c(0-1-2)(02-12)}$). The diagram $\sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\sdia {c(0-1-2)(02-12)}$ and $\sdia {c(01-2)(02-12)}$. \textbf  {Left}: $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf  {Right}: $\sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells. }}{21}{figure.1.2}\protected@file@percent }
 \newlabel{fig:multi-embeddings}{{A.2}{21}{Embeddings of diagrams into space-time}{figure.1.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Values of the embeddings}{21}{paragraph*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Sum of the values}{21}{paragraph*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Values of the embeddings}{21}{paragraph*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Sum of the values}{21}{paragraph*.10}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {A.2}How to identify the relevant space-time}{22}{section.1.2}\protected@file@percent }
 \newlabel{appendix:draw-spacetime}{{A.2}{22}{How to identify the relevant space-time}{section.1.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {A.3}{\ignorespaces  \textbf  {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline  \textbf  {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline  \textbf  {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. }}{22}{figure.1.3}\protected@file@percent }
@@ -202,12 +206,12 @@
 \@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S  \ref  {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{24}{table.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {A.4}How to evaluate each embedding}{24}{section.1.4}\protected@file@percent }
 \newlabel{appendix:evaluate-embeddings}{{A.4}{24}{How to evaluate each embedding}{section.1.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{24}{paragraph*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{24}{paragraph*.11}\protected@file@percent }
 \citation{ro64}
 \newlabel{exm:unresum}{{3}{25}{Un-resummed value}{exm.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{25}{paragraph*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{25}{paragraph*.12}\protected@file@percent }
 \newlabel{exm:resum}{{4}{25}{Re-summed value}{exm.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{Overall}{26}{paragraph*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Overall}{26}{paragraph*.13}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {A.5}How to sum the embeddings' values}{26}{section.1.5}\protected@file@percent }
 \newlabel{appendix:sum-embeddings}{{A.5}{26}{How to sum the embeddings' values}{section.1.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {A.6}Interpreting diagrams intuitively}{27}{section.1.6}\protected@file@percent }
@@ -220,12 +224,12 @@
 \newlabel{appendix:solve-variants}{{A.7}{27}{How to solve variant problems}{section.1.7}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {A.8}Do diagrams streamline computation?}{28}{section.1.8}\protected@file@percent }
 \newlabel{appendix:diagrams-streamline}{{A.8}{28}{Do diagrams streamline computation?}{section.1.8}{}}
-\@writefile{toc}{\contentsline {paragraph}{Effect of batch size}{28}{paragraph*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Diagram Method}{28}{paragraph*.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Direct Perturbation}{30}{paragraph*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Effect of non-Gaussian noise at a minimum.}{32}{paragraph*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Diagram Method}{32}{paragraph*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Direct Perturbation}{33}{paragraph*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Effect of batch size}{28}{paragraph*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Diagram Method}{28}{paragraph*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Direct Perturbation}{30}{paragraph*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Effect of non-Gaussian noise at a minimum.}{32}{paragraph*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Diagram Method}{32}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Direct Perturbation}{33}{paragraph*.19}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {B}Mathematics of the theory}{35}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -258,14 +262,14 @@
 \newlabel{eq:hard}{{B.5}{41}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {B.6}Proofs of corollaries}{42}{section.2.6}\protected@file@percent }
 \newlabel{appendix:corollaries}{{B.6}{42}{Proofs of corollaries}{section.2.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:entropic}}{42}{paragraph*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:overfit}'s first part}{42}{paragraph*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:entropic}}{42}{paragraph*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:overfit}'s first part}{42}{paragraph*.21}\protected@file@percent }
 \citation{la60,la51}
-\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:overfit}'s second part}{43}{paragraph*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{43}{paragraph*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:overfit}'s second part}{43}{paragraph*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{43}{paragraph*.23}\protected@file@percent }
 \newlabel{prop:ordtwo}{{2}{43}{}{prop.2}{}}
 \newlabel{tbl:ordtwo}{{B.6}{43}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:vsode}}{43}{paragraph*.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Corollary \ref  {cor:vsode}}{43}{paragraph*.24}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {B.7}Future topics}{43}{section.2.7}\protected@file@percent }
 \newlabel{appendix:future}{{B.7}{43}{Future topics}{section.2.7}{}}
 \citation{ab07,zh16}
@@ -279,19 +283,19 @@
 \newlabel{appendix:experiments}{{C}{45}{Experimental methods}{chapter.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {C.1}What artificial landscapes did we use?}{45}{section.3.1}\protected@file@percent }
 \newlabel{appendix:artificial}{{C.1}{45}{What artificial landscapes did we use?}{section.3.1}{}}
-\@writefile{toc}{\contentsline {paragraph}{\textls  [50]{\textsmallcaps  {Gauss}}}{45}{paragraph*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\textls  [50]{\textsmallcaps  {Archimedes}}}{45}{paragraph*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\textls  [50]{\textsmallcaps  {Gauss}}}{45}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\textls  [50]{\textsmallcaps  {Archimedes}}}{45}{paragraph*.26}\protected@file@percent }
 \citation{kr09}
 \citation{xi17}
-\@writefile{toc}{\contentsline {paragraph}{\textls  [50]{\textsmallcaps  {Mean Estimation}}}{46}{paragraph*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\textls  [50]{\textsmallcaps  {Mean Estimation}}}{46}{paragraph*.27}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {C.2}What image-classification landscapes did we use?}{46}{section.3.2}\protected@file@percent }
 \newlabel{appendix:natural}{{C.2}{46}{What image-classification landscapes did we use?}{section.3.2}{}}
-\@writefile{toc}{\contentsline {paragraph}{Architectures}{46}{paragraph*.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Datasets}{46}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Architectures}{46}{paragraph*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Datasets}{46}{paragraph*.29}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {C.3}Measurement process}{47}{section.3.3}\protected@file@percent }
 \newlabel{appendix:measure}{{C.3}{47}{Measurement process}{section.3.3}{}}
-\@writefile{toc}{\contentsline {paragraph}{Diagram evaluation on real landscapes}{47}{paragraph*.26}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Descent simulations}{47}{paragraph*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Diagram evaluation on real landscapes}{47}{paragraph*.30}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Descent simulations}{47}{paragraph*.31}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {C.4}Implementing optimizers}{47}{section.3.4}\protected@file@percent }
 \newlabel{appendix:optimizers}{{C.4}{47}{Implementing optimizers}{section.3.4}{}}
 \citation{pa19}
