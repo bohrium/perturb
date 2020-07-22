@@ -1,3 +1,7 @@
+fast:
+	pdflatex thesis.tex
+	evince thesis.pdf
+
 thesis:
 	pdflatex thesis.tex
 	bibtex   thesis.aux
