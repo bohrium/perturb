@@ -333,8 +333,6 @@
         Without the encouragement of \textsc{Jason Corso}, \textsc{Chloe
         Kleinfeldt}, \textsc{Alex Lew}, \textsc{Ari Morcos}, and \textsc{David
         Schwab}, this project would not be.
-        %
-        This work was funded in part by MIT's Jacobs Presidential Fellowship.
 
     \vspace{1cm}
     \textbf{Administrivia}.
@@ -444,9 +442,9 @@
             Of course, there are other reasons, primarily control over
             generalization and optimization.
         }
-        we imagine $\Ll$'s range as some ``subset'' $\Hh$ of practical hypotheses
-        --- more complicated to describe but easier to work with than $\Cc$ ---  
-        with a canonical map $\Hh \to \Cc$.\footnote{
+        we imagine $\Ll$'s range as some parametric ``subset'' $\Hh$ of
+        practical hypotheses --- more complicated to describe but easier to
+        work with than $\Cc$ ---  with a canonical map $\Hh \to \Cc$.\footnote{
             We permit the map to be non-injective: this is often the case in 
             deep learning.
         } Moreover, in practice $\Ll$ takes the form of
@@ -960,10 +958,11 @@
         %
         \par\textbf{Edge rule}: insert for each duration $\Delta t$ edge
         a factor $(I-\eta H)^{\Delta t-1} \eta$.
-        %
+
+        \noindent
         We set $K \triangleq (I-\eta H)$ to write the edge rule as
-        $K^{\Delta t-1} \eta$.  We will later interpret $K$ the ``propagator'' 
-        from past influences through time.
+        $K^{\Delta t-1} \eta$.  We will later interpret $K$ as the
+        ``propagator'' from past influences through time.
 
         \begin{exm}
             If $f$ maps $\sdia{c(012-3)(03-13-23)}$'s red part to time $t =
@@ -1510,7 +1509,7 @@
             \label{fig:takreg}
         \end{figure}
 
-    \section{Methods}\label{appendix:experiments}
+    \section{Landscapes}\label{appendix:experiments}
 
         We defined three artificial landscapes, called
         \Gauss, \Archimedes, and \MeanEstimation.
@@ -1608,47 +1607,47 @@
             a non-canonical choice of initialization.  We initialize
             $\lambda=0$.
 
-    \section{What image-classification landscapes did we use?}   \label{appendix:natural}
+        \subsection{Image-classification landscapes}   \label{appendix:natural}
 
-        \paragraph{Architectures}
-            In addition to the artificial loss landscapes
-            \Gauss, \Archimedes, and \MeanEstimation, 
-            we tested our predictions on logistic linear regression
-            and simple convolutional networks (2 convolutional weight layers
-            each with kernel $5$, stride $2$, and $10$ channels, followed by
-            two dense weight layers with hidden dimension $10$) for the
-            CIFAR-10 \citep{kr09} and Fashion-MNIST datasets \citep{xi17}.  The
-            convolutional architectures used $\tanh$ activations and Gaussian
-            Xavier initialization.  To set a standard distance scale on weight
-            space, we parameterized the model so that the
-            Gaussian-Xavier initialization of the linear maps in each layer
-            differentially pulls back to standard normal initializations of the
-            parameters.
-            
-        \paragraph{Datasets}
-            For image classification landscapes, we regard the finite amount of
-            available data as the true (sum of diracs) distribution $\Dd$ from
-            which we sample test and training sets in i.i.d.\ manner (and hence
-            ``with replacement'').  We do this to gain practical access to a
-            ground truth against which we may compare our predictions.  One
-            might object that this sampling procedure would cause test and
-            training sets to overlap, hence biasing test loss measurements.  In
-            fact, test and training sets overlap only in reference, not in
-            sense: the situation is analogous to a text prediction task in
-            which two training points culled from different corpora happen to
-            record the same sequence of words, say, ``Thank you!''.  In any
-            case, all of our experiments focus on the limited-data regime, e.g.
-            $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
-            are rare.
+            \textbf{Architectures}.
+                In addition to the artificial loss landscapes
+                \Gauss, \Archimedes, and \MeanEstimation, 
+                we tested our predictions on logistic linear regression
+                and simple convolutional networks (2 convolutional weight layers
+                each with kernel $5$, stride $2$, and $10$ channels, followed by
+                two dense weight layers with hidden dimension $10$) for the
+                CIFAR-10 \citep{kr09} and Fashion-MNIST datasets \citep{xi17}.  The
+                convolutional architectures used $\tanh$ activations and Gaussian
+                Xavier initialization.  To set a standard distance scale on weight
+                space, we parameterized the model so that the
+                Gaussian-Xavier initialization of the linear maps in each layer
+                differentially pulls back to standard normal initializations of the
+                parameters.
+                
+            \textbf{Datasets}.
+                For image classification landscapes, we regard the finite amount of
+                available data as the true (sum of diracs) distribution $\Dd$ from
+                which we sample test and training sets in i.i.d.\ manner (and hence
+                ``with replacement'').  We do this to gain practical access to a
+                ground truth against which we may compare our predictions.  One
+                might object that this sampling procedure would cause test and
+                training sets to overlap, hence biasing test loss measurements.  In
+                fact, test and training sets overlap only in reference, not in
+                sense: the situation is analogous to a text prediction task in
+                which two training points culled from different corpora happen to
+                record the same sequence of words, say, ``Thank you!''.  In any
+                case, all of our experiments focus on the limited-data regime, e.g.
+                $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
+                are rare.
 
     \section{Measurement process}                                \label{appendix:measure}
 
-        \paragraph{Diagram evaluation on real landscapes}
+        \subsection{Diagram evaluation on real landscapes}
             We implemented the formulae of \S\ref{sect:bessel} in order
             to estimate diagram values from real data measured at
             initialization from batch averages of products of derivatives.
 
-        \paragraph{Descent simulations}
+        \subsection{Descent simulations}
             We recorded test and train losses for each of the trials below.  To
             improve our estimation of average differences, when we compared two
             optimizers, we gave them the same random seed (and hence the same
@@ -1678,36 +1677,36 @@
             did likewise for the linear logistic model on the one
             initialization of $0$. 
 
-    \section{Implementing optimizers}                            \label{appendix:optimizers}
+        \subsection{Implementing optimizers}                            \label{appendix:optimizers}
 
-        We approximated SDE by refining time discretization by a factor of
-        $16$, scaling learning rate down by a factor of $16$, and introducing
-        additional noise in the shape of the covariance in proportion as
-        prescribed by the Wiener process scaling.
+            We approximated SDE by refining time discretization by a factor of
+            $16$, scaling learning rate down by a factor of $16$, and introducing
+            additional noise in the shape of the covariance in proportion as
+            prescribed by the Wiener process scaling.
 
-        Our GDC regularizer was implemented using the unbiased estimator
-        $$
-            \hat{C} \triangleq (l_x - l_y)_\mu {l_x}_\nu / 2
-        $$
-        
-        For our tests of regularization based on Corollary \ref{cor:overfit},
-        we exploited the low-dimensional special structure of the artificial
-        landscape in order to avoid diagonalizing to perform the matrix
-        exponentiation: precisely, we used that, even on training landscapes,
-        the covariance of gradients would be degenerate in all but one
-        direction, and so we need only exponentiate a scalar.
+            Our GDC regularizer was implemented using the unbiased estimator
+            $$
+                \hat{C} \triangleq (l_x - l_y)_\mu {l_x}_\nu / 2
+            $$
+            
+            For our tests of regularization based on Corollary \ref{cor:overfit},
+            we exploited the low-dimensional special structure of the artificial
+            landscape in order to avoid diagonalizing to perform the matrix
+            exponentiation: precisely, we used that, even on training landscapes,
+            the covariance of gradients would be degenerate in all but one
+            direction, and so we need only exponentiate a scalar.
 
-    \section{Software frameworks and hardware}                   \label{appendix:frameworks}
+        \subsection{Software frameworks and hardware}                   \label{appendix:frameworks}
 
-        All code and data-wrangling scripts can be found on
-        {\color{mooteal}github.com/bohrium/perturb}.
+            All code and data-wrangling scripts can be found on
+            {\color{mooteal}github.com/bohrium/perturb}.
 
-        Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
-        other substantive dependencies.  The code's randomness is parameterized
-        by random seeds and hence reproducible.
+            Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
+            other substantive dependencies.  The code's randomness is parameterized
+            by random seeds and hence reproducible.
 
-        We ran experiments on a Lenovo laptop and on our institution's
-        clusters; we consumed about $100$ GPU-hours.
+            We ran experiments on a Lenovo laptop and on our institution's
+            clusters; we consumed about $100$ GPU-hours.
 
 %==============================================================================
 %    CONCLUSION      
@@ -1943,7 +1942,7 @@
         So Question \ref{qst:multi}'s answer will be second-order (or
         higher-order) in $\eta$.
 
-        \paragraph{Space-time grids}
+        \subsection{Space-time grids}
             We take an $N\times T$ grid and shade its cells, shading the
             $(n,t)$th cell when the $t$th update involves the $n$th data point.
             Thus, each column contains $B$ (batch size) many shaded cells and
@@ -1952,11 +1951,10 @@
             Two space-times are relevant to Question \ref{qst:multi}: one for
             multi-epoch SGD and another for single-epoch SGD --- see Figure
             \ref{fig:spacetimes-epoch}.
-            \begin{marginfigure} 
+            \begin{figure} 
                 \centering
-                \dmoo{3.55cm}{spacetime-b1-e2-nosh}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b1-e1-nosh}
+                \plotmooh{diagrams/spacetime-b1-e2-nosh}{}{0.35\columnwidth} 
+                \plotmooh{diagrams/spacetime-b1-e1-nosh}{}{0.35\columnwidth} 
                 \caption{
                     \textbf{The space-time grids of single-epoch and of
                     multi-epoch SGD.}  A cell at row $n$ and column $t$ is
@@ -1974,10 +1972,9 @@
                         of $T = MN = N$ many updates.
                 }
                 \label{fig:spacetimes-epoch}
-            \end{marginfigure}
+            \end{figure}
 
-        \newpage
-        \paragraph{Embeddings of diagrams into space-time}
+        \subsection{Embeddings of diagrams into space-time}
             There are four two-edged diagrams: 
             $\sdia{c(0-1-2)(02-12)}$,
             $\sdia{c(01-2)(02-12)}$,
@@ -2003,11 +2000,10 @@
             \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
             order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
             space-times relevant to Question \ref{qst:multi}.
-            \begin{marginfigure} 
+            \begin{figure} 
                 \centering
-                \dmoo{3.55cm}{spacetime-d}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-c}
+                \plotmooh{diagrams/spacetime-d}{}{0.35\columnwidth} 
+                \plotmooh{diagrams/spacetime-c}{}{0.35\columnwidth} 
                 \caption{
                     \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
                         into multi-epoch but not single-epoch space-time.}
@@ -2037,9 +2033,9 @@
                         distinct columns and thus distinct cells.
                 }
                 \label{fig:multi-embeddings}
-            \end{marginfigure}
+            \end{figure}
 
-        \paragraph{Values of the embeddings}
+        \subsection{Values of the embeddings}
 
             We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
             are an approximation of the latter, appropriate when $T$ is fixed
@@ -2084,7 +2080,7 @@
                 \eta^{\nu\rho}
             $$
 
-        \paragraph{Sum of the values}
+        \subsection{Sum of the values}
 
             Referring again to Figure \ref{fig:multi-embeddings}, we see that
             $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
@@ -2144,11 +2140,10 @@
         the shaded grid the SGD's \emph{space-time grid} or
         \emph{space-time}.  See Figure \ref{fig:spacetimes}.  
 
-        \begin{marginfigure} 
+        \begin{figure} 
             \centering
-            \dmoo{3.55cm}{spacetime-b1-e2-shuf}
-            ~~~~~
-            \dmoo{3.55cm}{spacetime-b2-e4-nosh}
+            \dmoo{3cm}{spacetime-b1-e2-shuf}
+            \dmoo{3cm}{spacetime-b2-e4-nosh}
             \caption{
                 \textbf{The space-time grids of two SGD variants.}
                 Shaded cells show $(n,t)$ pairs (see text).
@@ -2160,7 +2155,7 @@
                     two.  The training set is not permuted between epochs.
             }
             \label{fig:spacetimes}
-        \end{marginfigure}
+        \end{figure}
 
         In sum, when using the diagram method to solve a problem relating
         to SGD with batch size $B$ and $E$ many epochs (over $T$ many time
@@ -2181,7 +2176,6 @@
             \mend
         \end{rmk*}
 
-    \newpage
     \section{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
         A \emph{diagram} is a finite rooted tree equipped with a partition of
         its nodes, such that the root node occupies a part of size $1$.  Note
@@ -2223,7 +2217,7 @@
         forbids (among other things) intra-cell edges, and the correlation
         condition demands that fuzzily tied nodes are in the same row.  See
         Figure \ref{fig:embeddings}.
-        \begin{marginfigure}
+        \begin{figure}
             \centering  
             \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
             \caption{
@@ -2240,7 +2234,7 @@
                     not obeyed.
             }
             \label{fig:embeddings}
-        \end{marginfigure}
+        \end{figure}
 
         In principle, the relevant diagrams for a calculation with error
         $o(\eta^d)$ are the diagrams with at most $d$ edges.  For $d$ greater
@@ -2355,7 +2349,7 @@
         initialize near a local minimum, $\rvalue$s do not diverge to $\pm
         \infty$ as $T\to\infty$.
         
-        \paragraph{Un-resummed values: $\uvalue(D)$}
+        \subsection{Un-resummed values: $\uvalue(D)$}
             Each part in a diagram's partition looks like one of the following
             fragments (or one of the infinitely many analogous fragments):
             \begin{center}
@@ -2463,7 +2457,7 @@
                 \mend
             \end{exm}
 
-        \paragraph{Resummed values: $\rvalue_f(D)$}
+        \subsection{Resummed values: $\rvalue_f(D)$}
             The only difference between $\rvalue$s and $\uvalue$s is in their
             rule for evaluating edges.
 
@@ -2501,7 +2495,7 @@
                 \mend
             \end{exm}
 
-        \paragraph{Overall}
+        \subsection{Overall}
             In sum, we evaluate an embedding of a diagram by using the 
             \textbf{node}, 
             \textbf{outline}, and
@@ -2631,7 +2625,7 @@
         the training set toward the test measurement.  See Figure
         \ref{fig:intuition}.
 
-        \begin{marginfigure} 
+        \begin{figure} 
             \centering  
             \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
             \caption{
@@ -2639,13 +2633,13 @@
                 Embedding of a $4$-edged diagram.
             }
             \label{fig:intuition}
-        \end{marginfigure}
+        \end{figure}
 
 
-        \begin{marginfigure} 
+        \begin{figure} 
             \centering  
-            \dmoo{3cm}{spacetime-g}
-            \dmoo{3cm}{spacetime-h}
+            \plotmoow{diagrams/spacetime-g}{0.45\columnwidth}{}
+            \plotmoow{diagrams/spacetime-h}{0.45\columnwidth}{}
             \caption{
                 \textbf{Resummation propagates information, damped by
                 curvature}.  Each resummed valuerepresents many un-resummed
@@ -2658,9 +2652,9 @@
                 a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
             }
             \label{fig:intuition}
-        \end{marginfigure}
+        \end{figure}
 
-    %        \paragraph{Chladni effect}
+    %        \subsection{Chladni effect}
     %(\S\ref{appendix:interpret-diagrams})
     %            {\color{red} Make sure to also discuss Chladni effect
     %            \citep{ch87}!!!}
@@ -2671,7 +2665,7 @@
         We omit proofs, which would closely follow \S\ref{appendix:math}'s
         proof of the expectation-of-test-loss case.
 
-        \paragraph*{Variance (instead of expectation)}
+        \subsection*{Variance (instead of expectation)}
             To compute variances instead of expectations (with respect to the
             noise in the training set), one considers generalized diagrams   
             that have ``two roots'' instead of one.  More precisely, to
@@ -2685,7 +2679,7 @@
             For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
             $\mdia{MOOc(01-23)(02-13)}$ may appear in this computation.
 
-        \paragraph*{Measuring on the training (instead of test) set}
+        \subsection*{Measuring on the training (instead of test) set}
 
             To compute the training loss, we compute with all the same
             diagrams as the test loss, and we also allow all the additional
@@ -2701,7 +2695,7 @@
             For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
             $\mdia{MOOc(0-123)(02-12-23)}$ may appear in this computation.
 
-        \paragraph*{Weight displacement (instead of loss)}
+        \subsection*{Weight displacement (instead of loss)}
             To compute displacements instead of losses, one considers
             generalized diagrams that have a ``loose end'' instead of a root.
             %
@@ -2711,10 +2705,10 @@
     \section{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
 
         Diagram methods from Stueckelberg to Peierls have flourished in physics
-        because they enable swift computations and offer immediate intuition that
-        would otherwise require laborious algebraic manipulation.  We demonstrate
-        how our diagram formalism likewise streamlines analysis of descent by
-        comparing direct perturbation\footnote{
+        because they enable swift computations and offer immediate intuition
+        that would otherwise require laborious algebraic manipulation.  We
+        demonstrate how our diagram formalism likewise streamlines analysis of
+        descent by comparing direct perturbation\footnote{
             By ``direct perturbation'', we mean direct application of our Key
             Lemma (\S\ref{appendix:key-lemma}).
         }
@@ -2724,19 +2718,21 @@
         toward explicit routine when using diagrams and allow ourselves to use
         clever and lucky simplifications when doing direct perturbation.  For
         example, while solving the first sample problem by direct perturbation,
-        we structure the SGD and GD computations so that the coefficients (that in
-        both the SGD and GD cases are) called $a(T)$ manifestly agree in their
-        first and second moments.  This allows us to save some lines of argument.
+        we structure the SGD and GD computations so that the coefficients (that
+        in both the SGD and GD cases are) called $a(T)$ manifestly agree in
+        their first and second moments.  This allows us to save some lines of
+        argument.
 
-        Despite these efforts, the diagram method yields arguments about \emph{four
-        times shorter} --- and strikingly more conceptual --- than direct
-        perturbation yields.  These examples specifically suggest that: diagrams
-        obviate the need for meticulous index-tracking, from the start focus one's
-        attention on non-cancelling terms by making visually obvious which terms
-        will eventually cancel, and allow immediate exploitation of a setting's
-        special posited structure, for instance that we are initialized at a test
-        minimum or that the batch size is $1$.  We regard these examples as
-        evidence that diagrams offer a practical tool for the theorist.
+        Despite these efforts, the diagram method yields arguments about
+        \emph{four times shorter} --- and strikingly more conceptual --- than
+        direct perturbation yields.  These examples specifically suggest that:
+        diagrams obviate the need for meticulous index-tracking, from the start
+        focus one's attention on non-cancelling terms by making visually
+        obvious which terms will eventually cancel, and allow immediate
+        exploitation of a setting's special posited structure, for instance
+        that we are initialized at a test minimum or that the batch size is
+        $1$.  We regard these examples as evidence that diagrams offer a
+        practical tool for the theorist.
 
         We make no attempt to compare the re-summed version of our formalism
         to direct perturbation because the algebraic manipulations involved for
@@ -2745,12 +2741,13 @@
         We now compare {\colorbox{moolime}{Diagram Rules}} vs
         {\colorbox{moosky}{Direct Perturbation}}.
 
-        \paragraph{Effect of batch size}
+        \newpage
+        \subsection{Effect of batch size}
             We compare the test losses of pure SGD and pure GD.  Because pure
             SGD and pure GD differ in how samples are correlated, their test loss
             difference involves a covariance and hence occurs at order $\eta^2$.  
 
-            \paragraph{Diagram Method}
+            %\textbf{Diagram Method}
             \colorlet{shadecolor}{moolime}
             \begin{shaded}
                 Since SGD and GD agree on noiseless landscapes, we consider only
@@ -2778,8 +2775,7 @@
                 $$
             \end{shaded}
 
-            \newpage
-            \paragraph{Direct Perturbation} 
+            %\textbf{Direct Perturbation} 
             \colorlet{shadecolor}{moosky}
             \begin{shaded}
                 We compute the displacement $\theta_T-\theta_0$ to order $\eta^2$ 
@@ -2862,9 +2858,8 @@
                     ~&\frac{M(MN-1)}{2}      \expct{(\nabla^2 l) (\nabla l)} 
                 \end{align*}
                 $\cdots$
-            \end{shaded}
-            \newpage
-            \begin{shaded}
+            %\end{shaded}
+            %\begin{shaded}
                 $\cdots$ We see that the expectations for $a$ and $a^2$ agree
                 between pure SGD and pure GD.  So only $b$ contributes.  We
                 conclude that pure GD's test loss exceeds pure SGD's by
@@ -2890,7 +2885,8 @@
                 $$
             \end{shaded}
 
-        \paragraph{Effect of non-Gaussian noise at a minimum.}
+        \newpage
+        \subsection{Effect of non-Gaussian noise at a minimum.}
             We consider vanilla SGD initialized at a local minimum of the test loss.
             One expects $\theta$ to diffuse around that minimum according to
             gradient noise.  We compute the effect on test loss of non-Gaussian
@@ -2901,7 +2897,7 @@
             the Gaussian landscapes will by construction match their non-Gaussian
             counterparts.
 
-            \paragraph{Diagram Method}
+            %\textbf{Diagram Method}
             \colorlet{shadecolor}{moolime}
             \begin{shaded}
                 Because $\expct{\nabla l}$ vanishes at initialization, all diagrams
@@ -2920,8 +2916,7 @@
                 $$
             \end{shaded}
 
-            \newpage
-            \paragraph{Direct Perturbation}
+            %\textbf{Direct Perturbation}
             \colorlet{shadecolor}{moosky}
             \begin{shaded}
                 We compute the displacement $\theta_T-\theta_0$ to order $\eta^3$ 
@@ -3003,9 +2998,8 @@
                             \sum_{t = t_1}
                                 \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
                 \end{align*}
-            \end{shaded}
-            \newpage
-            \begin{shaded}
+            %\end{shaded}
+            %\begin{shaded}
                 Since $\expct{\nabla l}$ divides $\expct{a_T b_T}$, the latter
                 vanishes.
                 \begin{align*}
@@ -3625,7 +3619,7 @@
 
             \begin{proof}
                 The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
-                {color{red} (amputated as in the previous paragraph)}.   
+                {color{red} (amputated as in the previous subsection)}.   
                 An embedding of this diagram into $E=B=1$ SGD's spacetime
                 is determined by two durations --- 
                 $t$ from {\color{moor}red} to {\color{moog}green} and
