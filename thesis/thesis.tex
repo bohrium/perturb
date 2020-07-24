@@ -1892,10 +1892,10 @@
 
     {\bf
     \par\noindent C ~ Bonus tracks}                                         \hfill {\bf page \pageref{appendix:bonus}}
-    \par\indent     C.1 ~~ Pathologies in SGD                               \hfill \pageref{appendix:pathology}
-    \par\indent     C.2 ~~ Long-term SGD prediction is \emph{PSPACE}-hard   \hfill \pageref{appendix:pspace}
-    \par\indent     C.3 ~~ Takeuchi's criterion, demystified                \hfill \pageref{appendix:tic}
-    \par\indent     C.4 ~~ A new proof of the Chernoff bound                \hfill \pageref{appendix:chernoff}
+    %\par\indent     C.1 ~~ Pathologies in SGD                               \hfill \pageref{appendix:pathology}
+    \par\indent     C.1 ~~ Long-term SGD prediction is \emph{PSPACE}-hard   \hfill \pageref{appendix:pspace}
+    %\par\indent     C.3 ~~ Takeuchi's criterion, demystified                \hfill \pageref{appendix:tic}
+    \par\indent     C.2 ~~ A new proof of the Chernoff bound                \hfill \pageref{appendix:chernoff}
 
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -3928,7 +3928,7 @@
     Our study of SGD and generalization theory led to a few miscellaneous ideas
     separate from the main results we report above.  We briefly describe them.
 
-    \section{Pathologies in SGD} \label{appendix:pathology}
+    %\section{Pathologies in SGD} \label{appendix:pathology}
 
     \section{Long-term SGD prediction is \emph{PSPACE}-hard} \label{appendix:pspace}
 
@@ -3947,14 +3947,15 @@
             involving expectations, products, and derivatives applied to the
             landscape.
         \end{prop}
-        This observation situates the short-term results of our thesis by
-        justifying the meteorological analogy of \S\ref{sect:concl}: though our
-        short-term predictions extend to long-term qualitative insight, we do
-        not expect any quantitative long-term theory at the levels of
-        precision of our short-term theory.
+        This not-very-surprising proposition situates the short-term results of
+        our thesis by justifying the meteorological analogy of
+        \S\ref{sect:concl}: though our short-term predictions extend to
+        long-term qualitative insight, we do not expect any quantitative
+        long-term theory at the levels of precision of our short-term theory.
 
         First we show that there is a loss landscape on which SGD eternally
-        cycles.  This will be the building block in our main construction.
+        cycles.  Though the proposition itself is not surprising, perhaps this
+        lemma is.
         \begin{lem}[Ratchet Landscape]
             There is a loss landscape (whose underlying weight space is a
             circle) on which the net weight displacement after $T$ steps of
@@ -3962,7 +3963,7 @@
             probability $1$ and bounded below by some fixed strictly increasing
             affine function with probability $1-\exp(-T)$. 
         \end{lem}
-        \begin{proof}[Proof of Lemma]
+        \begin{proof}[Proof of lemma]
             Let
             $$
                 \text{bump}(\theta;a,b) = \begin{cases}
@@ -3971,7 +3972,8 @@
                 \end{cases}
             $$
             be a smooth bump function with support $[a,b]$.
-            Define a loss landscape on the circle $S^1$ (identified with $\RR/2\pi \ZZ$)
+            Define a loss landscape on the circle $S^1$
+            (identified with $\RR/2\pi \ZZ$ with representatives $[-\pi, \pi)$)
             as follows: 
             $$
                 l_x(\theta) = \epsilon \cdot \sin(\theta) +
@@ -3995,11 +3997,22 @@
             positive probability, the net displacement during this walk is
             positive.
             %
-            Thus, $\theta$ will drift counterclockwise over many timesteps. 
+            Therefore, noting that the tail masses of the distribution of the
+            displacement after some large, fixed number of steps are bounded
+            above by those of some Bernoulli, we finish by applying Chernoff's
+            bound.
         \end{proof}
-        {\color{red}
-        Compare to \Archimedes.
-        }
+
+        \begin{rmk}
+            The lemma may look similar to the behavior of \Archimedes,
+            described in the thesis body.  However, \Archimedes had better
+            average-case behavior and worse worst-case behavior. 
+            The typical period of the Rachet lemma's cycling 
+            decays exponentially with $1/\eta$, while the typical period for
+            \Archimedes decays as an inverse-square power law.  That said,
+            \Archimedes can go arbitrarily far backward, albeit with tiny
+            probability, while the Rachet lemma's construction cannot.
+        \end{rmk}
 
         \begin{proof}[Sketch of Proposition \ref{prop:pspace}'s proof]
             We show how to simulate a PSPACE Turing machine $\Mm$ on a given
@@ -4017,17 +4030,18 @@
             a head state $h$ (by one-hot encoding), and an auxilliary phase $t$
             that we will call the \emph{clock}.
 
-            For each of the $2 \cdot q \cdot p(n)$ possible tuples of
-            cell-value-at-head, head state, and head position, we add a term
-            to the loss landscape in the form of the Ratchet lemma whose 
-            gradients lie completely within the subspace spanned by the
-            $3+3+q+1$ axes spanned by the three participating tape-state axes,
-            three participating head-location axes, all the head-state axes, 
-            and the clock axis.  The term is masked by a $3+3+q+1$-dimensional
-            bump function so that when and only when we are nearby a point
-            representing the input tuple do we move, completing one cycle 
-            around the clock, until we are close to the point representing the
-            next tuple according to $\Mm$'s definition. 
+            For each of the polynomially many ($2 \cdot q \cdot p(n)$) possible
+            tuples of cell-value-at-head, head state, and head position, we add
+            a term to the loss landscape whose gradients lie completely within
+            the subspace spanned by the $3+3+q+1$ axes spanned by the three
+            participating tape-state axes, three participating head-location
+            axes, all the head-state axes, and the clock axis.  The term is
+            masked by a $3+3+q+1$-dimensional bump function so that when and
+            only when we are nearby a point representing the input tuple do we
+            move, completing one cycle around the clock, until we are close to
+            the point representing the next tuple according to $\Mm$'s
+            definition.  We use the Rachet lemma to shape this term so that
+            the simulation of $\Mm$ goes forward in time.
 
             By adding special bump functions with large and distinct values for 
             accept and reject states, we may query via the Ratchet lemma for 
@@ -4035,7 +4049,7 @@
             $2^p(n)\times p(n)\times q$ steps. 
         \end{proof}
 
-    \section{Takeuchi's criterion, demystified} \label{appendix:tic}
+    %\section{Takeuchi's criterion, demystified} \label{appendix:tic}
 
     \section{A new proof of the Chernoff bound} \label{appendix:chernoff}
         
