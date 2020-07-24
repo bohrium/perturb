@@ -1,5 +1,5 @@
 %   author: samtenka
-%   change: 2020-07-21
+%   change: 2020-07-23
 %   create: 2020-07-19
 %   descrp: LaTeX source for perturb project, SM thesis writeup
 %   to use: compile along with perturb.bib and diagram and plot directories
@@ -143,6 +143,7 @@
 
 \theoremstyle{plain}
     \newtheorem*{klem*}{Key Lemma}
+    \newtheorem{lem}{Lemma}
     \newtheorem{thm}{Theorem}
     \newtheorem*{thm*}{Theorem}
     \newtheorem{cor}{Corollary}
@@ -1247,7 +1248,6 @@
             \end{cor}
 
             \moolor{3}{Implications for generalization?}
-            \moolor{3}{PSPACE result}
     
         \section{Non-Gaussian noise affects SGD but not SDE}
     
@@ -1865,8 +1865,8 @@
 \chapter*{Organization of the appendices}
     Appendices A and B serve respectively as informal and formal
     guides to our theory.  The first is a user-friendly tutorial; the second
-    contains our proofs.  Appendix C describes some tangential results not
-    discovered during our research but disconnected from our main work.\\
+    contains our proofs.  Appendix C describes some results only loosely
+    related to our main work.\\
 
     {\bf
     \par\noindent A ~ How to calculate test losses}                         \hfill {\bf page \pageref{appendix:tutorial}}
@@ -1892,7 +1892,10 @@
 
     {\bf
     \par\noindent C ~ Bonus tracks}                                         \hfill {\bf page \pageref{appendix:bonus}}
-    \par\indent     C.1 ~~ A new proof of the Chernoff bound                \hfill \pageref{appendix:chernoff}
+    \par\indent     C.1 ~~ Pathologies in SGD                               \hfill \pageref{appendix:pathology}
+    \par\indent     C.2 ~~ Long-term SGD prediction is \emph{PSPACE}-hard   \hfill \pageref{appendix:pspace}
+    \par\indent     C.3 ~~ Takeuchi's criterion, demystified                \hfill \pageref{appendix:tic}
+    \par\indent     C.4 ~~ A new proof of the Chernoff bound                \hfill \pageref{appendix:chernoff}
 
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -3921,6 +3924,97 @@
         $$
 
 \chapter{Bonus tracks}                   \label{appendix:bonus}
+
+    Our study of SGD and generalization theory led to a few miscellaneous ideas
+    separate from the main results we report above.  We briefly describe them.
+
+    \section{Pathologies in SGD} \label{appendix:pathology}
+
+    \section{Long-term SGD prediction is \emph{PSPACE}-hard} \label{appendix:pspace}
+
+        Long-term prediction of SGD dynamics is intractable.  More precisely:
+        \begin{prop} \label{prop:pspace}
+            If there exists a polynomial time algorithm for computing the $i$th
+            bit of the expected test loss after $T$ steps of SGD on a given
+            landscape,\footnote{
+                To keep the theorem non-trivial, we allow only landscapes
+                expressible in terms of elementary functions; for example,
+                landscapes that evaluate to a non-computable constant are
+                disallowed.
+            } then $\text{P}=\text{NP}=\text{PSPACE}$.  Here, the landscape is
+            given as an oracle for the $j$th bit 
+            --- assumed well-defined --- of any well-formed expression
+            involving expectations, products, and derivatives applied to the
+            landscape.
+        \end{prop}
+        This observation situates the short-term results of our thesis by
+        justifying the meteorological analogy of \S\ref{sect:concl}: though our
+        short-term predictions extend to long-term qualitative insight, we do
+        not expect any quantitative long-term theory at the levels of
+        precision of our short-term theory.
+
+        First we show that there is a loss landscape on which SGD eternally
+        cycles.  This will be the building block in our main construction.
+        \begin{lem}[Ratchet Landscape]
+            There is a loss landscape (whose underlying weight space is a
+            circle) on which the net weight displacement after $T$ steps of
+            SGD (with $\eta=1/100$) is bounded below with
+            probability $1$ and bounded below by some fixed strictly increasing
+            affine function with probability $1-\exp(-T)$. 
+        \end{lem}
+        \begin{proof}[Proof of Lemma]
+            Let
+            $$
+                \text{bump}(\theta;a,b) = \begin{cases}
+                    \exp\wrap{-\frac{1}{(\theta-a)(b-\theta)}}  &   \theta\in(a,b) \\
+                    0                                           &   \text{else}
+                \end{cases}
+            $$
+            be a smooth bump function with support $[a,b]$.
+            Define a loss landscape on the circle $S^1$ (identified with $\RR/2\pi \ZZ$)
+            as follows: 
+            $$
+                l_x(\theta) = \epsilon \cdot \sin(\theta) +
+                              x \cdot \theta \cdot \text{bump}(\theta;-\pi/2-\epsilon,\pi/2+\epsilon)
+            $$
+            where $x\sim \text{Uniform}(-1, +1)$ and
+            $0<\epsilon<(\pi-2)/2\wedge 1$.
+
+            Now consider SGD with $4\eta<1/\pi$.
+            By construction, SGD will displace
+            the weight by $<1$ in either direction, so the intervals
+            $[\theta_t, \theta_{t+1}]$ will always be contained fully in $I =
+            (-\pi/2-\epsilon,\pi/2+\epsilon)$, fully in $S^1\setminus I$, or
+            will cross the boundary of $I$ exactly once.
+            %
+            When $\theta\notin I$, the updates will be noiseless and therefore
+            $\theta$ will deterministically increase until it enters $I$.
+            %
+            When $\theta\in I$, then $\theta$ will undergo a random walk until it
+            exits $I$.  The steps of this walk may take either sign, so with
+            positive probability, the net displacement during this walk is
+            positive.
+            %
+            Thus, $\theta$ will drift counterclockwise over many timesteps. 
+        \end{proof}
+
+        \begin{proof}[Sketch of Proposition \ref{prop:pspace}'s proof]
+            We show how to simulate a PSPACE Turing machine $\Mm$ on a given
+            length-$n$ input in only polynomial time by constructing an
+            appropriate loss landscape.  The idea is to encode the machine's
+            state as a point in the weight space $\Hh$.  In particular, if due
+            to the PSPACE hypothesis we know that at most $p(n)$ cells of
+            the tape will be used, and if $\Mm$ has $q$ many head states,
+            then we let $\Hh$ be a real vector space of dimension $d=p(n)+q$,
+            into which a hypercube $\{0,10\}^d$ embeds.
+
+            For each of the $2 \cdot q \cdot p(n)$ possible tuples of
+            cell-value-at-head, head state, and head position, we add a term
+            to the loss landscape in the form of the Ratchet lemma that
+            {\color{red} FILL IN}
+        \end{proof}
+
+    \section{Takeuchi's criterion, demystified} \label{appendix:tic}
 
     \section{A new proof of the Chernoff bound} \label{appendix:chernoff}
         
