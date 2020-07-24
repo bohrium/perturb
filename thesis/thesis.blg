@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: thesis.aux
 The style file: plainnat.bst
 Database file #1: perturb.bib
-You've used 51 entries,
+You've used 56 entries,
             2773 wiz_defined-function locations,
-            803 strings with 10566 characters,
-and the built_in function-call counts, 20284 in all, are:
-= -- 1674
-> -- 1395
-< -- 27
-+ -- 479
-- -- 426
-* -- 1507
-:= -- 3328
-add.period$ -- 153
-call.type$ -- 51
-change.case$ -- 295
-chr.to.int$ -- 49
-cite$ -- 102
-duplicate$ -- 993
-empty$ -- 1555
-format.name$ -- 495
-if$ -- 4123
+            825 strings with 11018 characters,
+and the built_in function-call counts, 21904 in all, are:
+= -- 1816
+> -- 1467
+< -- 32
++ -- 505
+- -- 447
+* -- 1598
+:= -- 3591
+add.period$ -- 168
+call.type$ -- 56
+change.case$ -- 317
+chr.to.int$ -- 54
+cite$ -- 112
+duplicate$ -- 1088
+empty$ -- 1705
+format.name$ -- 525
+if$ -- 4461
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 51
-newline$ -- 263
-num.names$ -- 204
-pop$ -- 608
+missing$ -- 56
+newline$ -- 288
+num.names$ -- 224
+pop$ -- 655
 preamble$ -- 1
-purify$ -- 244
+purify$ -- 261
 quote$ -- 0
-skip$ -- 767
+skip$ -- 838
 stack$ -- 0
-substring$ -- 102
-swap$ -- 55
+substring$ -- 112
+swap$ -- 60
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 561
+type$ -- 616
 warning$ -- 0
-while$ -- 153
+while$ -- 168
 width$ -- 0
-write$ -- 619
+write$ -- 679

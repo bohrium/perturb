@@ -220,7 +220,7 @@
 \newcommand{\Mm}{\mathcal{M}}
 \newcommand{\Nn}{\mathcal{N}}   \newcommand{\NN}{\mathbb{N}}
 \newcommand{\Oo}{\mathcal{O}}
-\newcommand{\Pp}{\mathcal{P}}
+\newcommand{\Pp}{\mathcal{P}}   \newcommand{\PP}{\mathbb{P}}
 \newcommand{\Qq}{\mathcal{Q}}   \newcommand{\QQ}{\mathbb{Q}}
 \newcommand{\Rr}{\mathcal{R}}   \newcommand{\RR}{\mathbb{R}}
 \newcommand{\Ss}{\mathcal{S}}
@@ -333,6 +333,9 @@
         Without the encouragement of \textsc{Jason Corso}, \textsc{Chloe
         Kleinfeldt}, \textsc{Alex Lew}, \textsc{Ari Morcos}, and \textsc{David
         Schwab}, this project would not be.
+        %
+        Finally, I thank the members of my RQE commitee,
+        \textsc{David Sontag} and \textsc{Suvrit Sra}.
 
     \vspace{1cm}
     \textbf{Administrivia}.
@@ -1860,9 +1863,10 @@
 \setcounter{chapter}{0}
 
 \chapter*{Organization of the appendices}
-    The following two appendices serve respectively as informal and formal
+    Appendices A and B serve respectively as informal and formal
     guides to our theory.  The first is a user-friendly tutorial; the second
-    contains our proofs.\\
+    contains our proofs.  Appendix C describes some tangential results not
+    discovered during our research but disconnected from our main work.\\
 
     {\bf
     \par\noindent A ~ How to calculate test losses}                         \hfill {\bf page \pageref{appendix:tutorial}}
@@ -1885,6 +1889,10 @@
     \par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
     \par\indent     B.7 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
     \par\indent     B.8 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
+
+    {\bf
+    \par\noindent C ~ Bonus tracks}                                         \hfill {\bf page \pageref{appendix:bonus}}
+    \par\indent     C.1 ~~ A new proof of the Chernoff bound                \hfill \pageref{appendix:chernoff}
 
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -3912,5 +3920,82 @@
             \wurl{x}_{\partitionbox{0}\partitionbox{12}}
         $$
 
+\chapter{Bonus tracks}                   \label{appendix:bonus}
+
+    \section{A new proof of the Chernoff bound} \label{appendix:chernoff}
+        
+        Suppose we flip a biased coin $N$ times.  Intuitively, the resulting
+        fraction of flips that yield heads usually does not far exceed its
+        expectation $p$.  More formally: 
+        \begin{thm}[Chernoff]
+            Let $x$ be the average of $N$ many i.i.d.\ Bernoullis with
+            parameter $p$.  For $0<g$, $x$ exceeds $p+g$ with probability
+            at most $\exp(-Ng^2)$.
+        \end{thm}
+        We understand Chernoff's bound as quantifying how fast the Central
+        Limit Theorem kicks in.  With $x, p$ representing the training and test
+        errors of a specific hypothesis, the theorem controls the
+        generalization gap.  Due to this application, the Chernoff bound and
+        its variants are fundamental to the statistical theory of
+        generalization in learning,
+
+        It is thus interesting to understand Chernoff's bound in multiple ways.
+        For example, \citet{mu18} surveys five distinct proofs, which
+        respectively employ
+            moment generating functions,\cite[-2.8 cm]{be64}
+            the binomial theorem,\cite[       -2.1 cm]{ch79}
+            direct product theorems,\cite[    -1.8 cm]{im10}
+            weight functions,\cite[           -0.7 cm]{mu18} and
+            differential privacy.\cite[       -0   cm]{st17}
+        We now present what we believe to be an original and particularly
+        elementary proof.
+
+        \begin{proof}
+            We'll switch viewpoints: flipping a coin is like choosing a boxed
+            point on a stick where green means tails and red means heads.
+
+            \begin{figure}[h!]
+                \centering
+                \includegraphics[height=4cm]{chernoff}
+                \caption{\emph{
+                    We randomly select points on $N$ vertical sticks.  Each
+                    stick has three parts: \textbf{green} with length $1-p$,
+                    \textbf{red} with length $p$, and \textbf{blue} with length
+                    $g$.  We call non-blue points \textbf{boxed} and non-green
+                    points \textbf{hollow}.
+                    %
+                    Shown are $9$ boxed points and $7$ hollow ones.
+                }}
+            \end{figure}
+
+            We'll bound the chance that at least $M_0 = (p+g)N$ heads
+            appear.  That is, we will bound the conditional probability ---
+            given that all points are boxed --- that at least $M_0$
+            points are red. 
+            %
+            For any $M\geq M_0$:
+            \begin{align*}
+                    & ~ \PP[\text{$M$ are red $\mid$ all are boxed}] \\
+                  = & ~ \PP[\text{$M$ are red $\wedge$ all are boxed}] ~/~ 
+                        \PP[\text{all are boxed}]  \\
+                  = & ~ \PP[\text{$M$ are hollow $\wedge$ all hollows are red}] ~/~ 
+                        \PP[\text{all are boxed}]  \\
+                  = & ~ \PP[\text{$M$ are hollow}] \cdot
+                        \PP[\text{all hollows are red $\mid$ $M$ are hollow}] ~/~
+                        \PP[\text{all are boxed}] \\
+                  = & ~ \PP[\text{$M$ are hollow}] \cdot (1+g/p)^{-M} ~/~ (1+g)^{-N}  \\
+                \leq& ~ \PP[\text{$M$ are hollow}] \cdot (1+g/p)^{-M_0} ~/~ (1+g)^{-N} 
+            \end{align*}
+            Since the above holds for all $M\geq M_0$, we conclude:
+            \begin{align*}
+                ~   & ~ \PP[\text{at least $M_0$ are red $\mid$ all are boxed}] & \\
+                %\leq& ~ \PP[\text{at least $M_0$ are hollow}] \cdot (1+g/p)^{-M_0} ~/~ (1+g)^{-N} \\
+                \leq& ~ (1+g/p)^{-M_0} / (1+g)^{-N}             & \text{probabilities are at most $1$} \\
+                \leq& ~ \exp(-M_0 g/p) \exp(Ng)                 & \text{$\exp$ is convex} \\ 
+                =   & ~ \exp(-(p+g)N g/p + Ng) = \exp(-Ng^2/p)  & \text{$M_0=(p+g)N$} \\ 
+                \leq& ~ \exp(-Ng^2)                             & \text{probabilities are at most $1$}
+            \end{align*}
+            This is the \textbf{Chernoff bound} for coin flips.
+        \end{proof}
 
 \end{document}
