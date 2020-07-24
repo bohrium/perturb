@@ -3997,6 +3997,9 @@
             %
             Thus, $\theta$ will drift counterclockwise over many timesteps. 
         \end{proof}
+        {\color{red}
+        Compare to \Archimedes.
+        }
 
         \begin{proof}[Sketch of Proposition \ref{prop:pspace}'s proof]
             We show how to simulate a PSPACE Turing machine $\Mm$ on a given
@@ -4005,13 +4008,31 @@
             state as a point in the weight space $\Hh$.  In particular, if due
             to the PSPACE hypothesis we know that at most $p(n)$ cells of
             the tape will be used, and if $\Mm$ has $q$ many head states,
-            then we let $\Hh$ be a real vector space of dimension $d=p(n)+q$,
-            into which a hypercube $\{0,10\}^d$ embeds.
+            then we let $\Hh = \RR^{p(n)+p(n)+q} \times S^1$.  We consider a
+            point
+            $$
+                (c,x,h,t)\in\{0,3\}^{p(n)}\times\{0,3\}^{p(n)}\times\{0,3\}^{q}\times S^1\subseteq \Hh
+            $$
+            to represent a tape state $c$, a head location $x$ (by one-hot encoding),
+            a head state $h$ (by one-hot encoding), and an auxilliary phase $t$
+            that we will call the \emph{clock}.
 
             For each of the $2 \cdot q \cdot p(n)$ possible tuples of
             cell-value-at-head, head state, and head position, we add a term
-            to the loss landscape in the form of the Ratchet lemma that
-            {\color{red} FILL IN}
+            to the loss landscape in the form of the Ratchet lemma whose 
+            gradients lie completely within the subspace spanned by the
+            $3+3+q+1$ axes spanned by the three participating tape-state axes,
+            three participating head-location axes, all the head-state axes, 
+            and the clock axis.  The term is masked by a $3+3+q+1$-dimensional
+            bump function so that when and only when we are nearby a point
+            representing the input tuple do we move, completing one cycle 
+            around the clock, until we are close to the point representing the
+            next tuple according to $\Mm$'s definition. 
+
+            By adding special bump functions with large and distinct values for 
+            accept and reject states, we may query via the Ratchet lemma for 
+            whether the accept or reject state was reached after
+            $2^p(n)\times p(n)\times q$ steps. 
         \end{proof}
 
     \section{Takeuchi's criterion, demystified} \label{appendix:tic}
