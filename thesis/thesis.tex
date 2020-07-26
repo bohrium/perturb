@@ -1985,29 +1985,45 @@
             optimizers, we gave them the same random seed (and hence the same
             training sets).
 
-            We ran $2 \cdot 10^5$ trials of \Gauss\ with SDE and SGD,
+            \begin{margintable}
+                \centering
+                \resizebox{\columnwidth}{!}{
+                \begin{tabular}{cc}
+                    Landscape           & Trials per condition \\ \hline
+                    \Gauss              & $2\cdot10^5$ \\
+                    \MeanEstimation     & $1\cdot10^3$ \\
+                    \Archimedes         & $5\cdot10^1$ \\
+                    CIFAR-10 convnet    & $5\cdot10^4$ \\
+                    CIFAR-10 logistic   & $5\cdot10^4$ \\
+                    FASHION  convnet    & $4\cdot10^4$ \\
+                    FASHION  logistic   & $4\cdot10^4$
+                \end{tabular}}
+                \caption{
+                    \textbf{Trials per condition, by landscape}.
+                    We list the conditions tested for each landscape in the
+                    prose to the left.
+                }
+            \end{margintable}
+
+            We ran SDE and SGD on \Gauss,
             initialized at the test minimum with $T=1$ and $\eta$ ranging from
             $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
-            We ran $5 \cdot 10^1$ trials of \Archimedes\ with SGD with $T=10^4$
+            We ran SGD on \Archimedes\
+            with $T=10^4$
             and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
-            We ran $10^3$ trials of \MeanEstimation\ with GD and STIC
+            We ran GD and STIC on \MeanEstimation\
             with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
             a covariance of gradients of $10^2$, and the true mean $0$ or
             $10$ units away from initialization.
 
-            We ran $5 \cdot 10^4$ trials of the CIFAR-10 convnet on each of $6$
+            We ran SGD, GD, and GDC on each of four possibilities of
+            $$
+                \{\text{CIFAR-10},\text{Fashion-MNIST}\}\times\{\text{convnet}, \text{logistic linear}\}
+            $$
+            for each of $6$
             Glorot-Xavier initializations we fixed once and for all through
-            these experiments for the optimizers SGD, GD, and GDC, with $T=10$
-            and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We did
-            likewise for the linear logistic model on the one initialization of
-            $0$.
-
-            We ran $4 \cdot 10^4$ trials of the Fashion-MNIST convnet on each
-            of $6$ Glorot-Xavier initializations we fixed once and for all
-            through these experiments for the optimizers SGD, GD, and GDC with
-            $T=10$ and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We
-            did likewise for the linear logistic model on the one
-            initialization of $0$. 
+            these experiments.  We kept $T\in \{10,100\}$
+            and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  
 
         \subsection{Implementing optimizers}                            \label{appendix:optimizers}
 
