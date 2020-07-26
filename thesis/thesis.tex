@@ -365,8 +365,11 @@
         Kleinfeldt}, \textsc{Alex Lew}, \textsc{Ari Morcos}, and \textsc{David
         Schwab}, this project would not be.
         %
-        Finally, I thank the members of my RQE commitee,
-        \textsc{David Sontag} and \textsc{Suvrit Sra}.
+        %I also thank the members of my RQE commitee,
+        %\textsc{David Sontag} and \textsc{Suvrit Sra}.
+        %
+        Finally, I thank my parents, \textsc{Ping Kho} and \textsc{Andy Tenka}
+        for their love and support throughout my life.
 
     \vspace{0.5cm}
     \textbf{Administrivia}.
@@ -512,7 +515,7 @@
             We permit the map to be non-injective.  This is often the case in
             deep learning, wherein $\Cc$ is a space of measurable functions,
             $\Hh$ is a finite-dimensional space of weights, and certain
-            permutations of a weight's components yields the same function.
+            permutations of a weight's components yield the same function.
         } Moreover, in practice $\Ll$ takes the form of
         some (approximate, potentially regularized) optimization on the
         training error: $\Ll(\Ss) = \optH(\Ein)$.  Therefore, we focus on
@@ -723,7 +726,7 @@
             $\theta$, and $G, C, S$ denote the gradient's 
             cumulants with respect to the randomness in $x$.
             There are infinitely many analogues (with more edges), but they will
-            not play a role in our our leading order results.  Each $\nabla^d l_x$
+            not play a role in our leading order results.  Each $\nabla^d l_x$
             corresponds to a degree-$d$ node, and fuzzy outlines group nodes that
             occur within the same expectation.  
 
@@ -1477,7 +1480,7 @@
             order corrections to continuous-time behavior.
             \begin{table}
                 \centering 
-                {\resizebox{0.9\textwidth}{!}{   \begin{tabular}{cc|ccc|c}
+                {\resizebox{1.0\textwidth}{!}{   \begin{tabular}{cc|ccc|c}
                     \multicolumn{2}{c}{$\approx (\eta T)^3 N^{-0}$}
                     &
                     \multicolumn{3}{c}{$\approx (\eta T)^3 N^{-1}$}
@@ -1485,29 +1488,29 @@
                     \multicolumn{1}{c}{$\approx (\eta T)^3 N^{-2}$}
                     \\ \hline
                     \begin{tabular}{L}
-                         \sdia{c(0-1-2-3)(01-12-23)} \\ \sdia{c(0-1-2-3)(01-13-23)} \\
-                         \sdia{c(0-1-2-3)(02-13-23)} \\ \sdia{c(0-1-2-3)(03-12-23)}
+                         \mdia{c(0-1-2-3)(01-12-23)} \\ \mdia{c(0-1-2-3)(01-13-23)} \\
+                         \mdia{c(0-1-2-3)(02-13-23)} \\ \mdia{c(0-1-2-3)(03-12-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                         \sdia{c(0-1-2-3)(03-13-23)} \\ \sdia{c(0-1-2-3)(02-12-23)}
+                         \mdia{c(0-1-2-3)(03-13-23)} \\ \mdia{c(0-1-2-3)(02-12-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(01-2-3)(02-13-23)} \\ \sdia{c(01-2-3)(03-12-23)}
+                        \mdia{c(01-2-3)(02-13-23)} \\ \mdia{c(01-2-3)(03-12-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(0-12-3)(01-13-23)} \\ \sdia{c(0-12-3)(02-13-23)}
+                        \mdia{c(0-12-3)(01-13-23)} \\ \mdia{c(0-12-3)(02-13-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(01-2-3)(03-13-23)} \\ \sdia{c(0-12-3)(03-13-23)} \\
-                        \sdia{c(01-2-3)(02-12-23)} 
+                        \mdia{c(01-2-3)(03-13-23)} \\ \mdia{c(0-12-3)(03-13-23)} \\
+                        \mdia{c(01-2-3)(02-12-23)} 
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(012-3)(03-13-23)}
+                        \mdia{c(012-3)(03-13-23)}
                     \end{tabular}
                 \end{tabular}   }}
                 \caption[-2cm]{
@@ -1625,7 +1628,7 @@
     \ref{thm:converge}, we have no theoretical bounds for the domain and
     \emph{rate} of convergence.  Instead, we test our predictions by
     experiment.  We perceive support for our theory in drastic rejections of
-    the null hypothesis.  For instance, in Figure \ref{fig:vanilla}\ofsix{4},
+    the null hypothesis.  For instance, in Figure \ref{fig:vssde}.\oftwo{0},
     \citet{ch18} predicts a velocity of $0$ while we predict a velocity of
     $\eta^2/6$.
 
@@ -2131,7 +2134,7 @@
     Machine learning today has an enormous carbon footprint.\cite{st19}  Our
     analysis of SGD may lead to a reduced carbon footprint in two ways. 
     % 
-    \textbf{First}, \S\ref{subsect:epochs-batch} shows how to modify the loss
+    \textbf{First}, \S\ref{sect:epochs-batch} shows how to modify the loss
     landscape so that large-batch GD enjoys the stochastic regularizing
     properties of small-batch SGD, or (symmetrically) so that small-batch SGD
     enjoys the stability of large-batch GD.  By unchaining the effective batch
@@ -4345,7 +4348,7 @@
         \begin{lem}[Ratchet Landscape]
             There is a loss landscape (whose weight space is the circle) on
             which, for fixed $\eta$ sufficiently small, SGD's net displacement
-            after $T$ steps of is bounded below with probability $1$ and
+            after $T$ steps is bounded below with probability $1$ and
             bounded below by some fixed strictly increasing affine function
             with probability $1-\exp(-T)$. 
         \end{lem}
