@@ -1,4 +1,4 @@
-\begin{thebibliography}{56}
+\begin{thebibliography}{57}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -52,6 +52,13 @@ P.~Chaudhari and S.~Soatto.
   deep networks.
 \newblock \emph{ICLR}, 2018.
 
+\bibitem[Chaudhari et~al.(2017)Chaudhari, Choromanska, Soatto, LeCun, Baldassi,
+  Borgs, Chayes, Sagun, and Zecchina]{ch17}
+P.~Chaudhari, A.~Choromanska, S.~Soatto, Y.~LeCun, C.~Baldassi, C.~Borgs,
+  J.~Chayes, L.~Sagun, and E.~Zecchina.
+\newblock Entropy-sgd: Biasing gradient descent into wide valleys.
+\newblock \emph{ICLR}, 2017.
+
 \bibitem[Chladni(1787)]{ch87}
 E.F.F. Chladni.
 \newblock Entdeckungen \"uber die theorie des klanges.
@@ -104,6 +111,11 @@ P.~Goyal, P.~Doll\'{a}r, R.~Girshick, P.~Noordhuis, L.~Wesolowski, A.~Kyrola,
   A.~Tulloch, Yangqing Jia, and Kaiming He.
 \newblock Accurate, large minibatch sgd.
 \newblock \emph{Data @ Scale}, 2018.
+
+\bibitem[Gur-Ari et~al.(2019)Gur-Ari, Roberts, and Dyer]{gu19}
+G.~Gur-Ari, D.A. Roberts, and E.~Dyer.
+\newblock Gradient descent happens in a tiny subspace.
+\newblock \emph{ArXiV preprint}, 2019.
 
 \bibitem[Hoffer et~al.(2017)Hoffer, Hubara, and Soudry]{ho17}
 E.~Hoffer, I.~Hubara, and D.~Soudry.
@@ -214,11 +226,6 @@ A.~Paszke, S.~Gross, F.~Massa, A.~Lerer, J.~Bradbury, T.~Killeen, Zeming Lin,
 R.~Penrose.
 \newblock Applications of negative dimensional tensors.
 \newblock \emph{Combinatorial Mathematics and its Applications}, 1971.
-
-\bibitem[Rakhlin(2019)]{ra19}
-A.~Rakhlin.
-\newblock Course notes on learning.
-\newblock \emph{www.mit.edu/~rakhlin/courses}, 2019.
 
 \bibitem[Robbins and Monro(1951)]{ro51}
 H.~Robbins and S.~Monro.

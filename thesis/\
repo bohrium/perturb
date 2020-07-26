@@ -1305,7 +1305,7 @@
             overfitting formula tends to $0$ as $H$ shrinks.
    
     \section{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}
-            \label{sect:epochs-batch}
+            \label{subsect:epochs-batch}
 
             Physical intuition %(\S\ref{appendix:interpret-diagrams})
             suggests
@@ -1378,13 +1378,15 @@
             maximum-likelihood fitting of a normal density to normally-drawn
             data yields a landscape whose gradients obey a $\chi^2$ law and
             are, in particular, non-Gaussian (\S\ref{appendix:experiments}).
-            One of our contributions is to quantify the effect of non-Gaussian
-            noise in SGD.  For example, we present corrections to stochastic
-            differential equations (SDE),\cite{li17} a popular theoretical
-            approximation of SGD that assumes uncorrelated, Gaussian noise.
-            Even if we restrict to $E=1$ SGD to suppress correlations
-            (\S\ref{sect:epochs-batch}), SGD and SDE differ due to non-Gaussian
-            noise.  In particular, they respond differently to changes in
+            One of this thesis's contributions is to analyze the effect of
+            non-Gaussian noise in stochastic learning. 
+            For example, we present corrections to stochastic differential
+            equations (SDE),\cite{li17} a popular theoretical approximation of
+            SGD that assumes uncorrelated, Gaussian noise.
+            Even if we restrict to single-epoch SGD to avoid the effects
+            of inter-epoch noise correlations (Corollary \ref{cor:epochs}), SGD
+            and SDE differ due to time discretization and non-Gaussian noise.
+            In particular, SGD and SDE respond differently to changes in
             curvature:
             %
             \begin{cor}[$\sdia{c(01-2)(02-12)}$, $\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
@@ -1404,8 +1406,9 @@
                 }
             \end{cor}
 
-            To further study the effect of finite $T,N$, we
-            re-arrange the terms of Theorem \ref{thm:resum}:\footnote{
+            We may understand the effect of non-Gaussian noise by more closely
+            inspecting the terms of Theorem \ref{thm:resum}'s series.  In the
+            appendix we isolate a special case:\footnote{
                 The proposition has the advantage of simplicity
                 and the disadvantages of restrictive assumptions and weaker
                 convergence properties: see \S\ref{appendix:math}.
@@ -1439,22 +1442,21 @@
             the edge rule) and $f$ multiplications inside expectations (by the
             outline rule).  Moreover, the multinomial coefficient is
             $\Theta(T^{d-f})$, since the diagram has $P=d-1+f$ many parts.
-            Since $E=B=1$, $N=T$, so:
+            In the special case $E=B=1$, we have $N=T$, so:
             $$
                 \uvalue(D) \in \Theta(\eta^d T^{d-f})
                 = \Theta((\eta T)^d N^{-f})
             $$
             We interpret $\eta T$ as \emph{physical time}, since on a noiseless
-            linear landscape, $\theta_t = \theta_0 - G \eta
+            linear landscape $\theta$'s displacement is proportional to $\eta
             T$.  We interpret $N$ as the degree of \emph{noise suppression},
-            since for fixed $\eta T$ SGD dynamics
-            approaches ODE dynamics as $N$ grows \citep{ya19a}.
-            %
-            Therefore, the $(\eta T)^{\cdots} N^{-1}$ terms give the leading
-            order corrections to continuous-time behavior.
+            since for fixed $\eta T$, as $N$ grows, SGD dynamics
+            approaches ODE dynamics \citep{ya19a}.
+
             \begin{table}
                 \centering 
-                {\resizebox{0.9\textwidth}{!}{   \begin{tabular}{cc|ccc|c}
+                \resizebox{\textwidth}{!}{
+                \begin{tabular}{cc|ccc|c}
                     \multicolumn{2}{c}{$\approx (\eta T)^3 N^{-0}$}
                     &
                     \multicolumn{3}{c}{$\approx (\eta T)^3 N^{-1}$}
@@ -1462,53 +1464,33 @@
                     \multicolumn{1}{c}{$\approx (\eta T)^3 N^{-2}$}
                     \\ \hline
                     \begin{tabular}{L}
-                         \sdia{c(0-1-2-3)(01-12-23)} \\ \sdia{c(0-1-2-3)(01-13-23)} \\
-                         \sdia{c(0-1-2-3)(02-13-23)} \\ \sdia{c(0-1-2-3)(03-12-23)}
+                         \mdia{c(0-1-2-3)(01-12-23)} \\ \mdia{c(0-1-2-3)(01-13-23)} \\
+                         \mdia{c(0-1-2-3)(02-13-23)} \\ \mdia{c(0-1-2-3)(03-12-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                         \sdia{c(0-1-2-3)(03-13-23)} \\ \sdia{c(0-1-2-3)(02-12-23)}
+                         \mdia{c(0-1-2-3)(03-13-23)} \\ \mdia{c(0-1-2-3)(02-12-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(01-2-3)(02-13-23)} \\ \sdia{c(01-2-3)(03-12-23)}
+                        \mdia{c(01-2-3)(02-13-23)} \\ \mdia{c(01-2-3)(03-12-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(0-12-3)(01-13-23)} \\ \sdia{c(0-12-3)(02-13-23)}
+                        \mdia{c(0-12-3)(01-13-23)} \\ \mdia{c(0-12-3)(02-13-23)}
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(01-2-3)(03-13-23)} \\ \sdia{c(0-12-3)(03-13-23)} \\
-                        \sdia{c(01-2-3)(02-12-23)} 
+                        \mdia{c(01-2-3)(03-13-23)} \\ \mdia{c(0-12-3)(03-13-23)} \\
+                        \mdia{c(01-2-3)(02-12-23)} 
                     \end{tabular}&
                     %
                     \begin{tabular}{L}
-                        \sdia{c(012-3)(03-13-23)}
+                        \mdia{c(012-3)(03-13-23)}
                     \end{tabular}
-                \end{tabular}   }}
-                \caption[-2cm]{
-                    \textbf{Diagrams with many fuzzy outlines scale strongly 
-                    with noise suppression.}
-                    Each column shows all the total orders of some $D$ in  
-                    Proposition \ref{prop:vanilla}.
-                    $3$-edged diagrams with $f$ outlines contribute
-                    $\Theta((\eta N)^3 N^{-f})$ to the expected test loss.
-                    $f=0$ depicts ODE behavior.
-                    $f=1$ depicts the first order correction to ODE behavior.
-                    $f=2$ depicts the second order correction to ODE behavior,
-                    with the appearance of third cumulants and hence
-                    non-Gaussian effects.
-                }
+                \end{tabular}
+            }
             \end{table}
-            The middle three columns give the leading corrections to 
-            continuous time; they measure time-discretization.  More subtly, 
-            the rightmost column gives the subleading correction, wherein
-            non-Gaussian effects appear in the form of skewed noise
-            ($S=\sdia{MOOc(012)(0-1-2)}$).
-            In short, we may interpret fuzzy outlines as distinguishing SGD 
-            from ODE and SDE. 
-            \newpage
 
             %\begin{table}
             %    \centering 
