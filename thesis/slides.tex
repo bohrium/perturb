@@ -1,0 +1,185 @@
+\documentclass{beamer}
+\usetheme{AnnArbor}
+\setbeamertemplate{navigation symbols}{}
+
+\def\frm #1#2{
+    \begin{frame} \frametitle{\textsl{#1}}
+        #2
+    \end{frame}
+}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{xcolor}
+
+\definecolor{moolime}{rgb}{0.90,1.00,0.90}
+\definecolor{moosky}{rgb}{0.90,0.90,1.00}
+\definecolor{moopink}{rgb}{1.00,0.90,0.90}
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+\definecolor{mooteal}{rgb}{0.1,0.6,0.4}
+
+\newtheorem{thm}{Theorem}
+\newtheorem{qst}{Question}
+\newtheorem{dfn}{Definition}
+\theoremstyle{definition}
+\newtheorem{exm}{Example}
+
+\def\envwrp #1#2{
+    \begin{#1}
+        #2
+    \end{#1}
+}
+
+\newcommand{\Dd}{\mathcal{D}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\RR}{\mathbb{R}}
+
+\newcommand{\sizeddia}[2]{
+    \begin{gathered}
+        \includegraphics[scale=#2]{../diagrams/#1.png}
+    \end{gathered}
+}
+\newcommand{\bdia}[1]{\protect \sizeddia{#1}{0.22}}
+\newcommand{\dia} [1]{\protect \sizeddia{#1}{0.18}}
+\newcommand{\mdia}[1]{\protect \sizeddia{#1}{0.14}}
+\newcommand{\sdia}[1]{\protect \sizeddia{#1}{0.10}}
+
+\newcommand{\nb} { \nabla }
+\newcommand{\lx} { l_x(\theta_0) }
+\newcommand{\teq} { \triangleq }
+\newcommand{\ex}[1] { \expc_x \wasq{#1} }
+
+\begin{document}
+
+    \title[Analyzing SGD]{A Perturbative Analysis of Stochastic Descent}
+    \subtitle{RQE Slides}
+    \author{Sam Tenka}
+    \date{\today}
+
+    \begin{frame} \titlepage \end{frame}
+
+    \section{Introduction}
+        \frm{Problem setup}{
+            Fix a data distribution $\Dd$, a manifold $\Hh$ of weights, and
+            a loss landscape $l:|\Dd|\to\Hh\to\RR$, considered as a random
+            function.  For an initialization $\theta_0\in\Hh$ and a
+            sequence $\Ss = x_t\sim \Dd: 0\leq t<T$, we consider the iteration
+            $$
+                \theta_{t+1} = \theta_t - \eta \nabla l_{x_t} (\theta_t)  
+            $$
+            We use such \textbf{stochastic gradient descent} in learning, as an
+            approximate optimizer.  Compare to $T\to\infty$ limits: with fixed
+            $\eta T$, recover \textbf{ODE}; with fixed $\eta \sqrt{T}$, recover
+            \textbf{SDE}.
+            \envwrp{qst}{
+                How does SGD's dynamics on a curved and noisy landscape affect
+                optimization and 
+                generalization?
+                How does SGD differ from GD, SDE?
+            }
+            We wish to express
+                $\EE_{\Ss}l_x$ and 
+                $\EE_{\Dd}l_x-\EE_{\Ss}l_x$
+            (at $\theta_T$) in terms of $l$'s statistics.
+        }
+
+        \frm{Diagram-based computation}{
+            \envwrp{thm}{[Informal]
+                SGD's expected test loss is a sum over
+                weight-data interactions drawable as diagrams.  Summing the
+                smallest diagrams suffices for small $\eta T$. 
+            }
+            \envwrp{exm}{[\emph{How does skewed noise affect SGD's test loss?}]
+                The relevant diagram is
+                    $
+                       \mdia{c(012-3)(03-13-23)}
+                    $,
+                which for large $T$ and isotropic hessian evaluates to
+                    $
+                       - \frac{\eta^3}{3!}
+                         \frac{{\color{moor}S}_{\mu\nu\lambda}
+                               {\color{moog}J}_{\mu\nu\lambda}}
+                              {3 \|\eta H\|_2}
+                    $.
+                This is the leading order test loss due to skewed noise! 
+                Here, 
+                we used the jerk $J = \EE (\nb\nb\nb\lx) = \mdia{MOO(0)(0-0-0)}$
+                and the skewness $S = \EE (\nb\lx - G)^3 =
+                \mdia{MOOc(012)(0-1-2)}$ at initialization. 
+                $G,H$ are the expected gradient and hessian.
+            }
+        }
+
+        \frm{Related work; limitations}{
+            Approaches via \textbf{stochastic differential equations} assume
+            uncorrelated, Gaussian noise in continuous time.
+            %
+            Prior \textbf{perturbative approaches} were limited to specific
+            neural architectures or to computing Gaussian statistics over
+            $T=2$. 
+            %
+            We do not assume \textbf{information-geometric} relationships
+            between $C$ and $H$, so we may model VAEs. 
+            \newline
+            \newline
+            Our predictions depend only on loss data near $\theta_0$, so they
+            only apply for long times (large $\eta T$) near an isolated minimum
+            or for short times (small $\eta T$) in general.  
+            %
+            Meteorologists understand how warm and cold fronts interact
+            despite long-term intractability; we quantify 
+            curvature's and noise's counter-intuitive effects
+            in each short-term interval of SGD.
+        }
+
+    \section{Results}
+        \frm{Main result}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+
+        \frm{SGD prefers minima flat with respect to $C$}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+
+        \frm{Both flat and sharp minima overfit less}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+
+        \frm{High-$C$ regions repel SGD}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+
+        \frm{Non-gaussian noise affects SGD but not SDE}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+
+    \section{Conclusion}
+        \frm{Contributions}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+        \frm{Future direction: Lagrangians}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+        \frm{Future direction: Curved backgrounds}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+        \frm{Bird's eye view}{
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        }
+
+        \frm{References}{
+        }
+
+\end{document}

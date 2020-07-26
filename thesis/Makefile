@@ -1,6 +1,10 @@
+slides:
+	pdflatex slides.tex
+	evince 	 slides.pdf
+
 fast:
 	pdflatex thesis.tex
-	evince thesis.pdf
+	evince   thesis.pdf
 
 thesis:
 	pdflatex thesis.tex
