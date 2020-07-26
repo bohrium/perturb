@@ -300,7 +300,7 @@
 \begin{document}
 %Every body has their taste in noises as well as other matters; and sounds are quite innoxious, or most distressing, by their sort rather than their quantity
 %if I were in a loud and brash café I might gladly pay to hear Cage's 4'33” on a jukebox. It might afford some relief!
-    \newgeometry{left=1in, right=1in}
+    \newgeometry{left=1in, right=1in,bottom=1in}
     \begin{center}\
         \Huge
         \emph{A Perturbative Analysis of Stochastic Descent}\\
@@ -314,7 +314,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Abstract  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    \vspace{1cm}
+    \vspace{0.75cm}
     \textbf{Abstract}.
         %
         %-------------  hammer and general nail  ------------------------------
@@ -343,7 +343,7 @@
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
-    \vspace{1cm}
+    \vspace{0.5cm}
     \textbf{Acknowledgements}.
         I would like to thank \textsc{Sho Yaida}, \textsc{Dan A.\ Roberts},
         and \textsc{Josh Tenenbaum} for their patient guidance.
@@ -368,22 +368,42 @@
         Finally, I thank the members of my RQE commitee,
         \textsc{David Sontag} and \textsc{Suvrit Sra}.
 
-    \vspace{1cm}
+    \vspace{0.5cm}
     \textbf{Administrivia}.
         I submit this thesis to the Department of Electrical Engineering and
         Computer Science in partial fulfillment of the requirements for the
         degree of \textbf{Master of Science} in Computer Science and
-        Engineering at the Massachusetts Institute of Technology in the year
-        2020.  I hereby grant to all organisms and institutions, including to
-        MIT, permission to reproduce and to distribute publically paper and
-        electronic copies of this document in whole or in part in any medium
-        now known or hereafter created.
+        Engineering at MIT to be awarded in \textbf{September of 2020}.
+        \hfill
+        \copyright~2020 Massachusetts Institute of Technology. All rights
+        reserved.
+        %To the extent possible, I hereby grant to all
+        %organisms and institutions, including to MIT, permission to reproduce
+        %and to distribute publically paper and electronic copies of this
+        %document in whole or in part in any medium now known or hereafter
+        %created.
 
-    \vspace{1cm}
-    \textbf{Accepted by:}
-        \hrulefill
- 
-    \restoregeometry
+    \vspace{1.5cm}
+
+    \newcommand{\sss}{\hspace*{\fill}}
+    \newcommand{\apeecs}{Associate Professor, EECS}
+    \newcommand{\pbcs}{Professor, BCS}
+    \newcommand{\bs}{B.A.\ (U.\ Michigan, 2018)}
+    \newcommand{\rqecp}{RQE Committee Person}
+
+    \par\noindent \hrulefill            \sss \hrulefill
+    \par\noindent \textbf{David Sontag} \sss \textbf{Suvrit Sra} 
+    \par\noindent \apeecs               \sss \apeecs            
+    \par\noindent \rqecp                \sss \rqecp              
+
+    \vspace{1.5cm}
+
+    \par\noindent \hrulefill                \sss    \hrulefill
+    \par\noindent \textbf{Samuel C. Tenka}  \sss    \textbf{Joshua B. Tenenbaum}
+    \par\noindent \bs                   \sss \pbcs
+    \par\noindent Thesis Author         \sss Thesis Supervisor
+
+\restoregeometry
     
 %==============================================================================
 %=====  INTRODUCTION  =========================================================
@@ -968,7 +988,7 @@
 \chapter{Theory, specialized to $E=B=1$ SGD's test loss} \label{sect:calculus}
 
     \renewcommand{\textflush}{flushright}
-    \setlength{\epigraphwidth}{0.65\columnwidth}
+    \setlength{\epigraphwidth}{0.61\columnwidth}
     \epigraph{
         Mr.\ Reilly was all heart.  Of course, he was part valve, too.
     }{John Kennedy Toole, \emph{A Confederacy of Dunces}}
@@ -1380,7 +1400,7 @@
             Landscapes with non-Gaussian are common.  For example,
             maximum-likelihood fitting of a normal density to normally-drawn
             data yields a landscape whose gradients obey a $\chi^2$ law and
-            are, in particular, non-Gaussian (\S\ref{appendix:experiments}).
+            are, in particular, non-Gaussian (\S\ref{subsect:entropic}).
             One of our contributions is to quantify the effect of non-Gaussian
             noise in SGD.  For example, we present corrections to stochastic
             differential equations (SDE),\cite{li17} a popular theoretical
@@ -2063,7 +2083,7 @@
 
 
     \renewcommand{\textflush}{flushright}
-    \setlength{\epigraphwidth}{0.55\columnwidth}
+    \setlength{\epigraphwidth}{0.49\columnwidth}
     \epigraph{
         If you will recollect, we are now in Autumn ---
         season of mists and mellow fruitfulness.
@@ -3412,7 +3432,7 @@
 \chapter{Mathematics of the theory}\label{appendix:math}
 
     \renewcommand{\textflush}{flushright}
-    \setlength{\epigraphwidth}{0.69\columnwidth}
+    \setlength{\epigraphwidth}{0.65\columnwidth}
     \epigraph{
         Also the Egyptian religion would be hostile to the ideas of Riemann
         and other new concepts of space beyond $\RR^3$.
