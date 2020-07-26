@@ -1,5 +1,5 @@
 %   author: samtenka
-%   change: 2020-07-23
+%   change: 2020-07-25
 %   create: 2020-07-19
 %   descrp: LaTeX source for perturb project, SM thesis writeup
 %   to use: compile along with perturb.bib and diagram and plot directories
@@ -984,9 +984,10 @@
         A diagram is \textbf{irreducible} when each of its degree-$2$ nodes is in
         a part of size one.
         %
-        \begin{margintable}[0.8cm]
-            \begin{spacing}{0.5}
-                \textbf{Examples}:
+        %\begin{margintable}[0.8cm]
+        %    \begin{spacing}{0.5}
+        %        \textbf{Examples}:
+        \begin{exm}
                 The diagrams
                 $\sdia{c(0-1)(01)}$, $\sdia{c(012-3)(03-13-23)}$ each have $2$
                 parts; $\sdia{c(0-12-3)(03-13-23)}$, $\sdia{c(01-2-3)(02-12-23)}$
@@ -1004,8 +1005,10 @@
                 For all $f$,
                 $|\Aut_f(\sdia{c(01-2-3)(03-12-23)})|=1$ and
                 $|\Aut_f(\sdia{c(01-2-3)(02-12-23)})|=2$.
-            \end{spacing}
-        \end{margintable}%
+            \mend
+        \end{exm}
+        %    \end{spacing}
+        %\end{margintable}%
         An \textbf{embedding} $f$ of a diagram $D$ is an injection from%
         $D$'s parts to (integer) times $0 \leq t \leq T$ that sends the
         root to $T$ and such that, for each path from leaf to root, the
@@ -1122,8 +1125,8 @@
             informal shorthand when referencing this Theorem.
         \end{rmk}
 
-        \moolor{5}{Detailed example of theorem}
-        \moolor{1}{Mention of how changes with $E,B \neq 1$}
+        %\moolor{5}{Detailed example of theorem}
+        %\moolor{1}{Mention of how changes with $E,B \neq 1$}
       
     \section{
         SGD descends on a $C$-smoothed landscape and prefers minima flat
@@ -1259,7 +1262,7 @@
             %
             Theorem \ref{thm:resum} accounts for the implicit regularization of
             fixed-$T$ descent, so it shows that both effects play a role.  In
-            fact, by routine calculus on the left hand side of Corollary
+            fact, by routine calculus on Corollary
             \ref{cor:overfit}, overfitting is maximized for medium minima with
             curvature $H \sim (\eta T)^{-1}$.
 
@@ -1580,11 +1583,23 @@
 \chapter{Experiments}
 
     \renewcommand{\textflush}{flushright}
-    \setlength{\epigraphwidth}{0.57\columnwidth}
+    \setlength{\epigraphwidth}{0.67\columnwidth}
     \epigraph{
-        You miss 100\% of the shots you don't take. \\
+        You miss 100\% of the shots you don't take.
         --- Wayne Gretzky
     }{Michael Scott, Dunder Mifflin Regional Manager}
+    \marginnote{
+        \texttt{I} bars, \texttt{+} signs, and shaded
+        regions mark $95\%$ confidence intervals based on the standard
+        error of the mean. 
+        %
+        The label \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
+        predictions, approximated as in Remark \ref{rmk:integrate}.  Curves
+        marked \texttt{uvalue} are polynomial approximations to Theorem
+        \ref{thm:resum}'s result (see \S\ref{appendix:sum-embeddings}).
+        \texttt{uvalue}s are simpler to work with but (see \protect\ofsix{4})
+        may be less accurate.
+    }
 
     Despite the convergence results in Theorems \ref{thm:resum} and
     \ref{thm:converge}, we have no theoretical bounds for the domain and
@@ -1593,24 +1608,18 @@
     the null hypothesis.  For instance, in Figure \ref{fig:vanilla}\ofsix{4},
     \citet{ch18} predicts a velocity of $0$ while we predict a velocity of
     $\eta^2/6$.
-    %
-    Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark $95\%$
-    confidence intervals based on the standard error of the mean.
-    \S\ref{appendix:experiments} describes neural architectures, the definitions
-    of artificial landscapes, sample sizes, and further plots.
 
-    \section{Viability of perturbation}%; $C$ repels SGD more than GD}
         %----------------------------------------------------------------------
         %       Vanilla SGD                                 
         %----------------------------------------------------------------------
-        We test Theorem \ref{thm:resum}'s order $\eta^3$ truncation on smooth
-        convnets for CIFAR-10 and Fashion-MNIST.  Theory agrees with experiment
-        through timescales long enough for accuracy to increase by $0.5\%$
-        (Figure \ref{fig:vanilla}\ofsix{0},\ofsix{1}).
-        \begin{figure} 
+    The most basic tests concerns the viability of perturbation.
+        We directly compare Theorem \ref{thm:resum}'s order $\eta^3$ truncation
+        on smooth convnets for CIFAR-10 and Fashion-MNIST.  Theory agrees with
+        experiment
+        \begin{figure}[h]
             \centering
-            \pmoo{3.75cm}{neurips-test-large} 
-            \pmoo{3.75cm}{neurips-gen-cifar-lenet} 
+            \pmoo{3.45cm}{neurips-test-large} 
+            \pmoo{3.45cm}{neurips-gen-cifar-lenet} 
             \caption{
                 \textbf{Perturbation models SGD for small $\eta T$.}
                 %
@@ -1626,42 +1635,42 @@
             }
             \label{fig:vanilla}
         \end{figure}
-        Throughout, the label \texttt{rvalue} refers to Theorem
-        \ref{thm:resum}'s predictions, approximated as in Remark
-        \ref{rmk:integrate}.  Curves marked \texttt{uvalue} are polynomial
-        approximations to Theorem \ref{thm:resum}'s result (see
-        \S\ref{appendix:sum-embeddings}).  \texttt{uvalue}s are simpler to work
-        with but (see \protect\ofsix{4}) may be less accurate.
-        \begin{figure} 
+        \begin{figure}[h] 
             \centering
-            \pmoo{3.75cm}{neurips-test-small} 
-            \pmoo{3.75cm}{test-loss-converged} 
+            \pmoo{3.55cm}{neurips-test-small} 
+            \pmoo{3.65cm}{test-loss-converged} 
             \caption{
                 \textbf{Higher order terms improve order-$1$ predictions.}
                 %
-                \protect\oftwo{0}: For all initializations tested ($1$ shown,
-                $11$ unshown), the order $3$ prediction agrees with experiment
-                through $\eta T \approx 10^0$, corresponding to a decrease
-                in $0\mbox{-}1$ error of $\approx 10^{-3}$.
+                \protect\oftwo{0}: For all Xavier initializations Fashion-MNIST
+                tested ($1$ shown, $11$ unshown), the order $3$ prediction
+                agrees with experiment through $\eta T \approx 10^0$,
+                corresponding to a decrease in $0\mbox{-}1$ error of $\approx
+                10^{-3}$.  Meanwhile, order $1$ predictions agree only through
+                $\eta T \approx 10^{-1/2}$.
                 %
-                \protect\oftwo{1}: {\color{red} FILL IN}
+                \protect\oftwo{1}: We initialize CIFAR-10 near four minima
+                found by pre-training.  Order $2$ predictions improve on
+                order $1$ baselines.
             }
             \label{fig:perturb}
         \end{figure}
+        through timescales long enough for accuracy to increase by $0.5\%$
+        (Figure \ref{fig:vanilla}).  Moreover, the effort of computing
+        higher-order terms is rewarded by increased accuracy (Figure
+        \ref{fig:perturb}).
 
     \section{Epochs and batch size; $C$ repels SGD more than GD}
+        Figure \ref{fig:be} fails to falsify Corollaries
+        \ref{cor:batch} and
+        \ref{cor:epochs}.
         %----------------------------------------------------------------------
-        %       Epochs and Overfitting                      
+        %       Emulating Small Batches with Large Ones     
         %----------------------------------------------------------------------
-        \S\ref{appendix:marginfigures} supports Corollary \ref{cor:epochs}'s
-        predictions about epoch number.
-
-Here, all SGD runs have $N=10$; we scale the learning
-                rate for $E$-epoch SGD by $1/E$ to isolate the effect of
-                inter-epoch correlations away from the effect of larger $\eta
-                T$.
-                %
-
+        \protect\oftwo{0} shows that, relative to GD, high-$C$ regions
+        \emph{repel} SGD.  This is significant because $C$ controls the rate at
+        which the generalization gap (test minus train loss) grows (Figure
+        \ref{fig:vanilla}.\oftwo{1}, Corollary \ref{cor:overfit}).
         \begin{figure} 
             \centering
             \pmoo{3.75cm}{new-big-bm-new}          
@@ -1669,6 +1678,7 @@ Here, all SGD runs have $N=10$; we scale the learning
             \caption{
                 \textbf{$C$, modulated by batch size and epoch number,
                 controls the generalization gap.}
+                $N=10$ for both plots. 
                 %
                 With equal-scaled axes, \protect\oftwo{0} shows that
                 GDC matches SGD (small vertical variance) better than GD
@@ -1677,20 +1687,20 @@ Here, all SGD runs have $N=10$; we scale the learning
                 initializations\ (zero and several Xavier-Glorot trials) for
                 logistic regression and convnets.  Here, $T=10$. 
                 %
-                \protect\oftwo{1}: SGD with $2, 3, 5, 8$ epochs incurs greater test
-                loss than one-epoch SGD (difference shown in I bars) by the
-                predicted amounts (predictions shaded) for a range of learning
-                rates.
+                \protect\oftwo{1}:
+                SGD with $2, 3, 5, 8$ epochs.  We scale the learning rate for
+                $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch
+                correlations away from the effect of larger $\eta T$.
             }
+            \label{fig:be}
         \end{figure}
         %----------------------------------------------------------------------
-        %       Emulating Small Batches with Large Ones     
+        %       Epochs and Overfitting                      
         %----------------------------------------------------------------------
-        Figure \ref{fig:vanilla}\ofsix{2} tests Corollary \ref{cor:batch}'s
-        claim that, relative to GD, high-$C$ regions \emph{repel} SGD.  This is
-        significant because $C$ controls the rate at which the generalization\ gap (test
-        minus train loss) grows (Corollary \ref{cor:overfit}, Figure
-        \ref{fig:vanilla}\ofsix{3}).
+        In \protect\oftwo{1}, we see that multi-epoch SGD incurs
+        greater test loss than one-epoch SGD (difference shown in \texttt{I}
+        bars) by the predicted amounts (predictions shaded) for a range of
+        learning rates.
 
     %--------------------------------------------------------------------------
     %           Thermodynamic Engine                        
@@ -1699,10 +1709,11 @@ Here, all SGD runs have $N=10$; we scale the learning
     \section{Minima that are flat \emph{with respect to} $C$ attract SGD}
         %
         \label{subsect:entropic}
-        To test the claimed dependence on $C$, \S\ref{appendix:artificial}
-        constructs a landscape, \Archimedes, with non-constant $C$ throughout
-        its valley of global minima.  Figure \ref{fig:archimedes} 
-        depicts \Archimedes' chiral shape.
+        To test Corollary \ref{cor:entropic}'s claimed dependence on $C$, we
+        construct a landscape,
+        \Archimedes, with non-constant $C$ throughout its valley of global
+        minima (\S\ref{appendix:artificial-landscapes}).  Figure
+        \ref{fig:archimedes} depicts \Archimedes' chiral shape.
         %
         \begin{figure}
             \centering
@@ -1728,10 +1739,9 @@ Here, all SGD runs have $N=10$; we scale the learning
             \label{fig:archimedes}
         \end{figure}
         %
-        As in
-        Archimedes' screw or Rock-Paper-Scissors, each point $\theta$ has a
-        neighbor that, from $C(\theta)$'s perspective but not absolutely, is
-        flatter.  This permits eternal motion despite the landscape's symmetry.
+        As in Rock-Paper-Scissors, each point $\theta$ has a neighbor that,
+        from $C(\theta)$'s perspective but not absolutely, is flatter.  This
+        permits eternal motion despite the landscape's symmetry.
         %
         Indeed, Corollary \ref{cor:entropic} predicts 
         a $z$-velocity of $+\eta^2/6$ per timestep, while \citep{ch18}'s
@@ -1740,17 +1750,8 @@ Here, all SGD runs have $N=10$; we scale the learning
             of $(\eta C)^\mu_\nu$ in tangent space.
         }
         Our prediction agrees with experiment (Figure
-        \ref{fig:vanilla}\ofsix{4}).
+        \ref{fig:vssde}.\oftwo{0}).
         %
-        Because SGD's motion depends smoothly on the landscape, the special
-        case of \Archimedes\ implies that non-conservativity is typical.
-        %
-        One may have sought an ``effective loss'' $\tilde{l}$ such that, up to
-        $\sqrt{T}$ diffusion terms, SGD on $l$ matches ODE on $\tilde{l}$.  The
-        non-conservativity of SGD's velocity shows that no such $\tilde{l}$
-        exists.
-        %
-
         \begin{figure} 
             \centering
             \pmoo{3.75cm}{neurips-thermo-linear-screw}
@@ -1764,20 +1765,28 @@ Here, all SGD runs have $N=10$; we scale the learning
                 \protect\oftwo{1}: SGD's difference from SDE after $\eta T
                 \approx 10^{-1}$ with maximal coarseness on \Gauss.  
             }
+            \label{fig:vssde}
         \end{figure}
+        Note that $H$ and $C$ are
+        bounded across the valley, we see drift for all small $\eta$,
+        and we see displacement exceeding the landscape's period of
+        $2\pi$.  So: the drift is not a pathology of well-chosen
+        $\eta$, of divergent noise, or of ephemeral initial conditions.
 
-                Note: $H$ and $C$ are
-                bounded across the valley, we see drift for all small $\eta$,
-                and we see displacement exceeding the landscape's period of
-                $2\pi$.  So: the drift is not a pathology of well-chosen
-                $\eta$, of divergent noise, or of ephemeral initial conditions.
-
-                Two
-                effects not modeled by SDE --- time-discretization and
-                non-Gaussian noise oppose on this landscape but do not
-                completely cancel.  Our theory approximates the above curve
-                with a correct sign and order of magnitude; we expect that the
-                fourth order corrections would improve it further.
+        Because SGD's motion depends smoothly on the landscape, the special
+        case of \Archimedes\ implies that curl is typical.
+        %
+        One may have sought an ``effective loss'' $\tilde{l}$ such that, up to
+        $\sqrt{T}$ diffusion terms, SGD on $l$ matches ODE on $\tilde{l}$.  The
+        curl in SGD's velocity shows that no such $\tilde{l}$
+        exists.
+        
+        Figure \ref{fig:vssde}.\oftwo{1} further compares SDE to SGD.  Two
+        effects not modeled by SDE --- time-discretization and non-Gaussian
+        noise oppose on this landscape but do not completely cancel.  Our
+        theory approximates the above curve with a correct sign and order of
+        magnitude; we expect that the fourth order corrections would improve it
+        further.
 
     %--------------------------------------------------------------------------
     %           Sharp vs Flat Minima                        
@@ -1785,13 +1794,16 @@ Here, all SGD runs have $N=10$; we scale the learning
 
     \section{Sharp and flat minima both overfit less than medium minima} \label{subsect:overfit}
 
-        Prior work (\S\ref{sect:related}) finds both that \emph{sharp} minima
-        overfit less (for, $l^2$ regularization sharpens minima) or that
-        \emph{flat} minima overfit less (for, flat minima are robust to small
-        displacements).  In fact, both phenomena occur, and noise structure
-        determines which dominates (Corollary \ref{cor:overfit}).  This effect
-        appears even in \MeanEstimation\, (\S\ref{appendix:artificial}): Figure
-        \ref{fig:vanilla}\ofsix{5}.
+        %Prior work (\S\ref{sect:related}) finds both that \emph{sharp} minima
+        %overfit less (for, $l^2$ regularization sharpens minima) or that
+        %\emph{flat} minima overfit less (for, flat minima are robust to small
+        %displacements).  In fact, both phenomena occur, and noise structure
+        We test Corollary \ref{cor:overfit}'s predictions about generalization
+        and minima.  The balance between flat and sharp minima is non-trivial
+        even in \MeanEstimation\ (\S\ref{appendix:artificial-landscapes}):
+        Near $H=0$, our predictions improve on
+        TIC \citep{di18} and thus on
+        AIC (Figure \ref{fig:tic}.\oftwo{0}).
         %
         \begin{figure} 
             \centering
@@ -1808,40 +1820,36 @@ Here, all SGD runs have $N=10$; we scale the learning
                 \ref{cor:overfit}.  When the blue intervals fall below the
                 black bar, this proposed method outperforms plain GD.    
             }
+            \label{fig:tic}
         \end{figure}
-        %
+
         To combat overfitting, we may add Corollary \ref{cor:overfit}'s
-        expression for generalization\ gap to $l$.  By descending on this regularized
-        loss, we may tune smooth hyperparameters such as $l_2$ regularization
-        coefficients for small datasets ($H \ll C/N$)
-        (\S\ref{appendix:marginfigures}).  Since matrix exponentiation takes time
-        cubic in dimension, this regularizer is most useful for small models.
+        expression for generalization gap to $l$.  By descending on this
+        regularized loss, we may tune smooth hyperparameters such as $l_2$
+        regularization coefficients for small datasets ($H \ll C/N$)
+        (Figure \ref{fig:tic}.\oftwo{1}).  
+        %
+        For \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized a
+        fixed distance away from the true minimum, descent on an $l_2$
+        penalty coefficient $\lambda$ improves on plain GD for most Hessians.
+        The new method does not always outperform GD, because $\lambda$ is not
+        perfectly tuned according to STIC but instead descended on for finite
+        $\eta T$.
+        %
+        Since matrix exponentiation takes time super-quadratic in dimension,
+        this regularizer is most useful for small models.
 
-        Near $H=0$, our predictions improve on TIC \citep{di18} and
-                thus on AIC.
+        \newpage
+    \section{Artificial Landscapes}\label{appendix:artificial-landscapes}
 
-For \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized a fixed
-distance \emph{away} from the true minimum, descent on
-                an $l_2$ penalty coefficient $\lambda$ improves on plain GD for
-                most Hessians.or
-                \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized
-                a fixed distance \emph{away} from the true minimum, descent on
-                an $l_2$ penalty coefficient $\lambda$ improves on plain GD for
-                most Hessians.
-        The new method does not always outperform GD,
-                because $\lambda$ is not perfectly tuned according to STIC but
-                instead descended on for finite $\eta T$.
-
-    \section{Landscapes}\label{appendix:experiments}
-
-        We defined three artificial landscapes, called
+        We defined three artificial landscapes:
         \Gauss, \Archimedes, and \MeanEstimation.
 
         \subsection{\Gauss}
             Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
             centered standard normal data.  We parameterize the landscape by
             $h=\log(\sigma^2)$ so that the Fisher information matches the
-            standard dot product \citep{am98}.   
+            standard dot product.\cite{am98}
             %
             More explicitly, the \Gauss\, landscape is a probability
             distribution $\Dd$ over functions $l_x:\RR^1\to \RR$ on
@@ -1865,7 +1873,7 @@ distance \emph{away} from the true minimum, descent on
             
         \subsection{\Archimedes}
             The \Archimedes\, landscape has chirality, much like its namesake's
-            screw \citep{vi00}.  Specifically, the \Archimedes\ landscape has
+            screw.\cite{vi00}  Specifically, the \Archimedes\ landscape has
             %
             weights     $\theta = (u,v,z) \in \RR^3$,
             %
@@ -1930,38 +1938,38 @@ distance \emph{away} from the true minimum, descent on
             a non-canonical choice of initialization.  We initialize
             $\lambda=0$.
 
-        \subsection{Image-classification landscapes}   \label{appendix:natural}
+    \section{Image-classification landscapes}   \label{appendix:natural}
 
-            \textbf{Architectures}.
-                In addition to the artificial loss landscapes
-                \Gauss, \Archimedes, and \MeanEstimation, 
-                we tested our predictions on logistic linear regression
-                and simple convolutional networks (2 convolutional weight layers
-                each with kernel $5$, stride $2$, and $10$ channels, followed by
-                two dense weight layers with hidden dimension $10$) for the
-                CIFAR-10 \citep{kr09} and Fashion-MNIST datasets \citep{xi17}.  The
-                convolutional architectures used $\tanh$ activations and Gaussian
-                Xavier initialization.  To set a standard distance scale on weight
-                space, we parameterized the model so that the
-                Gaussian-Xavier initialization of the linear maps in each layer
-                differentially pulls back to standard normal initializations of the
-                parameters.
-                
-            \textbf{Datasets}.
-                For image classification landscapes, we regard the finite amount of
-                available data as the true (sum of diracs) distribution $\Dd$ from
-                which we sample test and training sets in i.i.d.\ manner (and hence
-                ``with replacement'').  We do this to gain practical access to a
-                ground truth against which we may compare our predictions.  One
-                might object that this sampling procedure would cause test and
-                training sets to overlap, hence biasing test loss measurements.  In
-                fact, test and training sets overlap only in reference, not in
-                sense: the situation is analogous to a text prediction task in
-                which two training points culled from different corpora happen to
-                record the same sequence of words, say, ``Thank you!''.  In any
-                case, all of our experiments focus on the limited-data regime, e.g.
-                $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
-                are rare.
+        \subsection{Architectures}
+            In addition to the artificial loss landscapes
+            \Gauss, \Archimedes, and \MeanEstimation, 
+            we tested our predictions on logistic linear regression
+            and simple convolutional networks (2 convolutional weight layers
+            each with kernel $5$, stride $2$, and $10$ channels, followed by
+            two dense weight layers with hidden dimension $10$) for the
+            CIFAR-10\cite{kr09} and Fashion-MNIST\cite{xi17} datasets.  The
+            convolutional architectures used $\tanh$ activations and Gaussian
+            Xavier initialization.  To set a standard distance scale on weight
+            space, we parameterized the model so that the
+            Gaussian-Xavier initialization of the linear maps in each layer
+            differentially pulls back to standard normal initializations of the
+            parameters.
+            
+        \subsection{Datasets}
+            For image classification landscapes, we regard the finite amount of
+            available data as the true (sum of diracs) distribution $\Dd$ from
+            which we sample test and training sets in i.i.d.\ manner (and hence
+            ``with replacement'').  We do this to gain practical access to a
+            ground truth against which we may compare our predictions.  One
+            might object that this sampling procedure would cause test and
+            training sets to overlap, hence biasing test loss measurements.  In
+            fact, test and training sets overlap only in reference, not in
+            sense: the situation is analogous to a text prediction task in
+            which two training points culled from different corpora happen to
+            record the same sequence of words, say, ``Thank you!''.  In any
+            case, all of our experiments focus on the limited-data regime, e.g.
+            $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
+            are rare.
 
     \section{Measurement process}                                \label{appendix:measure}
 
@@ -1976,12 +1984,12 @@ distance \emph{away} from the true minimum, descent on
             optimizers, we gave them the same random seed (and hence the same
             training sets).
 
-            We ran $2 \cdot 10^5$ trials of \Gauss\, with SDE and SGD,
+            We ran $2 \cdot 10^5$ trials of \Gauss\ with SDE and SGD,
             initialized at the test minimum with $T=1$ and $\eta$ ranging from
             $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
-            We ran $5 \cdot 10^1$ trials of \Archimedes with SGD with $T=10^4$
+            We ran $5 \cdot 10^1$ trials of \Archimedes\ with SGD with $T=10^4$
             and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
-            We ran $10^3$ trials of \MeanEstimation with GD and STIC
+            We ran $10^3$ trials of \MeanEstimation\ with GD and STIC
             with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
             a covariance of gradients of $10^2$, and the true mean $0$ or
             $10$ units away from initialization.
@@ -2019,17 +2027,17 @@ distance \emph{away} from the true minimum, descent on
             the covariance of gradients would be degenerate in all but one
             direction, and so we need only exponentiate a scalar.
 
-        \subsection{Software frameworks and hardware}                   \label{appendix:frameworks}
+        %\subsection{Software frameworks and hardware}                   \label{appendix:frameworks}
 
-            All code and data-wrangling scripts can be found on
-            {\color{mooteal}github.com/bohrium/perturb}.
-            %
-            Our code uses PyTorch 0.4.0\cite{pa19} on Python 3.6.7; there are
-            no other substantive dependencies.  The code's randomness is
-            parameterized by random seeds and hence reproducible.
-            %
-            We ran experiments on a Lenovo laptop and on the OpenMind clusters,
-            consuming about $100$ GPU-hours.
+        %    All code and data-wrangling scripts can be found on
+        %    {\color{mooteal}github.com/bohrium/perturb}.
+        %    %
+        %    Our code uses PyTorch 0.4.0\cite{pa19} on Python 3.6.7; there are
+        %    no other substantive dependencies.  The code's randomness is
+        %    parameterized by random seeds and hence reproducible.
+        %    %
+        %    We ran experiments on a Lenovo laptop and on the OpenMind clusters,
+        %    consuming about $100$ GPU-hours.
 
 %==============================================================================
 %    CONCLUSION      

@@ -95,33 +95,33 @@
 \pp@pagectr{footnote}{25}{8}{8}
 \citation{ch17}
 \citation{gu19}
+\citation{we19b}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Main result}{9}{section.2.1}\protected@file@percent }
 \newlabel{thm:resum}{{1}{9}{Special case of $E=B=1$}{thm.1}{}}
 \newlabel{eq:resum}{{1}{9}{Special case of $E=B=1$}{thm.1}{}}
 \newlabel{rmk:integrate}{{2}{9}{}{rmk.2}{}}
 \newlabel{thm:converge}{{2}{9}{}{thm.2}{}}
-\citation{we19b}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2} SGD descends on a $C$-smoothed landscape and prefers minima flat with respect to $C$. }{9}{section.2.2}\protected@file@percent }
+\pp@pagectr{footnote}{26}{9}{9}
+\newpmemlabel{^_2}{9}
 \citation{ya19b}
 \citation{we19b}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2} SGD descends on a $C$-smoothed landscape and prefers minima flat with respect to $C$. }{10}{section.2.2}\protected@file@percent }
-\pp@pagectr{footnote}{26}{10}{10}
-\newpmemlabel{^_2}{10}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces \textbf  {Gradient noise pushes SGD toward flat minima.} The red densities show the typical $\theta $s, perturbed from the minimum due to noise $C$, in two cross sections of the loss valley. $J = \nabla H$ measures how curvature changes across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them in the picture to ease comparison with \citet  {we19b}. Compare with Figure \ref  {fig:archimedes}; see Corollary \ref  {cor:entropic}. }}{10}{figure.2.1}\protected@file@percent }
 \newlabel{fig:cubic}{{2.1}{10}{ SGD descends on a $C$-smoothed landscape and prefers minima flat with respect to $C$. }{figure.2.1}{}}
 \newlabel{cor:entropic}{{1}{10}{Computed from $\sdia {c(01-2-3)(02-12-23)}$}{cor.1}{}}
 \pp@pagectr{footnote}{27}{10}{10}
 \citation{ku19}
+\citation{di18}
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Both flat and sharp minima overfit less}{11}{section.2.3}\protected@file@percent }
 \newlabel{subsect:curvature-and-overfitting}{{2.3}{11}{Both flat and sharp minima overfit less}{section.2.3}{}}
 \newpmemlabel{^_3}{11}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces \textbf  { Both curvature and the structure of noise affect overfitting.} In each of the four subplots, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. \offour {0}: \emph  {covector}-perturbed landscapes favor large $H$s. \offour {1}: \emph  {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref  {cor:overfit}). }}{11}{figure.2.2}\protected@file@percent }
 \newlabel{fig:spring}{{2.2}{11}{Both flat and sharp minima overfit less}{figure.2.2}{}}
 \newlabel{cor:overfit}{{2}{11}{from $\sdia {c(01-2)(02-12)}$, $\sdia {c(01)(01)}$}{cor.2}{}}
-\citation{di18}
+\pp@pagectr{footnote}{28}{11}{11}
+\pp@pagectr{footnote}{29}{11}{11}
 \citation{ch87}
 \citation{li17}
-\pp@pagectr{footnote}{28}{12}{12}
-\pp@pagectr{footnote}{29}{12}{12}
 \@writefile{toc}{\contentsline {section}{\numberline {2.4}High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}{12}{section.2.4}\protected@file@percent }
 \newlabel{sect:epochs-batch}{{2.4}{12}{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}{section.2.4}{}}
 \newpmemlabel{^_4}{12}
@@ -130,8 +130,8 @@
 \pp@pagectr{footnote}{30}{12}{12}
 \newlabel{cor:batch}{{3}{12}{$\sdia {c(01-2)(01-12)}$}{cor.3}{}}
 \newlabel{cor:epochs}{{4}{12}{$\sdia {c(01-2)(01-12)}$}{cor.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Non-Gaussian noise affects SGD but not SDE}{12}{section.2.5}\protected@file@percent }
 \citation{ya19a}
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Non-Gaussian noise affects SGD but not SDE}{13}{section.2.5}\protected@file@percent }
 \pp@pagectr{footnote}{31}{13}{13}
 \newlabel{cor:vsode}{{5}{13}{$\sdia {c(01-2)(02-12)}$, $\sdia {c(012-3)(03-13-23)}$}{cor.5}{}}
 \pp@pagectr{footnote}{32}{13}{13}
@@ -148,51 +148,55 @@
 \@writefile{toc}{\contentsline {chapter}{\numberline {3}Experiments}{14}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Viability of perturbation}{14}{section.3.1}\protected@file@percent }
 \newpmemlabel{^_6}{14}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces  \textbf  {Perturbation models SGD for small $\eta T$.} \oftwo {0}: Fashion-MNIST convnet's test loss vs learning rate. Here, the order-$3$ prediction holds until the $0\mbox  {-}1$ error improves by $5\cdot 10^{-3}$. For large $\eta T$, our predictions break down. \oftwo {1}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. }}{14}{figure.3.1}\protected@file@percent }
-\newlabel{fig:vanilla}{{3.1}{14}{Viability of perturbation}{figure.3.1}{}}
 \newpmemlabel{^_7}{14}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces  \textbf  {Perturbation models SGD for small $\eta T$.} \oftwo {0}: Fashion-MNIST convnet's test loss vs learning rate. Here, the order-$3$ prediction holds until the $0\mbox  {-}1$ error improves by $5\cdot 10^{-3}$. For large $\eta T$, our predictions break down. \oftwo {1}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. }}{14}{figure.3.1}\protected@file@percent }
+\newlabel{fig:vanilla}{{3.1}{14}{Experiments}{figure.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces  \textbf  {Higher order terms improve order-$1$ predictions.} \oftwo {0}: For all Xavier initializations Fashion-MNIST tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox  {-}1$ error of $\approx 10^{-3}$. Meanwhile, order $1$ predictions agree only through $\eta T \approx 10^{-1/2}$. \oftwo {1}: We initialize CIFAR-10 near four minima found by pre-training. Order $2$ predictions improve on order $1$ baselines. }}{14}{figure.3.2}\protected@file@percent }
+\newlabel{fig:perturb}{{3.2}{14}{Experiments}{figure.3.2}{}}
 \citation{ch18}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces  \textbf  {Higher order terms improve order-$1$ predictions.} \oftwo {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox  {-}1$ error of $\approx 10^{-3}$. \oftwo {1}: {\color  {red} FILL IN} }}{15}{figure.3.2}\protected@file@percent }
-\newlabel{fig:perturb}{{3.2}{15}{Viability of perturbation}{figure.3.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Epochs and batch size; $C$ repels SGD more than GD}{15}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Epochs and batch size; $C$ repels SGD more than GD}{15}{section.3.1}\protected@file@percent }
 \newpmemlabel{^_8}{15}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces  \textbf  {$C$, modulated by batch size and epoch number, controls the generalization gap.} With equal-scaled axes, \oftwo {0} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \oftwo {1}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. }}{15}{figure.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Minima that are flat \emph  {with respect to} $C$ attract SGD}{15}{section.3.3}\protected@file@percent }
-\newlabel{subsect:entropic}{{3.3}{15}{Minima that are flat \emph {with respect to} $C$ attract SGD}{section.3.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces  \textbf  {$C$, modulated by batch size and epoch number, controls the generalization gap.} $N=10$ for both plots. With equal-scaled axes, \oftwo {0} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in test loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations\ (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \oftwo {1}: SGD with $2, 3, 5, 8$ epochs. We scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. }}{15}{figure.3.3}\protected@file@percent }
+\newlabel{fig:be}{{3.3}{15}{Epochs and batch size; $C$ repels SGD more than GD}{figure.3.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Minima that are flat \emph  {with respect to} $C$ attract SGD}{15}{section.3.2}\protected@file@percent }
+\newlabel{subsect:entropic}{{3.2}{15}{Minima that are flat \emph {with respect to} $C$ attract SGD}{section.3.2}{}}
 \newpmemlabel{^_9}{15}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces  \textbf  {\textls  [50]{\textsmallcaps  {Archimedes}}.} A \textbf  {green} level surface of $l$ twists around a valley of minima ($z$ axis) at its center; $l$ is large outside this surface. Due to anisotropic noise, $\theta $ scatters away from the $z$ axis toward the \textbf  {purple} tubes. SGD pushes the scattered $\theta $s toward lower loss, i.e.\ toward the level surface, and so toward larger $z$. The $z$ axis points into the page (\oftwo {0}) or upward (\oftwo {1}). We made these plots with the help of Paul Seeburger's online applet, \href  {https://www.monroecc.edu/faculty/paulseeburger/calcnsf/CalcPlot3D/}{CalcPlot3D}. }}{15}{figure.3.4}\protected@file@percent }
 \newlabel{fig:archimedes}{{3.4}{15}{Minima that are flat \emph {with respect to} $C$ attract SGD}{figure.3.4}{}}
-\pp@pagectr{footnote}{38}{16}{16}
-\newpmemlabel{^_10}{16}
+\pp@pagectr{footnote}{38}{15}{15}
+\newpmemlabel{^_10}{15}
+\citation{di18}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces  \textbf  {Predictions near minima excel for large $\eta T$.} \oftwo {0}: SGD travels \textls  [50]{\textsmallcaps  {Archimedes}}' valley of global minima in the positive $z$ direction. \oftwo {1}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textls  [50]{\textsmallcaps  {Gauss}}. }}{16}{figure.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Sharp and flat minima both overfit less than medium minima}{16}{section.3.4}\protected@file@percent }
-\newlabel{subsect:overfit}{{3.4}{16}{Sharp and flat minima both overfit less than medium minima}{section.3.4}{}}
+\newlabel{fig:vssde}{{3.5}{16}{Minima that are flat \emph {with respect to} $C$ attract SGD}{figure.3.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Sharp and flat minima both overfit less than medium minima}{16}{section.3.3}\protected@file@percent }
+\newlabel{subsect:overfit}{{3.3}{16}{Sharp and flat minima both overfit less than medium minima}{section.3.3}{}}
 \newpmemlabel{^_11}{16}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces  \textbf  {Both sharp and flat minima overfit less.} \oftwo {0}: For \textls  [50]{\textsmallcaps  {Mean Estimation}}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the test losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. \oftwo {1}: Blue intervals regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. }}{16}{figure.3.6}\protected@file@percent }
-\citation{di18}
+\newlabel{fig:tic}{{3.6}{16}{Sharp and flat minima both overfit less than medium minima}{figure.3.6}{}}
 \citation{am98}
 \citation{vi00}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Landscapes}{17}{section.3.5}\protected@file@percent }
-\newlabel{appendix:experiments}{{3.5}{17}{Landscapes}{section.3.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Artificial Landscapes}{17}{section.3.4}\protected@file@percent }
+\newlabel{appendix:artificial-landscapes}{{3.4}{17}{Artificial Landscapes}{section.3.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\textls  [50]{\textsmallcaps  {Gauss}}}{17}{subsection*.5}\protected@file@percent }
+\pp@pagectr{footnote}{39}{17}{17}
 \@writefile{toc}{\contentsline {subsection}{\textls  [50]{\textsmallcaps  {Archimedes}}}{17}{subsection*.6}\protected@file@percent }
+\pp@pagectr{footnote}{40}{17}{17}
 \citation{kr09}
 \citation{xi17}
 \@writefile{toc}{\contentsline {subsection}{\textls  [50]{\textsmallcaps  {Mean Estimation}}}{18}{subsection*.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Image-classification landscapes}{18}{subsection*.8}\protected@file@percent }
-\newlabel{appendix:natural}{{3.5}{18}{Image-classification landscapes}{subsection*.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Image-classification landscapes}{18}{section.3.5}\protected@file@percent }
+\newlabel{appendix:natural}{{3.5}{18}{Image-classification landscapes}{section.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{Architectures}{18}{subsection*.8}\protected@file@percent }
+\pp@pagectr{footnote}{41}{18}{18}
+\pp@pagectr{footnote}{42}{18}{18}
+\@writefile{toc}{\contentsline {subsection}{Datasets}{18}{subsection*.9}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.6}Measurement process}{19}{section.3.6}\protected@file@percent }
 \newlabel{appendix:measure}{{3.6}{19}{Measurement process}{section.3.6}{}}
-\@writefile{toc}{\contentsline {subsection}{Diagram evaluation on real landscapes}{19}{subsection*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Descent simulations}{19}{subsection*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Implementing optimizers}{19}{subsection*.11}\protected@file@percent }
-\newlabel{appendix:optimizers}{{3.6}{19}{Implementing optimizers}{subsection*.11}{}}
-\citation{pa19}
-\@writefile{toc}{\contentsline {subsection}{Software frameworks and hardware}{20}{subsection*.12}\protected@file@percent }
-\newlabel{appendix:frameworks}{{3.6}{20}{Software frameworks and hardware}{subsection*.12}{}}
-\pp@pagectr{footnote}{39}{20}{20}
+\@writefile{toc}{\contentsline {subsection}{Diagram evaluation on real landscapes}{19}{subsection*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Descent simulations}{19}{subsection*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Implementing optimizers}{19}{subsection*.12}\protected@file@percent }
+\newlabel{appendix:optimizers}{{3.6}{19}{Implementing optimizers}{subsection*.12}{}}
 \citation{we19b}
 \citation{ro18}
 \citation{bo91}
@@ -200,27 +204,27 @@
 \citation{st19}
 \citation{ni11}
 \citation{fi17}
-\pp@pagectr{footnote}{40}{21}{21}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Conclusion}{21}{chapter.4}\protected@file@percent }
+\pp@pagectr{footnote}{43}{20}{20}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Conclusion}{20}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{sect:concl}{{4}{21}{Conclusion}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Contributions}{21}{section.4.1}\protected@file@percent }
-\pp@pagectr{footnote}{41}{21}{21}
-\pp@pagectr{footnote}{42}{21}{21}
-\pp@pagectr{footnote}{43}{21}{21}
-\pp@pagectr{footnote}{44}{21}{21}
+\newlabel{sect:concl}{{4}{20}{Conclusion}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Contributions}{20}{section.4.1}\protected@file@percent }
+\pp@pagectr{footnote}{44}{20}{20}
+\pp@pagectr{footnote}{45}{20}{20}
+\pp@pagectr{footnote}{46}{20}{20}
+\pp@pagectr{footnote}{47}{20}{20}
 \citation{fi17}
 \citation{la60,la51}
 \citation{ab07}
 \citation{zh16}
 \citation{am98}
 \citation{ni17}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Future topics}{22}{section.4.2}\protected@file@percent }
-\newlabel{appendix:future}{{4.2}{22}{Future topics}{section.4.2}{}}
-\pp@pagectr{footnote}{45}{22}{22}
-\pp@pagectr{footnote}{46}{22}{22}
-\pp@pagectr{footnote}{47}{22}{22}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Future topics}{21}{section.4.2}\protected@file@percent }
+\newlabel{appendix:future}{{4.2}{21}{Future topics}{section.4.2}{}}
+\pp@pagectr{footnote}{48}{21}{21}
+\pp@pagectr{footnote}{49}{21}{21}
+\pp@pagectr{footnote}{50}{21}{21}
 \bibstyle{plainnat}
 \bibdata{perturb}
 \bibcite{ab07}{{1}{2007}{{Absil et~al.}}{{Absil, Mahony, and Sepulchre}}}
@@ -241,7 +245,7 @@
 \bibcite{dy49a}{{16}{1949}{{Dyson}}{{}}}
 \bibcite{fe49}{{17}{1949}{{Feynman}}{{}}}
 \bibcite{fi17}{{18}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{23}{chapter*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{22}{chapter*.13}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \bibcite{ga23}{{19}{1823}{{Gauss}}{{}}}
@@ -283,131 +287,131 @@
 \bibcite{ya19b}{{55}{2019{b}}{{Yaida}}{{}}}
 \bibcite{zh17}{{56}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
 \bibcite{zh16}{{57}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
-\pp@pagectr{footnote}{48}{28}{28}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}How to calculate test losses}{28}{chapter.1}\protected@file@percent }
+\pp@pagectr{footnote}{51}{27}{27}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}How to calculate test losses}{27}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{appendix:tutorial}{{A}{28}{How to calculate test losses}{chapter.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}An example calculation: the effect of epochs}{28}{section.1.1}\protected@file@percent }
-\newlabel{qst:multi}{{2}{28}{}{quest.2}{}}
-\@writefile{toc}{\contentsline {subsection}{Space-time grids}{29}{subsection*.15}\protected@file@percent }
-\newpmemlabel{^_12}{29}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.1}{\ignorespaces  \textbf  {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline  \textbf  {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline  \textbf  {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates. }}{29}{figure.1.1}\protected@file@percent }
-\newlabel{fig:spacetimes-epoch}{{A.1}{29}{Space-time grids}{figure.1.1}{}}
-\@writefile{toc}{\contentsline {subsection}{Embeddings of diagrams into space-time}{29}{subsection*.16}\protected@file@percent }
-\newpmemlabel{^_13}{29}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.2}{\ignorespaces  \textbf  {The diagram $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\sdia {c(01-2)(01-12)}$ (or $\sdia {c(0-1-2)(01-12)}$), $\sdia {c(0-1)(01)}$, $\sdia {c(0-1-2)(01-12)}$, $\sdia {c(0-1-2)(02-12)}$, and $\sdia {c(01-2)(02-12)}$ (or $\sdia {c(0-1-2)(02-12)}$). The diagram $\sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\sdia {c(0-1-2)(02-12)}$ and $\sdia {c(01-2)(02-12)}$. \textbf  {Left}: $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf  {Right}: $\sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells. }}{30}{figure.1.2}\protected@file@percent }
-\newlabel{fig:multi-embeddings}{{A.2}{30}{Embeddings of diagrams into space-time}{figure.1.2}{}}
-\@writefile{toc}{\contentsline {subsection}{Values of the embeddings}{30}{subsection*.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Sum of the values}{30}{subsection*.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A.2}How to identify the relevant space-time}{31}{section.1.2}\protected@file@percent }
-\newlabel{appendix:draw-spacetime}{{A.2}{31}{How to identify the relevant space-time}{section.1.2}{}}
-\newpmemlabel{^_14}{31}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.3}{\ignorespaces  \textbf  {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline  \textbf  {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline  \textbf  {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. }}{31}{figure.1.3}\protected@file@percent }
-\newlabel{fig:spacetimes}{{A.3}{31}{How to identify the relevant space-time}{figure.1.3}{}}
-\pp@pagectr{footnote}{49}{31}{31}
-\@writefile{toc}{\contentsline {section}{\numberline {A.3}How to identify the relevant diagram embeddings}{32}{section.1.3}\protected@file@percent }
-\newlabel{appendix:draw-embeddings}{{A.3}{32}{How to identify the relevant diagram embeddings}{section.1.3}{}}
-\newpmemlabel{^_15}{32}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.4}{\ignorespaces  Embeddings, legal and illegal. \textbf  {Left}: illegal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$, since the time-ordering condition is not obeyed. For the same reason, not a legal embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$. \textbf  {Middle}: an embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Also an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is obeyed. \textbf  {Right}: a legal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Not an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is not obeyed. }}{32}{figure.1.4}\protected@file@percent }
-\newlabel{fig:embeddings}{{A.4}{32}{How to identify the relevant diagram embeddings}{figure.1.4}{}}
-\newpmemlabel{^_16}{33}
-\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S  \ref  {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{33}{table.1.1}\protected@file@percent }
-\newlabel{tab:scatthree}{{A.1}{33}{How to identify the relevant diagram embeddings}{table.1.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.4}How to evaluate each embedding}{33}{section.1.4}\protected@file@percent }
-\newlabel{appendix:evaluate-embeddings}{{A.4}{33}{How to evaluate each embedding}{section.1.4}{}}
-\@writefile{toc}{\contentsline {subsection}{Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{33}{subsection*.19}\protected@file@percent }
+\newlabel{appendix:tutorial}{{A}{27}{How to calculate test losses}{chapter.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}An example calculation: the effect of epochs}{27}{section.1.1}\protected@file@percent }
+\newlabel{qst:multi}{{2}{27}{}{quest.2}{}}
+\@writefile{toc}{\contentsline {subsection}{Space-time grids}{28}{subsection*.15}\protected@file@percent }
+\newpmemlabel{^_12}{28}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.1}{\ignorespaces  \textbf  {The space-time grids of single-epoch and of multi-epoch SGD.} A cell at row $n$ and column $t$ is shaded provided that the $n$th training sample inhabits the $t$th batch. Both grids depict $N=7$ training points and batch size $B=1$; neither depicts training-set permutation between epochs. \newline  \textbf  {Left}: SGD with $M=2$ update per training sample for a total of $T = MN = 2N$ many updates. \newline  \textbf  {Right}: SGD with $M=1$ update per training sample for a total of $T = MN = N$ many updates. }}{28}{figure.1.1}\protected@file@percent }
+\newlabel{fig:spacetimes-epoch}{{A.1}{28}{Space-time grids}{figure.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{Embeddings of diagrams into space-time}{28}{subsection*.16}\protected@file@percent }
+\newpmemlabel{^_13}{28}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.2}{\ignorespaces  \textbf  {The diagram $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch but not single-epoch space-time.} Drawn on each of the two grids are examples of embeddings. The black nodes external to the grids are positioned arbitrarily. From top to bottom in each grid, the five diagrams embedded are $\sdia {c(01-2)(01-12)}$ (or $\sdia {c(0-1-2)(01-12)}$), $\sdia {c(0-1)(01)}$, $\sdia {c(0-1-2)(01-12)}$, $\sdia {c(0-1-2)(02-12)}$, and $\sdia {c(01-2)(02-12)}$ (or $\sdia {c(0-1-2)(02-12)}$). The diagram $\sdia {c(0-1-2)(01-12)}$ may be embedded wherever the diagram $\sdia {c(01-2)(01-12)}$ may be embedded, but not vice versa. Likewise for $\sdia {c(0-1-2)(02-12)}$ and $\sdia {c(01-2)(02-12)}$. \textbf  {Left}: $\sdia {c(01-2)(01-12)}$ embeds into multi-epoch space-time. \textbf  {Right}: $\sdia {c(01-2)(01-12)}$ cannot embed into single-epoch space-time. Indeed, the correlation condition forces both red nodes into the same row and thus the same cell, while the time-ordering condition forces the red nodes into distinct columns and thus distinct cells. }}{29}{figure.1.2}\protected@file@percent }
+\newlabel{fig:multi-embeddings}{{A.2}{29}{Embeddings of diagrams into space-time}{figure.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{Values of the embeddings}{29}{subsection*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Sum of the values}{29}{subsection*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}How to identify the relevant space-time}{30}{section.1.2}\protected@file@percent }
+\newlabel{appendix:draw-spacetime}{{A.2}{30}{How to identify the relevant space-time}{section.1.2}{}}
+\newpmemlabel{^_14}{30}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.3}{\ignorespaces  \textbf  {The space-time grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \newline  \textbf  {Left}: Two epoch SGD with batch size one. The training set is permuted between epochs. \newline  \textbf  {Right}: Four epoch SGD with batch size two. The training set is not permuted between epochs. }}{30}{figure.1.3}\protected@file@percent }
+\newlabel{fig:spacetimes}{{A.3}{30}{How to identify the relevant space-time}{figure.1.3}{}}
+\pp@pagectr{footnote}{52}{30}{30}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}How to identify the relevant diagram embeddings}{31}{section.1.3}\protected@file@percent }
+\newlabel{appendix:draw-embeddings}{{A.3}{31}{How to identify the relevant diagram embeddings}{section.1.3}{}}
+\newpmemlabel{^_15}{31}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.4}{\ignorespaces  Embeddings, legal and illegal. \textbf  {Left}: illegal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$, since the time-ordering condition is not obeyed. For the same reason, not a legal embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$. \textbf  {Middle}: an embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Also an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is obeyed. \textbf  {Right}: a legal embedding of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Not an embedding of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is not obeyed. }}{31}{figure.1.4}\protected@file@percent }
+\newlabel{fig:embeddings}{{A.4}{31}{How to identify the relevant diagram embeddings}{figure.1.4}{}}
+\newpmemlabel{^_16}{32}
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's test loss.} Because the space-time of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of embeddings are the diagrams that obey \S  \ref  {sect:calculus}'s path condition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-embeddings of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. }}{32}{table.1.1}\protected@file@percent }
+\newlabel{tab:scatthree}{{A.1}{32}{How to identify the relevant diagram embeddings}{table.1.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.4}How to evaluate each embedding}{32}{section.1.4}\protected@file@percent }
+\newlabel{appendix:evaluate-embeddings}{{A.4}{32}{How to evaluate each embedding}{section.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{32}{subsection*.19}\protected@file@percent }
 \citation{ro64}
-\newlabel{exm:unresum}{{4}{34}{Un-resummed value}{exm.4}{}}
-\@writefile{toc}{\contentsline {subsection}{Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{35}{subsection*.20}\protected@file@percent }
-\newlabel{exm:resum}{{5}{35}{Re-summed value}{exm.5}{}}
-\@writefile{toc}{\contentsline {subsection}{Overall}{35}{subsection*.21}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {A.5}How to sum the embeddings' values}{35}{section.1.5}\protected@file@percent }
-\newlabel{appendix:sum-embeddings}{{A.5}{35}{How to sum the embeddings' values}{section.1.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.6}Interpreting diagrams intuitively}{36}{section.1.6}\protected@file@percent }
-\newlabel{appendix:interpret-diagrams}{{A.6}{36}{Interpreting diagrams intuitively}{section.1.6}{}}
-\newpmemlabel{^_17}{36}
-\newpmemlabel{^_18}{36}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.5}{\ignorespaces  \textbf  {Edges carry information}. Embedding of a $4$-edged diagram. }}{37}{figure.1.5}\protected@file@percent }
-\newlabel{fig:intuition}{{A.5}{37}{Interpreting diagrams intuitively}{figure.1.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {A.6}{\ignorespaces  \textbf  {Resummation propagates information, damped by curvature}. Each resummed valuerepresents many un-resummed values, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \textbf  {Left}: Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(0-1)(01)}{0.10}$. \textbf  {Left}: each resummed value represents many un-resummed values. Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(01-2)(02-12)}{0.10}$. }}{37}{figure.1.6}\protected@file@percent }
-\newlabel{fig:more-intuition}{{A.6}{37}{Interpreting diagrams intuitively}{figure.1.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.7}How to solve variant problems}{37}{section.1.7}\protected@file@percent }
-\newlabel{appendix:solve-variants}{{A.7}{37}{How to solve variant problems}{section.1.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {A.8}Do diagrams streamline computation?}{38}{section.1.8}\protected@file@percent }
-\newlabel{appendix:diagrams-streamline}{{A.8}{38}{Do diagrams streamline computation?}{section.1.8}{}}
-\pp@pagectr{footnote}{50}{38}{38}
-\@writefile{toc}{\contentsline {subsection}{Effect of batch size}{39}{subsection*.22}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Effect of non-Gaussian noise at a minimum.}{41}{subsection*.23}\protected@file@percent }
-\pp@pagectr{footnote}{51}{43}{43}
-\@writefile{toc}{\contentsline {chapter}{\numberline {B}Mathematics of the theory}{43}{chapter.2}\protected@file@percent }
+\newlabel{exm:unresum}{{5}{33}{Un-resummed value}{exm.5}{}}
+\@writefile{toc}{\contentsline {subsection}{Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{34}{subsection*.20}\protected@file@percent }
+\newlabel{exm:resum}{{6}{34}{Re-summed value}{exm.6}{}}
+\@writefile{toc}{\contentsline {subsection}{Overall}{34}{subsection*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.5}How to sum the embeddings' values}{34}{section.1.5}\protected@file@percent }
+\newlabel{appendix:sum-embeddings}{{A.5}{34}{How to sum the embeddings' values}{section.1.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.6}Interpreting diagrams intuitively}{35}{section.1.6}\protected@file@percent }
+\newlabel{appendix:interpret-diagrams}{{A.6}{35}{Interpreting diagrams intuitively}{section.1.6}{}}
+\newpmemlabel{^_17}{35}
+\newpmemlabel{^_18}{35}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.5}{\ignorespaces  \textbf  {Edges carry information}. Embedding of a $4$-edged diagram. }}{36}{figure.1.5}\protected@file@percent }
+\newlabel{fig:intuition}{{A.5}{36}{Interpreting diagrams intuitively}{figure.1.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {A.6}{\ignorespaces  \textbf  {Resummation propagates information, damped by curvature}. Each resummed valuerepresents many un-resummed values, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \textbf  {Left}: Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(0-1)(01)}{0.10}$. \textbf  {Left}: each resummed value represents many un-resummed values. Here is one of many un-resummed terms captured by a single resummed embedding for $\sizeddia {c(01-2)(02-12)}{0.10}$. }}{36}{figure.1.6}\protected@file@percent }
+\newlabel{fig:more-intuition}{{A.6}{36}{Interpreting diagrams intuitively}{figure.1.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.7}How to solve variant problems}{36}{section.1.7}\protected@file@percent }
+\newlabel{appendix:solve-variants}{{A.7}{36}{How to solve variant problems}{section.1.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.8}Do diagrams streamline computation?}{37}{section.1.8}\protected@file@percent }
+\newlabel{appendix:diagrams-streamline}{{A.8}{37}{Do diagrams streamline computation?}{section.1.8}{}}
+\pp@pagectr{footnote}{53}{37}{37}
+\@writefile{toc}{\contentsline {subsection}{Effect of batch size}{38}{subsection*.22}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Effect of non-Gaussian noise at a minimum.}{40}{subsection*.23}\protected@file@percent }
+\pp@pagectr{footnote}{54}{42}{42}
+\@writefile{toc}{\contentsline {chapter}{\numberline {B}Mathematics of the theory}{42}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{appendix:math}{{B}{43}{Mathematics of the theory}{chapter.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.1}Assumptions and Definitions}{43}{section.2.1}\protected@file@percent }
-\newlabel{appendix:assumptions}{{B.1}{43}{Assumptions and Definitions}{section.2.1}{}}
-\pp@pagectr{footnote}{52}{43}{43}
-\newlabel{dfn:diagrams}{{2}{43}{Diagrams}{defn.2}{}}
+\newlabel{appendix:math}{{B}{42}{Mathematics of the theory}{chapter.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.1}Assumptions and Definitions}{42}{section.2.1}\protected@file@percent }
+\newlabel{appendix:assumptions}{{B.1}{42}{Assumptions and Definitions}{section.2.1}{}}
+\pp@pagectr{footnote}{55}{42}{42}
+\newlabel{dfn:diagrams}{{2}{42}{Diagrams}{defn.2}{}}
 \citation{dy49a}
-\@writefile{toc}{\contentsline {section}{\numberline {B.2}A key lemma \`a la Dyson}{44}{section.2.2}\protected@file@percent }
-\newlabel{appendix:key-lemma}{{B.2}{44}{A key lemma \`a la Dyson}{section.2.2}{}}
-\newlabel{lem:dyson}{{B.2}{44}{}{section.2.2}{}}
-\newlabel{eq:dyson}{{B.1}{44}{}{equation.2.2.1}{}}
-\newlabel{eq:smalleta}{{B.2}{44}{A key lemma \`a la Dyson}{equation.2.2.2}{}}
-\pp@pagectr{footnote}{53}{44}{44}
-\newlabel{eq:expansion}{{B.3}{45}{A key lemma \`a la Dyson}{equation.2.2.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.3}From Dyson to diagrams}{45}{section.2.3}\protected@file@percent }
-\newlabel{appendix:toward-diagrams}{{B.3}{45}{From Dyson to diagrams}{section.2.3}{}}
-\newlabel{thm:pathint}{{3}{46}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:sgdcoef}{{3}{46}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:toprove}{{B.4}{46}{From Dyson to diagrams}{equation.2.3.4}{}}
-\newlabel{rmk:leibniz}{{4}{46}{Differentiating Products}{rmk.4}{}}
-\newlabel{eqn:countclaim}{{B.5}{47}{From Dyson to diagrams}{equation.2.3.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.2}A key lemma \`a la Dyson}{43}{section.2.2}\protected@file@percent }
+\newlabel{appendix:key-lemma}{{B.2}{43}{A key lemma \`a la Dyson}{section.2.2}{}}
+\newlabel{lem:dyson}{{B.2}{43}{}{section.2.2}{}}
+\newlabel{eq:dyson}{{B.1}{43}{}{equation.2.2.1}{}}
+\newlabel{eq:smalleta}{{B.2}{43}{A key lemma \`a la Dyson}{equation.2.2.2}{}}
+\pp@pagectr{footnote}{56}{43}{43}
+\newlabel{eq:expansion}{{B.3}{44}{A key lemma \`a la Dyson}{equation.2.2.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.3}From Dyson to diagrams}{44}{section.2.3}\protected@file@percent }
+\newlabel{appendix:toward-diagrams}{{B.3}{44}{From Dyson to diagrams}{section.2.3}{}}
+\newlabel{thm:pathint}{{3}{45}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:sgdcoef}{{3}{45}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:toprove}{{B.4}{45}{From Dyson to diagrams}{equation.2.3.4}{}}
+\newlabel{rmk:leibniz}{{4}{45}{Differentiating Products}{rmk.4}{}}
+\newlabel{eqn:countclaim}{{B.5}{46}{From Dyson to diagrams}{equation.2.3.5}{}}
 \citation{ro64}
-\newlabel{prop:vanilla}{{2}{48}{}{prop.2}{}}
-\newlabel{eq:sgdbasiccoef}{{2}{48}{}{prop.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.4}Interlude: a review of M\"obius inversion}{48}{section.2.4}\protected@file@percent }
-\newlabel{appendix:mobius}{{B.4}{48}{Interlude: a review of M\"obius inversion}{section.2.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.5}Theorems \ref  {thm:resum} and \ref  {thm:converge}}{48}{section.2.5}\protected@file@percent }
-\newlabel{appendix:resum}{{B.5}{48}{Theorems \ref {thm:resum} and \ref {thm:converge}}{section.2.5}{}}
-\newlabel{subsubsect:mobius}{{B.5}{48}{Theorems \ref {thm:resum} and \ref {thm:converge}}{section.2.5}{}}
-\newlabel{eq:hard}{{B.6}{49}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B.6}Proofs of corollaries}{50}{section.2.6}\protected@file@percent }
-\newlabel{appendix:corollaries}{{B.6}{50}{Proofs of corollaries}{section.2.6}{}}
-\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:entropic}}{50}{subsection*.24}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:overfit}'s first part}{50}{subsection*.25}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:overfit}'s second part}{50}{subsection*.26}\protected@file@percent }
+\newlabel{prop:vanilla}{{2}{47}{}{prop.2}{}}
+\newlabel{eq:sgdbasiccoef}{{2}{47}{}{prop.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.4}Interlude: a review of M\"obius inversion}{47}{section.2.4}\protected@file@percent }
+\newlabel{appendix:mobius}{{B.4}{47}{Interlude: a review of M\"obius inversion}{section.2.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.5}Theorems \ref  {thm:resum} and \ref  {thm:converge}}{47}{section.2.5}\protected@file@percent }
+\newlabel{appendix:resum}{{B.5}{47}{Theorems \ref {thm:resum} and \ref {thm:converge}}{section.2.5}{}}
+\newlabel{subsubsect:mobius}{{B.5}{47}{Theorems \ref {thm:resum} and \ref {thm:converge}}{section.2.5}{}}
+\newlabel{eq:hard}{{B.6}{48}{Theorems \ref {thm:resum} and \ref {thm:converge}}{equation.2.5.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B.6}Proofs of corollaries}{49}{section.2.6}\protected@file@percent }
+\newlabel{appendix:corollaries}{{B.6}{49}{Proofs of corollaries}{section.2.6}{}}
+\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:entropic}}{49}{subsection*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:overfit}'s first part}{49}{subsection*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:overfit}'s second part}{49}{subsection*.26}\protected@file@percent }
 \citation{ga23}
-\@writefile{toc}{\contentsline {subsection}{Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{51}{subsection*.27}\protected@file@percent }
-\newlabel{prop:ordtwo}{{3}{51}{}{prop.3}{}}
-\newlabel{tbl:ordtwo}{{B.6}{51}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.3}{}}
-\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:vsode}}{51}{subsection*.28}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B.7}Unbiased estimators of landscape statistics}{51}{section.2.7}\protected@file@percent }
-\newlabel{appendix:bessel}{{B.7}{51}{Unbiased estimators of landscape statistics}{section.2.7}{}}
-\newlabel{eq:bessel}{{B.7}{52}{Unbiased estimators of landscape statistics}{equation.2.7.7}{}}
-\newlabel{eq:newbessel}{{B.8}{52}{Unbiased estimators of landscape statistics}{equation.2.7.8}{}}
-\pp@pagectr{footnote}{54}{54}{54}
-\@writefile{toc}{\contentsline {chapter}{\numberline {C}Bonus tracks}{54}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{50}{subsection*.27}\protected@file@percent }
+\newlabel{prop:ordtwo}{{3}{50}{}{prop.3}{}}
+\newlabel{tbl:ordtwo}{{B.6}{50}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.3}{}}
+\@writefile{toc}{\contentsline {subsection}{Corollary \ref  {cor:vsode}}{50}{subsection*.28}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B.7}Unbiased estimators of landscape statistics}{50}{section.2.7}\protected@file@percent }
+\newlabel{appendix:bessel}{{B.7}{50}{Unbiased estimators of landscape statistics}{section.2.7}{}}
+\newlabel{eq:bessel}{{B.7}{51}{Unbiased estimators of landscape statistics}{equation.2.7.7}{}}
+\newlabel{eq:newbessel}{{B.8}{51}{Unbiased estimators of landscape statistics}{equation.2.7.8}{}}
+\pp@pagectr{footnote}{57}{53}{53}
+\@writefile{toc}{\contentsline {chapter}{\numberline {C}Bonus tracks}{53}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{appendix:bonus}{{C}{54}{Bonus tracks}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {C.1}Long-term prediction of SGD dynamics is intractable}{54}{section.3.1}\protected@file@percent }
-\newlabel{appendix:pspace}{{C.1}{54}{Long-term prediction of SGD dynamics is intractable}{section.3.1}{}}
-\newlabel{prop:pspace}{{4}{54}{}{prop.4}{}}
-\pp@pagectr{footnote}{55}{54}{54}
+\newlabel{appendix:bonus}{{C}{53}{Bonus tracks}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C.1}Long-term prediction of SGD dynamics is intractable}{53}{section.3.1}\protected@file@percent }
+\newlabel{appendix:pspace}{{C.1}{53}{Long-term prediction of SGD dynamics is intractable}{section.3.1}{}}
+\newlabel{prop:pspace}{{4}{53}{}{prop.4}{}}
+\pp@pagectr{footnote}{58}{53}{53}
 \citation{mu18}
 \citation{be64}
 \citation{ch79}
 \citation{im10}
 \citation{mu18}
 \citation{st17}
-\@writefile{toc}{\contentsline {section}{\numberline {C.2}A new proof of the Chernoff bound}{56}{section.3.2}\protected@file@percent }
-\newlabel{appendix:chernoff}{{C.2}{56}{A new proof of the Chernoff bound}{section.3.2}{}}
-\pp@pagectr{footnote}{56}{56}{56}
-\pp@pagectr{footnote}{57}{56}{56}
-\pp@pagectr{footnote}{58}{56}{56}
-\pp@pagectr{footnote}{59}{56}{56}
-\pp@pagectr{footnote}{60}{56}{56}
-\newpmemlabel{^_19}{56}
-\@writefile{lof}{\contentsline {figure}{\numberline {C.1}{\ignorespaces \emph  { We randomly select points on $N$ vertical sticks. Each stick has three parts: \textbf  {green} with length $1-p$, \textbf  {red} with length $p$, and \textbf  {blue} with length $g$. We call non-blue points \textbf  {boxed} and non-green points \textbf  {hollow}. Shown are $9$ boxed points and $7$ hollow ones. }}}{56}{figure.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {C.2}A new proof of the Chernoff bound}{55}{section.3.2}\protected@file@percent }
+\newlabel{appendix:chernoff}{{C.2}{55}{A new proof of the Chernoff bound}{section.3.2}{}}
+\pp@pagectr{footnote}{59}{55}{55}
+\pp@pagectr{footnote}{60}{55}{55}
+\pp@pagectr{footnote}{61}{55}{55}
+\pp@pagectr{footnote}{62}{55}{55}
+\pp@pagectr{footnote}{63}{55}{55}
+\newpmemlabel{^_19}{55}
+\@writefile{lof}{\contentsline {figure}{\numberline {C.1}{\ignorespaces \emph  { We randomly select points on $N$ vertical sticks. Each stick has three parts: \textbf  {green} with length $1-p$, \textbf  {red} with length $p$, and \textbf  {blue} with length $g$. We call non-blue points \textbf  {boxed} and non-green points \textbf  {hollow}. Shown are $9$ boxed points and $7$ hollow ones. }}}{55}{figure.3.1}\protected@file@percent }
 \ttl@finishall
