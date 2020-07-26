@@ -300,7 +300,7 @@
 \begin{document}
 %Every body has their taste in noises as well as other matters; and sounds are quite innoxious, or most distressing, by their sort rather than their quantity
 %if I were in a loud and brash café I might gladly pay to hear Cage's 4'33” on a jukebox. It might afford some relief!
-    \newgeometry{left=3cm, right=3cm}
+    \newgeometry{left=1in, right=1in}
     \begin{center}\
         \Huge
         \emph{A Perturbative Analysis of Stochastic Descent}\\
@@ -901,7 +901,7 @@
         It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
         stochastic approximation \citep{ro51}, invented SGD.  Since \citet{we74}'s
         development of back-propagation for efficient differentiation, SGD has been
-        used to train connectionist models, e.g.\ neural networks \citep{bo91},
+        used to train connectionist models, for instance neural networks \citep{bo91},
         recently to remarkable success \citep{le15}.
     
         %--------------------------------------------------------------------------
@@ -1026,7 +1026,7 @@
             For example, we actually define $\sdia{MOOc(01)(0-1)}$ to be the
             cumulant $C = \expc\,[(\nb\lx - G)^2]$, not the moment
             $\expc\,[(\nb\lx)^2]$.  This centering is routine (see \S
-            \ref{appendix:mobius}), tedious to notate, and un-germane, so we
+            \ref{appendix:resum}), tedious to notate, and un-germane, so we
             ignore it in the thesis body.
         }
         we construct the \textbf{re-summed value} $\rvalue_f(D)$ as follows:
@@ -1967,7 +1967,8 @@
             sense: the situation is analogous to a text prediction task in
             which two training points culled from different corpora happen to
             record the same sequence of words, say, ``Thank you!''.  In any
-            case, all of our experiments focus on the limited-data regime, e.g.
+            case, all of our experiments focus on the limited-data regime, for
+            example
             $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
             are rare.
 
@@ -2107,7 +2108,7 @@
     \S\ref{subsect:curvature-and-overfitting} and \S\ref{subsect:overfit}
     permits certain forms of model selection by gradient descent rather than
     brute force search.  More generally, our analysis may inform the design of
-    meta-learning outer loops (e.g.\ \citet{fi17}'s MAML).  This might
+    meta-learning outer loops such as MAML.\cite{fi17}  This might
     drastically reduce the energy consumed during model selection.
 
 
@@ -2191,7 +2192,7 @@
 %~~~~~~~~~~~~~  References  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \setcounter{secnumdepth}{-1}
-    \newgeometry{left=3cm, right=3cm}
+    \newgeometry{left=1in, right=1in}
     \bibliographystyle{plainnat}
     {
         \bibliography{perturb}
@@ -2228,18 +2229,18 @@
     \par\indent     B.1 ~~ Assumptions and definitions                      \hfill \pageref{appendix:assumptions}
     \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
     \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
-    \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
-    \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
-    \par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
-    \par\indent     B.7 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
-    \par\indent     B.8 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
+    %\par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
+    \par\indent     B.4 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
+    %\par\indent     B.6 ~~ How to modify proofs to handle variants          \hfill \pageref{appendix:prove-variants}
+    \par\indent     B.5 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
+    \par\indent     B.6 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
 
     {\bf
     \par\noindent C ~ Bonus tracks}                                         \hfill {\bf page \pageref{appendix:bonus}}
     %\par\indent     C.1 ~~ Pathologies in SGD                               \hfill \pageref{appendix:pathology}
     \par\indent     C.1 ~~ Long-term prediction of SGD dynamics is intractable  \hfill \pageref{appendix:pspace}
     %\par\indent     C.3 ~~ Takeuchi's criterion, demystified                \hfill \pageref{appendix:tic}
-    \par\indent     C.2 ~~ A new proof of the Chernoff bound                \hfill \pageref{appendix:chernoff}
+    \par\indent     C.2 ~~ A new proof of a Chernoff bound                  \hfill \pageref{appendix:chernoff}
 
 \renewcommand{\thechapter}{\Alph{chapter}}
 
@@ -2249,7 +2250,7 @@
 \chapter{How to calculate test losses}                   \label{appendix:tutorial}
 
     \renewcommand{\textflush}{flushright}
-    \setlength{\epigraphwidth}{0.63\columnwidth}
+    \setlength{\epigraphwidth}{0.59\columnwidth}
     \epigraph{
         Talking about pumpkins doesn't make them grow.
     }{Mma Ramotswe of the No.\ 1 Ladies' Detective Agency}
@@ -2262,10 +2263,10 @@
     there are are {\bf four steps} to computing the expected test loss, or
     other quantities of interest, after a specific number of gradient updates: 
     \begin{itemize}
-        \item {\bf Specify, as a space-time grid}, the batch size, training set
-            size, and number of epochs. 
-        \item {\bf Draw embeddings}, of diagrams into the
-            space-time grid, as needed for the desired precision.
+        \item {\bf Draw, as a space-time grid}, the batches, training set
+            size, and number of epochs.   
+        \item {\bf Draw embeddings}, of relevant diagrams into the
+            space-time grid.%, as needed for the desired precision.
         \item {\bf Evaluate each diagram embedding}, whether exactly (via what
             we will call $\rvalue$s) or roughly (via what we will call
             $\uvalue$s).
@@ -2273,16 +2274,16 @@
               interest as a function of $\eta$.
     \end{itemize}
 
-    After, presenting an example calculation that follows these four steps,
+    After presenting an example calculation that follows these four steps,
     we detail each step individually.  Though we focus on the computation of
     expected test losses, we describe how the four steps also give us
     variances, train losses, of weight displacements.  
 
-    \section{An example calculation: the effect of epochs}       %\label{appendix:example}
+    \section{An example calculation: the effect of epochs}       \label{appendix:example}
 
         \begin{quest}\label{qst:multi}
             How does multi-epoch SGD differ from single-epoch SGD?
-            Specifically, what is the difference between the expected
+            What is the difference between the expected
             test losses of the following two versions of SGD?
             \begin{itemize}
                 \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
@@ -2634,13 +2635,13 @@
         shows each diagram in multiple ways to underscore that diagrams are
         purely topological and to suggest the ways in which these diagrams may
         embed into space-time.
-        \begin{table}
+        \begin{margintable}
             \centering 
             \resizebox{\columnwidth}{!}{%
-            \begin{tabular}{ccccc}
-                {\large $\Theta\left((\eta N)^3 N^{-0}\right)$} &&
-                {\large $\Theta\left((\eta N)^3 N^{-1}\right)$} &&
-                {\large $\Theta\left((\eta N)^3 N^{-2}\right)$} \\ \hline
+            \begin{tabular}{c}
+                %{\large $\Theta\left((\eta N)^3 N^{-0}\right)$} &&
+                %{\large $\Theta\left((\eta N)^3 N^{-1}\right)$} &&
+                %{\large $\Theta\left((\eta N)^3 N^{-2}\right)$} \\ \hline
                 \begin{tabular}{c}
                     \begin{tabular}{LL}
                         \mdia{c(0-1-2-3)(01-12-23)} & \mdia{c(0-1-2-3)(01-13-23)}
@@ -2652,7 +2653,7 @@
                         \mdia{c(0-1-2-3)(03-13-23)} & \mdia{c(0-1-2-3)(02-12-23)}
                     \end{tabular}
                 \end{tabular}
-                &&
+                \\ \hline \hline
                 \begin{tabular}{c}
                     \begin{tabular}{LL}
                         \mdia{c(01-2-3)(02-13-23)} & \mdia{c(01-2-3)(03-12-23)}
@@ -2664,7 +2665,7 @@
                         \mdia{c(01-2-3)(03-13-23)} & \mdia{c(0-12-3)(03-13-23)} & \mdia{c(01-2-3)(02-12-23)} 
                     \end{tabular}
                 \end{tabular}
-                &&
+                \\ \hline \hline
                 \begin{tabular}{c}
                     \begin{tabular}{L}
                         \mdia{c(012-3)(03-13-23)}
@@ -2684,23 +2685,23 @@
                 diagrams' nodes that are consistent with the time-ordering
                 condition.
                 %
-                \textbf{Organization}:
-                We organize the diagrams into columns by the number
-                of parts in their partitions.  Because partitions (fuzzy
-                outlines) indicate correlations between nodes (i.e. noise), 
-                diagrams with fuzzy outlines show deviations of SGD away from
-                deterministic ODE.  The big-$\Theta$ notation that heads the
-                columns gives the asymptotics of the sum-over-embeddings of 
-                each diagram's $\uvalue$s 
-                (for $N$ large and $\eta$ small even relative to $1/N$).
-                {\bf Left}: Diagrams for ODE behavior.
-                {\bf Center}: $1$st order deviation of SGD
-                away from ODE.
-                {\bf Right}: $2$nd order deviation of SGD
-                from ODE with appearance of non-Gaussian statistics.
+                %\textbf{Organization}:
+                %We organize the diagrams into columns by the number
+                %of parts in their partitions.  Because partitions (fuzzy
+                %outlines) indicate correlations between nodes (i.e. noise), 
+                %diagrams with fuzzy outlines show deviations of SGD away from
+                %deterministic ODE.  The big-$\Theta$ notation that heads the
+                %columns gives the asymptotics of the sum-over-embeddings of 
+                %each diagram's $\uvalue$s 
+                %(for $N$ large and $\eta$ small even relative to $1/N$).
+                %{\bf Left}: Diagrams for ODE behavior.
+                %{\bf Center}: $1$st order deviation of SGD
+                %away from ODE.
+                %{\bf Right}: $2$nd order deviation of SGD
+                %from ODE with appearance of non-Gaussian statistics.
             }
             \label{tab:scatthree}
-        \end{table}
+        \end{margintable}
    
     \section{How to evaluate each embedding}                     \label{appendix:evaluate-embeddings}
         We will discuss how to compute both $\rvalue$s and $\uvalue$s.  Both
@@ -2746,10 +2747,10 @@
             However, this would yield (un-centered)
             moments such as $\ex{(\nb\lx)^2}$ instead of cumulants such as
             $C=\ex{(\nb\lx - G)^2}$.
-            For technical reasons explained in \S\ref{appendix:mobius} and
-            \S\ref{appendix:resum}, cumulants will be easier to work with than
-            moments, so we will choose to define the values of diagrams
-            slightly differently as follows.
+            For technical reasons explained in \S\ref{appendix:resum},
+            cumulants will be easier to work with than moments, so we will
+            choose to define the values of diagrams slightly differently as
+            follows.
             %
             \textbf{Outline rule}: a partition on nodes evaluates to the
             difference $X-Y$, where $X$ is the moment-value of the partition
@@ -2784,7 +2785,7 @@
                         +
                     2 \mdia{(0-1-2-3)(01-13-23)}
                 \end{align*}
-                We will use the concept of ``moment values'' again in \S\ref{appendix:mobius}.
+                We will use the concept of ``moment values'' again in \S\ref{appendix:resum}.
                 \mend
             \end{exm}
 
@@ -2982,12 +2983,8 @@
 
         We may intuitively interpret edges as carrying influence from the
         training set toward the test measurement.  See Figure
-        \ref{fig:intuition}.  From this perspective, we may intuitively
-        interpret edges in an $\rvalue$ calculation as carrying influence from
-        the training set toward the test measurement.  See Figure
-        \ref{fig:intuition}.
-
-        \begin{figure} 
+        \ref{fig:intuition}.  
+        \begin{figure}[h] 
             \centering  
             \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
             \caption{
@@ -2996,25 +2993,28 @@
             }
             \label{fig:intuition}
         \end{figure}
-
-
-        \begin{figure} 
+        From this perspective, we may intuitively interpret edges in an
+        $\rvalue$ calculation as carrying influence from the training set
+        toward the test measurement.  
+        \begin{figure}[h] 
             \centering  
             \plotmoow{diagrams/spacetime-g}{0.45\columnwidth}{}
             \plotmoow{diagrams/spacetime-h}{0.45\columnwidth}{}
             \caption{
                 \textbf{Resummation propagates information, damped by
-                curvature}.  Each resummed valuerepresents many un-resummed
-                values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
-                in a different way.
+                curvature}.  
                 \textbf{Left}: Here is one of many un-resummed terms captured by
                 a single resummed embedding for $\sdia{c(0-1)(01)}$.
-                \textbf{Left}: each resummed value represents many un-resummed
+                \textbf{Right}: each resummed value represents many un-resummed
                 values.  Here is one of many un-resummed terms captured by
                 a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
             }
             \label{fig:more-intuition}
         \end{figure}
+        As shown in Figure
+        \ref{fig:more-intuition}, each resummed value represents many
+        un-resummed values, each modulated by the Hessian
+        ($\sdia{MOOc(0)(0-0)}$) in a different way.
 
     %        \subsection{Chladni effect}
     %(\S\ref{appendix:interpret-diagrams})
@@ -3103,7 +3103,6 @@
         We now compare {\colorbox{moolime}{Diagram Rules}} vs
         {\colorbox{moosky}{Direct Perturbation}}.
 
-        \newpage
         \subsection{Effect of batch size}
             We compare the test losses of pure SGD and pure GD.  Because pure
             SGD and pure GD differ in how samples are correlated, their test loss
@@ -3136,7 +3135,6 @@
                     \eta^2 \frac{M(N-1)}{4} G \nabla C 
                 $$
             \end{shaded}
-
             %\textbf{Direct Perturbation} 
             \colorlet{shadecolor}{moosky}
             \begin{shaded}
@@ -3145,6 +3143,9 @@
                 $
                     \theta_t \in \theta_0 + \eta a(t) + \eta^2 b(t) + o(\eta^2)
                 $, we find:
+            \end{shaded}
+
+            \begin{shaded}
                 \begin{align*}
                     \theta_{t+1} &=     \theta_t - \eta \nabla l_{n_t} (\theta_t) \\
                                  &\in       \theta_0
@@ -3220,11 +3221,11 @@
                     ~&\frac{M(MN-1)}{2}      \expct{(\nabla^2 l) (\nabla l)} 
                 \end{align*}
                 $\cdots$
-            %\end{shaded}
-            %\begin{shaded}
-                $\cdots$ We see that the expectations for $a$ and $a^2$ agree
+                We see that the expectations for $a$ and $a^2$ agree
                 between pure SGD and pure GD.  So only $b$ contributes.  We
                 conclude that pure GD's test loss exceeds pure SGD's by
+            \end{shaded}
+            \begin{shaded}
                 \begin{align*}
                        ~&\eta^2
                         \wrap{\frac{M(MN-1)(N-1)}{2}  - \frac{M^2N(N-1)}{2}}
@@ -3247,7 +3248,6 @@
                 $$
             \end{shaded}
 
-        \newpage
         \subsection{Effect of non-Gaussian noise at a minimum.}
             We consider vanilla SGD initialized at a local minimum of the test loss.
             One expects $\theta$ to diffuse around that minimum according to
@@ -3287,6 +3287,8 @@
                     \theta_t \in \theta_0 + \eta a_t + \eta^2 b_t + \eta^3 c_t 
                     + o(\eta^3)
                 $, we find:
+            \end{shaded}
+            \begin{shaded}
                 \begin{align*}
                     \theta_{t+1}
                     =
@@ -3819,28 +3821,6 @@
             follows from the now-proven Theorem \ref{thm:pathint}.
         \end{rmk}
 
-        \begin{prop} \label{prop:vanilla}
-            The order $\eta^d$ contribution to the expected test loss of
-            one-epoch SGD with singleton batches is:
-            \begin{equation*}\label{eq:sgdbasiccoef}
-                \frac{(-1)^d}{d!} \sum_{D} 
-                |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
-                \uvalue(D)
-            \end{equation*}
-            where $D$ ranges over $d$-edged diagrams.  Here, $D$'s parts have
-            sizes $d_p: 0\leq p\leq P$, and $|\ords(D)|$ counts the
-            \textbf{total orders} of $D$ s.t.\ children precede parents and
-            parts are contiguous.
-        \end{prop}
-
-    \section{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
-
-        We say an embedding is \textbf{strict} if it assigns to each part
-        a different datapoint $n$.
-        Then, by M\"obius inversion (\citep{ro64}), a sum over strict embeddings
-        of moment values (\S\ref{appendix:evaluate-embeddings}) matches 
-        a sum over all embeddings of $\uvalue$s.
-
     \section{Theorems \ref{thm:resum} and \ref{thm:converge}}    \label{appendix:resum}
 
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
@@ -3854,17 +3834,24 @@
         with a given geometric realization.  On the other hand, that the
         embeddings of a specific member of that class might be hard to count.
         The first we handle using Orbit-Stabilizer.  The second we address as
-        described by \label{subsubsect:mobius} via M\"obius sums.
+        described by \label{subsubsect:resum} via M\"obius sums.
+
+        \begin{rmk}
+            We say an embedding is \textbf{strict} if it assigns to each part a
+            different datapoint $n$.  Then, by M\"obius inversion,\cite{ro64} a
+            sum over strict embeddings of moment values
+            (\S\ref{appendix:evaluate-embeddings}) matches a sum over all
+            embeddings of $\uvalue$s.
+            \mend
+        \end{rmk}
            
         \begin{proof}[Proof of Theorem \ref{thm:resum}]
-            We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
-            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).  The result
-            is that chains of embeddings  
-            {\color{red} FILL IN}
-
-            The difference in loss from the noiseless case is given by all the
-            diagram embeddings with at least one fuzzy tie, where the fuzzy tie
-            pattern is actually replaced by a difference between noisy and
+            We apply M\"obius inversion (\S\ref{appendix:resum}) to Theorem
+            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).
+    
+            The difference in loss from the noiseless case is then given by all
+            the diagram embeddings with at least one fuzzy tie, where the fuzzy
+            tie pattern is actually replaced by a difference between noisy and
             noiseless cases as prescribed by the preceding discussion on
             M\"obius Sums.  Beware that even relatively noiseless embeddings
             may have illegal collisions of non-fuzzily-tied nodes within a
@@ -4284,7 +4271,7 @@
 \chapter{Bonus tracks}                   \label{appendix:bonus}
 
     \renewcommand{\textflush}{flushright}
-    \setlength{\epigraphwidth}{0.33\columnwidth}
+    \setlength{\epigraphwidth}{0.25\columnwidth}
     \epigraph{
         The lost glove is happy.
     }{Zemblan proverb}%Vladimir Nabokov, \emph{Pale Fire}}
@@ -4375,6 +4362,7 @@
             \Archimedes\ decays as an inverse-square power law.  That said,
             \Archimedes\ can go arbitrarily far backward, albeit with tiny
             probability, while the Rachet lemma's construction cannot.
+            \mend
         \end{rmk}
 
         \begin{proof}[Sketch of Proposition \ref{prop:pspace}'s proof]
@@ -4414,7 +4402,7 @@
 
     %\section{Takeuchi's criterion, demystified} \label{appendix:tic}
 
-    \section{A new proof of the Chernoff bound} \label{appendix:chernoff}
+    \section{A new proof of a Chernoff bound} \label{appendix:chernoff}
         
         Suppose we flip a biased coin $N$ times.  Intuitively, the resulting
         fraction of flips that yield heads usually does not far exceed its
@@ -4427,10 +4415,10 @@
         We understand Chernoff's bound as quantifying how fast the Central
         Limit Theorem kicks in.  With $x, p$ representing the training and test
         errors of a specific hypothesis, the theorem controls the
-        generalization gap.  Due to this application, the Chernoff bound and
+        generalization gap.  Due to this application, the bound and
         its variants are fundamental to the statistical theory of
-        generalization in learning,
-
+        generalization in learning.
+        %
         It is thus interesting to understand Chernoff's bound in multiple ways.
         For example, \citet{mu18} surveys five distinct proofs, which
         respectively employ
@@ -4440,7 +4428,7 @@
             weight functions,\cite[           -0.7 cm]{mu18} and
             differential privacy.\cite[       -0   cm]{st17}
         We now present what we believe to be an original and particularly
-        elementary proof.
+        conceptual proof.
 
         \begin{proof}
             We'll switch viewpoints: flipping a coin is like choosing a boxed
@@ -4487,7 +4475,7 @@
                 =   & ~ \exp(-(p+g)N g/p + Ng) = \exp(-Ng^2/p)  & \text{$M_0=(p+g)N$} \\ 
                 \leq& ~ \exp(-Ng^2)                             & \text{probabilities are at most $1$}
             \end{align*}
-            This is the \textbf{Chernoff bound} for coin flips.
+            This is \textbf{Chernoff's bound} for coin flips.
         \end{proof}
 
 \end{document}
