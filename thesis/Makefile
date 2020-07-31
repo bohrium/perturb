@@ -1,5 +1,6 @@
 slides:
 	pdflatex slides.tex
+	bibtex   slides.aux
 	evince 	 slides.pdf
 
 fast:

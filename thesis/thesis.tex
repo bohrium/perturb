@@ -1,5 +1,5 @@
 %   author: samtenka
-%   change: 2020-07-25
+%   change: 2020-07-27
 %   create: 2020-07-19
 %   descrp: LaTeX source for perturb project, SM thesis writeup
 %   to use: compile along with perturb.bib and diagram and plot directories
@@ -24,6 +24,7 @@
     height=11.0in,
     width=8.5in,
     left=1in, % left margin
+    bottom=1.2in,
     textwidth=4.6in, % main text block
     marginparsep=0.2in, % gutter between main text block and margin notes
     marginparwidth=1.7in % width of margin notes
@@ -33,6 +34,13 @@
 \setcounter{secnumdepth}{1}
 %\usepackage{setspace}
 %\doublespacing
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{}
+\pagestyle{fancy} % allows for more advanced header and footer formats
+\fancyhead{} % clear head fields
+\fancyfoot{} % clear foot fields
+\fancyfoot[L]{\vspace{0.1in}\hspace{3.25in}{\large\thepage}} % here is where the page position is defined
 
 %---------------------  mathematics  ------------------------------------------
 
@@ -295,26 +303,99 @@
 %==============================================================================
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%~~~~~~~~~~~~~  Title and Author  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Title Page  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\newcommand{\sss}{\hspace*{\fill}}
+\newcommand{\apeecs}{Associate Professor of EECS}
+\newcommand{\pbcs}{Professor of Brain and Cognitive Sciences}
+\newcommand{\bs}{B.A.\ in Math (U.\ Michigan, 2018)}
+\newcommand{\rqecp}[1]{RQE Committee #1}
 
 \begin{document}
-%Every body has their taste in noises as well as other matters; and sounds are quite innoxious, or most distressing, by their sort rather than their quantity
-%if I were in a loud and brash café I might gladly pay to hear Cage's 4'33” on a jukebox. It might afford some relief!
-    \newgeometry{left=1in, right=1in,bottom=1in}
-    \begin{center}\
+\newgeometry{left=1in, right=1in, bottom=1.2in}
+    \large 
+    \begin{center}
         \Huge
-        \emph{A Perturbative Analysis of Stochastic Descent}\\
-        \vspace{0.5cm}
-        \LARGE
-        Samuel C.~Tenka \\
-        \vspace{0.5cm}
-        2020 July
+        \textbf{A Perturbative Analysis of Stochastic Descent}
+        \Large
+        \\ \vspace{0.25cm}
+        by
+        \\ \vspace{0.25cm}
+        by Samuel C.~Tenka
+        \\ \vspace{0.25cm}
+        B.A., University of Michigan at Ann Arbor (2018)
+        \\ \vspace{0.25cm}
+        Submitted to the MIT Department of Electrical Engineering and
+        Computer Science
+        \\
+        in Partial Fulfillment of the Requirements
+        \\
+        for the
+        Degree
+        \\ \vspace{0.25cm}
+        of
+        \\ \vspace{0.25cm}
+        \textbf{Master of Science} in Electrical Engineering and Computer Science
+        \\ \vspace{0.25cm}
+        at the
+        \\ \vspace{0.25cm}
+        MASSACHUSETTS INSTITUTE OF TECHNOLOGY
+        \\ \vspace{0.25cm}
+        \textbf{September 2020}.
+        \\ \vspace{0.25cm}
+        \copyright~2020 Massachusetts Institute of Technology. All rights
+        reserved.
+    \end{center}
+
+    \vfill
+
+    {\large
+    \vspace{1.2cm}
+    Author's signature line: \dotfill
+    \par\noindent \hfill \textbf{Samuel C.\ Tenka}
+    \par\noindent \hfill Department of Electrical Engineering and Computer Science
+    \par\noindent \hfill August 1, 2020
+
+    \vspace{1.2cm}
+    Certified by: \dotfill
+    \par\noindent \hfill \textbf{Joshua B.\ Tenenbaum}
+    \par\noindent \hfill Professor of Brain and Cognitive Science Department
+    \par\noindent \hfill Thesis Supervisor
+
+    \vspace{1.2cm}
+    Accepted by: \dotfill
+    \par\noindent \hfill \textbf{Leslie A.\ Kolodziejski}
+    \par\noindent \hfill Professor of Electrical Engineering and Computer Science
+    \par\noindent \hfill Chair, Department Committee on Graduate Students
+    }
+
+    \thispagestyle{empty}
+  
+    \newpage
+    ~
+    \newpage
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Abstract Page  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    \begin{center}
+        \Huge
+        \textbf{A Perturbative Analysis of Stochastic Descent}
+        \Large
+        \\ \vspace{0.5cm}
+        by Samuel Tenka
+        \\ \vspace{0.5cm}
+        Submitted to the Department of Electrical Engineering and Computer
+        Science on August 1, 2020 in Partial Fulfillment of the Requirements for
+        the Degree of Master of Science in Electrical Engineering and Computer
+        Science
     \end{center}
     
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Abstract  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     \vspace{0.75cm}
+    {\large
     \textbf{Abstract}.
         %
         %-------------  hammer and general nail  ------------------------------
@@ -340,10 +421,26 @@
         (\textbf{D}) characterize when and why flat minima overfit less than
         other minima.
 
+        \begin{center}
+            \copyright~2020 Massachusetts Institute of Technology. All rights
+            reserved.
+        \end{center}
+
+    %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    %%~~~~~~~~~  Supervisor  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+    \par\noindent \textbf{Thesis Supervisor}: Joshua B. Tenenbaum
+    \par\noindent \textbf{Title}:             Professor of Brain and Cognitive Sciences
+    }
+
+    \newpage 
+    ~
+    \newpage 
+
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     %~~~~~~~~~  Acknowledgements  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-    \vspace{0.5cm}
+
+    {\Large
     \textbf{Acknowledgements}.
         I would like to thank \textsc{Sho Yaida}, \textsc{Dan A.\ Roberts},
         and \textsc{Josh Tenenbaum} for their patient guidance.
@@ -357,7 +454,7 @@
         I appreciate the time and energy that \textsc{Andy Banburski},
         \textsc{Ben R.\ Bray}, \textsc{Jeff Lagarias}, and \textsc{Wenli Zhao}
         spent to critique my drafts.  In particular, \textsc{Wenli Zhao}
-        nudged me to consider and discuss connections to physics, and
+        nudged me to consider connections to physics, and
         \textsc{Ben R.\ Bray} taught me that gradient noise is rarely istropic,
         homogeneous, or Gaussian.  
         %
@@ -365,46 +462,9 @@
         Kleinfeldt}, \textsc{Alex Lew}, \textsc{Ari Morcos}, and \textsc{David
         Schwab}, this project would not be.
         %
-        %I also thank the members of my RQE commitee,
-        %\textsc{David Sontag} and \textsc{Suvrit Sra}.
-        %
         Finally, I thank my parents \textsc{Ping Kho} and \textsc{Andy Tenka}
         for their love and support throughout my life.
-
-    \vspace{0.5cm}
-    \textbf{Administrivia}.
-        I submit this thesis to the Department of Electrical Engineering and
-        Computer Science in partial fulfillment of the requirements for the
-        degree of \textbf{Master of Science} in Computer Science and
-        Engineering at MIT to be awarded in \textbf{September of 2020}.
-        \hfill
-        \copyright~2020 Massachusetts Institute of Technology. All rights
-        reserved.
-        %To the extent possible, I hereby grant to all
-        %organisms and institutions, including to MIT, permission to reproduce
-        %and to distribute publically paper and electronic copies of this
-        %document in whole or in part in any medium now known or hereafter
-        %created.
-
-    \vspace{1.5cm}
-
-    \newcommand{\sss}{\hspace*{\fill}}
-    \newcommand{\apeecs}{Associate Professor, EECS}
-    \newcommand{\pbcs}{Professor, BCS}
-    \newcommand{\bs}{B.A.\ (U.\ Michigan, 2018)}
-    \newcommand{\rqecp}{RQE Committee Person}
-
-    \par\noindent \hrulefill            \sss \hrulefill
-    \par\noindent \textbf{David Sontag} \sss \textbf{Suvrit Sra} 
-    \par\noindent \apeecs               \sss \apeecs            
-    \par\noindent \rqecp                \sss \rqecp              
-
-    \vspace{1.5cm}
-
-    \par\noindent \hrulefill                \sss    \hrulefill
-    \par\noindent \textbf{Samuel C. Tenka}  \sss    \textbf{Joshua B. Tenenbaum}
-    \par\noindent \bs                   \sss \pbcs
-    \par\noindent Thesis Author         \sss Thesis Supervisor
+    }
 
 \restoregeometry
     
@@ -477,8 +537,8 @@
         \textbf{datapoints} equipped\footnote{
             via a (partially defined) expectation
             $$\EE:(|\Dd|\to\RR)\to\RR\sqcup 1$$ 
-            We must later take care that expectations exist, but
-            for now we work loosely.
+            We later take care that expectations exist;
+            for now, we work loosely.
         } with a probability distribution $\Dd$,
         a set $\Cc$ of \textbf{hypotheses}, and an \textbf{error
         function} $E:\Cc\to|\Dd|\to\RR$,
@@ -490,7 +550,6 @@
         conclusion fails without independence, a phenomenon we know as
         \textbf{overfitting}.
 
-        \newpage
         A \textbf{learning rule} is then a
         map $\Ll:|\Dd|^N\to \Cc$ from training sequences to hypotheses;\footnote{
             Real learning rules are often randomized algorithms, not
@@ -585,7 +644,6 @@
             \end{tabular}
         \end{table}
 
-        \newpage
         \subsection{Gradient descent}
 
         By construction, each $l_x$ is smooth, so we may implement $\optH$ by
@@ -662,6 +720,7 @@
 
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~  Motivation for Stochasticity  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        \newpage
         \subsection{Stochastic gradient descent}
 
             Ideally, we would descend on $\Eout$ rather than the estimator
@@ -836,10 +895,11 @@
 %=====  BACKGROUND AND NOTATION  ==============================================
 %==============================================================================
 
-\section{Notation and assumptions} \label{sect:notation}
+    \newpage
+    \section{Notation and assumptions} \label{sect:notation}
        
-    %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    %~~~~~~~~~  Tensor Conventions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        %~~~~~~~~~  Tensor Conventions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         Let $G, H, J; C, S$ be as in \S \ref{subsect:example}.  They are
         tensors with $1, 2, 3; 2, 3$ indices, respectively.
@@ -920,7 +980,6 @@
 %    RELATED WORK    
 %==============================================================================
 
-        \newpage
     \section{Related work} \label{sect:related}
     
         It was \citet{ki52} who, in uniting gradient descent \citep{ca47} with
@@ -1536,7 +1595,6 @@
             ($S=\sdia{MOOc(012)(0-1-2)}$).
             In short, we may interpret fuzzy outlines as distinguishing SGD 
             from ODE and SDE. 
-            \newpage
 
             %\begin{table}
             %    \centering 
@@ -1864,7 +1922,6 @@
         Since matrix exponentiation takes time super-quadratic in dimension,
         this regularizer is most useful for small models.
 
-        \newpage
     \section{Artificial Landscapes}\label{appendix:artificial-landscapes}
 
         We defined three artificial landscapes:
@@ -1930,11 +1987,11 @@
             $u=v=z=0$, which lies within a valley of global minima defined by
             $u=v=0$.  
 
-            The thesis body showed that SGD travels in \Archimedes' $+z$
-            direction.  By topologically quotienting the weight space, say by
-            identifying points related by a translation by $\Delta z = 200\pi$,
-            we may turn the line-shaped valley into a circle-shaped valley.
-            Then SGD eternally travels, say, counterclockwise.
+            \S\ref{subsect:entropic} showed that SGD travels in \Archimedes'
+            $+z$ direction.  By topologically quotienting the weight space, say
+            by identifying points related by a translation by $\Delta z =
+            200\pi$, we may turn the line-shaped valley into a circle-shaped
+            valley.  Then SGD eternally travels, say, counterclockwise.
            
         \subsection{\MeanEstimation}
             The \MeanEstimation\, family of landscapes has $1$ dimensional
@@ -2127,7 +2184,7 @@
     %
     Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may emulate
     SGD}, as conjectured by \citet{ro18}.  This is significant because, while
-    small batch sizes can lead to better generalization,\cite{bo91} modern
+    small batches can lead to better generalization,\cite{bo91} modern
     infrastructure increasingly rewards large batch sizes.\cite{go18} 
     
     %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2161,7 +2218,7 @@
     best applies to small-movement contexts, whether for long times (large
     $\eta T$) near an isolated minimum or for short times (small $\eta T$) in
     general.  Thus, the theory might help to analyze meta-learners based on
-    fine-tuning (e.g.\ \citep{fi17}'s MAML).
+    fine-tuning (MAML).
 
     Much as meteorologists understand how warm and cold fronts interact despite
     long-term forecasting's intractability, we quantify how curvature and noise
@@ -4157,6 +4214,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %~~~~~~~~~~~~~  Experiments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+            \newpage
     \section{Unbiased estimators of landscape statistics}        \label{appendix:bessel}
         %
         We use the following method --- familiar to some of our colleagues but
