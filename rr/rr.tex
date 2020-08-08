@@ -1,0 +1,142 @@
+\documentclass{article}
+
+\usepackage{neurips_2020_author_response}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\usepackage{lipsum, xcolor}
+\usepackage{amsmath, amssymb, amsthm}
+
+\newcommand{\Ra}{\textmd{\textsf{\color{brown} {R1}}}}
+\newcommand{\Rb}{\textmd{\textsf{\color{green} {R2}}}}
+\newcommand{\Rc}{\textmd{\textsf{\color{blue} {R3}}}}
+\newcommand{\Rd}{\textmd{\textsf{\color{purple} {R4}}}}
+
+\newcommand{\sct}[1]{\textmd{\textsf{Sect #1}}}
+\newcommand{\cor}[1]{\textmd{\textsf{Cor #1}}}
+\newcommand{\dfn}[1]{\textmd{\textsf{Dfn #1}}}
+\newcommand{\pdx}[1]{\textmd{\textsf{Appx #1}}}
+\newcommand{\lin}[1]{\textmd{\textsf{Ln #1}}}
+\newcommand{\fig}[1]{\textmd{\textsf{Fig #1}}}
+
+\begin{document}
+
+    We thank reviewers \Ra, \Rb, \Rc, \Rd\ for a wealth of constructive
+    comments.  The reviewers expressed interest in our results but had concerns
+    over our exposition's clarity. In response to these concerns, we will
+    thoroughly revise the paper as detailed below, and in addition to the
+    NeurIPS submission process we will try to submit to a journal.  As \Ra\
+    noted, conferences have the advantage of visibility for ideas we are proud
+    of.
+
+%
+
+    \textsc{Planned re-factoring of the narrative}
+    ------
+    Per \Ra, \Rd, we will
+
+%
+
+    \textsc{Planned economizing of space}
+    ------
+    \Ra: we will use the full 8 pages and remove distracting content such as
+    the Chladni plate image and archaic references from the paper body.  
+
+%
+
+    \textsc{Planned clarification of claims}
+    ------
+    We will expand \sct{1.2} to less tersely define the test loss $l(\theta)$,
+    the generalization gap, and the tensors $M^1_1, M^2_1, \cdots$, where
+    we adopt \Ra's suggested $M$ notation.
+    ------
+    ------
+    ------
+    Per \Ra, we will render hand-drawn figures cleanly, and rework \fig{4}
+    entirely by plotting an SGD trajectory through three cross-sectional slices
+    of the landscape, in each slice indicating gradient noise with contour
+    lines and expected loss with a colored heatmap.  Only two slices are
+    necessary, but to emphasize that the effect happens for all time, we'll
+    show the trajectory for three slices.  We will also orient \fig{4} to align
+    with \fig{1a}.
+
+%
+
+    \textsc{Planned defense of significance}
+    ------
+
+%
+
+    \textsc{Technical clarifications}
+    ------
+    \textbf{\Ra\ \lin{51}: How is the expression in an eigenbasis of $\eta H$?
+    It looks like only $H$.} $H$ is rank $(0,2)$ (no upper idxs, two lower
+    idxs), so it maps vectors to covectors and without further structure we
+    can't speak of its eigenvalues.  That's why we use $(\eta H)^\mu_\nu$, a
+    linear map that maps vectors to vectors, to get an eigenbasis.  Then
+    $\eta(H_{\mu\mu} + H_{\nu\nu}+\cdots)$ is short for ``the $\mu$th
+    eigval of $\eta H$, plus the $\nu$th eigval ...''.  On \lin{51$\frac{1}{2}$} we
+    are explicit instead of using summation convention; accordingly, we 
+    disobey the usual syntax for upper/lower idxs.  This is confusing, so we
+    will use uniform notation throughout the revision.
+    ------
+    \textbf{\Ra\ I am skeptical of the authors' claim that this work reconciles
+    conflicting results on sharp vs flat minima.}
+    {\color{red} FILL IN}
+    ------
+    \textbf{\Rb\ \sct{3}: What was being plotted, architectures, etc?}
+    \fig{3.a} shows the test losses (y axis) attained after fixed-time SGD runs
+    with different learning rates (x axis), with one random initialization.
+    We'll expand all figures' captions and discussion.  \pdx{C.2.1} lists
+    architectures.
+    ------
+    \textbf{\Rb\ \sct{2.5}, \Rd\ \sct{3.2}: Do corrections proposed satisfy
+    these scaling relationships?  That higher-order approximations outperform
+    lower-order approximations feels tautological.  Very artificial example
+    does not motivate third order dynamics.} Some but not all of our
+    corrections obey SDE
+    noise-scaling laws in that they are functions of $\eta/B$.  We view our
+    experiments as verifying that we forgot no factors of $2$ etc.
+    As with many NeurIPS papers, our contribution is theoretical, and we
+    suggest but do not demonstrate that this theory may one day improve
+    training of modern neural nets.  Our artificial examples are typical in that the
+    third order contributions that they isolate are all present in generic loss
+    landscapes.  We show how to interpret third order terms, yielding insight
+    when they are non-negligible.  These terms may be negligible in practice,
+    but experiments on real data (\fig{3} green lines) suggest they are sometimes
+    substantial.
+    ------
+    \textbf{\Rc\ \dfn{1}: What do diagrams stand for?  Are they valid math?}
+    Formally, diagrams represents (sets of) terms in a Taylor expansion.
+    \pdx{A.6} gives visual intuition.  \pdx{B} gives defns and proofs.
+    ------
+    \textbf{\Rc\ \lin{119}, \Rd\ \cor{3}: Is this ERM? What does \emph{test}
+    refer to? Formally define $l(\theta)$ and generalization gap}
+    We study SGD as an approximate method for ERM.  The test loss is the
+    expectation $l(\theta) \triangleq
+    \mathbb{E}_{x\sim\mathcal{D}}[l_x(\theta)]$ over fresh samples $x$ from the
+    underlying distribution $\mathcal{D}$, as suggested by \lin{65}'s word
+    ``unbiased''.  The generalization gap on a training set $\mathcal{S}\sim
+    \mathcal{D}^N$ is $\mathbb{E}_{x\sim\mathcal{D}}[l_x(\theta)] -
+    \mathbb{E}_{x\sim\mathcal{S}}[l_x(\theta)]$.
+    Like prior work [e.g. Chaudari], our predictions depend on the underlying
+    (and in practice unknown) distribution $\mathcal{D}$; one may obtain
+    qualitative insight (e.g. \sct{2.3}) and unbiased estimates (\pdx{C.6})
+    with just training data.
+    ------
+    \textbf{\Rd\ \cor{3}: Can one find a term $l_c$ that works globally? Can it
+    be computed at less cost than running SGD?}
+    Yes, \pdx{C.6} gives estimates for expressions of arbitrary order with only
+    constant factor time overhead.  E.g.
+    $2l_x(\theta)\cdot\nabla(l_x(\theta)-l_y(\theta))$ is for any fixed $\theta$
+    an unbiased estimate of $\nabla C$, for $x,y\sim \mathcal{D}$.  This local
+    estimate may thus be computed at each step as $\theta_t$ evolves.
+
+\end{document}
