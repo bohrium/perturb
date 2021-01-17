@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -9,6 +9,11 @@
 P.L. Bartlett, D.J. Foster, and M.J. Telgarsky.
 \newblock Spectrally-normalized margin bounds for neural networks.
 \newblock \emph{NeurIPS}, 2017.
+
+\bibitem[Bonnabel(2013)]{bo13}
+S.~Bonnabel.
+\newblock Sgd on riemannian manifolds.
+\newblock \emph{IEEE Transactions on Automatic Control}, 2013.
 
 \bibitem[Bottou(1991)]{bo91}
 L.~Bottou.
@@ -27,20 +32,30 @@ P.~Chaudhari and S.~Soatto.
   deep networks.
 \newblock \emph{ICLR}, 2018.
 
+\bibitem[Chladni(1787)]{ch87}
+E.F.F. Chladni.
+\newblock Entdeckungen \"uber die theorie des klanges.
+\newblock \emph{Leipzig}, 1787.
+
 \bibitem[Dinh et~al.(2017)Dinh, Pascanu, Bengio, and Bengio]{di17}
 Laurent Dinh, R.~Pascanu, S.~Bengio, and Y.~Bengio.
 \newblock Sharp minima can generalize for deep nets.
 \newblock \emph{ICLR}, 2017.
+
+\bibitem[Dixon and Ward(2018)]{di18}
+M.F. Dixon and T.~Ward.
+\newblock Takeuchi information as a form of regularization.
+\newblock \emph{Arxiv Preprint}, 2018.
 
 \bibitem[Dyer and Gur-Ari(2019)]{dy19}
 E.~Dyer and G.~Gur-Ari.
 \newblock Asymptotics of wide networks from feynman diagrams.
 \newblock \emph{ICML Workshop}, 2019.
 
-\bibitem[Finn et~al.(2017)Finn, Abbeel, and Levine]{fi17}
-C.~Finn, P.~Abbeel, and S.~Levine.
-\newblock Model-agnostic meta-learning for fast adaptation of deep networks.
-\newblock \emph{ICML}, 2017.
+\bibitem[Feynman(1949)]{fe49}
+R.P. Feynman.
+\newblock A space-time appxoach to quantum electrodynamics.
+\newblock \emph{Physical Review}, 1949.
 
 \bibitem[Goyal et~al.(2018)Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski,
   Kyrola, Tulloch, Jia, and He]{go18}
@@ -66,6 +81,17 @@ J.~Kiefer and J.~Wolfowitz.
 \newblock Stochastic estimation of the maximum of a regression function.
 \newblock \emph{Annals of Mathematical Statistics}, 1952.
 
+\bibitem[Kol\'{a}\u{r} et~al.(1993)Kol\'{a}\u{r}, Michor, and Slov\'{a}k]{ko93}
+I.~Kol\'{a}\u{r}, P.W. Michor, and J.~Slov\'{a}k.
+\newblock Natural operations in differential geometry.
+\newblock \emph{Springer}, 1993.
+
+\bibitem[Kunstner et~al.(2019)Kunstner, Hennig, and Balles]{ku19}
+F.~Kunstner, P.~Hennig, and L.~Balles.
+\newblock Limitations of the empirical fisher approximation for natural
+  gradient descent.
+\newblock \emph{NeurIPS}, 2019.
+
 \bibitem[LeCun et~al.(2015)LeCun, Bengio, and Hinton]{le15}
 Y.~LeCun, Y.~Bengio, and G.~Hinton.
 \newblock Deep learning.
@@ -83,6 +109,11 @@ Qianli Liao, B.~Miranda, A.~Banburski, J.~Hidary, and T.~Poggio.
   networks.
 \newblock \emph{Center for Brains, Minds, and Machines Memo 91}, 2018.
 
+\bibitem[Nesterov(2004)]{ne04}
+Y.~Nesterov.
+\newblock Lectures on convex optimization: Minimization of smooth functions.
+\newblock \emph{Springer Applied Optimization 87, Section 2.1}, 2004.
+
 \bibitem[Neyshabur et~al.(2017{\natexlab{a}})Neyshabur, Bhojanapalli,
   McAllester, and Srebro]{ne17a}
 B.~Neyshabur, S.~Bhojanapalli, D.~McAllester, and N.~Srebro.
@@ -97,6 +128,11 @@ B.~Neyshabur, R.~Tomioka, R.~Salakhutdinov, and N.~Srebro.
 \newblock \emph{Chapter 4 from Intel CRI-CI: Why and When Deep Learning Works
   Compendium}, 2017{\natexlab{b}}.
 
+\bibitem[Penrose(1971)]{pe71}
+R.~Penrose.
+\newblock Applications of negative dimensional tensors.
+\newblock \emph{Combinatorial Mathematics and its Applications}, 1971.
+
 \bibitem[Robbins and Monro(1951)]{ro51}
 H.~Robbins and S.~Monro.
 \newblock A stochastic approximation method.
@@ -106,6 +142,12 @@ H.~Robbins and S.~Monro.
 D.A. Roberts.
 \newblock Sgd implicitly regularizes generalization error.
 \newblock \emph{NeurIPS: Integration of Deep Learning Theories Workshop}, 2018.
+
+\bibitem[Roux et~al.(2012)Roux, Bengio, and Fitzgibbon]{ro12}
+N.L. Roux, Y.~Bengio, and A.~Fitzgibbon.
+\newblock Improving first and second-order methods by modeling uncertainty.
+\newblock \emph{Book Chapter: Optimization for Machine Learning, Chapter 15},
+  2012.
 
 \bibitem[Stein(1956)]{st56}
 C.~Stein.
@@ -134,10 +176,15 @@ Lei Wu, Chao Ma, and Weinan E.
 \newblock How sgd selects the global minima in over-parameterized learning.
 \newblock \emph{NeurIPS}, 2018.
 
-\bibitem[Yaida(2019)]{ya19a}
+\bibitem[Yaida(2019{\natexlab{a}})]{ya19a}
 Sho Yaida.
 \newblock Fluctuation-dissipation relations for sgd.
-\newblock \emph{ICLR}, 2019.
+\newblock \emph{ICLR}, 2019{\natexlab{a}}.
+
+\bibitem[Yaida(2019{\natexlab{b}})]{ya19b}
+Sho Yaida.
+\newblock A first law of thermodynamics for sgd.
+\newblock \emph{Personal Communication}, 2019{\natexlab{b}}.
 
 \bibitem[Zhang et~al.(2017)Zhang, Bengio, Hardt, Recht, and Vinyals]{zh17}
 Chiyuan Zhang, S.~Bengio, M.~Hardt, B.~Recht, and O.~Vinyals.
