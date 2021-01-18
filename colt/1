@@ -13,8 +13,6 @@
 \let\Ginclude@graphics\@org@Ginclude@graphics
 \makeatother
 
-\usepackage[export]{adjustbox}
-
 %---------------------  graphics and figures  ---------------------------------
 
 \usepackage{wrapfig, caption}
@@ -519,8 +517,7 @@
     \section{Perturbative theory of SGD}
 
         For simplicity, this section will assume unless otherwise stated that
-        \textbf{SGD has $\mathbf{\textit{E}=\textit{B}=1}$} and that GD
-        has $T=B=N$.
+        \textbf{SGD has $\mathbf{E=B=1}$ and GD has $\mathbf{T=B=N}$}.
 
         \subsection{Trivial example}
         \subsection{Perturbation as technique}
@@ -528,54 +525,70 @@
         \subsection{Introducing diagrams}\label{sect:what-are-diagrams}
 
             Appendix FILL IN defines diagrams in detail.  One does not need a
-            precise definition to follow our paper body.  The following
-            examples of valid and invalid diagrams provide a sufficient sense.   
+            precise definition to follow our paper body.  The reader may gain a
+            sufficient sense by inspecting the following are valid and invalid
+            diagrams.   
             \begin{table}[h!]
                 \centering
-                \adjustbox{width=\textwidth}{
                 \begin{tabular}{ccc}
-                    valid diagrams &\hspace{1cm}& invalid diagrams \\ \hline
+                    valid diagrams &\hspace{2cm}& invalid diagrams \\ \hline
                     $\mdia{c(0-1)(01)},
-                    \mdia{c(012-3)(02-12-23)},
+                    \mdia{c(012)(02-12)},
                     \mdia{c(01-2-3)(02-12-23)},
-                    \mdia{c(0-1-2-3)(03-13-23)}, 
-                    \dia{MOOc(03-12-4)(03-13-23-34)}$
-                        &\hspace{1cm}&
+                    \mdia{c(03-12)(03-13-23)},
+                    \mdia{c(0-1-2-3)(03-13-23)},\cdots$
+                        &\hspace{2cm}&
                     $\mdia{MOOc(01)(0-1)},  
-                     \mdia{MOOc(01)(01)}, 
                      \dia{MOOc(0-1-2)(01-02-12)},
-                     \dia{MOOc(0-1-2)(01-02)}, 
-                     \dia{MOOc(0-1-2)(02)},$
-                     \adjustbox{trim=0 0 {.5\width} 0}{$\dia{MOOc(02-012-3)(02-12-23)}$}
-                     ~~
+                     \dia{MOOc(0-1-2)(01-02)},  
+                     \dia{MOOc(0-1-2)(02)},
+                     \dia{MOOc(02-012)(02-12)},\cdots$ 
                 \end{tabular}
-                }
-                \vspace{-0.5cm}
             \end{table}
             We see that diagrams are rooted trees equipped with a partition of
-            their nodes.  We indicate the rooted-tree structure by drawing each
-            edge so that the endpoint closer to the root is on the right.  We
-            indicate the partition structure using minimally many gray
-            outlined ties.  Finally, we allow only diagrams whose roots are in 
-            parts of size one.
-            %
-            In much of our discussion, all but a few diagrams will be
-            irrelevant.  For example, in the special case $E=B=1$, each
-            diagram with an ancestor-descendant pair in the same part
-            evaluates to zero.  When performing a fixed-$T$ calculation to
-            order $\eta^d$, we may neglect all diagrams with more than $d$
-            edges.  The $t^d T^{-p}$-th order correction\footnote{%
-                We compare ODE integrated to time $t$ to $T$ steps of SGD with
-                learning rate $\eta = \eta_\star t/T$ and $E=B=1$. 
-            }
-            to the ordinary differential equation approximation of SGD is given
-            by those diagrams with $d$ edges and $p$ many gray ties.
+            their nodes.  We draw each edge so that the endpoint closer  (hence
+            $\dia{MOOc(0-1-2)(01-02)}$ is invalid) shown with minimally many
+            gray outlines 
+
+with the root drawn
+            rightmost
 
         \subsection{Insights from diagrams}
 
         \subsection{Resummation}
 
-
+            \begin{wraptable}{r}{5cm}
+                \begin{tabular}{p{5cm}}
+                    \textbf{Examples}:
+                    The diagrams
+                    $\sdia{c(0-1)(01)}$, $\sdia{c(012-3)(03-13-23)}$ each have $2$
+                    parts; $\sdia{c(0-12-3)(03-13-23)}$, $\sdia{c(01-2-3)(02-12-23)}$
+                    have $3$.
+                    %
+                    Corollaries \ref{cor:overfit}, \ref{cor:epochs},
+                    \ref{cor:batch} have $E\neq 1 \neq B$, so they feature
+                    $\sdia{c(01)(01)}$ and $\sdia{c(01-2)(01-12)}$, generalized
+                    diagrams that violate the path condition. 
+                    %
+                    Diagrams $\sdia{c(0-1)(01)}$, $\sdia{c(0-1-2)(02-12)}$ 
+                    are irreducible; due to their green nodes,
+                    $\sdia{c(0-1-2)(01-12)}$, $\sdia{c(01-2-3)(03-12-23)}$ are not.
+                    %
+                    For all $f$,
+                    $|\Aut_f(\sdia{c(01-2-3)(03-12-23)})|=1$ and
+                    $|\Aut_f(\sdia{c(01-2-3)(02-12-23)})|=2$.
+                \end{tabular}
+            \end{wraptable}
+    
+            A \emph{diagram} is a finite rooted tree equipped with a partition
+            of its nodes that obeys the \emph{path condition}: no path from leaf to
+            root may encounter any part more than once.
+            We specify the root by drawing it rightmost.  We draw the parts of 
+            the partition by grouping each part's nodes inside fuzzy outlines. 
+            %
+            A diagram is \emph{irreducible} when each of its degree-$2$ nodes is in
+            a part of size one.
+            %
             An \emph{embedding} $f$ of a diagram $D$ is an injection from
             $D$'s parts to (integer) times $0 \leq t \leq T$ that sends the
             root to $T$ and s.t., for each path from leaf to root, the
