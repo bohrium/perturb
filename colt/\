@@ -294,22 +294,23 @@
             %
             At a high level, we Taylor-expand quantities of interest as
             functions of the learning rate $\eta$.  We tame both the
-            combinatorial explosion of terms and the large-time convergence
+            resulting combinatorial explosion of terms and the large-time convergence
             difficulties by grouping terms according to the information-flow
             processes they represent.  We introduce diagrams such as
             $\sdia{c(01-2-3)(02-12-23)}$, analogous to those of \cite{fe49} and
-            \cite{pe71}, to depict these processes.\footnote{%
-                For example, the diagram here shows a red update doubly
-                affecting a green update that in turn affects the final testing
-                loss.  The diagrams with few edges suffice for leading
-                order results.  Colors help us refer to nodes; they lack
-                meaning.
-            }
+            \cite{pe71}, to depict these processes.
             %
-            We thus compute by summing small sets of diagrams.  Overall, our
-            analysis offers and rigorously grounds a new physics-inspired
-            perspective --- of SGD as a superposition of many concurrent
-            information-flow processes --- that may inspire future work.
+            We thus find not only that summing diagrams permits quantitative
+            computation but that we may interpret each diagram as a process by
+            which data influences weights.  Overall, our analysis offers a
+            novel, physics-inspired perspective --- of SGD as a superposition of
+            several concurrent influences of data on weights --- that may
+            inspire future work.
+            %
+            %--  soft benefits: prospective  ----------------------------------
+            %
+            \S\ref{appendix:future} briefly discusses this bridge to physics
+            and its relation to Hessian methods and natural GD.
     
         \newpage
         \subsection{Background, notation, assumptions}
@@ -317,7 +318,7 @@
             %--  the landscape  -----------------------------------------------
     
             We fix a \emph{testing loss} function $l:\Mm\to\RR$ on a space
-            $\Mm$ of weights $\theta$.  We fix a distribution $\Dd$ from which
+            $\Mm$ of weights $\theta$  We fix a distribution $\Dd$ from which
             unbiased estimates $l_x$ of $l$ are drawn.  We write $(l_n:
             0\leq n<N)$ for a training sequence drawn i.i.d.\ from $\Dd$.  We
             refer to $n$ and to $l_n$ as \emph{training points}.  We assume
@@ -326,10 +327,10 @@
             %
             %--  specialization to a common case  -----------------------------
             %
-            For instance, our theory accounts for $\tanh$ networks with cross
-            entropy loss on bounded data --- and with weight sharing, skip
-            connections, soft attention, dropout, and weight decay.  But it
-            does not model $\text{ReLU}$ networks.
+            For instance, our theory models $\tanh$ networks with cross entropy
+            loss on bounded data --- and with weight sharing, skip connections,
+            soft attention, dropout, and weight decay.  But it does not model
+            $\text{ReLU}$ networks.
 
             %--  names of sgd parameters  -------------------------------------
 
@@ -425,8 +426,8 @@
             exact.
 
             This paper's contributions are two-fold: first, to identify how
-            gradient noise and curvature correct Proposition \ref{prop:nest};
-            and second, to replace induction by more transparent and convergent
+            gradient noise and curvature correct Proposition \ref{prop:nest},
+            and second to replace induction by more transparent and convergent
             large-$T$ techniques.
             %
             For example, our framework allows us to assess how gradient noise's
@@ -490,12 +491,12 @@
         
             Our predictions are vacuous for large $\eta$.  Other analyses treat
             large-$\eta$ learning phenomenologically, whether by finding
-            empirical correlates of the generalization gap \citep{li18}, by
-            showing that \emph{flat} minima generalize (\cite{ho17},
-            \cite{ke17}, \cite{wa18}), or by showing that \emph{sharp} minima
-            generalize (\cite{st56}, \cite{di17}, \cite{wu18}).  We find that
+            empirical correlates of gen.\ gap \citep{li18}, by showing that
+            \emph{flat} minima generalize (\cite{ho17}, \cite{ke17},
+            \cite{wa18}), or by showing that \emph{sharp} minima generalize
+            (\cite{st56}, \cite{di17}, \cite{wu18}).  Our theory reveals that 
             SGD's implicit regularization mediates between these seemingly
-            clashing intuitions (\S \ref{subsect:overfit}).
+            clashing intuitions.
             
             %-- our work vs other perturbative approaches  --------------------
         
@@ -512,7 +513,6 @@
                 $H$ is typical in modern learning \citep{ro12, ku19}
             } so we may model VAEs. 
 
-    \newpage
     \section{Perturbative theory of SGD}
         \subsection{Trivial example}
         \subsection{Perturbation as technique}
@@ -1057,13 +1057,6 @@
 
 
     \section{Conclusion}
-
-            %
-            %--  soft benefits: prospective  ----------------------------------
-            %
-            \S\ref{appendix:future} briefly discusses this bridge to physics
-            and its relation to Hessian methods and natural GD.
-
     
         %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         %~~~~~~~~~  Summarize Contributions  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
