@@ -66,10 +66,10 @@
 %---------------------  intertext: footnotes and hyperlinks  ------------------ 
 
 \usepackage[perpage]{footmisc}
-\renewcommand*{\thefootnote}{
-    \color{red}
-    \arabic{footnote}
-    %\fnsymbol{footnote}
+\renewcommand*{\thefootnote}{%
+    \color{red}%
+    \arabic{footnote}%
+    %\fnsymbol{footnote}%
 } 
 
 \usepackage{hyperref}
@@ -86,6 +86,7 @@
     \newtheorem{cor}{Corollary}
     \newtheorem{prop}{Proposition}
     \newtheorem*{prop*}{Proposition}
+    \setcounter{prop}{-1}
 
 %---------------------  mathematical questions  -------------------------------
 
@@ -243,11 +244,11 @@
         %
         We employ our theory to contrast SGD against two popular
         approximations: deterministic descent and stochastic differential
-        equations.  We find that SGD's trajectory avoids both gradient noise
-        and minima that are sharp with respect to gradient noise.  Paired with
-        our results that connect overfitting to the width of minima, these
-        repulsions suggest a mechanism for the unexpected generalization of
-        overparameterized learning scenarios.
+        equations.  We find that SGD's trajectory avoids regions of weight
+        space with high gradient noise and avoids minima that are sharp with
+        respect to gradient noise.  Paired with results that relate overfitting
+        to curvature, these repulsions suggest a mechanism for the unexpected
+        generalization of overparameterized learners.
     \end{abstract}
     
     \begin{keywords}%
@@ -268,30 +269,31 @@
 
             %--  vs ode and sde  ----------------------------------------------
             %
-            Departing from prior work, we model discrete time and hence
-            non-Gaussian noise.  Indeed, we derive corrections to 
-            continuous-time, Gaussian-noise approximations such as ordinary and
-            stochastic differential equations (ODE, SDE).
+            Departing from prior work, we model discrete time and correlated
+            gradient noise.  Indeed, we derive corrections to continuous-time,
+            independent noise approximations such as ordinary and stochastic
+            differential equations (ODE, SDE).
             %--
             Our corrections lead to qualitative differences in dynamics: for
-            example, we construct a non-pathological\footnote{
+            example, we construct a non-pathological\footnote{%
                 All higher derivatives exist and quadratically bounded; the
-                gradient noise at each weight vector is $1$-subgaussian.
-            } loss landscape with a
-            discrete translational symmetry \emph{violated} by SGD's
-            trajectory.  Adding a linear term to this landscape leads SGD to
-            perform perpetual \emph{ascent}.
+                gradient noise at each weight vector is $1$-subgaussian.%
+            }loss landscape with a discrete translational symmetry
+            \emph{violated} by SGD's trajectory.  Bending this landscape into a
+            loop leads SGD to perpetually \emph{circulate} counterclockwise;
+            alternatively, adding a linear term to this landscape leads SGD to
+            perpetually \emph{ascend}.
             %--
-            These examples, though artificial, demonstrate that standard
-            intuitions about SGD are wrong.  We argue that our theory's
-            quantitative results usefully enhance the intuition of practioners,
-            and we we verify our theory on convolutional CIFAR-10 and
+            These examples, though artificial, demonstrate how drastically
+            standard intuitions about SGD may fail.  We argue that our theory's
+            quantitative results enhance the intuition of practioners,
+            and we verify our theory on convolutional CIFAR-10 and
             Fashion-MNIST loss landscapes.
 
             %--  soft benefits: retrospective  --------------------------------
             %
             Our analysis offers a novel interpretation of SGD as a
-            superposition sum of several concurrent processes, each a basic way
+            superposition of several concurrent processes, each a basic way
             that data may influence weights.  Diagrams such as
             $\sdia{c(01-2-3)(02-12-23)}$, analogous to those of \cite{fe49} and
             \cite{pe71}, depict these interactions. 
@@ -308,10 +310,10 @@
             %--  the landscape  -----------------------------------------------
     
             We fix a \emph{testing loss} function $l:\Mm\to\RR$ on a space
-            $\Mm$ of weights $\theta$.  We fix a distribution $\Dd$ from which
-            unbiased estimates $l_x$ of $l$ are drawn.  We write $(l_n: 0\leq
-            n<N)$ for a training sequence drawn i.i.d.\ from $\Dd$.  We refer
-            to $n$ and to $l_n$ as \emph{training points}.  We assume
+            $\Mm$ of weights $\theta$  We fix a distribution $\Dd$ from which
+            unbiased estimates $l_x$ of $l$ are drawn.  We write $(l_n:
+            0\leq n<N)$ for a training sequence drawn i.i.d.\ from $\Dd$.  We
+            refer to $n$ and to $l_n$ as \emph{training points}.  We assume
             \S\ref{appendix:assumptions}'s hypotheses, e.g.\ that $l, l_x$ are
             analytic and that all moments exist.
             %
@@ -321,6 +323,30 @@
             loss on bounded data --- and with weight sharing, skip connections,
             soft attention, dropout, and weight decay.  But it does not model
             $\text{ReLU}$ networks.
+
+            %--  names of sgd parameters  -------------------------------------
+
+            SGD performs $\eta$-steepest descent on the estimates $l_n$.  Our
+            theory describes SGD with any number
+                 $N$ of training points,
+                 $T$ of updates, and 
+                 $B$ of points per batch.
+            Specifically, SGD runs $T$ many updates (hence $E=TB/N$ epochs or
+            $M=T/N$ updates per point) of the form
+            $$
+                \textstyle
+                \theta^\mu
+                \coloneqq
+                \theta^\mu -
+                \eta^{\mu\nu} \nabla_\nu
+                    \sum_{n\in \Bb_t} l_n(\theta) / B
+            $$
+            where in each epoch, we sample the $t$th batch $\Bb_t$ without
+            replacement from the training sequence.  So each initialization
+            $\theta_0 \in \Mm$ induces a distribution over
+            trajectories $(\theta_t: 0\leq t \leq T)$, with randomness due both
+            to training data and batch selection.  We shall especially study
+            the \emph{final testing loss} $\expc[l(\theta_T)]$.
 
             %--  tensor conventions  ------------------------------------------
 
@@ -334,9 +360,12 @@
                     $S$ &$=$& $\ex{(\nb\lx - G)^3}$ &$=$& $\mdia{MOOc(012)(0-1-2)}$
                 \end{tabular}
                 \vspace{-0.5cm}
-                \caption*{\textbf{Above}: Named tensors.
-                \S\ref{ssect:what-are-diagrams} explains how tensors
-                correspond to diagrams.}
+                \caption*{
+                    \textbf{Above}: Named tensors, typically evaluated at
+                    initialization ($\theta=\theta_0$).
+                    \S\ref{ssect:what-are-diagrams} explains tensors
+                    and diagrams correspond.
+                }
                 \vspace{-0.2cm}
             \end{wrapfigure}
             Our analysis makes heavy use of the tensors defined to the right:
@@ -370,47 +399,51 @@
             $\lim_{\eta\to 0} q/p(\eta) = 0$ for some homogeneous degree-$d$
             polynomial $p$; we then say $q\in o(\eta^d)$.
 
-            %--  names of sgd parameters  -------------------------------------
-
-            SGD performs $\eta$-steepest descent on the estimates $l_n$.  Our
-            general theory describes SGD with any number
-                 $N$ of training points,
-                 $T$ of updates, and 
-                 $B$ of points per batch.
-            SGD then runs $T$ many updates (i.e. $E=TB/N$ epochs, i.e. $M=T/N$
-            updates per point) of the form
-            $$
-                \textstyle
-                \theta^\mu
-                \coloneqq
-                \theta^\mu -
-                \eta^{\mu\nu} \nabla_\nu
-                    \sum_{n\in \Bb_t} l_n(\theta) / B
-            $$
-            where in each epoch, we sample the $t$th batch $\Bb_t$ without
-            replacement from the training sequence.  Thus, to each
-            initialization $\theta_0 \in \Mm$ there corresponds a joint
-            distribution over learning trajectories $(\theta_t: 0\leq t \leq
-            T)$.  The expectation of $l(\theta_T)$ especially interests us.
-            %For simplicity, our paper body
-            %(but not the appendices) will assume unless otherwise stated that
-            %\textbf{SGD has $\mathbf{E=B=1}$ and GD has $\mathbf{T=B=N}$}.
- 
             %--  example  -----------------------------------------------------
 
             To illustrate our notation, we quote a well-known proposition
-            (\cite{ne04}):
-            \begin{prop*}
+            (\cite{ne04}, \S 2.1):
+            \begin{prop}\label{prop:nest}
                 $G$ controls the leading order loss decrease:
                 $
-                    \expc l(\theta_T) - l(\theta_0) =
-                    T G_{\mu} \eta^{\mu\nu} G_\nu|_{\theta=\theta_0}
+                    \expc[l(\theta_T) - l(\theta_0)] \in
+                    - 
+                    T G_\mu G^\nu
                     + o(\eta^1)
                 $.
-            \end{prop*}
+            \end{prop}
             One proves this estimate by induction on $T$.  When the loss
-            landscape is noiseless and linear (that is, $\nabla l_x(\theta)$
-            depends on neither $x$ nor $theta$), this estimate is exact.
+            landscape is noiseless and linear (that is, when $\nabla
+            l_x(\theta)$ depends on neither $x$ nor $\theta$), this estimate is
+            exact.
+
+            This paper's contributions are two-fold: first, to identify how
+            gradient noise and curvature correct Proposition \ref{prop:nest},
+            and second to replace induction by more transparent and convergent
+            large-$T$ techniques.
+            %
+            For example, our framework allows us to assess how gradient noise's
+            non-Gaussianity affects the final testing loss.
+            \S\ref{ssect:what-are-diagrams} details how evaluation of a single
+            diagram gives the leading order result, for concision stated here
+            assuming isotropic curvature ($\eta H \propto I$): 
+            \begin{prop}
+                If we initialize near an isolated minimum of $l$, then in the
+                large-$T$ limit, the skewness $S$ of gradient noise
+                contributes 
+                $
+                    - S_{\alpha\beta\gamma}
+                    J^{\alpha\beta\gamma} / 18 \|\eta H\|_2 + o(\eta^2)
+                $
+                to the final testing loss.  
+            \end{prop}
+            So skewness affects loss in proportion to the logarithmic
+            derivative $J/\|\eta H\|$ of curvature.  The second order dependence\footnote{
+                three $\eta$s raise $J$'s indices; one $\eta$ appears in the
+                denominator
+            } on $\eta$ is second order and is hence a leading correction
+            to Proposition \ref{prop:nest}.  Gaussian approximations (e.g.\
+            SDE) miss this effect. 
 
         \newpage
         \subsection{Related work}
@@ -441,11 +474,10 @@
             %
             We avoid these pitfalls by Taylor expanding around $\eta=0$ as in
             \cite{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
-            and $T=2$,.  To support this generalization, we develop new 
-            summation techniques with improved large-$T$ convergence.  Our
-            interpretion of the resulting terms offers a new qualitative
-            picture of SGD as a superposition of several simpler
-            information-flow processes.
+            and $T=2$.  To do so, we develop new summation techniques with
+            improved large-$T$ convergence.  Our interpretion of the resulting
+            terms offers a new qualitative picture of SGD as a superposition of
+            several simpler information-flow processes.
             
             %-- phenomenology of rademacher correlates such as hessians  ------
         
@@ -479,6 +511,10 @@
         \subsection{The necessity and role of diagrams}\label{ssect:what-are-diagrams}
         \subsection{Insights from diagrams}
         \subsection{Resummation}
+
+            %For simplicity, our paper body
+            %(but not the appendices) will assume unless otherwise stated that
+            %\textbf{SGD has $\mathbf{E=B=1}$ and GD has $\mathbf{T=B=N}$}.
 
             \begin{wraptable}{r}{5cm}
                 \begin{tabular}{p{5cm}}
@@ -825,7 +861,7 @@
         \emph{rate} of convergence.  Instead, we test our predictions by
         experiment.  We perceive support for our theory in drastic rejections of
         the null hypothesis.  For instance, in Figure \ref{fig:vanilla}\ofsix{4},
-        \citep{ch18} predicts a velocity of $0$ while we predict a velocity of
+        \cite{ch18} predict a velocity of $0$ while we predict a velocity of
         $\eta^2/6$
         %
         Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark $95\%$
@@ -1064,14 +1100,17 @@
         \subsection{Future work}
     
     \acks{
-        We are deeply grateful to Sho Yaida, Joshua B.\ Tenenbaum, Dan A.\
-        Roberts, and Greg Wornell for generous mentorship.  Dan introduced us
-        to the SGD literature and taught us about Taylor series.  Sho suggested
-        the question of how to resum and taught us thermodynamics.  We
-        appreciate writerly feedback from Ben R.\ Bray, Wenli Zhao, and Chloe
-        Kleinfeldt.
+        We are deeply grateful to Sho Yaida and Dan A.\ Roberts for their
+        generous mentorship and to Joshua B.\ Tenenbaum for much patiently
+        granted autonomy.  Dan introduced us to the SGD literature, taught us
+        Taylor series street smarts, and inspired this project.  Sho stoked and
+        usefully channeled our interest in physics, galvanized our search for a
+        resummation technique, and made time for wide-ranging chats.  We also
+        appreciate technical discussions with Greg Wornell, David Schwab, and
+        Wenli Zhao as well as writerly advice from Ben R.\ Bray, Chloe
+        Kleinfeldt, and Karl Winsor.
         %
-        We thank our anonymous reviewers' for incisive feedback toward our
+        We thank our anonymous reviewers for incisive feedback toward our
         writing's clarity.
     }
     
