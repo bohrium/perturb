@@ -55,6 +55,17 @@
     $}}%
 }
 
+\newcommand{\offour}[1]{
+    {\tiny \raisebox{0.04cm}{$
+        \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{1}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{2}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{3}}{{\color{moor}\blacksquare}}{\square}
+    $}}%
+}
+
+
+
 
 %---------------------  colors  -----------------------------------------------
 
@@ -207,7 +218,7 @@
 \newcommand{\mend}{\hfill $\Diamond$}
 
 \newcommand{\Gauss}{\textsc{Gauss}}
-\newcommand{\Archimedes}{\textsc{Archimedes}}
+\newcommand{\Helix}{\textsc{Helix}}
 \newcommand{\MeanEstimation}{\textsc{Mean Estimation}}
 
 
@@ -1006,7 +1017,7 @@
                     %%%
                     \newline
                     {\bf Right: Predictions near minima excel for large $\eta T$.}%
-                    \protect\ofsix{4}: SGD travels \Archimedes' valley of global
+                    \protect\ofsix{4}: SGD travels \Helix' valley of global
                     minima in the positive $z$ direction.  Note: $H$ and $C$ are
                     bounded across the valley, we see drift for all small $\eta$,
                     and we see displacement exceeding the landscape's period of
@@ -1034,70 +1045,74 @@
         \newpage
         \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
             %
-            \begin{wrapfigure}[18]{r}{0.48\textwidth} 
-                \centering
-                \vspace{-15pt}
-                \pmoo{3.0cm}{from-above}
-                \pmoo{3.0cm}{from-side}
-                \caption{
-                    \textbf{\Archimedes.}
-                    A \textbf{green} level surface of $l$ twists around a valley of
-                    minima ($z$ axis) at its center; $l$ is large outside this
-                    surface.  Due to anisotropic noise, $\theta$ scatters away
-                    from the $z$ axis toward the \textbf{purple} tubes.
-                    %
-                    SGD pushes the scattered $\theta$s toward lower loss, i.e.\
-                    toward the level surface, and so toward larger $z$.
-                    %
-                    The $z$ axis points into the page (\textbf{left}) or upward
-                    (\textbf{right}).
-                }
-                \label{fig:archimedes}
-            \end{wrapfigure}
-
             \begin{figure}[h!]
                 \centering
-                \plotmoow{colt/screw-trajectory}{0.99\columnwidth}{} 
+                \rotatebox[origin=c]{-90}{\plotmooh{plots/from-above}{}{0.19\textwidth}}
+                \plotmoow{colt/screw-trajectory}{0.79\textwidth}{} 
                 \caption{%
-                    blub
+                    \textbf{Leftmost}: The \Helix landscape.  A helical level
+                    surface (orange-green) $l$ twists around a valley of minima
+                    (perpendicular to the page).  $l$ is large outside this
+                    surface.  Gradient noise is parallel to the page and tends
+                    to point from the valley toward the outer two tubes.
+                    %
+                    \textbf{Remaining}: \Helix induces an expected motion into
+                    the page.  Green dots trace a SGD trajectory --- contrived
+                    to be illustrative --- over four cross sections of weight
+                    space that descend progressively into the page.  In blue
+                    are partial contour maps of $l$; the valley of minima
+                    intersects each pane's center.  Dotted blue contours merely
+                    help to compare adjacent panes.  Red arrows show the major
+                    axis of gradient noise in each pane.  
                 }
-                \label{fig:blub}
+                \label{fig:archimedes}
             \end{figure}
-    
-
 
             %
             \label{subsect:entropic}
             To test the claimed dependence on $C$, \S\ref{appendix:artificial}
-            constructs a landscape, \Archimedes, with non-constant $C$ throughout
+            constructs a landscape, \Helix, with non-constant $C$ throughout
             its valley of global minima.  Figure \ref{fig:archimedes} 
-            depicts \Archimedes' chiral shape.\footnote{
-                We made these plots with
-                the help of Paul Seeburger's online applet,
+            depicts \Helix' chiral shape.\footnote{
+                Thanks to Paul Seeburger's online applet,
                 \href{https://www.monroecc.edu/faculty/paulseeburger/calcnsf/CalcPlot3D/}{CalcPlot3D}.
             }  As in
-            Archimedes' screw or Rock-Paper-Scissors, each point $\theta$ has a
+            Helix' screw or Rock-Paper-Scissors, each point $\theta$ has a
             neighbor that, from $C(\theta)$'s perspective but not absolutely, is
             flatter.  This permits eternal motion despite the landscape's symmetry.
+
+            Figure \ref{fig:archimedes}' pane\protect\offour{0} shows $\theta$,
+            initialized at the dark green dot, following $l$'s gradient toward
+            point A, which lies in the next pane (deeper into the page).
+            Consider the gradient of $l$ in the direction perpendicular to the
+            page to see why $\theta$ falls into the next pane.
             %
-            Indeed, Corollary \ref{cor:entropic} predicts 
+            In\protect\offour{1}, gradient noise kicks $\theta$ from point A,
+            leading $\theta$ to fall toward point $B$.  Descent continues
+            in pane\protect\offour{2}, which shows.
+            Finally,\protect\offour{3} shows
+            $\theta$ at point $C$ kicked uphill by gradient noise; $\theta$
+            never settles and the phenomena depicted here continue for all
+            time.
+
+            %
+            More precisely, Corollary \ref{cor:entropic} predicts 
             a $z$-velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
             SDE-based analysis predicts a constant velocity of $0$.\footnote{
-                Indeed, \Archimedes' velocity is $\eta$-perpendicular to the image
+                Indeed, \Helix' velocity is $\eta$-perpendicular to the image
                 of $(\eta C)^\mu_\nu$ in tangent space.
             }
             Our prediction agrees with experiment (Figure
             \ref{fig:vanilla}\ofsix{4}).
             %
             Because SGD's motion depends smoothly on the landscape, the special
-            case of \Archimedes\ implies that non-conservativity is typical.
+            case of \Helix\ implies that non-conservativity is typical.
             %
-            One may have sought an ``effective loss'' $\tilde{l}$ such that, up to
-            $\sqrt{T}$ diffusion terms, SGD on $l$ matches ODE on $\tilde{l}$.  The
-            non-conservativity of SGD's velocity shows that no such $\tilde{l}$
-            exists.
+            One may have sought an ``effective loss'' $\tilde{l}$ such that, up
+            to $\sqrt{T}$ diffusion terms, SGD on $l$ matches ODE on
+            $\tilde{l}$.  The non-conservativity of SGD's velocity shows that
+            no such $\tilde{l}$ exists.
             %
-    
     
         %--------------------------------------------------------------------------
         %           Sharp vs Flat Minima                        
@@ -3180,7 +3195,7 @@
     \subsection{What artificial landscapes did we use?}             \label{appendix:artificial}
 
         We define three artificial landscapes, called
-        \Gauss, \Archimedes, and \MeanEstimation.
+        \Gauss, \Helix, and \MeanEstimation.
 
         \subsubsection{\Gauss}
             Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
@@ -3208,9 +3223,9 @@
             $h=0$, the expected gradient vanishes, and the testing loss of SGD
             involves only diagrams that have no leaves of size one.
             
-        \subsubsection{\Archimedes}
-            The \Archimedes\, landscape has chirality, much like its namesake's
-            screw \cite{vi00}.  Specifically, the \Archimedes\ landscape has
+        \subsubsection{\Helix}
+            The \Helix\, landscape has chirality, much like its namesake's
+            screw \cite{vi00}.  Specifically, the \Helix\ landscape has
             %
             weights     $\theta = (u,v,z) \in \RR^3$,
             %
@@ -3242,7 +3257,7 @@
             $u=v=z=0$, which lies within a valley of global minima defined by
             $u=v=0$.  
 
-            The paper body showed that SGD travels in \Archimedes' $+z$
+            The paper body showed that SGD travels in \Helix' $+z$
             direction.  By topologically quotienting the weight space, say by
             identifying points related by a translation by $\Delta z = 200\pi$,
             we may turn the line-shaped valley into a circle-shaped valley.
@@ -3279,7 +3294,7 @@
 
         \subsubsection{Architectures}
             In addition to the artificial loss landscapes
-            \Gauss, \Archimedes, and \MeanEstimation, 
+            \Gauss, \Helix, and \MeanEstimation, 
             we tested our predictions on logistic linear regression
             and simple convolutional networks (2 convolutional weight layers
             each with kernel $5$, stride $2$, and $10$ channels, followed by
@@ -3324,7 +3339,7 @@
             We ran $2 \cdot 10^5$ trials of \Gauss\, with SDE and SGD,
             initialized at the test minimum with $T=1$ and $\eta$ ranging from
             $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
-            We ran $5 \cdot 10^1$ trials of \Archimedes with SGD with $T=10^4$
+            We ran $5 \cdot 10^1$ trials of \Helix with SGD with $T=10^4$
             and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
             We ran $10^3$ trials of \MeanEstimation with GD and STIC
             with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
