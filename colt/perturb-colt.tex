@@ -7,6 +7,8 @@
 \usepackage{amsfonts, makerobust}
 \usepackage{mathtools, nicefrac, xstring, enumitem}
 
+\newcommand{\subthreesect}[1]{\par\noindent\textsc{#1} --- }
+
 %   The following reconciles COLT's style with \includegraphics:
 %       (see tex.stackexchange.com/questions/520891)
 \makeatletter
@@ -263,10 +265,10 @@
 
             %--  object of study  ---------------------------------------------
             %
-            Practitioners benefit from the intuition that stochastic gradient
-            descent (SGD) approximates deterministic gradient descent (GD)
-            \citep{bo91}.  This paper refines that intuition by showing
-            how gradient noise biases learning toward certain areas of weight
+            One benefits from the intuition that stochastic gradient descent
+            (SGD) approximates deterministic gradient descent (GD)
+            \citep{bo91}.  This paper refines that intuition by showing how
+            gradient noise biases learning toward certain areas of weight
             space.
 
             %--  vs ode and sde  ----------------------------------------------
@@ -288,9 +290,9 @@
             %--
             These examples, though artificial, demonstrate how drastically
             standard intuitions about SGD may fail.  We argue that our theory's
-            quantitative results enhance the intuition of practioners,
-            and we verify our theory on convolutional CIFAR-10 and
-            Fashion-MNIST loss landscapes.
+            quantitative results enhance practical intuitions, and we verify
+            our theory on convolutional CIFAR-10 and Fashion-MNIST loss
+            landscapes.
 
             %--  soft benefits: retrospective  --------------------------------
             %
@@ -372,8 +374,7 @@
                 \caption*{
                     \textbf{Above}: Named tensors, typically evaluated at
                     initialization ($\theta=\theta_0$).
-                    \S\ref{ssect:what-are-diagrams} explains tensors
-                    and diagrams correspond.
+                    \S\ref{sect:diagrams} explains how diagrams depict tensors.
                 }
                 \vspace{-0.2cm}
             \end{wrapfigure}
@@ -433,10 +434,11 @@
             %
             For example, our framework allows us to assess how gradient noise's
             non-Gaussianity affects the final testing loss.
-            \S\ref{ssect:what-are-diagrams} details how evaluation of a single
-            diagram gives the leading order result, for concision stated here
-            assuming isotropic curvature ($\eta H \propto I$): 
-            \begin{prop}
+            \S\ref{sect:diagrams} details how evaluation of a
+            \emph{single diagram} gives the leading order result (Corollary
+            \ref{cor:vsode}), for concision quoted here assuming isotropic
+            curvature ($\eta H \propto I$): 
+            \begin{prop}\label{prop:splash}
                 If we initialize near an non-degenerate minimum of $l$, then in
                 the large-$T$ limit, the skewness $S$ of gradient noise
                 contributes 
@@ -504,10 +506,10 @@
         
             Prior work analyzes SGD perturbatively: \cite{dy19} perturb in
             inverse network width, using 't Hooft diagrams to correct the
-            Gaussian Process approximation for specific deep nets.  Perturbing
+            Gaussian Process approximation for specific nets.  Perturbing
             to order $\eta^2$, \cite{ch18} and \cite{li17} are forced to assume
             uncorrelated Gaussian noise.  By contrast, we use Penrose diagrams
-            to compute test losses to arbitrary order in $\eta$.  We allow
+            to compute testing losses to arbitrary order in $\eta$.  We allow
             correlated, non-Gaussian noise and thus \emph{any} smooth
             architecture.  For instance, we do not assume information-geometric
             relationships between $C$ and $H$,\footnote{
@@ -515,23 +517,58 @@
                 $H$ is typical in modern learning \citep{ro12, ku19}
             } so we may model VAEs. 
 
-    \newpage
     \section{Perturbative theory of SGD}
 
-        For simplicity, this section will assume unless otherwise stated that
-        \textbf{SGD has $\mathbf{\textit{E}=\textit{B}=1}$} and that GD
-        has $T=B=N$.
-
         \subsection{Trivial example}
+
+            We illustrate our approach by proving Proposition \ref{prop:nest}
+            and highlighting points of departure.  We give an informal
+            argument before following \cite{ne04,ro18}.
+
+
         \subsection{Perturbation as technique}
 
-        \subsection{Introducing diagrams}\label{sect:what-are-diagrams}
+            Suppose $s$ is an analytic function on $\Mm$.  For example, $s$
+            might be the testing loss $l$.  The following Lemma, reminiscent of
+            \cite{dy49a}'s, helps us track $s(\theta)$ as SGD updates $\theta$:
+            \begin{klem*} \label{lem:dyson}
+                For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a sum
+                over tuples of natural numbers:
+                \begin{equation}\label{eq:dyson}
+                    \sum_{(d_t: 0\leq t<T) \in \NN^T}
+                    (-\eta)^{\sum_t d_t}
+                    \wrap{
+                        \prod_{0 \leq t < T}
+                            \wrap{\left.
+                                \frac{(g \nabla)^{d_t}}{d_t!}
+                            \right|_{g = \sum_{n\in \Bb_t} \nabla l_n(\theta) / B}}
+                    }(s) (\theta_0)
+                \end{equation}
+                Moreover, an expectation symbol (over training sets) commutes
+                with the sum over $d$s.
+            \end{klem*}
+            Here, we consider each $(g \nabla)^{d_t}$ as a higher order
+            function that takes in a function $f$ defined on weight space and
+            outputs a function equal to the $d_t$th derivative of $f$, times
+            $g^{d_t}$.  The above product then indicates composition of $(g
+            \nabla)^{d_t}$'s across the different $t$'s.  In total, that
+            product takes the function $s$ as input and outputs a function
+            equal to some polynomial of $s$'s derivatives.
 
-            Appendix FILL IN defines diagrams in detail.  One does not need a
-            precise definition to follow our paper body.  The following
-            examples of valid and invalid diagrams provide a sufficient sense.   
+        \subsection{Introducing diagrams}\label{sect:diagrams}
+            Though we here define diagrams, the following examples of (in)valid
+            diagrams by themselves provide a sufficient sense to read this
+            paper's body.
+            \begin{defn}[\S\ref{appendix:toward-diagrams}]
+                A \textbf{diagram} is a rooted tree equipped with a partition
+                of its non-root nodes.  We draw the tree structure using black
+                edges, oriented left-to-right so that children precede parents.
+                We depict the partition structure using minimally many gray
+                outlined ties.  
+            \end{defn}
             \begin{table}[h!]
                 \centering
+                \vspace{-0.5cm}
                 \adjustbox{width=\textwidth}{
                 \begin{tabular}{ccc}
                     valid diagrams &\hspace{1cm}& invalid diagrams \\ \hline
@@ -552,29 +589,22 @@
                 }
                 \vspace{-0.5cm}
             \end{table}
-            We see that diagrams are rooted trees equipped with a partition of
-            their nodes.  We indicate the rooted-tree structure by drawing each
-            edge so that the endpoint closer to the root is on the right.  We
-            indicate the partition structure using minimally many gray
-            outlined ties.  Finally, we allow only diagrams whose roots are in 
-            parts of size one.
-            %
-            In much of our discussion, all but a few diagrams will be
-            irrelevant.  For example, in the special case $E=B=1$, each
-            diagram with an ancestor-descendant pair in the same part
-            evaluates to zero.  When performing a fixed-$T$ calculation to
-            order $\eta^d$, we may neglect all diagrams with more than $d$
-            edges.  The $t^d T^{-p}$-th order correction\footnote{%
+            \par\noindent
+            (One may draw dozens of small diagrams.  But in most sections of
+            this paper, all but a few diagrams will be irrelevant.  For
+            example, in the special case $E=B=1$, each diagram with an
+            ancestor-descendant pair in the same part evaluates to zero.  When
+            performing a fixed-$T$ calculation to order $\eta^d$, we may
+            neglect all diagrams with more than $d$ edges.  The $t^d T^{-p}$-th
+            order correction\footnote{%
                 We compare ODE integrated to time $t$ to $T$ steps of SGD with
-                learning rate $\eta = \eta_\star t/T$ and $E=B=1$. 
+                $\eta = \eta_\star t/T$ and $E=B=1$, and we
+                assume $p\neq 0$.
             }
             to the ordinary differential equation approximation of SGD is given
-            by those diagrams with $d$ edges and $p$ many gray ties.
+            by those diagrams with $d$ edges and $p$ many gray ties.)
 
-        \subsection{Insights from diagrams}
-
-        \subsection{Resummation}
-
+            %
 
             An \emph{embedding} $f$ of a diagram $D$ is an injection from
             $D$'s parts to (integer) times $0 \leq t \leq T$ that sends the
@@ -616,17 +646,22 @@
             $$
             In fact, we may integrate this expression per Remark
             \ref{rmk:integrate} to recover Example \ref{exm:first}.
-    
+ 
+
+        \subsection{Insights from diagrams}
+
+        \subsection{Resummation}
+
         \subsection{Main result}
     
-        %\subsection{Recipe for SGD's expected test loss}
+        %\subsection{Recipe for SGD's expected testing loss}
             %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             %~~~~~  Recipe for Test Loss  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Theorem \ref{thm:resum} expresses SGD's test loss as a sum over
+            Theorem \ref{thm:resum} expresses SGD's testing loss as a sum over
             diagrams.  A diagram with $d$ edges scales as $O(\eta^d)$, so the
-            following is a series in $\eta$.  We later truncate the series to small
-            $d$, thus focusing on few-edged diagrams and simplifying the
-            combinatorics of embeddings.
+            following is a series in $\eta$.  In practice, we truncate the
+            series to small $d$ (invoking Theorem \ref{thm:converge} when
+            possible), thus focusing on few-edged diagrams.
             \begin{thm}[Special case of $E=B=1$] \label{thm:resum}
                 For any $T$: for $\eta$ small enough, the final testing loss is
                 \begin{equation*} \label{eq:resum}
@@ -659,15 +694,104 @@
                 initialized sufficiently close to $\theta_\star$, the $d$th-order
                 truncation of Theorem \ref{thm:resum} converges as $T\to \infty$.
             \end{thm}
+            \par\noindent
+            Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge}
+            might not measure any well-defined limit of SGD, since the limit
+            might not commute with the infinite sum.  We seen no such
+            pathologies in practice, so we will freely speak of ``SGD in the
+            large-$T$ limit'' as informal shorthand when referencing this
+            Theorem.
+
+    \section{Consequences of the theory}
+        \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
+            Physical intuition suggests that noise repels SGD: if two
+            neighboring regions of weight space have high and low levels of
+            gradient noise, respectively, then we expect the rate at which
+            $\theta$ jumps from the former to the latter to exceed the opposite
+            rate.  There is thus a net movement toward regions of small $C$.\footnote{
+                This is the same mechanism by which sand on a vibrating
+                plate accumulates in quiet regions \citep{ch87}.  We thus dub
+                the SGD phenomenon the
+                \href{http://dataphys.org/list/chladni-plates/}{Chladni
+                effect}.
+            }
+            %
+            Our theory makes this intuition precise; the drift is in the
+            direction of $-\nabla C$, and the effect is strongest when gradient
+            noise is not averaged out by large batch sizes:
+            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:batch}
+                SGD with $E=B=1$ avoids high-$C$ regions more than GD:
+                $
+                    l_{C}
+                        \triangleq
+                    \frac{N-1}{4 N}
+                    \nabla^\mu C^{\nu}_{\nu}
+                        =
+                    \expct{\theta_{GD} - \theta_{SGD}}^\mu - o(\eta^2)
+                $.
+                If $\hat{l_c}$ is a smooth unbiased estimator of $l_c$, then GD
+                on $l + \hat{l_c}$ has an expected testing loss that agrees with
+                SGD's to order $\eta^2$.  We call this method GDC.
+            \end{cor}
+            \noindent
+            \cite{ro19} obtained a version of this with a nearly equal error of
+            $O(\eta^2/N)\vee o(\eta^2)$
+
+            An analogous form of averaging occurs over multiple epochs.  For a
+            tight comparison, we scale the learning rates appropriately so
+            that, to leading order, few-epoch and many-epoch SGD agree.  Then
+            few-epoch and many-epoch SGD differ, to leading order, in their
+            sensitivity to $\nabla C$:
+            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
+                SGD with $M=1$ and $\eta=\eta_0$ avoids high-$C$ regions more
+                than SGD with $M=M_0$ and $\eta=\eta_0/M_0$.  Precisely:
+                $
+                    \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
+                        =
+                    \wrap{\frac{M_0-1}{4 M_0}} N
+                    \wrap{\nabla^\mu C^{\nu}_{\nu}}
+                    + o(\eta^2)
+                $.
+            \end{cor}
+
+            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
+            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18},
+            and resolve some questions posed therein.    
+
+        \subsection{Non-Gaussian noise affects SGD but not SDE}
     
-            Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge} might
-            not measure any well-defined limit of SGD, since the limit might not
-            commute with the infinite sum.  We have not seen such pathologies in
-            practice, so we will freely speak of ``SGD in the large-$T$ limit'' as
-            informal shorthand when referencing this Theorem.
-          
-        %\subsection{Insights from the formalism}
-    
+            Stochastic differential equations (SDE: see \cite{li18}) are a
+            popular theoretical approximation of SGD, but SDE and SGD differ in
+            several ways.  For instance, the inter-epoch noise correlations in
+            multi-epoch SGD measurably affect SGD's final testing loss (Corollary
+            \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
+            Even if we restrict to single-epoch SDE, differences arise due to
+            time discretization and non-Gaussian noise.  Intuitively, SGD and
+            SDE respond differently to changes in curvature:
+            %
+            \begin{cor}[$\sdia{c(01-2)(02-12)}$, $\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
+                For fixed $T$, SGD's final testing loss exceeds both ODE's and
+                SDE's by
+                $
+                    \frac{T}{2} C_{\mu\nu} H^{\mu\nu} + o(\eta^2)
+                $.  The skewness of gradient
+                noise contributes (we work in an eigenbasis of $\eta H$): 
+                \begin{align*}
+                    -\frac{\eta^3}{3!}
+                    \sum_{\mu\nu\lambda}
+                        S_{\mu\nu\lambda}
+                        \frac{
+                            1 - \exp(-T\eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda}))
+                        }{
+                            \eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda})
+                        }
+                        J_{\mu\nu\lambda}
+                        + o(\eta^3)
+                \end{align*}
+                to the excess final testing loss over SDE.  This unwieldy
+                expression specializes to Proposition \ref{prop:splash}.
+            \end{cor}
+
         \subsection{SGD descends on a $C$-smoothed landscape and prefers
         minima flat w.r.t.\ $C$.}
     
@@ -735,8 +859,8 @@
             %
             \begin{cor}[from $\sdia{c(01-2)(02-12)}$, $\sdia{c(01)(01)}$]\label{cor:overfit}
                 Initialize GD at a non-degenerate test minimum $\theta_\star$.
-                The overfitting (test loss minus $l(\theta_\star)$) and gen.\
-                gap (test minus train loss) due to training are:
+                The overfitting (testing loss minus $l(\theta_\star)$) and generalization
+                gap (testing minus training loss) due to training are:
                 $$
                     \wrap{\frac{C/N}{2H}}_{\mu\nu}^{\rho\lambda} ~
                         \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
@@ -747,10 +871,10 @@
                         + o(\eta)
                 $$
             \end{cor}
-            The gen.\ gap tends  
+            The generalization gap tends  
             to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$ as $T\to\infty$.  For maximum
             likelihood (ML) estimation in well-specified models near the ``true''
-            minimum, $C=H$ is the Fisher metric, so we recover AIC:
+            minimum, $C=H$ is the Fisher metric, so we recover the AIC:
             $(\textnormal{model dimension})/N$.  Unlike AIC, our more general
             expression is descendably smooth, may be used with MAP or ELBO tasks
             instead of just ML, and does not assume a well-specified model.
@@ -789,112 +913,22 @@
             \end{figure}
     
 
-    \section{Consequences of the theory}
 
-        \subsection{High-$C$ regions repel small-$(E,B)$ SGD more than large-$(E,B)$ SGD}
-            \label{subsect:epochs-batch}
-
-            \begin{wrapfigure}[14]{r}{0.25\textwidth} 
-                \centering
-                \pmoo{3.5cm}{chladni}
-                \caption{
-                    \textbf{Chladni plate}. 
-                    Grains of sand on a vibrating plate tend toward
-                    stationary regions.
-                }
-                \label{fig:chladni}
-            \end{wrapfigure}
-            Physical intuition (\S\ref{appendix:interpret-diagrams}) suggests
-            that noise repels SGD.  
-            In particular, if two neighboring regions
-            of weight space have high and low levels of gradient noise,
-            respectively, then we expect the rate at which $\theta$ jumps from
-            the former to the latter to exceed the opposite rate.  There is 
-            thus a net movement toward regions of small $C$! 
-            This mechanism parallels the Chladni effect \citep{ch87}
-             (Figure \ref{fig:chladni}).\footnote{
-                From Pierre Dragicevic and Yvonne Jansen's
-                \href{http://www.dataphys.org/list/gallery/}{data physicalization project}, Creative
-                Commons BY-SA 3.0. 
-            }
-            %
-            Our theory makes this intuition precise; the drift is in the
-            direction of $-\nabla C$, and the effect is strongest when gradient
-            noise is not averaged out by large batch sizes.
-            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:batch}
-                SGD avoids high-$C$ regions more than GD:
-                $
-                    l_{C}
-                        \triangleq
-                    \frac{N-1}{4 N}
-                    \nabla^\mu C^{\nu}_{\nu}
-                        =
-                    \expct{\theta_{GD} - \theta_{SGD}}^\mu - o(\eta^2)
-                $.
-                If $\hat{l_c}$ is a smooth unbiased estimator of $l_c$, then GD
-                on $l + \hat{l_c}$ has an expected test loss that agrees with
-                SGD's to order $\eta^2$.  We call this method GDC.
-            \end{cor}
-
-            An analogous form of averaging occurs over multiple epochs.  For a
-            tight comparison, we scale the learning rates appropriately so
-            that, to leading order, few-epoch and many-epoch SGD agree.  Then
-            few and many- epoch SGD differ, to leading order, in their
-            sensitivity to $\nabla C$:
-            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
-                SGD with $M=1$ and $\eta=\eta_0$ avoids high-$C$ regions more
-                than SGD with $M=M_0$ and $\eta=\eta_0/M_0$.  Precisely:
-                $
-                    \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
-                        =
-                    \wrap{\frac{M_0-1}{4 M_0}} N
-                    \wrap{\nabla^\mu C^{\nu}_{\nu}}
-                    + o(\eta^2)
-                $.
-            \end{cor}
-    
-        \subsection{Non-Gaussian noise affects SGD but not SDE}
-    
-            Stochastic differential equations (SDE: see \cite{li18}) are a
-            popular theoretical approximation of SGD, but SDE and SGD differ in
-            several ways.  For instance, the inter-epoch noise correlations in
-            multi-epoch SGD measurably affect SGD's final test loss (Corollary
-            \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
-            Even if we restrict to single-epoch SDE, differences arise due to
-            time discretization and non-Gaussian noise.  Intuitively, SGD and
-            SDE respond differently to changes in curvature:
-            %
-            \begin{cor}[$\sdia{c(01-2)(02-12)}$, $\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
-                SGD's test loss is
-                $
-                    \frac{T}{2} C_{\mu\nu} H^{\mu\nu} + o(\eta^2)
-                $
-                more than ODE's and SDE's.
-                The deviation from SDE due to skewed noise is
-                $
-                    - \frac{T}{6} S_{\mu\nu\lambda} J^{\mu\nu\lambda} 
-                    + o(\eta^3)
-                $.\footnote{
-                    This approximation of Example \ref{exm:first}'s more exact
-                    expression agrees with the latter to leading order in
-                    $\eta$.
-                }
-            \end{cor}
 
 
 
     \section{Experiments}
         Despite the convergence results in Theorems \ref{thm:resum} and
         \ref{thm:converge}, we have no theoretical bounds for the domain and
-        \emph{rate} of convergence.  Instead, we test our predictions by
-        experiment.  We perceive support for our theory in drastic rejections of
-        the null hypothesis.  For instance, in Figure \ref{fig:vanilla}\ofsix{4},
-        \cite{ch18} predict a velocity of $0$ while we predict a velocity of
-        $\eta^2/6$
+        rate of convergence.  Instead, we test our predictions by
+        experiment.  We perceive support for our theory in drastic rejections
+        of the null hypothesis.  For instance, in Figure
+        \ref{fig:vanilla}\ofsix{4}, \cite{ch18} predict a velocity of $0$ while
+        we predict a velocity of $\eta^2/6$.
         %
         Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark $95\%$
         confidence intervals based on the standard error of the mean.
-        \S\ref{appendix:experiments} describes neural architectures, the definitions
+        \S\ref{appendix:experiments} describes neural architectures, 
         of artificial landscapes, sample sizes, and further plots.
     
         \subsection{Training time, epochs, and batch size; $C$ repels SGD more than GD}
@@ -916,7 +950,7 @@
             Figure \ref{fig:vanilla}\ofsix{2} tests Corollary \ref{cor:batch}'s
             claim that, relative to GD, high-$C$ regions \emph{repel} SGD.  This is
             significant because $C$ controls the rate at which the gen.\ gap (test
-            minus train loss) grows (Corollary \ref{cor:overfit}, Figure
+            minus training loss) grows (Corollary \ref{cor:overfit}, Figure
             \ref{fig:vanilla}\ofsix{3}).
     
             \begin{figure}[h!] 
@@ -936,7 +970,7 @@
                     %%%
                     \newline
                     {\bf Left: Perturbation models SGD for small $\eta T$.}
-                    Fashion-MNIST convnet's test loss vs learning rate.  In this
+                    Fashion-MNIST convnet's testing loss vs learning rate.  In this
                     small $T$ setting, we choose to use our theory's simpler 
                     un-resummed values (\ref{appendix:evaluate-embeddings})
                     instead of the more precise $\rvalue$s.
@@ -959,7 +993,7 @@
                     %
                     With equal-scaled axes, \protect\ofsix{2} shows that
                     GDC matches SGD (small vertical varianec) better than GD
-                    matches SGD (large horizontal variance) in test loss for a
+                    matches SGD (large horizontal variance) in testing loss for a
                     range of $\eta$ ($\approx 10^{-3}-10^{-1}$) and
                     init.s\ (zero and several Xavier-Glorot trials) for
                     logistic regression and convnets.  Here, $T=10$. 
@@ -980,7 +1014,7 @@
                     $\eta$, of divergent noise, or of ephemeral initial conditions.
                     %
                     \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and a
-                    range of $H$s, initialized at the truth, the test losses after
+                    range of $H$s, initialized at the truth, the testing losses after
                     fixed-$T$ GD are smallest for very sharp and very flat $H$.
                     Near $H=0$, our predictions improve on TIC \citep{di18} and
                     thus on AIC.
@@ -1020,6 +1054,18 @@
                 }
                 \label{fig:archimedes}
             \end{wrapfigure}
+
+            \begin{figure}[h!]
+                \centering
+                \plotmoow{colt/screw-trajectory}{0.99\columnwidth}{} 
+                \caption{%
+                    blub
+                }
+                \label{fig:blub}
+            \end{figure}
+    
+
+
             %
             \label{subsect:entropic}
             To test the claimed dependence on $C$, \S\ref{appendix:artificial}
@@ -1136,7 +1182,7 @@
     
     \acks{
         We are deeply grateful to Sho Yaida and Dan A.\ Roberts for their
-        generous mentorship and to Joshua B.\ Tenenbaum for much patiently
+        generous mentorship and to Joshua B.\ Tenenbaum for patiently
         granted autonomy.  Dan introduced us to the SGD literature, taught us
         Taylor series street smarts, and inspired this project.  Sho stoked and
         usefully channeled our interest in physics, galvanized our search for a
@@ -1151,14 +1197,2378 @@
     
     \bibliography{perturb}
     
+    %APPENDIX
     \appendix
+
+    \newpage
+    \section*{Organization of the appendices}
+        The following three appendices serve three respective functions:
+        \setlist{nolistsep}
+        \begin{itemize}[noitemsep]
+            \item to explain how to calculate using diagrams;
+            \item to prove our results (and pose a conjecture);
+            \item to specify our experimental methods and results.
+        \end{itemize}
+        In more detail, we organize the appendices as follows.\\
     
-        \section{My Proof of Theorem 1}
-        
-            This is a boring technical proof.
-        
-        \section{My Proof of Theorem 2}
-        
-            This is a complete version of a proof sketched in the main text.
+        {\bf
+        \par\noindent A ~ Tutorial: how to use diagrams}                        \hfill {\bf page \pageref{appendix:tutorial}}
+        \par\indent     A.1 ~~ An example calculation: the effect of epochs     \hfill \pageref{appendix:example}
+        \par\indent     A.2 ~~ How to identify the relevant space-time          \hfill \pageref{appendix:draw-spacetime} 
+        \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
+        \par\indent     A.4 ~~ How to evaluate each embedding                   \hfill \pageref{appendix:evaluate-embeddings}
+        \par\indent     A.5 ~~ How to sum the embeddings' values                \hfill \pageref{appendix:sum-embeddings}
+        \par\indent     A.6 ~~ Interpreting diagrams intuitively                \hfill \pageref{appendix:interpret-diagrams}
+        \par\indent     A.7 ~~ How to solve variant problems                    \hfill \pageref{appendix:solve-variants}
+        \par\indent     A.8 ~~ Do diagrams streamline computation?              \hfill \pageref{appendix:diagrams-streamline}
     
+        {\bf
+        \par\noindent B ~ Mathematics of the theory}                            \hfill {\bf page \pageref{appendix:math}}
+        \par\indent     B.1 ~~ Setting and assumptions                          \hfill \pageref{appendix:assumptions}
+        \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
+        \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
+        \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
+        \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
+        \par\indent     B.6 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
+        \par\indent     B.7 ~~ Future topics                                    \hfill \pageref{appendix:future}
+    
+        {\bf
+        \par\noindent C ~ Experimental methods}                                 \hfill {\bf page \pageref{appendix:experiments}}
+        \par\indent     C.1 ~~ What artificial landscapes did we use?           \hfill \pageref{appendix:artificial}  
+        \par\indent     C.2 ~~ What image-classification landscapes did we use? \hfill \pageref{appendix:natural}
+        \par\indent     C.3 ~~ Measurement process                              \hfill \pageref{appendix:measure}
+        \par\indent     C.4 ~~ Implementing optimizers                          \hfill \pageref{appendix:optimizers}
+        \par\indent     C.5 ~~ Software frameworks and hardware                 \hfill \pageref{appendix:frameworks}
+        \par\indent     C.6 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
+        \par\indent     C.7 ~~ Additional figures                               \hfill \pageref{appendix:figures}
+ 
+\newpage
+\section{Tutorial: how to use diagrams}                \label{appendix:tutorial}
+    This paper presents a new technique for calculating the expected learning
+    curves of SGD in terms of statistics of the loss landscape near
+    initialization.  Here, we explain this technique.
+    %New combinatorial objects --- \emph{space-time grids} --- arise as we
+    %relax the paper body's assumption that $E=B=1$.  This, too, we will
+    %explain.
+    There are are {\bf four steps} to computing the expected testing loss, or
+    other quantities of interest, after a specific number of gradient updates: 
+    \begin{itemize}
+        \item {\bf Specify, as a space-time grid}, the batch size, training set
+            size, and number of epochs. 
+        \item {\bf Draw embeddings}, of diagrams into the
+            space-time grid, as needed for the desired precision.
+        \item {\bf Evaluate each diagram embedding}, whether exactly
+            (via $\rvalue$s)
+            or roughly
+            (via $\uvalue$s).
+        \item {\bf Sum the embeddings' values} to obtain the quantity of
+              interest as a function of $\eta$.
+    \end{itemize}
+    \noindent
+    After presenting an example calculation that follows these four steps, we
+    detail each step individually.  Though we focus on the computation of
+    expected testing losses, we describe how the four steps may give us other
+    quantities of interest: variances instead of expectations, training
+    statistics instead of testing statistics, or weight displacements instead
+    of losses.  
+
+    \subsection{An example calculation: the effect of epochs}       \label{appendix:example}
+
+        \begin{quest}\label{qst:multi}
+            How does multi-epoch SGD differ from single-epoch SGD?
+            Specifically, what is the difference between the expected
+            testing losses of the following two versions of SGD?
+            \begin{itemize}
+                \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
+                    batch size $B=1$
+                \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
+            \end{itemize}
+            We seek an answer expressed in terms of the landscape statistics
+            at initialization: $G,H,C, \cdots$.
+        \end{quest}
+        To make our discussion concrete, we will set $M_0=2$; our analysis 
+        generalizes directly to larger $M_0$.
+
+        We scaled the above two versions of SGD deliberately, to create an
+        interesting comparison.
+        Specifically, on a noiseless
+        linear landscape $l_x=l \in (\RR^n)^*$, the versions
+        attain equal testing losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
+        %
+        So Question \ref{qst:multi}'s answer will be second-order (or
+        higher-order) in $\eta$.
+
+        \subsubsection{Space-time grids}
+            We take an $N\times T$ grid and shade its cells, shading the
+            $(n,t)$th cell when the $t$th update involves the $n$th data point.
+            Thus, each column contains $B$ (batch size) many shaded cells and
+            that each row contains $E$ (epoch number) many shaded cells.
+            The shaded grid is SGD's \emph{space-time}.
+            Two space-times are relevant to Question \ref{qst:multi}: one for
+            multi-epoch SGD and another for single-epoch SGD --- see Figure
+            \ref{fig:spacetimes-epoch}.
+            \begin{figure}[h!] 
+                \centering
+                \dmoo{3.55cm}{spacetime-b1-e2-nosh}
+                ~~~~~
+                \dmoo{3.55cm}{spacetime-b1-e1-nosh}
+                \caption{
+                    \textbf{The space-time grids of single-epoch and of
+                    multi-epoch SGD.}  A cell at row $n$ and column $t$ is
+                    shaded provided that the $n$th training sample inhabits the
+                    $t$th batch.  Both grids depict $N=7$
+                    training points and batch size $B=1$; neither
+                    depicts training-set permutation between epochs.
+                    \newline
+                    \textbf{Left}:
+                        SGD with $M=2$ update per training sample for a total
+                        of $T = MN = 2N$ many updates.
+                    \newline
+                    \textbf{Right}:
+                        SGD with $M=1$ update per training sample for a total
+                        of $T = MN = N$ many updates.
+                }
+                \label{fig:spacetimes-epoch}
+            \end{figure}
+
+        \newpage
+        \subsubsection{Embeddings of diagrams into space-time}
+            There are four two-edged diagrams: 
+            $\sdia{c(0-1-2)(02-12)}$,
+            $\sdia{c(01-2)(02-12)}$,
+            $\sdia{c(0-1-2)(01-12)}$, and
+            $\sdia{c(01-2)(01-12)}$.
+            We permit the diagram $\sdia{c(01-2)(02-12)}$, which violates the
+            path condition mentioned in \S\ref{sect:calculus}, because we are
+            no longer restricting to the special case $E=B=1$.
+            %
+            An \emph{embedding} of a diagram $D$ into a space-time grid is an
+            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
+            obeys the following two criteria:
+            \begin{itemize}
+                \item \textbf{time-ordering condition}: the times $t$ strictly increase 
+                    along each path from leaf to root; and
+                \item \textbf{correlation condition}: if two nodes are in the same
+                    part of $D$'s partition, then they are assigned to the same
+                    datapoint $n$.
+            \end{itemize}
+
+            We may conveniently draw embeddings by placing nodes in the shaded
+            cells to which they are assigned.  Figure
+            \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
+            order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
+            space-times relevant to Question \ref{qst:multi}.
+            \begin{figure}[h!] 
+                \centering
+                \dmoo{3.55cm}{spacetime-d}
+                ~~~~~
+                \dmoo{3.55cm}{spacetime-c}
+                \caption{
+                    \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
+                        into multi-epoch but not single-epoch space-time.}
+                    Drawn on each of the two grids are examples of embeddings.
+                    The black nodes external to the grids are positioned
+                    arbitrarily. 
+                    From top to bottom in each grid, the five 
+                        diagrams embedded are
+                        $\protect\sdia{c(01-2)(01-12)}$ (or $\protect\sdia{c(0-1-2)(01-12)}$), 
+                        $\protect\sdia{c(0-1)(01)}$,
+                        $\protect\sdia{c(0-1-2)(01-12)}$, 
+                        $\protect\sdia{c(0-1-2)(02-12)}$, and 
+                        $\protect\sdia{c(01-2)(02-12)}$ (or $\protect\sdia{c(0-1-2)(02-12)}$).
+                    The diagram $\protect\sdia{c(0-1-2)(01-12)}$ may be embedded
+                    wherever the diagram $\protect\sdia{c(01-2)(01-12)}$ may
+                    be embedded, but not vice versa.  Likewise for
+                    $\protect\sdia{c(0-1-2)(02-12)}$
+                    and
+                    $\protect\sdia{c(01-2)(02-12)}$.
+                    \textbf{Left}: $\protect\sdia{c(01-2)(01-12)}$
+                        embeds into multi-epoch space-time. 
+                    \textbf{Right}: $\protect\sdia{c(01-2)(01-12)}$ cannot
+                        embed into single-epoch space-time.  Indeed, 
+                        the correlation condition forces both red nodes into 
+                        the same row and thus the same cell, while the
+                        time-ordering condition forces the red nodes into
+                        distinct columns and thus distinct cells.
+                }
+                \label{fig:multi-embeddings}
+            \end{figure}
+
+        \subsubsection{Values of the embeddings}
+
+            We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
+            are an approximation of the latter, appropriate when $T$ is fixed
+            instead of taken to infinity.  $\uvalue$s have the same asymptotic
+            error as $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s
+            are simpler to calculate, since their numeric values depend only on
+            diagrams, not on embeddings.  So to compute a testing loss, we will we
+            will multiply each diagram's $\uvalue$ by the number of ways that
+            diagram embeds.
+
+            Figure \ref{fig:multi-embeddings} shows us that the diagram
+            $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
+            and single-epoch spacetimes.  More precisely,
+            its multi-epoch embeddings correspond by a $M_0^2:1$ map to
+            its single-epoch embeddings.  Since we scaled the learning rate of
+            the two SGD versions by a factor of $M_0$, and since $2$-edged
+            diagrams such as $\sdia{c(0-1-2)(02-12)}$ scale as $\eta^2$, the
+            total $\uvalue$ of the diagram's multi-epoch embeddings will match
+            the total $\uvalue$ of the diagram's single-epoch embeddings. 
+            %
+            In fact, Figure \ref{fig:multi-embeddings} shows that this
+            cancellation happens for all of the order-$2$ diagrams
+            \emph{except} for $\sdia{c(01-2)(01-12)}$.
+            %
+            Therefore, to second order, the answer to Question \ref{qst:multi}
+            will be (some multiple of) $\uvalue(\sdia{c(01-2)(01-12)})$.
+
+            To compute $\sdia{c(01-2)(01-12)}$'s value, we follow the rules
+            in Section \ref{sect:calculus}; the edge rule for $\uvalue$s is
+            that each edge becomes an $\eta$.
+            So
+            $$
+                \uvalue(\sdia{c(01-2)(01-12)}) =
+                \expct{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x}
+                \expct{\nabla_\rho l_x}
+                \eta^{\mu\lambda}
+                \eta^{\nu\rho}
+                =
+                (\nabla_\nu C_{\mu\lambda} / 2)
+                G^\rho
+                \eta^{\mu\lambda}
+                \eta^{\nu\rho}
+            $$
+
+        \subsubsection{Sum of the values}
+
+            Referring again to Figure \ref{fig:multi-embeddings}, we see that
+            $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
+            into the multi-epoch space-time (one embedding per pair
+            of distinct epochs, per row) --- and no embeddings into the 
+            single-epoch space-time.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
+            has $\wabs{\Aut_f(D)}= 1$.  Now we plug into the overall formula
+            for testing loss: 
+            \begin{equation*}
+                \sum_{\substack{D~\text{a} \\ \text{diagram}}}
+                ~
+                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+                ~
+                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \,
+                {\uvalue}(D)
+            \end{equation*}
+            We conclude that the testing loss of $M=M_0$ SGD exceeds the testing loss
+            of $M=1$ SGD by this much:
+            $$
+                {M_0 \choose 2} \, N \cdot
+                \frac{(-1)^2}{1} \cdot
+                (\nabla_\nu C_{\mu\lambda} / 2)
+                G^\rho
+                \eta^{\mu\lambda}
+                \eta^{\nu\rho}
+                + o(\eta^2)
+            $$
+            Since Question \ref{qst:multi} defines $\eta^2 = \eta_0^2/M_0^2$,
+            we can rewrite our answer as:
+            $$
+                l(\theta_{M=M_0,\eta=\eta_0/M_0}) - l(\theta_{M=1,\eta=\eta_0})
+                =
+                \frac{M_0-1}{4 M_0} N \cdot
+                G^\nu (\nabla_\nu C_\mu^\mu)
+                + o(\eta_0^2)
+            $$
+            where we use $\eta_0$ to raise indices.
+            This completes the example problem.
+
+            \begin{rmk*}
+                An essentially similar
+                argument proves Corollary \ref{cor:epochs}.
+                \mend
+            \end{rmk*}
+
+    \vfill
+    \subsection{How to identify the relevant space-time}            \label{appendix:draw-spacetime}
+
+        Diagrams tell us about the loss landscape but not about
+        SGD's batch size, number of epochs, and training set size
+        We encode this SGD data as a set of pairs $(n,t)$, where we have
+        one pair for each participation of the $n$th datapoint in the $t$th
+        update.  For instance, full-batch GD has $NT$ many pairs, and
+        singeleton-batch SGD has $T$ many pairs.  We will draw these
+        $(n,t)$ pairs as shaded cells in an $N\times T$ grid; we will call
+        the shaded grid the SGD's \emph{space-time grid} or
+        \emph{space-time}.  See Figure \ref{fig:spacetimes}.  
+
+        \begin{figure}[h!] 
+            \centering
+            \dmoo{3.55cm}{spacetime-b1-e2-shuf}
+            ~~~~~
+            \dmoo{3.55cm}{spacetime-b2-e4-nosh}
+            \caption{
+                \textbf{The space-time grids of two SGD variants.}
+                Shaded cells show $(n,t)$ pairs (see text).
+                \newline
+                \textbf{Left}: Two epoch SGD with batch size one.
+                    The training set is permuted between epochs.
+                \newline
+                \textbf{Right}: Four epoch SGD with batch size
+                    two.  The training set is not permuted between epochs.
+            }
+            \label{fig:spacetimes}
+        \end{figure}
+
+        In sum, when using the diagram method to solve a problem relating
+        to SGD with batch size $B$ and $E$ many epochs (over $T$ many time
+        steps and on $N$ many training samples), one shades the 
+        cells of an $N\times T$ grid with $B$ shaded cells per column and
+        $E$ shaded cells per row.
+        
+        \begin{rmk*}
+            A space-time grid also depicts the shuffling of training sets
+            between epochs.  Since each grid commits to a concrete sequence
+            of training set permutations, we may analyze SGD with
+            randomized permutations by taking expectations over multiple
+            space-time grids.  However, all of the corollaries in this text
+            are invariant to inter-epoch training set permutations, so we
+            will not focus on this point.\footnote{A routine check shows
+            that for fixed $T$, inter-epoch shuffling yields only an
+            $o(\eta^3)$ effect on testing losses.}
+            \mend
+        \end{rmk*}
+
+    \newpage
+    \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
+        A \emph{diagram} is a finite rooted tree equipped with a partition of
+        its nodes, such that the root node occupies a part of size $1$.  Note
+        that this definition generalizes the special case reported in the paper
+        body; in particular, we no longer require the paper body's ``path
+        condition'' to hold.  For example, there are four diagrams with two
+        edges:
+        $\protect\sdia{c(0-1-2)(02-12)}$,
+        $\protect\sdia{c(01-2)(02-12)}$,
+        $\protect\sdia{c(0-1-2)(01-12)}$, and
+        $\protect\sdia{c(01-2)(01-12)}$.
+        As always, we specify a diagram's root by drawing it rightmost.
+
+        A diagram is \emph{irreducible} when each of its degree-$2$ nodes is in
+        a part of size one.  Intuitively, this rules out multi-edge chains
+        unadorned by fuzzy ties.
+        Thus, only the first diagram in the list 
+        $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
+        \sdia{c(0-1-2-3)(01-12-23)}, \cdots$
+        is irreducible.  Only the first diagram in the list
+        $\sdia{c(01-2)(01-12)}, \sdia{c(01-2-3)(01-12-23)}, \cdots$
+        is irreducible.
+        Only the first diagram in the list
+        $\sdia{c(0-1-2)(02-12)}, \sdia{c(0-1-2-3)(01-13-23)}, \cdots$
+        is irreducible.
+
+        An \emph{embedding} of a diagram $D$ into a space-time grid is an
+        assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
+        obeys the following two criteria:
+        \begin{itemize}
+            \item \textbf{time-ordering condition}: the times $t$ strictly increase 
+                along each path from leaf to root; and
+            \item \textbf{correlation condition}: if two nodes are in the same
+                part of $D$'s partition, then they are assigned to the same
+                datapoint $n$.
+        \end{itemize}
+        We may conveniently draw embeddings by placing nodes in the shaded
+        cells to which they are assigned.  Then, the time-ordering condition 
+        forbids (among other things) intra-cell edges, and the correlation
+        condition demands that fuzzily tied nodes are in the same row.  See
+        Figure \ref{fig:embeddings}.
+        \begin{figure}[h] 
+            \centering  
+            \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
+            \caption{
+                Embeddings, legal and illegal.
+                \textbf{Left}: illegal embedding of $\sdia{c(0-1-2)(01-12)}$,
+                    since the time-ordering condition is not obeyed. 
+                    For the same reason, not a legal embedding of $\sdia{c(01-2)(01-12)}$.
+                \textbf{Middle}: an embedding of $\sdia{c(0-1-2)(01-12)}$.
+                Also an embedding of $\sdia{c(01-2)(01-12)}$,
+                since the correlation condition is obeyed.
+                \textbf{Right}: a legal embedding of $\sdia{c(0-1-2)(01-12)}$.
+                    Not an embedding of
+                    $\sdia{c(01-2)(01-12)}$, since the correlation condition is
+                    not obeyed.
+            }
+            \label{fig:embeddings}
+        \end{figure}
+
+        In principle, the relevant diagrams for a calculation with error
+        $o(\eta^d)$ are the diagrams with at most $d$ edges.  For $d$ greater
+        than $2$, there will be many such diagrams.  However, in practice
+        we gain insight even from considering one diagram at a time:
+        \begin{rmk*}
+            In this paper's corollaries, we seek to extract the specific effect
+            of a specific landscape or optimization feature such as skewed
+            noise (Example \ref{exm:first}) or multiple epochs
+            (\S\ref{appendix:example}).  In these cases, it is usually the case
+            that most diagrams are irrelevant.  For example, because a diagram
+            evaluates to a product of its components, the only way the skewness
+            of gradient noise can appear in our calculations is through 
+            diagrams such as $\sdia{c(012-3)(03-13-23)}$ that have a part of
+            size $3$.  Thus, the analysis in Example \ref{exm:first} was able
+            to ignore diagrams such as $\sdia{c(01-2)(02-12)}$. 
+            Likewise, in \S\ref{appendix:example} we argued by considering 
+            which embeddings that the only diagram relevant to Question
+            \ref{qst:multi} is $\sdia{c(01-2)(01-12)}$.  
+            \mend
+        \end{rmk*}
+
+        In sum, when using the diagram method to analyze how a quantity affects
+        SGD to order $o(\eta^d)$, we must consider all diagrams with $d$ or
+        fewer edges that include that quantity as a component and that have a
+        non-zero number of embeddings into the relevant space-time.  If we
+        are using $\rvalue$s (see next section for discussion of $\rvalue$s and
+        $\uvalue$s), then we consider only the irreducible diagrams.  For each
+        diagram, we must enumerate the embeddings, i.e. the assignments of the
+        diagram's nodes to space-time cells that obey both the time-ordering
+        condition and correlation condition.
+
+        Here are some further examples.  Table \ref{tab:scatthree} shows the
+        $6$ diagrams that may embed into the space-time grid of $E=B=1$.  It
+        shows each diagram in multiple ways to underscore that diagrams are
+        purely topological and to suggest the ways in which these diagrams may
+        embed into space-time.
+        \begin{table}[h!]
+            \centering 
+            %\resizebox{\columnwidth}{!}{%
+            \begin{tabular}{ccccc}
+                {\large $\Theta\left((\eta N)^3 N^{-0}\right)$} &&
+                {\large $\Theta\left((\eta N)^3 N^{-1}\right)$} &&
+                {\large $\Theta\left((\eta N)^3 N^{-2}\right)$} \\ \hline
+                \begin{tabular}{c}
+                    \begin{tabular}{ll}
+                        $\mdia{c(0-1-2-3)(01-12-23)}$ & $\mdia{c(0-1-2-3)(01-13-23)}$
+                    \end{tabular} \\
+                    \begin{tabular}{ll}
+                        $\mdia{c(0-1-2-3)(02-13-23)}$ & $\mdia{c(0-1-2-3)(03-12-23)}$
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{ll}
+                        $\mdia{c(0-1-2-3)(03-13-23)}$ & $\mdia{c(0-1-2-3)(02-12-23)}$
+                    \end{tabular}
+                \end{tabular}
+                &&
+                \begin{tabular}{c}
+                    \begin{tabular}{ll}
+                        $\mdia{c(01-2-3)(02-13-23)}$ & $\mdia{c(01-2-3)(03-12-23)}$
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{ll}
+                        $\mdia{c(0-12-3)(01-13-23)}$ & $\mdia{c(0-12-3)(02-13-23)}$
+                    \end{tabular} \\ \hline
+                    \begin{tabular}{lll}
+                        $\mdia{c(01-2-3)(03-13-23)}$ & $\mdia{c(0-12-3)(03-13-23)}$ & $\mdia{c(01-2-3)(02-12-23)}$ 
+                    \end{tabular}
+                \end{tabular}
+                &&
+                \begin{tabular}{c}
+                    \begin{tabular}{l}
+                        $\mdia{c(012-3)(03-13-23)}$
+                    \end{tabular}
+                \end{tabular}
+            \end{tabular}
+            %}
+            \caption{
+                \textbf{Multiple ways to draw the $6$ distinct degree-$3$
+                diagrams for $B=E=1$ SGD's testing loss.}
+                Because the space-time of $B=E=1$ SGD has only one cell per row
+                and one cell per column, the only diagrams that have a non-zero
+                number of embeddings are the diagrams that obey
+                \S\ref{sect:calculus}'s path condition. 
+                We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams.
+                In fact, these drawings show all of the time-orderings of the
+                diagrams' nodes that are consistent with the time-ordering
+                condition.
+                %
+                \textbf{Organization}:
+                We organize the diagrams into columns by the number
+                of parts in their partitions.  Because partitions (fuzzy
+                outlines) indicate correlations between nodes (i.e. noise), 
+                diagrams with fuzzy outlines show deviations of SGD away from
+                deterministic ODE.  The big-$\Theta$ notation that heads the
+                columns gives the asymptotics of the sum-over-embeddings of 
+                each diagram's $\uvalue$s 
+                (for $N$ large and $\eta$ small even relative to $1/N$).
+                {\bf Left}: Diagrams for ODE behavior.
+                {\bf Center}: $1$st order deviation of SGD
+                away from ODE.
+                {\bf Right}: $2$nd order deviation of SGD
+                from ODE with appearance of non-Gaussian statistics.
+            }
+            \label{tab:scatthree}
+        \end{table}
+   
+    \subsection{How to evaluate each embedding}                     \label{appendix:evaluate-embeddings}
+        We will discuss how to compute both $\rvalue$s and $\uvalue$s.  Both
+        are ways of turning a diagram embedding into a number.  The paper body
+        mainly mentions $\rvalue$s.  $\uvalue$s are simpler to calculate, since
+        they depend only on a diagram's topology, not on the way it is
+        embedded.  $\rvalue$s are more accurate; in particular, when we
+        initialize near a local minimum, $\rvalue$s do not diverge to $\pm
+        \infty$ as $T\to\infty$.
+        
+        \subsubsection{Un-resummed values: $\uvalue(D)$}
+            Each part in a diagram's partition looks like one of the following
+            fragments (or one of the infinitely many analogous fragments):
+            \begin{center}
+            \begin{tabular}{p{6cm}p{6cm}}
+                {\begin{align*}
+                    G\triangleq\ex{\nb\lx}              &\triangleq \mdia{MOOc(0)(0)}            \\
+                    H\triangleq\ex{\nb\nb\lx}           &\triangleq \mdia{MOOc(0)(0-0)}          \\
+                    J\triangleq\ex{\nb\nb\nb\lx}        &\triangleq \mdia{MOOc(0)(0-0-0)}        \\
+                    \ex{(\nb\lx - G)(\nb\nb\lx - H)}    &\triangleq \mdia{MOOc(01)(0-1-1)}       \\
+                    \ex{(\nb\nb\lx - H)(\nb\nb\lx - H)} &\triangleq \mdia{MOOc(01)(0-0-1-1)}     \\
+                    \ex{(\nb\lx - G)(\nb\nb\nb\lx - J)} &\triangleq \mdia{MOOc(01)(0-1-1-1)}
+                \end{align*}}
+                &
+                {\begin{align*}
+                    C\triangleq\ex{(\nb\lx - G)^2}      &\triangleq \mdia{MOOc(01)(0-1)}         \\
+                    S\triangleq\ex{(\nb\lx - G)^3}      &\triangleq \mdia{MOOc(012)(0-1-2)}      \\ 
+                    \ex{(\nb\lx - G)^4} - 3C^2          &\triangleq \mdia{MOOc(0123)(0-1-2-3)}   \\ 
+                    \ex{(\nb\lx - G)^5} - 10CS          &\triangleq \mdia{MOOc(01234)(0-1-2-3-4)}
+                \end{align*}}
+            \end{tabular}
+            \end{center}
+            The above examples illustrate the
+            %
+            \textbf{Node rule}: each degree $d$ node evaluates to 
+            $\nabla^d l_x$.
+
+            Fuzzy outlines dictate how to collect the $\nabla^d l_x$s into
+            expectation brackets.  For example, we could collect the nodes
+            within each part (of the partition) into a pair of expectation
+            brackets $\expc_x\wasq{\cdot}$ --- call the result the
+            \textbf{moment value}.
+            However, this would yield (un-centered)
+            moments such as $\ex{(\nb\lx)^2}$ instead of cumulants such as
+            $C=\ex{(\nb\lx - G)^2}$.
+            For technical reasons explained in \S\ref{appendix:mobius} and
+            \S\ref{appendix:resum}, cumulants will be easier to work with than
+            moments, so we will choose to define the values of diagrams
+            slightly differently as follows.
+            %
+            \textbf{Outline rule}: a partition on nodes evaluates to the
+            difference $X-Y$, where $X$ is the moment-value of the partition
+            and $Y$ is the sum of all strictly finer partitions.
+
+            This is just the standard M\"obius recursion for defining cumulants
+            (see \cite{ro64}).
+
+            \begin{exm}
+                For example, if we denote moment values by solid
+                gray fuzzy ties (instead of fuzzy outlines), then: 
+                \begin{align*}
+                    \mdia{c(012-3)(01-13-23)}
+                        &\triangleq
+                    \mdia{(012-3)(01-13-23)}
+                        -
+                    \mdia{c(01-2-3)(01-13-23)}
+                        -
+                    \mdia{c(02-1-3)(01-13-23)}
+                        -
+                    \mdia{c(0-12-3)(01-13-23)}
+                        -
+                    \mdia{(0-1-2-3)(01-13-23)} \\
+                        &\triangleq
+                    \mdia{(012-3)(01-13-23)}
+                        -
+                    \mdia{(01-2-3)(01-13-23)}
+                        -
+                    \mdia{(02-1-3)(01-13-23)}
+                        -
+                    \mdia{(0-12-3)(01-13-23)}
+                        +
+                    2 \mdia{(0-1-2-3)(01-13-23)}
+                \end{align*}
+                We will use the concept of ``moment values'' again in \S\ref{appendix:mobius}.
+                \mend
+            \end{exm}
+
+            Finally, we come to edges. 
+            \textbf{Edge rule}: insert a factor of $\eta^{\mu\nu}$ for each
+            edge.  The indices $\mu, \nu$ should match the corresponding
+            indices of the two nodes incident to the edge.
+
+            \begin{exm}[Un-resummed value] \label{exm:unresum}
+                Remember that
+                $
+                    \mdia{MOOc(01)(0-1)} = C_{\mu\nu}
+                $ and
+                $
+                    \mdia{MOOc(0)(0-0)} = H_{\lambda\rho}
+                $, so that
+                $
+                    \mdia{MOOc(01)(0-1)}
+                    \mdia{MOOc(0)(0-0)}
+                    = C_{\mu\nu} H_{\lambda\rho}
+                $.
+                Then 
+                $$
+                    \uvalue(\mdia{c(01-2)(02-12)})
+                    = C_{\mu\nu} H_{\lambda\rho}
+                    \eta^{\mu\lambda}
+                    \eta^{\nu\rho}
+                $$
+                Here, $\mdia{c(01-2)(02-12)}$ has two edges, which correspond
+                in this example to the tensor contractions via
+                $\eta^{\mu\lambda}$ and via $\eta^{\nu\rho}$, respectively.
+                \mend
+            \end{exm}
+
+        \subsubsection{Resummed values: $\rvalue_f(D)$}
+            The only difference between $\rvalue$s and $\uvalue$s is in their
+            rule for evaluating edges.
+
+            \textbf{Edge rule}: if an edge's endpoints are embedded to times
+            $t, t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$,
+            where $K \triangleq (I-\eta H)$.  Here, we consider the root node
+            as embedded to the time $T$.
+
+            \begin{exm}[Re-summed value] \label{exm:resum}
+                Recall as in Example \ref{exm:unresum} that 
+                $
+                    \mdia{MOOc(01)(0-1)} = C_{\mu\nu}
+                $ and
+                $
+                    \mdia{MOOc(0)(0-0)} = H_{\lambda\rho}
+                $, so that
+                $
+                    \mdia{MOOc(01)(0-1)}
+                    \mdia{MOOc(0)(0-0)}
+                    = C_{\mu\nu} H_{\lambda\rho}
+                $.
+                Then if $f$ is an embedding of $\mdia{c(01-2)(02-12)}$ that
+                sends the diagram's red part to a time $t$ (and its green root
+                to $T$), we have:
+                $$
+                    \rvalue_f(\mdia{c(01-2)(02-12)})
+                    = C_{\mu\nu} H_{\lambda\rho}
+                    \wrap{K^{T-t-1} \eta}^{\mu\lambda}
+                    \wrap{K^{T-t-1} \eta}^{\nu\rho}
+                $$
+                Here, $\mdia{c(01-2)(02-12)}$ has two edges, which correspond
+                in this example to the tensor contractions via
+                $\wrap{K^{\cdots}\eta}^{\mu\lambda}$ and via
+                $\wrap{K^{\cdots}\eta}^{\nu\rho}$, respectively.
+                \mend
+            \end{exm}
+
+        \subsubsection{Overall}
+            In sum, we evaluate an embedding of a diagram by using the 
+            \textbf{node}, 
+            \textbf{outline}, and
+            \textbf{edge}
+            rules to build an expression of $\nabla^d l_x$s, $\expc_x$s and
+            $\eta$s.  The difference between $\uvalue$s and $\rvalue$s lies
+            only in their edge rule.
+
+    \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
+        Theorem \ref{thm:resum} in the paper body generalizes to
+        \begin{thm*}
+            For any $T$: for $\eta$ small enough, SGD has expected testing loss
+            \begin{equation*}
+                \sum_{\substack{D~\text{an irreduc-} \\ \text{-ible diagram}}}
+                ~
+                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+                ~
+                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \,
+                {\rvalue_f}(D)
+            \end{equation*}
+            which is the same as
+            \begin{equation*}
+                \sum_{\substack{D~\text{a} \\ \text{diagram}}}
+                ~
+                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+                ~
+                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \,
+                {\uvalue}(D)
+            \end{equation*}
+            Here, $B$ is the batch size.
+            %We say an embedding is \emph{strict} if it assigns to each part
+            %a different datapoint $n$.
+        \end{thm*}
+
+        How do we evaluate the above sum?
+        Summing $\uvalue$s reduces to counting embeddings, which in all the
+        applications reported in this text is a routine combinatorial exercise. 
+        However, when summing $\rvalue$s, it is often convenient to replace
+        a sum over embeddings by an integral over times, and
+        the power $\wrap{I-\eta H}^{\Delta t-1}$ by
+        the exponential $\exp{-\Delta t \eta H}$.  This incurs a term-by-term
+        $1+o(\eta)$ error factor, meaning that it preserves leading order
+        results. 
+
+        \begin{exm}
+            Let us return to $D=\mdia{c(01-2)(02-12)}$, embedded, say, in the
+            space-time of one-epoch one-sample-per-batch SGD.
+            From Example \ref{exm:resum}, we know that we want to sum the 
+            following value over all embeddings $f$, i.e. over all $0\leq t<T$
+            to which the red part of the diagram's partition may be assigned:
+            $$
+                \rvalue_f(\mdia{c(01-2)(02-12)})
+                = C_{\mu\nu} 
+                \wrap{K^{T-t-1} \eta}^{\mu\lambda}
+                \wrap{K^{T-t-1} \eta}^{\nu\rho}
+                H_{\lambda\rho}
+            $$
+            Each embedding has a factor 
+                $(-B)^{-|\edges(D)|}/\wabs{\Aut_f(D)} = (-B)^{-2}/2$;
+            we will multiply in this factor at the end so we now we focus on
+            the $\sum_f$.
+            So, using the aforementioned approximation, we seek to evaluate
+            \begin{align*}
+                \int_{0\leq t<T} \, dt \, 
+                    C_{\mu\nu} 
+                    \wrap{\exp\wrap{-(T-t)\eta H} \eta}^{\mu\lambda}
+                    \wrap{\exp\wrap{-(T-t)\eta H} \eta}^{\nu\rho}
+                    H_{\lambda\rho}
+                = \\
+                C_{\mu\nu} 
+                \wrap{
+                \int_{0\leq t<T} \, dt \, 
+                    \exp\wrap{-(T-t)((\eta H)\otimes I + I \otimes (\eta H))}^{\mu\nu}_{\pi\sigma}
+                }
+                \eta^{\pi\lambda}
+                \eta^{\sigma\rho}
+                H_{\lambda\rho}
+            \end{align*}
+            We know from linear algebra and calculus that
+            $\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$ 
+            (when $A$ is a non-singular linear endomorphism).
+            Applying this rule for $u=T-t$ and $A=(\eta H)\otimes I + I \otimes
+            (\eta H)$, we evaluate the integral as:
+            \begin{align*}
+                \cdots =
+                C_{\mu\nu} 
+                \wrap{\frac{I - \exp\wrap{-T ((\eta H)\otimes I + I \otimes (\eta H))}}
+                           {(\eta H)\otimes I + I \otimes (\eta H)}
+                     }^{\mu\nu}_{\pi\sigma}
+                \eta^{\pi\lambda}
+                \eta^{\sigma\rho}
+                H_{\lambda\rho}
+            \end{align*}
+            This is perhaps easier to write in an eigenbasis of $\eta H$:
+            \begin{align*}
+                \cdots = 
+                \sum_{\mu\nu}
+                C_{\mu\nu} 
+                \,
+                \frac{1 - \exp\wrap{-T ((\eta H)^\mu_\mu + (\eta H)^\nu_\nu)}}{(\eta H)^\mu_\mu + (\eta H)^\nu_\nu}
+                \,
+                (\eta H \eta)^{\mu\nu}
+            \end{align*}
+            Multiplying this expression by the aforementioned $(-B)^{-2}/2$
+            gives the contribution of $\mdia{c(01-2)(02-12)}$ to SGD's test
+            loss.
+            \mend
+        \end{exm}
+
+        In short, we sum embeddings of $\uvalue$s directly.
+        We sum embeddings of $\rvalue$s using an integral-of-exponentials
+        approximation along with the rule 
+            $\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$. 
+        When written in an eigenbasis of $\eta H$, this $A$'s coefficients are
+        sums of one or more eigenvalues of $\eta H$ (one eigenvalue for each
+        edge involved in the relevant degrees of freedom over which we
+        integrate).  As another example, see Example \ref{exm:first}.
+
+    \subsection{Interpreting diagrams intuitively}                  \label{appendix:interpret-diagrams}
+
+        We may intuitively interpret edges as carrying influence from the
+        training set toward the test measurement.  See Figure
+        \ref{fig:intuition}.  From this perspective, we may intuitively
+        interpret edges in an $\rvalue$ calculation as carrying influence from
+        the training set toward the test measurement.  See Figure
+        \ref{fig:intuition}.
+
+        \begin{figure}[h!] 
+            \centering  
+            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
+            \caption{
+                \textbf{Edges carry information}.
+                Embedding of a $4$-edged diagram.
+            }
+            \label{fig:intuition}
+        \end{figure}
+
+
+        \begin{figure}[h!] 
+            \centering  
+            \dmoo{3cm}{spacetime-g}
+            \dmoo{3cm}{spacetime-h}
+            \caption{
+                \textbf{Resummation propagates information, damped by
+                curvature}.  Each resummed valuerepresents many un-resummed
+                values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
+                in a different way.
+                \textbf{Left}: Here is one of many un-resummed terms captured by
+                a single resummed embedding for $\sdia{c(0-1)(01)}$.
+                \textbf{Left}: each resummed value represents many un-resummed
+                values.  Here is one of many un-resummed terms captured by
+                a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
+            }
+            \label{fig:intuition}
+        \end{figure}
+
+    %        \subsubsection{Chladni effect}
+    %(\S\ref{appendix:interpret-diagrams})
+    %            {\color{red} Make sure to also discuss Chladni effect
+    %            \cite{ch87}!!!}
+
+    \subsection{How to solve variant problems}                      \label{appendix:solve-variants}
+        In \S\ref{appendix:future}, we briefly discuss second-order methods
+        and natural gradient descent.  Here, we briefly discuss modifications.
+        We omit proofs, which would closely follow \S\ref{appendix:math}'s
+        proof of the expectation-of-test-loss case.
+
+        \subsubsection*{Variance (instead of expectation)}
+            To compute variances instead of expectations (with respect to the
+            noise in the training set), one considers generalized diagrams   
+            that have ``two roots'' instead of one.  More precisely, to
+            compute, say, the un-centered second moment of testing loss, one uses
+            diagrams whose edge structures are not rooted trees but instead
+            forests consisting of two rooted trees.  As in the case of test
+            loss expectations, we require that the set of roots (now a set
+            of size two instead of size one) is a part of the diagram's
+            partition.  We draw the two roots rightmost. 
+            %
+            For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
+            $\mdia{MOOc(01-23)(02-13)}$ may appear in this computation.
+
+        \subsubsection*{Measuring on the training (instead of test) set}
+
+            To compute the training loss, we compute with all the same
+            diagrams as the testing loss, and we also allow all the additional
+            generalized diagrams that violate the constraint that a diagram's
+            root should be in a part of size one.
+            %
+            Therefore, to compute the generalization gap (i.e.\ testing loss minus
+            training loss), we sum over all the diagrams that expressly 
+            violate this constraint (and then, since gen.\ gp is test minus
+            train instead of train minus test, we multiply the whole answer
+            by $-1$).
+            %
+            For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
+            $\mdia{MOOc(0-123)(02-12-23)}$ may appear in this computation.
+
+        \subsubsection*{Weight displacement (instead of loss)}
+            To compute displacements instead of losses, one considers
+            generalized diagrams that have a ``loose end'' instead of a root.
+            %
+            For example, the generalized diagrams $\mdia{MOOc(0)(0)}$ or
+            $\mdia{MOOc(01)(01-1)}$ may appear in this computation.
+
+    \subsection{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
+
+        Diagram methods from Stueckelberg to Peierls have flourished in physics
+        because they enable swift computations and offer immediate intuition that
+        would otherwise require laborious algebraic manipulation.  We demonstrate
+        how our diagram formalism likewise streamlines analysis of descent by
+        comparing direct perturbation\footnote{
+            By ``direct perturbation'', we mean direct application of our Key
+            Lemma (\S\ref{appendix:key-lemma}).
+        }
+        to the new formalism on two sample problems.
+
+        Aiming for a conservative comparison of derivation ergonomics, we lean
+        toward explicit routine when using diagrams and allow ourselves to use
+        clever and lucky simplifications when doing direct perturbation.  For
+        example, while solving the first sample problem by direct perturbation,
+        we structure the SGD and GD computations so that the coefficients (that in
+        both the SGD and GD cases are) called $a(T)$ manifestly agree in their
+        first and second moments.  This allows us to save some lines of argument.
+
+        Despite these efforts, the diagram method yields arguments about \emph{four
+        times shorter} --- and strikingly more conceptual --- than direct
+        perturbation yields.  These examples specifically suggest that: diagrams
+        obviate the need for meticulous index-tracking, from the start focus one's
+        attention on non-cancelling terms by making visually obvious which terms
+        will eventually cancel, and allow immediate exploitation of a setting's
+        special posited structure, for instance that we are initialized at a test
+        minimum or that the batch size is $1$.  We regard these examples as
+        evidence that diagrams offer a practical tool for the theorist.
+
+        We make no attempt to compare the re-summed version of our formalism
+        to direct perturbation because the algebraic manipulations involved for
+        the latter are too complicated to carry out.  
+
+        We now compare {\colorbox{moolime}{Diagram Rules}} vs
+        {\colorbox{moosky}{Direct Perturbation}}.
+
+        \subsubsection{Effect of batch size}
+            We compare the testing losses of pure SGD and pure GD.  Because pure
+            SGD and pure GD differ in how samples are correlated, their testing loss
+            difference involves a covariance and hence occurs at order $\eta^2$.  
+
+            \subthreesect{Diagram Method}
+            \colorlet{shadecolor}{moolime}
+            \begin{shaded}
+                Since SGD and GD agree on noiseless landscapes, we consider only
+                diagrams with fuzzy ties.  Since we are working to second order, we
+                consider only two-edged diagrams.  There are only two such
+                diagrams, $\sdia{(01-2)(02-12)}$ and $\sdia{(01-2)(01-12)}$.  The
+                first diagram, $\sdia{(01-2)(02-12)}$, embeds in GD's space time in
+                $N^2$ as many ways as it embeds in SGD's spacetime, due to
+                horizontal shifts.  Likewise, there are $N^2$ times as many
+                embeddings of $\sdia{(01-2)(02-12)}$ in distinct epochs of GD's
+                spacetime as there are in distinct epochs of SGD's spacetime.
+                However, each same-epoch embedding of $\sdia{(01-2)(01-12)}$ within
+                any one epoch of GD's spacetime corresponds by vertical shifts to
+                an embedding of $\sdia{(0-1-2)(01-12)}$ in SGD.  There are
+                $MN{N\choose 2}$ many such embeddings in GD's spacetime, so GD's
+                testing loss exceeds SGD's by 
+                $
+                    \frac{MN{N\choose 2}}{N^2}~
+                    \sdia{c(01-2)(01-12)}
+                $.
+                Reading the diagram's value from its graph structure, we
+                unpack that expression as:
+                $$
+                    \eta^2 \frac{M(N-1)}{4} G \nabla C 
+                $$
+            \end{shaded}
+
+            \newpage
+            \subthreesect{Direct Perturbation} 
+            \colorlet{shadecolor}{moosky}
+            \begin{shaded}
+                We compute the displacement $\theta_T-\theta_0$ to order $\eta^2$ 
+                for pure SGD and separately for pure GD.  Expanding
+                $
+                    \theta_t \in \theta_0 + \eta a(t) + \eta^2 b(t) + o(\eta^2)
+                $, we find:
+                \begin{align*}
+                    \theta_{t+1} &=     \theta_t - \eta \nabla l_{n_t} (\theta_t) \\
+                                 &\in       \theta_0
+                                        +   \eta a(t) + \eta^2 b(t)
+                                        -   \eta (
+                                                    \nabla l_{n_t}
+                                                +   \eta \nabla^2 l_{n_t} a(t) 
+                                            )
+                                        +   o(\eta^2) \\
+                                 &=     \theta_0
+                                    +   \eta (a(t) - \nabla l_{n_t})
+                                    +   \eta^2 (b(t) - \nabla^2 l_{n_t} a(t)) 
+                                    +   o(\eta^2)
+                \end{align*}
+                To save space, we write $l_{n_t}$ for $l_{n_t}(\theta_0)$.  It's
+                enough to solve the recurrence $a(t+1) = a(t) - \nabla l_{n_t}$ and
+                $b(t+1) = b(t) - \nabla^2 l_{n_t} a(t)$.  Since $a(0), b(0)$
+                vanish, we have $a(t) =-\sum_{0\leq t<T} \nabla l_{n_t}$ and $b(t)
+                = \sum_{0\leq t_0 < t_1 < T} \nabla^2 l_{n_{t_1}} \nabla
+                l_{n_{t_0}}$.  We now expand $l$:
+                \begin{align*}
+                    l(\theta_T) \in    l   &+   (\nabla l) (\eta a(T) + \eta^2 b(T)) \\
+                                           &+   \frac{1}{2} (\nabla^2 l) (\eta a(T) + \eta^2 b(T))^2
+                                            +   o(\eta^2) \\
+                                =      l   &+   \eta ((\nabla l) a(T))
+                                            +   \eta^2 ((\nabla l) b(T) + \frac{1}{2} (\nabla^2 l) a(T)^2 )
+                                            +   o(\eta^2)
+                \end{align*}
+                Then $\expct{a(T)} = -MN(\nabla l)$ and, since the $N$ many
+                singleton batches in each of $M$ many epochs are pairwise
+                independent,
+                \begin{align*}
+                    \expct{(a(T))^2}
+                    ~&=
+                    \sum_{0\leq t<T} \sum_{0\leq s<T} \nabla l_{n_t} \nabla l_{n_s} \\
+                    ~&= 
+                    M^2N(N-1)   \expct{\nabla l}^2 +
+                    M^2N        \expct{(\nabla l)^2}
+                \end{align*}
+                Likewise, 
+                \begin{align*}
+                    \expct{b(T)}
+                    = 
+                    ~&\sum_{0\leq t_0 < t_1 < T} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}} \\
+                    =
+                    ~&\frac{M^2N(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
+                    ~&\frac{M(M-1)N}{2}  \expct{(\nabla^2 l) (\nabla l)} 
+                \end{align*}
+                %
+                Similarly, for pure GD, we may demand that $a, b$ obey recurrence
+                relations $a(t+1) = a(t) - \sum_n \nabla l_n/N$ and
+                $b(t+1) = b(t) - \sum_n \nabla^2 l_n a(t)/N$, meaning that
+                $a(t) = -t \sum_n \nabla l_n/N$ and
+                $b(t) = {t \choose 2} \sum_{n_0} \sum_{n_1} \nabla^2 l_{n_0} \nabla l_{n_1}/N^2$.
+                So $\expct{a(T)} = -MN(\nabla l)$ and
+                \begin{align*}
+                    \expct{(a(T))^2}
+                    ~&=
+                    M^2 
+                    \sum_{n_0} \sum_{n_1} \nabla l_{n_0} \nabla l_{n_1} \\
+                    ~&= 
+                    M^2 N(N-1)  \expct{\nabla l}^2 + 
+                    M^2 N       \expct{(\nabla l)^2}
+                \end{align*}
+                and
+                \begin{align*}
+                    \expct{b(T)}
+                    = 
+                    ~&{MN \choose 2}\frac{1}{N^2}
+                    \sum_{n_0} \sum_{n_1} \nabla^2 l_{n_0} \nabla l_{n_1} \\
+                    =
+                    ~&\frac{M(MN-1)(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
+                    ~&\frac{M(MN-1)}{2}      \expct{(\nabla^2 l) (\nabla l)} 
+                \end{align*}
+                $\cdots$
+            \end{shaded}
+            \newpage
+            \begin{shaded}
+                $\cdots$ We see that the expectations for $a$ and $a^2$ agree
+                between pure SGD and pure GD.  So only $b$ contributes.  We
+                conclude that pure GD's testing loss exceeds pure SGD's by
+                \begin{align*}
+                       ~&\eta^2
+                        \wrap{\frac{M(MN-1)(N-1)}{2}  - \frac{M^2N(N-1)}{2}}
+                        \expct{\nabla^2 l} \expct{\nabla l}^2 \\
+                    +   ~&\eta^2 
+                        \wrap{\frac{M(MN-1)N}{2} - \frac{M(M-1)N}{2}}
+                        \expct{(\nabla^2 l) (\nabla l)} \expct{\nabla l} \\
+                    = 
+                        ~&\eta^2     \frac{M(N-1)}{2}
+                    \expct{\nabla l} \wrap{
+                          \expct{(\nabla^2 l) (\nabla l)}
+                        - \expct{\nabla^2 l} \expct{\nabla l}
+                    }
+                \end{align*}
+                Since $(\nabla^2 l) (\nabla l) = \nabla((\nabla l)^2)/2$, we can 
+                summarize this difference as
+                $$
+                    \eta^2 \frac{M(N-1)}{4}
+                    G \nabla C 
+                $$
+            \end{shaded}
+
+        \subsubsection{Effect of non-Gaussian noise at a minimum.}
+            We consider vanilla SGD initialized at a local minimum of the testing loss.
+            One expects $\theta$ to diffuse around that minimum according to
+            gradient noise.  We compute the effect on testing loss of non-Gaussian
+            diffusion.  Specifically, we compare SGD testing loss on the loss
+            landscape to SGD testing loss on a different loss landscape defined as a
+            Gaussian process whose every covariance agrees with the original
+            landscape's.  We work to order $\eta^3$ because at lower orders,
+            the Gaussian landscapes will by construction match their non-Gaussian
+            counterparts.
+
+            \subthreesect{Diagram Method}
+            \colorlet{shadecolor}{moolime}
+            \begin{shaded}
+                Because $\expct{\nabla l}$ vanishes at initialization, all diagrams
+                with a degree-one vertex that is a singleton vanish.  Because we
+                work at order $\eta^3$, we consider $3$-edged diagrams.  Finally,
+                because all first and second moments match between the two
+                landscapes, we consider only diagrams with at least one partition
+                of size at least $3$.  The only such test diagram is
+                $\sdia{c(012-3)(03-13-23)}$.  This embeds in $T$ ways (one for each
+                spacetime cell of vanilla SGD) and has symmetry factor $1/3!$ for a
+                total of
+                $$
+                    \frac{T \eta^3 }{6}
+                    \expct{\nabla^3 l}
+                    \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                $$
+            \end{shaded}
+
+            \newpage
+            \subthreesect{Direct Perturbation}
+            \colorlet{shadecolor}{moosky}
+            \begin{shaded}
+                We compute the displacement $\theta_T-\theta_0$ to order $\eta^3$ 
+                for vanilla SGD.  Expanding
+                $
+                    \theta_t \in \theta_0 + \eta a_t + \eta^2 b_t + \eta^3 c_t 
+                    + o(\eta^3)
+                $, we find:
+                \begin{align*}
+                    \theta_{t+1}
+                    =
+                    \theta_t    &-  \eta \nabla l_{n_t} (\theta_t) \\
+                    \in\theta_0 &+  \eta a_t + \eta^2 b_t + \eta^3 c_t \\
+                                &-  \eta \wrap{
+                                         \nabla l_{n_t}
+                                        +\nabla^2 l_{n_t} (\eta a_t + \eta^2 b_t)
+                                        +\frac{1}{2} \nabla^3 l_{n_t} (\eta a_t)^2
+                                    }
+                                 +  o(\eta^3) \\
+                    =
+                    \theta_0    &+   \eta   \wrap{a_t - \nabla l_{n_t}} \\
+                                &+   \eta^2 \wrap{b_t - \nabla^2 l_{n_t} a_t} \\ 
+                                &+   \eta^3 \wrap{
+                                         c_t
+                                        -\nabla^2 l_{n_t} b_t
+                                        -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
+                                     }
+                                 +   o(\eta^3)
+                \end{align*}
+                We thus have the recurrences
+                $
+                    a_{t+1} = a_t - \nabla l_{n_t}
+                $,
+                $
+                    b_{t+1} = b_t - \nabla^2 l_{n_t} a_t
+                $, and
+                $
+                    c_{t+1} = c_t -\nabla^2 l_{n_t} b_t 
+                                  -\frac{1}{2} \nabla^3 l_{n_t} a_t^2
+                $
+                with solutions:
+                $a_t = -\sum_{t} \nabla l_{n_t}$ and
+                $\eta^2 b_t = +\eta^2 \sum_{t_0 < t_1} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}$.
+                We do not compute $c_t$ because we will soon see that it will be
+                multiplied by $0$.
+                %
+                To third order, the testing loss of SGD is
+                \begin{align*}
+                    l(\theta_T)
+                    \in
+                            l(\theta_0)
+                    &+     (\nabla   l)   (\eta a_T + \eta^2 b_T + \eta^3 c_T)                              \\
+                    &+\frac{\nabla^2 l}{2}(\eta a_T + \eta^2 b_T             )^2                            \\
+                    &+\frac{\nabla^3 l}{6}(\eta a_T                          )^3 
+                     +o(\eta)^3                                                                             \\
+                    =
+                        l(\theta_0)
+                    &+  \eta       \wrap{(\nabla l) a_T                               }                     \\
+                    &+  \eta^2     \wrap{(\nabla l) b_T + \frac{\nabla^2 l}{2} a_T^2  }                     \\
+                    &+  \eta^3     \wrap{(\nabla l) c_T + (\nabla^2 l) a_T b_T + \frac{\nabla^3 l}{6} a_T^3}
+                     +o(\eta)^3                                                                             
+                \end{align*}
+                Because $\expct{\nabla l}$ vanishes at initialization, we neglect
+                the $(\nabla l)$ terms.  The remaining $\eta^3$ terms involve
+                $a_T b_T$, and $a_T^3$.  So let us
+                compute their expectations:
+                \begin{align*}
+                    \expct{a_T b_T}
+                        =&- \sum_{t} \sum_{t_0 < t_1}
+                            \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}} \nabla l_{n_{t_0}}}
+                        \\
+                        =&- \sum_{t_0 < t_1}  
+                            \sum_{t \notin \{t_0, t_1\}} 
+                                \expct{\nabla l_{n_t}} \expct{\nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
+                        \\&- \sum_{t_0 < t_1}  
+                            \sum_{t = t_0}
+                                \expct{\nabla l_{n_t} \nabla l_{n_{t_0}}} \expct{\nabla^2 l_{n_{t_1}}}
+                        \\&- \sum_{t_0 < t_1}  
+                            \sum_{t = t_1}
+                                \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
+                \end{align*}
+            \end{shaded}
+            \newpage
+            \begin{shaded}
+                Since $\expct{\nabla l}$ divides $\expct{a_T b_T}$, the latter
+                vanishes.
+                \begin{align*}
+                    \expct{a_T^3}
+                        =&- \sum_{t_a, t_b, t_c}
+                                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                        \\
+                        =&- \sum_{\substack{t_a, t_b, t_c\\ \text{disjoint}}}  
+                                \expct{\nabla l_{n_{t_a}}} \expct{\nabla l_{n_{t_b}}} \expct{\nabla l_{n_{t_c}}}
+                        \\&-3 \sum_{t_a=t_b\neq t_c}  
+                                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}}} \expct{\nabla l_{n_{t_c}}}
+                        \\&-\sum_{t_a=t_b=t_c}  
+                                \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                \end{align*}
+                As we initialize at a test minimum, only the last line remains, at
+                it has $T$ identical summands.
+                When we plug into the expression for SGD testing loss, we get
+                $$
+                    \frac{T \eta^3 }{6}
+                    \expct{\nabla^3 l}
+                    \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                $$
+            \end{shaded}
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Math  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\newpage
+\section{Mathematics of the theory}\label{appendix:math}
+    \subsection{Assumptions and Definitions}                        \label{appendix:assumptions}
+        We assume throughout this work the following regularity properties of
+        the loss landscape.
+        
+        \textbf{Existence of Taylor Moments} --- we assume
+        that each finite collection of polynomials of the $0$th and higher
+        derivatives of the $l_x$, all evaluated at any point $\theta$, may be
+        considered together as a random variable insofar as they are equipped
+        with a probability measure upon of the standard Borel algebra.
+
+        \textbf{Analyticity Uniform in Randomness} --- we assume that
+        the functions $\theta \mapsto l_x(\theta)$ --- and the expectations
+        of polynomials of their $0$th and higher derivatives --- exist and are
+        analytic with radii of convergence bounded from $0$ (by a potentially
+        $\theta$-dependent function).  So expectations and derivatives commute. 
+
+        \textbf{Boundedness of Gradients} --- we also assume that the gradients
+        $\nabla l_x(\theta)$, considered as random covectors, are bounded by
+        some continuous function of $\theta$.\footnote{
+            Some of our experiments involve Gaussian noise, which is not
+            bounded and so violates the hypothesis.  In practice, Gaussians are
+            effectively bounded, on the one hand in that with high
+            probability no standard normal sample encountered on Gigahertz
+            hardware within the age of the universe will much exceed $\sqrt{2
+            \log(10^{30})} \approx 12$, and on the other hand in that
+            our predictions vary smoothly with the first few moments of this
+            distribution, so that a $\pm 12$-clipped Gaussian will yield almost
+            the same predictions.
+        }
+        A metric-independent way of expressing this boundedness constraint
+        is that the gradients all lie in some subset $\Ss \subseteq TM$ of
+        the tangent bundle of weight space, where, for any compact $\Cc
+        \subseteq M$, we have that the topological pullback --- of
+        $\Ss \hookrightarrow TM \twoheadrightarrow M$
+        and
+        $\Cc \hookrightarrow M$ ---
+        is compact.
+        
+        Now we turn to definitions.
+
+        \begin{defn}[Diagrams] \label{dfn:diagrams}
+            A diagram is a finite rooted tree equipped with a partition of
+            nodes.  We draw the tree using thin ``edges''.  By
+            convention, we draw each node to the right of its children; the
+            root is thus always rightmost.  We draw the partition
+            by connecting the nodes within each part via fuzzy ``ties''.  For
+            example, $\sdia{c(012-3)(03-13-23)}$ has $2$ parts.
+            %
+            We insist on using as few fuzzy ties as possible so that, if $d$
+            counts edges and $c$ counts ties, then $d+1-c$ counts parts. 
+            %
+            There may
+            be multiple ways to draw a single diagram, e.g.
+            $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
+        \end{defn}
+        \begin{defn}[Embedding a Diagram into Spacetime]
+            An embedding of a diagram into a spacetime is an assignment of that
+            diagram's non-root nodes to pairs $(n,t)$ such that each node
+            occurs at a time $t^\prime$ strictly after each of its children and
+            such that two nodes occupy the same row $n$ if they
+            inhabit the same part of $D$'s partition.
+            %
+            %We say an embedding is \emph{strict} if it assigns to each part
+            %a different datapoint $n$.
+        \end{defn}
+        We define $\uvalue(D)$ and $\rvalue_f(D)$ as in
+        \S\ref{appendix:evaluate-embeddings}.
+
+    \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
+
+        Suppose $s$ is an analytic function defined on the space of weights.
+        The following Lemma, reminiscent of \cite{dy49a}, helps us track
+        $s(\theta)$ as SGD updates $\theta$:
+        \begin{klem*} \label{lem:dyson}
+            For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a sum
+            over tuples of natural numbers:
+            \begin{equation}\label{eq:dyson}
+                \sum_{(d_t: 0\leq t<T) \in \NN^T}
+                (-\eta)^{\sum_t d_t}
+                \wrap{
+                    \prod_{0 \leq t < T}
+                        \wrap{\left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g = \sum_{n\in \Bb_t} \nabla l_n(\theta) / B}}
+                }(s) (\theta_0)
+            \end{equation}
+            Moreover, the expectation symbol (over training sets) commutes with
+            the sum over $d$s.
+        \end{klem*}
+        Here, we consider each $(g \nabla)^{d_t}$ as a higher order function
+        that takes in a function $f$ defined on weight space and outputs a
+        function equal to the $d_t$th derivative of $f$, times $g^{d_t}$.
+        The above product then indicates composition of $(g \nabla)^{d_t}$'s
+        across the different $t$'s.  In total, that product takes the function
+        $s$ as input and outputs a function equal to some polynomial of $s$'s
+        derivatives.
+
+        \begin{proof}[Proof of the Key Lemma]%
+            We work in a neighborhood of the initialization so that the tangent
+            space of weight space is a trivial bundle.  For convenience, we fix
+            a  coordinate system, and with it the induced flat,
+            non-degenerate inverse metric $\tilde\eta$; the benefit is that we
+            may compare our varying $\eta$ against one fixed $\tilde\eta$.
+            Henceforth, a ``ball'' unless otherwise specified will mean a ball
+            with respect to $\tilde\eta$ around the initialization $\theta_0$.
+            Since $s$ is analytic, its Taylor series converges to $s$ within
+            some positive radius $\rho$ ball.  By assumption, every $l_t$ is
+            also analytic with radius of convergence around $\theta_0$ at least
+            some $\rho>0$.  Since gradients are $x$-uniformly
+            bounded by a continuous function of $\theta$, and since in finite
+            dimensions the closed $\rho$-ball is compact, we have a strict
+            gradient bound $b$ uniform in both $x$ and $\theta$ on gradient
+            norms within that closed ball.  When
+            \begin{equation} \label{eq:smalleta}
+                2 \eta T b < \rho \tilde\eta
+            \end{equation}
+            as norms, SGD after $T$ steps on any train set
+            will necessarily stay within the $\rho$-ball.\footnote{
+                The $2$ ensures that SGD initialized at
+                any point within a $\rho/2$ ball will necessarily stay within
+                the $\rho$-ball.
+            } We note that the above condition on $\eta$ is weak enough to
+            permit all $\eta$ within some open neighborhood of $\eta=0$.  
+
+            Condition \ref{eq:smalleta} together with analyticity of $s$ then
+            implies that
+            $
+                \wrap{\exp(-\eta g \nabla) s}(\theta) = s(\theta - \eta g)
+            $
+            when $\theta$ lies in the $\tilde\eta$ ball (of radius $\rho$) and
+            its $\eta$-distance from that $\tilde\eta$ ball's boundary exceeds
+            $b$, and that both sides are analytic in $\eta, \theta$ on the same
+            domain --- and \emph{a fortiori} when $\theta$ lies in the ball of
+            radius $\rho (1 - 1/(2T))$.  Likewise, a routine induction through
+            $T$ gives the value of $s$ (after doing $T$ gradient steps from an
+            initialization $\theta$) as
+            $$
+                \wrap{
+                    \prod_{0\leq t<T}
+                        \left.
+                            \exp(-\eta g \nabla)
+                        \right|_{g=\nabla l_t(\theta)}
+                }
+                (s)(\theta)
+            $$
+            for any $\theta$ in the $\rho (1-T/(2T)$-ball (that is, the
+            $\rho/2$-ball), and that both sides are analytic in $\eta, \theta$
+            on that same domain.  Note that in each exponential, the
+            $\nabla_\nu$ does not act on the $\nabla_\mu l(\theta)$ with which
+            it pairs.  
+
+            Now we use the standard expansion of $\exp$.  Because (by
+            analyticity) the order $d$ coeffients of $l_t, s$ are bounded by
+            some exponential decay in $d$ that has by assumption an $x$-uniform
+            rate, we have absolute convergence and may rearrange sums.  We
+            choose to group by total degree:
+            \begin{equation} \label{eq:expansion}
+                \cdots 
+                =
+                \sum_{0\leq d < \infty} (-\eta)^d
+                \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } s (\theta)
+            \end{equation}
+            The first part of the Key Lemma is proved.  It remains to show that
+            expectations over train sets commute with the above summation.
+
+            We will apply Fubini's Theorem.  To do so, it suffices to show that   
+            $$
+                \wabs{c_d((l_t: 0\leq t<T))} 
+                \triangleq
+                \wabs{
+                    \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                    \wrap{
+                        \prod_{0 \leq t < T} \left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                    } s (\theta)
+                }
+            $$
+            has an expectation that decays exponentially with $d$.  The symbol
+            $c_d$ we introduce purely for convenience; that its value depends
+            on the train set we emphasize using function application
+            notation.  Crucially, no matter the train set, we have shown
+            that the expansion \ref{eq:expansion} (that features $c_d$ appear
+            as coefficients) converges to an analytic function for all $\eta$
+            bounded as in condition \ref{eq:smalleta}.  The uniformity of this
+            demanded bound on $\eta$ implies by the standard relation between
+            radii of convergence and decay of coefficients that $\wabs{c_d}$
+            decays exponentially in $d$ at a rate uniform over train sets.
+            If the expectation of $\wabs{c_d}$ exists at all, then, it will
+            likewise decay at that same shared rate.
+            
+            Finally, $\wabs{c_d}$ indeed has a well-defined expected value, for
+            $\wabs{c_d}$ is a bounded continuous function of a
+            (finite-dimensional) space of $T$-tuples (each of whose entries can
+            specify the first $d$ derivatives of an $l_t$) and because the
+            latter space enjoys a joint distribution.  So Fubini's Theorem
+            applies.  The Key Lemma follows.   
+        \end{proof}
+
+    \subsection{From Dyson to diagrams}                             \label{appendix:toward-diagrams}
+
+        {\color{red} TODO: define diagrams! FILL IN }
+
+        We now describe the terms that appear in the Key Lemma.  The following
+        result looks like Theorem \ref{thm:resum}, except it has $\uvalue(D)$
+        instead of $\uvalue_f(D)$, and the sum is over all diagrams, not just
+        irreducible ones.  In fact, we will use Theorem \ref{thm:pathint} to
+        prove Theorem \ref{thm:resum}.
+
+        \begin{thm}[Test Loss as a Path Integral] \label{thm:pathint}
+            For all $T$: for $\eta$ sufficiently small, SGD's expected test
+            loss is
+            \begin{equation*}\label{eq:sgdcoef}
+                \sum_{D}
+                %\wrap{
+                    \sum_{\text{embeddings}~f}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                %}
+                \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
+            \end{equation*}
+            Here, $D$ is a diagram whose root $r$ does not participate in
+            any fuzzy edge, $f$ is an embedding of $D$ into spacetime, and
+            $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
+            preserve $f$'s assignment of nodes to cells.
+            %
+            If we replace $D$ by 
+            $
+                \wrap{-\sum_{p \in \parts(D)} (D_{rp} - D)/N}
+            $, where $r$ is $D$'s root,
+            we obtain the expected generalization gap (test minus training loss).
+        \end{thm}
+
+        Theorem \ref{thm:pathint} describe the terms that appear in the Key
+        Lemma by matching each term to an embedding of a diagram in spacetime,
+        so that the infinite sum becomes a sum over all diagram spacetime
+        configurations.  The main idea is that the combinatorics of diagrams
+        parallels the combinatorics of repeated applications of the product
+        rule for derivatives applied to the expression in the Key Lemma.
+        Balancing against this combinatorial explosion are factorial-style
+        denominators, again from the Key Lemma, that we summarize in terms of
+        the sizes of automorphism groups.
+
+        \begin{proof}[Proof of Theorem \ref{thm:pathint}]
+            We first prove the statement about testing losses.
+            Due to the analyticity property established in our proof of the
+            Key Lemma, it suffices to show agreement at each degree $d$ and
+            train set individually.  That is, it suffices to show --- for
+            each train set $(l_n: 0\leq n<N)$, spacetime $S$, function $\pi:
+            S\to [N]$ that induces $\sim$, and natural $d$ --- that
+            \begin{align} \label{eq:toprove}
+                (-\eta)^d
+                \sum_{\substack{
+                    (d_t: 0\leq t<T) \\
+                    \sum_t d_t = d
+                }}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } l (\theta)
+                = \nonumber \\
+                \sum_{\substack{
+                    D \in \image(\Free) \\
+                    \textnormal{with $d$ edges}
+                }}
+                \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
+                \frac{\uvalue_\pi(D, f)}{B^{d}}
+            \end{align}
+            Here, $\uvalue_\pi$ is the value of a diagram embedding before
+            taking expectations over train sets.  We have for all $f$ that
+            $\expct{\uvalue_\pi(D, f)} = \uvalue(D)$.
+            Observe that both sides of \ref{eq:toprove} are finitary sums.
+
+            \begin{rmk}[Differentiating Products] \label{rmk:leibniz}
+                The product rule of Leibniz easily generalizes to higher
+                derivatives of finitary products:
+                $$
+                    \nabla^{\wabs{M}} \prod_{k \in K} p_k
+                    = 
+                    \sum_{\nu:M\to K} \prod_{k\in K} \wrap{
+                        \nabla^{\wabs{\nu^{-1}(k)}} p_k
+                    }
+                $$
+                The above has $\wabs{K}^{\wabs{M}}$ many term indexed by
+                functions to $K$ from $M$.
+            \end{rmk}
+
+            We proceed by joint induction on $d$ and $S$.  The base cases
+            wherein $S$ is empty or $d=0$ both follow immediately from the Key
+            Lemma, for then the only embedding is the unique embedding of the
+            one-node diagram $\sdia{(0)()}$.  For the induction step, suppose
+            $S$ is a sequence of $\Mm = \min S \subseteq S$ followed by a
+            strictly smaller $S$ and that the result is proven for $(\tilde d,
+            \tilde S)$ for every $\tilde d \leq d$.  Let us group by $d_0$ the
+            terms on the left hand side of desideratum \ref{eq:toprove}.
+            Applying the induction hypothesis with $\tilde d = d - d_0$, we
+            find that that left hand side is:
+            \begin{align*}
+                \sum_{\substack{
+                    0 \leq d_0 \leq d
+                }}
+                \sum_{\substack{
+                    \tilde D \in \image(\Free) \\
+                    \textnormal{with $d-d_0$ edges}
+                }}
+                \frac{1}{d_0!}
+                \sum_{\tilde f: \tilde D\to\Free(\tilde S)} \wrap{
+                    \frac{1}{\wabs{\Aut_{\tilde f}(\tilde D)}}
+                }
+                ~\cdot~
+                \\ %---------------------------------------------
+                (-\eta)^{d_0}
+                \left.
+                    (g \nabla)^{d_0}
+                \right|_{g=\nabla l_0(\theta)}
+                \frac{\uvalue_\pi(\tilde D, \tilde f)}{B^{d-d_0}}
+            \end{align*}
+            Since $\uvalue_\pi(\tilde D, \tilde f)$ is a multilinear product of
+            $d-d_0+1$ many tensors, the product rule for derivatives tells us
+            that $(g \nabla)^{d_0}$ acts on $\uvalue_\pi(\tilde D, \tilde f)$
+            to produce $(d-d_0+1)^{d_0}$ terms.  In fact,
+            $
+                g = \sum_{m\in \Mm} \nabla l_m(\theta) / B
+            $ 
+            expands to
+            $B^{d_0}(d-d_0+1)^{d_0}$ terms, each conveniently indexed
+            by a pair of functions $\beta:[d_0]\to \Mm$ and $\nu:[d_0]\to
+            \tilde D$.  The $(\beta, \nu)$-term corresponds to an embedding
+            $f$ of a larger diagram $D$ in the sense that it contributes
+            $\uvalue_\pi(D, f)/B^{d_0}$ to the sum.  Here, $(f, D)$ is $(\tilde
+            f, \tilde D)$ with $\wabs{\wrap{\beta \times \nu}^{-1}(n, v)}$ many
+            additional edges from the cell of datapoint $n$ at time $0$ to the
+            $v$th node of $\tilde D$ as embedded by $\tilde f$.
+
+            By the Leibniz rule of Remark \label{rmk:leibniz}, this $(\beta,
+            \nu)$-indexed sum by corresponds to a sum over embeddings $f$ that
+            restrict to $\tilde f$, whose terms are multiples of the value of
+            the corresponding embedding of $D$.  Together with the sum over
+            $\tilde f$, this gives a sum over all embeddings $f$.  So we now
+            only need to check that the coefficients for each $f:D\to S$ are as
+            claimed.
+
+            We note that the $(\beta, \nu)$ diagram (and its value) agrees with
+            the $(\beta \circ \sigma, \nu \circ \sigma)$ diagram (and its
+            value) for any permutation $\sigma$ of $[d_0]$.  The corresponding
+            orbit has size
+            \begin{align*}
+                \frac{d_0!}{
+                    \prod_{(m, i) \in \Mm \times \tilde D}
+                        \wabs{(\beta \times \nu)^{-1}(m, i)}!
+                }
+            \end{align*}
+            by the Orbit Stabilizer Theorem of elementary group theory.   
+
+            It is thus enough to show that
+            \begin{align*} \label{eqn:countclaim}
+                \wabs{\Aut_f(D)} = 
+                \wabs{\Aut_{\tilde f}(D)}
+                \prod_{(m, i) \in \Mm \times \tilde D}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            \end{align*}
+            We will show this by a direct bijection.  First, observe that
+            $
+                f = \beta \sqcup \tilde f:
+                    [d_0] \sqcup \tilde D \to \Mm \sqcup \tilde S
+            $. 
+            So each automorphism $\phi: D\to D$ that commutes with $f$ induces
+            both an automorphism
+            $
+                \Aa = \phi|_{\tilde D}: \tilde D\to \tilde D
+            $
+            that commutes with $\tilde f$ together with the data of a map
+            $
+                \Bb = \phi_{[d_0]}: [d_0] \to [d_0] 
+            $
+            that both commutes with $\beta$.  However, not every such pair of
+            maps arises from a $\phi$.  For, in order for $\Aa \sqcup \Bb: D
+            \to D$ to be an automorphism, it must respect the order structure
+            of $D$.  In particular, if $x\leq_D y$ with $x \in [d_0]$ and $y
+            \in \tilde D$, then we need
+            $$
+                \Bb(x) \leq_D \Aa(y)
+            $$
+            as well.  The
+            pairs $(\Aa, \Bb)$ that thusly preserve order are in bijection with
+            the $\phi \in \Aut_f(D)$.  There are $\wabs{\Aut_{\tilde f}(\tilde
+            D)}$ many $\Aa$.  For each $\Aa$, there are as many $\Bb$ as there
+            are sequences $(\sigma_i: i \in \tilde D)$ of permutations on
+            $
+                \{j\in [d_0]: j\leq_D i\} \subseteq [d_0]
+            $ 
+            that commute with $\Bb$.  These permutations may be chosen
+            independently; there are 
+            $
+                \prod_{m\in \Mm}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            $
+            many choices for $\sigma_i$.  Claim \ref{eqn:countclaim} follows,
+            and with it the correctness of coefficients.
+ 
+            The argument for generalization gaps parallels the above when we
+            use $l-\sum_n l_n/N$ instead of $l$ as the value for $s$. 
+            Theorem \ref{thm:pathint} is proved.
+        \end{proof}
+
+        \begin{rmk}[The Case of $E=B=1$ SGD]
+            The spacetime of $E=B=1$ SGD permits all and only those
+            embeddings that assign to each part of a diagram's partition  a
+            distinct cell.  Such embeddings factor through a diagram
+            ordering and are thus easily counted using factorials per
+            Proposition \ref{prop:vanilla}.  That proposition immediately
+            follows from the now-proven Theorem \ref{thm:pathint}.
+        \end{rmk}
+
+        \begin{prop} \label{prop:vanilla}
+            The order $\eta^d$ contribution to the expected testing loss of
+            one-epoch SGD with singleton batches is:
+            \begin{equation*}\label{eq:sgdbasiccoef}
+                \frac{(-1)^d}{d!} \sum_{D} 
+                |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
+                \uvalue(D)
+            \end{equation*}
+            where $D$ ranges over $d$-edged diagrams.  Here, $D$'s parts have
+            sizes $d_p: 0\leq p\leq P$, and $|\ords(D)|$ counts the total
+            orderings of $D$ s.t.\ children precede parents and parts are
+            contiguous.
+        \end{prop}
+
+    \subsection{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
+
+        We say an embedding is \textbf{strict} if it assigns to each part
+        a different datapoint $n$.
+        Then, by M\"obius inversion (\cite{ro64}), a sum over strict embeddings
+        of moment values (\S\ref{appendix:evaluate-embeddings}) matches 
+        a sum over all embeddings of $\uvalue$s.
+
+    \subsection{Theorems \ref{thm:resum} and \ref{thm:converge}}    \label{appendix:resum}
+
+        The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
+        may be grouped by their geometric realizations.  Each nonempty class of
+        diagrams with a given geometric realization has a unique element with
+        minimally many edges, and in this way all and only irreducible diagrams
+        arise. 
+
+        We encounter two complications: on one hand, that the sizes of
+        automorphism groups might not be uniform among the class of diagrams
+        with a given geometric realization.  On the other hand, that the
+        embeddings of a specific member of that class might be hard to count.
+        The first we handle using Orbit-Stabilizer.  The second we address as
+        described by \label{subsubsect:mobius} via M\"obius sums.
+           
+        \begin{proof}[Proof of Theorem \ref{thm:resum}]
+            We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
+            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).  The result
+            is that chains of embeddings  
+            {\color{red} FILL IN}
+
+            The difference in loss from the noiseless case is given by all the
+            diagram embeddings with at least one fuzzy tie, where the fuzzy tie
+            pattern is actually replaced by a difference between noisy and
+            noiseless cases as prescribed by the preceding discussion on
+            M\"obius Sums.  Beware that even relatively noiseless embeddings
+            may have illegal collisions of non-fuzzily-tied nodes within a
+            single spacetime (data) row.  Throughout the rest of this proof, we
+            permit such illegal embeddings of the fuzz-less diagrams that arise
+            from the aforementioned decomposition.  
+
+            Because the Taylor series for analytic functions converge
+            absolutely in the interior of the disk of convergence, the
+            rearrangement of terms corresponding to a grouping by geometric
+            realizations preserves the convergence result of Theorem
+            \ref{thm:pathint}.  
+
+            Let us then focus on those diagrams $\sigma$ with a given geometric
+            realization represented by an irreducible diagram $\rho$.  By
+            Theorem \ref{thm:pathint}, it suffices to show that
+            \begin{equation} \label{eq:hard}
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \frac{1}{\wabs{\Aut_{\tilde f}(\sigma)}}
+                =
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \sum_{\substack{
+                    i:\rho\to\sigma \\
+                    f = \tilde f \circ i
+                }}
+                \frac{1}{\wabs{\Aut_{f}(\rho)}}
+            \end{equation}
+            Here, $f$ is considered up to an equivalence defined by
+            precomposition with an automorphism of $\rho$.  We likewise
+            consider $\tilde f$ up to automorphisms of $\sigma$.  And above,
+            $i$ ranges through maps that induce isomorphisms of geometric
+            realizations, where $i$ is considered equivalent to $\hat i$ when
+            for some automorphism $\phi \in \Aut_{\tilde f}(\sigma)$, we have
+            $\hat i = i \circ \phi$.  Name as $X$ the set of all such $i$s
+            under this equivalence relation.
+
+            In equation \ref{eq:hard}, we have introduced
+            redundant sums to structurally align the two expressions on the
+            page; besides this rewriting, we see that equation \ref{eq:hard}'s
+            left hand side matches Theorem \ref{thm:pathint} resulting formula
+            and tgat its right hand side is the desired formula of Theorem
+            \ref{thm:resum}. 
+
+            To prove equation \ref{eq:hard}, it suffices to show (for any
+            $f, \tilde f, i$ as above) that
+            $$
+                \wabs{\Aut_f(\rho)}
+                =
+                \wabs{\Aut_{\tilde f}(\sigma)}
+                \cdot
+                \wabs{X}
+            $$
+            We will prove this using the Orbit Stabilizer Theorem by presenting
+            an action of $\Aut_f(\rho)$ on $X$.  We simply use precomposition
+            so that $\psi\in \Aut_f(\rho)$ sends $i\in X$ to $i\circ \psi$.
+            Since $f\circ\psi = f$, $i\circ \psi \in X$.  Moreover, the action
+            is well-defined, because if $i\sim \hat i$ by $\phi$, then $i \circ
+            \psi \sim \hat i \circ \psi$ also by $\phi$.
+            
+            The stabilizer of $i$ has size $\wabs{\Aut_{\tilde f}(\rho)}$.
+            For, when $i \sim i \circ \psi$ via $\phi \in \Aut_{\tilde
+            f}(\rho)$, we have $i\circ \psi = \phi \circ i$.  This relation in
+            fact induces a bijective correspondence: \emph{every} $\phi$
+            induces a $\psi$ via $\psi = i^{-1} \circ \phi \circ i$, so we have
+            a map $\text{stabilizer}(i) \hookleftarrow \Aut_{\tilde f}(\rho)$
+            seen to be well-defined and injective because structure set
+            morphisms are by definition strictly increasing and because $i$s
+            must induce isomorphisms of geometric realizations.  Conversely,
+            every $\psi$ that stabilizes enjoys \emph{only} one $\phi$ via
+            which $i \sim i \circ \phi$, again by the same (isomorphism and
+            strict increase) properties.  So the stabilizer has the claimed
+            size.
+
+            Meanwhile, the orbit is all of $\wabs{X}$.  Indeed, suppose $i_A,
+            i_B \in X$.  We will present $\psi \in \Aut_f(\rho)$ such that $i_B
+            \sim i_A \circ \psi$ by $\phi=\text{identity}$.  We simply define
+            $\psi = i_A^{-1} \circ i_B$, well-defined by the aforementioned
+            (isomorphisms and strict increase) properties.  It is then routine
+            to verify that
+            $
+                f \circ \psi
+                =
+                \tilde f \circ i_A \circ i_A^{-1} \circ i_B
+                =
+                \tilde f \circ i_B
+                = f.
+            $
+            So the orbit has the claimed size, and by the Orbit Stabilizer
+            Theorem, the coefficients in the expansions of Theorems 
+            \ref{thm:resum} and \ref{thm:pathint} match.
+        \end{proof}
+
+        \begin{proof}[Proof of Theorem \ref{thm:converge}]
+            Since we assumed hessians are positive: for any $m$, the propagator
+            $K^t = \wrap{(I-\eta H)^{\otimes m}}^t$ exponentially decays to $0$
+            (at a rate dependent on $m$).  Since up to degree $d$ only a finite
+            number of diagrams exist and hence only a finite number of possible
+            $m$s, the exponential rates are bounded away from $0$.  Moreover,
+            for any fixed $t_{\text{big}}$, the number of diagrams ---
+            involving no exponent $t$ exceeding $t_{\text{big}}$ --- is
+            eventually constant as $T$ grows.  Meanwhile, the number involving
+            at least one exponent $t$ exceeding that threshold grows
+            polynomially in $T$ (with degree $d$).  The exponential decay of
+            each term overwhelms the polynomial growth in the number of terms,
+            and the convergence statement follows.
+        \end{proof}
+
+    %\subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
+
+    \subsection{Proofs of corollaries}                              \label{appendix:corollaries}
+
+        \subsubsection{Corollary \ref{cor:entropic}}
+
+            \begin{proof}
+                The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
+                {color{red} (amputated as in the previous subsubsection)}.   
+                An embedding of this diagram into $E=B=1$ SGD's spacetime
+                is determined by two durations --- 
+                $t$ from {\color{moor}red} to {\color{moog}green} and
+                $\tilde t$ from {\color{moog}green} to {\color{moob}blue} ---
+                obeying $t+\tilde t \leq T$.
+                The automorphism group of each embedding has size $2$: identity
+                or switch the {\color{moor}red} nodes.  So the answer is: 
+                $$
+                    C_{\mu \nu}
+                    J^{\rho\lambda}_{\sigma}
+                    \wrap{\int_{t+\tilde t\leq T}
+                        \wrap{\exp(-t \eta H) \eta}^{\mu\rho}
+                        \wrap{\exp(-t \eta H) \eta}^{\nu\lambda}
+                        \wrap{\exp(-\tilde t \eta H) \eta}^{\sigma\pi}
+                    }
+                $$
+                Standard calculus then gives the desired result.
+            \end{proof}
+
+        \subsubsection{Corollary \ref{cor:overfit}'s first part}
+
+            \begin{proof}[Proof.]
+                The relevant irreducible diagram is $\sdia{(01-2)(02-12)}$
+                (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
+                minimum).  This diagram has one embedding for each pair of
+                same-row shaded cells, potentially identical, in spacetime; for
+                GD, the spacetime has every cell shaded, so each
+                \emph{non-decreasing} pair of durations in $[0,T]^2$ is
+                represented; the symmetry factor for the case where the cells
+                is identical is $1/2$, so we lose no precision by interpreting
+                a automorphism-weighted sum over the \emph{non-decreasing}
+                pairs as half of a sum over all pairs.  Each of these may embed
+                into $N$ many rows, hence the factor below of $N$.  The two
+                integration variables (say, $t, \tilde t$) separate, and we
+                have:
+                $$
+                    \frac{N}{B^{\text{degree}}}
+                    \frac{C_{\mu\nu}}{2}
+                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
+                    \int_{\tilde t} \wrap{\exp(-\tilde t \eta H)}^\nu_\rho
+                    \eta^{\lambda\sigma}
+                    \eta^{\rho\pi}
+                    H_{\sigma\pi}
+                $$
+                Since for GD we have $N=B$ and we are working to degree $2$,
+                the prefactor is $1/N$.  Since $\int_t \exp(a t) = (I-\exp(-a
+                T))/a$, the desired result follows. 
+            \end{proof}
+
+        \subsubsection{Corollary \ref{cor:overfit}'s second part}
+
+            We apply the generalization gap modification (described in
+            \S\ref{appendix:solve-variants}) to Theorem \ref{thm:resum}'s
+            result about testing losses.
+
+            \begin{proof}[Proof]
+                The relevant irreducible diagram is $\sdia{c(01)(01)}$.  This
+                diagram has one embedding for each shaded cell of spacetime;
+                for GD, the spacetime has every cell shaded, so each duration
+                from $0$ to $T$ is represented.  So the generalization gap is,
+                to leading order,
+                $$
+                    + \frac{C_{\mu\nu}}{N}
+                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
+                    \eta^{\lambda\nu}
+                $$
+                Here, the minus sign from the gen-gap modification canceled
+                with the minus sign from the odd power of $-\eta$.  Integration
+                finishes the proof.
+            \end{proof}
+ 
+        \subsubsection{Corollaries \ref{cor:epochs} and \ref{cor:batch}}
+
+            Corollary \ref{cor:epochs} and Corollary \ref{cor:batch} follow
+            from plugging appropriate values of $M, N, B$ into the following
+            proposition.
+
+            \begin{prop}\label{prop:ordtwo}
+                To order $\eta^2$, the testing loss of SGD --- on $N$
+                samples for $M$ epochs with batch size $B$ dividing $N$ and with any
+                shuffling scheme --- has expectation
+                {\small
+                \begin{align*}
+                                                            l              
+                    &- MN                                   G_\mu G^\mu       
+                     + MN\wrap{MN - \frac{1}{2}}            G_\mu H^{\mu}_{\nu} G^\nu \\
+                    &+ MN\wrap{\frac{M}{2}}                 C_{\mu \nu} H^{\mu \nu}
+                     + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
+                \end{align*}
+                }
+            \end{prop}
+
+            \begin{proof}[of Proposition \ref{prop:ordtwo}]
+                To prove Proposition \ref{prop:ordtwo}, we simply count
+                the embeddings of the diagrams, noting that the automorphism groups
+                are all of size $1$ or $2$.  Since we use fuzzy outlines instead of
+                fuzzy ties, we allow untied nodes to occupy the same row, since the
+                excess will be canceled out by the term subtract in the definition of
+                fuzzy outlines.  See Table \ref{tbl:ordtwo}.
+                \begin{table}[h]
+                    \centering
+                    \begin{tabular}{cll}
+                        diagram                 & embed.s w/ $\wabs{\Aut_f}=1$  & embed.s w/ $\wabs{\Aut_f}=2$   \\ \hline
+                        $\sdia{(0)()}$          & $1$                           & $0$                            \\  
+                        $\sdia{(0-1)(01)}$      & $MNB$                         & $0$                            \\                  
+                        $\sdia{(0-1-2)(01-12)}$ & ${MNB\choose 2}$              & $0$                            \\
+                        $\sdia{c(01-2)(01-12)}$ & $N{MB\choose 2}$              & $0$                            \\
+                        $\sdia{(0-1-2)(02-12)}$ & ${MNB\choose 2}$              & $0$                            \\
+                        $\sdia{c(01-2)(02-12)}$ & $N{MB\choose 2}$              & $MNB$                             
+                    \end{tabular}
+                    \label{tbl:ordtwo}
+                \end{table}
+            \end{proof}
+
+        \subsubsection{Corollary \ref{cor:vsode}}
+
+            The corollary's first part follows immediately from 
+            Proposition \ref{prop:ordtwo}.
+
+            \begin{proof}[Proof of second part]
+                Because $\expct{\nabla l}$ vanishes at initialization, all
+                diagrams with a degree-one vertex that is a singleton vanish.
+                Because we work at order $\eta^3$, we consider $3$-edged
+                diagrams.  Finally, because all first and second moments match
+                between the two landscapes, we consider only diagrams with at
+                least one partition of size at least $3$.  The only such test
+                diagram is $\sdia{c(012-3)(03-13-23)}$.  This embeds in $T$
+                ways (one for each spacetime cell) and has
+                symmetry factor $1/3!$ for a total of
+                $$
+                    \frac{T \eta^3 }{6}
+                    \expct{\nabla^3 l}
+                    \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                $$
+            \end{proof}
+
+    \subsection{Future topics}                                      \label{appendix:future}
+
+        Our diagrams invite exploration of Lagrangian formalisms and curved
+        backgrounds:\footnote{
+            \cite{la60, la51} review these concepts.
+        }
+        \begin{quest}
+            Does some least-action principle govern SGD; if not, what is an
+            essential obstacle to this characterization?
+        \end{quest}
+        Lagrange's least-action formalism intimately intertwines with the
+        diagrams of physics.  Together, they afford a modular framework for
+        introducing new interactions as new terms or diagram nodes.  In fact,
+        we find that some \emph{higher-order} methods --- such as the
+        Hessian-based update
+        $
+            \theta \leftsquigarrow
+            \theta -
+            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
+            \nabla l_t(\theta)
+        $
+        parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
+        when we represent the $\lambda$ term as a second type of diagram node.
+        Though diagrams suffice for computation, it is Lagrangians that most
+        deeply illuminate scaling and conservation laws.
+
+        Our work assumes a flat metric $\eta^{\mu\nu}$, but it might
+        generalize to weight spaces curved in the sense of Riemann.\footnote{
+            One may represent the affine connection as a node, thus giving
+            rise to non-tensorial and hence gauge-dependent diagrams.
+        }  Such curvature finds concrete application in the \emph{learning on
+        manifolds} paradigm of \cite{ab07, zh16}, notably specialized to
+        \cite{am98}'s \emph{natural gradient descent} and \cite{ni17}'s
+        \emph{hyperbolic embeddings}.  While that work focuses on
+        \emph{optimization} on curved weight spaces, in machine learning we
+        also wish to analyze \emph{generalization}.
+        %
+        Starting with the intuition that ``smaller'' hypothesis classes
+        generalize better and that curvature controls the volume of small
+        neighborhoods, we conjecture that sectional curvature regularizes
+        learning:
+        \begin{conj}[Sectional curvature regularizes]
+            If $\eta(\tau)$ is a Riemann metric on weight space, smoothly
+            parameterized by $\tau$, and if the sectional curvature through
+            every $2$-form at $\theta_0$ increases as $\tau$ grows, then
+            the gen.\ gap attained by fixed-$T$ SGD with learning rate $c
+            \eta(\tau)$ (when initialized from $\theta_0$) decreases as $\tau$
+            grows, for all sufficiently small $c>0$.
+        \end{conj}
+        We are optimistic our formalism may resolve conjectures such as above.
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Experiments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\newpage
+\section{Experimental methods}\label{appendix:experiments}
+
+    \subsection{What artificial landscapes did we use?}             \label{appendix:artificial}
+
+        We define three artificial landscapes, called
+        \Gauss, \Archimedes, and \MeanEstimation.
+
+        \subsubsection{\Gauss}
+            Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
+            centered standard normal data.  We parameterize the landscape by
+            $h=\log(\sigma^2)$ so that the Fisher information matches the
+            standard dot product \citep{am98}.   
+            %
+            More explicitly, the \Gauss\, landscape is a probability
+            distribution $\Dd$ over functions $l_x:\RR^1\to \RR$ on
+            $1$-dimensional weight space, indexed by standard-normally
+            distributed $1$-dimensional datapoints $x$ and defined by the
+            expression:
+            $$
+                l_x(h)
+                \triangleq
+                \frac{1}{2} \wrap{h + x^2 \exp(-h)}
+            $$
+            The gradient at sample $x$ and weight $\sigma$ is then $g_x(h) =
+            (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0, 1)$, the gradient $g_x(h)$
+            will be affinely related to a chi-squared, and in particular
+            non-Gaussian.
+            
+            To measure overfitting, we initialize at the true test minimum
+            $h=0$, then train and see how much the testing loss increases.  At
+            $h=0$, the expected gradient vanishes, and the testing loss of SGD
+            involves only diagrams that have no leaves of size one.
+            
+        \subsubsection{\Archimedes}
+            The \Archimedes\, landscape has chirality, much like its namesake's
+            screw \cite{vi00}.  Specifically, the \Archimedes\ landscape has
+            %
+            weights     $\theta = (u,v,z) \in \RR^3$,
+            %
+            data points $x \sim \Nn(0, 1)$,
+            %
+            and loss:
+            %
+            $$
+                l_x(\theta)
+                \triangleq
+                \frac{1}{2} H(\theta) + x \cdot S(\theta)
+            $$
+            %
+            Here,
+            $$
+                H(\theta) = u^2 + v^2 + (\cos(z) u + \sin(z) v)^2
+            $$
+            is quadratic in $u, v$, and
+            $$
+                S(\theta) = \cos(z-\pi/4) u + \sin(z-\pi/4) v
+            $$
+            is linear in $u, v$.
+            Also, since $x \sim \Nn(0,1)$, the $x \cdot S(\theta)$ term has
+            expectation $0$.
+            %
+            In fact, the landscape has a three-dimensional continuous screw
+            symmetry consisting of translation along $z$ and simulateous
+            rotation in the $u-v$ plane.  Our experiments are initialized at
+            $u=v=z=0$, which lies within a valley of global minima defined by
+            $u=v=0$.  
+
+            The paper body showed that SGD travels in \Archimedes' $+z$
+            direction.  By topologically quotienting the weight space, say by
+            identifying points related by a translation by $\Delta z = 200\pi$,
+            we may turn the line-shaped valley into a circle-shaped valley.
+            Then SGD eternally travels, say, counterclockwise.
+           
+        \subsubsection{\MeanEstimation}
+            The \MeanEstimation\, family of landscapes has $1$ dimensional
+            weights $\theta$ and $1$-dimensional datapoints $x$.  It is defined
+            by the expression:
+            $$
+                l_x(\theta)
+                \triangleq
+                \frac{1}{2} H \theta^2 + x S \theta
+            $$
+            Here, $H, S$ are positive reals parameterizing the family; they
+            give the hessian and (square root of) gradient covariance,
+            respectively.
+
+            For our hyperparameter-selection experiment (Figure
+            \ref{fig:takreg}\ofthree{2}) we introduce an $l_2$
+            regularization term as follows:
+            $$
+                l_x(\theta, \lambda)
+                \triangleq
+                \frac{1}{2} (H + \lambda) \theta^2 + x S \theta
+            $$
+            Here, we constrain $\lambda\geq 0$ during optimization using
+            projections; we found similar results when parameterizing $\lambda
+            = \exp(h)$, which obviates the need for projection but necessitates
+            a non-canonical choice of initialization.  We initialize
+            $\lambda=0$.
+
+    \subsection{What image-classification landscapes did we use?}   \label{appendix:natural}
+
+        \subsubsection{Architectures}
+            In addition to the artificial loss landscapes
+            \Gauss, \Archimedes, and \MeanEstimation, 
+            we tested our predictions on logistic linear regression
+            and simple convolutional networks (2 convolutional weight layers
+            each with kernel $5$, stride $2$, and $10$ channels, followed by
+            two dense weight layers with hidden dimension $10$) for the
+            CIFAR-10 \cite{kr09} and Fashion-MNIST datasets \cite{xi17}.  The
+            convolutional architectures used $\tanh$ activations and Gaussian
+            Xavier initialization.  To set a standard distance scale on weight
+            space, we parameterized the model so that the
+            Gaussian-Xavier initialization of the linear maps in each layer
+            differentially pulls back to standard normal initializations of the
+            parameters.
+            
+        \subsubsection{Datasets}
+            For image classification landscapes, we regard the finite amount of
+            available data as the true (sum of diracs) distribution $\Dd$ from
+            which we sample test and training sets in i.i.d.\ manner (and hence
+            ``with replacement'').  We do this to gain practical access to a
+            ground truth against which we may compare our predictions.  One
+            might object that this sampling procedure would cause test and
+            training sets to overlap, hence biasing testing loss measurements.  In
+            fact, test and training sets overlap only in reference, not in
+            sense: the situation is analogous to a text prediction task in
+            which two training points culled from different corpora happen to
+            record the same sequence of words, say, ``Thank you!''.  In any
+            case, all of our experiments focus on the limited-data regime, e.g.
+            $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
+            are rare.
+
+    \subsection{Measurement process}                                \label{appendix:measure}
+
+        \subsubsection{Diagram evaluation on real landscapes}
+            We implemented the formulae of \S\ref{sect:bessel} in order
+            to estimate diagram values from real data measured at
+            initialization from batch averages of products of derivatives.
+
+        \subsubsection{Descent simulations}
+            We recorded test and training losses for each of the trials below.  To
+            improve our estimation of average differences, when we compared two
+            optimizers, we gave them the same random seed (and hence the same
+            training sets).
+
+            We ran $2 \cdot 10^5$ trials of \Gauss\, with SDE and SGD,
+            initialized at the test minimum with $T=1$ and $\eta$ ranging from
+            $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
+            We ran $5 \cdot 10^1$ trials of \Archimedes with SGD with $T=10^4$
+            and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
+            We ran $10^3$ trials of \MeanEstimation with GD and STIC
+            with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
+            a covariance of gradients of $10^2$, and the true mean $0$ or
+            $10$ units away from initialization.
+
+            We ran $5 \cdot 10^4$ trials of the CIFAR-10 convnet on each of $6$
+            Glorot-Xavier initializations we fixed once and for all through
+            these experiments for the optimizers SGD, GD, and GDC, with $T=10$
+            and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We did
+            likewise for the linear logistic model on the one initialization of
+            $0$.
+
+            We ran $4 \cdot 10^4$ trials of the Fashion-MNIST convnet on each
+            of $6$ Glorot-Xavier initializations we fixed once and for all
+            through these experiments for the optimizers SGD, GD, and GDC with
+            $T=10$ and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We
+            did likewise for the linear logistic model on the one
+            initialization of $0$. 
+
+    \subsection{Implementing optimizers}                            \label{appendix:optimizers}
+
+        We approximated SDE by refining time discretization by a factor of
+        $16$, scaling learning rate down by a factor of $16$, and introducing
+        additional noise in the shape of the covariance in proportion as
+        prescribed by the Wiener process scaling.
+
+        Our GDC regularizer was implemented using the unbiased estimator
+        $$
+            \hat{C} \triangleq (l_x - l_y)_\mu {l_x}_\nu / 2
+        $$
+        
+        For our tests of regularization based on Corollary \ref{cor:overfit},
+        we exploited the low-dimensional special structure of the artificial
+        landscape in order to avoid diagonalizing to perform the matrix
+        exponentiation: precisely, we used that, even on training landscapes,
+        the covariance of gradients would be degenerate in all but one
+        direction, and so we need only exponentiate a scalar.
+
+    \subsection{Software frameworks and hardware}                   \label{appendix:frameworks}
+
+        All code and data-wrangling scripts can be found on
+        {\color{mooteal}github.com/???????/perturb}.  This link will be made
+        available after the period of double-blind review.
+
+        Our code uses PyTorch 0.4.0 \cite{pa19} on Python 3.6.7; there are no
+        other substantive dependencies.  The code's randomness is parameterized
+        by random seeds and hence reproducible.
+
+        We ran experiments on a Lenovo laptop and on our institution's
+        clusters; we consumed about $100$ GPU-hours.
+
+    \subsection{Unbiased estimators of landscape statistics}        \label{appendix:bessel}
+        %
+        We use the following method --- familiar to some of our colleagues but
+        hard to find writings on --- for obtaining unbiased estimates for
+        various statistics of the loss landscape.  The method is merely an
+        elaboration of Bessel's factor \citep{ga23}.  For completeness, we
+        explain it here. 
+        
+        Given samples from a joint probability space $\prod_{0\leq d<D} X_d$,
+        we seek unbiased estimates of \emph{multipoint correlators} (i.e.\ products of
+        expectations of products) such as $\wang{x_0 x_1 x_2}\wang{x_3}$.  Here,
+        angle brackets denote expectations over the population. 
+        For
+        example, say $D=2$ and from $2S$ samples we'd like to estimate
+        $\wang{x_0 x_1}$.  Most simply, we could use $\Avg_{0\leq s<2S}
+        x_0^{(s)} x_1^{(s)}$, where $\Avg$ denotes averaging over the sample.  In fact, the
+        following also works:
+        %
+        \begin{equation} \label{eq:bessel}
+            S
+            \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+            \wrap{\Avg_{0\leq s< S} x_1^{(s)}}
+            +
+            (1-S)
+            \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+            \wrap{\Avg_{S\leq s<2S} x_1^{(s)}}
+        \end{equation}
+        %
+        When multiplication is expensive (e.g. when each $x_d^{(s)}$ is a
+        tensor and multiplication is tensor contraction), we prefer the latter,
+        since it uses $O(1)$ rather than $O(S)$ multiplications.  This in turn
+        allows more efficient use of batch computations on GPUs.  We now
+        generalize this estimator to higher-point correlators (and $D\cdot S$
+        samples).
+
+        For uniform notation, we assume without loss that each of the $D$
+        factors appears exactly once in the multipoint expression of interest;
+        such expressions then correspond to partitions on $D$ elements, which
+        we represent as maps $\mu:\wasq{D}\to \wasq{D}$ with $\mu(d)\leq d$ and
+        $\mu\circ \mu=\mu$.  Note that $\wabs{\mu} \coloneqq \wabs{im(\mu)}$
+        counts $\mu$'s parts.  We then define the statistic
+        %
+        $$
+            \wurl{x}_\mu
+            \triangleq
+            \prod_{0\leq d<D} \Avg_{0\leq s<S} x_d^{(\mu(d)\cdot S + s)}
+        $$
+        %
+        and the correlator $\wang{x}_\mu$ we define to be the expectation of 
+        $\wurl{x}_\mu$ when $S=1$.  In this notation, \ref{eq:bessel} says: 
+        $$
+            \wang{x}_{\partitionbox{0}\partitionbox{1}}
+            =
+            \expct{
+                S       \cdot \wurl{x}_{\partitionbox{0 1}} +
+                (1-S)   \cdot \wurl{x}_{\partitionbox{0}\partitionbox{1}}
+            }
+        $$
+        %
+        Here, the boxes indicate partitions of $\wasq{D}=\wasq{2}=\{0,1\}$.
+        Now, for general $\mu$, we have:
+        %
+        \begin{equation} \label{eq:newbessel}
+            \expct{S^D \wurl{x}_\mu}
+            =
+            \sum_{\tau\leq \mu} \wrap{
+                \prod_{0\leq d<D}
+                    \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+            }
+            \wang{x}_\tau
+        \end{equation}
+        %
+        where `$\tau \leq \mu$' ranges through partitions \emph{finer} than 
+        $\mu$, i.e. maps $\tau$ through which $\mu$ factors.   
+        In smaller steps, \ref{eq:newbessel} holds because
+        %
+        \begin{align*}
+            \expct{S^D \wurl{x}_\mu}
+            &=
+            \expct{
+                \sum_{(0\leq s_d<S) \in \wasq{S}^D}
+                \prod_{0\leq d<D}
+                x_d^{\wrap{\mu(d)\cdot S + s_d}}
+            }\\
+            &=
+            \sum_{\substack{(0\leq s_d<S) \\ \in \wasq{S}^D}}
+            \expct{
+                \prod_{0\leq d<D}
+                x_d^{\wrap{\min \wurl{
+                    \tilde{d}~:~\mu(\tilde{d})\cdot S+s_{\tilde{d}} = \mu(d)\cdot S+s_d
+                }}}
+            }\\
+            &=
+            \sum_{\tau} \wabs{\wurl{\substack{
+                (0\leq s_d<S)~\in~[S]^D~: \\
+                \wrap{\substack{
+                    \mu(d)=\mu(\tilde{d}) \\
+                    \wedge~s_d=s_{\tilde{d}}
+                }}
+                \Leftrightarrow
+                \tau(d)=\tau(\tilde{d})
+            }}}
+            \wang{x}_\tau \\
+            &=
+            \sum_{\tau\leq \mu} \wrap{
+                \prod_{0\leq d<D}
+                    \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+            }
+            \wang{x}_\tau
+        \end{align*}
+
+        Solving \ref{eq:newbessel} for $\wang{x}_\mu$, we find:
+        %
+        \begin{equation*}
+            \text{\fbox{$
+            \wang{x}_\mu
+            =
+            \frac{S^D}{S^{\wabs{\mu}}}
+            \expct{
+                \wurl{x}_\mu
+            }
+            -
+            \sum_{\tau < \mu} \wrap{
+                \prod_{d\in im(\mu)}
+                \frac{\wrap{S-1}!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+            }
+            \wang{x}_\tau
+            $}}
+        \end{equation*}
+        %
+        This expresses $\wang{x}_\mu$ in terms of the batch-friendly estimator
+        $\wurl{x}_\mu$ as well as correlators $\wang{x}_\tau$ for $\tau$
+        \emph{strictly} finer than $\mu$.  We may thus (use dynamic programming
+        to) obtain unbiased estimators $\wang{x}_\mu$ for all partitions $\mu$.
+        Symmetries of the joint distribution and of the multilinear
+        multiplication may further streamline estimation by turning a sum over
+        $\tau$ into a multiplication by a combinatorial factor.  For example,
+        in the case of complete symmetry:
+        %
+        $$
+            \wang{x}_{\partitionbox{012}}
+            =
+            S^2
+            \wurl{x}_{\partitionbox{012}}
+            -
+            \frac{(S-1)!}{(S-3)!}
+            \wurl{x}_{\partitionbox{0}\partitionbox{1}\partitionbox{2}}
+            -
+            3\frac{(S-1)!}{(S-2)!}
+            \wurl{x}_{\partitionbox{0}\partitionbox{12}}
+        $$
+
+    \subsection{Additional figures}                                 \label{appendix:figures}
+
+        \begin{figure}[h] 
+            \centering
+            \centering
+            \pmoo{3.5cm}{multi-fashion-logistic-0}
+            \pmoo{3.5cm}{vs-sde}
+            \pmoo{3.5cm}{tak-reg}
+            \caption{
+                \textbf{Further experimental results}.
+                %
+                \textbf{Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test
+                loss than one-epoch SGD (difference shown in I bars) by the
+                predicted amounts (predictions shaded) for a range of learning
+                rates.  Here, all SGD runs have $N=10$; we scale the learning
+                rate for $E$-epoch SGD by $1/E$ to isolate the effect of
+                inter-epoch correlations away from the effect of larger $\eta
+                T$.
+                %
+                \textbf{Center}: SGD's difference from SDE after $\eta T
+                \approx 10^{-1}$ with maximal coarseness on \Gauss.  Two
+                effects not modeled by SDE --- time-discretization and
+                non-Gaussian noise oppose on this landscape but do not
+                completely cancel.  Our theory approximates the above curve
+                with a correct sign and order of magnitude; we expect that the
+                fourth order corrections would improve it further.
+                %
+                \textbf{Right}: Blue intervals regularization using Corollary
+                \ref{cor:overfit}.  When the blue intervals fall below the
+                black bar, this proposed method outperforms plain GD.  For
+                \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized
+                a fixed distance \emph{away} from the true minimum, descent on
+                an $l_2$ penalty coefficient $\lambda$ improves on plain GD for
+                most Hessians.  The new method does not always outperform GD,
+                because $\lambda$ is not perfectly tuned according to STIC but
+                instead descended on for finite $\eta T$.
+            }
+            \label{fig:takreg}
+        \end{figure}
+
+
+
 \end{document}

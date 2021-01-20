@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.7.12)  18 JAN 2021 18:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2020.7.12)  19 JAN 2021 21:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -648,51 +648,63 @@ File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 LaTeX Warning: Unused global option(s):
     [12pt].
 
-(./perturb-colt.aux)
+(./perturb-colt.aux
+
+LaTeX Warning: Label `fig:intuition' multiply defined.
+
+
+LaTeX Warning: Label `lem:dyson' multiply defined.
+
+
+LaTeX Warning: Label `eq:dyson' multiply defined.
+
+
+LaTeX Warning: Label `rmk:leibniz' multiply defined.
+
+)
 \openout1 = `perturb-colt.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 236.
+LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 238.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
-236.
-
-(/usr/share/texlive/texmf-dist/tex/latex/txfonts/omltxmi.fd
+238.
+ (/usr/share/texlive/texmf-dist/tex/latex/txfonts/omltxmi.fd
 File: omltxmi.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for OMS/txsy/m/n on input line 238.
 LaTeX Font Info:    Trying to load font information for OMS+txsy on input line 
-236.
+238.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/omstxsy.fd
 File: omstxsy.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 236.
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 236.
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 236.
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 238.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 238.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 238.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for OMX/txex/m/n on input line 238.
 LaTeX Font Info:    Trying to load font information for OMX+txex on input line 
-236.
+238.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/omxtxex.fd
 File: omxtxex.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 236.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for U/txexa/m/n on input line 238.
 LaTeX Font Info:    Trying to load font information for U+txexa on input line 2
-36.
+38.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxexa.fd
 File: utxexa.fd 2000/12/15 v3.1
 )
-LaTeX Font Info:    ... okay on input line 236.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 236.
-LaTeX Font Info:    ... okay on input line 236.
+LaTeX Font Info:    ... okay on input line 238.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 238.
+LaTeX Font Info:    ... okay on input line 238.
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 2
-36.
+38.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
@@ -720,10 +732,10 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box64
-Package hyperref Info: Link coloring ON on input line 236.
-LaTeX Info: Redefining \ref on input line 236.
-LaTeX Info: Redefining \pageref on input line 236.
-LaTeX Info: Redefining \nameref on input line 236.
+Package hyperref Info: Link coloring ON on input line 238.
+LaTeX Info: Redefining \ref on input line 238.
+LaTeX Info: Redefining \pageref on input line 238.
+LaTeX Info: Redefining \nameref on input line 238.
 
 (./perturb-colt.out) (./perturb-colt.out)
 \@outlinefile=\write3
@@ -732,193 +744,173 @@ LaTeX Info: Redefining \nameref on input line 236.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
-38.
+40.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
 LaTeX Font Info:    Trying to load font information for OT1+txr on input line 2
-80.
+82.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/ot1txr.fd
 File: ot1txr.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsya on input line 2
-80.
+82.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxsya.fd
 File: utxsya.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsyb on input line 2
-80.
+82.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxsyb.fd
 File: utxsyb.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txmia on input line 2
-80.
+82.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxmia.fd
 File: utxmia.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Trying to load font information for U+txsyc on input line 2
-80.
+82.
 
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/utxsyc.fd
 File: utxsyc.fd 2000/12/15 v3.1
 )
-<../diagrams/c(01-2-3)(02-12-23).png, id=103, 301.125pt x 160.6pt>
+<../diagrams/c(01-2-3)(02-12-23).png, id=280, 301.125pt x 160.6pt>
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 302.
+e 304.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
  <../diagrams/c(01-2-3)(02-12-23).png>]
-
-LaTeX Warning: Reference `appendix:assumptions' on page 2 undefined on input li
-ne 326.
-
-<../diagrams/MOO(0)(0).png, id=129, 80.3pt x 80.3pt>
+<../diagrams/MOO(0)(0).png, id=307, 80.3pt x 80.3pt>
 File: ../diagrams/MOO(0)(0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0).png  used on input line 365.
+Package pdftex.def Info: ../diagrams/MOO(0)(0).png  used on input line 367.
 (pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
-<../diagrams/MOO(0)(0-0).png, id=130, 80.3pt x 80.3pt>
+<../diagrams/MOO(0)(0-0).png, id=308, 80.3pt x 80.3pt>
 File: ../diagrams/MOO(0)(0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 366.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0).png  used on input line 368.
 (pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
-<../diagrams/MOO(0)(0-0-0).png, id=131, 80.3pt x 80.3pt>
+<../diagrams/MOO(0)(0-0-0).png, id=309, 80.3pt x 80.3pt>
 File: ../diagrams/MOO(0)(0-0-0).png Graphic file (type png)
 <use ../diagrams/MOO(0)(0-0-0).png>
-Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 367.
+Package pdftex.def Info: ../diagrams/MOO(0)(0-0-0).png  used on input line 369.
 
 (pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
-<../diagrams/MOOc(01)(0-1).png, id=132, 160.6pt x 120.45pt>
+<../diagrams/MOOc(01)(0-1).png, id=310, 160.6pt x 120.45pt>
 File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(0-1).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 368.
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 370.
 
 (pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
-<../diagrams/MOOc(012)(0-1-2).png, id=133, 240.9pt x 160.6pt>
+<../diagrams/MOOc(012)(0-1-2).png, id=311, 240.9pt x 160.6pt>
 File: ../diagrams/MOOc(012)(0-1-2).png Graphic file (type png)
 <use ../diagrams/MOOc(012)(0-1-2).png>
 Package pdftex.def Info: ../diagrams/MOOc(012)(0-1-2).png  used on input line 3
-69.
+71.
 (pdftex.def)             Requested size: 33.72575pt x 22.48384pt.
 
-Overfull \hbox (21.95758pt too wide) in paragraph at lines 364--377
+Overfull \hbox (21.95758pt too wide) in paragraph at lines 366--378
 [][]
  []
-
-
-LaTeX Warning: Reference `ssect:what-are-diagrams' on page 2 undefined on input
- line 377.
-
-
-LaTeX Warning: Reference `ssect:what-are-diagrams' on page 2 undefined on input
- line 377.
-
-
-LaTeX Warning: Reference `ssect:what-are-diagrams' on page 2 undefined on input
- line 436.
 
 [2 <../diagrams/MOO(0)(0).png> <../diagrams/MOO(0)(0-0).png> <../diagrams/MOO(0
 )(0-0-0).png> <../diagrams/MOOc(01)(0-1).png> <../diagrams/MOOc(012)(0-1-2).png
 >] [3]
-<../diagrams/c(0-1)(01).png, id=249, 140.525pt x 80.3pt>
+<../diagrams/c(0-1)(01).png, id=442, 140.525pt x 80.3pt>
 File: ../diagrams/c(0-1)(01).png Graphic file (type png)
 <use ../diagrams/c(0-1)(01).png>
-Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 538.
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 575.
 (pdftex.def)             Requested size: 19.67336pt x 11.24191pt.
-<../diagrams/c(012-3)(02-12-23).png, id=250, 301.125pt x 160.6pt>
+<../diagrams/c(012-3)(02-12-23).png, id=443, 301.125pt x 160.6pt>
 File: ../diagrams/c(012-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(02-12-23).png  used on input line
- 539.
+ 576.
 (pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 540.
+e 577.
 (pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
-<../diagrams/c(0-1-2-3)(03-13-23).png, id=251, 301.125pt x 160.6pt>
+<../diagrams/c(0-1-2-3)(03-13-23).png, id=444, 301.125pt x 160.6pt>
 File: ../diagrams/c(0-1-2-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(0-1-2-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(0-1-2-3)(03-13-23).png  used on input li
-ne 541.
+ne 578.
 (pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
-<../diagrams/MOOc(03-12-4)(03-13-23-34).png, id=252, 289.08pt x 173.448pt>
+<../diagrams/MOOc(03-12-4)(03-13-23-34).png, id=445, 289.08pt x 173.448pt>
 File: ../diagrams/MOOc(03-12-4)(03-13-23-34).png Graphic file (type png)
 <use ../diagrams/MOOc(03-12-4)(03-13-23-34).png>
 Package pdftex.def Info: ../diagrams/MOOc(03-12-4)(03-13-23-34).png  used on in
-put line 542.
+put line 579.
 (pdftex.def)             Requested size: 52.03215pt x 31.21928pt.
 File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(0-1).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 544.
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 581.
 
 (pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
-<../diagrams/MOOc(01)(01).png, id=253, 160.6pt x 120.45pt>
+<../diagrams/MOOc(01)(01).png, id=446, 160.6pt x 120.45pt>
 File: ../diagrams/MOOc(01)(01).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(01).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(01).png  used on input line 545.
+Package pdftex.def Info: ../diagrams/MOOc(01)(01).png  used on input line 582.
 (pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
-<../diagrams/MOOc(0-1-2)(01-02-12).png, id=254, 173.448pt x 115.632pt>
+<../diagrams/MOOc(0-1-2)(01-02-12).png, id=447, 173.448pt x 115.632pt>
 File: ../diagrams/MOOc(0-1-2)(01-02-12).png Graphic file (type png)
 <use ../diagrams/MOOc(0-1-2)(01-02-12).png>
 Package pdftex.def Info: ../diagrams/MOOc(0-1-2)(01-02-12).png  used on input l
-ine 546.
+ine 583.
 (pdftex.def)             Requested size: 31.21928pt x 20.81285pt.
-<../diagrams/MOOc(0-1-2)(01-02).png, id=255, 173.448pt x 115.632pt>
+<../diagrams/MOOc(0-1-2)(01-02).png, id=448, 173.448pt x 115.632pt>
 File: ../diagrams/MOOc(0-1-2)(01-02).png Graphic file (type png)
 <use ../diagrams/MOOc(0-1-2)(01-02).png>
 Package pdftex.def Info: ../diagrams/MOOc(0-1-2)(01-02).png  used on input line
- 547.
+ 584.
 (pdftex.def)             Requested size: 31.21928pt x 20.81285pt.
-<../diagrams/MOOc(0-1-2)(02).png, id=256, 173.448pt x 115.632pt>
+<../diagrams/MOOc(0-1-2)(02).png, id=449, 173.448pt x 115.632pt>
 File: ../diagrams/MOOc(0-1-2)(02).png Graphic file (type png)
 <use ../diagrams/MOOc(0-1-2)(02).png>
-Package pdftex.def Info: ../diagrams/MOOc(0-1-2)(02).png  used on input line 54
-8.
+Package pdftex.def Info: ../diagrams/MOOc(0-1-2)(02).png  used on input line 58
+5.
 (pdftex.def)             Requested size: 31.21928pt x 20.81285pt.
-<../diagrams/MOOc(02-012-3)(02-12-23).png, id=257, 346.896pt x 202.356pt>
+<../diagrams/MOOc(02-012-3)(02-12-23).png, id=450, 346.896pt x 202.356pt>
 File: ../diagrams/MOOc(02-012-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/MOOc(02-012-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/MOOc(02-012-3)(02-12-23).png  used on inpu
-t line 549.
+t line 586.
 (pdftex.def)             Requested size: 62.43858pt x 36.4225pt.
-<../diagrams/c(01-2-3)(03-12-23).png, id=259, 301.125pt x 160.6pt>
+<../diagrams/c(01-2-3)(03-12-23).png, id=452, 301.125pt x 160.6pt>
 File: ../diagrams/c(01-2-3)(03-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(03-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(03-12-23).png  used on input lin
-e 583.
+e 613.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
 <use ../diagrams/MOOc(01)(0-1).png>
-Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 595.
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 625.
 
 (pdftex.def)             Requested size: 16.06093pt x 12.0457pt.
-
-
-LaTeX Warning: Reference `appendix:mobius' on page 4 undefined on input line 59
-5.
-
-<../diagrams/c(012-3)(03-13-23).png, id=261, 301.125pt x 160.6pt>
+<../diagrams/c(012-3)(03-13-23).png, id=455, 301.125pt x 160.6pt>
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 607.
+ 637.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 610.
+ 640.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 
-LaTeX Warning: Reference `exm:first' on page 4 undefined on input line 618.
+
+LaTeX Warning: Reference `exm:first' on page 4 undefined on input line 648.
 
 [4 <../diagrams/c(0-1)(01).png> <../diagrams/c(012-3)(02-12-23).png> <../diagra
 ms/c(0-1-2-3)(03-13-23).png> <../diagrams/MOOc(03-12-4)(03-13-23-34).png> <../d
@@ -926,309 +918,1430 @@ iagrams/MOOc(01)(01).png> <../diagrams/MOOc(0-1-2)(01-02-12).png> <../diagrams/
 MOOc(0-1-2)(01-02).png> <../diagrams/MOOc(0-1-2)(02).png> <../diagrams/MOOc(02-
 012-3)(02-12-23).png> <../diagrams/c(01-2-3)(03-12-23).png> <../diagrams/c(012-
 3)(03-13-23).png>]
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 672.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 672.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 672.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 672.
-
-File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
-<use ../diagrams/c(01-2-3)(02-12-23).png>
-Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 674.
-(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
-<use ../diagrams/c(01-2-3)(02-12-23).png>
-Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 690.
-(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
-<../diagrams/c(01-2)(02-12).png, id=287, 220.825pt x 120.45pt>
-File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
-<use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 691
-.
-(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-[5 <../diagrams/c(01-2)(02-12).png>]
-File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
-<use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 736
-.
-(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-<../diagrams/c(01)(01).png, id=310, 140.525pt x 80.3pt>
-File: ../diagrams/c(01)(01).png Graphic file (type png)
-<use ../diagrams/c(01)(01).png>
-Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 736.
-(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
-<../diagrams/entropic-force-diagram.jpg, id=311, 2310.6325pt x 1504.62125pt>
-File: ../diagrams/entropic-force-diagram.jpg Graphic file (type jpg)
-<use ../diagrams/entropic-force-diagram.jpg>
-Package pdftex.def Info: ../diagrams/entropic-force-diagram.jpg  used on input 
-line 760.
-(pdftex.def)             Requested size: 213.09554pt x 138.76157pt.
-<../diagrams/sharp.png, id=312, 1471.4975pt x 973.6375pt>
-File: ../diagrams/sharp.png Graphic file (type png)
-<use ../diagrams/sharp.png>
-Package pdftex.def Info: ../diagrams/sharp.png  used on input line 761.
-(pdftex.def)             Requested size: 203.1567pt x 134.42113pt.
-
-
-Class jmlr Warning: Obsolete command \bf detected on input line 787.
-
-
-Class jmlr Warning: Obsolete command \bf detected on input line 787.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 794.
-
-<../plots/chladni.jpg, id=323, 388.45125pt x 388.45125pt>
-File: ../plots/chladni.jpg Graphic file (type jpg)
-<use ../plots/chladni.jpg>
-Package pdftex.def Info: ../plots/chladni.jpg  used on input line 799.
-(pdftex.def)             Requested size: 99.58424pt x 99.58464pt.
-[6 <../diagrams/c(01)(01).png> <../diagrams/entropic-force-diagram.jpg> <../dia
-grams/sharp.png>]
-
-LaTeX Warning: Reference `appendix:interpret-diagrams' on page 7 undefined on i
-nput line 807.
-
-<../diagrams/c(01-2)(01-12).png, id=335, 220.825pt x 120.45pt>
+<../diagrams/c(01-2)(01-12).png, id=486, 220.825pt x 120.45pt>
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 824
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 722
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 844
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 745
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+ [5 <../diagrams/c(01-2)(01-12).png>]
+<../diagrams/c(01-2)(02-12).png, id=506, 220.825pt x 120.45pt>
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 867
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 772
 .
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
 <use ../diagrams/c(012-3)(03-13-23).png>
 Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
- 867.
+ 772.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 
-LaTeX Warning: Reference `exm:first' on page 7 undefined on input line 881.
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 8
-95.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 796.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 796.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 796.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 796.
+
+File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
+e 798.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
+e 814.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 815
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 860
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/c(01)(01).png, id=517, 140.525pt x 80.3pt>
+File: ../diagrams/c(01)(01).png Graphic file (type png)
+<use ../diagrams/c(01)(01).png>
+Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 860.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+[6 <../diagrams/c(01-2)(02-12).png>]
+<../diagrams/entropic-force-diagram.jpg, id=530, 2310.6325pt x 1504.62125pt>
+File: ../diagrams/entropic-force-diagram.jpg Graphic file (type jpg)
+<use ../diagrams/entropic-force-diagram.jpg>
+Package pdftex.def Info: ../diagrams/entropic-force-diagram.jpg  used on input 
+line 884.
+(pdftex.def)             Requested size: 213.09554pt x 138.76157pt.
+<../diagrams/sharp.png, id=531, 1471.4975pt x 973.6375pt>
+File: ../diagrams/sharp.png Graphic file (type png)
+<use ../diagrams/sharp.png>
+Package pdftex.def Info: ../diagrams/sharp.png  used on input line 885.
+(pdftex.def)             Requested size: 203.1567pt x 134.42113pt.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 911.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 911.
+
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 9
+29.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 
-LaTeX Warning: Reference `appendix:experiments' on page 7 undefined on input li
-ne 897.
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 934.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 900.
+(hyperref)                removing `math shift' on input line 934.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 900.
-
-
-LaTeX Warning: Reference `appendix:figures' on page 7 undefined on input line 9
-11.
-
-[7 <../plots/chladni.jpg> <../diagrams/c(01-2)(01-12).png>]
-<../plots/neurips-test-small.png, id=369, 383.7537pt x 314.3745pt>
+<../plots/neurips-test-small.png, id=556, 383.7537pt x 314.3745pt>
 File: ../plots/neurips-test-small.png Graphic file (type png)
 <use ../plots/neurips-test-small.png>
-Package pdftex.def Info: ../plots/neurips-test-small.png  used on input line 92
-4.
+Package pdftex.def Info: ../plots/neurips-test-small.png  used on input line 95
+8.
 (pdftex.def)             Requested size: 123.29555pt x 101.00737pt.
-<../plots/new-big-bm-new.png, id=370, 388.8126pt x 300.6432pt>
+<../plots/new-big-bm-new.png, id=557, 388.8126pt x 300.6432pt>
 File: ../plots/new-big-bm-new.png Graphic file (type png)
 <use ../plots/new-big-bm-new.png>
-Package pdftex.def Info: ../plots/new-big-bm-new.png  used on input line 924.
+Package pdftex.def Info: ../plots/new-big-bm-new.png  used on input line 958.
 (pdftex.def)             Requested size: 130.62827pt x 101.00737pt.
-<../plots/neurips-thermo-linear-screw.png, id=371, 383.7537pt x 314.3745pt>
+<../plots/neurips-thermo-linear-screw.png, id=558, 383.7537pt x 314.3745pt>
 File: ../plots/neurips-thermo-linear-screw.png Graphic file (type png)
 <use ../plots/neurips-thermo-linear-screw.png>
 Package pdftex.def Info: ../plots/neurips-thermo-linear-screw.png  used on inpu
-t line 924.
+t line 958.
 (pdftex.def)             Requested size: 123.29555pt x 101.00737pt.
-<../plots/neurips-test-large.png, id=372, 403.2666pt x 314.3745pt>
+<../plots/neurips-test-large.png, id=559, 403.2666pt x 314.3745pt>
 File: ../plots/neurips-test-large.png Graphic file (type png)
 <use ../plots/neurips-test-large.png>
-Package pdftex.def Info: ../plots/neurips-test-large.png  used on input line 92
-5.
+Package pdftex.def Info: ../plots/neurips-test-large.png  used on input line 95
+9.
 (pdftex.def)             Requested size: 129.56482pt x 101.00737pt.
-<../plots/neurips-gen-cifar-lenet.png, id=373, 403.2666pt x 323.0469pt>
+<../plots/neurips-gen-cifar-lenet.png, id=560, 403.2666pt x 323.0469pt>
 File: ../plots/neurips-gen-cifar-lenet.png Graphic file (type png)
 <use ../plots/neurips-gen-cifar-lenet.png>
 Package pdftex.def Info: ../plots/neurips-gen-cifar-lenet.png  used on input li
-ne 925.
+ne 959.
 (pdftex.def)             Requested size: 126.08818pt x 101.00737pt.
-<../plots/neurips-tak.png, id=374, 383.7537pt x 314.3745pt>
+<../plots/neurips-tak.png, id=561, 383.7537pt x 314.3745pt>
 File: ../plots/neurips-tak.png Graphic file (type png)
 <use ../plots/neurips-tak.png>
-Package pdftex.def Info: ../plots/neurips-tak.png  used on input line 925.
+Package pdftex.def Info: ../plots/neurips-tak.png  used on input line 959.
 (pdftex.def)             Requested size: 123.29555pt x 101.00737pt.
 
-
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
-
-
-LaTeX Warning: Reference `appendix:sum-embeddings' on page 8 undefined on input
- line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-LaTeX Warning: Reference `appendix:evaluate-embeddings' on page 8 undefined on 
-input line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-LaTeX Warning: Reference `appendix:sum-embeddings' on page 8 undefined on input
- line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
 
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
+Class jmlr Warning: Obsolete command \bf detected on input line 1023.
 
-
-LaTeX Warning: Reference `appendix:evaluate-embeddings' on page 8 undefined on 
-input line 989.
-
-
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
-
-
-Class jmlr Warning: Obsolete command \bf detected on input line 989.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[8]
+[7 <../diagrams/c(01)(01).png> <../diagrams/entropic-force-diagram.jpg> <../dia
+grams/sharp.png>] [8 <../plots/neurips-test-small.png> <../plots/new-big-bm-new
+.png> <../plots/neurips-thermo-linear-screw.png> <../plots/neurips-test-large.p
+ng> <../plots/neurips-gen-cifar-lenet.png> <../plots/neurips-tak.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1001.
+(hyperref)                removing `math shift' on input line 1035.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 1001.
+(hyperref)                removing `math shift' on input line 1035.
 
-<../plots/from-above.png, id=389, 688.5725pt x 603.25375pt>
+<../plots/from-above.png, id=599, 688.5725pt x 603.25375pt>
 File: ../plots/from-above.png Graphic file (type png)
 <use ../plots/from-above.png>
-Package pdftex.def Info: ../plots/from-above.png  used on input line 1006.
+Package pdftex.def Info: ../plots/from-above.png  used on input line 1040.
 (pdftex.def)             Requested size: 97.42915pt x 85.35826pt.
-<../plots/from-side.png, id=390, 602.25pt x 625.33624pt>
+<../plots/from-side.png, id=600, 602.25pt x 625.33624pt>
 File: ../plots/from-side.png Graphic file (type png)
 <use ../plots/from-side.png>
-Package pdftex.def Info: ../plots/from-side.png  used on input line 1007.
+Package pdftex.def Info: ../plots/from-side.png  used on input line 1041.
 (pdftex.def)             Requested size: 82.20082pt x 85.35826pt.
+<../colt/screw-trajectory.png, id=601, 1396.21625pt x 348.30125pt>
+File: ../colt/screw-trajectory.png Graphic file (type png)
+<use ../colt/screw-trajectory.png>
+Package pdftex.def Info: ../colt/screw-trajectory.png  used on input line 1060.
 
-LaTeX Warning: Reference `appendix:artificial' on page 9 undefined on input lin
-e 1025.
+(pdftex.def)             Requested size: 429.28616pt x 107.09004pt.
 
-[9 <../plots/neurips-test-small.png> <../plots/new-big-bm-new.png> <../plots/ne
-urips-thermo-linear-screw.png> <../plots/neurips-test-large.png> <../plots/neur
-ips-gen-cifar-lenet.png> <../plots/neurips-tak.png> <../plots/from-above.png> <
-../plots/from-side.png>]
-
-LaTeX Warning: Reference `sect:related' on page 10 undefined on input line 1062
-.
+LaTeX Warning: Reference `sect:related' on page 9 undefined on input line 1108.
 
 
-LaTeX Warning: Reference `appendix:artificial' on page 10 undefined on input li
-ne 1067.
-
-
-LaTeX Warning: Reference `appendix:figures' on page 10 undefined on input line 
-1074.
-
-
-LaTeX Warning: Reference `appendix:future' on page 10 undefined on input line 1
-084.
-
+[9 <../colt/screw-trajectory.png> <../plots/from-above.png> <../plots/from-side
+.png>]
 File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(02-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 109
-7.
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 114
+3.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
 File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
 <use ../diagrams/c(01-2-3)(02-12-23).png>
 Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
-e 1103.
+e 1149.
 (pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
 File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
 <use ../diagrams/c(01-2)(01-12).png>
-Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 110
-9.
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 115
+5.
 (pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
-[10] (./perturb-colt.bbl [11] [12])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1164.
- [13]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1164.
+ (./perturb-colt.bbl [10] [11] [12]) [13]
+Underfull \hbox (badness 10000) in paragraph at lines 1212--1213
+
+ []
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1214.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1215.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1225.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1226.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1235.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1236.
+
+[14]
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1253.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1256.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1258.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1260.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1264.
+
+<../diagrams/spacetime-b1-e2-nosh.png, id=705, 978.65625pt x 557.08125pt>
+File: ../diagrams/spacetime-b1-e2-nosh.png Graphic file (type png)
+<use ../diagrams/spacetime-b1-e2-nosh.png>
+Package pdftex.def Info: ../diagrams/spacetime-b1-e2-nosh.png  used on input li
+ne 1312.
+(pdftex.def)             Requested size: 177.43477pt x 101.00737pt.
+<../diagrams/spacetime-b1-e1-nosh.png, id=706, 557.08125pt x 557.08125pt>
+File: ../diagrams/spacetime-b1-e1-nosh.png Graphic file (type png)
+<use ../diagrams/spacetime-b1-e1-nosh.png>
+Package pdftex.def Info: ../diagrams/spacetime-b1-e1-nosh.png  used on input li
+ne 1314.
+(pdftex.def)             Requested size: 101.00133pt x 101.00737pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[15]
+<../diagrams/c(0-1-2)(02-12).png, id=713, 220.825pt x 120.45pt>
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+37.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 133
+8.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/c(0-1-2)(01-12).png, id=714, 220.825pt x 120.45pt>
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+39.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 134
+0.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 134
+1.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+
+
+LaTeX Warning: Reference `sect:calculus' on page 16 undefined on input line 134
+2.
+
+<../diagrams/spacetime-d.png, id=717, 978.65625pt x 557.08125pt>
+File: ../diagrams/spacetime-d.png Graphic file (type png)
+<use ../diagrams/spacetime-d.png>
+Package pdftex.def Info: ../diagrams/spacetime-d.png  used on input line 1363.
+(pdftex.def)             Requested size: 177.43477pt x 101.00737pt.
+<../diagrams/spacetime-c.png, id=718, 557.08125pt x 557.08125pt>
+File: ../diagrams/spacetime-c.png Graphic file (type png)
+<use ../diagrams/spacetime-c.png>
+Package pdftex.def Info: ../diagrams/spacetime-c.png  used on input line 1365.
+(pdftex.def)             Requested size: 101.00133pt x 101.00737pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1)(01).png Graphic file (type png)
+<use ../diagrams/c(0-1)(01).png>
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 1393.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1)(01).png Graphic file (type png)
+<use ../diagrams/c(0-1)(01).png>
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 1393.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 13
+93.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 139
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+[16 <../diagrams/spacetime-b1-e2-nosh.png> <../diagrams/spacetime-b1-e1-nosh.pn
+g> <../diagrams/c(0-1-2)(02-12).png> <../diagrams/c(0-1-2)(01-12).png> <../diag
+rams/spacetime-d.png> <../diagrams/spacetime-c.png>]
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 14
+09.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 14
+14.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 142
+0.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 142
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 142
+5.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+
+
+LaTeX Warning: Reference `sect:calculus' on page 17 undefined on input line 142
+6.
+
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 143
+0.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 144
+5.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+
+Package amsmath Warning: Foreign command \atopwithdelims;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 1445.
+
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 144
+8.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/spacetime-b1-e2-shuf.png, id=737, 1099.10625pt x 617.30624pt>
+File: ../diagrams/spacetime-b1-e2-shuf.png Graphic file (type png)
+<use ../diagrams/spacetime-b1-e2-shuf.png>
+Package pdftex.def Info: ../diagrams/spacetime-b1-e2-shuf.png  used on input li
+ne 1504.
+(pdftex.def)             Requested size: 179.83531pt x 101.00737pt.
+<../diagrams/spacetime-b2-e4-nosh.png, id=738, 1099.10625pt x 617.30624pt>
+File: ../diagrams/spacetime-b2-e4-nosh.png Graphic file (type png)
+<use ../diagrams/spacetime-b2-e4-nosh.png>
+Package pdftex.def Info: ../diagrams/spacetime-b2-e4-nosh.png  used on input li
+ne 1506.
+(pdftex.def)             Requested size: 179.83531pt x 101.00737pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[17] [18 <../diagrams/spacetime-b1-e2-shuf.png> <../diagrams/spacetime-b2-e4-no
+sh.png>]
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 15
+47.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 154
+8.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+49.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 155
+0.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1)(01).png Graphic file (type png)
+<use ../diagrams/c(0-1)(01).png>
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 1557.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+57.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/c(0-1-2-3)(01-12-23).png, id=753, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-1-2-3)(01-12-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(01-12-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(01-12-23).png  used on input li
+ne 1558.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 156
+0.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/c(01-2-3)(01-12-23).png, id=754, 301.125pt x 160.6pt>
+File: ../diagrams/c(01-2-3)(01-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(01-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(01-12-23).png  used on input lin
+e 1560.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+File: ../diagrams/c(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(02-12).png  used on input line 15
+63.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/c(0-1-2-3)(01-13-23).png, id=755, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-1-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(01-13-23).png  used on input li
+ne 1563.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+<../diagrams/spacetime-e.png, id=757, 1099.10625pt x 617.30624pt>
+File: ../diagrams/spacetime-e.png Graphic file (type png)
+<use ../diagrams/spacetime-e.png>
+Package pdftex.def Info: ../diagrams/spacetime-e.png  used on input line 1583.
+(pdftex.def)             Requested size: 200.7152pt x 112.73882pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+96.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 159
+6.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+96.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 159
+6.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+96.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 159
+6.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+96.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 159
+6.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+96.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 159
+6.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2)(01-12).png  used on input line 15
+96.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 159
+6.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+
+
+LaTeX Warning: Reference `exm:first' on page 19 undefined on input line 1607.
+
+File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
+ 1612.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+
+LaTeX Warning: Reference `exm:first' on page 19 undefined on input line 1613.
+
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 161
+4.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 161
+7.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+[19 <../diagrams/c(0-1-2-3)(01-12-23).png> <../diagrams/c(01-2-3)(01-12-23).png
+> <../diagrams/c(0-1-2-3)(01-13-23).png> <../diagrams/spacetime-e.png>]
+File: ../diagrams/c(0-1-2-3)(01-12-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(01-12-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(01-12-23).png  used on input li
+ne 1645.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(0-1-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(01-13-23).png  used on input li
+ne 1645.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(0-1-2-3)(02-13-23).png, id=772, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-1-2-3)(02-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(02-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(02-13-23).png  used on input li
+ne 1648.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(0-1-2-3)(03-12-23).png, id=773, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-1-2-3)(03-12-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(03-12-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(03-12-23).png  used on input li
+ne 1648.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(0-1-2-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(03-13-23).png  used on input li
+ne 1651.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(0-1-2-3)(02-12-23).png, id=774, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-1-2-3)(02-12-23).png Graphic file (type png)
+<use ../diagrams/c(0-1-2-3)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/c(0-1-2-3)(02-12-23).png  used on input li
+ne 1651.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(01-2-3)(02-13-23).png, id=775, 301.125pt x 160.6pt>
+File: ../diagrams/c(01-2-3)(02-13-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(02-13-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(02-13-23).png  used on input lin
+e 1657.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(01-2-3)(03-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(03-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(03-12-23).png  used on input lin
+e 1657.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(0-12-3)(01-13-23).png, id=776, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-12-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-12-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-12-3)(01-13-23).png  used on input lin
+e 1660.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(0-12-3)(02-13-23).png, id=777, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-12-3)(02-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-12-3)(02-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-12-3)(02-13-23).png  used on input lin
+e 1660.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(01-2-3)(03-13-23).png, id=778, 301.125pt x 160.6pt>
+File: ../diagrams/c(01-2-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(03-13-23).png  used on input lin
+e 1663.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(0-12-3)(03-13-23).png, id=779, 301.125pt x 160.6pt>
+File: ../diagrams/c(0-12-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-12-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-12-3)(03-13-23).png  used on input lin
+e 1663.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
+e 1663.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
+ 1669.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+
+
+LaTeX Warning: Reference `sect:calculus' on page 20 undefined on input line 170
+0.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1700.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1700.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1700.
+
+
+LaTeX Warning: Reference `sect:calculus' on page 20 undefined on input line 170
+0.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1700.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1700.
+
+
+Class jmlr Warning: Obsolete command \bf detected on input line 1700.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1713.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1713.
+
+<../diagrams/MOOc(0)(0).png, id=780, 80.3pt x 80.3pt>
+File: ../diagrams/MOOc(0)(0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0).png  used on input line 1725.
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+<../diagrams/MOOc(0)(0-0).png, id=781, 80.3pt x 80.3pt>
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 1725.
+
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+<../diagrams/MOOc(0)(0-0-0).png, id=782, 80.3pt x 80.3pt>
+File: ../diagrams/MOOc(0)(0-0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0-0).png  used on input line 172
+5.
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+<../diagrams/MOOc(01)(0-1-1).png, id=783, 160.6pt x 120.45pt>
+File: ../diagrams/MOOc(01)(0-1-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1-1).png  used on input line 17
+25.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+<../diagrams/MOOc(01)(0-0-1-1).png, id=784, 160.6pt x 120.45pt>
+File: ../diagrams/MOOc(01)(0-0-1-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-0-1-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-0-1-1).png  used on input line 
+1725.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+<../diagrams/MOOc(01)(0-1-1-1).png, id=785, 160.6pt x 120.45pt>
+File: ../diagrams/MOOc(01)(0-1-1-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1-1-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1-1-1).png  used on input line 
+1725.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(0)(0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0).png  used on input line 1725.
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 1725.
+
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/MOOc(0)(0-0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0-0).png  used on input line 172
+5.
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/MOOc(01)(0-1-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1-1).png  used on input line 17
+25.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(01)(0-0-1-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-0-1-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-0-1-1).png  used on input line 
+1725.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(01)(0-1-1-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1-1-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1-1-1).png  used on input line 
+1725.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+
+Overfull \hbox (9.31984pt too wide) detected at line 1725
+[]
+ []
+
+File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 1732
+.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(012)(0-1-2).png Graphic file (type png)
+<use ../diagrams/MOOc(012)(0-1-2).png>
+Package pdftex.def Info: ../diagrams/MOOc(012)(0-1-2).png  used on input line 1
+732.
+(pdftex.def)             Requested size: 33.72575pt x 22.48384pt.
+<../diagrams/MOOc(0123)(0-1-2-3).png, id=786, 321.2pt x 200.75pt>
+File: ../diagrams/MOOc(0123)(0-1-2-3).png Graphic file (type png)
+<use ../diagrams/MOOc(0123)(0-1-2-3).png>
+Package pdftex.def Info: ../diagrams/MOOc(0123)(0-1-2-3).png  used on input lin
+e 1732.
+(pdftex.def)             Requested size: 44.96768pt x 28.1048pt.
+<../diagrams/MOOc(01234)(0-1-2-3-4).png, id=787, 401.5pt x 240.9pt>
+File: ../diagrams/MOOc(01234)(0-1-2-3-4).png Graphic file (type png)
+<use ../diagrams/MOOc(01234)(0-1-2-3-4).png>
+Package pdftex.def Info: ../diagrams/MOOc(01234)(0-1-2-3-4).png  used on input 
+line 1732.
+(pdftex.def)             Requested size: 56.20961pt x 33.72575pt.
+File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 1732
+.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(012)(0-1-2).png Graphic file (type png)
+<use ../diagrams/MOOc(012)(0-1-2).png>
+Package pdftex.def Info: ../diagrams/MOOc(012)(0-1-2).png  used on input line 1
+732.
+(pdftex.def)             Requested size: 33.72575pt x 22.48384pt.
+File: ../diagrams/MOOc(0123)(0-1-2-3).png Graphic file (type png)
+<use ../diagrams/MOOc(0123)(0-1-2-3).png>
+Package pdftex.def Info: ../diagrams/MOOc(0123)(0-1-2-3).png  used on input lin
+e 1732.
+(pdftex.def)             Requested size: 44.96768pt x 28.1048pt.
+File: ../diagrams/MOOc(01234)(0-1-2-3-4).png Graphic file (type png)
+<use ../diagrams/MOOc(01234)(0-1-2-3-4).png>
+Package pdftex.def Info: ../diagrams/MOOc(01234)(0-1-2-3-4).png  used on input 
+line 1732.
+(pdftex.def)             Requested size: 56.20961pt x 33.72575pt.
+
+Overfull \hbox (15.1472pt too wide) detected at line 1732
+[]
+ []
+
+[20 <../diagrams/c(0-1-2-3)(02-13-23).png> <../diagrams/c(0-1-2-3)(03-12-23).pn
+g> <../diagrams/c(0-1-2-3)(02-12-23).png> <../diagrams/c(01-2-3)(02-13-23).png>
+ <../diagrams/c(0-12-3)(01-13-23).png> <../diagrams/c(0-12-3)(02-13-23).png> <.
+./diagrams/c(01-2-3)(03-13-23).png> <../diagrams/c(0-12-3)(03-13-23).png>]
+<../diagrams/c(012-3)(01-13-23).png, id=805, 301.125pt x 160.6pt>
+File: ../diagrams/c(012-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/(012-3)(01-13-23).png, id=806, 301.125pt x 160.6pt>
+File: ../diagrams/(012-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(012-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(012-3)(01-13-23).png  used on input line 
+1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(01-2-3)(01-13-23).png, id=807, 301.125pt x 160.6pt>
+File: ../diagrams/c(01-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/c(02-1-3)(01-13-23).png, id=808, 301.125pt x 160.6pt>
+File: ../diagrams/c(02-1-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(02-1-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(02-1-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(0-12-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-12-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-12-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/(0-1-2-3)(01-13-23).png, id=809, 301.125pt x 160.6pt>
+File: ../diagrams/(0-1-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(0-1-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(0-1-2-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(012-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(012-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(012-3)(01-13-23).png  used on input line 
+1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/(01-2-3)(01-13-23).png, id=810, 301.125pt x 160.6pt>
+File: ../diagrams/(01-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(01-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(01-2-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/(02-1-3)(01-13-23).png, id=811, 301.125pt x 160.6pt>
+File: ../diagrams/(02-1-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(02-1-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(02-1-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+<../diagrams/(0-12-3)(01-13-23).png, id=812, 301.125pt x 160.6pt>
+File: ../diagrams/(0-12-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(0-12-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(0-12-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(0-1-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(0-1-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(0-1-2-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(012-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(012-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(012-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(012-3)(01-13-23).png  used on input line 
+1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(01-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(02-1-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(02-1-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(02-1-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/c(0-12-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/c(0-12-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/c(0-12-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(0-1-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(0-1-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(0-1-2-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(012-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(012-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(012-3)(01-13-23).png  used on input line 
+1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(01-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(01-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(01-2-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(02-1-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(02-1-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(02-1-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(0-12-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(0-12-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(0-12-3)(01-13-23).png  used on input line
+ 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/(0-1-2-3)(01-13-23).png Graphic file (type png)
+<use ../diagrams/(0-1-2-3)(01-13-23).png>
+Package pdftex.def Info: ../diagrams/(0-1-2-3)(01-13-23).png  used on input lin
+e 1785.
+(pdftex.def)             Requested size: 42.15721pt x 22.48384pt.
+File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 1798
+.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 1801.
+
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 1804
+.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 1805.
+
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 181
+0.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 181
+5.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1821.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 1821.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 1821.
+
+[21 <../diagrams/MOOc(0)(0).png> <../diagrams/MOOc(0)(0-0).png> <../diagrams/MO
+Oc(0)(0-0-0).png> <../diagrams/MOOc(01)(0-1-1).png> <../diagrams/MOOc(01)(0-0-1
+-1).png> <../diagrams/MOOc(01)(0-1-1-1).png> <../diagrams/MOOc(0123)(0-1-2-3).p
+ng> <../diagrams/MOOc(01234)(0-1-2-3-4).png> <../diagrams/c(012-3)(01-13-23).pn
+g> <../diagrams/(012-3)(01-13-23).png> <../diagrams/c(01-2-3)(01-13-23).png> <.
+./diagrams/c(02-1-3)(01-13-23).png> <../diagrams/(0-1-2-3)(01-13-23).png> <../d
+iagrams/(01-2-3)(01-13-23).png> <../diagrams/(02-1-3)(01-13-23).png> <../diagra
+ms/(0-12-3)(01-13-23).png>]
+File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 1833
+.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 1836.
+
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/MOOc(01)(0-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(0-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(0-1).png  used on input line 1839
+.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 1840.
+
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 184
+3.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 184
+7.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 185
+2.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 190
+7.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 191
+3.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+ [22]
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 196
+6.
+(pdftex.def)             Requested size: 30.91528pt x 16.86287pt.
+
+
+LaTeX Warning: Reference `exm:first' on page 23 undefined on input line 1978.
+
+
+Overfull \hbox (1.01735pt too wide) in paragraph at lines 1971--1979
+\OT1/ptm/m/n/10.95 integral-of-exponentials ap-prox-i-ma-tion along with the ru
+le $[][]  \OML/txmi/m/it/10.95 du  []\OT1/txr/m/n/10.95 (\OMS/txsy/m/n/10.95 ^^
+@\OML/txmi/m/it/10.95 uA\OT1/txr/m/n/10.95 ) = (\OML/txmi/m/it/10.95 I \OMS/txs
+y/m/n/10.95 ^^@ []\OT1/txr/m/n/10.95 (\OMS/txsy/m/n/10.95 ^^@\OML/txmi/m/it/10.
+95 TA\OT1/txr/m/n/10.95 ))\OML/txmi/m/it/10.95 =A$\OT1/ptm/m/n/10.95 .
+ []
+
+<../diagrams/spacetime-f.png, id=847, 1144.275pt x 617.30624pt>
+File: ../diagrams/spacetime-f.png Graphic file (type png)
+<use ../diagrams/spacetime-f.png>
+Package pdftex.def Info: ../diagrams/spacetime-f.png  used on input line 1991.
+(pdftex.def)             Requested size: 208.96376pt x 112.73882pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<../diagrams/spacetime-g.png, id=848, 858.20625pt x 376.40625pt>
+File: ../diagrams/spacetime-g.png Graphic file (type png)
+<use ../diagrams/spacetime-g.png>
+Package pdftex.def Info: ../diagrams/spacetime-g.png  used on input line 2002.
+(pdftex.def)             Requested size: 194.62021pt x 85.35826pt.
+<../diagrams/spacetime-h.png, id=849, 858.20625pt x 376.40625pt>
+File: ../diagrams/spacetime-h.png Graphic file (type png)
+<use ../diagrams/spacetime-h.png>
+Package pdftex.def Info: ../diagrams/spacetime-h.png  used on input line 2003.
+(pdftex.def)             Requested size: 194.62021pt x 85.35826pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 2014.
+
+(pdftex.def)             Requested size: 8.03046pt x 8.03046pt.
+File: ../diagrams/c(0-1)(01).png Graphic file (type png)
+<use ../diagrams/c(0-1)(01).png>
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 2014.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 201
+4.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/MOOc(0)(0-0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0-0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0-0).png  used on input line 2014.
+
+(pdftex.def)             Requested size: 8.03046pt x 8.03046pt.
+File: ../diagrams/c(0-1)(01).png Graphic file (type png)
+<use ../diagrams/c(0-1)(01).png>
+Package pdftex.def Info: ../diagrams/c(0-1)(01).png  used on input line 2014.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 201
+4.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+File: ../diagrams/MOOc(01)(01).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(01).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(01).png  used on input line 2040.
+
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+<../diagrams/MOOc(01-23)(02-13).png, id=852, 321.2pt x 200.75pt>
+File: ../diagrams/MOOc(01-23)(02-13).png Graphic file (type png)
+<use ../diagrams/MOOc(01-23)(02-13).png>
+Package pdftex.def Info: ../diagrams/MOOc(01-23)(02-13).png  used on input line
+ 2041.
+(pdftex.def)             Requested size: 44.96768pt x 28.1048pt.
+[23]
+File: ../diagrams/MOOc(01)(01).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(01).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(01).png  used on input line 2056.
+
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+<../diagrams/MOOc(0-123)(02-12-23).png, id=858, 321.2pt x 200.75pt>
+File: ../diagrams/MOOc(0-123)(02-12-23).png Graphic file (type png)
+<use ../diagrams/MOOc(0-123)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/MOOc(0-123)(02-12-23).png  used on input l
+ine 2057.
+(pdftex.def)             Requested size: 44.96768pt x 28.1048pt.
+File: ../diagrams/MOOc(0)(0).png Graphic file (type png)
+<use ../diagrams/MOOc(0)(0).png>
+Package pdftex.def Info: ../diagrams/MOOc(0)(0).png  used on input line 2063.
+(pdftex.def)             Requested size: 11.24191pt x 11.24191pt.
+<../diagrams/MOOc(01)(01-1).png, id=859, 160.6pt x 120.45pt>
+File: ../diagrams/MOOc(01)(01-1).png Graphic file (type png)
+<use ../diagrams/MOOc(01)(01-1).png>
+Package pdftex.def Info: ../diagrams/MOOc(01)(01-1).png  used on input line 206
+4.
+(pdftex.def)             Requested size: 22.48384pt x 16.86287pt.
+ [24 <../diagrams/spacetime-f.png> <../diagrams/spacetime-g.png> <../diagrams/s
+pacetime-h.png> <../diagrams/MOOc(01-23)(02-13).png> <../diagrams/MOOc(0-123)(0
+2-12-23).png>]
+<../diagrams/(01-2)(02-12).png, id=874, 220.825pt x 120.45pt>
+File: ../diagrams/(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/(01-2)(02-12).png  used on input line 2114
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/(01-2)(01-12).png, id=875, 220.825pt x 120.45pt>
+File: ../diagrams/(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/(01-2)(01-12).png  used on input line 2114
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/(01-2)(02-12).png  used on input line 2115
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/(01-2)(02-12).png  used on input line 2118
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/(01-2)(01-12).png  used on input line 2120
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/(0-1-2)(01-12).png, id=876, 220.825pt x 120.45pt>
+File: ../diagrams/(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/(0-1-2)(01-12).png  used on input line 212
+2.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 212
+7.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+ [25 <../diagrams/MOOc(01)(01-1).png> <../diagrams/(01-2)(02-12).png> <../diagr
+ams/(01-2)(01-12).png> <../diagrams/(0-1-2)(01-12).png>]
+[26] [27] [28]
+File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
+ 2268.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+ [29] [30] [31]
+File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
+ 2441.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+<../diagrams/c(01-23)(03-13-23).png, id=914, 301.125pt x 160.6pt>
+File: ../diagrams/c(01-23)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(01-23)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(01-23)(03-13-23).png  used on input line
+ 2448.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+<../diagrams/(02-13)(03-13-23).png, id=915, 301.125pt x 160.6pt>
+File: ../diagrams/(02-13)(03-13-23).png Graphic file (type png)
+<use ../diagrams/(02-13)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/(02-13)(03-13-23).png  used on input line 
+2448.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+ [32 <../diagrams/c(01-23)(03-13-23).png> <../diagrams/(02-13)(03-13-23).png>] 
+[33] [34]
+<../diagrams/(0)().png, id=953, 60.225pt x 40.15pt>
+File: ../diagrams/(0)().png Graphic file (type png)
+<use ../diagrams/(0)().png>
+Package pdftex.def Info: ../diagrams/(0)().png  used on input line 2693.
+(pdftex.def)             Requested size: 6.02284pt x 4.01523pt.
+ [35 <../diagrams/(0)().png>]
+
+LaTeX Warning: Reference `eqn:countclaim' on page 36 undefined on input line 28
+00.
+
+[36] [37]
+File: ../diagrams/c(01-2-3)(02-12-23).png Graphic file (type png)
+<use ../diagrams/c(01-2-3)(02-12-23).png>
+Package pdftex.def Info: ../diagrams/c(01-2-3)(02-12-23).png  used on input lin
+e 2985.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+File: ../diagrams/(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/(01-2)(02-12).png  used on input line 3009
+.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 301
+0.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01)(01).png Graphic file (type png)
+<use ../diagrams/c(01)(01).png>
+Package pdftex.def Info: ../diagrams/c(01)(01).png  used on input line 3043.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+ [38]
+
+Package caption Warning: \label without proper reference on input line 3097.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `tbl:ordtwo' on page 39 undefined on input line 3085.
+
+File: ../diagrams/(0)().png Graphic file (type png)
+<use ../diagrams/(0)().png>
+Package pdftex.def Info: ../diagrams/(0)().png  used on input line 3090.
+(pdftex.def)             Requested size: 6.02284pt x 4.01523pt.
+<../diagrams/(0-1)(01).png, id=1013, 140.525pt x 80.3pt>
+File: ../diagrams/(0-1)(01).png Graphic file (type png)
+<use ../diagrams/(0-1)(01).png>
+Package pdftex.def Info: ../diagrams/(0-1)(01).png  used on input line 3091.
+(pdftex.def)             Requested size: 14.05331pt x 8.03046pt.
+File: ../diagrams/(0-1-2)(01-12).png Graphic file (type png)
+<use ../diagrams/(0-1-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/(0-1-2)(01-12).png  used on input line 309
+2.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(01-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(01-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(01-12).png  used on input line 309
+3.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+<../diagrams/(0-1-2)(02-12).png, id=1014, 220.825pt x 120.45pt>
+File: ../diagrams/(0-1-2)(02-12).png Graphic file (type png)
+<use ../diagrams/(0-1-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/(0-1-2)(02-12).png  used on input line 309
+4.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(01-2)(02-12).png Graphic file (type png)
+<use ../diagrams/c(01-2)(02-12).png>
+Package pdftex.def Info: ../diagrams/c(01-2)(02-12).png  used on input line 309
+5.
+(pdftex.def)             Requested size: 22.08379pt x 12.0457pt.
+File: ../diagrams/c(012-3)(03-13-23).png Graphic file (type png)
+<use ../diagrams/c(012-3)(03-13-23).png>
+Package pdftex.def Info: ../diagrams/c(012-3)(03-13-23).png  used on input line
+ 3113.
+(pdftex.def)             Requested size: 30.11426pt x 16.06093pt.
+[39 <../diagrams/(0-1)(01).png> <../diagrams/(0-1-2)(02-12).png>]
+Overfull \hbox (17.94221pt too wide) in paragraph at lines 3164--3171
+[][]\OT1/ptm/m/it/10.95 If $\OML/txmi/m/it/10.95 ^^Q\OT1/txr/m/n/10.95 (\OML/tx
+mi/m/it/10.95 ^^\\OT1/txr/m/n/10.95 )$ \OT1/ptm/m/it/10.95 is a Rie-mann met-ri
+c on weight space, smoothly
+ []
+
+[40] [41]
+
+LaTeX Warning: Reference `sect:bessel' on page 42 undefined on input line 3314.
+
+
+[42]
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 3
+394.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
+) [43]
+<../plots/multi-fashion-logistic-0.png, id=1081, 385.1991pt x 293.4162pt>
+File: ../plots/multi-fashion-logistic-0.png Graphic file (type png)
+<use ../plots/multi-fashion-logistic-0.png>
+Package pdftex.def Info: ../plots/multi-fashion-logistic-0.png  used on input l
+ine 3537.
+(pdftex.def)             Requested size: 130.73085pt x 99.58464pt.
+<../plots/vs-sde.png, id=1082, 380.1402pt x 289.08pt>
+File: ../plots/vs-sde.png Graphic file (type png)
+<use ../plots/vs-sde.png>
+Package pdftex.def Info: ../plots/vs-sde.png  used on input line 3538.
+(pdftex.def)             Requested size: 130.95128pt x 99.58464pt.
+<../plots/tak-reg.png, id=1083, 380.1402pt x 289.08pt>
+File: ../plots/tak-reg.png Graphic file (type png)
+<use ../plots/tak-reg.png>
+Package pdftex.def Info: ../plots/tak-reg.png  used on input line 3539.
+(pdftex.def)             Requested size: 130.95128pt x 99.58464pt.
+ [44]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 3574.
+
+[45 <../plots/multi-fashion-logistic-0.png> <../plots/vs-sde.png> <../plots/tak
+-reg.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 3574.
  (./perturb-colt.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1164.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1164.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 3574.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 3574.
 
 Package rerunfilecheck Info: File `perturb-colt.out' has not changed.
-(rerunfilecheck)             Checksum: 53BBE7A0E7D87146FEDF80CC482C5FA9;1873.
+(rerunfilecheck)             Checksum: B173A08573FDC3A807AEA410BC90DC2D;5532.
 
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 14290 strings out of 481239
- 215630 string characters out of 5920377
- 529949 words of memory out of 5000000
- 29115 multiletter control sequences out of 15000+600000
- 599689 words of font info for 147 fonts, out of 8000000 for 9000
+ 15002 strings out of 481239
+ 232063 string characters out of 5920377
+ 550058 words of memory out of 5000000
+ 29627 multiletter control sequences out of 15000+600000
+ 613929 words of font info for 183 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,21n,96p,2694b,613s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{Hfootnote.12} has been referenced but does not ex
+ 55i,32n,96p,2703b,613s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{Hfootnote.17} has been referenced but does not ex
 ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.16} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.15} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.14} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.13} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Hfootnote.12} has been referenced but does not exis
+t, replaced by a fixed one
 
 pdfTeX warning (dest): name{Hfootnote.11} has been referenced but does not exis
 t, replaced by a fixed one
@@ -1271,13 +2384,14 @@ ts/txsy.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/txsya.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/txfonts/txsyb.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/txfonts/txsyc.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/ti
-mes/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on perturb-colt.pdf (13 pages, 2477088 bytes).
+ts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
+/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on perturb-colt.pdf (45 pages, 3040420 bytes).
 PDF statistics:
- 518 PDF objects out of 1000 (max. 8388607)
- 417 compressed objects within 5 object streams
- 103 named destinations out of 1000 (max. 500000)
- 348 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1198 PDF objects out of 1200 (max. 8388607)
+ 948 compressed objects within 10 object streams
+ 234 named destinations out of 1000 (max. 500000)
+ 965 words of extra memory for PDF output out of 10000 (max. 10000000)
 

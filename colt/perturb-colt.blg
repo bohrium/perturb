@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: perturb-colt.aux
 The style file: plainnat.bst
 Database file #1: perturb.bib
-You've used 34 entries,
+You've used 48 entries,
             2773 wiz_defined-function locations,
-            734 strings with 8754 characters,
-and the built_in function-call counts, 13203 in all, are:
-= -- 1096
-> -- 870
-< -- 18
-+ -- 300
-- -- 264
-* -- 968
-:= -- 2162
-add.period$ -- 102
-call.type$ -- 34
-change.case$ -- 190
-chr.to.int$ -- 32
-cite$ -- 68
-duplicate$ -- 662
-empty$ -- 1037
-format.name$ -- 310
-if$ -- 2689
+            792 strings with 10268 characters,
+and the built_in function-call counts, 18880 in all, are:
+= -- 1561
+> -- 1276
+< -- 28
++ -- 440
+- -- 390
+* -- 1380
+:= -- 3100
+add.period$ -- 144
+call.type$ -- 48
+change.case$ -- 274
+chr.to.int$ -- 46
+cite$ -- 96
+duplicate$ -- 932
+empty$ -- 1461
+format.name$ -- 456
+if$ -- 3840
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 34
-newline$ -- 178
-num.names$ -- 136
-pop$ -- 392
+missing$ -- 48
+newline$ -- 248
+num.names$ -- 192
+pop$ -- 567
 preamble$ -- 1
-purify$ -- 156
+purify$ -- 226
 quote$ -- 0
-skip$ -- 503
+skip$ -- 719
 stack$ -- 0
-substring$ -- 68
-swap$ -- 38
+substring$ -- 96
+swap$ -- 52
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 374
+type$ -- 528
 warning$ -- 0
-while$ -- 102
+while$ -- 144
 width$ -- 0
-write$ -- 415
+write$ -- 583
