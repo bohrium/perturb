@@ -571,14 +571,13 @@
                 This is the desired result.
             \end{proof}
 
-            P
             Three key aspects  
  
             -- transparency / degree boundedness
 
-            -- transparency
+            -- combinatorial explosion: where noise and curvature come in 
 
-            -- transparency 
+            -- always get a polynomial in T
 
         \subsection{Perturbation as technique}
 
@@ -896,8 +895,9 @@
     
             \begin{figure}[h!]
                 \centering
-                \plotmooh{diagrams/entropic-force-diagram}{}{0.35\columnwidth} 
+                %\plotmooh{diagrams/entropic-force-diagram}{}{0.35\columnwidth} 
                 %\plotmooh{diagrams/sharp}{}{0.31\columnwidth}
+                \plotmooh{colt/cubic}{}{0.40\columnwidth}
                 \plotmooh{colt/spring}{}{0.40\columnwidth}
                 \caption{%
                     \textbf{Geometric intuition for curvature-noise interactions.}
@@ -914,16 +914,18 @@
                         ease comparison with \cite{we19b}.
                         Compare with Figure \ref{fig:archimedes}.
                     \textbf{\bf Right}:
-                        Both curvature and the structure of noise affect
-                        overfitting.  In each of the four subplots, the  
-                        $\leftrightarrow$ axis represents weight space and the
-                        $\updownarrow$ axis represents loss.
-                        \protect\offive{1}:
+                        Both curvature and noise structure affect overfitting.
+                        In each subplot, the  $\leftrightarrow$
+                        axis represents weight space and the $\updownarrow$
+                        axis represents loss.  Noise (blue) transforms
+                        the testing loss (thin curve) into the observed loss
+                        (thick curve).  Red dots mark the testing loss at the
+                        arg-min of the observed loss.  \protect\offive{1}:
                         \emph{covector}-perturbed landscapes favor large $H$s.
-                        \protect\offive{2}:
-                        \emph{vector}-perturbed landscapes favor small $H$s.
-                        SGD's implicit regularization interpolates between
-                        these rows (Corollary \ref{cor:overfit}).
+                        \protect\offive{2}: \emph{vector}-perturbed landscapes
+                        favor small $H$s.  SGD's implicit regularization
+                        interpolates between these rows (Corollary
+                        \ref{cor:overfit}).
                 }
                 \label{fig:cubicandspring}
             \end{figure}
