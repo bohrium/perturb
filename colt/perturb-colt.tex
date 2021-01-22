@@ -72,6 +72,9 @@
 \definecolor{moolime}{rgb}{0.90,1.00,0.90}
 \definecolor{moosky}{rgb}{0.90,0.90,1.00}
 \definecolor{moopink}{rgb}{1.00,0.90,0.90}
+
+\definecolor{moogold}{rgb}{1.00,1.00,0.80}
+
 \definecolor{moor}{rgb}{0.8,0.2,0.2}
 \definecolor{moog}{rgb}{0.2,0.8,0.2}
 \definecolor{moob}{rgb}{0.2,0.2,0.8}
@@ -441,7 +444,7 @@
 
             This paper's contributions are two-fold: first, to identify how
             gradient noise and curvature correct Proposition \ref{prop:nest};
-            and second, to replace induction by more transparent and convergent
+            and second, to replace induction by less opaque and more convergent
             large-$T$ techniques.
             %
             For example, our framework allows us to assess how gradient noise's
@@ -531,7 +534,7 @@
 
     \section{Perturbative theory of SGD}
 
-        \subsection{Trivial example: an exegesis of Proposition \ref{prop:nest}}
+        \subsection{An exegesis of a trivial example}
             We illustrate our approach by justifying Proposition
             \ref{prop:nest}.
             %
@@ -551,42 +554,107 @@
                 \begin{align*}
                     \theta_{T} - \theta_{T^\pr}
                     &= - \eta \nabla l_{T^\pr}(\theta_{T^\pr}) \\
-                    &\in - \eta \nabla (l_{T^\pr}(\theta_0) + \nabla l_{T^\pr}(\theta_0) \cdot (\theta_{T^\pr} - \theta_0) + o(\theta_{T^\pr} - \theta_0)) \\ 
+                    &\in - \eta \nabla (l_{T^\pr}(\theta_0) + \text{\colorbox{moosky}{$\nabla l_{T^\pr}(\theta_0) \cdot (\theta_{T^\pr} - \theta_0)$}} + o(\theta_{T^\pr} - \theta_0)) \\ 
                     &\subseteq - \eta \nabla (l_{T^\pr}(\theta_0) + \nabla l_{T^\pr}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))) \\
-                    &\subseteq - \eta \nabla l_{T^\pr}(\theta_0) + o(\eta^1)
+                    &\subseteq \text{\colorbox{moolime}{$- \eta \nabla l_{T^\pr}(\theta_0)$}} + o(\eta^1)
                 \end{align*}
                 Here, we write $l_{T^\pr}$ as shorthand for the batch average
-                $\sum_{n\in \Bb_t} l_n(\theta) / B$.  Applying the induction
+                $\sum_{n\in \Bb_{T^\pr}} l_n(\theta) / B$.  Applying the induction
                 hypothesis proves the claim.
                 %
-                Finally, we plug the claim into a Taylor expansion of $l$ (by
-                the moment assumptions of \S\ref{appendix:assumptions},
-                expectations of the $o(\eta^1)$ are still $o(\eta^1)$):
+                Finally, we plug the claim into a Taylor expansion of $l$: 
                 \begin{align*}
                     \expc[l(\theta_T) - l(\theta_0)]
-                    &= \nabla l(\theta_0) \cdot \expc[\theta_T - \theta_0] + o(\theta_T - \theta_0) \\
+                    &= \nabla l(\theta_0) \cdot \text{\colorbox{moopink}{$\expc[\theta_T - \theta_0]$}} + \expc[o(\theta_T - \theta_0)] \\
                     &\in \nabla l(\theta_0) \cdot (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
-                    &= -TG\eta G + o(\eta^1)
+                    &= \text{\colorbox{moogold}{$-T^1G\eta G$}}+ o(\eta^1) \hfill \square
                 \end{align*}
-                This is the desired result.
+                By the moment assumptions of \S\ref{appendix:assumptions}, the
+                above expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
             \end{proof}
+            This paper extends the above proof by keeping higher order terms.
+            We emphasize three features that the above shares with its na\"ive
+            generalizations: the ``\emph{transparency}'' of future terms to old
+            effects, the combinatorial \emph{explosion} of intermediate terms,
+            and the results' \emph{polynomial} dependence on $T$.
 
-            Three key aspects  
- 
-            -- transparency / degree boundedness
+            By \textbf{transparency}, we mean that to first order the $t$th
+            update contributes the same amount to $\theta_T$ no matter how much
+            $T$ exceeds $t$ (transparency appears above in the constancy of
+            \colorbox{moolime}{$- \eta \nabla l_{T^\pr}(\theta_0)$} with
+            respect to $\theta_t$ for $t>0$). 
+            %
+            Consequently, we may imagine each update as independently affecting
+            the final test loss.  
+            %
+            This independence may be surprising, especially because it is
+            false: SGD on a bounded landscape does not descend indefinitely at
+            a constant rate.  We thus wish to account for the landscape's
+            curvature and hence to expand to higher order.
+            %
+            Still, even for higher orders $d$ of expansion, there is an
+            analpgue of independence that finds precise expression in Theorem
+            \ref{thm:resum}.  The intuition that arises is that of many
+            independent processes occuring, each blind to all but $d$
+            updates.
 
-            -- combinatorial explosion: where noise and curvature come in 
+            When we expand to higher order, an \textbf{explosion} of terms
+            rapidly obstructs progress.  In a second order analysis, for
+            instance, we may not discard the hessian term
+            \colorbox{moosky}{$\eta\nabla\nabla l_{T^\pr}(\theta_0) \cdot
+            (\theta_{T^\pr} - \theta_0)$}.  The first-order contributions of
+            all updates prior to $T^\pr$ thus each contribute via $\theta_{T^\pr}$
+            to this undiscarded term.  So, while the proof above sums
+            $O(T)$ terms, a second order analysis sums $O(T^2)$
+            terms, each (e.g.\ $\nabla\nabla l_{t=5} \nabla l_{t=2}$) involving
+            a \emph{pair} of times.  In fact, the terms may vary in form:
+            some (perhaps $\nabla\nabla l_{t=5} \nabla l_{t=2}$) of the
+            quadratic terms that replace \colorbox{moopink}{$\expc[\theta_T -
+            \theta_0]$}
+            have statistically independent factors that permit expectations to
+            factor, while others (perhaps $\nabla\nabla l_{t=5} \nabla
+            l_{t=5}$) will not.  This is how covariances of noise appear in
+            our analysis.
 
-            -- always get a polynomial in T
+            A routine induction on $(d,T)$ characterizes this explosion: for
+            each $d$, there are $O(T^d)$ many terms when we expand to order
+            $\eta^d$.  Thus the result most analogous to Proposition
+            \ref{prop:nest}'s result estimates the expected final testing loss
+            as a degree-$d$ \textbf{polynomial} in $T$.  For instance,
+            \colorbox{moogold}{$-T^1G\eta G$} is degree $1$ in $T$.  Though
+            polynomial dependence is correct for fixed $T$ and $\eta$
+            sufficiently small relative to $T$, it is absurd when we fix $\eta$
+            and vary
+            $T$:\footnote{%
+                There is no contradiction here: the domain and rate of
+                convergence (of the Taylor series in $\eta$) typically depend
+                on $T$, so we do not expect $\lim_{\eta\to 0}$ and
+                $\lim_{T\to\infty}$ to commute.%
+            }
+            for example, SGD on a bounded loss function should not experience
+            unbounded loss as $T$ increases.  By contrast, our main results
+            (Theorems \ref{thm:resum}, \ref{thm:converge}) produce expressions
+            that for each $T$ have the correct Taylor data with respect to
+            $\eta$ and that for each $\eta$ are bounded as $T$ grows.  We
+            achieve this result by cancelling the aforementioned polynomial
+            divergences at each order with higher order terms.  We perform this
+            resummation without omission or redundancy of terms so
+            that absolute convergence ensures consistency.  The physical
+            interpretation is to replace ``\emph{transparency}'' by
+            ``\emph{translucency}'': we find that the strength of a term
+            involving updates separated in time decays exponentially in the
+            separation.
 
         \subsection{Perturbation as technique}
-
+            We now abstractly describe the terms that appear when we keep
+            higher order terms in our proof of Proposition \ref{prop:nest}.
+            %
             Suppose $s$ is an analytic function on $\Mm$.  For example, $s$
             might be the testing loss $l$.  The following Lemma, reminiscent of
             \cite{dy49a}'s, helps us track $s(\theta)$ as SGD updates $\theta$:
             \begin{klem*} \label{lem:dyson}
-                For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a sum
-                over tuples of natural numbers:
+                For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a
+                sum over tuples of natural numbers:
                 \begin{equation}\label{eq:dyson}
                     \sum_{(d_t: 0\leq t<T) \in \NN^T}
                     (-\eta)^{\sum_t d_t}
@@ -904,7 +972,11 @@
                     \textbf{Left}:
                         Gradient noise pushes SGD toward flat minima
                         (Corollary
-                        \ref{cor:entropic}).  The red densities show the 
+                        \ref{cor:entropic}).
+                        Gray lines sketch a two-dimensional loss landscape near
+                        a valley of minima.
+                        %
+                        The red densities show the 
                         typical $\theta$s, perturbed from the
                         minimum due to noise $C$, in two cross sections of the
                         loss valley.  $J = \nabla H$ measures
