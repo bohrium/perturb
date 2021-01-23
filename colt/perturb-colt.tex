@@ -386,11 +386,11 @@
             \begin{wrapfigure}{r}{0.4\textwidth}
                 \vspace{-0.3cm}
                 \begin{tabular}{lclcl}
-                    $G$ &$=$& $\ex{\nb\lx}        $ &$=$& $\mdia{MOO(0)(0)}       $\\
-                    $H$ &$=$& $\ex{\nb\nb\lx}     $ &$=$& $\mdia{MOO(0)(0-0)}     $\\ 
-                    $J$ &$=$& $\ex{\nb\nb\nb\lx}  $ &$=$& $\mdia{MOO(0)(0-0-0)}   $\\
-                    $C$ &$=$& $\ex{(\nb\lx - G)^2}$ &$=$& $\mdia{MOOc(01)(0-1)}   $\\
-                    $S$ &$=$& $\ex{(\nb\lx - G)^3}$ &$=$& $\mdia{MOOc(012)(0-1-2)}$
+                    $G$ &$=$& $\ex{\nb\lx}        $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $\\
+                    $H$ &$=$& $\ex{\nb\nb\lx}     $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $\\ 
+                    $J$ &$=$& $\ex{\nb\nb\nb\lx}  $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\\
+                    $C$ &$=$& $\ex{(\nb\lx - G)^2}$ &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\\
+                    $S$ &$=$& $\ex{(\nb\lx - G)^3}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
                 \end{tabular}
                 \vspace{-0.5cm}
                 \caption*{
@@ -772,12 +772,7 @@
             neglect all diagrams with more than $d$ edges}.
             %
             Other examples: if $E=B=1$, then a diagram with an
-            ancestor-descendant pair in the same part contributes zero.  The
-            $t^d T^{-p}$-th order correction\footnote{We compare ODE integrated
-            to time $t$ to $T$ steps of SGD with $\eta = \eta_\star t/T$ and
-            $E=B=1$, and we assume $p\neq 0$.} to the ordinary differential
-            equation approximation of SGD is given by diagrams with $d$ edges
-            and $p$ many gray ties.  For SGD initialized at a minimum of $l$,
+            ancestor-descendant pair in the same part contributes zero.    For SGD initialized at a minimum of $l$,
             all diagrams vanish that contain a leaf participating in no gray
             tie.
 
@@ -839,9 +834,48 @@
                 that preserve $f$.
             \end{prop}
 
-            %-----  isolate effect of tensors  --------------------------------
+            %-----  isolate effect of tensors; crossing symmetries  -----------
+            This restatement streamlines analysis of SGD.  
+            For example, we may
+            compute the effect of the skewness of gradient noise in isolation
+            by evaluating only those diagrams containing
+            $\sdia{MOOc(012)(0-1-2)}$.    
+            These considerations show that the $t^d T^{-p}$-th order
+            correction\footnote{We compare ODE integrated to time $t$ to $T$
+            steps of SGD with $\eta = \eta_\star t/T$ and $E=B=1$, and we
+            assume $p\neq 0$.} to the ordinary differential equation
+            approximation of SGD is given by diagrams with $d$ edges and $p$
+            many gray ties.
 
-            %-----  crossing symmetries  --------------------------------------
+            \begin{wrapfigure}{r}{0.4\textwidth}
+                \centering  
+                \plotmoow{diagrams/spacetime-f}{0.99\linewidth}{}
+                \caption{
+                    %\textbf{Edges carry information}.
+                    Embedding of $\mdia{MOOc(01-2-3-4)(04-13-23-34)}$.
+                }
+                \vspace{-0.20cm}
+                \label{fig:intuition}
+            \end{wrapfigure}
+
+                As another example, since a diagram's uvalue depends only on its
+                graph and partition structures (and not on its root), we have
+                relations such as\footnote{The physics-oriented reader will recognize this as a
+                \emph{crossing symmetry}.}
+                $$\uvalue(\sdia{c(0-1-2)(01-12)})=
+                \uvalue(\sdia{c(0-1-2)(02-12)})$$ 
+                These relations reduce the effort of evaluating (\ref{eq:dyson}).
+                They also are theoretically interesting, for they relate
+                the contribution of a process (such as $\sdia{c(0-1-2)(01-12)}$,
+                whose degree-two node is temporally between its neighbors) to a version of the
+                process distorted by time travel (such as $\sdia{c(0-1-2)(02-12)}$,
+                whose degree-two node temporally follows its neighbors). 
+
+            We may intuitively interpret edges as carrying influence from the
+            training set toward the test measurement.  See Figure
+            \ref{fig:intuition}.  From this perspective, we may intuitively
+            interpret edges in an $\rvalue$ calculation as carrying influence from
+            the training set toward the test measurement.  
 
             %-----  resummation  ----------------------------------------------
             \subsubsection{Resummation}
@@ -887,7 +921,21 @@
                 \textbf{linkless} diagram.
             \end{dfn}
 
-            As discussed in the next section, explained
+            %\begin{figure}[h!] 
+            %    \centering  
+            %    \caption{
+            %        \textbf{Resummation propagates information, damped by
+            %        curvature}.  Each resummed valuerepresents many un-resummed
+            %        values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
+            %        in a different way.
+            %        \textbf{Left}: Here is one of many un-resummed terms captured by
+            %        a single resummed embedding for $\sdia{c(0-1)(01)}$.
+            %        \textbf{Left}: each resummed value represents many un-resummed
+            %        values.  Here is one of many un-resummed terms captured by
+            %        a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
+            %    }
+            %    \label{fig:intuition}
+            %\end{figure}
 
             %While \S\ref{appendix:future} discusses bridges to physics and
             %relations to Hessian methods and natural GD, this section
@@ -901,7 +949,7 @@
             diagrams.  A diagram with $d$ edges scales as $O(\eta^d)$, so the
             following is a series in $\eta$.  In practice, we truncate the
             series to small $d$ (invoking Theorem \ref{thm:converge} when
-            possible), thus focusing on few-edged diagrams.
+            possible), thus focusing on few-edged diagrams.  Here we state a special case:
             \begin{thm}[Special case of $E=B=1$] \label{thm:resum}
                 For any $T$: for $\eta$ small enough, the final testing loss is
                 \begin{equation*} \label{eq:resum}
@@ -1411,6 +1459,7 @@
         theory, users of deep learning may refine intuitions --- e.g.\ that
         SGD descends on the training loss --- to account for noise.
 
+    \newpage
     \acks{
         We are deeply grateful to Sho Yaida and Dan A.\ Roberts for their
         generous mentorship and to Joshua B.\ Tenenbaum for patiently
