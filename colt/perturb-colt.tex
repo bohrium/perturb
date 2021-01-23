@@ -1,5 +1,5 @@
-%\documentclass[anon,12pt]{colt2021} % Anonymized submission
-\documentclass[final,12pt]{colt2021} % Include author names
+\documentclass[anon,12pt]{colt2021} % Anonymized submission
+%\documentclass[final,12pt]{colt2021} % Include author names
 
 % The following packages will be automatically loaded:
 % amsmath, amssymb, natbib, graphicx, url, algorithm2e
@@ -329,7 +329,7 @@
             rigorously grounds a new physics-inspired perspective --- of SGD as
             a superposition of many concurrent information-flow processes ---
             that may inspire future work.
-    
+
         \newpage
         \subsection{Background, notation, assumptions}
 
@@ -635,17 +635,17 @@
                 depends on $T$, so we do not expect $\lim_{\eta\to 0}$
                 and $\lim_{T\to\infty}$ to commute.%
             }
-            for example, SGD on a bounded loss function should not experience
-            unbounded loss as $T$ increases.  By contrast, our main results
-            (Theorems \ref{thm:resum}, \ref{thm:converge}) produce expressions
+            for example, SGD on a bounded loss function should not lead to 
+            unbounded loss as $T$ grows.  By contrast, our
+            Theorems \ref{thm:resum}, \ref{thm:converge} produce expressions
             that for each $T$ have the correct Taylor data with respect to
             $\eta$ and that for each $\eta$ are bounded as $T$ grows.  We
             achieve this result by cancelling the aforementioned polynomial
             divergences at each order with higher order terms.  We perform this
-            \textbf{resummation}'' without omission or redundancy so
+            \textbf{resummation} without omission or redundancy so
             that absolute convergence ensures consistency.  Intuitively, 
             resummation replaces ``\emph{transparency}'' by
-            ``\emph{translucence}'': we find that a term that involves updates
+            ``\emph{translucence}'': a term that involves updates
             separated in time decays exponentially in the separation.
 
         \subsection{Introducing diagrams}\label{sect:diagrams}
@@ -766,20 +766,20 @@
                 \sdia{c(0-12-3)(03-12-23)} 
             $ are the same diagrams.
 
-            There are dozens of small diagrams.  In many analyses, all
-            but a few diagrams will be irrelevant.
-            Most importantly: for fixed $T$, \textbf{to order $\eta^d$ we may
+            There are dozens of small diagrams.  In many analyses, only
+            a few diagrams are relevant.
+            Indeed, for fixed $T$, \textbf{to order $\eta^d$ we may
             neglect all diagrams with more than $d$ edges}.
             %
-            Other examples: if $E=B=1$, then a diagram with an
-            ancestor-descendant pair in the same part contributes zero.    For SGD initialized at a minimum of $l$,
-            all diagrams vanish that contain a leaf participating in no gray
-            tie.
+            If $E=B=1$, then a diagram with an ancestor-descendant pair in the
+            same part contributes zero.  For SGD initialized at a minimum of
+            $l$, all diagrams vanish that contain a leaf participating in no
+            gray tie.
 
         \subsection{Using diagrams}
 
             %-----  embeddings and patterns of influence  ---------------------
-            \subsubsection{Embeddings}
+            %\subsubsection{Embeddings}
             Having re-expressed (\ref{eq:dyson}) as a weighted sum of uvalues
             of diagrams, we just need to compute the coefficient for each
             uvalue.  We find that a diagram's coefficient counts certain
@@ -855,28 +855,25 @@
                     Embedding of $\mdia{MOOc(01-2-3-4)(04-13-23-34)}$.
                 }
                 \vspace{-0.20cm}
-                \label{fig:intuition}
+                \label{fig:intuition1}
             \end{wrapfigure}
 
-                As another example, since a diagram's uvalue depends only on its
-                graph and partition structures (and not on its root), we have
-                relations such as\footnote{The physics-oriented reader will recognize this as a
-                \emph{crossing symmetry}.}
+                Moreover, a diagram's uvalue depends only on its
+                graph and partition structures (not on its root), so, e.g.:\footnote{The physics-oriented reader
+                will recognize this as a \emph{crossing symmetry}.}
                 $$\uvalue(\sdia{c(0-1-2)(01-12)})=
                 \uvalue(\sdia{c(0-1-2)(02-12)})$$ 
-                These relations reduce the effort of evaluating (\ref{eq:dyson}).
-                They also are theoretically interesting, for they relate
-                the contribution of a process (such as $\sdia{c(0-1-2)(01-12)}$,
-                whose degree-two node is temporally between its neighbors) to a version of the
-                process distorted by time travel (such as $\sdia{c(0-1-2)(02-12)}$,
-                whose degree-two node temporally follows its neighbors). 
+                %These relations reduce the effort of evaluating (\ref{eq:dyson}).
+                These relate the contribution of a process (e.g.\
+                $\sdia{c(0-1-2)(01-12)}$, whose degree-two node temporally
+                separates its neighbors) to a time-distorted version of the process
+                (e.g.\ $\sdia{c(0-1-2)(02-12)}$, whose
+                degree-two node succeeds its neighbors). 
 
-            We may intuitively interpret edges as carrying influence from the
+            \begin{samepage}
+            We interpret edges as carrying influence from the
             training set toward the test measurement.  See Figure
-            \ref{fig:intuition}.  From this perspective, we may intuitively
-            interpret edges in an $\rvalue$ calculation as carrying influence from
-            the training set toward the test measurement.  
-
+            \ref{fig:intuition1}.  
             %-----  resummation  ----------------------------------------------
             \subsubsection{Resummation}
             So far, diagrams have been a convenient but dispensible
@@ -884,6 +881,7 @@
             polynomial divergence remains.  We now show that the topology of
             diagrams enables correction of this divergence, thus establishing
             diagrams as a necessary concept.
+            \end{samepage}
 
             Observe that each of the following lists contains diagrams of ``the
             same'' shape:
@@ -937,10 +935,6 @@
             %    \label{fig:intuition}
             %\end{figure}
 
-            %While \S\ref{appendix:future} discusses bridges to physics and
-            %relations to Hessian methods and natural GD, this section
-            %discusses how t
-
         \subsection{Main result}
     
             %-----  recipe for test loss  -------------------------------------
@@ -990,12 +984,20 @@
             Theorem.
 
     \section{Consequences of the theory}
+
+        \begin{samepage}
+        These few corollaries do not exhaust the scope of our theory.  For
+        instance, \S\ref{appendix:future} briefly discusses bridges to physics
+        and relations to Hessian methods and natural GD.
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
+        \end{samepage}
             Physical intuition suggests that noise repels SGD: if two
             neighboring regions of weight space have high and low levels of
             gradient noise, respectively, then we expect the rate at which
             $\theta$ jumps from the former to the latter to exceed the opposite
-            rate.  There is thus a net movement toward regions of small $C$.\footnote{
+            rate.
+            %
+            There is thus a net movement toward regions of small $C$.\footnote{
                 This is the same mechanism by which sand on a vibrating
                 plate accumulates in quiet regions \citep{ch87}.  We thus dub
                 the SGD phenomenon the
@@ -1052,10 +1054,11 @@
             several ways.  For instance, the inter-epoch noise correlations in
             multi-epoch SGD measurably affect SGD's final testing loss (Corollary
             \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
-            Even if we restrict to single-epoch SGD, differences arise due to
-            time discretization and non-Gaussian noise; the following corollary
-            treats SGD with $E=B=1$:
-            %
+            Even if we restrict to single-epoch SGD, time discretization and non-Gaussian noise lead
+            SGD and SDE to respond differently to changes in curvature.
+            The following
+            treats SGD with $E=B=1$.   
+                        %
             \begin{cor}[$\sdia{c(01-2)(02-12)}$, $\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
                 For fixed $T$, SGD's final testing loss exceeds both ODE's and
                 SDE's by
@@ -1078,8 +1081,6 @@
                 to the excess final testing loss over SDE.  This unwieldy
                 expression specializes to Proposition \ref{prop:splash}.
             \end{cor}
-            Intuitively, SGD and
-            SDE respond differently to changes in curvature.
 
         \subsection{SGD descends on a landscape smoothed by the current $C$}
     
@@ -1239,7 +1240,7 @@
             Figure \ref{fig:vanilla}\ofsix{2} tests Corollary \ref{cor:batch}'s
             claim that, relative to GD, high-$C$ regions \emph{repel} SGD.
             This is significant because $C$ controls the rate at which the
-            generalization gap (testing minus training loss) grows (Corollary
+            gap (testing minus training loss) grows (Corollary
             \ref{cor:overfit}, Figure \ref{fig:vanilla}\ofsix{3}).
     
             \begin{figure}[h!] 
@@ -1293,8 +1294,8 @@
                     %%%
                     %%%
                     \newline {\bf Right: Predictions near minima excel for
-                    large $\eta T$.} \protect\ofsix{4}: SGD travels \Helix'
-                    valley of global minima in the positive $z$ direction.
+                    large $\eta T$.} \protect\ofsix{4}: SGD traverses \Helix'
+                    valley of global minima.%in the positive $z$ direction.
                     Note: $H$ and $C$ are bounded across the valley, we see
                     drift for all small $\eta$, and we see displacement
                     exceeding the landscape's period of $2\pi$.  So: the drift
@@ -1304,8 +1305,8 @@
                     \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and
                     a range of $H$s, initialized at the truth, the testing
                     losses after fixed-$T$ GD are smallest for very sharp and
-                    very flat $H$.  Near $H=0$, our predictions improve on TIC
-                    \citep{di18} and thus on AIC.
+                    very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
+                    \citep{di18}.
                     %%%
                     %%%
                 }
@@ -1415,13 +1416,13 @@
 
         %---------  summarize contributions  ----------------------------------
     
-        This paper provides a new perspective on SGD. 
-
-        We presented a diagram-based method for studying stochastic
-        optimization on short timescales or near minima.  Corollaries
-        \ref{cor:entropic} and \ref{cor:overfit} together offer insight into
-        SGD's success in training deep networks: SGD avoids curvature and
-        noise, and curvature and noise control generalization.
+        This paper presents a new perspective on SGD. 
+        %
+        We used diagrams to study stochastic optimization on short timescales
+        or near minima.  Corollaries \ref{cor:entropic} and \ref{cor:overfit}
+        together illuminate SGD's success in training deep networks:
+        SGD avoids curvature and noise, and curvature and noise control
+        generalization.
     
         Analyzing $\sdia{c(01-2)(02-12)}$, we proved that \textbf{flat and
         sharp minima both overfit less} than medium minima.  Intuitively, flat
