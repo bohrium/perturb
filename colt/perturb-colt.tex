@@ -115,7 +115,7 @@
 %---------------------  definitions, answers, remarks  ------------------------
 
 %\theoremstyle{definition}
-    \newtheorem{defn}{Definition}
+    \newtheorem{dfn}{Definition}
     \newtheorem*{answ*}{Answer}
     \newtheorem{rmk}{Remark}
     \newtheorem*{midea*}{Main Idea}
@@ -706,12 +706,12 @@
                -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
                 \expc[\nabla^{\mu}\nabla_{\lambda} l_{t=5}]
                 \expc[\nabla^{\nu}\nabla^{\lambda} l] \\
-               = (GG+C)_{\mu\nu}J^{\mu\nu}_{\lambda}G^{\lambda} 
+               = -(GG+C)_{\mu\nu}J^{\mu\nu}_{\lambda}G^{\lambda} 
                 && 
-               = (GG+C)_{\mu\nu}H^{\mu}_{\lambda} H^{\nu\lambda} \\
-                \leftrightsquigarrow \uvalue(\sdia{c(01-2-3)(02-12-23)})
+               = -(GG+C)_{\mu\nu}H^{\mu}_{\lambda} H^{\nu\lambda} \\
+                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-12-23)})
                 && 
-                \leftrightsquigarrow \uvalue(\sdia{c(01-2-3)(02-13-23)})
+                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
             \end{align*}
             We associate tensors with diagrams.\footnote{
                 We write $\leftrightsquigarrow$ instead of $=$ because diagrams
@@ -728,13 +728,13 @@
             all diagrams formally defined below.  The following examples of
             valid and invalid diagrams supply an informal sense sufficient to
             read this paper's body.
-            \begin{defn}[\S\ref{appendix:toward-diagrams}]
+            \begin{dfn}[\S\ref{appendix:toward-diagrams}]
                 A \textbf{diagram} is a rooted tree equipped with a partition
                 of its non-root nodes.  We draw the tree structure using black
                 edges, oriented left-to-right so that children precede parents.
                 We depict the partition structure using minimally many gray
                 outlined ties.  
-            \end{defn}
+            \end{dfn}
             \begin{table}[h!]
                 \centering
                 \vspace{-0.5cm}
@@ -759,34 +759,35 @@
                 }
                 \vspace{-0.5cm}
             \end{table}
+            Since a diagram is just a rooted tree and partition,
+            $
+                \sdia{c(01-2-3)(01-13-23)} = 
+                \sdia{c(02-1-3)(02-13-23)} = 
+                \sdia{c(0-12-3)(03-12-23)} 
+            $ are the same diagrams.
+
             \par\noindent
-            %
-            %\begin{rmk}
-                (One may draw dozens of small diagrams.  In many analyses, all
-                but a few diagrams will be irrelevant.  For instance, if
-                $E=B=1$, then a diagram with an ancestor-descendant pair in the
-                same part contributes zero.  When performing a fixed-$T$
-                calculation to order $\eta^d$, we may neglect all diagrams with
-                more than $d$ edges.  The $t^d T^{-p}$-th order
-                correction\footnote{%
-                    We compare ODE integrated to time $t$ to $T$ steps of SGD
-                    with $\eta = \eta_\star t/T$ and $E=B=1$, and we assume
-                    $p\neq 0$.
-                }
-                to the ordinary differential equation approximation of SGD is
-                given by diagrams with $d$ edges and $p$ many gray ties.  For
-                SGD initialized at a minimum of $l$, all diagrams vanish that
-                contain a leaf participating in no gray tie.)
-            %\end{rmk}
+            (There are dozens of small diagrams.  In many analyses, all
+            but a few diagrams will be irrelevant.  E.g.\ if $E=B=1$, then
+            a diagram with an ancestor-descendant pair in the same part
+            contributes zero.  For fixed $T$, to order $\eta^d$ we may
+            neglect all diagrams with more than $d$ edges.
+            %The $t^d T^{-p}$-th order correction\footnote{We compare ODE
+            %integrated to time $t$ to $T$ steps of SGD with $\eta =
+            %\eta_\star t/T$ and $E=B=1$, and we assume $p\neq 0$.} to
+            %the ordinary differential equation approximation of SGD is
+            %given by diagrams with $d$ edges and $p$ many gray ties.
+            For SGD initialized at a minimum of $l$, all diagrams vanish
+            that contain a leaf participating in no gray tie.)
 
-        \subsection{Insights from diagrams}
+        \subsection{Using diagrams}
 
-            While \S\ref{appendix:future} discusses bridges to physics and
-            relations to Hessian methods and natural GD, this section discusses
-            how the topology of diagrams organizes our evaluation of
+            The topology of diagrams organizes our evaluation of
             (\ref{eq:dyson}). 
 
             %-----  embeddings and patterns of influence  ---------------------
+
+            {\color{red} TODO: define (and draw?) embeddings!}
 
             %-----  isolate effect of tensors  --------------------------------
 
@@ -794,27 +795,47 @@
 
             %-----  resummation  ----------------------------------------------
 
-                Intuitively, the four diagrams in each of these lists share
-                an essential shape:
+                Each of the following lists contains diagrams of
+                ``the same'' shape:
                 \vspace{-0.33cm}
                 \begin{align*}
                     \sdia{c(0-1)(01)},
                     \sdia{c(0-1-2)(01-12)},
                     \sdia{c(0-1-2-3)(01-12-23)},
-                    \mdia{MOOc(0-1-2-3-4)(01-12-23-34)}
+                    \mdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
                     &&
                     \sdia{c(01-2)(02-12)},
                     \sdia{c(02-1-3)(01-13-23)},
                     \mdia{MOOc(02-1-3-4)(01-14-23-34)},
-                    \mdia{MOOc(03-1-2-4)(01-12-24-34)}
+                    \mdia{MOOc(03-1-2-4)(01-12-24-34)},\cdots
                 \end{align*}
                 \vspace{-0.67cm}
 
-                Moo
-                Moo
+                \noindent
+                Intuitively, our notion of ``the same'' permits chains to grow
+                or shrink.  We will express in closed form the total
+                contribution to (\ref{eq:dyson}) of all diagrams in such a
+                list.  This is the \emph{resummed value} of the list's smallest
+                member.  The idea is that the uvalues of chains are powers of
+                hessians --- for example,
+                $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so
+                we may sum over all possible chain lengths via geometric
+                series.
 
-                Moo
-                Moo
+                \begin{dfn}
+                    A \textbf{link} is a degree-$2$ node that participates in
+                    no gray ties.  To \textbf{reduce} a diagram at a link, we
+                    replace the link by a black edge connecting the link's two
+                    neighbors.  Reduction generates an equivalence relation on
+                    diagrams. Each equivalence class has exactly one
+                    \textbf{linkless} diagram.
+                \end{dfn}
+
+                
+
+                %While \S\ref{appendix:future} discusses bridges to physics and
+                %relations to Hessian methods and natural GD, this section
+                %discusses how t
 
         \subsection{Main result}
     
@@ -828,7 +849,7 @@
             \begin{thm}[Special case of $E=B=1$] \label{thm:resum}
                 For any $T$: for $\eta$ small enough, the final testing loss is
                 \begin{equation*} \label{eq:resum}
-                    \sum_{\substack{D~\text{an irreduc-} \\ \text{-ible diagram}}}
+                    \sum_{\substack{D~\text{a linkless} \\ \text{diagram}}}
                     ~
                     \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
                     ~
@@ -1007,44 +1028,6 @@
             So SGD descends on a $C$-smoothed landscape and prefers 
             minima flat with respect to $C$.
 
-        \subsection{Both flat and sharp minima overfit less}
-            \label{subsect:curvature-and-overfitting}%
-
-            Intuitively, sharp minima are robust to slight changes in the
-            average \emph{gradient} and flat minima are robust to slight
-            \emph{displacements} in weight space (Figure
-            \ref{fig:cubicandspring}\protect\offive{12}).  However, as SGD by
-            definition equates displacements with gradients, it may be unclear
-            how to reason about overfitting in the presence of curvature.
-            %
-            Our theory, by (automatically) accounting for the implicit
-            regularization of fixed-$T$ descent, shows that both effects play
-            a role.  In fact, by routine calculus on the left hand side of
-            Corollary \ref{cor:overfit}, overfitting is maximized for medium
-            minima with curvature $H \sim (\eta T)^{-1}$.
-            %
-            \begin{cor}[from $\sdia{c(01-2)(02-12)}$, $\sdia{c(01)(01)}$]\label{cor:overfit}
-                Initialize GD at a non-degenerate test minimum $\theta_\star$.
-                The overfitting (testing loss minus $l(\theta_\star)$) and generalization
-                gap (testing minus training loss) due to training are:
-                $$
-                    \wrap{\frac{C/N}{2H}}_{\mu\nu}^{\rho\lambda} ~
-                        \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
-                        + o(\eta^2)
-                    ~~~~~ ; ~~~~~
-                    \wrap{\frac{C/N}{H}}_{\mu\nu}^{\mu\lambda} ~
-                        \wrap{I - \exp(-\eta T H)}^{\nu}_{\lambda}
-                        + o(\eta)
-                $$
-            \end{cor}
-            The generalization gap tends  
-            to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$ as $T\to\infty$.  For maximum
-            likelihood (ML) estimation in well-specified models near the ``true''
-            minimum, $C=H$ is the Fisher metric, so we recover the AIC:
-            $(\textnormal{model dimension})/N$.  Unlike AIC, our more general
-            expression is descendably smooth, may be used with MAP or ELBO tasks
-            instead of just ML, and does not assume a well-specified model.
-    
             \begin{figure}[h!]
                 \centering
                 \plotmooh{colt/cubic}{}{0.40\columnwidth}
@@ -1084,6 +1067,46 @@
                 \label{fig:cubicandspring}
             \end{figure}
 
+
+
+        \subsection{Both flat and sharp minima overfit less}
+            \label{subsect:curvature-and-overfitting}%
+
+            Intuitively, sharp minima are robust to slight changes in the
+            average \emph{gradient} and flat minima are robust to slight
+            \emph{displacements} in weight space (Figure
+            \ref{fig:cubicandspring}\protect\offive{12}).  However, as SGD by
+            definition equates displacements with gradients, it may be unclear
+            how to reason about overfitting in the presence of curvature.
+            %
+            Our theory, by (automatically) accounting for the implicit
+            regularization of fixed-$T$ descent, shows that both effects play
+            a role.  In fact, by routine calculus on the left hand side of
+            Corollary \ref{cor:overfit}, overfitting is maximized for medium
+            minima with curvature $H \sim (\eta T)^{-1}$.
+            %
+            \begin{cor}[from $\sdia{c(01-2)(02-12)}$, $\sdia{c(01)(01)}$]\label{cor:overfit}
+                Initialize GD at a non-degenerate test minimum $\theta_\star$.
+                The overfitting (testing loss minus $l(\theta_\star)$) and generalization
+                gap (testing minus training loss) due to training are:
+                $$
+                    \wrap{\frac{C/N}{2H}}_{\mu\nu}^{\rho\lambda} ~
+                        \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
+                        + o(\eta^2)
+                    ~~~~~ ; ~~~~~
+                    \wrap{\frac{C/N}{H}}_{\mu\nu}^{\mu\lambda} ~
+                        \wrap{I - \exp(-\eta T H)}^{\nu}_{\lambda}
+                        + o(\eta)
+                $$
+            \end{cor}
+            The generalization gap tends  
+            to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$ as $T\to\infty$.  For maximum
+            likelihood (ML) estimation in well-specified models near the ``true''
+            minimum, $C=H$ is the Fisher metric, so we recover the AIC:
+            $(\textnormal{model dimension})/N$.  Unlike AIC, our more general
+            expression is descendably smooth, may be used with MAP or ELBO tasks
+            instead of just ML, and does not assume a well-specified model.
+    
    
     \section{Experiments}
         Despite the convergence results in Theorems \ref{thm:resum} and
@@ -1703,18 +1726,18 @@
         $\protect\sdia{c(01-2)(01-12)}$.
         As always, we specify a diagram's root by drawing it rightmost.
 
-        A diagram is \emph{irreducible} when each of its degree-$2$ nodes is in
+        A diagram is \emph{linkless} when each of its degree-$2$ nodes is in
         a part of size one.  Intuitively, this rules out multi-edge chains
         unadorned by fuzzy ties.
         Thus, only the first diagram in the list 
         $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
         \sdia{c(0-1-2-3)(01-12-23)}, \cdots$
-        is irreducible.  Only the first diagram in the list
+        is linkless.  Only the first diagram in the list
         $\sdia{c(01-2)(01-12)}, \sdia{c(01-2-3)(01-12-23)}, \cdots$
-        is irreducible.
+        is linkless.
         Only the first diagram in the list
         $\sdia{c(0-1-2)(02-12)}, \sdia{c(0-1-2-3)(01-13-23)}, \cdots$
-        is irreducible.
+        is linkless.
 
         An \emph{embedding} of a diagram $D$ into a space-time grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
@@ -1776,7 +1799,7 @@
         fewer edges that include that quantity as a component and that have a
         non-zero number of embeddings into the relevant space-time.  If we
         are using $\rvalue$s (see next section for discussion of $\rvalue$s and
-        $\uvalue$s), then we consider only the irreducible diagrams.  For each
+        $\uvalue$s), then we consider only the linkless diagrams.  For each
         diagram, we must enumerate the embeddings, i.e. the assignments of the
         diagram's nodes to space-time cells that obey both the time-ordering
         condition and correlation condition.
@@ -2023,7 +2046,7 @@
         \begin{thm*}
             For any $T$: for $\eta$ small enough, SGD has expected testing loss
             \begin{equation*}
-                \sum_{\substack{D~\text{an irreduc-} \\ \text{-ible diagram}}}
+                \sum_{\substack{D~\text{a linkless} \\ \text{diagram}}}
                 ~
                 \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
                 ~
@@ -2219,10 +2242,10 @@
     \subsection{Do diagrams streamline computation?}                \label{appendix:diagrams-streamline}
 
         Diagram methods from Stueckelberg to Peierls have flourished in physics
-        because they enable swift computations and offer immediate intuition that
-        would otherwise require laborious algebraic manipulation.  We demonstrate
-        how our diagram formalism likewise streamlines analysis of descent by
-        comparing direct perturbation\footnote{
+        because they enable swift computations and offer immediate intuition
+        that would otherwise require laborious algebraic manipulation.  We
+        demonstrate how our diagram formalism likewise streamlines analysis of
+        descent by comparing direct perturbation\footnote{
             By ``direct perturbation'', we mean direct application of our Key
             Lemma (\S\ref{appendix:key-lemma}).
         }
@@ -2232,22 +2255,23 @@
         toward explicit routine when using diagrams and allow ourselves to use
         clever and lucky simplifications when doing direct perturbation.  For
         example, while solving the first sample problem by direct perturbation,
-        we structure the SGD and GD computations so that the coefficients (that in
-        both the SGD and GD cases are) called $a(T)$ manifestly agree in their
-        first and second moments.  This allows us to save some lines of argument.
+        we structure the SGD and GD computations so that the coefficients (that
+        in both the SGD and GD cases are) called $a(T)$ manifestly agree in
+        their first and second moments.  This allows us to save some lines.
 
-        Despite these efforts, the diagram method yields arguments about \emph{four
-        times shorter} --- and strikingly more conceptual --- than direct
-        perturbation yields.  These examples specifically suggest that: diagrams
-        obviate the need for meticulous index-tracking, from the start focus one's
-        attention on non-cancelling terms by making visually obvious which terms
-        will eventually cancel, and allow immediate exploitation of a setting's
-        special posited structure, for instance that we are initialized at a test
-        minimum or that the batch size is $1$.  We regard these examples as
-        evidence that diagrams offer a practical tool for the theorist.
+        Despite these efforts, the diagram method yields arguments about
+        \emph{four times shorter} --- and strikingly more conceptual --- than
+        direct perturbation yields.  These examples specifically suggest that:
+        diagrams obviate the need for meticulous index-tracking, from the start
+        focus one's attention on non-cancelling terms by making visually
+        obvious which terms will eventually cancel, and allow immediate
+        exploitation of a setting's special posited structure, for instance
+        that we are initialized at a test minimum or that the batch size is
+        $1$.  We regard these examples as evidence that diagrams offer a
+        practical tool for the theorist.
 
-        We make no attempt to compare the re-summed version of our formalism
-        to direct perturbation because the algebraic manipulations involved for
+        We make no attempt to compare the re-summed version of our formalism to
+        direct perturbation because the algebraic manipulations involved for
         the latter are too complicated to carry out.  
 
         We now compare {\colorbox{moolime}{Diagram Rules}} vs
@@ -2286,7 +2310,7 @@
                 $$
             \end{shaded}
 
-            \newpage
+            %\newpage
             \subthreesect{Direct Perturbation} 
             \colorlet{shadecolor}{moosky}
             \begin{shaded}
@@ -2369,11 +2393,12 @@
                     ~&\frac{M(MN-1)(N-1)}{2} \expct{\nabla^2 l} \expct{\nabla l} + \\
                     ~&\frac{M(MN-1)}{2}      \expct{(\nabla^2 l) (\nabla l)} 
                 \end{align*}
-                $\cdots$
-            \end{shaded}
-            \newpage
-            \begin{shaded}
-                $\cdots$ We see that the expectations for $a$ and $a^2$ agree
+            %    $\cdots$
+            %\end{shaded}
+            %%\newpage
+            %\begin{shaded}
+            %   $\cdots$
+                We see that the expectations for $a$ and $a^2$ agree
                 between pure SGD and pure GD.  So only $b$ contributes.  We
                 conclude that pure GD's testing loss exceeds pure SGD's by
                 \begin{align*}
@@ -2428,7 +2453,7 @@
                 $$
             \end{shaded}
 
-            \newpage
+            %\newpage
             \subthreesect{Direct Perturbation}
             \colorlet{shadecolor}{moosky}
             \begin{shaded}
@@ -2511,9 +2536,9 @@
                             \sum_{t = t_1}
                                 \expct{\nabla l_{n_t} \nabla^2 l_{n_{t_1}}} \expct{\nabla l_{n_{t_0}}}
                 \end{align*}
-            \end{shaded}
-            \newpage
-            \begin{shaded}
+            %\end{shaded}
+            %\newpage
+            %\begin{shaded}
                 Since $\expct{\nabla l}$ divides $\expct{a_T b_T}$, the latter
                 vanishes.
                 \begin{align*}
@@ -2585,7 +2610,7 @@
         
         Now we turn to definitions.
 
-        \begin{defn}[Diagrams] \label{dfn:diagrams}
+        \begin{dfn}[Diagrams] \label{dfn:diagrams}
             A diagram is a finite rooted tree equipped with a partition of
             nodes.  We draw the tree using thin ``edges''.  By
             convention, we draw each node to the right of its children; the
@@ -2599,8 +2624,8 @@
             There may
             be multiple ways to draw a single diagram, e.g.
             $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
-        \end{defn}
-        \begin{defn}[Embedding a Diagram into Spacetime]
+        \end{dfn}
+        \begin{dfn}[Embedding a Diagram into Spacetime]
             An embedding of a diagram into a spacetime is an assignment of that
             diagram's non-root nodes to pairs $(n,t)$ such that each node
             occurs at a time $t^\prime$ strictly after each of its children and
@@ -2609,7 +2634,7 @@
             %
             %We say an embedding is \emph{strict} if it assigns to each part
             %a different datapoint $n$.
-        \end{defn}
+        \end{dfn}
         We define $\uvalue(D)$ and $\rvalue_f(D)$ as in
         \S\ref{appendix:evaluate-embeddings}.
 
@@ -2756,7 +2781,7 @@
         We now describe the terms that appear in the Key Lemma.  The following
         result looks like Theorem \ref{thm:resum}, except it has $\uvalue(D)$
         instead of $\uvalue_f(D)$, and the sum is over all diagrams, not just
-        irreducible ones.  In fact, we will use Theorem \ref{thm:pathint} to
+        linkless ones.  In fact, we will use Theorem \ref{thm:pathint} to
         prove Theorem \ref{thm:resum}.
 
         \begin{thm}[Test Loss as a Path Integral] \label{thm:pathint}
@@ -2994,7 +3019,7 @@
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
         may be grouped by their geometric realizations.  Each nonempty class of
         diagrams with a given geometric realization has a unique element with
-        minimally many edges, and in this way all and only irreducible diagrams
+        minimally many edges, and in this way all and only linkless diagrams
         arise. 
 
         We encounter two complications: on one hand, that the sizes of
@@ -3027,7 +3052,7 @@
             \ref{thm:pathint}.  
 
             Let us then focus on those diagrams $\sigma$ with a given geometric
-            realization represented by an irreducible diagram $\rho$.  By
+            realization represented by an linkless diagram $\rho$.  By
             Theorem \ref{thm:pathint}, it suffices to show that
             \begin{equation} \label{eq:hard}
                 \sum_{f:\rho\to S}
@@ -3135,7 +3160,7 @@
         \subsubsection{Corollary \ref{cor:entropic}}
 
             \begin{proof}
-                The relevant irreducible diagram is $\sdia{c(01-2-3)(02-12-23)}$
+                The relevant linkless diagram is $\sdia{c(01-2-3)(02-12-23)}$
                 {color{red} (amputated as in the previous subsubsection)}.   
                 An embedding of this diagram into $E=B=1$ SGD's spacetime
                 is determined by two durations --- 
@@ -3159,7 +3184,7 @@
         \subsubsection{Corollary \ref{cor:overfit}'s first part}
 
             \begin{proof}[Proof.]
-                The relevant irreducible diagram is $\sdia{(01-2)(02-12)}$
+                The relevant linkless diagram is $\sdia{(01-2)(02-12)}$
                 (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
                 minimum).  This diagram has one embedding for each pair of
                 same-row shaded cells, potentially identical, in spacetime; for
@@ -3193,7 +3218,7 @@
             result about testing losses.
 
             \begin{proof}[Proof]
-                The relevant irreducible diagram is $\sdia{c(01)(01)}$.  This
+                The relevant linkless diagram is $\sdia{c(01)(01)}$.  This
                 diagram has one embedding for each shaded cell of spacetime;
                 for GD, the spacetime has every cell shaded, so each duration
                 from $0$ to $T$ is represented.  So the generalization gap is,
