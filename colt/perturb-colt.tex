@@ -541,7 +541,7 @@
 
     \section{Perturbative theory of SGD}
 
-        \subsection{Discussion of a trivial example}
+        \subsection{Discussion of a trivial example}\label{sect:exegesis}
             We analyze Proposition \ref{prop:nest} to highlight our points of
             departure.
             %
@@ -766,76 +766,132 @@
                 \sdia{c(0-12-3)(03-12-23)} 
             $ are the same diagrams.
 
-            \par\noindent
-            (There are dozens of small diagrams.  In many analyses, all
-            but a few diagrams will be irrelevant.  E.g.\ if $E=B=1$, then
-            a diagram with an ancestor-descendant pair in the same part
-            contributes zero.  For fixed $T$, to order $\eta^d$ we may
-            neglect all diagrams with more than $d$ edges.
-            %The $t^d T^{-p}$-th order correction\footnote{We compare ODE
-            %integrated to time $t$ to $T$ steps of SGD with $\eta =
-            %\eta_\star t/T$ and $E=B=1$, and we assume $p\neq 0$.} to
-            %the ordinary differential equation approximation of SGD is
-            %given by diagrams with $d$ edges and $p$ many gray ties.
-            For SGD initialized at a minimum of $l$, all diagrams vanish
-            that contain a leaf participating in no gray tie.)
+            There are dozens of small diagrams.  In many analyses, all
+            but a few diagrams will be irrelevant.
+            Most importantly: for fixed $T$, \textbf{to order $\eta^d$ we may
+            neglect all diagrams with more than $d$ edges}.
+            %
+            Other examples: if $E=B=1$, then a diagram with an
+            ancestor-descendant pair in the same part contributes zero.  The
+            $t^d T^{-p}$-th order correction\footnote{We compare ODE integrated
+            to time $t$ to $T$ steps of SGD with $\eta = \eta_\star t/T$ and
+            $E=B=1$, and we assume $p\neq 0$.} to the ordinary differential
+            equation approximation of SGD is given by diagrams with $d$ edges
+            and $p$ many gray ties.  For SGD initialized at a minimum of $l$,
+            all diagrams vanish that contain a leaf participating in no gray
+            tie.
 
         \subsection{Using diagrams}
 
-            The topology of diagrams organizes our evaluation of
-            (\ref{eq:dyson}). 
-
             %-----  embeddings and patterns of influence  ---------------------
+            \subsubsection{Embeddings}
+            Having re-expressed (\ref{eq:dyson}) as a weighted sum of uvalues
+            of diagrams, we just need to compute the coefficient for each
+            uvalue.  We find that a diagram's coefficient counts certain
+            assignments of a diagram's non-root nodes to update events at
+            concrete times $t$.
+            %
+            For example, $\sdia{(0-1)(01)}$ has just one non-root node and
+            hence $T$ many assignments.  Since $\sdia{(0-1)(01)}$ is the only
+            diagram with one edge, it gives the full $\eta^1$ contribution to
+            final testing loss.  We immediately obtain Proposition
+            \ref{prop:nest}:
+            $$
+                -(\text{\# of assigments for~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) 
+                =
+                -T \cdot G_\mu G^\mu 
+            $$
 
-            {\color{red} TODO: define (and draw?) embeddings!}
+            Specifically, we count \emph{embeddings}, defined with respect to
+            given SGD hyperparameters $N,E,B$.\footnote{
+                The definition also assumes as given a deterministic algorithm
+                for sampling the $t$th batch.  To analyze batches sampled
+                randomly from the training set, we simply take expectations
+                over such deterministic algorithms.
+            }
+            This enables us to restate (\ref{eq:dyson}) into what intuitively
+            is a ``sum over histories'', where each history is a concrete
+            instantiation of the abstract process represented by a diagram. 
+            \begin{dfn}
+                An \textbf{embedding} of a diagram is an assignment of non-root
+                nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
+                training point participates in the $t$th batch; parents'
+                $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
+                any two nodes' $\emph{n}$s are equal if and only if the nodes
+                are in the same part of the partition. 
+            \end{dfn}
+            \begin{prop}[Key Lemma, restated] %\label{thm:pathint}
+                For all $T$: for $\eta$ sufficiently small, the final testing
+                loss is
+                \vspace{-0.20cm}
+                \begin{equation*}\label{eq:sgdcoef}
+                    \sum_{\substack{D~\text{a} \\ \text{diagram}}}
+                    ~
+                    \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+                    ~
+                        \frac{1}{\wabs{\Aut_f(D)}}
+                    \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
+                \end{equation*}
+
+                \vspace{-0.40cm}
+                \noindent
+                Here, $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$
+                that preserve $f$.
+            \end{prop}
 
             %-----  isolate effect of tensors  --------------------------------
 
             %-----  crossing symmetries  --------------------------------------
 
             %-----  resummation  ----------------------------------------------
+            \subsubsection{Resummation}
+            So far, diagrams have been a convenient but dispensible
+            book-keeping tool.  For instance, \S\ref{sect:exegesis}'s
+            polynomial divergence remains.  We now show that the topology of
+            diagrams enables correction of this divergence, thus establishing
+            diagrams as a necessary concept.
 
-                Each of the following lists contains diagrams of
-                ``the same'' shape:
-                \vspace{-0.33cm}
-                \begin{align*}
-                    \sdia{c(0-1)(01)},
-                    \sdia{c(0-1-2)(01-12)},
-                    \sdia{c(0-1-2-3)(01-12-23)},
-                    \mdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
-                    &&
-                    \sdia{c(01-2)(02-12)},
-                    \sdia{c(02-1-3)(01-13-23)},
-                    \mdia{MOOc(02-1-3-4)(01-14-23-34)},
-                    \mdia{MOOc(03-1-2-4)(01-12-24-34)},\cdots
-                \end{align*}
-                \vspace{-0.67cm}
+            Observe that each of the following lists contains diagrams of ``the
+            same'' shape:
+            \vspace{-0.30cm}
+            \begin{align*}
+                \sdia{c(0-1)(01)},
+                \sdia{c(0-1-2)(01-12)},
+                \sdia{c(0-1-2-3)(01-12-23)},
+                \mdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
+                &&
+                \sdia{c(01-2)(02-12)},
+                \sdia{c(02-1-3)(01-13-23)},
+                \mdia{MOOc(03-1-2-4)(01-12-24-34)},
+                \mdia{MOOc(02-1-3-4)(01-14-23-34)},\cdots
+            \end{align*}
+            \vspace{-0.60cm}
 
-                \noindent
-                Intuitively, our notion of ``the same'' permits chains to grow
-                or shrink.  We will express in closed form the total
-                contribution to (\ref{eq:dyson}) of all diagrams in such a
-                list.  This is the \emph{resummed value} of the list's smallest
-                member.  The idea is that the uvalues of chains are powers of
-                hessians --- for example,
-                $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so
-                we may sum over all possible chain lengths via geometric
-                series.
+            \noindent
+            Intuitively, our notion of ``the same'' permits chains to grow
+            or shrink.  We will express in closed form the total
+            contribution to (\ref{eq:dyson}) of all diagrams in such a
+            list.  This is the \emph{resummed value} of the list's smallest
+            member.  The idea is that the uvalues of chains are powers of
+            hessians --- for example,
+            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so
+            we may sum over all possible chain lengths via geometric
+            series.
 
-                \begin{dfn}
-                    A \textbf{link} is a degree-$2$ node that participates in
-                    no gray ties.  To \textbf{reduce} a diagram at a link, we
-                    replace the link by a black edge connecting the link's two
-                    neighbors.  Reduction generates an equivalence relation on
-                    diagrams. Each equivalence class has exactly one
-                    \textbf{linkless} diagram.
-                \end{dfn}
+            \begin{dfn}
+                A \textbf{link} is a degree-$2$ node that participates in
+                no gray ties.  To \textbf{reduce} a diagram at a link, we
+                replace the link by a black edge connecting the link's two
+                neighbors.  Reduction generates an equivalence relation on
+                diagrams. Each equivalence class has exactly one
+                \textbf{linkless} diagram.
+            \end{dfn}
 
-                
+            As discussed in the next section, explained
 
-                %While \S\ref{appendix:future} discusses bridges to physics and
-                %relations to Hessian methods and natural GD, this section
-                %discusses how t
+            %While \S\ref{appendix:future} discusses bridges to physics and
+            %relations to Hessian methods and natural GD, this section
+            %discusses how t
 
         \subsection{Main result}
     
@@ -1014,16 +1070,15 @@
             By avoiding \cite{we19b}'s assumptions of constant $C$, we find
             that SGD's velocity field is typically non-conservative, i.e.\ has
             curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
-            derivative but $C\nabla H$ is not.  Since, by low-pass
-            filter theory, $CH/2+o(C)$ is the loss increase upon convolving $l$
-            with a $C$-shaped Gaussian, we say that SGD descends on a
-            $C$-smoothed landscape that changes as $C$ does.
+            derivative but $C\nabla H$ is not.  Since, by low-pass filter
+            theory, $CH/2+o(C)$ is the loss increase upon convolving $l$ with a
+            $C$-shaped Gaussian, we say that SGD descends on a $C$-smoothed
+            landscape that changes as $C$ does.
             %
             Our $T\gg 1$ result is $\Theta(\eta^2)$, while \cite{ya19b}'s
             similar $T=2$ result is $\Theta(\eta^3)$.  Indeed, our analysis
-            integrates the noise over many updates, hence amplifying $C$'s 
-            effect.
-            Experiments verify our law.
+            integrates the noise over many updates, hence amplifying $C$'s
+            effect.  Experiments verify our law.
       
             So SGD descends on a $C$-smoothed landscape and prefers 
             minima flat with respect to $C$.
@@ -2646,7 +2701,7 @@
         \begin{klem*} \label{lem:dyson}
             For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a sum
             over tuples of natural numbers:
-            \begin{equation}\label{eq:dyson}
+            \begin{equation}\label{eq:dyson2}
                 \sum_{(d_t: 0\leq t<T) \in \NN^T}
                 (-\eta)^{\sum_t d_t}
                 \wrap{
