@@ -80,6 +80,18 @@
 \definecolor{moob}{rgb}{0.2,0.2,0.8}
 \definecolor{mooteal}{rgb}{0.1,0.6,0.4}
 
+\definecolor{spacetimered}{rgb}{0.8, 0.2, 0.0}
+\definecolor{spacetimeorange}{rgb}{0.6, 0.4, 0.1}
+\definecolor{spacetimelemon}{rgb}{0.4, 0.6, 0.1}
+\definecolor{spacetimegreen}{rgb}{0.0, 0.8, 0.2}
+\definecolor{spacetimeteal}{rgb}{0.1, 0.6, 0.4}
+\definecolor{spacetimesky}{rgb}{0.1, 0.4, 0.6}
+\definecolor{spacetimeblue}{rgb}{0.2, 0.0, 0.8}
+\definecolor{spacetimeindigo}{rgb}{0.4, 0.1, 0.6}
+\definecolor{spacetimepurple}{rgb}{0.6, 0.1, 0.4}
+
+
+
 %---------------------  intertext: footnotes and hyperlinks  ------------------ 
 
 \usepackage[perpage]{footmisc}
@@ -244,7 +256,9 @@
     u%
 }
 
-\title[SGD at Small Learning Rates]{SGD at Small Learning Rates}
+\title[A Perturbative Analysis of SGD]{
+    A Perturbative Analysis of Stochastic Gradient Descent
+}
 \usepackage{times}
 \coltauthor{%
     \Name{Samuel C.\ Tenka} \Email{\sammail}    \\
@@ -266,18 +280,16 @@
         approximations: deterministic descent and stochastic differential
         equations.  We find that SGD's trajectory avoids regions of weight
         space with high gradient noise and avoids minima that are sharp with
-        respect to gradient noise.  Paired with results that relate overfitting
-        to curvature, these repulsions suggest a mechanism for the unexpected
-        generalization of overparameterized learners.
+        respect to gradient noise.
     \end{abstract}
     
     \begin{keywords}%
-        SGD, learning rates, generalization, gradient noise. 
+        SGD, learning rates, generalization, gradient noise, perturbation. 
     \end{keywords}
 
     \section{Introduction}
 
-        \subsection{Intuitions about SGD}
+        %\subsection{SGD}
 
             %--  object of study  ---------------------------------------------
             %
@@ -292,14 +304,14 @@
             Departing from prior work, we model discrete time and correlated
             gradient noise.  Indeed, we derive corrections to continuous-time,
             independent noise approximations such as ordinary and stochastic
-            differential equations (ODE, SDE).
+            differential equations (ODE, SDE: \cite{li18}).
             %--
             Our corrections lead to qualitative differences in dynamics: for
             example, we construct a non-pathological\footnote{%
                 All higher derivatives exist and are quadratically bounded; the
                 gradient noise at each weight vector is $1$-subgaussian.%
-            } loss landscape for which SGD's trajectory perpetually
-            \emph{circulates} counterclockwise; slightly modifying this
+            } loss landscape on which SGD's trajectory perpetually
+            \emph{circulates} clockwise; slightly modifying this
             landscape leads SGD to perpetually \emph{ascend}.
             %--
             These examples, though artificial, demonstrate how drastically
@@ -310,25 +322,55 @@
 
             %--  soft benefits: retrospective  --------------------------------
             %
-            At a high level, we Taylor-expand quantities of interest as
-            functions of the learning rate $\eta$.  We tame both the
-            combinatorial explosion of terms and the large-time convergence
-            difficulties by grouping terms according to the information-flow
-            processes they represent.  We introduce diagrams such as
-            $\sdia{c(01-2-3)(02-12-23)}$, analogous to those of \cite{fe49} and
-            \cite{pe71}, to depict these processes.\footnote{%
-                E.g.\ the diagram here shows a red update doubly
-                affecting a green update that in turn affects the final testing
-                loss.  The diagrams with few edges suffice for leading
-                order results.  Colors help us refer to diagram parts; they
-                lack meaning.
+            \begin{wrapfigure}{r}{0.40\textwidth}
+                \centering  
+                \vspace{-0.30cm}
+                \plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
+                \caption{
+                    \textbf{An information-flow process}.  The $5$th datum 
+                    participates in the $2$nd SGD update.  This
+                    {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
+                    testing loss both directly and via the
+                    {\color{spacetimeteal}$(1,12)$ event}, which is also
+                    modulated by the {\color{spacetimeindigo}$(2,5)$
+                    event}. 
+                }\vspace{+0.60cm}
+                \label{fig:paradigm}
+            \end{wrapfigure}
+            At a high level, we Taylor-expand the testing loss as a function of
+            the learning rate $\eta$.  We tame a combinatorial explosion of
+            terms and some large-time convergence difficulties by interpreting
+            terms as aspects of information-flow processes.  For example, an
+            instance of the process\footnote{
+                Throughout, colors help us refer to parts of diagrams; they
+                lack mathematical meaning.
             }
+                \vspace{-0.40cm}
+            $$
+                \mdia{MOOc(01-2-3-4)(04-13-23-34)}
+                \vspace{-0.60cm}
+            $$
+            is shown on the right.
+            %We depict these processes with diagrams such as
+            %%$\sdia{c(01-2-3)(02-12-23)}$
+            %$\mdia{MOOc(01-2-3-4)(04-13-23-34)}$
+            %analogous to those of \cite{fe49,pe71}.%\footnote{%
+            %%    E.g.\ the diagram here shows a red update doubly
+            %%    affecting a green update that in turn affects the final testing
+            %%    loss.  The diagrams with few edges suffice for leading
+            %%    order results.  Colors help us refer to diagram parts; they
+            %%    lack meaning.
+            %%}
+            %%
+            %%We may thus compute expected testing losses by
+            %%summing small sets of diagrams.
+            We develop a diagram notation for processes, 
+            explain how to compute the effect of each process, and show
+            that summing the finitely many processes with fewer than $d$ edges
+            suffices to answer dynamical questions to error $o(\eta^d)$.
             %
-            We thus compute quantities such as expected testing losses by
-            summing small sets of diagrams.  Overall, our analysis offers and
-            rigorously grounds a new physics-inspired perspective --- of SGD as
-            a superposition of many concurrent information-flow processes ---
-            that may inspire future work.
+            Our analysis thus offers a new physics-inspired perspective of SGD
+            as a superposition of many concurrent information-flow processes.
 
         \newpage
         \subsection{Background, notation, assumptions}
@@ -354,18 +396,18 @@
 
             SGD performs $\eta$-steepest descent on the estimates $l_n$.  Our
             theory describes SGD with any number
-            %    $\mathbf{N}$ of training points,
-            %    $\mathbf{T}$ of updates, and 
-            %    $\mathbf{B}$ of points per batch.
-            %Specifically, SGD runs $T$ many updates (hence
-            %    $\mathbf{E}=TB/N$ epochs or
-            %    $\mathbf{M}=T/N$ updates per training point) of the form
-                \colorbox{moolime}{$\mathbf{N}$ of training points},
-                \colorbox{moolime}{$\mathbf{T}$ of updates}, and 
-                \colorbox{moolime}{$\mathbf{B}$ of points per batch}.
+                $\mathbf{N}$ of training points,
+                $\mathbf{T}$ of updates, and 
+                $\mathbf{B}$ of points per batch.
             Specifically, SGD runs $T$ many updates (hence
-                \colorbox{moolime}{$\mathbf{E}=TB/N$ epochs} or
-                \colorbox{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
+                $\mathbf{E}=TB/N$ epochs or
+                $\mathbf{M}=T/N$ updates per training point) of the form
+            %    \colorbox{moolime}{$\mathbf{N}$ of training points},
+            %    \colorbox{moolime}{$\mathbf{T}$ of updates}, and 
+            %    \colorbox{moolime}{$\mathbf{B}$ of points per batch}.
+            %Specifically, SGD runs $T$ many updates (hence
+            %    \colorbox{moolime}{$\mathbf{E}=TB/N$ epochs} or
+            %    \colorbox{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
             $$
                 \textstyle
                 \theta^\mu
@@ -457,9 +499,9 @@
             For example, our framework allows us to assess how gradient noise's
             non-Gaussianity affects the final testing loss.
             \S\ref{sect:diagrams} details how evaluation of a
-            \emph{single diagram} gives the leading order result (Corollary
-            \ref{cor:vsode}), for concision quoted here assuming isotropic
-            curvature ($\eta H \propto I$): 
+            \emph{single diagram} ($\sdia{c(012-3)(03-13-23)}$) gives the
+            leading order result (Corollary \ref{cor:vsode}), for concision
+            quoted here assuming isotropic curvature ($\eta H \propto I$): 
             \begin{prop}\label{prop:splash}
                 If we initialize near an non-degenerate minimum of $l$, then in
                 the large-$T$ limit, the skewness $S$ of gradient noise
@@ -479,69 +521,9 @@
             to Proposition \ref{prop:nest}.  Gaussian approximations (e.g.\
             SDE) miss this effect. 
 
-        \newpage
-        \subsection{Related work}\label{sect:related}
-    
-            %-- history of sgd  -----------------------------------------------
-
-            It was \cite{ki52} who, in uniting gradient descent \citep{ca47}
-            with stochastic approximation \citep{ro51}, invented SGD.  Since
-            the development of back-propagation for efficient differentiation
-            \citep{we74}, SGD has been used to train connectionist models,
-            e.g.\ neural networks \citep{bo91}, recently to remarkable success
-            \citep{le15}.
-        
-            %-- analyzing overfitting; relevance of optimization; sde errs  ---
-        
-            Several lines of work treat the overfitting of SGD-trained networks
-            \citep{ne17a}.  For example, \cite{ba17} controls the Rademacher
-            complexity of deep hypothesis classes, leading to
-            optimizer-agnostic generalization bounds.  Yet SGD-trained networks
-            generalize despite their ability to shatter large sets
-            \citep{zh17}, so generalization must arise from not only
-            architecture but also optimization \citep{ne17b}.  Others
-            approximate SGD by SDE to analyze implicit regularization (e.g.\
-            \cite{ch18}), but, per \cite{ya19a}, such continuous-time analyses
-            cannot treat SGD noise correctly.
-            %
-            %-- we extend dan's approach  -------------------------------------
-            %
-            We avoid these pitfalls by Taylor expanding around $\eta=0$ as in
-            \cite{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
-            and $T=2$.  To do so, we develop new summation techniques with
-            improved large-$T$ convergence.  Our interpretion of the resulting
-            terms offers a new qualitative picture of SGD as a superposition of
-            several simpler information-flow processes.
-            
-            %-- phenomenology of rademacher correlates such as hessians  ------
-        
-            Our predictions are vacuous for large $\eta$.  Other analyses treat
-            large-$\eta$ learning phenomenologically, whether by finding
-            empirical correlates of the generalization gap \citep{li18}, by
-            showing that \emph{flat} minima generalize (\cite{ho17},
-            \cite{ke17}, \cite{wa18}), or by showing that \emph{sharp} minima
-            generalize (\cite{st56}, \cite{di17}, \cite{wu18}).  We find that
-            SGD's implicit regularization mediates between these seemingly
-            clashing intuitions (\S \ref{subsect:overfit}).
-            
-            %-- our work vs other perturbative approaches  --------------------
-        
-            Prior work analyzes SGD perturbatively: \cite{dy19} perturb in
-            inverse network width, using 't Hooft diagrams to correct the
-            Gaussian Process approximation for specific nets.  Perturbing
-            to order $\eta^2$, \cite{ch18} and \cite{li17} are forced to assume
-            uncorrelated Gaussian noise.  By contrast, we use Penrose diagrams
-            to compute testing losses to arbitrary order in $\eta$.  We allow
-            correlated, non-Gaussian noise and thus \emph{any} smooth
-            architecture.  E.g.\ we assume no information-geometric
-            relationships between $C$ and $H$,\footnote{
-                Disagreement of $C$ and
-                $H$ is typical in modern learning \citep{ro12, ku19}
-            } so we may model VAEs. 
-
     \section{Perturbative theory of SGD}
 
-        \subsection{Discussion of a trivial example}\label{sect:exegesis}
+        \subsection{Detailed discussion of a trivial example}\label{sect:exegesis}
             We analyze Proposition \ref{prop:nest} to highlight our points of
             departure.
             %
@@ -776,7 +758,7 @@
             $l$, all diagrams vanish that contain a leaf participating in no
             gray tie.
 
-        \subsection{Using diagrams}
+        \subsection{Using diagrams to compute final testing losses}
 
             %-----  embeddings and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
@@ -815,9 +797,9 @@
                 any two nodes' $\emph{n}$s are equal if and only if the nodes
                 are in the same part of the partition. 
             \end{dfn}
-            \begin{prop}[Key Lemma, restated] %\label{thm:pathint}
+            \begin{klem*}\emph{(\textbf{restated})} %\label{thm:pathint}
                 For all $T$: for $\eta$ sufficiently small, the final testing
-                loss is
+                loss is:
                 \vspace{-0.20cm}
                 \begin{equation*}\label{eq:sgdcoef}
                     \sum_{\substack{D~\text{a} \\ \text{diagram}}}
@@ -832,11 +814,13 @@
                 \noindent
                 Here, $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$
                 that preserve $f$.
-            \end{prop}
+            \end{klem*}
 
             %-----  isolate effect of tensors; crossing symmetries  -----------
-            This restatement streamlines analysis of SGD.  
-            For example, we may
+            This restatement streamlines analysis of SGD because it is in practice
+            straightforward to count a diagram's embeddings.
+            %
+            Moreover, we may
             compute the effect of the skewness of gradient noise in isolation
             by evaluating only those diagrams containing
             $\sdia{MOOc(012)(0-1-2)}$.    
@@ -847,33 +831,34 @@
             approximation of SGD is given by diagrams with $d$ edges and $p$
             many gray ties.
 
-            \begin{wrapfigure}{r}{0.4\textwidth}
-                \centering  
-                \plotmoow{diagrams/spacetime-f}{0.99\linewidth}{}
-                \caption{
-                    %\textbf{Edges carry information}.
-                    Embedding of $\mdia{MOOc(01-2-3-4)(04-13-23-34)}$.
-                }
-                \vspace{-0.20cm}
-                \label{fig:intuition1}
-            \end{wrapfigure}
+            %We interpret edges as carrying influence from the training set
+            %toward the test measurement (figure \ref{fig:paradigm}). 
 
-                Moreover, a diagram's uvalue depends only on its
-                graph and partition structures (not on its root), so, e.g.:\footnote{The physics-oriented reader
-                will recognize this as a \emph{crossing symmetry}.}
-                $$\uvalue(\sdia{c(0-1-2)(01-12)})=
-                \uvalue(\sdia{c(0-1-2)(02-12)})$$ 
-                %These relations reduce the effort of evaluating (\ref{eq:dyson}).
-                These relate the contribution of a process (e.g.\
-                $\sdia{c(0-1-2)(01-12)}$, whose degree-two node temporally
-                separates its neighbors) to a time-distorted version of the process
-                (e.g.\ $\sdia{c(0-1-2)(02-12)}$, whose
-                degree-two node succeeds its neighbors). 
+            %\begin{wrapfigure}{r}{0.4\textwidth}
+            %    \centering  
+            %    \plotmoow{diagrams/spacetime-f}{0.99\linewidth}{}
+            %    \caption{
+            %        %\textbf{Edges carry information}.
+            %        Embedding of $\mdia{MOOc(01-2-3-4)(04-13-23-34)}$.
+            %    }
+            %    \vspace{-0.20cm}
+            %    \label{fig:intuition1}
+            %\end{wrapfigure}
 
-            \begin{samepage}
-            We interpret edges as carrying influence from the
-            training set toward the test measurement.  See Figure
-            \ref{fig:intuition1}.  
+            %    Moreover, a diagram's uvalue depends only on its
+            %    graph and partition structures (not on its root), so, e.g.:\footnote{The physics-oriented reader
+            %    will recognize this as a \emph{crossing symmetry}.}
+            %    $$\uvalue(\sdia{c(0-1-2)(01-12)})=
+            %    \uvalue(\sdia{c(0-1-2)(02-12)})$$ 
+            %    %These relations reduce the effort of evaluating (\ref{eq:dyson}).
+            %    These relate the contribution of a process (e.g.\
+            %    $\sdia{c(0-1-2)(01-12)}$, whose degree-two node temporally
+            %    separates its neighbors) to a time-distorted version of the process
+            %    (e.g.\ $\sdia{c(0-1-2)(02-12)}$, whose
+            %    degree-two node succeeds its neighbors). 
+
+
+            \newpage
             %-----  resummation  ----------------------------------------------
             \subsubsection{Resummation}
             So far, diagrams have been a convenient but dispensible
@@ -881,7 +866,6 @@
             polynomial divergence remains.  We now show that the topology of
             diagrams enables correction of this divergence, thus establishing
             diagrams as a necessary concept.
-            \end{samepage}
 
             Observe that each of the following lists contains diagrams of ``the
             same'' shape:
@@ -919,21 +903,33 @@
                 \textbf{linkless} diagram.
             \end{dfn}
 
-            %\begin{figure}[h!] 
-            %    \centering  
-            %    \caption{
-            %        \textbf{Resummation propagates information, damped by
-            %        curvature}.  Each resummed valuerepresents many un-resummed
-            %        values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
-            %        in a different way.
-            %        \textbf{Left}: Here is one of many un-resummed terms captured by
-            %        a single resummed embedding for $\sdia{c(0-1)(01)}$.
-            %        \textbf{Left}: each resummed value represents many un-resummed
-            %        values.  Here is one of many un-resummed terms captured by
-            %        a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
-            %    }
-            %    \label{fig:intuition}
-            %\end{figure}
+            More specifically, the \textbf{rvalue} of an embedded diagram is
+            defined as the $\uvalue$ except that pairs of tensor indices are
+            not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
+            embedded edge spans $\delta t$ many time steps, we contract the
+            two corresponding tensor indices using $(I-\eta H)^{\delta t-1}\eta$. 
+
+            \begin{figure}[h!] 
+                \centering  
+                \dmoo{3cm}{spacetime-g}
+                \hfill
+                \dmoo{3cm}{spacetime-h}
+                \caption{
+                    \textbf{Resummation propagates information, damped by
+                    curvature}.  Each resummed value represents many
+                    un-resummed values, each modulated by the Hessian
+                    ($\sdia{MOOc(0)(0-0)}$) in a different way.
+                    \textbf{Left}: Four of many un-resummed terms captured by a
+                    single resummed term for $\sdia{c(0-1)(01)}$.
+                    \textbf{Right}: One of many un-resummed terms
+                    captured by a single resummed term for
+                    $\sdia{c(01-2)(02-12)}$.
+                    Because two nodes appear at $(n=2,t=2)$, the process shown
+                    is an effect of the 2nd cumulant of the gradient noise
+                    distribution.
+                }
+                \label{fig:resumintuition}
+            \end{figure}
 
         \subsection{Main result}
     
@@ -944,16 +940,17 @@
             following is a series in $\eta$.  In practice, we truncate the
             series to small $d$ (invoking Theorem \ref{thm:converge} when
             possible), thus focusing on few-edged diagrams.  Here we state a special case:
-            \begin{thm}[Special case of $E=B=1$] \label{thm:resum}
+            \begin{thm} \label{thm:resum}
                 For any $T$: for $\eta$ small enough, the final testing loss is
+                a sum over \emph{linkless} diagrams: 
                 \begin{equation*} \label{eq:resum}
                     \sum_{\substack{D~\text{a linkless} \\ \text{diagram}}}
                     ~
                     \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
                     ~
-                    \frac{(-1)^{|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                    \frac{1}{\wabs{\Aut_f(D)}}
                     \,
-                    {\rvalue_f}(D)
+                    \frac{{\rvalue_f}(D)}{(-B)^{|\edges(D)|}}
                 \end{equation*}
             \end{thm}
     
@@ -1134,8 +1131,9 @@
 
             \begin{figure}[h!]
                 \centering
-                \plotmooh{colt/cubic}{}{0.40\columnwidth}
-                \plotmooh{colt/spring}{}{0.40\columnwidth}
+                \plotmooh{colt/cubic}{}{0.35\columnwidth}
+                \hfill  
+                \plotmooh{colt/spring}{}{0.35\columnwidth}
                 \caption{%
                     \textbf{Geometric intuition for curvature-noise interactions.}
                     \textbf{Left}:
@@ -1145,13 +1143,13 @@
                         Gray lines sketch a two-dimensional loss landscape near
                         a valley of minima.
                         %
-                        The red densities show the 
-                        typical $\theta$s, perturbed from the
-                        minimum due to noise $C$, in two cross sections of the
+                        Red densities show the 
+                        typical $\theta$s, perturbed by noise $C$ from the
+                        minimum due, in two cross sections of the
                         loss valley.  $J = \nabla H$ measures
-                        how curvature changes across the valley.  Our theory
+                        curvature's change across the valley.  Our theory
                         does not assume separation between ``fast'' and
-                        ``slow'' modes, but we label them in the picture to
+                        ``slow'' modes, but we label them here to
                         ease comparison with \cite{we19b}.
                         Compare with Figure \ref{fig:archimedes}.
                     \textbf{\bf Right}:
@@ -1242,7 +1240,6 @@
             This is significant because $C$ controls the rate at which the
             gap (testing minus training loss) grows (Corollary
             \ref{cor:overfit}, Figure \ref{fig:vanilla}\ofsix{3}).
-    
             \begin{figure}[h!] 
                 \centering
                 \pmoo{3.55cm}{neurips-test-small} \pmoo{3.55cm}{new-big-bm-new}          \pmoo{3.55cm}{neurips-thermo-linear-screw}
@@ -1277,8 +1274,7 @@
                     coincidental.  
                     %%%
                     %%%
-                    \newline {\bf Center: $C$ controls generalization gap and
-                    distinguishes GD from SGD.}
+                    \newline {\bf Center: $C$ controls generalization gap.}%.and distinguishes GD from SGD.}
                     %
                     With equal-scaled axes, \protect\ofsix{2} shows that GDC
                     matches SGD (small vertical variance) better than GD
@@ -1312,12 +1308,9 @@
                 }
                 \label{fig:vanilla}
             \end{figure}
-    
-    
         %----------------------------------------------------------------------
         %           Thermodynamic Engine                        
         %----------------------------------------------------------------------
-    
         \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
             %
             \label{subsect:entropic}
@@ -1414,51 +1407,111 @@
 
     \section{Conclusion}
 
-        %---------  summarize contributions  ----------------------------------
-    
-        This paper presents a new perspective on SGD. 
-        %
-        We used diagrams to study stochastic optimization on short timescales
-        or near minima.  Corollaries \ref{cor:entropic} and \ref{cor:overfit}
-        together illuminate SGD's success in training deep networks:
-        SGD avoids curvature and noise, and curvature and noise control
-        generalization.
-    
-        Analyzing $\sdia{c(01-2)(02-12)}$, we proved that \textbf{flat and
-        sharp minima both overfit less} than medium minima.  Intuitively, flat
-        minima are robust to vector noise, sharp minima are robust to covector
-        noise, and medium minima robust to neither.  We thus proposed a
-        regularizer enabling gradient-based hyperparameter tuning.
-        %
-        Inspecting $\sdia{c(01-2-3)(02-12-23)}$, we extended \cite{we19b} to
-        nonconstant, nonisotropic covariance to reveal that \textbf{SGD
-        descends on a landscape smoothed by the current covariance $C$}.  As
-        $C$ evolves, the smoothed landscape evolves, resulting in
-        non-conservative dynamics.
-        %
-        Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may
-        emulate SGD}, as suggested by \cite{ro18}.  This is significant
-        because, while small batch sizes can lead to better generalization
-        \citep{bo91}, modern infrastructure increasingly rewards large batch
-        sizes \citep{go18}.  
+        %\subsection{Contributions}
 
-        %---------  anticipate criticism of limitations  ----------------------
+            %-----  summarize contributions  ----------------------------------
     
-        Since our predictions depend only on loss data near initialization,
-        they break down after the weight moves far from initialization.  Our
-        theory thus best applies to small-movement contexts, whether for long
-        times (large $\eta T$) near an isolated minimum or for short times
-        (small $\eta T$) in general.
-        %
-        Thus, the theory might aid future analysis of fine-tuners such as 
-        \cite{fi17}'s MAML.
+            This paper presents a new perspective on SGD. 
+            %
+            We used diagrams to study stochastic optimization on short timescales
+            or near minima.  Corollaries \ref{cor:entropic} and \ref{cor:overfit}
+            together potentially illuminate SGD's success in training deep networks:
+            SGD avoids curvature and noise, which control generalization.
+
+            Analyzing $\sdia{c(01-2)(02-12)}$, we proved that \textbf{flat and
+            sharp minima both overfit less} than medium minima.  Intuitively, flat
+            minima are robust to vector noise, sharp minima are robust to covector
+            noise, and medium minima robust to neither.  We thus proposed a
+            regularizer enabling gradient-based hyperparameter tuning.
+            %
+            Inspecting $\sdia{c(01-2-3)(02-12-23)}$, we extended \cite{we19b} to
+            nonconstant, nonisotropic covariance to reveal that \textbf{SGD
+            descends on a landscape smoothed by the current covariance $C$}.  As
+            $C$ evolves, the smoothed landscape evolves, resulting in
+            non-conservative dynamics.
+            %
+            Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may
+            emulate SGD}, as suggested by \cite{ro18}.  This is significant
+            because, while small batch sizes can lead to better generalization
+            \citep{bo91}, modern infrastructure increasingly rewards large batch
+            sizes \citep{go18}.  
+
+            %-----  anticipate criticism of limitations  ----------------------
     
-        Much as meteorologists understand how warm and cold fronts interact
-        despite long-term forecasting's intractability, we quantify how
-        curvature and noise contribute to counter-intuitive dynamics governing
-        each short-term interval of SGD's trajectory.  Equipped with our
-        theory, users of deep learning may refine intuitions --- e.g.\ that
-        SGD descends on the training loss --- to account for noise.
+            Since our predictions depend only on loss data near initialization,
+            they break down after the weight moves far from initialization.  Our
+            theory thus best applies to small-movement contexts, whether for long
+            times (large $\eta T$) near an isolated minimum or for short times
+            (small $\eta T$) in general.
+            %
+            Thus, the theory might aid future analysis of fine-tuners such as 
+            \cite{fi17}'s MAML.
+    
+            Much as meteorologists understand how warm and cold fronts interact
+            despite long-term forecasting's intractability, we quantify how
+            curvature and noise contribute to counter-intuitive dynamics governing
+            each short-term interval of SGD's trajectory.  Equipped with our
+            theory, users of deep learning may refine intuitions --- e.g.\ that
+            SGD descends on the training loss --- to account for noise.
+
+        \subsection{Related work}\label{sect:related}
+    
+            %-- history of sgd  -----------------------------------------------
+
+            \cite{ki52} united gradient descent \citep{ca47}
+            with stochastic approximation \citep{ro51} to invent SGD.  Since
+            the development of back-propagation for efficient differentiation
+            \citep{we74}, SGD has been used to train connectionist models,
+            e.g.\ neural networks \citep{bo91}, recently to remarkable success
+            \citep{le15}.
+        
+            %-- analyzing overfitting; relevance of optimization; sde errs  ---
+        
+            Several lines of work treat the overfitting of SGD-trained networks
+            \citep{ne17a}.  For example, \cite{ba17} controls the Rademacher
+            complexity of deep hypothesis classes, leading to
+            optimizer-agnostic generalization bounds.  Yet SGD-trained networks
+            generalize despite their ability to shatter large sets
+            \citep{zh17}, so generalization must arise from not only
+            architecture but also optimization \citep{ne17b}.  Others
+            approximate SGD by SDE to analyze implicit regularization (e.g.\
+            \cite{ch18}), but, per \cite{ya19a}, such continuous-time analyses
+            treat SGD noise incorrectly.
+            %
+            %-- we extend dan's approach  -------------------------------------
+            %
+            We avoid these pitfalls by Taylor expanding around $\eta=0$ as in
+            \cite{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
+            and $T=2$.  To do so, we develop new summation techniques with
+            improved large-$T$ convergence.  Our interpretion of the resulting
+            terms offers a new qualitative picture of SGD as a superposition of
+            simpler information-flow processes.
+            
+            %-- phenomenology of rademacher correlates such as hessians  ------
+        
+            Our predictions are vacuous for large $\eta$.  Other analyses treat
+            large-$\eta$ learning phenomenologically, whether by finding
+            empirical correlates of the generalization gap \citep{li18}, by
+            showing that \emph{flat} minima generalize (\cite{ho17},
+            \cite{ke17}, \cite{wa18}), or by showing that \emph{sharp} minima
+            generalize (\cite{st56}, \cite{di17}, \cite{wu18}).  We find that
+            SGD's implicit regularization mediates between these seemingly
+            clashing intuitions (\S \ref{subsect:overfit}).
+            
+            %-- our work vs other perturbative approaches  --------------------
+        
+            Prior work analyzes SGD perturbatively: \cite{dy19} perturb in
+            inverse network width, using 't Hooft diagrams to correct the
+            Gaussian Process approximation for specific nets.  Perturbing
+            to order $\eta^2$, \cite{ch18} and \cite{li17} assume uncorrelated
+            Gaussian noise.  By contrast, we use Penrose diagrams to compute
+            testing losses to arbitrary order in $\eta$.  We allow correlated,
+            non-Gaussian noise and thus \emph{any} smooth architecture.  E.g.\
+            we assume no information-geometric relationships between $C$ and
+            $H$,\footnote{
+                Disagreement of $C$ and
+                $H$ is typical in modern learning \citep{ro12, ku19}
+            } so we may model VAEs. 
 
     \newpage
     \acks{
