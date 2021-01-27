@@ -35,38 +35,40 @@
 \citation{ko93}
 \citation{bo13}
 \citation{ne04}
-\citation{ne04,ro18}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Background, notation, assumptions}{2}{subsection.0.1.1}\protected@file@percent }
 \FN@pp@footnote@aux{3}{2}
 \newlabel{prop:nest}{{0}{2}{Background, notation, assumptions}{prop.0}{}}
 \newlabel{prop:splash}{{1}{2}{Background, notation, assumptions}{prop.1}{}}
 \FN@pp@footnote@aux{4}{2}
+\citation{ne04,ro18}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Perturbative theory of SGD}{3}{section.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Detailed discussion of a trivial example}{3}{subsection.0.2.1}\protected@file@percent }
-\newlabel{sect:exegesis}{{2.1}{3}{Detailed discussion of a trivial example}{subsection.0.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Challenges when using Taylor series to study SGD}{3}{subsection.0.2.1}\protected@file@percent }
+\newlabel{sect:exegesis}{{2.1}{3}{Challenges when using Taylor series to study SGD}{subsection.0.2.1}{}}
 \citation{dy49a}
 \FN@pp@footnote@aux{5}{4}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Introducing diagrams}{4}{subsection.0.2.2}\protected@file@percent }
-\newlabel{sect:diagrams}{{2.2}{4}{Introducing diagrams}{subsection.0.2.2}{}}
-\newlabel{lem:dyson}{{2.2}{4}{Introducing diagrams}{subsection.0.2.2}{}}
-\newlabel{eq:dyson}{{1}{4}{Introducing diagrams}{equation.0.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Diagrams arise from Taylor series and depict information-flow processes}{4}{subsection.0.2.2}\protected@file@percent }
+\newlabel{sect:diagrams}{{2.2}{4}{Diagrams arise from Taylor series and depict information-flow processes}{subsection.0.2.2}{}}
+\newlabel{lem:dyson}{{2.2}{4}{Diagrams arise from Taylor series and depict information-flow processes}{subsection.0.2.2}{}}
+\newlabel{eq:dyson}{{1}{4}{Diagrams arise from Taylor series and depict information-flow processes}{equation.0.2.1}{}}
 \FN@pp@footnote@aux{6}{4}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Using diagrams to compute final testing losses}{5}{subsection.0.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Diagrams overcome the challenges of using Taylor series to study SGD}{5}{subsection.0.2.3}\protected@file@percent }
+\newlabel{sect:using}{{2.3}{5}{Diagrams overcome the challenges of using Taylor series to study SGD}{subsection.0.2.3}{}}
 \FN@pp@footnote@aux{7}{5}
-\newlabel{eq:sgdcoef}{{2.3}{5}{Using diagrams to compute final testing losses}{dfn.2}{}}
+\newlabel{eq:sgdcoef}{{2.3}{5}{Diagrams overcome the challenges of using Taylor series to study SGD}{dfn.2}{}}
 \FN@pp@footnote@aux{8}{5}
+\citation{ch87}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Resummation}{6}{subsubsection.0.2.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \textbf  {Resummation propagates information, damped by curvature}. Each resummed value represents many un-resummed values, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \textbf  {Left}: Four of many un-resummed terms captured by a single resummed term for $\sizeddia {c(0-1)(01)}{0.10}$. \textbf  {Right}: One of many un-resummed terms captured by a single resummed term for $\sizeddia {c(01-2)(02-12)}{0.10}$. Because two nodes appear at $(n=2,t=2)$, the process shown is an effect of the 2nd cumulant of the gradient noise distribution. \relax }}{6}{figure.caption.4}\protected@file@percent }
-\newlabel{fig:resumintuition}{{2}{6}{\textbf {Resummation propagates information, damped by curvature}. Each resummed value represents many un-resummed values, each modulated by the Hessian ($\sdia {MOOc(0)(0-0)}$) in a different way. \textbf {Left}: Four of many un-resummed terms captured by a single resummed term for $\sdia {c(0-1)(01)}$. \textbf {Right}: One of many un-resummed terms captured by a single resummed term for $\sdia {c(01-2)(02-12)}$. Because two nodes appear at $(n=2,t=2)$, the process shown is an effect of the 2nd cumulant of the gradient noise distribution. \relax }{figure.caption.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Main result}{6}{subsection.0.2.4}\protected@file@percent }
+\newlabel{sect:main}{{2.4}{6}{Main result}{subsection.0.2.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  \textbf  {Resummation propagates information damped by curvature}. Each resummed value (here, for $\sizeddia {c(0-1)(01)}{0.10}$) represents many un-resummed values, four shown here, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \relax }}{6}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:resumintuition}{{2}{6}{\textbf {Resummation propagates information damped by curvature}. Each resummed value (here, for $\sdia {c(0-1)(01)}$) represents many un-resummed values, four shown here, each modulated by the Hessian ($\sdia {MOOc(0)(0-0)}$) in a different way. \relax }{figure.caption.4}{}}
 \newlabel{thm:resum}{{1}{6}{Main result}{thm.1}{}}
 \newlabel{eq:resum}{{1}{6}{Main result}{thm.1}{}}
-\citation{ch87}
+\newlabel{rmk:integrate}{{1}{6}{Main result}{rmk.1}{}}
+\newlabel{thm:converge}{{2}{6}{Main result}{thm.2}{}}
 \citation{ro19}
 \citation{ro18}
 \citation{li18}
-\newlabel{rmk:integrate}{{1}{7}{Main result}{rmk.1}{}}
-\newlabel{thm:converge}{{2}{7}{Main result}{thm.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Consequences of the theory}{7}{section.0.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Gradient noise repels SGD}{7}{subsection.0.3.1}\protected@file@percent }
 \newlabel{subsect:epochs-batch}{{3.1}{7}{Gradient noise repels SGD}{subsection.0.3.1}{}}
@@ -74,41 +76,40 @@
 \newlabel{cor:batch}{{1}{7}{$\sdia {c(01-2)(01-12)}$}{cor.1}{}}
 \newlabel{cor:epochs}{{2}{7}{$\sdia {c(01-2)(01-12)}$}{cor.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Non-Gaussian noise affects SGD but not SDE}{7}{subsection.0.3.2}\protected@file@percent }
+\newlabel{cor:vsode}{{3}{7}{$\sdia {c(01-2)(02-12)}$, $\sdia {c(012-3)(03-13-23)}$}{cor.3}{}}
 \citation{we19b}
 \citation{ya19b}
 \citation{we19b}
 \citation{we19b}
-\citation{ch18}
-\newlabel{cor:vsode}{{3}{8}{$\sdia {c(01-2)(02-12)}$, $\sdia {c(012-3)(03-13-23)}$}{cor.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}SGD descends on a landscape smoothed by the current $C$}{8}{subsection.0.3.3}\protected@file@percent }
 \newlabel{cor:entropic}{{4}{8}{Computed from $\sdia {c(01-2-3)(02-12-23)}$}{cor.4}{}}
-\FN@pp@footnote@aux{10}{8}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Geometric intuition for curvature-noise interactions.} \textbf  {Left}: Gradient noise pushes SGD toward flat minima (Corollary \ref  {cor:entropic}). Gray lines sketch a two-dimensional loss landscape near a valley of minima. Red densities show the typical $\theta $s, perturbed by noise $C$ from the minimum due, in two cross sections of the loss valley. $J = \nabla H$ measures curvature's change across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them here to ease comparison with \cite  {we19b}. Compare with Figure \ref  {fig:archimedes}. \textbf  {\obsoletefontcs  {bf}Right}: Both curvature and noise structure affect overfitting. In each subplot, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \offive {1}: \emph  {covector}-perturbed landscapes favor large $H$s. \offive {2}: \emph  {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref  {cor:overfit}). \relax }}{8}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:cubicandspring}{{3}{8}{\textbf {Geometric intuition for curvature-noise interactions.} \textbf {Left}: Gradient noise pushes SGD toward flat minima (Corollary \ref {cor:entropic}). Gray lines sketch a two-dimensional loss landscape near a valley of minima. Red densities show the typical $\theta $s, perturbed by noise $C$ from the minimum due, in two cross sections of the loss valley. $J = \nabla H$ measures curvature's change across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them here to ease comparison with \cite {we19b}. Compare with Figure \ref {fig:archimedes}. \textbf {\bf Right}: Both curvature and noise structure affect overfitting. In each subplot, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \protect \offive {1}: \emph {covector}-perturbed landscapes favor large $H$s. \protect \offive {2}: \emph {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref {cor:overfit}). \relax }{figure.caption.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Both flat and sharp minima overfit less}{8}{subsection.0.3.4}\protected@file@percent }
 \newlabel{subsect:curvature-and-overfitting}{{3.4}{8}{Both flat and sharp minima overfit less}{subsection.0.3.4}{}}
-\newlabel{cor:overfit}{{5}{8}{from $\sdia {c(01-2)(02-12)}$, $\sdia {c(01)(01)}$}{cor.5}{}}
+\citation{ch18}
 \citation{di18}
 \citation{di18}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textbf  {Geometric intuition for curvature-noise interactions.} \textbf  {Left}: Gradient noise pushes SGD toward flat minima (Corollary \ref  {cor:entropic}). Gray lines sketch a two-dimensional loss landscape near a valley of minima. Red densities show the typical $\theta $s, perturbed by noise $C$ from the minimum due, in two cross sections of the loss valley. $J = \nabla H$ measures curvature's change across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them here to ease comparison with \cite  {we19b}. Compare with Figure \ref  {fig:archimedes}. \textbf  {\obsoletefontcs  {bf}Right}: Both curvature and noise structure affect overfitting. In each subplot, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \offive {1}: \emph  {covector}-perturbed landscapes favor large $H$s. \offive {2}: \emph  {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref  {cor:overfit}). \relax }}{9}{figure.caption.5}\protected@file@percent }
-\newlabel{fig:cubicandspring}{{3}{9}{\textbf {Geometric intuition for curvature-noise interactions.} \textbf {Left}: Gradient noise pushes SGD toward flat minima (Corollary \ref {cor:entropic}). Gray lines sketch a two-dimensional loss landscape near a valley of minima. Red densities show the typical $\theta $s, perturbed by noise $C$ from the minimum due, in two cross sections of the loss valley. $J = \nabla H$ measures curvature's change across the valley. Our theory does not assume separation between ``fast'' and ``slow'' modes, but we label them here to ease comparison with \cite {we19b}. Compare with Figure \ref {fig:archimedes}. \textbf {\bf Right}: Both curvature and noise structure affect overfitting. In each subplot, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \protect \offive {1}: \emph {covector}-perturbed landscapes favor large $H$s. \protect \offive {2}: \emph {vector}-perturbed landscapes favor small $H$s. SGD's implicit regularization interpolates between these rows (Corollary \ref {cor:overfit}). \relax }{figure.caption.5}{}}
+\citation{ch18}
+\newlabel{cor:overfit}{{5}{9}{from $\sdia {c(01-2)(02-12)}$, $\sdia {c(01)(01)}$}{cor.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{9}{section.0.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Training time, epochs, and batch size; $C$ repels SGD more than GD}{9}{subsection.0.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Minima that are flat \emph  {with respect to} $C$ attract SGD}{9}{subsection.0.4.2}\protected@file@percent }
 \newlabel{subsect:entropic}{{4.2}{9}{Minima that are flat \emph {with respect to} $C$ attract SGD}{subsection.0.4.2}{}}
+\FN@pp@footnote@aux{10}{9}
 \FN@pp@footnote@aux{11}{9}
-\citation{ch18}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  {\obsoletefontcs  {bf}Experiments on natural and artificial landscapes.} \texttt  {rvalue} refers to Theorem \ref  {thm:resum}'s predictions, approximated as in Remark \ref  {rmk:integrate}. \texttt  {uvalue} indicates polynomial approximations to Theorem \ref  {thm:resum}'s result (see \S  \ref  {appendix:sum-embeddings}). \texttt  {uvalue}s are simpler to work with but (see\ofsix {4}) may be less accurate. \newline  {\obsoletefontcs  {bf}Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's testing loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref  {appendix:evaluate-embeddings}) instead of the more precise $\text  {\textnormal  {rvalue}}$s. \ofsix {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox  {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox  {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline  {\obsoletefontcs  {bf}Center: $C$ controls generalization gap.}With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in testing loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\obsoletefontcs  {bf}Right: Predictions near minima excel for large $\eta T$.} \ofsix {4}: SGD traverses \textsc  {Helix}' valley of global minima.Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \ofsix {5}: For \textsc  {Mean Estimation}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep  {di18}. \relax }}{10}{figure.caption.6}\protected@file@percent }
 \newlabel{fig:vanilla}{{4}{10}{{\bf Experiments on natural and artificial landscapes.} \texttt {rvalue} refers to Theorem \ref {thm:resum}'s predictions, approximated as in Remark \ref {rmk:integrate}. \texttt {uvalue} indicates polynomial approximations to Theorem \ref {thm:resum}'s result (see \S \ref {appendix:sum-embeddings}). \texttt {uvalue}s are simpler to work with but (see\protect \ofsix {4}) may be less accurate. \newline {\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's testing loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref {appendix:evaluate-embeddings}) instead of the more precise $\rvalue $s. \protect \ofsix {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline {\bf Center: $C$ controls generalization gap.}With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in testing loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel for large $\eta T$.} \protect \ofsix {4}: SGD traverses \Helix ' valley of global minima.Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \protect \ofsix {5}: For \MeanEstimation \, with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep {di18}. \relax }{figure.caption.6}{}}
-\FN@pp@footnote@aux{12}{10}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Sharp and flat minima both overfit less than medium minima}{10}{subsection.0.4.3}\protected@file@percent }
+\newlabel{subsect:overfit}{{4.3}{10}{Sharp and flat minima both overfit less than medium minima}{subsection.0.4.3}{}}
 \citation{we19b}
 \citation{ro18}
 \citation{bo91}
 \citation{go18}
+\citation{fi17}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces \textbf  {Leftmost}: The \textsc  {Helix}\ landscape is defined on a three-dimensional weight space that extends indefinitely into and out of the page. A helical level surface (orange-green) of $l$ winds around its axis, a one-dimensional valley of minima perpendicular to the page. $l$ is large outside this surface. Gradient noise is parallel to the page and tends to point from the valley toward the outer two tubes. \textbf  {Rightmost four}: \textsc  {Helix}\ induces SGD to move into the page. Green dots trace a trajectory over four cross sections of weight space that descend progressively into the page. In blue are partial contour maps of $l$; the valley of minima intersects each pane's dark blue center. Dotted blue curves help to compare adjacent panes. Red arrows show the major axis of gradient noise in each pane. \textbf  {Green trajectory, explained}: Pane\offour {0} shows $\theta $, initialized at the dark green dot, following $l$'s gradient toward point A in the next pane (deeper into the page). Next (\hspace  {-0.08cm}\offour {1}), gradient noise kicks $\theta $ from point A, leading $\theta $ to fall toward point B. Such falling continues in\offour {2}, even though the gradient noise happens to oppose the previous pane's. \offour {3} shows $\theta $ at point C kicked uphill by gradient noise; $\theta $ never settles and the phenomena depicted here continue for all time. \relax }}{11}{figure.caption.7}\protected@file@percent }
 \newlabel{fig:archimedes}{{5}{11}{\textbf {Leftmost}: The \Helix \ landscape is defined on a three-dimensional weight space that extends indefinitely into and out of the page. A helical level surface (orange-green) of $l$ winds around its axis, a one-dimensional valley of minima perpendicular to the page. $l$ is large outside this surface. Gradient noise is parallel to the page and tends to point from the valley toward the outer two tubes. \textbf {Rightmost four}: \Helix \ induces SGD to move into the page. Green dots trace a trajectory over four cross sections of weight space that descend progressively into the page. In blue are partial contour maps of $l$; the valley of minima intersects each pane's dark blue center. Dotted blue curves help to compare adjacent panes. Red arrows show the major axis of gradient noise in each pane. \textbf {Green trajectory, explained}: Pane\protect \offour {0} shows $\theta $, initialized at the dark green dot, following $l$'s gradient toward point A in the next pane (deeper into the page). Next (\hspace {-0.08cm}\protect \offour {1}), gradient noise kicks $\theta $ from point A, leading $\theta $ to fall toward point B. Such falling continues in\protect \offour {2}, even though the gradient noise happens to oppose the previous pane's. \protect \offour {3} shows $\theta $ at point C kicked uphill by gradient noise; $\theta $ never settles and the phenomena depicted here continue for all time. \relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Sharp and flat minima both overfit less than medium minima}{11}{subsection.0.4.3}\protected@file@percent }
-\newlabel{subsect:overfit}{{4.3}{11}{Sharp and flat minima both overfit less than medium minima}{subsection.0.4.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{11}{section.0.5}\protected@file@percent }
-\citation{fi17}
 \citation{ki52}
 \citation{ca47}
 \citation{ro51}
@@ -122,6 +123,11 @@
 \citation{ch18}
 \citation{ya19a}
 \citation{ro18}
+\citation{be19}
+\citation{me20}
+\citation{me20}
+\citation{mo18b}
+\citation{zo20}
 \citation{li18}
 \citation{ho17}
 \citation{ke17}
@@ -135,55 +141,60 @@
 \citation{ro12,ku19}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Related work}{12}{subsection.0.5.1}\protected@file@percent }
 \newlabel{sect:related}{{5.1}{12}{Related work}{subsection.0.5.1}{}}
+\FN@pp@footnote@aux{12}{12}
 \FN@pp@footnote@aux{13}{12}
 \bibdata{perturb}
 \bibcite{ab07}{{1}{2007}{{Absil et~al.}}{{Absil, Mahony, and Sepulchre}}}
 \bibcite{am98}{{2}{1998}{{Amari}}{{}}}
 \bibcite{ba17}{{3}{2017}{{Bartlett et~al.}}{{Bartlett, Foster, and Telgarsky}}}
-\bibcite{bo13}{{4}{2013}{{Bonnabel}}{{}}}
-\bibcite{bo91}{{5}{1991}{{Bottou}}{{}}}
-\bibcite{ca47}{{6}{1847}{{Cauchy}}{{}}}
-\bibcite{ch18}{{7}{2018}{{Chaudhari and Soatto}}{{}}}
-\bibcite{ch87}{{8}{1787}{{Chladni}}{{}}}
-\bibcite{di17}{{9}{2017}{{Dinh et~al.}}{{Dinh, Pascanu, Bengio, and Bengio}}}
-\bibcite{di18}{{10}{2018}{{Dixon and Ward}}{{}}}
-\bibcite{dy19}{{11}{2019}{{Dyer and Gur-Ari}}{{}}}
-\bibcite{dy49a}{{12}{1949}{{Dyson}}{{}}}
-\bibcite{fi17}{{13}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
-\bibcite{ga23}{{14}{1823}{{Gauss}}{{}}}
-\bibcite{go18}{{15}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
-\bibcite{ho17}{{16}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
-\bibcite{ke17}{{17}{2017}{{Keskar et~al.}}{{Keskar, Mudigere, Nocedal, Smelyanskiy, and Tang}}}
-\bibcite{ki52}{{18}{1952}{{Kiefer and Wolfowitz}}{{}}}
-\bibcite{ko93}{{19}{1993}{{Kol\'{a}\u {r} et~al.}}{{Kol\'{a}\u {r}, Michor, and Slov\'{a}k}}}
-\bibcite{kr09}{{20}{2009}{{Krizhevsky}}{{}}}
-\bibcite{ku19}{{21}{2019}{{Kunstner et~al.}}{{Kunstner, Hennig, and Balles}}}
-\bibcite{la51}{{22}{1951}{{Landau and Lifshitz}}{{}}}
-\bibcite{la60}{{23}{1960}{{Landau and Lifshitz}}{{}}}
-\bibcite{le15}{{24}{2015}{{LeCun et~al.}}{{LeCun, Bengio, and Hinton}}}
-\bibcite{li17}{{25}{2017}{{Li et~al.}}{{Li, Tai, and E}}}
-\bibcite{li18}{{26}{2018}{{Liao et~al.}}{{Liao, Miranda, Banburski, Hidary, and Poggio}}}
-\bibcite{ne04}{{27}{2004}{{Nesterov}}{{}}}
-\bibcite{ne17a}{{28}{2017{a}}{{Neyshabur et~al.}}{{Neyshabur, Bhojanapalli, McAllester, and Srebro}}}
-\bibcite{ne17b}{{29}{2017{b}}{{Neyshabur et~al.}}{{Neyshabur, Tomioka, Salakhutdinov, and Srebro}}}
-\bibcite{ni17}{{30}{2017}{{Nickel and Kiela}}{{}}}
-\bibcite{pa19}{{31}{2019}{{Paszke et~al.}}{{Paszke, Gross, Massa, Lerer, Bradbury, Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala}}}
-\bibcite{ro51}{{32}{1951}{{Robbins and Monro}}{{}}}
-\bibcite{ro18}{{33}{2018}{{Roberts}}{{}}}
-\bibcite{ro19}{{34}{2019}{{Roberts}}{{}}}
-\bibcite{ro64}{{35}{1964}{{Rota}}{{}}}
-\bibcite{ro12}{{36}{2012}{{Roux et~al.}}{{Roux, Bengio, and Fitzgibbon}}}
-\bibcite{st56}{{37}{1956}{{Stein}}{{}}}
-\bibcite{vi00}{{38}{circa $10^{1/2}$ b.c.e.}{{Vitruvius}}{{}}}
-\bibcite{wa18}{{39}{2018}{{Wang et~al.}}{{Wang, Keskar, Xiong, and Socher}}}
-\bibcite{we19b}{{40}{2019}{{Wei and Schwab}}{{}}}
-\bibcite{we74}{{41}{1974}{{Werbos}}{{}}}
-\bibcite{wu18}{{42}{2018}{{Wu et~al.}}{{Wu, Ma, and E}}}
-\bibcite{xi17}{{43}{2017}{{Xiao et~al.}}{{Xiao, Rasul, and Vollgraf}}}
-\bibcite{ya19a}{{44}{2019{a}}{{Yaida}}{{}}}
-\bibcite{ya19b}{{45}{2019{b}}{{Yaida}}{{}}}
-\bibcite{zh17}{{46}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
-\bibcite{zh16}{{47}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
+\bibcite{be19}{{4}{2019}{{Belkin et~al.}}{{Belkin, Hsu, Ma, and Mandal}}}
+\bibcite{bo13}{{5}{2013}{{Bonnabel}}{{}}}
+\bibcite{bo91}{{6}{1991}{{Bottou}}{{}}}
+\bibcite{ca47}{{7}{1847}{{Cauchy}}{{}}}
+\bibcite{ch18}{{8}{2018}{{Chaudhari and Soatto}}{{}}}
+\bibcite{ch87}{{9}{1787}{{Chladni}}{{}}}
+\bibcite{di17}{{10}{2017}{{Dinh et~al.}}{{Dinh, Pascanu, Bengio, and Bengio}}}
+\bibcite{di18}{{11}{2018}{{Dixon and Ward}}{{}}}
+\bibcite{dy19}{{12}{2019}{{Dyer and Gur-Ari}}{{}}}
+\bibcite{dy49a}{{13}{1949}{{Dyson}}{{}}}
+\bibcite{fi17}{{14}{2017}{{Finn et~al.}}{{Finn, Abbeel, and Levine}}}
+\bibcite{ga23}{{15}{1823}{{Gauss}}{{}}}
+\bibcite{go18}{{16}{2018}{{Goyal et~al.}}{{Goyal, Doll\'{a}r, Girshick, Noordhuis, Wesolowski, Kyrola, Tulloch, Jia, and He}}}
+\bibcite{ho17}{{17}{2017}{{Hoffer et~al.}}{{Hoffer, Hubara, and Soudry}}}
+\bibcite{ke17}{{18}{2017}{{Keskar et~al.}}{{Keskar, Mudigere, Nocedal, Smelyanskiy, and Tang}}}
+\bibcite{ki52}{{19}{1952}{{Kiefer and Wolfowitz}}{{}}}
+\bibcite{ko93}{{20}{1993}{{Kol\'{a}\u {r} et~al.}}{{Kol\'{a}\u {r}, Michor, and Slov\'{a}k}}}
+\bibcite{kr09}{{21}{2009}{{Krizhevsky}}{{}}}
+\bibcite{ku19}{{22}{2019}{{Kunstner et~al.}}{{Kunstner, Hennig, and Balles}}}
+\bibcite{la51}{{23}{1951}{{Landau and Lifshitz}}{{}}}
+\bibcite{la60}{{24}{1960}{{Landau and Lifshitz}}{{}}}
+\bibcite{le15}{{25}{2015}{{LeCun et~al.}}{{LeCun, Bengio, and Hinton}}}
+\bibcite{li17}{{26}{2017}{{Li et~al.}}{{Li, Tai, and E}}}
+\bibcite{li18}{{27}{2018}{{Liao et~al.}}{{Liao, Miranda, Banburski, Hidary, and Poggio}}}
+\bibcite{me20}{{28}{2020}{{Mei and Montanari}}{{}}}
+\bibcite{mo18b}{{29}{2018}{{Mohri et~al.}}{{Mohri, Rostamizadeh, and Talwalkar}}}
+\bibcite{ne04}{{30}{2004}{{Nesterov}}{{}}}
+\bibcite{ne17a}{{31}{2017{a}}{{Neyshabur et~al.}}{{Neyshabur, Bhojanapalli, McAllester, and Srebro}}}
+\bibcite{ne17b}{{32}{2017{b}}{{Neyshabur et~al.}}{{Neyshabur, Tomioka, Salakhutdinov, and Srebro}}}
+\bibcite{ni17}{{33}{2017}{{Nickel and Kiela}}{{}}}
+\bibcite{pa19}{{34}{2019}{{Paszke et~al.}}{{Paszke, Gross, Massa, Lerer, Bradbury, Killeen, Lin, Gimelshein, Antiga, Desmaison, Kopf, Yang, DeVito, Raison, Tejani, Chilamkurthy, Steiner, Fang, Bai, and Chintala}}}
+\bibcite{ro51}{{35}{1951}{{Robbins and Monro}}{{}}}
+\bibcite{ro18}{{36}{2018}{{Roberts}}{{}}}
+\bibcite{ro19}{{37}{2019}{{Roberts}}{{}}}
+\bibcite{ro64}{{38}{1964}{{Rota}}{{}}}
+\bibcite{ro12}{{39}{2012}{{Roux et~al.}}{{Roux, Bengio, and Fitzgibbon}}}
+\bibcite{st56}{{40}{1956}{{Stein}}{{}}}
+\bibcite{vi00}{{41}{circa $10^{1/2}$ b.c.e.}{{Vitruvius}}{{}}}
+\bibcite{wa18}{{42}{2018}{{Wang et~al.}}{{Wang, Keskar, Xiong, and Socher}}}
+\bibcite{we19b}{{43}{2019}{{Wei and Schwab}}{{}}}
+\bibcite{we74}{{44}{1974}{{Werbos}}{{}}}
+\bibcite{wu18}{{45}{2018}{{Wu et~al.}}{{Wu, Ma, and E}}}
+\bibcite{xi17}{{46}{2017}{{Xiao et~al.}}{{Xiao, Rasul, and Vollgraf}}}
+\bibcite{ya19a}{{47}{2019{a}}{{Yaida}}{{}}}
+\bibcite{ya19b}{{48}{2019{b}}{{Yaida}}{{}}}
+\bibcite{zh17}{{49}{2017}{{Zhang et~al.}}{{Zhang, Bengio, Hardt, Recht, and Vinyals}}}
+\bibcite{zh16}{{50}{2016}{{Zhang et~al.}}{{Zhang, Reddi, and Sra}}}
+\bibcite{zo20}{{51}{2020}{{Zou et~al.}}{{Zou, Cao, Zhou, and Gu}}}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Tutorial: how to use diagrams}{17}{section.0.A}\protected@file@percent }
 \newlabel{appendix:tutorial}{{A}{17}{Tutorial: how to use diagrams}{section.0.A}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {A.1}An example calculation: the effect of epochs}{17}{subsection.0.A.1}\protected@file@percent }
@@ -269,7 +280,7 @@
 \citation{la60,la51}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.4}Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{39}{subsubsection.0.B.6.4}\protected@file@percent }
 \newlabel{prop:ordtwo}{{3}{39}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{prop.3}{}}
-\newlabel{tbl:ordtwo}{{\caption@xref {tbl:ordtwo}{ on input line 3433}}{39}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{table.caption.20}{}}
+\newlabel{tbl:ordtwo}{{\caption@xref {tbl:ordtwo}{ on input line 3468}}{39}{Corollaries \ref {cor:epochs} and \ref {cor:batch}}{table.caption.20}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {B.6.5}Corollary \ref  {cor:vsode}}{39}{subsubsection.0.B.6.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {B.7}Future topics}{39}{subsection.0.B.7}\protected@file@percent }
 \newlabel{appendix:future}{{B.7}{39}{Future topics}{subsection.0.B.7}{}}
@@ -286,9 +297,9 @@
 \newlabel{appendix:artificial}{{C.1}{41}{What artificial landscapes did we use?}{subsection.0.C.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.1}\textsc  {Gauss}}{41}{subsubsection.0.C.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.2}\textsc  {Helix}}{41}{subsubsection.0.C.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.3}\textsc  {Mean Estimation}}{41}{subsubsection.0.C.1.3}\protected@file@percent }
 \citation{kr09}
 \citation{xi17}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.1.3}\textsc  {Mean Estimation}}{42}{subsubsection.0.C.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.2}What image-classification landscapes did we use?}{42}{subsection.0.C.2}\protected@file@percent }
 \newlabel{appendix:natural}{{C.2}{42}{What image-classification landscapes did we use?}{subsection.0.C.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {C.2.1}Architectures}{42}{subsubsection.0.C.2.1}\protected@file@percent }
@@ -296,16 +307,16 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.3}Measurement process}{42}{subsection.0.C.3}\protected@file@percent }
 \newlabel{appendix:measure}{{C.3}{42}{Measurement process}{subsection.0.C.3}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.1}Diagram evaluation on real landscapes}{42}{subsubsection.0.C.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.2}Descent simulations}{42}{subsubsection.0.C.3.2}\protected@file@percent }
 \citation{pa19}
 \citation{ga23}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {C.3.2}Descent simulations}{43}{subsubsection.0.C.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.4}Implementing optimizers}{43}{subsection.0.C.4}\protected@file@percent }
 \newlabel{appendix:optimizers}{{C.4}{43}{Implementing optimizers}{subsection.0.C.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.5}Software frameworks and hardware}{43}{subsection.0.C.5}\protected@file@percent }
 \newlabel{appendix:frameworks}{{C.5}{43}{Software frameworks and hardware}{subsection.0.C.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.6}Unbiased estimators of landscape statistics}{43}{subsection.0.C.6}\protected@file@percent }
 \newlabel{appendix:bessel}{{C.6}{43}{Unbiased estimators of landscape statistics}{subsection.0.C.6}{}}
-\newlabel{eq:bessel}{{7}{43}{Unbiased estimators of landscape statistics}{equation.0.C.7}{}}
+\newlabel{eq:bessel}{{7}{44}{Unbiased estimators of landscape statistics}{equation.0.C.7}{}}
 \newlabel{eq:newbessel}{{8}{44}{Unbiased estimators of landscape statistics}{equation.0.C.8}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {C.7}Additional figures}{45}{subsection.0.C.7}\protected@file@percent }
 \newlabel{appendix:figures}{{C.7}{45}{Additional figures}{subsection.0.C.7}{}}

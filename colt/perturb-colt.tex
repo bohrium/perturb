@@ -296,7 +296,7 @@
             One benefits from the intuition that stochastic gradient descent
             (SGD) approximates deterministic gradient descent (GD)
             \citep{bo91}.  This paper refines that intuition by showing how
-            gradient noise biases learning toward certain areas of weight
+            gradient noise biases learning toward certain (high curvature, high gradient-noise) areas of weight
             space.
 
             %--  vs ode and sde  ----------------------------------------------
@@ -339,8 +339,9 @@
             \end{wrapfigure}
             At a high level, we Taylor-expand the testing loss as a function of
             the learning rate $\eta$.  We tame a combinatorial explosion of
-            terms and some large-time convergence difficulties by interpreting
-            terms as aspects of information-flow processes.  For example, an
+            terms and some large-time convergence difficulties by
+            interpreting the terms in terms of
+            information-flow processes.  For example, an
             instance of the process\footnote{
                 Throughout, colors help us refer to parts of diagrams; they
                 lack mathematical meaning.
@@ -364,7 +365,7 @@
             %%
             %%We may thus compute expected testing losses by
             %%summing small sets of diagrams.
-            We develop a diagram notation for processes, 
+            We develop a diagram notation for such processes, 
             explain how to compute the effect of each process, and show
             that summing the finitely many processes with fewer than $d$ edges
             suffices to answer dynamical questions to error $o(\eta^d)$.
@@ -523,7 +524,13 @@
 
     \section{Perturbative theory of SGD}
 
-        \subsection{Detailed discussion of a trivial example}\label{sect:exegesis}
+        \S\ref{sect:exegesis} illustrates by example a Taylor series approach
+        to studying SGD dynamics.  \S\ref{sect:diagrams} introduces a diagram
+        notation for the formulae that thus appear.  \S\ref{sect:using} shows
+        how to evaluate diagrams to obtain numbers.  \S\ref{sect:main} states
+        our main result: that diagram-based computation is correct.
+
+        \subsection{Challenges when using Taylor series to study SGD}\label{sect:exegesis}
             We analyze Proposition \ref{prop:nest} to highlight our points of
             departure.
             %
@@ -630,7 +637,7 @@
             ``\emph{translucence}'': a term that involves updates
             separated in time decays exponentially in the separation.
 
-        \subsection{Introducing diagrams}\label{sect:diagrams}
+        \subsection{Diagrams arise from Taylor series and depict information-flow processes}\label{sect:diagrams}
 
             We introduce diagrams to exploit transparency, tame the
             combinatorial explosion of terms, and temper the aforementioned
@@ -758,7 +765,7 @@
             $l$, all diagrams vanish that contain a leaf participating in no
             gray tie.
 
-        \subsection{Using diagrams to compute final testing losses}
+        \subsection{Diagrams overcome the challenges of using Taylor series to study SGD}\label{sect:using}
 
             %-----  embeddings and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
@@ -781,10 +788,9 @@
 
             Specifically, we count \emph{embeddings}, defined with respect to
             given SGD hyperparameters $N,E,B$.\footnote{
-                The definition also assumes as given a deterministic algorithm
-                for sampling the $t$th batch.  To analyze batches sampled
-                randomly from the training set, we simply take expectations
-                over such deterministic algorithms.
+                and w.r.t.\ a deterministic algorithm for sampling the
+                $t$th batch.  One may later take expectations over such
+                algorithms.
             }
             This enables us to restate (\ref{eq:dyson}) into what intuitively
             is a ``sum over histories'', where each history is a concrete
@@ -906,32 +912,37 @@
             More specifically, the \textbf{rvalue} of an embedded diagram is
             defined as the $\uvalue$ except that pairs of tensor indices are
             not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
-            embedded edge spans $\delta t$ many time steps, we contract the
-            two corresponding tensor indices using $(I-\eta H)^{\delta t-1}\eta$. 
+            embedded edge spans $\Delta t$ many time steps, we contract the
+            two corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$. 
 
-            \begin{figure}[h!] 
+            %\begin{figure}[h!] 
+            \begin{wrapfigure}{r}{0.35\textwidth}
                 \centering  
-                \dmoo{3cm}{spacetime-g}
-                \hfill
-                \dmoo{3cm}{spacetime-h}
+                \vspace{-0.5cm}
+                \dmoo{2.5cm}{spacetime-g}
+                %\hfill
+                %\dmoo{3cm}{spacetime-h}
                 \caption{
-                    \textbf{Resummation propagates information, damped by
-                    curvature}.  Each resummed value represents many
-                    un-resummed values, each modulated by the Hessian
-                    ($\sdia{MOOc(0)(0-0)}$) in a different way.
-                    \textbf{Left}: Four of many un-resummed terms captured by a
-                    single resummed term for $\sdia{c(0-1)(01)}$.
-                    \textbf{Right}: One of many un-resummed terms
-                    captured by a single resummed term for
-                    $\sdia{c(01-2)(02-12)}$.
-                    Because two nodes appear at $(n=2,t=2)$, the process shown
-                    is an effect of the 2nd cumulant of the gradient noise
-                    distribution.
+                    \textbf{Resummation propagates information damped by
+                    curvature}.
+                    %\textbf{Left}:
+                    Each resummed value (here, for $\sdia{c(0-1)(01)}$)
+                    represents many un-resummed values, four shown here, each
+                    modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$) in a
+                    different way.
+                    %
+                    %\textbf{Right}: One of many un-resummed terms
+                    %captured by a single resummed term for
+                    %$\sdia{c(01-2)(02-12)}$.
+                    %Because two nodes appear at $(n=2,t=2)$, the process shown
+                    %is an effect of the 2nd cumulant of the gradient noise
+                    %distribution.
                 }
+                \vspace{-1.5cm}
                 \label{fig:resumintuition}
-            \end{figure}
+            \end{wrapfigure}
 
-        \subsection{Main result}
+        \subsection{Main result}\label{sect:main}
     
             %-----  recipe for test loss  -------------------------------------
 
@@ -1041,7 +1052,7 @@
             \end{cor}
 
             In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
-            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18},
+            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
             and resolve some questions posed therein.    
 
         \subsection{Non-Gaussian noise affects SGD but not SDE}
@@ -1097,23 +1108,25 @@
                 $$
             \end{cor}
 
-            Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$ connects the
-            subdiagram $\sdia{c(01-2)(02-12)} \propto CH$, via an extra edge on
-            the green node (an extra $\nabla$ on $H$), to $D$'s degree-$1$
-            root, $G$.  By l'H\^opital,\footnote{
-                %
-                Roughly:
-                if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
-                nats, and by $G$ nats per foot, then $\Delta \theta$ is
-                $C\nabla H$ feet.
-                %
-            } the displacement is $\propto -C\nabla H$.  That is, SGD moves
+            %Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$ connects the
+            %subdiagram $\sdia{c(01-2)(02-12)} \propto CH$, via an extra edge on
+            %the green node (an extra $\nabla$ on $H$), to $D$'s degree-$1$
+            %root, $G$.  By l'H\^opital,\footnote{
+            %    %
+            %    Roughly:
+            %    if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
+            %    nats, and by $G$ nats per foot, then $\Delta \theta$ is
+            %    $C\nabla H$ feet.
+            %    %
+            %} the displacement is $\propto -C\nabla H$.  
+            We see that the displacement scales as $-C\nabla H$.
+            That is, SGD moves
             toward minima that are flat \emph{with respect to} $C$ (Figure
             \ref{fig:cubicandspring}\offive{0}).
             %
             Taking limits to drop the non-degeneracy hypothesis, we expect
             \emph{sustained} motion toward flat regions in a valley of minima.
-            By avoiding \cite{we19b}'s assumptions of constant $C$, we find
+            In avoiding \cite{we19b}'s assumptions of constant $C$, we find
             that SGD's velocity field is typically non-conservative, i.e.\ has
             curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
             derivative but $C\nabla H$ is not.  Since, by low-pass filter
@@ -1126,8 +1139,8 @@
             integrates the noise over many updates, hence amplifying $C$'s
             effect.  Experiments verify our law.
       
-            So SGD descends on a $C$-smoothed landscape and prefers 
-            minima flat with respect to $C$.
+            %So SGD descends on a $C$-smoothed landscape and prefers 
+            %minima flat with respect to $C$.
 
             \begin{figure}[h!]
                 \centering
@@ -1242,8 +1255,8 @@
             \ref{cor:overfit}, Figure \ref{fig:vanilla}\ofsix{3}).
             \begin{figure}[h!] 
                 \centering
-                \pmoo{3.55cm}{neurips-test-small} \pmoo{3.55cm}{new-big-bm-new}          \pmoo{3.55cm}{neurips-thermo-linear-screw}
-                \pmoo{3.55cm}{neurips-test-large} \pmoo{3.55cm}{neurips-gen-cifar-lenet} \pmoo{3.55cm}{neurips-tak}
+                \pmoo{3.85cm}{neurips-test-small} \hfill \pmoo{3.85cm}{new-big-bm-new}          \hfill \pmoo{3.85cm}{neurips-thermo-linear-screw}
+                \pmoo{3.85cm}{neurips-test-large} \hfill \pmoo{3.85cm}{neurips-gen-cifar-lenet} \hfill \pmoo{3.85cm}{neurips-tak}
                 \caption{
                     {\bf Experiments on natural and artificial landscapes.}
                     \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
@@ -1323,7 +1336,10 @@
             }  As in Rock-Paper-Scissors, each point $\theta$ has a neighbor
             that is more attractive (flatter) with respect to $C(\theta)$.
             This permits eternal motion into the page despite the landscape's
-            discrete translation symmetry in that direction.
+            discrete translation symmetry in that direction.  We may wrap \Helix\ 
+            in a loop to make SGD perpetually
+            circulate and in particular to witness a non-conservative velocity
+            field (\S\ref{appendix:artificial}).
 
             More precisely, Corollary \ref{cor:entropic} predicts 
             a velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
@@ -1456,16 +1472,15 @@
 
         \subsection{Related work}\label{sect:related}
     
-            %-- history of sgd  -----------------------------------------------
+            %--  history of sgd  ----------------------------------------------
 
-            \cite{ki52} united gradient descent \citep{ca47}
-            with stochastic approximation \citep{ro51} to invent SGD.  Since
-            the development of back-propagation for efficient differentiation
-            \citep{we74}, SGD has been used to train connectionist models,
-            e.g.\ neural networks \citep{bo91}, recently to remarkable success
-            \citep{le15}.
+            \cite{ki52} united gradient descent \citep{ca47} with stochastic
+            approximation \citep{ro51} to invent SGD.  Since the development of
+            back-propagation for efficient differentiation \citep{we74}, SGD
+            has been used to train connectionist models, e.g.\ neural networks
+            \citep{bo91}, recently to remarkable success \citep{le15}.
         
-            %-- analyzing overfitting; relevance of optimization; sde errs  ---
+            %--  analyzing overfitting; relevance of optimization; sde errs  --
         
             Several lines of work treat the overfitting of SGD-trained networks
             \citep{ne17a}.  For example, \cite{ba17} controls the Rademacher
@@ -1473,12 +1488,13 @@
             optimizer-agnostic generalization bounds.  Yet SGD-trained networks
             generalize despite their ability to shatter large sets
             \citep{zh17}, so generalization must arise from not only
-            architecture but also optimization \citep{ne17b}.  Others
-            approximate SGD by SDE to analyze implicit regularization (e.g.\
-            \cite{ch18}), but, per \cite{ya19a}, such continuous-time analyses
-            treat SGD noise incorrectly.
+            architecture but also optimization \citep{ne17b}.  
+
+            Some analyses of optimization's implicit regularization use an SDE
+            approximation (e.g.\ \cite{ch18}), but, per \cite{ya19a}, such
+            continuous-time analyses treat SGD noise incorrectly.
             %
-            %-- we extend dan's approach  -------------------------------------
+            %--  we extend dan's approach  ------------------------------------
             %
             We avoid these pitfalls by Taylor expanding around $\eta=0$ as in
             \cite{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
@@ -1487,7 +1503,26 @@
             terms offers a new qualitative picture of SGD as a superposition of
             simpler information-flow processes.
             
-            %-- phenomenology of rademacher correlates such as hessians  ------
+            %--  double descent  ----------------------------------------------
+
+            Other studies focusing on \emph{double descent} suggest that some
+            highly overparameterized models share implicit regularization
+            properties with linear least-squares models \citep{be19}, for
+            example by bounding log-determinants (and hence the effective
+            dimensions) of feature matrices and weight spaces
+            \citep{me20}.\footnote{
+                \cite{me20}'s eq.\ 75 bounds a log-determinant defined in eq.\
+                61 of a transformed feature matrix.  Compare to linear
+                Representer Theorems \citep{mo18b}.
+            }
+            %
+            Our work reveals new dynamics toward and within valleys of minima
+            that may also reduce the effective dimension of model space.
+            However, our focus on the structure of gradient noise may be
+            overspecific, since recent work finds that GD and SGD may both
+            converge to the same set of global minima \citep{zo20}. 
+
+            %--  phenomenology of rademacher correlates such as hessians  -----
         
             Our predictions are vacuous for large $\eta$.  Other analyses treat
             large-$\eta$ learning phenomenologically, whether by finding
@@ -1498,7 +1533,7 @@
             SGD's implicit regularization mediates between these seemingly
             clashing intuitions (\S \ref{subsect:overfit}).
             
-            %-- our work vs other perturbative approaches  --------------------
+            %--  our work vs other perturbative approaches  -------------------
         
             Prior work analyzes SGD perturbatively: \cite{dy19} perturb in
             inverse network width, using 't Hooft diagrams to correct the
@@ -3582,7 +3617,17 @@
             direction.  By topologically quotienting the weight space, say by
             identifying points related by a translation by $\Delta z = 200\pi$,
             we may turn the line-shaped valley into a circle-shaped valley.
-            Then SGD eternally travels, say, counterclockwise.
+            Then SGD eternally travels, say, counterclockwise.  Alternatively,
+            one may preserve the homotopy type of the underlying weight space
+            by Nash-embedding a flat solid torus
+            $$
+                [-10^1,+10^1]\times[-10^1,+10^1]\times[-10^3,+10^3]/((x,y,-10^3)\sim(x,y,+10^3))
+            $$
+            in a higher-dimensional Euclidean space and extending \Helix\ from
+            that torus to the ambient space.
+
+            Slightly modifying \Helix\ by adding a linear term $\alpha\cdot z$
+            to $l$ for $\eta\alpha^2 \ll \eta^2/6$ leads SGD to perpetually ascend.
            
         \subsubsection{\MeanEstimation}
             The \MeanEstimation\, family of landscapes has $1$ dimensional
