@@ -1653,87 +1653,86 @@
     statistics instead of testing statistics, or weight displacements instead
     of losses.  
 
+        \subsection{Two example calculations}
+            We illustrate the four step procedure above by using it to 
+            answer the following two questions.
+
+            \subsubsection{Question A: leading order effect of gradients}
+                Our first example calculation reproduces Proposition \ref{prop:nest}.
+                In other words, it answers the question:
+                \begin{quest}\label{qst:grad}
+                    What is the leading order contribution of the testing loss's gradient
+                    ($G$) to the final testing loss $\expc l(\Theta_T)$?  
+                    We seek an answer expressed in terms of the landscape statistics
+                    at initialization: $G,H,C, \cdots$.
+                \end{quest}
+
+            \subsubsection{Question B: leading order effect of epochs}
+                Our second example is (an illustrative case of)
+                Corollary \ref{cor:epochs}.
+                \begin{quest}\label{qst:multi}
+                    How does multi-epoch SGD differ from single-epoch SGD?
+                    Specifically, what is the difference between the expected
+                    testing losses of the following two versions of SGD?
+                    \begin{itemize}
+                        \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
+                            batch size $B=1$
+                        \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
+                    \end{itemize}
+                    We seek an answer expressed in terms of the landscape statistics
+                    at initialization: $G,H,C, \cdots$.
+                \end{quest}
+                To make our discussion concrete, we will set $M_0=2$; our analysis 
+                generalizes directly to larger $M_0$.
+
+                We scaled the above two versions of SGD deliberately, to create an
+                interesting comparison.  Specifically, on a noiseless linear
+                landscape $l_x=l \in (\RR^n)^*$, the versions attain equal testing
+                losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
+                %
+                So Question \ref{qst:multi}'s answer will be second-order (or
+                higher-order) in $\eta$.
+
+
+
     %MOOO
-    \vfill
-    \subsection{Two example calculations}
-        We illustrate the four-step diagram paradigm by using diagrams to
-        answer the following two questions.
-        \subsubsection{Question A: leading order effect of gradients}
-            Our first example calculation reproduces Proposition \ref{prop:nest}.
-            In other words, it answers the question:
-            \begin{quest}\label{qst:grad}
-                What is the leading order contribution of the testing loss's gradient
-                ($G$) to the final testing loss $\expc l(\Theta_T)$?  
-                We seek an answer expressed in terms of the landscape statistics
-                at initialization: $G,H,C, \cdots$.
-            \end{quest}
-
-        \subsubsection{Question B: leading order effect of epochs}
-            Our second example calculation reproduces (an illustrative case of)
-            Corollary \ref{cor:epochs}.
-            \begin{quest}\label{qst:multi}
-                How does multi-epoch SGD differ from single-epoch SGD?
-                Specifically, what is the difference between the expected
-                testing losses of the following two versions of SGD?
-                \begin{itemize}
-                    \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
-                        batch size $B=1$
-                    \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
-                \end{itemize}
-                We seek an answer expressed in terms of the landscape statistics
-                at initialization: $G,H,C, \cdots$.
-            \end{quest}
-            To make our discussion concrete, we will set $M_0=2$; our analysis 
-            generalizes directly to larger $M_0$.
-
-            We scaled the above two versions of SGD deliberately, to create an
-            interesting comparison.  Specifically, on a noiseless linear
-            landscape $l_x=l \in (\RR^n)^*$, the versions attain equal testing
-            losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
-            %
-            So Question \ref{qst:multi}'s answer will be second-order (or
-            higher-order) in $\eta$.
     \begin{landscape}
         \subsubsection{Computations: Grids}
-        \noindent
-        \begin{tabular}{p{0.15\linewidth}p{0.40\linewidth}p{0.40\linewidth}}
-            \textsc{Step}&\textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
-            \hline
-          % Specify Grid
-            A.\ {\bf Specify, as a grid}, the batch size, training set size,
-            and number of epochs. 
-            %A cell at row $n$ and column $t$ is shaded provided that the $n$th
-            %training sample inhabits the $t$th batch.
-            We take an $N\times T$ grid and shade its cells, shading the
-            $(n,t)$th cell when the $t$th update involves the $n$th data
+            We {\bf specify, as a grid}, the batch size, training set size, and
+            number of epochs of the setting under analysis. 
+            That is, we take an $N\times T$ grid and shade its cells, shading
+            the $(n,t)$th cell when the $t$th update involves the $n$th data
             point.  Thus, each column contains $B$ (batch size) many shaded
-            cells and each row contains $E$ (epoch number) many shaded
-            cells.
-          &
-            Question \ref{qst:grad} does not specify a batch size, epoch
-            number, or training set size and so does not specify a grid.  In
-            fact, we wish to answer the Question for any choice of those
-            hyperparameters.  For instance, we'll answer the Question for
-            $B,E,N=2,4,8$ (grid shown below) and also for
-            $B,E,N=1,2,8$ (grid shown below).
+            cells and each row contains $E$ (epoch number) many shaded cells.
+        %
+        \newline
+        \par\noindent
+        \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
+            \textsc{Effect of Gradients (Question
+            \ref{qst:grad})}&\textsc{Effect of Epochs (Question
+            \ref{qst:multi})}\\ \hline Question \ref{qst:grad} does not specify
+            a batch size, epoch number, or training set size and so does not
+            specify a grid.  In fact, we wish to answer the Question for any
+            choice of those hyperparameters.  For instance, we'll answer the
+            Question for SGD with hyperparameters $B,E,N=2,4,8$:
             \begin{center}
             \par\noindent\parbox{0.90\linewidth}{
                 \begin{center}
-                \dmoo{2.75cm}{spacetime-b2-e4-nosh}
+                \dmoo{3.00cm}{spacetime-b2-e4-nosh}
                 \end{center}
                 \par
                     \textbf{A grid for SGD} with batch size $B=2$ run for $E=4$
                     epochs on $N=8$ training points for a total of $T=16$
                     timesteps. 
-                \begin{center}
-                \dmoo{2.75cm}{spacetime-b1-e2-shuf}
-                \end{center}
-                \par
-                    \textbf{A grid for SGD} with $B=1$, $E=2$, $N=8$, $T=16$.
-                    This example, unlike the previous, depicts
-                    inter-epoch shuffling: that is,
-                    the $b$th batch in 
-                    one epoch differs from the $b$th batch in a different epoch.
+                %\begin{center}
+                %\dmoo{3.00cm}{spacetime-b1-e2-shuf}
+                %\end{center}
+                %\par
+                %    \textbf{A grid for SGD} with $B=1$, $E=2$, $N=8$, $T=16$.
+                %    This example, unlike the previous, depicts
+                %    inter-epoch shuffling: that is,
+                %    the $b$th batch in 
+                %    one epoch differs from the $b$th batch in a different epoch.
             }
             \end{center}
           &
@@ -1742,9 +1741,9 @@
             \newline
             \begin{center}
             \par\noindent\parbox{0.90\linewidth}{
-                \dmoo{2.75cm}{spacetime-b1-e2-nosh}
+                \dmoo{3.00cm}{spacetime-b1-e2-nosh}
                 \hfill
-                \dmoo{2.75cm}{spacetime-b1-e1-nosh}
+                \dmoo{3.00cm}{spacetime-b1-e1-nosh}
                 \par
                     \textbf{Grids for single-epoch and multi-epoch
                     SGD}. Both grids depict $N=7$ training points
@@ -1760,25 +1759,28 @@
         \end{tabular}
     \end{landscape}
     \begin{landscape}
-        \subsubsection{Computations: Embeddings of diagrams into a grid}
-        \begin{tabular}{p{0.15\linewidth}p{0.40\linewidth}p{0.40\linewidth}}
-            \textsc{Step}&\textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
+        \subsubsection{Computations: Embeddings of diagrams into grids}\label{sect:exampleembed}
+        An \emph{embedding} of a diagram $D$ into a grid is an
+        assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
+        the following criteria:
+        \par \indent $\bullet$ \textbf{time-ordering condition}: the times $t$
+                               strictly increase along each path from leaf to
+                               root; and
+        \par \indent $\bullet$ \textbf{correlation condition}: if two nodes are
+                               in the same part of $D$'s partition, then they
+                               are assigned to the same datapoint $n$.
+        \par\noindent
+        We may conveniently draw embeddings by placing nodes in the shaded
+        cells to which they are assigned; we draw the root nodes outside the
+        grids (at arbitrary positions).
+        %
+        %Drawn on each of the two grids are examples of embeddings.
+        \newline
+        \par\indent
+        \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
+            \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
-            An \emph{embedding} of a diagram $D$ into a grid is an
-            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
-            the following criteria:
-            %\begin{itemize}
-                \par \indent \textbf{time-ordering condition}: the times $t$ strictly increase 
-                    along each path from leaf to root; and
-                \par \indent \textbf{correlation condition}: if two nodes are in the same
-                    part of $D$'s partition, then they are assigned to the same
-                    datapoint $n$.
-            %\end{itemize}
-                    \par
-            We may conveniently draw embeddings by placing nodes in the shaded
-            cells to which they are assigned.  
-            &
-            &
+                        &
             There are four two-edged diagrams: 
             $\sdia{c(0-1-2)(02-12)}$,
             $\sdia{c(01-2)(02-12)}$,
@@ -1805,22 +1807,106 @@
             \begin{center}\parbox{0.90\linewidth}{
                 \dmoo{2.75cm}{spacetime-d}\hfill\dmoo{2.75cm}{spacetime-c}
                 \par
-                    \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
-                        into multi-epoch but not single-epoch grid.}
-                    Drawn on each of the two grids are examples of embeddings.
-                    The black nodes external to the grids are positioned
-                    arbitrarily. 
+                    Here, \textbf{$\protect\sdia{c(01-2)(01-12)}$ embeds
+                        into the multi-epoch but not single-epoch grid.} 
                     \textbf{Left}: $\protect\sdia{c(01-2)(01-12)}$
-                        embeds into multi-epoch grid.
+                        embeds into the multi-epoch grid.
                     \textbf{Right}: $\protect\sdia{c(01-2)(01-12)}$ cannot
-                        embed into single-epoch grid.  Indeed, 
+                        embed into the single-epoch grid:  
                         the correlation condition forces both red nodes into 
-                        the same row and thus the same cell, while the
+                        the same row and thus the same cell; the
                         time-ordering condition forces the red nodes into
                         distinct columns and thus distinct cells.
             }\end{center}
         \end{tabular}
     \end{landscape}
+
+    \begin{landscape}
+        \subsubsection{Computations: Evaluating each diagram embedding}
+            In these examples, we choose to compute $\uvalue$s instead of
+            $\rvalue$s.  The former are an approximation
+            appropriate when $T$ is fixed.% instead of taken to
+            %infinity.  %$\uvalue$s have the same asymptotic error as $\rvalue$s
+            %with respect to $\eta$.
+            %Moreover, $\uvalue$s are simpler to calculate,
+            %since they depend only on diagrams, not on embeddings.  So to
+            %compute a testing loss, we multiply each diagram's $\uvalue$ by the
+            %number of ways that diagram embeds.
+            \par \indent $\bullet$
+                \textbf{Node rule}: each degree $d$ node evaluates to $\nabla^d
+                l_x$.
+            \par \indent $\bullet$
+                \textbf{Outline rule}: surround the nodes in each part of the
+                partition by a ``cumulant bracket''.  If a part contains one
+                node $x$, the cumulant bracket is the expectation: $\expc[x]$.
+                If the part contains two nodes $x,y$, the cumulant bracket is
+                the covariance: $\expc[xy]-\expc[x]\expc[y]$.\footnote{
+                    %If the part contains three nodes $x,y,z$, then the cumulant
+                    %bracket is
+                    %$
+                    %    \expc[xyz]-\expc[x]\expc[yz]-\expc[y]\expc[xz]-\expc[z]\expc[yz]+2\expc[x]\expc[y]\expc[z]
+                    %$.
+                    The general pattern is that the cumulant bracket $\CC[\prod_{i\in I} x_i]$
+                    of a product indexed by $I$ is (here, $P$ ranges over partitions of $I$ with at least 
+                    two parts; $I = \sqcup_{p\in P} p$):
+                    $$
+                        \expc[\prod x_i] - \sum_{\text{partition}~P} \prod_{p\in P} \CC[\prod_{i\in p} x_i]
+                    $$
+                }
+            \par \indent $\bullet$
+                \textbf{Edge rule}: insert a $\eta^{\mu\nu}$ for each
+                edge.  The indices $\mu, \nu$ should match the corresponding
+                indices of the two nodes incident to the edge.
+        \newline
+        \par\noindent
+        \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
+            \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
+            \hline
+          &
+            In \S\ref{sect:exampleembed} we saw that
+            $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
+            and single-epoch spacetimes: its multi-epoch
+            embeddings correspond by a $M_0^2:1$ map to its single-epoch
+            embeddings.  Since we scaled the learning rate of the two SGD
+            versions by a factor of $M_0$, and since %$2$-edged diagrams such as
+            $\sdia{c(0-1-2)(02-12)}$ (being two-edged) scales as $\eta^2$, \emph{the total
+            $\uvalue$ of its multi-epoch embeddings will match the
+            total $\uvalue$ of its single-epoch embeddings.}  So 
+            we need not compute $\sdia{c(0-1-2)(02-12)}$'s contribution.
+            \newline
+            We see that this cancellation happens for all of the order-$2$
+            diagrams \emph{except} for $\sdia{c(01-2)(01-12)}$.
+            %
+            Therefore, we must only compute $\uvalue(\sdia{c(01-2)(01-12)})$.
+            %The answer to Question \ref{qst:multi} will be (some multiple of)
+            %this uvalue.
+            \par
+            The node rule suggests that we begin with
+            $
+                \nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x
+                \nabla_\rho l_x
+            $.
+            The outline rule transforms this to
+            $$
+                \wrap{\expct{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x}-\expct{\nabla_\mu l_x}\expct{\nabla_\nu \nabla_\lambda l_x}}
+                \expct{\nabla_\rho l_x}
+                =
+                (\nabla_\nu C_{\mu\lambda} / 2)
+                G_\rho
+            $$
+            The edge rule inserts a factor $\eta^{\mu\lambda} \eta^{\nu\rho}$
+            to yield:
+            $$
+                (\nabla_\nu C_{\mu\lambda} / 2)
+                G_\rho
+                \eta^{\mu\lambda}
+                \eta^{\nu\rho}
+                =
+                G^\nu \nabla_\nu C^\mu_\mu / 2
+            $$
+        \end{tabular}
+    \end{landscape}
+
 
     %\subsection{An example calculation: the effect of epochs}       \label{appendix:example}
 
