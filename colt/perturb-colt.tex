@@ -256,8 +256,8 @@
     u%
 }
 
-\title[A Perturbative Analysis of SGD]{
-    A Perturbative Analysis of Stochastic Gradient Descent
+\title[A Perturbative Analysis of SGD at Small Learning Rates]{
+    Perturbation Theory of Stochastic Gradient Descent 
 }
 \usepackage{times}
 \coltauthor{%
@@ -293,105 +293,98 @@
 
             %--  object of study  ---------------------------------------------
             %
-            One benefits from the intuition that stochastic gradient descent
-            (SGD) approximates deterministic gradient descent (GD)
-            \citep{bo91}.  This paper refines that intuition by showing how
-            gradient noise biases learning toward certain (high curvature, high gradient-noise) areas of weight
-            space.
+            Gradient estimates, measured on minibatches and thus noisy, form
+            the primary learning signal when training deep neural nets.
+            While users of deep learning benefit from the intuition that
+            such \emph{stochastic gradient descent} (SGD) approximates
+            deterministic gradient descent (GD) \citep{bo91,le15}, SGD's
+            gradient noise in practice alters training dynamics and hence
+            testing losses \citep{go18, zh19, wu20}.  This paper characterizes
+            these dynamics and shows that gradient noise biases learning toward
+            low-curvature, low-noise regions of weight space.
 
             %--  vs ode and sde  ----------------------------------------------
             %
-            Departing from prior work, we model discrete time and correlated
-            gradient noise.  Indeed, we derive corrections to continuous-time,
-            independent noise approximations such as ordinary and stochastic
-            differential equations (ODE, SDE: \cite{li18}).
-            %--
-            Our corrections lead to qualitative differences in dynamics: for
-            example, we construct a non-pathological\footnote{%
+            Departing from \cite{li18,we19b,zh19}, we model
+            correlated, non-gaussian, anisotropic gradient noise and
+            find qualitative differences in dynamics.  For example, we
+            construct a non-pathological\footnote{%
                 All higher derivatives exist and are quadratically bounded; the
                 gradient noise at each weight vector is $1$-subgaussian.%
-            } loss landscape on which SGD's trajectory perpetually
-            \emph{circulates} clockwise; slightly modifying this
-            landscape leads SGD to perpetually \emph{ascend}.
-            %--
-            These examples, though artificial, demonstrate how drastically
-            standard intuitions about SGD may fail.  We argue that our theory's
-            quantitative results enhance practical intuitions, and we verify
-            our theory on convolutional CIFAR-10 and Fashion-MNIST loss
+            } loss landscape on which SGD's trajectory
+            \emph{ascends}.
+            %We argue that our theory enhances practical intuitions.
+            We
+            verify our theory on convolutional CIFAR-10 and Fashion-MNIST loss
             landscapes.
 
             %--  soft benefits: retrospective  --------------------------------
             %
             \begin{wrapfigure}{r}{0.40\textwidth}
                 \centering  
-                \vspace{-0.30cm}
+                \vspace{-0.40cm}
                 \plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
                 \caption{
-                    \textbf{An information-flow process}.  The $5$th datum 
+                    \textbf{A sub-process of SGD}.  Timesteps index
+                    columns; training data index rows.  The $5$th datum
                     participates in the $2$nd SGD update.  This
                     {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
                     testing loss both directly and via the
                     {\color{spacetimeteal}$(1,12)$ event}, which is also
-                    modulated by the {\color{spacetimeindigo}$(2,5)$
-                    event}. 
+                    modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
                 }\vspace{+0.60cm}
                 \label{fig:paradigm}
             \end{wrapfigure}
-            At a high level, we Taylor-expand the testing loss as a function of
-            the learning rate $\eta$.  We tame a combinatorial explosion of
-            terms and some large-time convergence difficulties by
-            interpreting the terms in terms of
-            information-flow processes.  For example, an
-            instance of the process\footnote{
+            Our theory offers a new physics-inspired perspective of SGD as a
+            superposition of concurrent information-flow processes.  Indeed, we
+            Taylor-expand the testing loss as a function of the learning rate
+            $\eta$, taming large-time convergence issues by re-summing to a sum
+            over topologically-characterized processes.  E.g.\ 
+            an instance of the process\footnote{
                 Throughout, colors help us refer to parts of diagrams; they
                 lack mathematical meaning.
             }
                 \vspace{-0.35cm}
             $$
                 \mdia{MOOc(01-2-3-4)(04-13-23-34)}
-                \vspace{-0.50cm}
+                \vspace{-0.55cm}
             $$
-            is shown on the right.
-            %We depict these processes with diagrams such as
-            %%$\sdia{c(01-2-3)(02-12-23)}$
-            %$\mdia{MOOc(01-2-3-4)(04-13-23-34)}$
-            %analogous to those of \cite{fe49,pe71}.%\footnote{%
-            %%    E.g.\ the diagram here shows a red update doubly
-            %%    affecting a green update that in turn affects the final testing
-            %%    loss.  The diagrams with few edges suffice for leading
-            %%    order results.  Colors help us refer to diagram parts; they
-            %%    lack meaning.
-            %%}
-            %%
-            %%We may thus compute expected testing losses by
-            %%summing small sets of diagrams.
-            We develop a diagram notation for such processes, 
-            explain how to compute the effect of each process, and show
-            that summing the finitely many processes with fewer than $d$ edges
-            suffices to answer dynamical questions to error $o(\eta^d)$.
+            is shown on the right.  Notating processes with such diagrams, we
+            show in \S\ref{sect:main} how to compute the effect of each process
+            and that summing the finitely many processes with $d$ or fewer
+            edges suffices to answer dynamical questions to error $o(\eta^d)$.  
+            We thus factor the analysis of SGD into the analyses of individual
+            processes, a technique that may inspire future theoretical
+            advances.
             %
-            Our analysis thus offers a new physics-inspired perspective of SGD
-            as a superposition of many concurrent information-flow processes.
+            %This diagram technique is potentially powerful.
+            %\S\ref{appendix:tutorial} offers a tutorial in our diagram
+            %technique to promote future inquiry.
+            %Overall, this process-based perspective may inspire future
+            %theoretical inquiries beyond the \S\ref{sect:consequences}'s
+            %results.
 
         \newpage
         \subsection{Background, notation, assumptions}
 
             %--  the landscape  -----------------------------------------------
     
-            We fix a \emph{testing loss} function $l:\Mm\to\RR$ on a space
-            $\Mm$ of weights $\theta$.  We fix a distribution $\Dd$ from which
-            unbiased estimates $l_x$ of $l$ are drawn.  We write $(l_n:
-            0\leq n<N)$ for a training sequence drawn i.i.d.\ from $\Dd$.  We
+            We formalize the loss --- suffered by a fixed architecture on a
+            random datapoint --- as a distribution $\Dd$ over functions from a
+            weight-space $\Mm$.  The \emph{testing loss} $l:\Mm\to\RR$ is
+            $\Dd$'s mean.  We write $\theta\in\Mm$, $l_x\sim\Dd$ for generic
+            elements.
+            %
+            We consider training sequences $(l_n: 0\leq n<N) \sim \Dd^N$.  We
             refer to $n$ and to $l_n$ as \emph{training points}.  We assume
             \S\ref{appendix:assumptions}'s hypotheses, e.g.\ that $l, l_x$ are
             analytic and that all moments exist.
             %
             %--  specialization to a common case  -----------------------------
             %
-            For instance, our theory accounts for $\tanh$ networks with cross
-            entropy loss on bounded data --- and with weight sharing, skip
-            connections, soft attention, dropout, and weight decay.  But it
-            does not model $\text{ReLU}$ networks.
+            Our theory accounts for $\tanh$ (but not $\text{ReLU}$) networks
+            with cross entropy loss on bounded data --- with weight
+            sharing, skip connections, soft attention, and dropout.  
 
             %--  names of sgd parameters  -------------------------------------
 
@@ -499,15 +492,17 @@
             %
             For example, our framework allows us to assess how gradient noise's
             non-Gaussianity affects the final testing loss.
-            \S\ref{sect:diagrams} details how evaluation of a
+            \S\ref{sect:calculus} details how evaluation of a
             \emph{single diagram}
                 \vspace{-0.15cm}
             $$
                 \sdia{c(012-3)(03-13-23)}
                 \vspace{-0.45cm}
             $$
-            gives the leading order result (Corollary \ref{cor:vsode}), quoted
-            here assuming isotropic curvature ($\eta H \propto I$): 
+            gives a case of
+            %the leading order result
+            Corollary \ref{cor:vsode}, quoted
+            here assuming isotropic curvature ($\eta H \propto I$) and $E=B=1$: 
             \begin{prop}\label{prop:splash}
                 If we initialize near an non-degenerate minimum of $l$, then in
                 the large-$T$ limit, the skewness $S$ of gradient noise
@@ -527,7 +522,7 @@
             to Proposition \ref{prop:nest}.  Gaussian approximations (e.g.\
             SDE) miss this effect. 
 
-    \section{Perturbative theory of SGD}
+    \section{Perturbative theory of SGD}\label{sect:calculus}
 
         \S\ref{sect:exegesis} illustrates by example a Taylor series approach
         to studying SGD dynamics.  \S\ref{sect:diagrams} introduces a diagram
@@ -708,7 +703,7 @@
                 && 
                 \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
             \end{align*}
-            We associate tensors with diagrams.\footnote{
+            We thus associate tensors with diagrams.\footnote{
                 We write $\leftrightsquigarrow$ instead of $=$ because diagrams
                 evaluate to products of cumulants $C$ rather than of moments
                 $GG+C$.
@@ -897,18 +892,11 @@
 
             \noindent
             Intuitively, our notion of ``the same'' permits chains to grow
-            or shrink.  We will express in closed form the total
-            contribution to (\ref{eq:dyson}) of all diagrams in such a
-            list.  This is the \emph{resummed value} of the list's smallest
-            member.  The idea is that the uvalues of chains are powers of
-            hessians --- for example,
-            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so
-            we may sum over all possible chain lengths via geometric
-            series.
+            or shrink:  
 
             \begin{dfn}
-                A \textbf{link} is a degree-$2$ node that participates in
-                no gray ties.  To \textbf{reduce} a diagram at a link, we
+                A \textbf{link} is a degree-$2$ non-root node that participates in
+                no gray ties.  To \emph{reduce} at a link, we
                 replace the link by a black edge connecting the link's two
                 neighbors.  Reduction generates an equivalence relation on
                 diagrams. Each equivalence class has exactly one
@@ -916,8 +904,19 @@
             \end{dfn}
 
             \noindent
-            More specifically, the \textbf{rvalue} of an embedded diagram is
-            defined as the $\uvalue$ except that pairs of tensor indices are
+            We will express in closed form the total
+            contribution to (\ref{eq:dyson}) of all diagrams in such a
+            list.  This is the \emph{resummed value} of the list's unique
+            linkless member.
+            %
+            The idea is that the uvalues of chains are powers of
+            hessians --- for example,
+            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so
+            we may sum over all possible chain lengths via geometric
+            series.
+            %
+            We thus define the \textbf{rvalue} of an embedded diagram 
+            as the $\uvalue$ except that pairs of tensor indices are
             not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
             embedded edge spans $\Delta t$ many time steps, we contract the
             two corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$. 
@@ -975,10 +974,10 @@
             %-----  simplifications  ------------------------------------------
      
             \begin{rmk} \label{rmk:integrate}
-                In practice, we approximate sums over embeddings by integrals
+                \emph{In practice, we approximate sums over embeddings by integrals
                 over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, reducing
                 to a routine integration of exponentials at the cost of an
-                error factor $1 + o(\eta)$.
+                error factor $1 + o(\eta)$ --- and thus preserving leading-order results.}
             \end{rmk}
     
             %-----  convergence  ----------------------------------------------
@@ -998,7 +997,7 @@
             large-$T$ limit'' as informal shorthand when referencing this
             Theorem.
 
-    \section{Consequences of the theory}
+    \section{Consequences of the theory}\label{sect:consequences}
 
         \begin{samepage}
         These few corollaries do not exhaust the scope of our theory.  For
@@ -1023,7 +1022,7 @@
             Our theory makes this intuition precise; the drift is in the
             direction of $-\nabla C$, and the effect is strongest when gradient
             noise is not averaged out by large batch sizes:
-            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:batch}
+            \begin{cor}[Computed from $\sdia{c(01-2)(01-12)}$] \label{cor:batch}
                 SGD with $E=B=1$ avoids high-$C$ regions more than GD:
                 $
                     l_{C}
@@ -1460,8 +1459,8 @@
             Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may
             emulate SGD}, as suggested by \cite{ro18}.  This is significant
             because, while small batch sizes can lead to better generalization
-            \citep{bo91}, modern infrastructure increasingly rewards large batch
-            sizes \citep{go18}.  
+            \citep{bo91}, modern infrastructure increasingly rewards large
+            batch sizes \citep{go18}.  
 
             %-----  anticipate criticism of limitations  ----------------------
     
@@ -1517,7 +1516,7 @@
             
             %--  double descent  ----------------------------------------------
 
-            Other studies focusing on \emph{double descent} suggest that some
+            Other studies focus on \emph{double descent} and suggest that some
             highly overparameterized models share implicit regularization
             properties with linear least-squares models \citep{be19}, for
             example by bounding log-determinants (and hence the effective
@@ -1528,8 +1527,8 @@
                 Representer Theorems \citep{mo18b}.
             }
             %
-            Our work reveals new dynamics toward and within valleys of minima
-            that may also reduce the effective dimension of model space.
+            Our work reveals new dynamics toward and within valleys of minima,
+            dynamics that may also reduce the effective dimension of model space.
             However, our focus on the structure of gradient noise may be
             overspecific, since recent work finds that GD and SGD may both
             converge to the same set of global minima \citep{zo20}. 
@@ -1551,7 +1550,7 @@
             inverse network width, using 't Hooft diagrams to correct the
             Gaussian Process approximation for specific nets.  Perturbing
             to order $\eta^2$, \cite{ch18} and \cite{li17} assume uncorrelated
-            Gaussian noise.  By contrast, we use Penrose diagrams to compute
+            Gaussian noise.  By contrast, we use Penrose diagrams \cite{pe71} to compute
             testing losses to arbitrary order in $\eta$.  We allow correlated,
             non-Gaussian noise and thus \emph{any} smooth architecture.  E.g.\
             we assume no information-geometric relationships between $C$ and
@@ -1657,17 +1656,17 @@
             We illustrate the four step procedure above by using it to 
             answer the following two questions.
 
-            \subsubsection{Question A: leading order effect of gradients}
+            \subsubsection{Leading order effect of gradients}
                 Our first example calculation reproduces Proposition \ref{prop:nest}.
                 In other words, it answers the question:
                 \begin{quest}\label{qst:grad}
                     What is the leading order contribution of the testing loss's gradient
                     ($G$) to the final testing loss $\expc l(\Theta_T)$?  
-                    We seek an answer expressed in terms of the landscape statistics
-                    at initialization: $G,H,C, \cdots$.
+                    %We seek an answer expressed in terms of the landscape statistics
+                    %at initialization: $G,H,C, \cdots$.
                 \end{quest}
 
-            \subsubsection{Question B: leading order effect of epochs}
+            \subsubsection{Leading order effect of epochs}
                 Our second example is (an illustrative case of)
                 Corollary \ref{cor:epochs}.
                 \begin{quest}\label{qst:multi}
@@ -1713,7 +1712,7 @@
             \ref{qst:multi})}\\ \hline Question \ref{qst:grad} does not specify
             a batch size, epoch number, or training set size and so does not
             specify a grid.  In fact, we wish to answer the Question for any
-            choice of those hyperparameters.  For instance, we'll answer the
+            choice of those hyperparameters.  E.g.\ we'll answer the
             Question for SGD with hyperparameters $B,E,N=2,4,8$:
             \begin{center}
             \par\noindent\parbox{0.90\linewidth}{
@@ -1724,15 +1723,6 @@
                     \textbf{A grid for SGD} with batch size $B=2$ run for $E=4$
                     epochs on $N=8$ training points for a total of $T=16$
                     timesteps. 
-                %\begin{center}
-                %\dmoo{3.00cm}{spacetime-b1-e2-shuf}
-                %\end{center}
-                %\par
-                %    \textbf{A grid for SGD} with $B=1$, $E=2$, $N=8$, $T=16$.
-                %    This example, unlike the previous, depicts
-                %    inter-epoch shuffling: that is,
-                %    the $b$th batch in 
-                %    one epoch differs from the $b$th batch in a different epoch.
             }
             \end{center}
           &
@@ -1757,6 +1747,7 @@
             }
             \end{center}
         \end{tabular}
+
     \end{landscape}
     \begin{landscape}
         \subsubsection{Computations: Embeddings of diagrams into grids}\label{sect:exampleembed}
@@ -1825,13 +1816,7 @@
         \subsubsection{Computations: Evaluating each diagram embedding}
             In these examples, we choose to compute $\uvalue$s instead of
             $\rvalue$s.  The former are an approximation
-            appropriate when $T$ is fixed.% instead of taken to
-            %infinity.  %$\uvalue$s have the same asymptotic error as $\rvalue$s
-            %with respect to $\eta$.
-            %Moreover, $\uvalue$s are simpler to calculate,
-            %since they depend only on diagrams, not on embeddings.  So to
-            %compute a testing loss, we multiply each diagram's $\uvalue$ by the
-            %number of ways that diagram embeds.
+            appropriate when $T$ is fixed.
             \par \indent $\bullet$
                 \textbf{Node rule}: each degree $d$ node evaluates to $\nabla^d
                 l_x$.
@@ -1906,6 +1891,66 @@
             $$
         \end{tabular}
     \end{landscape}
+
+    \begin{landscape}
+        \subsubsection{Computations: Summing the embeddings' values}
+        Our Key Lemma('s restatement) says that to compute a testing loss, we
+        multiply each diagram's $\uvalue$ by the number of ways that
+        diagram embeds, where embeddings with $s$ many symmetries count only
+        $1/s$ much toward the total number of embeddings.  A symmetry of an embedding
+        $f$ of a diagram $D$, i.e.\ an element of $\Aut_f(D)$, is defined to be
+        a relabeling of $D$'s nodes that simultaneously preserves $D$'s rooted
+        tree structure, $D$'s partition structure, and $f$'s assignment of nodes
+        to $(n,t)$ cells of the grid.  This is a strong constraint, so there
+        will typically be no symmetries except for the identity, meaning that
+        $s=1$. 
+        %    \begin{equation*}
+        %        \sum_{\substack{D~\text{a} \\ \text{diagram}}}
+        %        ~
+        %        \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+        %        ~
+        %        \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+        %        \,
+        %        {\uvalue}(D)
+        %    \end{equation*}
+        \newline
+        \par\noindent
+        \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
+            \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
+            \hline
+          &
+            Referring again to \S\ref{sect:exampleembed}, we see that
+            $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
+            into the multi-epoch grid (one embedding per pair of distinct
+            epochs, per row) --- and no embeddings into the single-epoch grid.
+            Moreover, each embedding of $\sdia{c(01-2)(01-12)}$ has
+            $\wabs{\Aut_f(D)}= 1$.  
+            %
+            We conclude that the testing loss of $M=M_0$ SGD exceeds the
+            testing loss of $M=1$ SGD by this much:
+            $$
+                {M_0 \choose 2} \, N \cdot
+                \frac{(-1)^2}{1} \cdot
+                (\nabla_\nu C_{\mu\lambda} / 2)
+                G^\rho
+                \eta^{\mu\lambda}
+                \eta^{\nu\rho}
+                + o(\eta^2)
+            $$
+            Since Question \ref{qst:multi} defines $\eta^2 = \eta_0^2/M_0^2$,
+            we can rewrite our answer as:
+            $$
+                l(\theta_{M=M_0,\eta=\eta_0/M_0}) - l(\theta_{M=1,\eta=\eta_0})
+                =
+                \frac{M_0-1}{4 M_0} N \cdot
+                G^\nu (\nabla_\nu C_\mu^\mu)
+                + o(\eta_0^2)
+            $$
+            where we use $\eta_0$ to raise indices.
+            This completes the example problem.
+        \end{tabular}
+    \end{landscape}
+
 
 
     %\subsection{An example calculation: the effect of epochs}       \label{appendix:example}
@@ -2137,18 +2182,19 @@
 
         \begin{figure}[h!] 
             \centering
-            \dmoo{3.55cm}{spacetime-b1-e2-shuf}
-            ~~~~~
+            %\dmoo{3.55cm}{spacetime-b1-e2-shuf}
+            \dmoo{3.55cm}{spacetime-b1-e2-nosh}
+            \hfill
             \dmoo{3.55cm}{spacetime-b2-e4-nosh}
             \caption{
                 \textbf{The grids of two SGD variants.}
                 Shaded cells show $(n,t)$ pairs (see text).
                 \newline
                 \textbf{Left}: Two epoch SGD with batch size one.
-                    The training set is permuted between epochs.
+                    %The training set is permuted between epochs.
                 \newline
                 \textbf{Right}: Four epoch SGD with batch size
-                    two.  The training set is not permuted between epochs.
+                    two.  %The training set is not permuted between epochs.
             }
             \label{fig:spacetimes}
         \end{figure}
@@ -2158,19 +2204,25 @@
         steps and on $N$ many training samples), one shades the 
         cells of an $N\times T$ grid with $B$ shaded cells per column and
         $E$ shaded cells per row.
-        
-        \begin{rmk*}
-            A grid also depicts the shuffling of training sets
-            between epochs.  Since each grid commits to a concrete sequence
-            of training set permutations, we may analyze SGD with
-            randomized permutations by taking expectations over multiple
-            grids.  However, all of the corollaries in this text
-            are invariant to inter-epoch training set permutations, so we
-            will not focus on this point.\footnote{A routine check shows
-            that for fixed $T$, inter-epoch shuffling yields only an
-            $o(\eta^3)$ effect on testing losses.}
-            \mend
-        \end{rmk*}
+        \newline
+        \par
+        \begin{wrapfigure}{r}{5cm}
+            \vspace{-0.5cm}
+            \dmoo{3.00cm}{spacetime-b1-e2-shuf}
+        \end{wrapfigure}
+        \textbf{Note}:
+        A grid may also depict the inter-epoch permuting of
+        training sets due to which the $b$th batch in one epoch differs from
+        the $b$th batch in a different epoch.  For instance, see the grid to
+        the right.
+        \par
+        Since each grid commits to a concrete sequence of training set
+        permutations, we may analyze SGD with randomized permutations by taking
+        expectations over multiple grids.  However, the corollaries in this
+        text are invariant to inter-epoch training set permutations, so we will
+        not focus on this point.%\footnote{A routine check shows that for fixed
+        %$T$, inter-epoch shuffling yields only an $o(\eta^3)$ effect on testing
+        %losses.})
 
     \newpage
     \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}

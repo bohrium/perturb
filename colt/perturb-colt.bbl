@@ -1,4 +1,4 @@
-\begin{thebibliography}{50}
+\begin{thebibliography}{53}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -195,6 +195,11 @@ A.~Paszke, S.~Gross, F.~Massa, A.~Lerer, J.~Bradbury, T.~Killeen, Zeming Lin,
 \newblock Pytorch: An imperative style, high-performance deep learning library.
 \newblock \emph{NeurIPS}, 2019.
 
+\bibitem[Penrose(1971)]{pe71}
+R.~Penrose.
+\newblock Applications of negative dimensional tensors.
+\newblock \emph{Combinatorial Mathematics and its Applications}, 1971.
+
 \bibitem[Robbins and Monro(1951)]{ro51}
 H.~Robbins and S.~Monro.
 \newblock A stochastic approximation method.
@@ -244,6 +249,11 @@ P.~Werbos.
 \newblock Beyond regression: New tools for prediction and analysis.
 \newblock \emph{Harvard Thesis}, 1974.
 
+\bibitem[Wu et~al.(2020)Wu, Hu, Xiong, Huan, Braverman, and Zhu]{wu20}
+Jingfeng Wu, Wenqing Hu, Haoyi Xiong, Jun Huan, V.~Braverman, and Zhanxing Zhu.
+\newblock On the noisy gradient descent that generalizes as sgd.
+\newblock \emph{ICML}, 2020.
+
 \bibitem[Wu et~al.(2018)Wu, Ma, and E]{wu18}
 Lei Wu, Chao Ma, and Weinan E.
 \newblock How sgd selects the global minima in over-parameterized learning.
@@ -274,6 +284,11 @@ Chiyuan Zhang, S.~Bengio, M.~Hardt, B.~Recht, and O.~Vinyals.
 Hongyi Zhang, S.J. Reddi, and S.~Sra.
 \newblock Fast stochastic optimization on riemannian manifolds.
 \newblock \emph{NeurIPS}, 2016.
+
+\bibitem[Zhu et~al.(2019)Zhu, Wu, Yu, and Ma]{zh19}
+Zhanxing Zhu, Jingfeng Wu, Bing Yu, and Jinwen Ma.
+\newblock The anisotropic noise in stochastic gradient descent.
+\newblock \emph{ICML}, 2019.
 
 \bibitem[Zou et~al.(2020)Zou, Cao, Zhou, and Gu]{zo20}
 Difan Zou, Yuan Cao, Dongruo Zhou, and Quanquan Gu.
