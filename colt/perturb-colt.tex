@@ -5,7 +5,7 @@
 % amsmath, amssymb, natbib, graphicx, url, algorithm2e
 
 \usepackage{amsfonts, makerobust}
-\usepackage{mathtools, nicefrac, xstring, enumitem}
+\usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
 
 \newcommand{\subthreesect}[1]{\par\noindent\textsc{#1} --- }
 
@@ -1646,123 +1646,170 @@
               interest as a function of $\eta$.
     \end{itemize}
     \noindent
-    After presenting an example calculation that follows these four steps, we
+    After presenting two example calculations that follow these four steps, we
     detail each step individually.  Though we focus on the computation of
     expected testing losses, we describe how the four steps may give us other
     quantities of interest: variances instead of expectations, training
     statistics instead of testing statistics, or weight displacements instead
     of losses.  
 
-    \subsection{An example calculation: the effect of epochs}       \label{appendix:example}
+    %MOOO
+    \vfill
+    \subsection{Two example calculations}
+        We illustrate the four-step diagram paradigm by using diagrams to
+        answer the following two questions.
+        \subsubsection{Question A: leading order effect of gradients}
+            Our first example calculation reproduces Proposition \ref{prop:nest}.
+            In other words, it answers the question:
+            \begin{quest}\label{qst:grad}
+                What is the leading order contribution of the testing loss's gradient
+                ($G$) to the final testing loss $\expc l(\Theta_T)$?  
+                We seek an answer expressed in terms of the landscape statistics
+                at initialization: $G,H,C, \cdots$.
+            \end{quest}
 
-        \begin{quest}\label{qst:multi}
-            How does multi-epoch SGD differ from single-epoch SGD?
-            Specifically, what is the difference between the expected
-            testing losses of the following two versions of SGD?
-            \begin{itemize}
-                \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
-                    batch size $B=1$
-                \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
-            \end{itemize}
-            We seek an answer expressed in terms of the landscape statistics
-            at initialization: $G,H,C, \cdots$.
-        \end{quest}
-        To make our discussion concrete, we will set $M_0=2$; our analysis 
-        generalizes directly to larger $M_0$.
+        \subsubsection{Question B: leading order effect of epochs}
+            Our second example calculation reproduces (an illustrative case of)
+            Corollary \ref{cor:epochs}.
+            \begin{quest}\label{qst:multi}
+                How does multi-epoch SGD differ from single-epoch SGD?
+                Specifically, what is the difference between the expected
+                testing losses of the following two versions of SGD?
+                \begin{itemize}
+                    \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
+                        batch size $B=1$
+                    \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
+                \end{itemize}
+                We seek an answer expressed in terms of the landscape statistics
+                at initialization: $G,H,C, \cdots$.
+            \end{quest}
+            To make our discussion concrete, we will set $M_0=2$; our analysis 
+            generalizes directly to larger $M_0$.
 
-        We scaled the above two versions of SGD deliberately, to create an
-        interesting comparison.
-        Specifically, on a noiseless
-        linear landscape $l_x=l \in (\RR^n)^*$, the versions
-        attain equal testing losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
-        %
-        So Question \ref{qst:multi}'s answer will be second-order (or
-        higher-order) in $\eta$.
-
-        \subsubsection{Grids}
+            We scaled the above two versions of SGD deliberately, to create an
+            interesting comparison.  Specifically, on a noiseless linear
+            landscape $l_x=l \in (\RR^n)^*$, the versions attain equal testing
+            losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
+            %
+            So Question \ref{qst:multi}'s answer will be second-order (or
+            higher-order) in $\eta$.
+    \begin{landscape}
+        \subsubsection{Computations: Grids}
+        \noindent
+        \begin{tabular}{p{0.15\linewidth}p{0.40\linewidth}p{0.40\linewidth}}
+            \textsc{Step}&\textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
+            \hline
+          % Specify Grid
+            A.\ {\bf Specify, as a grid}, the batch size, training set size,
+            and number of epochs. 
+            %A cell at row $n$ and column $t$ is shaded provided that the $n$th
+            %training sample inhabits the $t$th batch.
             We take an $N\times T$ grid and shade its cells, shading the
-            $(n,t)$th cell when the $t$th update involves the $n$th data point.
-            Thus, each column contains $B$ (batch size) many shaded cells and
-            each row contains $E$ (epoch number) many shaded cells.
-            This is SGD's \textbf{grid}.
+            $(n,t)$th cell when the $t$th update involves the $n$th data
+            point.  Thus, each column contains $B$ (batch size) many shaded
+            cells and each row contains $E$ (epoch number) many shaded
+            cells.
+          &
+            Question \ref{qst:grad} does not specify a batch size, epoch
+            number, or training set size and so does not specify a grid.  In
+            fact, we wish to answer the Question for any choice of those
+            hyperparameters.  For instance, we'll answer the Question for
+            $B,E,N=2,4,8$ (grid shown below) and also for
+            $B,E,N=1,2,8$ (grid shown below).
+            \begin{center}
+            \par\noindent\parbox{0.90\linewidth}{
+                \begin{center}
+                \dmoo{2.75cm}{spacetime-b2-e4-nosh}
+                \end{center}
+                \par
+                    \textbf{A grid for SGD} with batch size $B=2$ run for $E=4$
+                    epochs on $N=8$ training points for a total of $T=16$
+                    timesteps. 
+                \begin{center}
+                \dmoo{2.75cm}{spacetime-b1-e2-shuf}
+                \end{center}
+                \par
+                    \textbf{A grid for SGD} with $B=1$, $E=2$, $N=8$, $T=16$.
+                    This example, unlike the previous, depicts
+                    inter-epoch shuffling: that is,
+                    the $b$th batch in 
+                    one epoch differs from the $b$th batch in a different epoch.
+            }
+            \end{center}
+          &
             Two grids are relevant to Question \ref{qst:multi}: one for
-            multi-epoch SGD and another for single-epoch SGD --- see Figure
-            \ref{fig:spacetimes-epoch}.
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-b1-e2-nosh}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-b1-e1-nosh}
-                \caption{
-                    \textbf{The grids of single-epoch and of
-                    multi-epoch SGD.}  A cell at row $n$ and column $t$ is
-                    shaded provided that the $n$th training sample inhabits the
-                    $t$th batch.  Both grids depict $N=7$
-                    training points and batch size $B=1$; neither
-                    depicts training-set permutation between epochs.
-                    \newline
-                    \textbf{Left}:
-                        SGD with $M=2$ update per training sample for a total
-                        of $T = MN = 2N$ many updates.
-                    \newline
-                    \textbf{Right}:
-                        SGD with $M=1$ update per training sample for a total
-                        of $T = MN = N$ many updates.
-                }
-                \label{fig:spacetimes-epoch}
-            \end{figure}
-
-        \newpage
-        \subsubsection{Embeddings of diagrams into a grid}
+            multi-epoch sgd and another for single-epoch SGD.  See below.
+            \newline
+            \begin{center}
+            \par\noindent\parbox{0.90\linewidth}{
+                \dmoo{2.75cm}{spacetime-b1-e2-nosh}
+                \hfill
+                \dmoo{2.75cm}{spacetime-b1-e1-nosh}
+                \par
+                    \textbf{Grids for single-epoch and multi-epoch
+                    SGD}. Both grids depict $N=7$ training points
+                    and batch size $B=1$.
+                    %\newline
+                    \textbf{Left}: SGD with $M=2$ update per training
+                    sample for a total of $T = MN = 2N$ many updates.
+                    %\newline
+                    \textbf{Right}: SGD with $M=1$ update per training
+                    sample for a total of $T = MN = N$ many updates.
+            }
+            \end{center}
+        \end{tabular}
+    \end{landscape}
+    \begin{landscape}
+        \subsubsection{Computations: Embeddings of diagrams into a grid}
+        \begin{tabular}{p{0.15\linewidth}p{0.40\linewidth}p{0.40\linewidth}}
+            \textsc{Step}&\textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
+            \hline
+            An \emph{embedding} of a diagram $D$ into a grid is an
+            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
+            the following criteria:
+            %\begin{itemize}
+                \par \indent \textbf{time-ordering condition}: the times $t$ strictly increase 
+                    along each path from leaf to root; and
+                \par \indent \textbf{correlation condition}: if two nodes are in the same
+                    part of $D$'s partition, then they are assigned to the same
+                    datapoint $n$.
+            %\end{itemize}
+                    \par
+            We may conveniently draw embeddings by placing nodes in the shaded
+            cells to which they are assigned.  
+            &
+            &
             There are four two-edged diagrams: 
             $\sdia{c(0-1-2)(02-12)}$,
             $\sdia{c(01-2)(02-12)}$,
             $\sdia{c(0-1-2)(01-12)}$, and
             $\sdia{c(01-2)(01-12)}$.
-            %We permit the diagram $\sdia{c(01-2)(02-12)}$, which violates the
-            %path condition mentioned in \S\ref{sect:calculus}, because we are
-            %no longer restricting to the special case $E=B=1$.
-            %
-            An \emph{embedding} of a diagram $D$ into a grid is an
-            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
-            the following criteria:
-            \begin{itemize}
-                \item \textbf{time-ordering condition}: the times $t$ strictly increase 
-                    along each path from leaf to root; and
-                \item \textbf{correlation condition}: if two nodes are in the same
-                    part of $D$'s partition, then they are assigned to the same
-                    datapoint $n$.
-            \end{itemize}
-
-            We may conveniently draw embeddings by placing nodes in the shaded
-            cells to which they are assigned.  Figure
-            \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
+            The figure below shows some embeddings of order-$1$ and
             order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
             grid relevant to Question \ref{qst:multi}.
-            \begin{figure}[h!] 
-                \centering
-                \dmoo{3.55cm}{spacetime-d}
-                ~~~~~
-                \dmoo{3.55cm}{spacetime-c}
-                \caption{
+            %
+            Specifically, from top to bottom in each grid, the five 
+                diagrams embedded are
+                $\protect\sdia{c(01-2)(01-12)}$ (or $\protect\sdia{c(0-1-2)(01-12)}$), 
+                $\protect\sdia{c(0-1)(01)}$,
+                $\protect\sdia{c(0-1-2)(01-12)}$, 
+                $\protect\sdia{c(0-1-2)(02-12)}$, and 
+                $\protect\sdia{c(01-2)(02-12)}$ (or $\protect\sdia{c(0-1-2)(02-12)}$).
+            The diagram $\protect\sdia{c(0-1-2)(01-12)}$ may be embedded
+            wherever the diagram $\protect\sdia{c(01-2)(01-12)}$ may
+            be embedded, but not vice versa.  Likewise for
+            $\protect\sdia{c(0-1-2)(02-12)}$
+            and
+            $\protect\sdia{c(01-2)(02-12)}$.
+            %
+            \begin{center}\parbox{0.90\linewidth}{
+                \dmoo{2.75cm}{spacetime-d}\hfill\dmoo{2.75cm}{spacetime-c}
+                \par
                     \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
                         into multi-epoch but not single-epoch grid.}
                     Drawn on each of the two grids are examples of embeddings.
                     The black nodes external to the grids are positioned
                     arbitrarily. 
-                    From top to bottom in each grid, the five 
-                        diagrams embedded are
-                        $\protect\sdia{c(01-2)(01-12)}$ (or $\protect\sdia{c(0-1-2)(01-12)}$), 
-                        $\protect\sdia{c(0-1)(01)}$,
-                        $\protect\sdia{c(0-1-2)(01-12)}$, 
-                        $\protect\sdia{c(0-1-2)(02-12)}$, and 
-                        $\protect\sdia{c(01-2)(02-12)}$ (or $\protect\sdia{c(0-1-2)(02-12)}$).
-                    The diagram $\protect\sdia{c(0-1-2)(01-12)}$ may be embedded
-                    wherever the diagram $\protect\sdia{c(01-2)(01-12)}$ may
-                    be embedded, but not vice versa.  Likewise for
-                    $\protect\sdia{c(0-1-2)(02-12)}$
-                    and
-                    $\protect\sdia{c(01-2)(02-12)}$.
                     \textbf{Left}: $\protect\sdia{c(01-2)(01-12)}$
                         embeds into multi-epoch grid.
                     \textbf{Right}: $\protect\sdia{c(01-2)(01-12)}$ cannot
@@ -1771,101 +1818,223 @@
                         the same row and thus the same cell, while the
                         time-ordering condition forces the red nodes into
                         distinct columns and thus distinct cells.
-                }
-                \label{fig:multi-embeddings}
-            \end{figure}
+            }\end{center}
+        \end{tabular}
+    \end{landscape}
 
-        \subsubsection{Values of the embeddings}
+    %\subsection{An example calculation: the effect of epochs}       \label{appendix:example}
 
-            We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
-            are an approximation of the latter, appropriate when $T$ is fixed
-            instead of taken to infinity.  $\uvalue$s have the same asymptotic
-            error as $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s
-            are simpler to calculate, since their numeric values depend only on
-            diagrams, not on embeddings.  So to compute a testing loss, we
-            multiply each diagram's $\uvalue$ by the number of ways that
-            diagram embeds.
+    %    \begin{quest}\label{qst:multi}
+    %        How does multi-epoch SGD differ from single-epoch SGD?
+    %        Specifically, what is the difference between the expected
+    %        testing losses of the following two versions of SGD?
+    %        \begin{itemize}
+    %            \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
+    %                batch size $B=1$
+    %            \item SGD over $T=N$ time steps, learning rate $\eta_0$, and batch size $B=1$
+    %        \end{itemize}
+    %        We seek an answer expressed in terms of the landscape statistics
+    %        at initialization: $G,H,C, \cdots$.
+    %    \end{quest}
+    %    To make our discussion concrete, we will set $M_0=2$; our analysis 
+    %    generalizes directly to larger $M_0$.
 
-            Figure \ref{fig:multi-embeddings} shows us that the diagram
-            $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
-            and single-epoch spacetimes.  More precisely,
-            its multi-epoch embeddings correspond by a $M_0^2:1$ map to
-            its single-epoch embeddings.  Since we scaled the learning rate of
-            the two SGD versions by a factor of $M_0$, and since $2$-edged
-            diagrams such as $\sdia{c(0-1-2)(02-12)}$ scale as $\eta^2$, the
-            total $\uvalue$ of the diagram's multi-epoch embeddings will match
-            the total $\uvalue$ of the diagram's single-epoch embeddings. 
-            %
-            In fact, Figure \ref{fig:multi-embeddings} shows that this
-            cancellation happens for all of the order-$2$ diagrams
-            \emph{except} for $\sdia{c(01-2)(01-12)}$.
-            %
-            Therefore, to second order, the answer to Question \ref{qst:multi}
-            will be (some multiple of) $\uvalue(\sdia{c(01-2)(01-12)})$.
+    %    We scaled the above two versions of SGD deliberately, to create an
+    %    interesting comparison.
+    %    Specifically, on a noiseless
+    %    linear landscape $l_x=l \in (\RR^n)^*$, the versions
+    %    attain equal testing losses, namely $l(\theta_0) - T l_\mu \eta^{\mu\nu}$.
+    %    %
+    %    So Question \ref{qst:multi}'s answer will be second-order (or
+    %    higher-order) in $\eta$.
 
-            To compute $\sdia{c(01-2)(01-12)}$'s value, we follow the rules
-            in Section \ref{sect:calculus}; the edge rule for $\uvalue$s is
-            that each edge becomes an $\eta$.
-            So
-            $$
-                \uvalue(\sdia{c(01-2)(01-12)}) =
-                \expct{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x}
-                \expct{\nabla_\rho l_x}
-                \eta^{\mu\lambda}
-                \eta^{\nu\rho}
-                =
-                (\nabla_\nu C_{\mu\lambda} / 2)
-                G^\rho
-                \eta^{\mu\lambda}
-                \eta^{\nu\rho}
-            $$
+    %    \subsubsection{Grids}
+    %        We take an $N\times T$ grid and shade its cells, shading the
+    %        $(n,t)$th cell when the $t$th update involves the $n$th data point.
+    %        Thus, each column contains $B$ (batch size) many shaded cells and
+    %        each row contains $E$ (epoch number) many shaded cells.
+    %        This is SGD's \textbf{grid}.
+    %        Two grids are relevant to Question \ref{qst:multi}: one for
+    %        multi-epoch SGD and another for single-epoch SGD --- see Figure
+    %        \ref{fig:spacetimes-epoch}.
+    %        \begin{figure}[h!] 
+    %            \centering
+    %            \dmoo{3.55cm}{spacetime-b1-e2-nosh}
+    %            ~~~~~
+    %            \dmoo{3.55cm}{spacetime-b1-e1-nosh}
+    %            \caption{
+    %                \textbf{The grids of single-epoch and of
+    %                multi-epoch SGD.}  A cell at row $n$ and column $t$ is
+    %                shaded provided that the $n$th training sample inhabits the
+    %                $t$th batch.  Both grids depict $N=7$
+    %                training points and batch size $B=1$; neither
+    %                depicts training-set permutation between epochs.
+    %                \newline
+    %                \textbf{Left}:
+    %                    SGD with $M=2$ update per training sample for a total
+    %                    of $T = MN = 2N$ many updates.
+    %                \newline
+    %                \textbf{Right}:
+    %                    SGD with $M=1$ update per training sample for a total
+    %                    of $T = MN = N$ many updates.
+    %            }
+    %            \label{fig:spacetimes-epoch}
+    %        \end{figure}
 
-        \subsubsection{Sum of the values}
+    %    \newpage
+    %    \subsubsection{Embeddings of diagrams into a grid}
+    %        There are four two-edged diagrams: 
+    %        $\sdia{c(0-1-2)(02-12)}$,
+    %        $\sdia{c(01-2)(02-12)}$,
+    %        $\sdia{c(0-1-2)(01-12)}$, and
+    %        $\sdia{c(01-2)(01-12)}$.
+    %        %We permit the diagram $\sdia{c(01-2)(02-12)}$, which violates the
+    %        %path condition mentioned in \S\ref{sect:calculus}, because we are
+    %        %no longer restricting to the special case $E=B=1$.
+    %        %
+    %        An \emph{embedding} of a diagram $D$ into a grid is an
+    %        assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
+    %        the following criteria:
+    %        \begin{itemize}
+    %            \item \textbf{time-ordering condition}: the times $t$ strictly increase 
+    %                along each path from leaf to root; and
+    %            \item \textbf{correlation condition}: if two nodes are in the same
+    %                part of $D$'s partition, then they are assigned to the same
+    %                datapoint $n$.
+    %        \end{itemize}
 
-            Referring again to Figure \ref{fig:multi-embeddings}, we see that
-            $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
-            into the multi-epoch grid (one embedding per pair
-            of distinct epochs, per row) --- and no embeddings into the 
-            single-epoch grid.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
-            has $\wabs{\Aut_f(D)}= 1$.  Now we plug into the overall formula
-            for testing loss: 
-            \begin{equation*}
-                \sum_{\substack{D~\text{a} \\ \text{diagram}}}
-                ~
-                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
-                ~
-                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
-                \,
-                {\uvalue}(D)
-            \end{equation*}
-            We conclude that the testing loss of $M=M_0$ SGD exceeds the testing loss
-            of $M=1$ SGD by this much:
-            $$
-                {M_0 \choose 2} \, N \cdot
-                \frac{(-1)^2}{1} \cdot
-                (\nabla_\nu C_{\mu\lambda} / 2)
-                G^\rho
-                \eta^{\mu\lambda}
-                \eta^{\nu\rho}
-                + o(\eta^2)
-            $$
-            Since Question \ref{qst:multi} defines $\eta^2 = \eta_0^2/M_0^2$,
-            we can rewrite our answer as:
-            $$
-                l(\theta_{M=M_0,\eta=\eta_0/M_0}) - l(\theta_{M=1,\eta=\eta_0})
-                =
-                \frac{M_0-1}{4 M_0} N \cdot
-                G^\nu (\nabla_\nu C_\mu^\mu)
-                + o(\eta_0^2)
-            $$
-            where we use $\eta_0$ to raise indices.
-            This completes the example problem.
+    %        We may conveniently draw embeddings by placing nodes in the shaded
+    %        cells to which they are assigned.  Figure
+    %        \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
+    %        order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
+    %        grid relevant to Question \ref{qst:multi}.
+    %        \begin{figure}[h!] 
+    %            \centering
+    %            \dmoo{3.55cm}{spacetime-d}
+    %            ~~~~~
+    %            \dmoo{3.55cm}{spacetime-c}
+    %            \caption{
+    %                \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
+    %                    into multi-epoch but not single-epoch grid.}
+    %                Drawn on each of the two grids are examples of embeddings.
+    %                The black nodes external to the grids are positioned
+    %                arbitrarily. 
+    %                From top to bottom in each grid, the five 
+    %                    diagrams embedded are
+    %                    $\protect\sdia{c(01-2)(01-12)}$ (or $\protect\sdia{c(0-1-2)(01-12)}$), 
+    %                    $\protect\sdia{c(0-1)(01)}$,
+    %                    $\protect\sdia{c(0-1-2)(01-12)}$, 
+    %                    $\protect\sdia{c(0-1-2)(02-12)}$, and 
+    %                    $\protect\sdia{c(01-2)(02-12)}$ (or $\protect\sdia{c(0-1-2)(02-12)}$).
+    %                The diagram $\protect\sdia{c(0-1-2)(01-12)}$ may be embedded
+    %                wherever the diagram $\protect\sdia{c(01-2)(01-12)}$ may
+    %                be embedded, but not vice versa.  Likewise for
+    %                $\protect\sdia{c(0-1-2)(02-12)}$
+    %                and
+    %                $\protect\sdia{c(01-2)(02-12)}$.
+    %                \textbf{Left}: $\protect\sdia{c(01-2)(01-12)}$
+    %                    embeds into multi-epoch grid.
+    %                \textbf{Right}: $\protect\sdia{c(01-2)(01-12)}$ cannot
+    %                    embed into single-epoch grid.  Indeed, 
+    %                    the correlation condition forces both red nodes into 
+    %                    the same row and thus the same cell, while the
+    %                    time-ordering condition forces the red nodes into
+    %                    distinct columns and thus distinct cells.
+    %            }
+    %            \label{fig:multi-embeddings}
+    %        \end{figure}
 
-            \begin{rmk*}
-                An essentially similar
-                argument proves Corollary \ref{cor:epochs}.
-                \mend
-            \end{rmk*}
+    %    \subsubsection{Values of the embeddings}
+
+    %        We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
+    %        are an approximation of the latter, appropriate when $T$ is fixed
+    %        instead of taken to infinity.  $\uvalue$s have the same asymptotic
+    %        error as $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s
+    %        are simpler to calculate, since their numeric values depend only on
+    %        diagrams, not on embeddings.  So to compute a testing loss, we
+    %        multiply each diagram's $\uvalue$ by the number of ways that
+    %        diagram embeds.
+
+    %        Figure \ref{fig:multi-embeddings} shows us that the diagram
+    %        $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
+    %        and single-epoch spacetimes.  More precisely,
+    %        its multi-epoch embeddings correspond by a $M_0^2:1$ map to
+    %        its single-epoch embeddings.  Since we scaled the learning rate of
+    %        the two SGD versions by a factor of $M_0$, and since $2$-edged
+    %        diagrams such as $\sdia{c(0-1-2)(02-12)}$ scale as $\eta^2$, the
+    %        total $\uvalue$ of the diagram's multi-epoch embeddings will match
+    %        the total $\uvalue$ of the diagram's single-epoch embeddings. 
+    %        %
+    %        In fact, Figure \ref{fig:multi-embeddings} shows that this
+    %        cancellation happens for all of the order-$2$ diagrams
+    %        \emph{except} for $\sdia{c(01-2)(01-12)}$.
+    %        %
+    %        Therefore, to second order, the answer to Question \ref{qst:multi}
+    %        will be (some multiple of) $\uvalue(\sdia{c(01-2)(01-12)})$.
+
+    %        To compute $\sdia{c(01-2)(01-12)}$'s value, we follow the rules
+    %        in Section \ref{sect:calculus}; the edge rule for $\uvalue$s is
+    %        that each edge becomes an $\eta$.
+    %        So
+    %        $$
+    %            \uvalue(\sdia{c(01-2)(01-12)}) =
+    %            \expct{\nabla_\mu l_x \nabla_\nu \nabla_\lambda l_x}
+    %            \expct{\nabla_\rho l_x}
+    %            \eta^{\mu\lambda}
+    %            \eta^{\nu\rho}
+    %            =
+    %            (\nabla_\nu C_{\mu\lambda} / 2)
+    %            G^\rho
+    %            \eta^{\mu\lambda}
+    %            \eta^{\nu\rho}
+    %        $$
+
+    %    \subsubsection{Sum of the values}
+
+    %        Referring again to Figure \ref{fig:multi-embeddings}, we see that
+    %        $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
+    %        into the multi-epoch grid (one embedding per pair
+    %        of distinct epochs, per row) --- and no embeddings into the 
+    %        single-epoch grid.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
+    %        has $\wabs{\Aut_f(D)}= 1$.  Now we plug into the overall formula
+    %        for testing loss: 
+    %        \begin{equation*}
+    %            \sum_{\substack{D~\text{a} \\ \text{diagram}}}
+    %            ~
+    %            \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+    %            ~
+    %            \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+    %            \,
+    %            {\uvalue}(D)
+    %        \end{equation*}
+    %        We conclude that the testing loss of $M=M_0$ SGD exceeds the testing loss
+    %        of $M=1$ SGD by this much:
+    %        $$
+    %            {M_0 \choose 2} \, N \cdot
+    %            \frac{(-1)^2}{1} \cdot
+    %            (\nabla_\nu C_{\mu\lambda} / 2)
+    %            G^\rho
+    %            \eta^{\mu\lambda}
+    %            \eta^{\nu\rho}
+    %            + o(\eta^2)
+    %        $$
+    %        Since Question \ref{qst:multi} defines $\eta^2 = \eta_0^2/M_0^2$,
+    %        we can rewrite our answer as:
+    %        $$
+    %            l(\theta_{M=M_0,\eta=\eta_0/M_0}) - l(\theta_{M=1,\eta=\eta_0})
+    %            =
+    %            \frac{M_0-1}{4 M_0} N \cdot
+    %            G^\nu (\nabla_\nu C_\mu^\mu)
+    %            + o(\eta_0^2)
+    %        $$
+    %        where we use $\eta_0$ to raise indices.
+    %        This completes the example problem.
+
+    %        \begin{rmk*}
+    %            An essentially similar
+    %            argument proves Corollary \ref{cor:epochs}.
+    %            \mend
+    %        \end{rmk*}
 
     \vfill
     \subsection{How to identify the relevant grid}            \label{appendix:draw-spacetime}
