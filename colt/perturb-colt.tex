@@ -346,10 +346,10 @@
                 Throughout, colors help us refer to parts of diagrams; they
                 lack mathematical meaning.
             }
-                \vspace{-0.40cm}
+                \vspace{-0.35cm}
             $$
                 \mdia{MOOc(01-2-3-4)(04-13-23-34)}
-                \vspace{-0.60cm}
+                \vspace{-0.50cm}
             $$
             is shown on the right.
             %We depict these processes with diagrams such as
@@ -500,9 +500,14 @@
             For example, our framework allows us to assess how gradient noise's
             non-Gaussianity affects the final testing loss.
             \S\ref{sect:diagrams} details how evaluation of a
-            \emph{single diagram} ($\sdia{c(012-3)(03-13-23)}$) gives the
-            leading order result (Corollary \ref{cor:vsode}), for concision
-            quoted here assuming isotropic curvature ($\eta H \propto I$): 
+            \emph{single diagram}
+                \vspace{-0.15cm}
+            $$
+                \sdia{c(012-3)(03-13-23)}
+                \vspace{-0.45cm}
+            $$
+            gives the leading order result (Corollary \ref{cor:vsode}), quoted
+            here assuming isotropic curvature ($\eta H \propto I$): 
             \begin{prop}\label{prop:splash}
                 If we initialize near an non-degenerate minimum of $l$, then in
                 the large-$T$ limit, the skewness $S$ of gradient noise
@@ -575,24 +580,23 @@
             terms, and the results' \emph{polynomial} dependence on $T$.
 
             By \textbf{transparency}, we mean that to first order the $t$th
-            update contributes the same amount to $\theta_T$ no matter how much
-            $T$ exceeds $t$ (transparency appears above in the constancy of
-            \colorbox{moolime}{$- \eta \nabla l_{T^\pr}(\theta_0)$} with
-            respect to $\theta_t$ for $t>0$). 
+            update contributes the same amount (namely, $-\eta \expc[\nabla
+            l_{t}(\theta_0)]$) in expectation to
+            $\theta_T$ no matter by how much $T$ exceeds $t$ (indeed, in the
+            above, \colorbox{moolime}{$- \eta \nabla l_{T^\pr}(\theta_0)$} is
+            constant with respect to $\theta_t$ for $t>0$). 
             %
             Consequently, we may imagine each update as independently affecting
             the final test loss.  
             %
-            This independence may be surprising, especially because it is
-            false: SGD on a bounded landscape does not descend indefinitely at
-            a constant rate.  We thus wish to account for the landscape's
-            curvature and hence to expand to higher order.
+            This independence may be surprising, for it fails when we expand to
+            higher order and hence account for curvature: SGD on a bounded
+            landscape does not descend indefinitely at a constant rate. 
             %
-            Still, even for higher orders $d$ of expansion, there is an
+            Still, for higher orders $d$ of expansion there is an
             analogue of independence that finds precise expression in Theorem
             \ref{thm:resum}.  The intuition that arises is that of many
-            independent processes occuring, each blind to all but $d$
-            updates.
+            independent processes occuring, each blind to all but $d$ updates.
 
             Expanding to higher order, we encounter an \textbf{explosion} of
             terms.  To order $\eta^2$, for instance, we may not
@@ -632,9 +636,11 @@
             achieve this result by cancelling the aforementioned polynomial
             divergences at each order with higher order terms.  We perform this
             \textbf{resummation} without omission or redundancy so
-            that absolute convergence ensures consistency.  Intuitively, 
-            resummation replaces ``\emph{transparency}'' by
-            ``\emph{translucence}'': a term that involves updates
+            that absolute convergence ensures consistency with the un-resummed
+            result.  What we find is that 
+            %resummation replaces ``\emph{transparency}'' by
+            %``\emph{translucence}'':
+            a term that involves updates
             separated in time decays exponentially in the separation.
 
         \subsection{Diagrams arise from Taylor series and depict information-flow processes}\label{sect:diagrams}
@@ -786,15 +792,15 @@
                 -T \cdot G_\mu G^\mu 
             $$
 
-            Specifically, we count \emph{embeddings}, defined with respect to
-            given SGD hyperparameters $N,E,B$.\footnote{
+            Specifically, we count \emph{embeddings}, defined below with
+            respect to given SGD hyperparameters $N,E,B$.\footnote{
                 and w.r.t.\ a deterministic algorithm for sampling the
                 $t$th batch.  One may later take expectations over such
                 algorithms.
             }
             This enables us to restate (\ref{eq:dyson}) into what intuitively
             is a ``sum over histories'', where each history is a concrete
-            instantiation of the abstract process represented by a diagram. 
+            instantiation of the abstract process represented by a diagram: 
             \begin{dfn}
                 An \textbf{embedding} of a diagram is an assignment of non-root
                 nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
@@ -909,6 +915,7 @@
                 \textbf{linkless} diagram.
             \end{dfn}
 
+            \noindent
             More specifically, the \textbf{rvalue} of an embedded diagram is
             defined as the $\uvalue$ except that pairs of tensor indices are
             not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
@@ -1031,8 +1038,8 @@
                 SGD's to order $\eta^2$.  We call this method GDC.
             \end{cor}
             \noindent
-            \cite{ro19} obtained a version of this with a nearly equal error of
-            $O(\eta^2/N)\vee o(\eta^2)$
+            \cite{ro19} obtained a version of this Corollary with a nearly
+            equal error of $O(\eta^2/N)\vee o(\eta^2)$
 
             An analogous form of averaging occurs over multiple epochs.  For a
             tight comparison, we scale the learning rates appropriately so
@@ -1261,14 +1268,16 @@
                     {\bf Experiments on natural and artificial landscapes.}
                     \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
                     predictions, approximated as in Remark \ref{rmk:integrate}.
-                    \texttt{uvalue} indicates polynomial approximations
-                    to Theorem \ref{thm:resum}'s result (see
-                    \S\ref{appendix:sum-embeddings}).  \texttt{uvalue}s are
-                    simpler to work with but (see\protect\ofsix{4}) may be
+                    %\texttt{uvalue} indicates polynomial approximations
+                    %to Theorem \ref{thm:resum}'s result (see
+                    %\S\ref{appendix:sum-embeddings}).
+                    \texttt{uvalue}s are
+                    simpler but (see\protect\ofsix{4})
                     less accurate.
                     %%%
                     %%%
-                    \newline {\bf Left: Perturbation models SGD for small $\eta
+                    \newline
+                    {\bf Left: Perturbation models SGD for small $\eta
                     T$.} Fashion-MNIST convnet's testing loss vs learning rate.
                     In this small $T$ setting, we choose to use our theory's
                     simpler un-resummed values
@@ -1287,7 +1296,8 @@
                     coincidental.  
                     %%%
                     %%%
-                    \newline {\bf Center: $C$ controls generalization gap.}%.and distinguishes GD from SGD.}
+                    \newline
+                    {\bf Center: $C$ controls generalization gap.}%.and distinguishes GD from SGD.}
                     %
                     With equal-scaled axes, \protect\ofsix{2} shows that GDC
                     matches SGD (small vertical variance) better than GD
@@ -1302,9 +1312,10 @@
                     5\cdot 10^{-1}$.
                     %%%
                     %%%
-                    \newline {\bf Right: Predictions near minima excel for
+                    \newline
+                    {\bf Right: Predictions near minima excel for
                     large $\eta T$.} \protect\ofsix{4}: SGD traverses \Helix'
-                    valley of global minima.%in the positive $z$ direction.
+                    valley of global minima. %in the positive $z$ direction.
                     Note: $H$ and $C$ are bounded across the valley, we see
                     drift for all small $\eta$, and we see displacement
                     exceeding the landscape's period of $2\pi$.  So: the drift
@@ -1327,19 +1338,19 @@
         \subsection{Minima that are flat \emph{with respect to} $C$ attract SGD}
             %
             \label{subsect:entropic}
-            To test the claimed dependence on $C$, \S\ref{appendix:artificial}
-            constructs a landscape, \Helix on whose valley of global minima $C$
-            varies.  Figure \ref{fig:archimedes} depicts \Helix' chiral
-            shape.\footnote{
+            To test Corollary \ref{cor:entropic}'s $C$-dependence,
+            \S\ref{appendix:artificial} constructs a landscape, \Helix, on
+            whose valley of global minima $C$ varies.  Figure
+            \ref{fig:archimedes} depicts \Helix.\footnote{
                 Thanks to Paul Seeburger's online applet,
                 \href{https://www.monroecc.edu/faculty/paulseeburger/calcnsf/CalcPlot3D/}{CalcPlot3D}.
             }  As in Rock-Paper-Scissors, each point $\theta$ has a neighbor
             that is more attractive (flatter) with respect to $C(\theta)$.
             This permits eternal motion into the page despite the landscape's
-            discrete translation symmetry in that direction.  We may wrap \Helix\ 
-            in a loop to make SGD perpetually
-            circulate and in particular to witness a non-conservative velocity
-            field (\S\ref{appendix:artificial}).
+            discrete translation symmetry in that direction.  In
+            \S\ref{appendix:artificial}, we wrap \Helix\ in a loop to make SGD
+            perpetually circulate and thus to witness a
+            non-conservative velocity field.
 
             More precisely, Corollary \ref{cor:entropic} predicts 
             a velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
@@ -1490,9 +1501,10 @@
             \citep{zh17}, so generalization must arise from not only
             architecture but also optimization \citep{ne17b}.  
 
-            Some analyses of optimization's implicit regularization use an SDE
-            approximation (e.g.\ \cite{ch18}), but, per \cite{ya19a}, such
-            continuous-time analyses treat SGD noise incorrectly.
+            Some analyses of optimization's implicit regularization use a Langevin dynamics or
+            SDE approximation (e.g.\ \cite{ch18}), but, per \cite{ya19a}, such
+            continuous-time or uncorrelated-noise analyses treat SGD noise
+            incorrectly.
             %
             %--  we extend dan's approach  ------------------------------------
             %
@@ -1583,13 +1595,13 @@
         {\bf
         \par\noindent A ~ Tutorial: how to use diagrams}                        \hfill {\bf page \pageref{appendix:tutorial}}
         \par\indent     A.1 ~~ An example calculation: the effect of epochs     \hfill \pageref{appendix:example}
-        \par\indent     A.2 ~~ How to identify the relevant space-time          \hfill \pageref{appendix:draw-spacetime} 
+        \par\indent     A.2 ~~ How to identify the relevant grid                \hfill \pageref{appendix:draw-spacetime} 
         \par\indent     A.3 ~~ How to identify the relevant diagram embeddings  \hfill \pageref{appendix:draw-embeddings}
         \par\indent     A.4 ~~ How to evaluate each embedding                   \hfill \pageref{appendix:evaluate-embeddings}
         \par\indent     A.5 ~~ How to sum the embeddings' values                \hfill \pageref{appendix:sum-embeddings}
-        \par\indent     A.6 ~~ Interpreting diagrams intuitively                \hfill \pageref{appendix:interpret-diagrams}
-        \par\indent     A.7 ~~ How to solve variant problems                    \hfill \pageref{appendix:solve-variants}
-        \par\indent     A.8 ~~ Do diagrams streamline computation?              \hfill \pageref{appendix:diagrams-streamline}
+        %\par\indent     A.6 ~~ Interpreting diagrams intuitively                \hfill \pageref{appendix:interpret-diagrams}
+        \par\indent     A.6 ~~ How to solve variant problems                    \hfill \pageref{appendix:solve-variants}
+        \par\indent     A.7 ~~ Do diagrams streamline computation?              \hfill \pageref{appendix:diagrams-streamline}
     
         {\bf
         \par\noindent B ~ Mathematics of the theory}                            \hfill {\bf page \pageref{appendix:math}}
@@ -1616,16 +1628,16 @@
     This paper presents a new technique for calculating the expected learning
     curves of SGD in terms of statistics of the loss landscape near
     initialization.  Here, we explain this technique.
-    %New combinatorial objects --- \emph{space-time grids} --- arise as we
+    %New combinatorial objects --- \emph{grids} --- arise as we
     %relax the paper body's assumption that $E=B=1$.  This, too, we will
     %explain.
     There are are {\bf four steps} to computing the expected testing loss, or
     other quantities of interest, after a specific number of gradient updates: 
     \begin{itemize}
-        \item {\bf Specify, as a space-time grid}, the batch size, training set
+        \item {\bf Specify, as a grid}, the batch size, training set
             size, and number of epochs. 
         \item {\bf Draw embeddings}, of diagrams into the
-            space-time grid, as needed for the desired precision.
+            grid, as needed for the desired precision.
         \item {\bf Evaluate each diagram embedding}, whether exactly
             (via $\rvalue$s)
             or roughly
@@ -1667,13 +1679,13 @@
         So Question \ref{qst:multi}'s answer will be second-order (or
         higher-order) in $\eta$.
 
-        \subsubsection{Space-time grids}
+        \subsubsection{Grids}
             We take an $N\times T$ grid and shade its cells, shading the
             $(n,t)$th cell when the $t$th update involves the $n$th data point.
             Thus, each column contains $B$ (batch size) many shaded cells and
-            that each row contains $E$ (epoch number) many shaded cells.
-            The shaded grid is SGD's \emph{space-time}.
-            Two space-times are relevant to Question \ref{qst:multi}: one for
+            each row contains $E$ (epoch number) many shaded cells.
+            This is SGD's \textbf{grid}.
+            Two grids are relevant to Question \ref{qst:multi}: one for
             multi-epoch SGD and another for single-epoch SGD --- see Figure
             \ref{fig:spacetimes-epoch}.
             \begin{figure}[h!] 
@@ -1682,7 +1694,7 @@
                 ~~~~~
                 \dmoo{3.55cm}{spacetime-b1-e1-nosh}
                 \caption{
-                    \textbf{The space-time grids of single-epoch and of
+                    \textbf{The grids of single-epoch and of
                     multi-epoch SGD.}  A cell at row $n$ and column $t$ is
                     shaded provided that the $n$th training sample inhabits the
                     $t$th batch.  Both grids depict $N=7$
@@ -1701,19 +1713,19 @@
             \end{figure}
 
         \newpage
-        \subsubsection{Embeddings of diagrams into space-time}
+        \subsubsection{Embeddings of diagrams into a grid}
             There are four two-edged diagrams: 
             $\sdia{c(0-1-2)(02-12)}$,
             $\sdia{c(01-2)(02-12)}$,
             $\sdia{c(0-1-2)(01-12)}$, and
             $\sdia{c(01-2)(01-12)}$.
-            We permit the diagram $\sdia{c(01-2)(02-12)}$, which violates the
-            path condition mentioned in \S\ref{sect:calculus}, because we are
-            no longer restricting to the special case $E=B=1$.
+            %We permit the diagram $\sdia{c(01-2)(02-12)}$, which violates the
+            %path condition mentioned in \S\ref{sect:calculus}, because we are
+            %no longer restricting to the special case $E=B=1$.
             %
-            An \emph{embedding} of a diagram $D$ into a space-time grid is an
-            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
-            obeys the following two criteria:
+            An \emph{embedding} of a diagram $D$ into a grid is an
+            assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
+            the following criteria:
             \begin{itemize}
                 \item \textbf{time-ordering condition}: the times $t$ strictly increase 
                     along each path from leaf to root; and
@@ -1726,7 +1738,7 @@
             cells to which they are assigned.  Figure
             \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
             order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
-            space-times relevant to Question \ref{qst:multi}.
+            grid relevant to Question \ref{qst:multi}.
             \begin{figure}[h!] 
                 \centering
                 \dmoo{3.55cm}{spacetime-d}
@@ -1734,7 +1746,7 @@
                 \dmoo{3.55cm}{spacetime-c}
                 \caption{
                     \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
-                        into multi-epoch but not single-epoch space-time.}
+                        into multi-epoch but not single-epoch grid.}
                     Drawn on each of the two grids are examples of embeddings.
                     The black nodes external to the grids are positioned
                     arbitrarily. 
@@ -1752,9 +1764,9 @@
                     and
                     $\protect\sdia{c(01-2)(02-12)}$.
                     \textbf{Left}: $\protect\sdia{c(01-2)(01-12)}$
-                        embeds into multi-epoch space-time. 
+                        embeds into multi-epoch grid.
                     \textbf{Right}: $\protect\sdia{c(01-2)(01-12)}$ cannot
-                        embed into single-epoch space-time.  Indeed, 
+                        embed into single-epoch grid.  Indeed, 
                         the correlation condition forces both red nodes into 
                         the same row and thus the same cell, while the
                         time-ordering condition forces the red nodes into
@@ -1770,8 +1782,8 @@
             instead of taken to infinity.  $\uvalue$s have the same asymptotic
             error as $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s
             are simpler to calculate, since their numeric values depend only on
-            diagrams, not on embeddings.  So to compute a testing loss, we will we
-            will multiply each diagram's $\uvalue$ by the number of ways that
+            diagrams, not on embeddings.  So to compute a testing loss, we
+            multiply each diagram's $\uvalue$ by the number of ways that
             diagram embeds.
 
             Figure \ref{fig:multi-embeddings} shows us that the diagram
@@ -1812,9 +1824,9 @@
 
             Referring again to Figure \ref{fig:multi-embeddings}, we see that
             $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
-            into the multi-epoch space-time (one embedding per pair
+            into the multi-epoch grid (one embedding per pair
             of distinct epochs, per row) --- and no embeddings into the 
-            single-epoch space-time.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
+            single-epoch grid.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
             has $\wabs{\Aut_f(D)}= 1$.  Now we plug into the overall formula
             for testing loss: 
             \begin{equation*}
@@ -1856,7 +1868,7 @@
             \end{rmk*}
 
     \vfill
-    \subsection{How to identify the relevant space-time}            \label{appendix:draw-spacetime}
+    \subsection{How to identify the relevant grid}            \label{appendix:draw-spacetime}
 
         Diagrams tell us about the loss landscape but not about
         SGD's batch size, number of epochs, and training set size
@@ -1865,8 +1877,8 @@
         update.  For instance, full-batch GD has $NT$ many pairs, and
         singeleton-batch SGD has $T$ many pairs.  We will draw these
         $(n,t)$ pairs as shaded cells in an $N\times T$ grid; we will call
-        the shaded grid the SGD's \emph{space-time grid} or
-        \emph{space-time}.  See Figure \ref{fig:spacetimes}.  
+        the shaded grid the SGD's \textbf{grid}.  See Figure
+        \ref{fig:spacetimes}.  
 
         \begin{figure}[h!] 
             \centering
@@ -1874,7 +1886,7 @@
             ~~~~~
             \dmoo{3.55cm}{spacetime-b2-e4-nosh}
             \caption{
-                \textbf{The space-time grids of two SGD variants.}
+                \textbf{The grids of two SGD variants.}
                 Shaded cells show $(n,t)$ pairs (see text).
                 \newline
                 \textbf{Left}: Two epoch SGD with batch size one.
@@ -1893,11 +1905,11 @@
         $E$ shaded cells per row.
         
         \begin{rmk*}
-            A space-time grid also depicts the shuffling of training sets
+            A grid also depicts the shuffling of training sets
             between epochs.  Since each grid commits to a concrete sequence
             of training set permutations, we may analyze SGD with
             randomized permutations by taking expectations over multiple
-            space-time grids.  However, all of the corollaries in this text
+            grids.  However, all of the corollaries in this text
             are invariant to inter-epoch training set permutations, so we
             will not focus on this point.\footnote{A routine check shows
             that for fixed $T$, inter-epoch shuffling yields only an
@@ -1932,7 +1944,7 @@
         $\sdia{c(0-1-2)(02-12)}, \sdia{c(0-1-2-3)(01-13-23)}, \cdots$
         is linkless.
 
-        An \emph{embedding} of a diagram $D$ into a space-time grid is an
+        An \emph{embedding} of a diagram $D$ into a grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
         obeys the following two criteria:
         \begin{itemize}
@@ -1990,18 +2002,18 @@
         In sum, when using the diagram method to analyze how a quantity affects
         SGD to order $o(\eta^d)$, we must consider all diagrams with $d$ or
         fewer edges that include that quantity as a component and that have a
-        non-zero number of embeddings into the relevant space-time.  If we
+        non-zero number of embeddings into the relevant grid.  If we
         are using $\rvalue$s (see next section for discussion of $\rvalue$s and
         $\uvalue$s), then we consider only the linkless diagrams.  For each
         diagram, we must enumerate the embeddings, i.e. the assignments of the
-        diagram's nodes to space-time cells that obey both the time-ordering
+        diagram's nodes to grid cells that obey both the time-ordering
         condition and correlation condition.
 
         Here are some further examples.  Table \ref{tab:scatthree} shows the
-        $6$ diagrams that may embed into the space-time grid of $E=B=1$.  It
+        $6$ diagrams that may embed into the grid of $E=B=1$.  It
         shows each diagram in multiple ways to underscore that diagrams are
         purely topological and to suggest the ways in which these diagrams may
-        embed into space-time.
+        embed into a grid.
         \begin{table}[h!]
             \centering 
             %\resizebox{\columnwidth}{!}{%
@@ -2043,7 +2055,7 @@
             \caption{
                 \textbf{Multiple ways to draw the $6$ distinct degree-$3$
                 diagrams for $B=E=1$ SGD's testing loss.}
-                Because the space-time of $B=E=1$ SGD has only one cell per row
+                Because the grid of $B=E=1$ SGD has only one cell per row
                 and one cell per column, the only diagrams that have a non-zero
                 number of embeddings are the diagrams that obey
                 \S\ref{sect:calculus}'s path condition. 
@@ -2274,7 +2286,7 @@
 
         \begin{exm}
             Let us return to $D=\mdia{c(01-2)(02-12)}$, embedded, say, in the
-            space-time of one-epoch one-sample-per-batch SGD.
+            grid of  one-epoch one-sample-per-batch SGD.
             From Example \ref{exm:resum}, we know that we want to sum the 
             following value over all embeddings $f$, i.e. over all $0\leq t<T$
             to which the red part of the diagram's partition may be assigned:
@@ -2346,48 +2358,48 @@
         edge involved in the relevant degrees of freedom over which we
         integrate).  As another example, see Example \ref{exm:first}.
 
-    \subsection{Interpreting diagrams intuitively}                  \label{appendix:interpret-diagrams}
+    %\subsection{Interpreting diagrams intuitively}                  \label{appendix:interpret-diagrams}
 
-        We may intuitively interpret edges as carrying influence from the
-        training set toward the test measurement.  See Figure
-        \ref{fig:intuition}.  From this perspective, we may intuitively
-        interpret edges in an $\rvalue$ calculation as carrying influence from
-        the training set toward the test measurement.  See Figure
-        \ref{fig:intuition}.
+    %    We may intuitively interpret edges as carrying influence from the
+    %    training set toward the test measurement.  See Figure
+    %    \ref{fig:intuition}.  From this perspective, we may intuitively
+    %    interpret edges in an $\rvalue$ calculation as carrying influence from
+    %    the training set toward the test measurement.  See Figure
+    %    \ref{fig:intuition}.
 
-        \begin{figure}[h!] 
-            \centering  
-            \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
-            \caption{
-                \textbf{Edges carry information}.
-                Embedding of a $4$-edged diagram.
-            }
-            \label{fig:intuition}
-        \end{figure}
+    %    \begin{figure}[h!] 
+    %        \centering  
+    %        \plotmooh{diagrams/spacetime-f}{}{0.26\columnwidth}
+    %        \caption{
+    %            \textbf{Edges carry information}.
+    %            Embedding of a $4$-edged diagram.
+    %        }
+    %        \label{fig:intuition}
+    %    \end{figure}
 
 
-        \begin{figure}[h!] 
-            \centering  
-            \dmoo{3cm}{spacetime-g}
-            \dmoo{3cm}{spacetime-h}
-            \caption{
-                \textbf{Resummation propagates information, damped by
-                curvature}.  Each resummed valuerepresents many un-resummed
-                values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
-                in a different way.
-                \textbf{Left}: Here is one of many un-resummed terms captured by
-                a single resummed embedding for $\sdia{c(0-1)(01)}$.
-                \textbf{Left}: each resummed value represents many un-resummed
-                values.  Here is one of many un-resummed terms captured by
-                a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
-            }
-            \label{fig:intuition}
-        \end{figure}
+    %    \begin{figure}[h!] 
+    %        \centering  
+    %        \dmoo{3cm}{spacetime-g}
+    %        \dmoo{3cm}{spacetime-h}
+    %        \caption{
+    %            \textbf{Resummation propagates information, damped by
+    %            curvature}.  Each resummed valuerepresents many un-resummed
+    %            values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
+    %            in a different way.
+    %            \textbf{Left}: Here is one of many un-resummed terms captured by
+    %            a single resummed embedding for $\sdia{c(0-1)(01)}$.
+    %            \textbf{Left}: each resummed value represents many un-resummed
+    %            values.  Here is one of many un-resummed terms captured by
+    %            a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
+    %        }
+    %        \label{fig:intuition}
+    %    \end{figure}
 
-    %        \subsubsection{Chladni effect}
-    %(\S\ref{appendix:interpret-diagrams})
-    %            {\color{red} Make sure to also discuss Chladni effect
-    %            \cite{ch87}!!!}
+    %%        \subsubsection{Chladni effect}
+    %%(\S\ref{appendix:interpret-diagrams})
+    %%            {\color{red} Make sure to also discuss Chladni effect
+    %%            \cite{ch87}!!!}
 
     \subsection{How to solve variant problems}                      \label{appendix:solve-variants}
         In \S\ref{appendix:future}, we briefly discuss second-order methods
@@ -2784,10 +2796,12 @@
         some continuous function of $\theta$.\footnote{
             Some of our experiments involve Gaussian noise, which is not
             bounded and so violates the hypothesis.  In practice, Gaussians are
-            effectively bounded, on the one hand in that with high
-            probability no standard normal sample encountered on Gigahertz
-            hardware within the age of the universe will much exceed $\sqrt{2
-            \log(10^{30})} \approx 12$, and on the other hand in that
+            effectively bounded
+            %, on the one hand in that with high
+            %probability no standard normal sample encountered on Gigahertz
+            %hardware within the age of the universe will much exceed $\sqrt{2
+            %\log(10^{30})} \approx 12$, and on the other hand
+            in that
             our predictions vary smoothly with the first few moments of this
             distribution, so that a $\pm 12$-clipped Gaussian will yield almost
             the same predictions.
@@ -2818,8 +2832,8 @@
             be multiple ways to draw a single diagram, e.g.
             $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
         \end{dfn}
-        \begin{dfn}[Embedding a Diagram into Spacetime]
-            An embedding of a diagram into a spacetime is an assignment of that
+        \begin{dfn}[Embedding a Diagram into a Grid]
+            An embedding of a diagram into a grid is an assignment of that
             diagram's non-root nodes to pairs $(n,t)$ such that each node
             occurs at a time $t^\prime$ strictly after each of its children and
             such that two nodes occupy the same row $n$ if they
@@ -2989,7 +3003,7 @@
                 \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
             \end{equation*}
             Here, $D$ is a diagram whose root $r$ does not participate in
-            any fuzzy edge, $f$ is an embedding of $D$ into spacetime, and
+            any fuzzy edge, $f$ is an embedding of $D$ into a grid, and
             $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
             preserve $f$'s assignment of nodes to cells.
             %
@@ -3001,8 +3015,8 @@
         \end{thm}
 
         Theorem \ref{thm:pathint} describe the terms that appear in the Key
-        Lemma by matching each term to an embedding of a diagram in spacetime,
-        so that the infinite sum becomes a sum over all diagram spacetime
+        Lemma by matching each term to an embedding of a diagram in a grid,
+        so that the infinite sum becomes a sum over all diagram grid 
         configurations.  The main idea is that the combinatorics of diagrams
         parallels the combinatorics of repeated applications of the product
         rule for derivatives applied to the expression in the Key Lemma.
@@ -3015,7 +3029,7 @@
             Due to the analyticity property established in our proof of the
             Key Lemma, it suffices to show agreement at each degree $d$ and
             train set individually.  That is, it suffices to show --- for
-            each train set $(l_n: 0\leq n<N)$, spacetime $S$, function $\pi:
+            each train set $(l_n: 0\leq n<N)$, grid $S$, function $\pi:
             S\to [N]$ that induces $\sim$, and natural $d$ --- that
             \begin{align} \label{eq:toprove}
                 (-\eta)^d
@@ -3177,7 +3191,7 @@
         \end{proof}
 
         \begin{rmk}[The Case of $E=B=1$ SGD]
-            The spacetime of $E=B=1$ SGD permits all and only those
+            The grid of $E=B=1$ SGD permits all and only those
             embeddings that assign to each part of a diagram's partition  a
             distinct cell.  Such embeddings factor through a diagram
             ordering and are thus easily counted using factorials per
@@ -3220,7 +3234,7 @@
         with a given geometric realization.  On the other hand, that the
         embeddings of a specific member of that class might be hard to count.
         The first we handle using Orbit-Stabilizer.  The second we address as
-        described by \label{subsubsect:mobius} via M\"obius sums.
+        described by \S\ref{appendix:mobius} via M\"obius sums.
            
         \begin{proof}[Proof of Theorem \ref{thm:resum}]
             We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
@@ -3234,7 +3248,7 @@
             noiseless cases as prescribed by the preceding discussion on
             M\"obius Sums.  Beware that even relatively noiseless embeddings
             may have illegal collisions of non-fuzzily-tied nodes within a
-            single spacetime (data) row.  Throughout the rest of this proof, we
+            single grid (data) row.  Throughout the rest of this proof, we
             permit such illegal embeddings of the fuzz-less diagrams that arise
             from the aforementioned decomposition.  
 
@@ -3355,7 +3369,7 @@
             \begin{proof}
                 The relevant linkless diagram is $\sdia{c(01-2-3)(02-12-23)}$
                 {color{red} (amputated as in the previous subsubsection)}.   
-                An embedding of this diagram into $E=B=1$ SGD's spacetime
+                An embedding of this diagram into $E=B=1$ SGD's grid 
                 is determined by two durations --- 
                 $t$ from {\color{moor}red} to {\color{moog}green} and
                 $\tilde t$ from {\color{moog}green} to {\color{moob}blue} ---
@@ -3380,8 +3394,8 @@
                 The relevant linkless diagram is $\sdia{(01-2)(02-12)}$
                 (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
                 minimum).  This diagram has one embedding for each pair of
-                same-row shaded cells, potentially identical, in spacetime; for
-                GD, the spacetime has every cell shaded, so each
+                same-row shaded cells, potentially identical, in a grid; for
+                GD, the grid has every cell shaded, so each
                 \emph{non-decreasing} pair of durations in $[0,T]^2$ is
                 represented; the symmetry factor for the case where the cells
                 is identical is $1/2$, so we lose no precision by interpreting
@@ -3412,8 +3426,8 @@
 
             \begin{proof}[Proof]
                 The relevant linkless diagram is $\sdia{c(01)(01)}$.  This
-                diagram has one embedding for each shaded cell of spacetime;
-                for GD, the spacetime has every cell shaded, so each duration
+                diagram has one embedding for each shaded cell of grid;
+                for GD, the grid has every cell shaded, so each duration
                 from $0$ to $T$ is represented.  So the generalization gap is,
                 to leading order,
                 $$
@@ -3482,7 +3496,7 @@
                 between the two landscapes, we consider only diagrams with at
                 least one partition of size at least $3$.  The only such test
                 diagram is $\sdia{c(012-3)(03-13-23)}$.  This embeds in $T$
-                ways (one for each spacetime cell) and has
+                ways (one for each grid cell) and has
                 symmetry factor $1/3!$ for a total of
                 $$
                     \frac{T \eta^3 }{6}
@@ -3580,8 +3594,10 @@
             involves only diagrams that have no leaves of size one.
             
         \subsubsection{\Helix}
-            The \Helix\, landscape has chirality, much like its namesake's
-            screw \cite{vi00}.  Specifically, the \Helix\ landscape has
+            The \Helix\ landscape has chirality, much like Archimedes'
+            screw.
+            %\cite{vi00}. 
+            Specifically, the \Helix\ landscape has
             %
             weights     $\theta = (u,v,z) \in \RR^3$,
             %
@@ -3692,7 +3708,7 @@
     \subsection{Measurement process}                                \label{appendix:measure}
 
         \subsubsection{Diagram evaluation on real landscapes}
-            We implemented the formulae of \S\ref{sect:bessel} in order
+            We implemented the formulae of \S\ref{appendix:bessel} in order
             to estimate diagram values from real data measured at
             initialization from batch averages of products of derivatives.
 
@@ -3750,11 +3766,11 @@
         All code and data-wrangling scripts can be found on
         {\color{mooteal}github.com/???????/perturb}.  This link will be made
         available after the period of double-blind review.
-
-        Our code uses PyTorch 0.4.0 \cite{pa19} on Python 3.6.7; there are no
+        %
+        Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
         other substantive dependencies.  The code's randomness is parameterized
         by random seeds and hence reproducible.
-
+        %
         We ran experiments on a Lenovo laptop and on our institution's
         clusters; we consumed about $100$ GPU-hours.
 
