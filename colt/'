@@ -287,26 +287,23 @@
         SGD, learning rates, generalization, gradient noise, perturbation. 
     \end{keywords}
 
-    \section{Introduction}\label{sect:intro}
+    \section{Introduction}
 
         %\subsection{SGD}
 
             %--  object of study  ---------------------------------------------
             %
             Gradient estimates, measured on minibatches and thus noisy, form
-            the primary learning signal when training deep neural nets.  While
-            users of deep learning benefit from the intuition that such
-            \emph{stochastic gradient descent} (SGD) approximates deterministic
-            gradient descent (GD) \citep{bo91,le15}, SGD's gradient noise in
-            practice alters training dynamics and testing losses
-            \citep{go18, %zh19,
-            wu20}.  This paper studies SGD on
-            short timescales or near minima and shows that \textbf{gradient
-            noise biases learning} toward low-curvature, low-noise regions of
-            the loss landscape.
+            the primary learning signal when training deep neural nets.
+            While users of deep learning benefit from the intuition that
+            such \emph{stochastic gradient descent} (SGD) approximates
+            deterministic gradient descent (GD) \citep{bo91,le15}, SGD's
+            gradient noise in practice alters training dynamics and hence
+            testing losses \citep{go18, zh19, wu20}.  This paper characterizes
+            these dynamics and shows that gradient noise biases learning toward
+            low-curvature, low-noise regions of weight space.
 
             %--  vs ode and sde  ----------------------------------------------
-            %
             %
             Generalizing \cite{li18,we19b,zh19}, we model correlated,
             non-gaussian, non-isotropic, non-constant gradient noise and
@@ -340,18 +337,18 @@
             \end{wrapfigure}
             %       WHAT QUESTION DOES THIS PARAGRAPH ANSWER??
             Our theory offers a new physics-inspired perspective of SGD as a
-            superposition of concurrent information-flow processes.  Indeed, we
-            study the post-training testing loss by Taylor expanding it w.r.t.\
-            the learning rate $\eta$.  We interpret the resulting terms as
-            describing processes by which data influence weights.  E.g.\ an
-            instance of the process\footnote{
+            superposition of concurrent information-flow processes.  Indeed, to
+            study the post-training testing loss, we Taylor expand it as
+            a function of the learning rate $\eta$.  We overcome convergence
+            issues by re-summing to a sum over topologically-characterized
+            processes.  E.g.\ an instance of the process\footnote{
                 Throughout, colors help us refer to parts of diagrams; colors
                 lack mathematical meaning.
             }
-                \vspace{-0.25cm}
+                \vspace{-0.35cm}
             $$
                 \mdia{MOOc(01-2-3-4)(04-13-23-34)}
-                \vspace{-0.65cm}
+                \vspace{-0.55cm}
             $$
             is shown on the right.  Notating processes with such diagrams, we
             show in \S\ref{sect:main} how to compute the effect of each process
@@ -535,24 +532,14 @@
         our main result: that diagram-based analysis is correct.
 
         \subsection{Challenges when using Taylor series to study SGD}\label{sect:exegesis}
-            We analyze Proposition \ref{prop:nest} in detail to highlight our
-            points of departure.  This paradigmatic example demonstrates how
-            Taylor expanding dynamical quantities of interest with respect to
-            $\eta$ results in a sum over disjoint processes, a separation
-            mentioned on page \pageref{sect:intro}.  It also illustrates two
-            obstacles, addressed in in \S\ref{sect:using}, to Taylor-based
-            analysis: there is a combinatorial explosion of terms, and any
-            truncation of the Taylor series leads to a divergent result for
-            large $T$.   
-
-            We justify Proposition \ref{prop:nest} by showing that $\nabla
-            l_x(\theta)$'s dependence on $x$ (due to gradient noise) and on
-            $\theta$ (due to $l$'s curvature) is irrelevant to first order.
-            Then each step of SGD intuitively displaces $\theta$ by $-\eta G$.
-            So $T$ steps displace $\theta$ by $-T\eta G$.  Since $l$ rises by
-            $Gv$ for each displacement $v$, the overall change in $l$ is
-            $-GT\eta G$.  We follow \cite{ne04,ro18} to rigorize this
-            intuition:
+            LIST CHALLENGES HERE
+            We analyze Proposition \ref{prop:nest} to highlight our points of
+            departure.
+            %
+            Intuitively, each step of SGD displaces $\theta$ by $-\eta G$;
+            $T$ steps displace $\theta$ by $-T\eta G$.  Since $l$ rises by $Gv$
+            for each displacement $v$, the overall change in $l$ is $-GT\eta
+            G$.  We follow \cite{ne04,ro18} to rigorize this intuition:
             \begin{proof} (of Proposition \ref{prop:nest}).
                 By the smoothness assumptions of \S\ref{appendix:assumptions},
                 we have $\theta_T^\mu - \theta_0^\mu \in O(\eta^1)$ for each
@@ -583,33 +570,30 @@
                 Indeed, by the moment assumptions of \S\ref{appendix:assumptions}, the
                 above expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
             \end{proof}
-            This paper extends the above by keeping higher order terms.  The
-            above shares with its na\"ive generalizations these three features,
-            discussed below in detail: each update contributes
-            \emph{separately} to the loss; the number of intermediate terms
-            \emph{explodes} as $T$ grows; the result is a \emph{polynomial} in
-            $T$.
+            This paper extends the above by keeping higher order terms.
+            We emphasize three features that the above shares with its na\"ive
+            generalizations: the ``\emph{transparency}'' of future updates to
+            old effects, the combinatorial \emph{explosion} of intermediate
+            terms, and the results' \emph{polynomial} dependence on $T$.
 
-            By \textbf{separation}, we mean that to first order the $t$th
+            By \textbf{transparency}, we mean that to first order the $t$th
             update contributes the same amount (namely, $-\eta \expc[\nabla
-            l_{t}(\theta_0)]$) in expectation to $\theta_T$ no matter the value
-            of $T>t$ (indeed, in the above, \colorbox{moolime}{$- \eta \nabla
-            l_{T^\pr}(\theta_0)$} is constant with respect to $\theta_t$ for
-            $t>0$).
+            l_{t}(\theta_0)]$) in expectation to
+            $\theta_T$ no matter the value of $T>t$ (indeed, in the
+            above, \colorbox{moolime}{$- \eta \nabla l_{T^\pr}(\theta_0)$} is
+            constant with respect to $\theta_t$ for $t>0$). 
             %
-            In other words, to first order, future updates do not
-            modulate the effect of past updates.
             We may thus imagine each update as independently affecting
             the final test loss.  
             %
-            This separation may be surprising, for it fails when we expand to
+            This independence may be surprising, for it fails when we expand to
             higher order and hence account for curvature: SGD on a bounded
             landscape does not descend indefinitely at a constant rate. 
             %
             Still, for higher orders of expansion there is an
-            analogue of separaion that finds precise expression in Theorem
-            \ref{thm:resum}.  An intuition arises of many
-            concurrent processes, each blind to all but $d$ updates.
+            analogue of independence that finds precise expression in Theorem
+            \ref{thm:resum}.  The intuition that arises is that of many
+            independent processes occuring, each blind to all but $d$ updates.
 
             Expanding to higher order, we encounter an \textbf{explosion} of
             terms.  To order $\eta^2$, for instance, we may not
@@ -651,7 +635,7 @@
             \textbf{resummation} without omission or redundancy so
             that absolute convergence ensures consistency with the un-resummed
             result.  What we find is that 
-            %resummation replaces ``\emph{separation}'' by
+            %resummation replaces ``\emph{transparency}'' by
             %``\emph{translucence}'':
             a term that involves updates
             separated in time decays exponentially in the separation.
@@ -659,7 +643,7 @@
         \subsection{Diagrams arise from Taylor series and depict information-flow processes}\label{sect:diagrams}
 
             This section prepares for \S\ref{sect:using}, which uses
-            diagrams to generalize \S\ref{sect:exegesis}'s separation, tame
+            diagrams to generalize \S\ref{sect:exegesis}'s transparency, tame
             \S\ref{sect:exegesis}'s combinatorial explosion of terms, and
             temper \S\ref{sect:exegesis}'s polynomial divergence.  
             %
@@ -1041,15 +1025,10 @@
     \section{Consequences of the theory}\label{sect:consequences}
 
         %\begin{samepage}
-        By Cor.s \ref{cor:batch} and \ref{cor:epochs}, gradient noise repels SGD.
-        By Cor.\ \ref{cor:vsode}, SGD senses changes in $H$ more than
-            SDE; in fact, (Cor.\ \ref{cor:entropic}) SGD seeks small-$H$
-            weights.
-        Cor.\ \ref{cor:overfit} relates
-            $C$ and $H$ to overfitting.  These
-            results do not exhaust our theory's scope;
-            \S\ref{appendix:future} discusses
-            extensions to Hessian methods and natural GD.
+        SUMMARIZE COROLLARIES 
+        These few corollaries do not exhaust the scope of our theory.  For
+        instance, \S\ref{appendix:future} briefly discusses bridges to physics
+        and relations to Hessian methods and natural GD.
 
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
         %\end{samepage}
@@ -1058,7 +1037,7 @@
                 \plotmooh{colt/chladni-drift}{}{3.2cm}
                 \vspace{-0.20cm}
                 \caption{
-                    Chladni drift on $\Mm=\RR^2$.  Red arrows depict
+                    Chladni drift on $\Mm=\RR^2$.  Red arrows show
                     $C(\theta)$'s major axis.  SGD updates (green) tend toward
                     small $C$.
                 }
@@ -1078,7 +1057,7 @@
                 plate accumulates in quiet regions \citep{ch87}.  We thus dub
                 the SGD phenomenon the
                 \href{http://dataphys.org/list/chladni-plates/}{Chladni
-                drift}.
+                effect}.
             }
             %
             Our theory makes this precise; $\theta$ drifts in the direction
@@ -1499,12 +1478,13 @@
         %\subsection{Contributions}
 
             %-----  summarize contributions  ----------------------------------
-
-            This paper presents a new physics-inspired perspective on SGD.  We
-            use diagrams to study stochastic optimization on short timescales
-            or near minima.  Corollaries \ref{cor:entropic} and
-            \ref{cor:overfit} together show that SGD avoids curvature and
-            noise, which to leading order control generalization.
+    
+            This paper presents a new perspective on SGD. 
+            %
+            We used diagrams to study stochastic optimization on short timescales
+            or near minima.  Corollaries \ref{cor:entropic} and \ref{cor:overfit}
+            together potentially illuminate SGD's success in training deep networks:
+            SGD avoids curvature and noise, which control generalization.
 
             Analyzing $\sdia{c(01-2)(02-12)}$, we proved that \textbf{flat and
             sharp minima both overfit less} than medium minima.  Intuitively, flat
@@ -1517,11 +1497,6 @@
             descends on a landscape smoothed by the current covariance $C$}.  As
             $C$ evolves, the smoothed landscape evolves, resulting in
             non-conservative dynamics.
-            %
-            %Corollaries \ref{cor:entropic} and
-            %\ref{cor:overfit} together potentially illuminate SGD's success in
-            %training deep networks: SGD avoids curvature and noise, which
-            %control generalization.
             %
             Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may
             emulate SGD}, as suggested by \cite{ro18}.  This is significant
