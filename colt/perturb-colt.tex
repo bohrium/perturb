@@ -1781,12 +1781,19 @@
 
     %MOOO
     \begin{landscape}
-        \subsubsection{Computations: Grids}
-            We {\bf specify, as a grid}, the batch size, training set size, and
-            number of epochs of the setting under analysis. 
-            That is, we take an $N\times T$ grid and shade its cells, shading
-            the $(n,t)$th cell when the $t$th update involves the $n$th data
-            point.  Thus, each column contains $B$ (batch size) many shaded
+        \subsubsection{Computations: Grids}\label{sect:gridss}
+            We begin by asking a question about the
+            final testing loss of some form of SGD.
+            %
+            We specify the batch size, training set size, and number of epochs
+            of the setting under analysis by drawing an appropriate grid.
+            That is, we 
+            \par \indent $\bullet$ \textbf{draw an $N\times T$ grid} and
+            \par \indent $\bullet$ shade its cells, shading
+            the $(n,t)$th cell \textbf{when the $t$th batch includes the $n$th data
+            point}.
+            \par\noindent
+            Thus, each column contains $B$ (batch size) many shaded
             cells and each row contains $E$ (epoch number) many shaded cells.
         %
         \newline
@@ -1836,7 +1843,11 @@
     \end{landscape}
     \begin{landscape}
         \subsubsection{Computations: Embeddings of diagrams into grids}\label{sect:exampleembed}
-        An \emph{embedding} of a diagram $D$ into a grid is an
+        Say we permit order-$d$ errors.  We draw all relevant
+        diagrams with $d$ or fewer edges and then characterize the embeddings
+        of those diagrams in \S\ref{sect:gridss}'s grid.
+        %
+        An \emph{embedding} of a diagram $D$ in a grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
         the following criteria:
         \par \indent $\bullet$ \textbf{time-ordering condition}: the times $t$
@@ -1846,8 +1857,8 @@
                                in the same part of $D$'s partition, then they
                                are assigned to the same datapoint $n$.
         \par\noindent
-        We may conveniently draw embeddings by placing nodes in the shaded
-        cells to which they are assigned; we draw the root nodes outside the
+        We draw embeddings by placing nodes in their assigned shaded
+        $(n,t)$cells; we draw the root nodes outside the
         grids (at arbitrary positions). 
         %
         %Drawn on each of the two grids are examples of embeddings.
@@ -1915,12 +1926,12 @@
     \end{landscape}
 
     \begin{landscape}
-        \subsubsection{Computations: Evaluating each diagram embedding}
-            In these examples, we choose to compute $\uvalue$s instead of
-            $\rvalue$s.  The former are an approximation
-            appropriate when $T$ is fixed.
+        \subsubsection{Computations: Evaluating each diagram embedding}\label{sect:example-eval}
+            We evaluate \S\ref{sect:exampleembed}'s diagrams.  We choose here to
+            compute $\uvalue$s (apt for fixed $T$), not
+            $\rvalue$s.  These rules translate diagrams to numbers:
             \par \indent $\bullet$
-                \textbf{Node rule}: each degree $d$ node evaluates to $\nabla^d
+                \textbf{Node rule}: Replace each degree $d$ node by $\nabla^d
                 l_x$.
             \par \indent $\bullet$
                 \textbf{Outline rule}: surround the nodes in each part of the
@@ -2028,16 +2039,22 @@
 
     \begin{landscape}
         \subsubsection{Computations: Summing the embeddings' values}
-        Our Key Lemma('s restatement) says that to compute a testing loss, we
-        multiply each diagram's $\uvalue$ by the number of ways that
-        diagram embeds, where embeddings with $s$ many symmetries count only
-        $1/s$ much toward the total number of embeddings.  A symmetry of an embedding
-        $f$ of a diagram $D$, i.e.\ an element of $\Aut_f(D)$, is defined to be
-        a relabeling of $D$'s nodes that simultaneously preserves $D$'s rooted
-        tree structure, $D$'s partition structure, and $f$'s assignment of nodes
-        to $(n,t)$ cells of the grid.  This is a strong constraint, so there
-        will typically be no symmetries except for the identity, meaning that
-        $s=1$. 
+        Our Key Lemma('s restatement) says that to compute a testing loss,
+        \par\indent$\bullet$ we sum \S\ref{sect:example-eval}'s uvalues, each weighted by the number of ways its diagram
+        embeds in the grid,
+        \par\indent$\bullet$ where embeddings with $s$ many symmetries count only $1/s$ much
+        toward the total number of embeddings.
+        \par\noindent
+        A symmetry of an embedding $f$
+        of a diagram $D$, i.e.\ an element of $\Aut_f(D)$, is defined to be a
+        relabeling of $D$'s nodes that simultaneously preserves $D$'s rooted
+        tree structure, $D$'s partition structure, and $f$'s assignment of
+        nodes to $(n,t)$ cells of the grid.  This is a strong constraint, so
+        there will typically be no symmetries except for the identity, meaning
+        that $s=1$.  
+        % In sum:
+        %\par\indent$\bullet$ For each diagram under consideration, compute the sum $\gamma$ of all the $1/|\Aut_f(D)|$ where $f$ ranges over embeddings.
+        %\par\indent$\bullet$ Sum the uvalues of all diagrams under consideration, weighted by the aforementioned sums $\gamma$.  This is the answer.
         \newline
         \par\noindent
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
@@ -2342,10 +2359,10 @@
             \caption{
                 \textbf{The grids of two SGD variants.}
                 Shaded cells show $(n,t)$ pairs (see text).
-                \newline
+                %\newline
                 \textbf{Left}: Two epoch SGD with batch size one.
                     %The training set is permuted between epochs.
-                \newline
+                %\newline
                 \textbf{Right}: Four epoch SGD with batch size
                     two.  %The training set is not permuted between epochs.
             }
@@ -2368,7 +2385,7 @@
         training sets due to which the $b$th batch in one epoch differs from
         the $b$th batch in a different epoch.  For instance, see the grid to
         the right.
-        \par
+        %\par
         Since each grid commits to a concrete sequence of training set
         permutations, we may analyze SGD with randomized permutations by taking
         expectations over multiple grids.  However, the corollaries in this
@@ -2377,7 +2394,7 @@
         %$T$, inter-epoch shuffling yields only an $o(\eta^3)$ effect on testing
         %losses.})
 
-    %\newpage
+    \newpage
     \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
         A \emph{diagram} is a finite rooted tree equipped with a partition of
         its nodes, such that the root node occupies a part of size $1$.  Note
@@ -2445,14 +2462,15 @@
         \begin{rmk*}
             In this paper's corollaries, we seek to extract the specific effect
             of a specific landscape or optimization feature such as skewed
-            noise (Example \ref{exm:first}) or multiple epochs
+            noise (Proposition \ref{prop:splash}) or multiple epochs
             (\S\ref{appendix:example}).  In these cases, it is usually the case
             that most diagrams are irrelevant.  For example, because a diagram
             evaluates to a product of its components, the only way the skewness
             of gradient noise can appear in our calculations is through 
             diagrams such as $\sdia{c(012-3)(03-13-23)}$ that have a part of
-            size $3$.  Thus, the analysis in Example \ref{exm:first} was able
-            to ignore diagrams such as $\sdia{c(01-2)(02-12)}$. 
+            size $3$. 
+            %Thus, the analysis in Example \ref{exm:first} was able
+            %to ignore diagrams such as $\sdia{c(01-2)(02-12)}$. 
             Likewise, in \S\ref{appendix:example} we argued by considering 
             which embeddings that the only diagram relevant to Question
             \ref{qst:multi} is $\sdia{c(01-2)(01-12)}$.  
@@ -2515,10 +2533,11 @@
             \caption{
                 \textbf{Multiple ways to draw the $6$ distinct degree-$3$
                 diagrams for $B=E=1$ SGD's testing loss.}
-                Because the grid of $B=E=1$ SGD has only one cell per row
-                and one cell per column, the only diagrams that have a non-zero
-                number of embeddings are the diagrams that obey
-                \S\ref{sect:calculus}'s path condition. 
+                Because the grid of $B=E=1$ SGD has only one cell per row and
+                one cell per column, the only diagrams that have a non-zero
+                number of embeddings are the diagrams such that each
+                ancestor-descendant pair in the rooted tree occupie two
+                different parts of the partition.
                 We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams.
                 In fact, these drawings show all of the time-orderings of the
                 diagrams' nodes that are consistent with the time-ordering
@@ -2707,7 +2726,7 @@
             only in their edge rule.
 
     \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
-        Theorem \ref{thm:resum} in the paper body generalizes to
+        The Restated Key Lemma and Theorem \ref{thm:resum} together say %in the paper body generalizes to
         \begin{thm*}
             For any $T$: for $\eta$ small enough, SGD has expected testing loss
             \begin{equation*}
@@ -2816,7 +2835,7 @@
         When written in an eigenbasis of $\eta H$, this $A$'s coefficients are
         sums of one or more eigenvalues of $\eta H$ (one eigenvalue for each
         edge involved in the relevant degrees of freedom over which we
-        integrate).  As another example, see Example \ref{exm:first}.
+        integrate).  %As another example, see Example \ref{exm:first}.
 
     %\subsection{Interpreting diagrams intuitively}                  \label{appendix:interpret-diagrams}
 
@@ -2873,10 +2892,9 @@
             that have ``two roots'' instead of one.  More precisely, to
             compute, say, the un-centered second moment of testing loss, one uses
             diagrams whose edge structures are not rooted trees but instead
-            forests consisting of two rooted trees.  As in the case of test
-            loss expectations, we require that the set of roots (now a set
-            of size two instead of size one) is a part of the diagram's
-            partition.  We draw the two roots rightmost. 
+            forests consisting of two rooted trees.  We require that the set of
+            roots (now a set of size two instead of size one) is a part of the
+            diagram's partition.  We draw the two roots rightmost. 
             %
             For example, the generalized diagrams $\mdia{MOOc(01)(01)}$ or
             $\mdia{MOOc(01-23)(02-13)}$ may appear in this computation.
@@ -2926,7 +2944,13 @@
 
         Despite these efforts, the diagram method yields arguments about
         \emph{four times shorter} --- and strikingly more conceptual --- than
-        direct perturbation yields.  These examples specifically suggest that:
+        direct perturbation yields.  
+        %
+        (We make no attempt to compare the re-summed version of our formalism to
+        direct perturbation because the algebraic manipulations involved for
+        the latter are too complicated to carry out.) 
+        %
+        These examples specifically suggest that:
         diagrams obviate the need for meticulous index-tracking, from the start
         focus one's attention on non-cancelling terms by making visually
         obvious which terms will eventually cancel, and allow immediate
@@ -2934,10 +2958,6 @@
         that we are initialized at a test minimum or that the batch size is
         $1$.  We regard these examples as evidence that diagrams offer a
         practical tool for the theorist.
-
-        We make no attempt to compare the re-summed version of our formalism to
-        direct perturbation because the algebraic manipulations involved for
-        the latter are too complicated to carry out.  
 
         We now compare {\colorbox{moolime}{Diagram Rules}} vs
         {\colorbox{moosky}{Direct Perturbation}}.
@@ -3243,7 +3263,7 @@
         that each finite collection of polynomials of the $0$th and higher
         derivatives of the $l_x$, all evaluated at any point $\theta$, may be
         considered together as a random variable insofar as they are equipped
-        with a probability measure upon of the standard Borel algebra.
+        with a probability measure upon the standard Borel algebra.
 
         \textbf{Analyticity Uniform in Randomness} --- we assume that
         the functions $\theta \mapsto l_x(\theta)$ --- and the expectations
@@ -3443,7 +3463,7 @@
 
     \subsection{From Dyson to diagrams}                             \label{appendix:toward-diagrams}
 
-        {\color{red} TODO: define diagrams! FILL IN }
+        %{\color{red} TODO: define diagrams! FILL IN }
 
         We now describe the terms that appear in the Key Lemma.  The following
         result looks like Theorem \ref{thm:resum}, except it has $\uvalue(D)$
@@ -3698,9 +3718,10 @@
            
         \begin{proof}[Proof of Theorem \ref{thm:resum}]
             We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
-            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).  The result
-            is that chains of embeddings  
-            {\color{red} FILL IN}
+            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).
+            %The result
+            %is that chains of embeddings  
+            %{\color{red} FILL IN}
 
             The difference in loss from the noiseless case is given by all the
             diagram embeddings with at least one fuzzy tie, where the fuzzy tie
@@ -3957,17 +3978,46 @@
                 Because we work at order $\eta^3$, we consider $3$-edged
                 diagrams.  Finally, because all first and second moments match
                 between the two landscapes, we consider only diagrams with at
-                least one partition of size at least $3$.  The only such test
-                diagram is $\sdia{c(012-3)(03-13-23)}$.  This embeds in $T$
-                ways (one for each grid cell) and has
-                symmetry factor $1/3!$ for a total of
+                least one part (in their partition) of size at least $3$.  The
+                only such test diagram is $\sdia{c(012-3)(03-13-23)}$.  This
+                embeds in $T$ ways (one for each grid cell --- recall that
+                $E=B=1$) and has symmetry factor $1/3!$ for a total of
                 $$
                     \frac{T \eta^3 }{6}
                     \expct{\nabla^3 l}
                     \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                    = 
+                    \frac{T \eta^3 }{6}
+                    S_{\mu\nu\sigma}J^{\mu\nu\sigma}
                 $$
-            \end{proof}
+                This is the un-resummed expression.  To obtain the re-summed
+                expression, we replace $\eta^{\mu\nu}$ with $(I-\eta H)^{\Delta t-1}\eta)^{\mu\nu}$. 
+                The embeddings range over $T$ many times uniformly spaced in $[0,T]$. 
+                So we may integrate (let's name our variable of integration $\tau$,
+                and let's have it represent $\tau=\Delta t-1 = T-t-1$):
+                $$
+                    \int_{0\leq \tau < T}
+                        \wrap{\exp(-\tau \eta H) \eta}^{\mu\nu}
+                        \wrap{\exp(-\tau \eta H) \eta}^{\pi\sigma}
+                        \wrap{\exp(-\tau \eta H) \eta}^{\lambda\rho}
+                        S_{\mu\pi\lambda}J_{\nu\sigma\rho}
+                $$
+                Observe that 
+                $$
+                        \wrap{\exp(-\tau \eta H)}_\mu^\nu 
+                        \wrap{\exp(-\tau \eta H)}_\pi^\sigma 
+                        \wrap{\exp(-\tau \eta H)}_\lambda^\rho
+                    =
+                        \wrap{\exp(-\tau Y)}_{\mu\nu\pi}^{\sigma\lambda\rho}
+                $$                         
+                where $Y = \eta H \otimes I \otimes I + I \otimes \eta H \otimes I + I \otimes I \otimes \eta H$
+                is a six-index tensor.  We finish by recalling that 
+                $$
+                    \int_t \exp(A t) = \frac{\exp(A t)}{A} |_t 
+                $$
+            \end{proof}                     
 
+            %\newpage
     \subsection{Future topics}                                      \label{appendix:future}
 
         Our diagrams invite exploration of Lagrangian formalisms and curved
