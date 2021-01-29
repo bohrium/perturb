@@ -735,7 +735,7 @@
             tensor: its \emph{un-resummed value} or
             \emph{\textbf{uvalue}}, defined as a product containing a $d$th
             derivative of $l_x$ for each degree-$d$ node, grouped under
-            expectation symbols per the diagram's gray outlined ties, and
+            expectation symbols per the diagram's gray outlines, and
             tensor-contracted per the diagram's black edges
             (\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
                 We write $\leftrightsquigarrow$ instead of $=$ since diagrams
@@ -756,8 +756,7 @@
                 equivalence relation on (i.e.\ a partition of) its non-root
                 nodes.  We orient the tree left-to-right so that children
                 precede parents; the root is thus rightmost.  We draw the
-                partition structure with minimally many gray outlined
-                ties.}\mend 
+                partition structure with minimally many gray outlined ties.}\mend 
             \end{dfn}
             \begin{table}[h!]
                 \centering
@@ -800,7 +799,7 @@
             if $E=B=1$, each diagram with an ancestor-descendant pair in the
             same part contributes zero to $\expc[l(\theta_T)]$; for $\theta_0$ a minimum of
             $l$, all diagrams vanish that contain a degree-$1$ node
-            participating in no gray tie.\footnote{
+            participating in no gray outline.\footnote{
                 Recall that $E,T,B,M,N;G,H,J,C,S;\Dd,\Mm,l_x,\eta,\theta$
                 are defined in \S\ref{sect:background}.
             }
@@ -875,7 +874,7 @@
             $T$ steps of SGD with $\eta = \eta_\star t/T$ and $E=B=1$, and we
             assume $p\neq 0$.} to the ordinary differential equation
             approximation of SGD is given by diagrams with $d$ edges and $p$
-            many gray ties.  Likewise, if we seek to isolate the effect, say,
+            many gray outlined ties.  Likewise, if we seek to isolate the effect, say,
             of $C$ or $H$ or $S$ or $J$, we may consider only those diagrams
             that contain the corresponding subgraph in Figure \ref{fig:tensors}.
 
@@ -972,7 +971,7 @@
 
             \begin{dfn}\label{dfn:link}
                 \emph{A \textbf{link} is a degree-$2$ non-root node that
-                participates in no gray ties.  
+                participates in no gray outlines.  
                 E.g.\ $\sdia{c(02-1-3)(01-13-23)}$ has one link (green).
                 To \emph{reduce} at a link, we
                 replace the link by a black edge connecting the link's two
@@ -1939,11 +1938,6 @@
                 node $x$, the cumulant bracket is the expectation: $\expc[x]$.
                 If the part contains two nodes $x,y$, the cumulant bracket is
                 the covariance: $\expc[xy]-\expc[x]\expc[y]$.\footnote{
-                    %If the part contains three nodes $x,y,z$, then the cumulant
-                    %bracket is
-                    %$
-                    %    \expc[xyz]-\expc[x]\expc[yz]-\expc[y]\expc[xz]-\expc[z]\expc[yz]+2\expc[x]\expc[y]\expc[z]
-                    %$.
                     The general pattern is that the cumulant bracket $\CC[\prod_{i\in I} x_i]$
                     of a product indexed by $I$ is (here, $P$ ranges over partitions of $I$ with at least 
                     two parts; $I = \sqcup_{p\in P} p$):
@@ -2369,11 +2363,14 @@
             \label{fig:spacetimes}
         \end{figure}
 
-        In sum, when using the diagram method to solve a problem relating
-        to SGD with batch size $B$ and $E$ many epochs (over $T$ many time
-        steps and on $N$ many training samples), one shades the 
-        cells of an $N\times T$ grid with $B$ shaded cells per column and
-        $E$ shaded cells per row.
+        \noindent
+        \colorbox{moolime}{\parbox{\textwidth}{
+            \textsc{When using the} diagram method to solve a problem relating
+            to SGD with batch size $B$ and $E$ many epochs (over $T$ many time
+            steps and on $N$ many training samples), one shades the 
+            cells of an $N\times T$ grid with $B$ shaded cells per column and
+            $E$ shaded cells per row.
+        }}
         \newline
         \par
         \begin{wrapfigure}{r}{5cm}
@@ -2394,13 +2391,38 @@
         %$T$, inter-epoch shuffling yields only an $o(\eta^3)$ effect on testing
         %losses.})
 
-    \newpage
+    %\newpage
     \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
+
+        We explain below what the words mean in this green summary box.
+        \par\noindent
+        \colorbox{moolime}{\parbox{\textwidth}{
+            \textsc{When using the} diagram method to compute SGD's final testing loss
+            to order $o(\eta^d)$, we consider all
+            diagrams with $d$ or fewer edges and that have a non-zero number of
+            embeddings into the relevant grid.
+            \par\hspace{0.5cm}
+            If we seek the isolated contribution due to a landscape statistic
+            (e.g.\ due to $J=\mdia{MOO(0)(0-0-0)}$), we may ignore all diagrams
+            that contain that subgraph.  If we are in a setting where a certain
+            landscape statistic vanishes, (e.g., at a minimum:
+            $G(\theta_0)=\mdia{MOO(0)(0)}$ vanishes), we may neglect all
+            diagrams that contain that subgraph.
+            \par\hspace{0.5cm}
+            If we are using $\rvalue$s (see next section for discussion of
+            $\rvalue$s and $\uvalue$s), then we consider only the linkless
+            diagrams.  For each diagram, we must enumerate the embeddings,
+            i.e.\ the assignments of the diagram's nodes to grid cells that
+            obey both the time-ordering condition and correlation condition.
+        }}
+
         A \emph{diagram} is a finite rooted tree equipped with a partition of
-        its nodes, such that the root node occupies a part of size $1$.  Note
-        that this definition generalizes the special case reported in the paper
-        body; in particular, we no longer require the paper body's ``path
-        condition'' to hold.  For example, there are four diagrams with two
+        its nodes, such that the root node occupies a part of size $1$.
+        %Note
+        %that this definition generalizes the special case reported in the paper
+        %body; in particular, we no longer require the paper body's ``path
+        %condition'' to hold.
+        For example, there are four diagrams with two
         edges:
         $\protect\sdia{c(0-1-2)(02-12)}$,
         $\protect\sdia{c(01-2)(02-12)}$,
@@ -2476,16 +2498,6 @@
             \ref{qst:multi} is $\sdia{c(01-2)(01-12)}$.  
             \mend
         \end{rmk*}
-
-        In sum, when using the diagram method to analyze how a quantity affects
-        SGD to order $o(\eta^d)$, we must consider all diagrams with $d$ or
-        fewer edges that include that quantity as a component and that have a
-        non-zero number of embeddings into the relevant grid.  If we
-        are using $\rvalue$s (see next section for discussion of $\rvalue$s and
-        $\uvalue$s), then we consider only the linkless diagrams.  For each
-        diagram, we must enumerate the embeddings, i.e. the assignments of the
-        diagram's nodes to grid cells that obey both the time-ordering
-        condition and correlation condition.
 
         Here are some further examples.  Table \ref{tab:scatthree} shows the
         $6$ diagrams that may embed into the grid of $E=B=1$.  It
@@ -2567,8 +2579,42 @@
         mainly mentions $\rvalue$s.  $\uvalue$s are simpler to calculate, since
         they depend only on a diagram's topology, not on the way it is
         embedded.  $\rvalue$s are more accurate; in particular, when we
-        initialize near a local minimum, $\rvalue$s do not diverge to $\pm
-        \infty$ as $T\to\infty$.
+        initialize near a non-degenerate local minimum, $\rvalue$s do not
+        diverge to $\pm \infty$ as $T\to\infty$.
+
+        We will explain the following green summary box.
+        \par
+        \noindent
+        \colorbox{moolime}{\parbox{\textwidth}{
+            \textsc{Turn an embedding of a diagram} into its uvalue or rvalue
+            by applying the following rules. 
+            \par \indent $\bullet$
+                \textbf{Node rule}: Replace each degree $d$ node by $\nabla^d
+                l_x$.
+            \par \indent $\bullet$
+                \textbf{Outline rule}: surround the nodes in each part of the
+                partition by a ``cumulant bracket''.  If a part contains one
+                node $x$, the cumulant bracket is the expectation: $\expc[x]$.
+                If the part contains two nodes $x,y$, the cumulant bracket is
+                the covariance: $\expc[xy]-\expc[x]\expc[y]$.\footnote{
+                    The general pattern is that the cumulant bracket $\CC[\prod_{i\in I} x_i]$
+                    of a product indexed by $I$ is (here, $P$ ranges over partitions of $I$ with at least 
+                    two parts; $I = \sqcup_{p\in P} p$):
+                    $$
+                        \CC[\prod_{i\in I} x_i] = \expc[\prod x_i] - \sum_{\text{partition}~P} \prod_{p\in P} \CC[\prod_{i\in p} x_i]
+                    $$
+                }
+            \par \indent $\bullet$  If we wish to compute a uvalue, then we apply:
+                \textbf{Edge rule for uvalues}: insert a $\eta^{\mu\nu}$ for each
+                edge.  The indices $\mu, \nu$ should match the corresponding
+                indices of the two nodes incident to the edge.
+            \par \indent $\bullet$ If we wish to compute an rvalue, then we apply
+                \textbf{Edge rule for rvalues}: if an edge's endpoints are embedded to times
+                $t, t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$,
+                where $K \triangleq (I-\eta H)$.  Here, we consider the root node
+                as embedded to the time $T$.
+        }}
+
         
         \subsubsection{Un-resummed values: $\uvalue(D)$}
             Each part in a diagram's partition looks like one of the following
@@ -2605,19 +2651,49 @@
             However, this would yield (un-centered)
             moments such as $\ex{(\nb\lx)^2}$ instead of cumulants such as
             $C=\ex{(\nb\lx - G)^2}$.
-            For technical reasons explained in \S\ref{appendix:mobius} and
-            \S\ref{appendix:resum}, cumulants will be easier to work with than
+            For technical reasons (\S\ref{appendix:mobius} and
+            \S\ref{appendix:resum}), cumulants will be easier to work with than
             moments, so we will choose to define the values of diagrams
-            slightly differently as follows.
+            slightly differently as follows.\footnote{
+                This is just the standard M\"obius recursion for defining cumulants
+                (see \cite{ro64}).
+            }
+            \par
+                \textbf{Outline rule}: surround the nodes in each part of the
+                partition by a ``cumulant bracket''.  The cumulant bracket
+                $\CC[\prod_{i\in I} x_i]$ of a product indexed by $I$ is (here,
+                $P$ ranges over partitions of $I$ with at least two parts; $I =
+                \sqcup_{p\in P} p$):
+                $$
+                    \CC[\prod_{i\in I} x_i] = \expc[\prod x_i] - \sum_{\text{partition}~P} \prod_{p\in P} \CC[\prod_{i\in p} x_i]
+                $$
+            \par
+            Thus, a cumulant bracket of a diagram is the moment bracket of that
+            diagram minus other terms.  Those other terms are obtained by considering
+            diagrams with the same graph structure but strictly more parts in their
+            partition.  The recursive definition
+            of $\CC$ grounds out because the maximal number of parts in a
+            partition of a finite set is finite.
             %
-            \textbf{Outline rule}: a partition on nodes evaluates to the
-            difference $X-Y$, where $X$ is the moment-value of the partition
-            and $Y$ is the sum of all strictly finer partitions.
+            %\par
+            %\emph{Outline rule}: a partition on nodes evaluates to the
+            %difference $X-Y$, where $X$ is the moment-value of the partition
+            %and $Y$ is the sum of the values of all strictly finer partitions.
+            %\par
+            %
 
-            This is just the standard M\"obius recursion for defining cumulants
-            (see \cite{ro64}).
-
+            For example, if a part contains one
+                node $x$, the cumulant bracket is the expectation: $\expc[x]$.
+                If the part contains two nodes $x,y$, the cumulant bracket is
+                the covariance: $\expc[xy]-\expc[x]\expc[y]$.
+            If a part contains three nodes $x,y,z$, then the cumulant
+                    bracket is
+                    $$
+                        \expc[xyz]-\expc[x]\expc[yz]-\expc[y]\expc[xz]-\expc[z]\expc[yz]+2\expc[x]\expc[y]\expc[z]
+                    $$
+            We visualize the above  in the following example:
             \begin{exm}
+                \emph{
                 For example, if we denote moment values by solid
                 gray fuzzy ties (instead of fuzzy outlines), then: 
                 \begin{align*}
@@ -2643,7 +2719,7 @@
                         +
                     2 \mdia{(0-1-2-3)(01-13-23)}
                 \end{align*}
-                We will use the concept of ``moment values'' again in \S\ref{appendix:mobius}.
+                We will use the concept of ``moment values'' again in \S\ref{appendix:mobius}.}
                 \mend
             \end{exm}
 
@@ -2653,7 +2729,7 @@
             indices of the two nodes incident to the edge.
 
             \begin{exm}[Un-resummed value] \label{exm:unresum}
-                Remember that
+                \emph{Remember that
                 $
                     \mdia{MOOc(01)(0-1)} = C_{\mu\nu}
                 $ and
@@ -2674,7 +2750,7 @@
                 $$
                 Here, $\mdia{c(01-2)(02-12)}$ has two edges, which correspond
                 in this example to the tensor contractions via
-                $\eta^{\mu\lambda}$ and via $\eta^{\nu\rho}$, respectively.
+                $\eta^{\mu\lambda}$ and via $\eta^{\nu\rho}$, respectively.}
                 \mend
             \end{exm}
 
@@ -2688,7 +2764,7 @@
             as embedded to the time $T$.
 
             \begin{exm}[Re-summed value] \label{exm:resum}
-                Recall as in Example \ref{exm:unresum} that 
+                \emph{Recall as in Example \ref{exm:unresum} that 
                 $
                     \mdia{MOOc(01)(0-1)} = C_{\mu\nu}
                 $ and
@@ -2712,7 +2788,7 @@
                 Here, $\mdia{c(01-2)(02-12)}$ has two edges, which correspond
                 in this example to the tensor contractions via
                 $\wrap{K^{\cdots}\eta}^{\mu\lambda}$ and via
-                $\wrap{K^{\cdots}\eta}^{\nu\rho}$, respectively.
+                $\wrap{K^{\cdots}\eta}^{\nu\rho}$, respectively.}
                 \mend
             \end{exm}
 
@@ -2726,6 +2802,29 @@
             only in their edge rule.
 
     \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
+
+        We give examples of automorphism groups and we illustrate the
+        integration mentioned in this green summary box:
+        \par
+        \noindent
+        \colorbox{moolime}{\parbox{\textwidth}{
+            \textsc{We obtain overall} final testing loss expressions
+            by adding together the $\uvalue$s of all diagram embeddings, weighted
+            by automorphism-group sizes as in \ref{thm:resum}.
+            %
+            \newline
+            \par
+            If we are using rvalues instead of uvalues, 
+            we approximate sums over embeddings by
+                integrals over $t$, we approximate $(I-\eta H)^t$ by $\exp(- \eta H t)$,
+            and we apply:rule
+                $$\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$$ 
+            When written in an eigenbasis of $\eta H$, this $A$'s coefficients are
+            sums of one or more eigenvalues of $\eta H$ (one eigenvalue for each
+            edge involved in the relevant degrees of freedom over which we
+            integrate).  %As another example, see Example \ref{exm:first}.
+        }}
+
         The Restated Key Lemma and Theorem \ref{thm:resum} together say %in the paper body generalizes to
         \begin{thm*}
             For any $T$: for $\eta$ small enough, SGD has expected testing loss
@@ -2764,7 +2863,7 @@
         results. 
 
         \begin{exm}
-            Let us return to $D=\mdia{c(01-2)(02-12)}$, embedded, say, in the
+            \emph{Let us return to $D=\mdia{c(01-2)(02-12)}$, embedded, say, in the
             grid of  one-epoch one-sample-per-batch SGD.
             From Example \ref{exm:resum}, we know that we want to sum the 
             following value over all embeddings $f$, i.e. over all $0\leq t<T$
@@ -2824,18 +2923,45 @@
             \end{align*}
             Multiplying this expression by the aforementioned $(-B)^{-2}/2$
             gives the contribution of $\mdia{c(01-2)(02-12)}$ to SGD's test
-            loss.
+            loss.}
             \mend
         \end{exm}
 
-        In short, we sum embeddings of $\uvalue$s directly.
-        We sum embeddings of $\rvalue$s using an integral-of-exponentials
-        approximation along with the rule 
-            $\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$. 
-        When written in an eigenbasis of $\eta H$, this $A$'s coefficients are
-        sums of one or more eigenvalues of $\eta H$ (one eigenvalue for each
-        edge involved in the relevant degrees of freedom over which we
-        integrate).  %As another example, see Example \ref{exm:first}.
+        An \textbf{automorphism of $D$ that preserves an embedding $f$ of $D$}
+        is a relabeling of $D$'s nodes that preserves the root, the graph
+        structure, the equivalence relation on non-root nodes, and that at the
+        same time respects $f$: $f$ must send a node to the same $(n,t)$ pair
+        to which the node's relabeling is sent.  The sizes of automorphism groups appear
+        in the denominators of our main results.  They are usually of size one
+        (that is, they usually contain only the the identity relabeling).
+        \begin{exm}[Automorphisms]
+            \emph{
+                We take as examples the diagram embeddings of \S\ref{sect:exampleembeds}
+                (figure reproduced here).  All the embeddings in the \textbf{left
+                figure} have $|\Aut_f(D)|=1$.  For instance, the bottom-most
+                embedding (of $\sdia{c(01-2)(01-12)}$) has a non-trivial relabeling  
+                (namely, swap the two non-root nodes)
+                that obeys all of the automorphism conditions \emph{except}
+                the ``respects $f$'' condition.  Indeed, the two non-root nodes are
+                assigned to different cells in the grid, so we may not swap them
+                without violating the  ``respects $f$'' condition.
+            }\par
+            \emph{
+                By contrast, one of the embeddings (among the valid embeddings)
+                shown in the \textbf{right figure} has a non-trivial automorphism
+                group.  This is the bottom-most embedding (of
+                $\sdia{c(01-2)(01-12)}$, again).  Observe that swapping that
+                diagram's two non-root nodes preserves the root, preserves the
+                graph structure, and preserves the equivalence relation on non-root
+                nodes.  Moreover, such swapping respects $f$, since the two swapped nodes
+                embed into the same cell.  Thus, in this case, $|\Aut_f(D)|=2$.
+            }\mend
+        \end{exm}
+            \begin{center}\parbox{0.90\linewidth}{
+                \dmoo{3.75cm}{spacetime-d}\hfill\dmoo{3.75cm}{spacetime-c}
+                \par
+            }\end{center}
+
 
     %\subsection{Interpreting diagrams intuitively}                  \label{appendix:interpret-diagrams}
 
