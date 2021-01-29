@@ -358,8 +358,8 @@
             and that summing the finitely many processes with $d$ or fewer
             edges suffices to answer dynamical questions to error $o(\eta^d)$.  
             We thus factor the analysis of SGD into the analyses of individual
-            processes, a technique that may inspire future theoretical
-            advances.  
+            processes, a technique that may power future theoretical
+            inquiries.  
             %
             %This diagram technique is potentially powerful.
             %\S\ref{appendix:tutorial} offers a tutorial in our diagram
@@ -368,7 +368,7 @@
             %theoretical inquiries beyond the \S\ref{sect:consequences}'s
             %results.
 
-        \subsection{Background, notation, assumptions}
+        \subsection{Background, notation, assumptions}\label{sect:background}
 
             %--  the landscape  -----------------------------------------------
     
@@ -417,13 +417,13 @@
             replacement from the training sequence.  So each initialization
             $\theta_0 \in \Mm$ induces a distribution over
             trajectories $(\theta_t: 0\leq t \leq T)$, with randomness due both
-            to training data and batch selection.  We shall especially study
-            the \emph{final testing loss} $\expc[l(\theta_T)]$.
+            to training data and batch selection.  We especially study
+            the \textbf{final testing loss} $\expc[l(\theta_T)]$.
 
             %--  tensor conventions  ------------------------------------------
 
             \begin{wrapfigure}{r}{0.4\textwidth}
-                \vspace{-0.3cm}
+                \vspace{-0.4cm}
                 \begin{tabular}{lclcl}
                     $G$ &$=$& $\ex{\nb\lx}        $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $\\
                     $H$ &$=$& $\ex{\nb\nb\lx}     $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $\\ 
@@ -437,12 +437,12 @@
                     initialization ($\theta=\theta_0$).
                     \S\ref{sect:diagrams} explains how diagrams depict tensors.
                 }
-                \label{fig:tensors}
-                \vspace{-0.2cm}
+                \label{fig:tensor}
+                \vspace{-0.5cm}
             \end{wrapfigure}
-            Our analysis makes heavy use of the tensors defined to the right:
-            $G, H, J; C, S$ have $1, 2, 3; 2, 3$ (lower) indices, respectively.
-            We shall implicitly sum repeated Greek indices: if a covector $U$
+            We make heavy use Figure \ref{fig:tensor}'s tensors;
+            $G, H, J, C, S$ have $1, 2, 3, 2, 3$ (lower) indices, respectively.
+            We implicitly sum repeated Greek indices: if a covector $U$
             and a vector $V$\footnote{
                 Vectors/covectors, a.k.a.\ column/row vectors,
                 represent distinct geometric concepts \citep{ko93}. 
@@ -467,6 +467,14 @@
                 \triangleq
                 \sum_{\mu \nu} \eta^{\mu\nu} \cdot C_{\nu\mu}
             $.
+
+            Little-$o$s by default indicate $\eta\to 0$ limits potentially
+            non-uniform in parameters (such as $T$) other than $\eta$. 
+            ``\emph{Order $d$}'' means \emph{with error term
+            $o(\eta^d)$} and ``\emph{leading order}'' means \emph{with error factor
+            $1+o(1)$}.
+            %with convergence not necessarily uniform
+            %w.r.t.\ $T$.
             %A quantity $q$ \emph{vanishes to order $d$} when $\lim_{\eta\to 0}
             %q/p(\eta) = 0$ for some homogeneous degree-$d$ polynomial $p$; we
             %then say $q\in o(\eta^d)$.  THIS SENTENCE CONFUSES!
@@ -498,10 +506,10 @@
             non-Gaussianity affects the final testing loss.
             \S\ref{sect:calculus} details how evaluation of a
             \emph{single diagram}
-                \vspace{-0.15cm}
+                \vspace{-0.20cm}
             $$
                 \sdia{c(012-3)(03-13-23)}
-                \vspace{-0.45cm}
+                \vspace{-0.40cm}
             $$
             gives a case of
             %the leading order result
@@ -744,15 +752,16 @@
             %    lack mathematical meaning.
             %}
             \begin{dfn}[\S\ref{appendix:toward-diagrams}]
-                \emph{A \textbf{diagram} is a rooted tree equipped with a partition
-                of its non-root nodes.  We draw the tree structure using black
-                edges, oriented left-to-right so that children precede parents.
-                We depict the partition structure using minimally many gray
-                outlined ties.}\mend 
+                \emph{A \textbf{diagram} is a rooted tree equipped with an
+                equivalence relation on (i.e.\ a partition of) its non-root
+                nodes.  We orient the tree left-to-right so that children
+                precede parents; the root is thus rightmost.  We draw the
+                partition structure with minimally many gray outlined
+                ties.}\mend 
             \end{dfn}
             \begin{table}[h!]
                 \centering
-                \vspace{-0.5cm}
+                \vspace{-0.3cm}
                 \adjustbox{width=\textwidth}{
                 \begin{tabular}{ccc}
                     examples: of valid diagrams\footnote{
@@ -775,7 +784,7 @@
                      ~~
                 \end{tabular}
                 }
-                \vspace{-0.5cm}
+                \vspace{-0.7cm}
             \end{table}
             Since a diagram is just a rooted tree and partition,
             $
@@ -789,9 +798,12 @@
             $\eta^d$ we may neglect all diagrams with more than $d$ edges};
             %
             if $E=B=1$, each diagram with an ancestor-descendant pair in the
-            same part contributes zero; for SGD initialized at a minimum of
+            same part contributes zero to $\expc[l(\theta_T)]$; for $\theta_0$ a minimum of
             $l$, all diagrams vanish that contain a degree-$1$ node
-            participating in no gray tie.
+            participating in no gray tie.\footnote{
+                Recall that $E,T,B,M,N;G,H,J,C,S;\Dd,\Mm,l_x,\eta,\theta$
+                are defined in \S\ref{sect:background}.
+            }
 
         \subsection{Diagrams overcome the challenges of using Taylor series to study SGD}\label{sect:using}
 
@@ -823,7 +835,7 @@
             \begin{klem*}\emph{(\textbf{restated})} %\label{thm:pathint}
                 For all $T$: for $\eta$ sufficiently small, the final testing
                 loss is:
-                \vspace{-0.20cm}
+                \vspace{-0.15cm}
                 \begin{equation}\label{eq:sgdcoef}
                     \expc[l(\theta_T)]=
                     \sum_{\substack{D~\text{a} \\ \text{diagram}}}
@@ -834,7 +846,7 @@
                     \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
                 \end{equation}
 
-                \vspace{-0.40cm}
+                \vspace{-0.25cm}
                 \noindent
                 Here, $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$
                 that preserve $f$. (Typically $\wabs{\Aut_f(D)}=1$.)% (see \ref{appendix:sum-embeddings} for  ).
@@ -845,15 +857,15 @@
             in the $t$th update.  So it has
             $B\cdot T$ embeddings.  Since $\sdia{(0-1)(01)}$ is the only
             diagram with one edge, it gives the full $\eta^1$ contribution to
-            final testing loss.  We immediately obtain Proposition
+            final testing loss.  We thus obtain Proposition
             \ref{prop:nest}:
+                \vspace{-0.15cm}
             $$
                 -(\text{\# of embeddings of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
                 =
                 -T \cdot G_\mu G^\mu
             $$
-
-
+                \vspace{-0.65cm}
 
             %-----  isolate effect of tensors; crossing symmetries  -----------
             Diagrams streamline analysis of SGD because it is in practice
@@ -960,11 +972,14 @@
 
             \begin{dfn}\label{dfn:link}
                 \emph{A \textbf{link} is a degree-$2$ non-root node that
-                participates in no gray ties.  To \emph{reduce} at a link, we
+                participates in no gray ties.  
+                E.g.\ $\sdia{c(02-1-3)(01-13-23)}$ has one link (green).
+                To \emph{reduce} at a link, we
                 replace the link by a black edge connecting the link's two
                 neighbors.  Reduction generates an equivalence relation on
                 diagrams. Each equivalence class has exactly one
-                \textbf{linkless} diagram.}\mend
+                \textbf{linkless} diagram.  }\mend
+                
             \end{dfn}
 
             \noindent
@@ -1048,17 +1063,17 @@
         Cor.\ \ref{cor:overfit} relates
             $C$ and $H$ to overfitting.  These
             results do not exhaust our theory's scope;
-            \S\ref{appendix:future} discusses
+            \S\ref{appendix:future} sketches 
             extensions to Hessian methods and natural GD.
 
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
         %\end{samepage}
             \begin{wrapfigure}{r}{3.3cm}
-                \vspace{-0.50cm}
+                \vspace{-0.60cm}
                 \plotmooh{colt/chladni-drift}{}{3.2cm}
                 \vspace{-0.20cm}
                 \caption{
-                    Chladni drift on $\Mm=\RR^2$.  Red arrows depict
+                    Chladni drift on $\Mm=\RR^2$.  Red bi-arrows depict
                     $C(\theta)$'s major axis.  SGD updates (green) tend toward
                     small $C$.
                 }
@@ -1188,24 +1203,24 @@
             %    $C\nabla H$ feet.
             %    %
             %} the displacement is $\propto -C\nabla H$.  
-            We see that the displacement scales as $-C\nabla H$.
-            That is, SGD moves
-            toward minima that are flat \emph{with respect to} $C$ (Figure
+            The displacement scales as $-C\nabla H$.
+            That is, SGD moves toward minima that are flat \emph{with respect
+            to} $C$ (Figure
             \ref{fig:cubicandspring}\offive{0}).
             %
             Taking limits to drop the non-degeneracy hypothesis, we expect
             \emph{sustained} motion toward flat regions in a valley of minima.
-            In avoiding \cite{we19b}'s assumptions of constant $C$, we find
-            that SGD's velocity field is typically non-conservative, i.e.\ has
-            curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
-            derivative but $C\nabla H$ is not.  By low-pass filter theory, 
-            $l$ increases by $CH/2!+o(C)$ when we convolve $l$ with a
-            $C$-shaped Gaussian, so we say that SGD descends on a $C$-smoothed
-            landscape that changes as $C$ does.
+            In avoiding \cite{we19b}'s constant-$C$ assumption, we find that
+            SGD's velocity field is typically has curl
+            (\S\ref{subsect:entropic}).  For $\nabla(CH)$ is a total
+            derivative but $C\nabla H$ is not.  By low-pass filter theory, $l$
+            increases by $CH/2+o(C)$ when we convolve $l$ with a $C$-shaped
+            Gaussian.  So we say that SGD descends on a $C$-smoothed landscape
+            that changes as $C$ does.
             %
             Our $T\gg 1$ result is $\Theta(\eta^2)$, while \cite{ya19b}'s
-            similar $T=2$ result is $\Theta(\eta^3)$.  Indeed, our analysis
-            integrates the noise over many updates, hence amplifying $C$'s
+            similar $T=2$ result is $\Theta(\eta^3)$, since our analysis
+            integrates the noise over time, hence amplifying $C$'s
             effect.  Experiments verify our law.
       
             %So SGD descends on a $C$-smoothed landscape and prefers 
@@ -1309,7 +1324,7 @@
         \subsection{Training time, epochs, and batch size; $C$ repels SGD more
         than GD}
             %-----  vanilla sgd  ---------------------------------------------- 
-            We test Theorem \ref{thm:resum}'s order $\eta^3$ truncation on
+            We test Theorem \ref{thm:resum}'s third-order truncation on
             smooth convnets for CIFAR-10 and Fashion-MNIST.  Theory agrees with
             experiment through timescales long enough for accuracy to increase
             by $0.5\%$ (Figure \ref{fig:vanilla}\ofsix{0},\ofsix{1}).
@@ -1320,7 +1335,7 @@
             Figure \ref{fig:vanilla}\ofsix{2} tests Corollary \ref{cor:batch}'s
             claim that, relative to GD, high-$C$ regions \emph{repel} SGD.
             This is significant because $C$ controls the rate at which the
-            gap (testing minus training loss) grows (Corollary
+            generalization gap (testing minus training loss) grows (Corollary
             \ref{cor:overfit}, Figure \ref{fig:vanilla}\ofsix{3}).
             \begin{figure}[h!] 
                 \centering
@@ -1412,7 +1427,7 @@
             discrete translation symmetry in that direction.  In
             \S\ref{appendix:artificial}, we wrap \Helix\ in a loop to make SGD
             perpetually circulate and thus to witness a
-            non-conservative velocity field.
+            velocity field with non-zero curl.
 
             More precisely, Corollary \ref{cor:entropic} predicts 
             a velocity of $+\eta^2/6$ per timestep, while \cite{ch18}'s
@@ -1425,7 +1440,7 @@
             %
             One hopes for an ``effective loss'' $\tilde{l}$ such that, up
             to $\sqrt{T}$ diffusion terms, SGD on $l$ mimics ODE on
-            $\tilde{l}$.  The non-conservativity of SGD's velocity shows that
+            $\tilde{l}$.  The non-zero curl in SGD's velocity field shows that
             no such $\tilde{l}$ exists.
 
             \begin{figure}[h!]
@@ -1470,11 +1485,10 @@
                 }
                 \label{fig:archimedes}
             \end{figure}
-                
+            \newpage
         %----------------------------------------------------------------------
         %           Sharp vs Flat Minima                        
         %----------------------------------------------------------------------
-    
         \subsection{Sharp and flat minima both overfit less than medium minima} \label{subsect:overfit}
     
             Prior work (\S\ref{sect:related}) finds both that SGD leads to
@@ -1486,14 +1500,13 @@
             in \MeanEstimation\, (\S\ref{appendix:artificial}): Figure
             \ref{fig:vanilla}\ofsix{5}.
             %
-            To combat overfitting, we may add Corollary \ref{cor:overfit}'s
-            generalization gap estimate to $l$.  By descending on this
-            regularized loss, we may tune smooth hyperparameters such as $l_2$
-            regularization coefficients for small datasets ($H \ll C/N$)
-            (\S\ref{appendix:figures}).  Since matrix exponentiation takes time
-            cubic in dimension, this regularizer is most useful for small
-            models.
-
+            \S\ref{appendix:figures} also presents preliminary results
+            suggesting that Corollary \ref{cor:overfit}'s generalization gap
+            estimate may serve as a regularizer term enabling descent-based
+            tuning of hyperparameters such as a model's $l_2$ coefficients.
+            
+            
+            \vfill
     \section{Conclusion}
 
         %\subsection{Contributions}
@@ -1540,12 +1553,13 @@
             Thus, the theory might aid future analysis of fine-tuners such as 
             \cite{fi17}'s MAML.
     
-            Much as meteorologists understand how warm and cold fronts interact
-            despite long-term forecasting's intractability, we quantify how
-            curvature and noise contribute to counter-intuitive dynamics governing
-            each short-term interval of SGD's trajectory.  Equipped with our
-            theory, users of deep learning may refine intuitions --- e.g.\ that
-            SGD descends on the training loss --- to account for noise.
+                Much as meteorologists understand how warm and cold fronts
+                interact despite long-term forecasting's intractability, we
+                quantify how curvature and noise contribute to
+                counter-intuitive dynamics governing each short-term interval
+                of SGD's trajectory.  Equipped with our theory, users of deep
+                learning may refine intuitions --- e.g.\ that SGD descends on
+                the training loss --- to account for noise.
 
         \subsection{Related work}\label{sect:related}
     
@@ -1583,8 +1597,8 @@
             
             %--  double descent  ----------------------------------------------
 
-            Other studies focus on \emph{double descent} and suggest that some
-            highly overparameterized models share implicit regularization
+            Other research focuses on \emph{double descent} and suggests that
+            some highly overparameterized models share implicit regularization
             properties with linear least-squares models \citep{be19}, for
             example by bounding log-determinants (and hence the effective
             dimensions) of feature matrices and weight spaces
@@ -1721,7 +1735,7 @@
     statistics instead of testing statistics, or weight displacements instead
     of losses.  
 
-        \subsection{Two example calculations}
+        \subsection{Two example calculations}\label{appendix:example}
             We illustrate the four step procedure above by using it to 
             answer the following two questions.
 
@@ -1730,7 +1744,7 @@
                 In other words, it answers the question:
                 \begin{quest}\label{qst:grad}
                     What is the leading order contribution of the testing loss's gradient
-                    ($G$) to the final testing loss $\expc l(\Theta_T)$?  
+                    ($G$) to the final testing loss $\expc[l(\Theta_T)]$?  
                     %We seek an answer expressed in terms of the landscape statistics
                     %at initialization: $G,H,C, \cdots$.
                 \end{quest}
@@ -1740,7 +1754,7 @@
                 Corollary \ref{cor:epochs}.
                 \begin{quest}\label{qst:multi}
                     How does multi-epoch SGD differ from single-epoch SGD?
-                    Specifically, what is the difference between the expected
+                    Specifically, what is the difference between the final
                     testing losses of the following two versions of SGD?
                     \begin{itemize}
                         \item SGD over $T=M_0 \times N$ time steps, learning rate $\eta_0/M$, and
@@ -2293,7 +2307,7 @@
         %$T$, inter-epoch shuffling yields only an $o(\eta^3)$ effect on testing
         %losses.})
 
-    \newpage
+    %\newpage
     \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
         A \emph{diagram} is a finite rooted tree equipped with a partition of
         its nodes, such that the root node occupies a part of size $1$.  Note
@@ -4307,6 +4321,16 @@
 
     \subsection{Additional figures}                                 \label{appendix:figures}
 
+        In the rightmost figure, 
+        we add Corollary \ref{cor:overfit}'s
+            generalization gap estimate to $l$.  By descending on this
+            regularized loss, we may tune smooth hyperparameters such as $l_2$
+            regularization coefficients for small datasets ($H \ll C/N$)
+            (\S\ref{appendix:figures}).  Since matrix exponentiation takes time
+            cubic in dimension, this regularizer is most useful for small
+            models.
+
+
         \begin{figure}[h] 
             \centering
             \centering
@@ -4332,7 +4356,7 @@
                 with a correct sign and order of magnitude; we expect that the
                 fourth order corrections would improve it further.
                 %
-                \textbf{Right}: Blue intervals regularization using Corollary
+                \textbf{Right}: Blue intervals show regularization using Corollary
                 \ref{cor:overfit}.  When the blue intervals fall below the
                 black bar, this proposed method outperforms plain GD.  For
                 \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized
