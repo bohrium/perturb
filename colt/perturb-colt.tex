@@ -1622,10 +1622,11 @@
             large-$\eta$ learning phenomenologically, whether by finding
             empirical correlates of the generalization gap \citep{li18}, by
             showing that \emph{flat} minima generalize (\cite{ho17},
-            \cite{ke17}, \cite{wa18}), or by showing that \emph{sharp} minima
-            generalize (\cite{st56}, \cite{di17}, \cite{wu18}).  We find that
-            SGD's implicit regularization mediates between these seemingly
-            clashing intuitions (\S \ref{subsect:overfit}).
+            \cite{ke17}, \cite{wa18}, \cite{zh19}), or by showing that
+            \emph{sharp} minima generalize (\cite{st56}, \cite{di17},
+            \cite{wu18},).  We find that SGD's implicit regularization mediates
+            between these seemingly clashing intuitions (\S
+            \ref{subsect:overfit}).
             
             %--  our work vs other perturbative approaches  -------------------
         
@@ -1739,20 +1740,21 @@
             We illustrate the four step procedure above by using it to 
             answer the following two questions.
 
-            \subsubsection{Leading order effect of gradients}
+            %\subsubsection{Leading order effect of gradients}
                 Our first example calculation reproduces Proposition \ref{prop:nest}.
                 In other words, it answers the question:
-                \begin{quest}\label{qst:grad}
-                    What is the leading order contribution of the testing loss's gradient
-                    ($G$) to the final testing loss $\expc[l(\Theta_T)]$?  
-                    %We seek an answer expressed in terms of the landscape statistics
-                    %at initialization: $G,H,C, \cdots$.
+                \begin{quest}[Leading order effect of gradients]\label{qst:grad}
+                    What's the leading order loss decrease
+                    $\expc[l(\theta_T)-l(\theta_0)]$?
+                    We seek an answer expressed in terms of the landscape
+                    statistics at initialization: $G,H,C, \cdots$.  We expect
+                    only $G$ to be relevant. 
                 \end{quest}
 
-            \subsubsection{Leading order effect of epochs}
+            %\subsubsection{Leading order effect of epochs}
                 Our second example is (an illustrative case of)
                 Corollary \ref{cor:epochs}.
-                \begin{quest}\label{qst:multi}
+                \begin{quest}[Leading order effect of epochs]\label{qst:multi}
                     How does multi-epoch SGD differ from single-epoch SGD?
                     Specifically, what is the difference between the final
                     testing losses of the following two versions of SGD?
@@ -1846,16 +1848,33 @@
         \par\noindent
         We may conveniently draw embeddings by placing nodes in the shaded
         cells to which they are assigned; we draw the root nodes outside the
-        grids (at arbitrary positions).
+        grids (at arbitrary positions). 
         %
         %Drawn on each of the two grids are examples of embeddings.
         \newline
-        \par\indent
+        \par\noindent
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
+            We seek an order $1$ result and thus consider
+            one-edged diagrams; there is only one: 
+            $\sdia{c(0-1)(01)}$.  We now describe the embeddings of this diagram: 
+            \begin{center}\parbox{0.90\linewidth}{
+                \begin{center}
+                    \dmoo{3.75cm}{spacetime-b2-e4-nosh-populated}
+                \end{center}
+                \par
+                    \textbf{$\protect\sdia{c(0-1)(01)}$ has one embedding for
+                    each shaded cell}.  An embedding of a non-root node at cell
+                    $(n,t)$ represents the influence of the datapoint $n$ on
+                    the testing loss due to the $t$th update.  To first order
+                    (i.e.\ one-edged diagrams), the influences of different
+                    timesteps do not interact.  The combinatorics of embeddings
+                    is thus straightforward.
+            }\end{center}
                         &
-            There are four two-edged diagrams: 
+            We seek an order $2$ result and thus consider
+            two-edged diagrams; there are four: 
             $\sdia{c(0-1-2)(02-12)}$,
             $\sdia{c(01-2)(02-12)}$,
             $\sdia{c(0-1-2)(01-12)}$, and
@@ -1918,7 +1937,7 @@
                     of a product indexed by $I$ is (here, $P$ ranges over partitions of $I$ with at least 
                     two parts; $I = \sqcup_{p\in P} p$):
                     $$
-                        \expc[\prod x_i] - \sum_{\text{partition}~P} \prod_{p\in P} \CC[\prod_{i\in p} x_i]
+                        \CC[\prod_{i\in I} x_i] = \expc[\prod x_i] - \sum_{\text{partition}~P} \prod_{p\in P} \CC[\prod_{i\in p} x_i]
                     $$
                 }
             \par \indent $\bullet$
@@ -1930,10 +1949,40 @@
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
+            In \S\ref{sect:exampleembed} we determined the embeddings of
+            $\sdia{c(0-1)(01)}$.  Now we evaluate $\uvalue(\sdia{c(0-1)(01)})$. 
+            The node rule suggests that we begin with
+            $$
+                \nabla_\mu l_x \nabla_\nu l_x
+            $$
+            We have two factors, each with one derivative because the diagram
+            has two nodes, each of degree one.  Note that the number of
+            indices (here, two) is the total degree over all nodes and thus also
+            twice the number (here, one) of edges.
+            The outline rule transforms this to
+            $$
+                \expct{\nabla_\mu l_x}
+                \expct{\nabla_\nu l_x}
+                =
+                G_\mu
+                G_\nu
+            $$
+            since all parts in the diagram's partition have size one.
+            The edge rule inserts a factor $\eta^{\mu\nu}$
+            to yield:
+            $$
+                \uvalue(\sdia{c(0-1)(01)})
+                =
+                G_\mu
+                G_\nu
+                \eta^{\mu\nu}
+                =
+                G_\mu G^\mu
+            $$
           &
             In \S\ref{sect:exampleembed} we saw that
             $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
-            and single-epoch spacetimes: its multi-epoch
+            and single-epoch grids: its multi-epoch
             embeddings correspond by a $M_0^2:1$ map to its single-epoch
             embeddings.  Since we scaled the learning rate of the two SGD
             versions by a factor of $M_0$, and since %$2$-edged diagrams such as
@@ -1965,6 +2014,8 @@
             The edge rule inserts a factor $\eta^{\mu\lambda} \eta^{\nu\rho}$
             to yield:
             $$
+                \uvalue(\sdia{c(01-2)(01-12)})
+                =
                 (\nabla_\nu C_{\mu\lambda} / 2)
                 G_\rho
                 \eta^{\mu\lambda}
@@ -1987,20 +2038,39 @@
         to $(n,t)$ cells of the grid.  This is a strong constraint, so there
         will typically be no symmetries except for the identity, meaning that
         $s=1$. 
-        %    \begin{equation*}
-        %        \sum_{\substack{D~\text{a} \\ \text{diagram}}}
-        %        ~
-        %        \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
-        %        ~
-        %        \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
-        %        \,
-        %        {\uvalue}(D)
-        %    \end{equation*}
         \newline
         \par\noindent
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
+            Referring again to \S\ref{sect:exampleembed}, we see that
+            $D=\sdia{c(0-1)(01)}$ has $TB$ many embeddings ($B$ many embeddings
+            per column for $T$ many columns).  Since $D$ has no non-trivial
+            automorphisms (i.e.\ no non-trivial relabeling of nodes that
+            preserves the root, the graph structure, and the equivalence
+            relation on non-root nodes), $D$ has no non-trivial automorphisms
+            that preserve any given embedding.  Thus $|\Aut_f(D)|=1$ for each
+            embedding of $D$.  We conclude that the Restated Key Lemma's
+            expression (\ref{eq:sgdcoef})
+            \begin{equation*}
+                \sum_{\substack{D~\text{a} \\ \text{diagram}}}
+                ~
+                \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
+                ~
+                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \,
+                {\uvalue}(D)
+            \end{equation*}
+            has as its contribution from $D=\sdia{c(0-1)(01)}$ the value
+            \begin{align*}
+                (\#\text{of embeddings}~f)
+                \cdot
+                \frac{(-B)^{-1}}{1}
+                \,
+                G_\mu G^\mu
+                = TB \cdot (- G_\mu G^\mu/B)
+            \end{align*}
+            Proposition \ref{prop:nest}'s expression $-T G_\mu G^\mu$ follows.
           &
             Referring again to \S\ref{sect:exampleembed}, we see that
             $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
