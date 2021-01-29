@@ -4,7 +4,7 @@
 % The following packages will be automatically loaded:
 % amsmath, amssymb, natbib, graphicx, url, algorithm2e
 
-\usepackage{amsfonts, makerobust}
+\usepackage{amsfonts, makerobust, float}
 \usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
 
 \newcommand{\subthreesect}[1]{\par\noindent\textsc{#1} --- }
@@ -615,7 +615,7 @@
             landscape does not descend indefinitely at a constant rate. 
             %
             Still, for higher orders of expansion there is an
-            analogue of separaion that finds precise expression in Theorem
+            analogue of separation that finds precise expression in Theorem
             \ref{thm:resum}.  An intuition arises of many
             concurrent processes, each blind to all but $d$ updates.
 
@@ -732,8 +732,9 @@
                 \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
             \end{align*}
             To prepare for \S\ref{sect:using}, we write terms (such as
-            above) as uvalues (Def.\ \ref{dfn:uvalue-body}) of diagrams
-            (e.g.\ $\sdia{c(01-2-3)(02-12-23)}, \sdia{c(01-2-3)(02-13-23)}$).
+            above) as uvalues (Def.\ \ref{dfn:uvalue-body}) of diagrams.
+            %(e.g.\ $\sdia{c(01-2-3)(02-12-23)}, \sdia{c(01-2-3)(02-13-23)}$).
+            See Fig.\ \ref{fig:uvalue-example}.
             %We notated the tensors above using diagrams.  Diagrams help us
             %organize (\ref{eq:dyson})'s terms.
             %Each diagram evaluates to a
@@ -1637,19 +1638,18 @@
             dynamics that may also reduce the effective dimension of model space.
             However, our focus on the structure of gradient noise may be
             overspecific, since recent work finds that GD and SGD may both
-            converge to the same set of global minima \citep{zo20} or that
+            converge to the same global minima \citep{zo20} or that
             noise covariance but not higher moments are relevant to
             regularization \citep{wu20}. 
 
             %--  phenomenology of rademacher correlates such as hessians  -----
         
-            Our predictions are vacuous for large $\eta$.  Other analyses treat
+            Our predictions are vacuous for large $\eta$.  Other work treats
             large-$\eta$ learning phenomenologically, whether by finding
             empirical correlates of the generalization gap \citep{li18}, by
-            showing that \emph{flat} minima generalize (\cite{ho17},
-            \cite{ke17}, \cite{wa18}, \cite{zh19}), or by showing that
-            \emph{sharp} minima generalize (\cite{st56}, \cite{di17},
-            \cite{wu18},).  We find that SGD's implicit regularization mediates
+            showing that \emph{flat} minima generalize \citep{ho17,ke17,wa18},
+            or by showing that \emph{sharp} minima generalize
+            \citep{st56,di17,wu18}.  SGD's implicit regularization mediates
             between these seemingly clashing intuitions (\S
             \ref{subsect:overfit}).
             
@@ -1667,6 +1667,64 @@
                 Disagreement of $C$ and
                 $H$ is typical in modern learning \citep{ro12, ku19}
             } so we may model VAEs. 
+            \nopagebreak
+                \newcommand{\AAA}{\nabla_\mu}
+                \newcommand{\BBB}{\nabla_\nu}
+                \newcommand{\CCC}{\nabla_\lambda}
+                \newcommand{\DDD}{\nabla_\sigma}
+                \newcommand{\EEE}{\nabla_\rho}
+                \newcommand{\FFF}{\nabla_\pi}
+                \newcommand{\ww}[1]{\CC\wasq{#1}}
+                \newcommand{\rRr}[1]{{\color{moor}#1}}
+                \newcommand{\gGg}[1]{{\color{moog}#1}}
+                \newcommand{\bBb}[1]{{\color{moob}#1}}
+            \begin{figure}[H]
+                \centering  
+                \vspace{-0.25cm}
+                \begin{tabular}{r}
+                    $\mdia{c(01-2-3)(02-13-23)}$\vspace{-0.45cm}\\
+                    $\mdia{c(01-2-3)(02-12-23)}$\vspace{-0.45cm}\\
+                    $\mdia{c(012-3)(02-12-23)}$\vspace{-0.45cm}
+                \end{tabular}
+                \begin{tabular}{c}
+                    $\rightsquigarrow$\\
+                    $\rightsquigarrow$\\
+                    $\rightsquigarrow$
+                \end{tabular}
+                \begin{tabular}{c}
+                                            $    \rRr{\AAA l_x} \rRr{\BBB l_x}      \gGg{\CCC \DDD      l_x}      \bBb{\EEE \FFF l_x} $\\
+                                            $    \rRr{\AAA l_x} \rRr{\BBB l_x}      \gGg{\CCC \DDD \EEE l_x}      \bBb{     \FFF l_x} $\\
+                                            $    \rRr{\AAA l_x} \rRr{\BBB l_x}      \rRr{\CCC \DDD \EEE l_x}      \gGg{     \FFF l_x} $
+                \end{tabular}                                                                                                        
+                %\begin{tabular}{c}                                                                                                  
+                                        %   $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD      l_x}} \ww{\bBb{\EEE \FFF l_x}}$\\
+                                        %   $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD \EEE l_x}} \ww{\bBb{     \FFF l_x}}$\\
+                                        %   $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}      \rRr{\CCC \DDD \EEE l_x}} \ww{\gGg{     \FFF l_x}}$
+                %\end{tabular}                                                                                                       
+                \begin{tabular}{c}
+                    $\rightsquigarrow$\\
+                    $\rightsquigarrow$\\
+                    $\rightsquigarrow$
+                \end{tabular}
+                \begin{tabular}{c}                                                                                                   
+                                            $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\AAA \DDD      l_x}} \ww{\bBb{\BBB \DDD l_x}}$\\ 
+                                            $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\AAA \BBB \EEE l_x}} \ww{\bBb{     \EEE l_x}}$\\
+                                            $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}      \rRr{\AAA \BBB \EEE l_x}} \ww{\bBb{     \EEE l_x}}$
+                \end{tabular}                                                                                                        
+                %\begin{tabular}{c}                                                                                                  
+                                        %   $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD      l_x}} \ww{\bBb{\EEE \FFF l_x}} \eta^{\mu\lambda} \eta^{\nu\rho}   \eta^{\sigma\pi}$\\
+                                        %   $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD \EEE l_x}} \ww{\bBb{     \FFF l_x}} \eta^{\mu\lambda} \eta^{\nu\sigma} \eta^{\rho\pi}$\\
+                                        %   $\ww{\rRr{\AAA l_x} \rRr{\BBB l_x}      \rRr{\CCC \DDD \EEE l_x}} \ww{\gGg{     \FFF l_x}} \eta^{\mu\lambda} \eta^{\nu\sigma} \eta^{\rho\pi}$
+                %\end{tabular}
+                \caption{
+                    \textbf{Def.\ 
+                    \ref{dfn:uvalue-body}}.
+                    Left: diagrams.
+                    Middle: incorporate node-degree information. 
+                    Right: uvalues.
+                }
+                \label{fig:uvalue-example}
+            \end{figure}
 
     \newpage
     \acks{
