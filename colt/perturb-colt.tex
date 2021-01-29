@@ -505,7 +505,7 @@
             Corollary \ref{cor:vsode}, quoted
             here assuming isotropic curvature ($\eta H \propto I$) and $E=B=1$: 
             \begin{prop}\label{prop:splash}
-                If we initialize near an non-degenerate minimum of $l$, then in
+                If we initialize near a non-degenerate minimum of $l$, then in
                 the large-$T$ limit, the skewness $S$ of gradient noise
                 contributes 
                 $
@@ -578,11 +578,11 @@
             By \textbf{transparency}, we mean that to first order the $t$th
             update contributes the same amount (namely, $-\eta \expc[\nabla
             l_{t}(\theta_0)]$) in expectation to
-            $\theta_T$ no matter by how much $T$ exceeds $t$ (indeed, in the
+            $\theta_T$ no matter the value of $T>t$ (indeed, in the
             above, \colorbox{moolime}{$- \eta \nabla l_{T^\pr}(\theta_0)$} is
             constant with respect to $\theta_t$ for $t>0$). 
             %
-            Consequently, we may imagine each update as independently affecting
+            We may thus imagine each update as independently affecting
             the final test loss.  
             %
             This independence may be surprising, for it fails when we expand to
@@ -641,11 +641,12 @@
 
         \subsection{Diagrams arise from Taylor series and depict information-flow processes}\label{sect:diagrams}
 
-            We introduce diagrams to exploit transparency, tame the
-            combinatorial explosion of terms, and temper the aforementioned
-            polynomial divergence.
+            This section prepares for \S\ref{sect:using}, which uses
+            diagrams to generalize \S\ref{sect:exegesis}'s transparency, tame
+            \S\ref{sect:exegesis}'s combinatorial explosion of terms, and
+            temper \S\ref{sect:exegesis}'s polynomial divergence.  
             %
-            First, we characterize the higher order terms.  Suppose
+            We start by characterizing the higher order terms.  Suppose
             $s$ is an analytic function on $\Mm$.  For example, $s$ might be
             the testing loss $l$.  The following Lemma, reminiscent of
             \cite{dy49a}'s, tracks $s(\theta)$ as SGD updates $\theta$:
@@ -663,7 +664,7 @@
                     }(s) (\theta_0)
                 \end{equation}
                 Moreover, an expectation symbol (over training sets) commutes
-                with the sum over $d$s.
+                with the outer sum.
             \end{klem*}
             Here, we consider each $(g \nabla)^{d_t}$ as a higher order
             function that takes in a function $f$ defined on weight space and
@@ -707,7 +708,7 @@
             We notated the terms above using diagrams.  Diagrams appear as we
             organize (\ref{eq:dyson})'s terms.  Each diagram evaluates to a
             tensor: its \emph{un-resummed value} or
-            \emph{\textbf{uvalue}},defined as a product containing a $d$th
+            \emph{\textbf{uvalue}}, defined as a product containing a $d$th
             derivative of $l_x$ for each degree-$d$ node, grouped under
             expectation symbols per the diagram's gray outlined ties, and
             tensor-contracted per the diagram's black edges
@@ -770,10 +771,10 @@
             diagrams are relevant.  Examples: for fixed $T$, \textbf{to order
             $\eta^d$ we may neglect all diagrams with more than $d$ edges};
             %
-            if $E=B=1$, then a diagram with an ancestor-descendant pair in the
+            if $E=B=1$, each diagram with an ancestor-descendant pair in the
             same part contributes zero; for SGD initialized at a minimum of
-            $l$, all diagrams vanish that contain a leaf participating in no
-            gray tie.
+            $l$, all diagrams vanish that contain a degree-$1$ node
+            participating in no gray tie.
 
         \subsection{Diagrams overcome the challenges of using Taylor series to study SGD}\label{sect:using}
 
@@ -807,6 +808,7 @@
                 loss is:
                 \vspace{-0.20cm}
                 \begin{equation}\label{eq:sgdcoef}
+                    \expc[l(\theta_T)]=
                     \sum_{\substack{D~\text{a} \\ \text{diagram}}}
                     ~
                     \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
@@ -890,8 +892,10 @@
             this divergence.%, thus establishing diagrams as a necessary
             %concept.
 
-            Observe that each of the following lists contains diagrams of ``the
-            same'' shape:
+            Let us collect similar diagrams, where our notion of
+            ``similar'' permits chains to grow or shrink (see Definition
+            \ref{dfn:link}).  We obtain lists (each conveniently represented by
+            its smallest member) such as: 
             \vspace{-0.30cm}
             \begin{align*}
                 \sdia{c(0-1)(01)},
@@ -931,20 +935,15 @@
                 \label{fig:resumintuition}
             \end{wrapfigure}
             \noindent
-            Intuitively, our notion of ``the same'' permits chains to grow or
-            shrink (see Definition \ref{dfn:link}).  We will express in closed
-            form the total contribution to (\ref{eq:dyson}) of all diagrams in
-            such a list.  The idea is that the uvalues of chains are powers of
-            hessians --- for example,
+            We will express in closed form the total contribution to
+            (\ref{eq:dyson}) of all diagrams in such a list.  The idea is that
+            the uvalues of chains are powers of hessians --- for example,
             $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so we
             may sum over all possible chain lengths via geometric series.
-            %
-            This is the \emph{resummed value} (\emph{rvalue}) of the list's
-            unique linkless member.
 
             \begin{dfn}\label{dfn:link}
-                \emph{A \textbf{link} is a degree-$2$ non-root node that participates in
-                no gray ties.  To \emph{reduce} at a link, we
+                \emph{A \textbf{link} is a degree-$2$ non-root node that
+                participates in no gray ties.  To \emph{reduce} at a link, we
                 replace the link by a black edge connecting the link's two
                 neighbors.  Reduction generates an equivalence relation on
                 diagrams. Each equivalence class has exactly one
@@ -952,18 +951,21 @@
             \end{dfn}
 
             \noindent
-            We define the \textbf{rvalue} of an embedded diagram 
-            as the $\uvalue$ except that pairs of tensor indices are
-            not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
-            embedded edge spans $\Delta t$ many time steps, we contract the
-            two corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$. 
-            (For example, take Figure \ref{fig:resumintuition}'s embedding
-            of $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  
-            is $G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and
-            an $\eta$ for each edge.  By contrast, the associated rvalue is
+            %This is the \emph{resummed value} (\emph{rvalue}) of the list's
+            %smallest member.
+            More precisely, we define we define the \emph{resummed value} or
+            \emph{\textbf{rvalue}} of an embedded diagram just as we defined
+            the $\uvalue$ except that pairs of tensor indices are not
+            contracted using $\eta^{\mu\nu}$.  Instead, whenever an embedded
+            edge spans $\Delta t$ many time steps, we contract the two
+            corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$.
+            (For example, take Figure \ref{fig:resumintuition}'s embedding of
+            $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  is
+            $G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and an
+            $\eta$ for each edge.  By contrast, the associated rvalue is
             $G_\mu((I-\eta H)^{12-1}\eta)^{\mu\nu}G_\nu$ since the edge spans
-            $12$ timesteps.  We see that this rvalue includes uvalues for embeddings
-            of $\sdia{c(0-1-2)(01-12)}$, etc.)
+            $12$ timesteps.  We see that this rvalue includes uvalues for
+            embeddings of $\sdia{c(0-1-2)(01-12)}$, etc.)
             %A sum over embeddings is a sum of terms with a
             %range of exponents in place of $12-1$.
 
@@ -980,6 +982,7 @@
                 For any $T$: for $\eta$ small enough, the final testing loss is
                 a sum over \emph{linkless} diagrams: 
                 \begin{equation*} \label{eq:resum}
+                    \expc[l(\theta_T)]=
                     \sum_{\substack{D~\text{a linkless} \\ \text{diagram}}}
                     ~
                     \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
@@ -994,7 +997,7 @@
      
             \begin{rmk} \label{rmk:integrate}
                 \emph{In practice, we replace sums over embeddings by
-                integrals over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$,
+                integrals over $t$ and $(I-\eta H)^t$ by $\exp(- \eta H t)$,
                 reducing to a routine integration of exponentials at the cost
                 of an error factor $1 + o(\eta)$.}\mend
                 %--- and thus preserving
@@ -1129,7 +1132,7 @@
                         J_{\mu\nu\lambda}
                         + o(\eta^3)
                 \end{align*}
-                to the excess final testing loss over SDE.  This unwieldy
+                to the excess final testing loss over SDE.  This 
                 expression specializes to Proposition \ref{prop:splash}.
             \end{cor}
 
@@ -1200,8 +1203,8 @@
                         a valley of minima.
                         %
                         Red densities show the 
-                        typical $\theta$s, perturbed by noise $C$ from the
-                        minimum due, in two cross sections of the
+                        typical $\theta$s, perturbed by noise ($C$) from the
+                        minimum, in two cross sections of the
                         loss valley.  $J = \nabla H$ measures
                         curvature's change across the valley.  Our theory
                         does not assume separation between ``fast'' and
@@ -1237,7 +1240,7 @@
             definition equates displacements with gradients, it may be unclear
             how to reason about overfitting in the presence of curvature.
             %
-            Our theory, by (automatically) accounting for the implicit
+            Our theory, by accounting for the implicit
             regularization of fixed-$T$ descent, shows that both effects play
             a role.  In fact, by routine calculus on the left hand side of
             Corollary \ref{cor:overfit}, overfitting is maximized for medium
@@ -1277,7 +1280,7 @@
         %
         Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark
         $95\%$ confidence intervals based on the standard error of the mean.
-        \S\ref{appendix:experiments} describes neural architectures, of
+        \S\ref{appendix:experiments} describes neural architectures, 
         artificial landscapes, sample sizes, and further plots.
 
         \subsection{Training time, epochs, and batch size; $C$ repels SGD more
@@ -3208,7 +3211,7 @@
                 }(s) (\theta_0)
             \end{equation}
             Moreover, the expectation symbol (over training sets) commutes with
-            the sum over $d$s.
+            the outer sum.
         \end{klem*}
         Here, we consider each $(g \nabla)^{d_t}$ as a higher order function
         that takes in a function $f$ defined on weight space and outputs a
