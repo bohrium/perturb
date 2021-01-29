@@ -1027,13 +1027,16 @@
 
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
         %\end{samepage}
-            \begin{wrapfigure}{r}{5cm}
-                \vspace{-0.5cm}
-                \dmoo{3.00cm}{spacetime-b1-e2-shuf}
+            \begin{wrapfigure}{r}{3.3cm}
+                \vspace{-0.50cm}
+                \plotmooh{colt/chladni-drift}{}{3.2cm}
+                \vspace{-0.20cm}
                 \caption{
-                    Yo
+                    Chladni drift on $\Mm=\RR^2$.  Red arrows show
+                    $C(\theta)$'s major axis.  SGD updates (green) tend toward
+                    small $C$.
                 }
-                \vspace{-0.5cm}
+                \vspace{-1.00cm}
             \end{wrapfigure}
             Physical intuition suggests that noise repels SGD: if two
             neighboring regions of weight space have high and low levels of
