@@ -393,18 +393,18 @@
 
             SGD performs $\eta$-steepest descent on the estimates $l_n$.  Our
             theory describes SGD with any number
-                $\mathbf{N}$ of training points,
-                $\mathbf{T}$ of updates, and 
-                $\mathbf{B}$ of points per batch.
-            Specifically, SGD runs $T$ many updates (hence
-                $\mathbf{E}=TB/N$ epochs or
-                $\mathbf{M}=T/N$ updates per training point) of the form
-            %    \colorbox{moolime}{$\mathbf{N}$ of training points},
-            %    \colorbox{moolime}{$\mathbf{T}$ of updates}, and 
-            %    \colorbox{moolime}{$\mathbf{B}$ of points per batch}.
+            %    $\mathbf{N}$ of training points,
+            %    $\mathbf{T}$ of updates, and 
+            %    $\mathbf{B}$ of points per batch.
             %Specifically, SGD runs $T$ many updates (hence
-            %    \colorbox{moolime}{$\mathbf{E}=TB/N$ epochs} or
-            %    \colorbox{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
+            %    $\mathbf{E}=TB/N$ epochs or
+            %    $\mathbf{M}=T/N$ updates per training point) of the form
+                \colorbox{moolime}{$\mathbf{N}$ of training points},
+                \colorbox{moolime}{$\mathbf{T}$ of updates}, and 
+                \colorbox{moolime}{$\mathbf{B}$ of points per batch}.
+            Specifically, SGD runs $T$ many updates (hence
+                \colorbox{moolime}{$\mathbf{E}=TB/N$ epochs} or
+                \colorbox{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
             $$
                 \textstyle
                 \theta^\mu
@@ -434,8 +434,8 @@
                 \vspace{-0.5cm}
                 \caption{
                     \textbf{Named tensors}, typically evaluated at
-                    initialization ($\theta=\theta_0$).
-                    \S\ref{sect:diagrams} explains how diagrams depict tensors.
+                    initialization ($\theta=\theta_0$).  Def.\
+                    \ref{dfn:uvalue-body} explains how diagrams depict tensors.
                 }
                 \label{fig:tensor}
                 \vspace{-0.5cm}
@@ -713,8 +713,9 @@
                  \nabla^{\nu}\nabla^{\lambda} l
             $$
             Let us take expectations over training sets.  Suppose $B=1$ and
-            $N>5$ so that the batches at $t=2,5$ are statistically independent.
-            Then the expectations factor as: 
+            $N>5$; then batches at $t=2,5$ are independent so the
+            expectations factor (we use ``$\leftrightsquigarrow$'', not
+            of ``$=$'', due to page's \pageref{dfn:uvalue-body}'s footnote):  
             \begin{align*}
                -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
                 \expc[\nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}]
@@ -730,34 +731,41 @@
                 && 
                 \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
             \end{align*}
-            We notated the terms above using diagrams.  Diagrams appear as we
-            organize (\ref{eq:dyson})'s terms.  Each diagram evaluates to a
-            tensor: its \emph{un-resummed value} or
-            \emph{\textbf{uvalue}}, defined as a product containing a $d$th
-            derivative of $l_x$ for each degree-$d$ node, grouped under
-            expectation symbols per the diagram's gray outlines, and
-            tensor-contracted per the diagram's black edges
-            (\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
-                We write $\leftrightsquigarrow$ instead of $=$ since diagrams
-                evaluate to products of cumulants $C$ rather than of moments
-                $GG+C$: \S\ref{appendix:evaluate-embeddings}.
-            }
-            %
-            In fact, (\ref{eq:dyson}) is a weighted sum of the $\uvalue$s of
-            all diagrams formally defined below.
+            To prepare for \S\ref{sect:using}, we write terms (such as
+            above) as uvalues (Def.\ \ref{dfn:uvalue-body}) of diagrams
+            (e.g.\ $\sdia{c(01-2-3)(02-12-23)}, \sdia{c(01-2-3)(02-13-23)}$).
+            %We notated the tensors above using diagrams.  Diagrams help us
+            %organize (\ref{eq:dyson})'s terms.
+            %Each diagram evaluates to a
+            %tensor: its \emph{un-resummed value} or
+            %\colorbox{moolime}{\emph{\textbf{uvalue}}, defined as a product containing a $d$th}
+            %\colorbox{moolime}{derivative of $l_x$ for each degree-$d$ node, grouped under
+            %expectation symbols per the diagram's gray}
+            %\colorbox{moolime}{outlines, and tensor-contracted per the diagram's black edges}
+            %(\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
+            %    We write $\leftrightsquigarrow$ instead of $=$ since diagrams
+            %    evaluate to products of cumulants $C$ rather than of moments
+            %    $GG+C$: \S\ref{appendix:evaluate-embeddings}.
+            %}
+            %%
+            %We express (\ref{eq:dyson}) as a weighted sum of the $\uvalue$s of
+            %all diagrams formally defined below.
             %We supplu The following examples of
             %(in)valid diagrams supply an informal sense sufficient to
             %read this paper's body.\footnote{
             %    Throughout, colors help us refer to parts of diagrams; colors
             %    lack mathematical meaning.
             %}
+            \noindent
+            %\colorbox{moolime}{\noindent\parbox{\textwidth}{
             \begin{dfn}[\S\ref{appendix:toward-diagrams}]
-                \emph{A \textbf{diagram} is a rooted tree equipped with an
-                equivalence relation on (i.e.\ a partition of) its non-root
-                nodes.  We orient the tree left-to-right so that children
-                precede parents; the root is thus rightmost.  We draw the
-                partition structure with minimally many gray outlined ties.}\mend 
+                \emph{A \colorbox{moolime}{\textbf{diagram}} is a rooted tree equipped with an
+                    equivalence relation on (i.e.\ a partition of) its non-root
+                    nodes.  We orient the tree left-to-right so that children
+                    precede parents; the root is thus rightmost.  We draw the
+                    partition structure with minimally many outlined ties.}\mend 
             \end{dfn}
+            %}
             \begin{table}[h!]
                 \centering
                 \vspace{-0.3cm}
@@ -791,18 +799,36 @@
                 \sdia{c(02-1-3)(02-13-23)} = 
                 \sdia{c(0-12-3)(03-12-23)} 
             $ are the same diagrams.
+            \begin{dfn}[\S\ref{appendix:evaluate-embeddings}]\label{dfn:uvalue-body}
+                \emph{
+                    A diagram $D$'s \emph{un-resummed value} (\colorbox{moolime}{\textbf{uvalue}})
+                    is a product with one factor of $l_x$'s $d$th derivative
+                    for each degree-$d$ node, grouped
+                    under expectation symbols\footnote{
+                        Inconsequential technicality: uvalues are products of
+                        \emph{cumulants} such as $C$, not of moments such as
+                        $GG+C$.
+                        %this will not concern us
+                        %until the Appendix. See
+                        \S\ref{appendix:evaluate-embeddings}.
+                    }
+                    per $D$'s gray outlines, and tensor-contracting the
+                    result per $D$'s edges.  We thus have a
+                    factor $\eta^{\mu\nu}$ for each edge.
+                }\mend
+            \end{dfn}
 
             There are dozens of small diagrams.  In many analyses, only a few
             diagrams are relevant.  Examples: for fixed $T$, \textbf{to order
-            $\eta^d$ we may neglect all diagrams with more than $d$ edges};
+            $d$ we may neglect diagrams with more than $d$ edges};
             %
-            if $E=B=1$, each diagram with an ancestor-descendant pair in the
+            if $E=B=1$ (\S\ref{sect:background}), each diagram with an ancestor-descendant pair in the
             same part contributes zero to $\expc[l(\theta_T)]$; for $\theta_0$ a minimum of
-            $l$, all diagrams vanish that contain a degree-$1$ node
-            participating in no gray outline.\footnote{
-                Recall that $E,T,B,M,N;G,H,J,C,S;\Dd,\Mm,l_x,\eta,\theta$
-                are defined in \S\ref{sect:background}.
-            }
+            $l$, all diagrams vanish that contain a leaf node
+            participating in no gray outline.%\footnote{
+                %Recall that $E,T,B,M,N;G,H,J,C,S;\Dd,\Mm,l_x,\eta,\theta$
+                %are defined in \S\ref{sect:background}.
+            %}
 
         \subsection{Diagrams overcome the challenges of using Taylor series to study SGD}\label{sect:using}
 
@@ -874,9 +900,9 @@
             $T$ steps of SGD with $\eta = \eta_\star t/T$ and $E=B=1$, and we
             assume $p\neq 0$.} to the ordinary differential equation
             approximation of SGD is given by diagrams with $d$ edges and $p$
-            many gray outlined ties.  Likewise, if we seek to isolate the effect, say,
+            many outlined ties.  Likewise, if we seek to isolate the effect, say,
             of $C$ or $H$ or $S$ or $J$, we may consider only those diagrams
-            that contain the corresponding subgraph in Figure \ref{fig:tensors}.
+            that contain the corresponding subgraph in Figure \ref{fig:tensor}.
 
             %
             %Moreover, we may
@@ -911,7 +937,7 @@
             %    degree-two node succeeds its neighbors). 
 
 
-            \newpage
+            %\newpage
             %-----  resummation  ----------------------------------------------
             \subsubsection{Resummation}\label{sect:resummation}
             So far, diagrams have been a convenient but dispensible
@@ -3460,6 +3486,7 @@
             For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a sum
             over tuples of natural numbers:
             \begin{equation}\label{eq:dyson2}
+                s(\theta_T) = 
                 \sum_{(d_t: 0\leq t<T) \in \NN^T}
                 (-\eta)^{\sum_t d_t}
                 \wrap{
