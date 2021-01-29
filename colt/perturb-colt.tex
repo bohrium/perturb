@@ -341,7 +341,7 @@
             $\eta$, taming large-time convergence issues by re-summing to a sum
             over topologically-characterized processes.  E.g.\ 
             an instance of the process\footnote{
-                Throughout, colors help us refer to parts of diagrams; they
+                Throughout, colors help us refer to parts of diagrams; colors
                 lack mathematical meaning.
             }
                 \vspace{-0.35cm}
@@ -429,11 +429,12 @@
                     $S$ &$=$& $\ex{(\nb\lx - G)^3}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
                 \end{tabular}
                 \vspace{-0.5cm}
-                \caption*{
-                    \textbf{Above}: Named tensors, typically evaluated at
+                \caption{
+                    \textbf{Named tensors}, typically evaluated at
                     initialization ($\theta=\theta_0$).
                     \S\ref{sect:diagrams} explains how diagrams depict tensors.
                 }
+                \label{fig:tensors}
                 \vspace{-0.2cm}
             \end{wrapfigure}
             Our analysis makes heavy use of the tensors defined to the right:
@@ -528,7 +529,7 @@
         to studying SGD dynamics.  \S\ref{sect:diagrams} introduces a diagram
         notation for the formulae that thus appear.  \S\ref{sect:using} shows
         how to evaluate diagrams to obtain numbers.  \S\ref{sect:main} states
-        our main result: that diagram-based computation is correct.
+        our main result: that diagram-based analysis is correct.
 
         \subsection{Challenges when using Taylor series to study SGD}\label{sect:exegesis}
             We analyze Proposition \ref{prop:nest} to highlight our points of
@@ -565,7 +566,7 @@
                     &\in \nabla l(\theta_0) \cdot (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
                     &= \text{\colorbox{moogold}{$-T^1G\eta G$}}+ o(\eta^1) \hfill \square
                 \end{align*}
-                By the moment assumptions of \S\ref{appendix:assumptions}, the
+                Indeed, by the moment assumptions of \S\ref{appendix:assumptions}, the
                 above expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
             \end{proof}
             This paper extends the above by keeping higher order terms.
@@ -588,7 +589,7 @@
             higher order and hence account for curvature: SGD on a bounded
             landscape does not descend indefinitely at a constant rate. 
             %
-            Still, for higher orders $d$ of expansion there is an
+            Still, for higher orders of expansion there is an
             analogue of independence that finds precise expression in Theorem
             \ref{thm:resum}.  The intuition that arises is that of many
             independent processes occuring, each blind to all but $d$ updates.
@@ -703,34 +704,43 @@
                 && 
                 \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
             \end{align*}
-            We thus associate tensors with diagrams.\footnote{
-                We write $\leftrightsquigarrow$ instead of $=$ because diagrams
+            We notated the terms above using diagrams.  Diagrams appear as we
+            organize (\ref{eq:dyson})'s terms.  Each diagram evaluates to a
+            tensor: its \emph{un-resummed value} or
+            \emph{\textbf{uvalue}},defined as a product containing a $d$th
+            derivative of $l_x$ for each degree-$d$ node, grouped under
+            expectation symbols per the diagram's gray outlined ties, and
+            tensor-contracted per the diagram's black edges
+            (\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
+                We write $\leftrightsquigarrow$ instead of $=$ since diagrams
                 evaluate to products of cumulants $C$ rather than of moments
-                $GG+C$.
+                $GG+C$: \S\ref{appendix:evaluate-embeddings}.
             }
-            \textbf{uvalue} stands for ``un-resummed value'', defined as a product
-            containing a $d$th derivative of $l_x$ for each degree-$d$ node,
-            grouped under expectation symbols per the diagram's gray
-            outlined ties, and tensor-contracted per the diagram's
-            black edges.
             %
             In fact, (\ref{eq:dyson}) is a weighted sum of the $\uvalue$s of
-            all diagrams formally defined below.  The following examples of
-            valid and invalid diagrams supply an informal sense sufficient to
-            read this paper's body.
+            all diagrams formally defined below.
+            %We supplu The following examples of
+            %(in)valid diagrams supply an informal sense sufficient to
+            %read this paper's body.\footnote{
+            %    Throughout, colors help us refer to parts of diagrams; colors
+            %    lack mathematical meaning.
+            %}
             \begin{dfn}[\S\ref{appendix:toward-diagrams}]
-                A \textbf{diagram} is a rooted tree equipped with a partition
+                \emph{A \textbf{diagram} is a rooted tree equipped with a partition
                 of its non-root nodes.  We draw the tree structure using black
                 edges, oriented left-to-right so that children precede parents.
                 We depict the partition structure using minimally many gray
-                outlined ties.  
+                outlined ties.}\mend 
             \end{dfn}
             \begin{table}[h!]
                 \centering
                 \vspace{-0.5cm}
                 \adjustbox{width=\textwidth}{
                 \begin{tabular}{ccc}
-                    valid diagrams &\hspace{0.2cm}& invalid diagrams \\ \hline
+                    examples: of valid diagrams\footnote{
+                Throughout, colors help us refer to parts of diagrams; colors
+                lack mathematical meaning.
+            } &\hspace{0.2cm}& of invalid diagrams \\ \hline
                     $\mdia{c(0-1)(01)},
                     \mdia{c(0-1-2)(02-12)},
                     \mdia{c(012-3)(02-12-23)},
@@ -756,13 +766,12 @@
                 \sdia{c(0-12-3)(03-12-23)} 
             $ are the same diagrams.
 
-            There are dozens of small diagrams.  In many analyses, only
-            a few diagrams are relevant.
-            Indeed, for fixed $T$, \textbf{to order $\eta^d$ we may
-            neglect all diagrams with more than $d$ edges}.
+            There are dozens of small diagrams.  In many analyses, only a few
+            diagrams are relevant.  Examples: for fixed $T$, \textbf{to order
+            $\eta^d$ we may neglect all diagrams with more than $d$ edges};
             %
-            If $E=B=1$, then a diagram with an ancestor-descendant pair in the
-            same part contributes zero.  For SGD initialized at a minimum of
+            if $E=B=1$, then a diagram with an ancestor-descendant pair in the
+            same part contributes zero; for SGD initialized at a minimum of
             $l$, all diagrams vanish that contain a leaf participating in no
             gray tie.
 
@@ -770,73 +779,80 @@
 
             %-----  embeddings and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
-            Having re-expressed (\ref{eq:dyson}) as a weighted sum of uvalues
-            of diagrams, we just need to compute the coefficient for each
-            uvalue.  We find that a diagram's coefficient counts certain
-            assignments of a diagram's non-root nodes to update events at
-            concrete times $t$.
-            %
-            For example, $\sdia{(0-1)(01)}$ has just one non-root node and
-            hence $T$ many assignments.  Since $\sdia{(0-1)(01)}$ is the only
-            diagram with one edge, it gives the full $\eta^1$ contribution to
-            final testing loss.  We immediately obtain Proposition
-            \ref{prop:nest}:
-            $$
-                -(\text{\# of assigments for~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) 
-                =
-                -T \cdot G_\mu G^\mu 
-            $$
-
+            Having expressed terms in (\ref{eq:dyson}) as uvalues of
+            diagrams, we seek the coefficient for each uvalue.  Intuitively, a
+            diagram represents a process (as in Figure \ref{fig:paradigm}) and
+            a diagram's contribution scales with the number of ways that
+            process may occur.
             Specifically, we count \emph{embeddings}, defined below with
             respect to given SGD hyperparameters $N,E,B$.\footnote{
-                and w.r.t.\ a deterministic algorithm for sampling the
-                $t$th batch.  One may later take expectations over such
-                algorithms.
+                and w.r.t.\ a deterministic selector of the
+                $t$th batch.  One may take expectations over such
+                algorithms --- \S\ref{appendix:draw-spacetime}. 
             }
-            This enables us to restate (\ref{eq:dyson}) into what intuitively
-            is a ``sum over histories'', where each history is a concrete
-            instantiation of the abstract process represented by a diagram: 
+            We then re-state (\ref{eq:dyson}) as a sum over embeddings. 
+            %This enables us to restate (\ref{eq:dyson}) into what intuitively
+            %is a ``sum over histories'', where each history is a concrete
+            %instantiation of the abstract process represented by a diagram: 
             \begin{dfn}
-                An \textbf{embedding} of a diagram is an assignment of non-root
+                \emph{An \textbf{embedding} of a diagram is an assignment of non-root
                 nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
                 training point participates in the $t$th batch; parents'
                 $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
                 any two nodes' $\emph{n}$s are equal if and only if the nodes
-                are in the same part of the partition. 
+                are in the same part of the partition.}\mend 
             \end{dfn}
             \begin{klem*}\emph{(\textbf{restated})} %\label{thm:pathint}
                 For all $T$: for $\eta$ sufficiently small, the final testing
                 loss is:
                 \vspace{-0.20cm}
-                \begin{equation*}\label{eq:sgdcoef}
+                \begin{equation}\label{eq:sgdcoef}
                     \sum_{\substack{D~\text{a} \\ \text{diagram}}}
                     ~
                     \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
                     ~
                         \frac{1}{\wabs{\Aut_f(D)}}
                     \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
-                \end{equation*}
+                \end{equation}
 
                 \vspace{-0.40cm}
                 \noindent
                 Here, $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$
-                that preserve $f$.
+                that preserve $f$. (Typically $\wabs{\Aut_f(D)}=1$.)% (see \ref{appendix:sum-embeddings} for  ).
             \end{klem*}
 
+            For example, $\sdia{(0-1)(01)}$ has just one non-root node, it has
+            as many embeddings as there are $(n,t)$ cells where $n$ participates
+            in the $t$th update.  So it has
+            $B\cdot T$ embeddings.  Since $\sdia{(0-1)(01)}$ is the only
+            diagram with one edge, it gives the full $\eta^1$ contribution to
+            final testing loss.  We immediately obtain Proposition
+            \ref{prop:nest}:
+            $$
+                -(\text{\# of embeddings of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
+                =
+                -T \cdot G_\mu G^\mu
+            $$
+
+
+
             %-----  isolate effect of tensors; crossing symmetries  -----------
-            This restatement streamlines analysis of SGD because it is in practice
-            straightforward to count a diagram's embeddings.
-            %
-            Moreover, we may
-            compute the effect of the skewness of gradient noise in isolation
-            by evaluating only those diagrams containing
-            $\sdia{MOOc(012)(0-1-2)}$.    
-            These considerations show that the $t^d T^{-p}$-th order
-            correction\footnote{We compare ODE integrated to time $t$ to $T$
-            steps of SGD with $\eta = \eta_\star t/T$ and $E=B=1$, and we
+            Diagrams streamline analysis of SGD because it is in practice
+            straightforward to count a diagram's embeddings.  Moreover, the
+            topology of diagrams has dynamical significance: $t^d T^{-p}$-th
+            order correction\footnote{We compare ODE integrated to time $t$ to
+            $T$ steps of SGD with $\eta = \eta_\star t/T$ and $E=B=1$, and we
             assume $p\neq 0$.} to the ordinary differential equation
             approximation of SGD is given by diagrams with $d$ edges and $p$
-            many gray ties.
+            many gray ties.  Likewise, if we seek to isolate the effect, say,
+            of $C$ or $H$ or $S$ or $J$, we may consider only those diagrams
+            that contain the corresponding subgraph in Figure \ref{fig:tensors}.
+
+            %
+            %Moreover, we may
+            %compute the effect of the skewness of gradient noise in isolation
+            %by evaluating only those diagrams containing
+            %$\sdia{MOOc(012)(0-1-2)}$.    
 
             %We interpret edges as carrying influence from the training set
             %toward the test measurement (figure \ref{fig:paradigm}). 
@@ -867,12 +883,12 @@
 
             \newpage
             %-----  resummation  ----------------------------------------------
-            \subsubsection{Resummation}
+            \subsubsection{Resummation}\label{sect:resummation}
             So far, diagrams have been a convenient but dispensible
-            book-keeping tool.  For instance, \S\ref{sect:exegesis}'s
-            polynomial divergence remains.  We now show that the topology of
-            diagrams enables correction of this divergence, thus establishing
-            diagrams as a necessary concept.
+            book-keeping tool.  And so far, \S\ref{sect:exegesis}'s polynomial
+            divergence remains in (\ref{eq:sgdcoef}).  We now show that diagrams enable us to correct
+            this divergence.%, thus establishing diagrams as a necessary
+            %concept.
 
             Observe that each of the following lists contains diagrams of ``the
             same'' shape:
@@ -890,43 +906,10 @@
             \end{align*}
             \vspace{-0.60cm}
 
-            \noindent
-            Intuitively, our notion of ``the same'' permits chains to grow
-            or shrink:  
-
-            \begin{dfn}
-                A \textbf{link} is a degree-$2$ non-root node that participates in
-                no gray ties.  To \emph{reduce} at a link, we
-                replace the link by a black edge connecting the link's two
-                neighbors.  Reduction generates an equivalence relation on
-                diagrams. Each equivalence class has exactly one
-                \textbf{linkless} diagram.
-            \end{dfn}
-
-            \noindent
-            We will express in closed form the total
-            contribution to (\ref{eq:dyson}) of all diagrams in such a
-            list.  This is the \emph{resummed value} of the list's unique
-            linkless member.
-            %
-            The idea is that the uvalues of chains are powers of
-            hessians --- for example,
-            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so
-            we may sum over all possible chain lengths via geometric
-            series.
-            %
-            We thus define the \textbf{rvalue} of an embedded diagram 
-            as the $\uvalue$ except that pairs of tensor indices are
-            not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
-            embedded edge spans $\Delta t$ many time steps, we contract the
-            two corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$. 
-
-            %\begin{figure}[h!] 
             \begin{wrapfigure}{r}{0.35\textwidth}
                 \centering  
-                \vspace{-0.5cm}
+                \vspace{-0.50cm}
                 \dmoo{2.5cm}{spacetime-g}
-                %\hfill
                 %\dmoo{3cm}{spacetime-h}
                 \caption{
                     \textbf{Resummation propagates information damped by
@@ -944,9 +927,45 @@
                     %is an effect of the 2nd cumulant of the gradient noise
                     %distribution.
                 }
-                \vspace{-1.5cm}
+                \vspace{-1.25cm}
                 \label{fig:resumintuition}
             \end{wrapfigure}
+            \noindent
+            Intuitively, our notion of ``the same'' permits chains to grow or
+            shrink (see Definition \ref{dfn:link}).  We will express in closed
+            form the total contribution to (\ref{eq:dyson}) of all diagrams in
+            such a list.  The idea is that the uvalues of chains are powers of
+            hessians --- for example,
+            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so we
+            may sum over all possible chain lengths via geometric series.
+            %
+            This is the \emph{resummed value} (\emph{rvalue}) of the list's
+            unique linkless member.
+
+            \begin{dfn}\label{dfn:link}
+                \emph{A \textbf{link} is a degree-$2$ non-root node that participates in
+                no gray ties.  To \emph{reduce} at a link, we
+                replace the link by a black edge connecting the link's two
+                neighbors.  Reduction generates an equivalence relation on
+                diagrams. Each equivalence class has exactly one
+                \textbf{linkless} diagram.}\mend
+            \end{dfn}
+
+            \noindent
+            We define the \textbf{rvalue} of an embedded diagram 
+            as the $\uvalue$ except that pairs of tensor indices are
+            not contracted using $\eta^{\mu\nu}$.  Instead, whenever an
+            embedded edge spans $\Delta t$ many time steps, we contract the
+            two corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$. 
+            (For example, take Figure \ref{fig:resumintuition}'s embedding
+            of $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  
+            is $G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and
+            an $\eta$ for each edge.  By contrast, the associated rvalue is
+            $G_\mu((I-\eta H)^{12-1}\eta)^{\mu\nu}G_\nu$ since the edge spans
+            $12$ timesteps.  We see that this rvalue includes uvalues for embeddings
+            of $\sdia{c(0-1-2)(01-12)}$, etc.)
+            %A sum over embeddings is a sum of terms with a
+            %range of exponents in place of $12-1$.
 
         \subsection{Main result}\label{sect:main}
     
@@ -974,10 +993,12 @@
             %-----  simplifications  ------------------------------------------
      
             \begin{rmk} \label{rmk:integrate}
-                \emph{In practice, we approximate sums over embeddings by integrals
-                over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$, reducing
-                to a routine integration of exponentials at the cost of an
-                error factor $1 + o(\eta)$ --- and thus preserving leading-order results.}
+                \emph{In practice, we replace sums over embeddings by
+                integrals over times and $(I-\eta H)^t$ by $\exp(- \eta H t)$,
+                reducing to a routine integration of exponentials at the cost
+                of an error factor $1 + o(\eta)$.}\mend
+                %--- and thus preserving
+                %leading-order results.}\mend
             \end{rmk}
     
             %-----  convergence  ----------------------------------------------
@@ -999,17 +1020,29 @@
 
     \section{Consequences of the theory}\label{sect:consequences}
 
-        \begin{samepage}
+        %\begin{samepage}
         These few corollaries do not exhaust the scope of our theory.  For
         instance, \S\ref{appendix:future} briefly discusses bridges to physics
         and relations to Hessian methods and natural GD.
+
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
-        \end{samepage}
+        %\end{samepage}
+            \begin{wrapfigure}{r}{5cm}
+                \vspace{-0.5cm}
+                \dmoo{3.00cm}{spacetime-b1-e2-shuf}
+                \caption{
+                    Yo
+                }
+                \vspace{-0.5cm}
+            \end{wrapfigure}
             Physical intuition suggests that noise repels SGD: if two
             neighboring regions of weight space have high and low levels of
-            gradient noise, respectively, then we expect the rate at which
-            $\theta$ jumps from the former to the latter to exceed the opposite
-            rate.
+            gradient noise, respectively, then
+            %we expect
+            the rate at which
+            $\theta$ jumps from the former to the latter
+            exceeds%to exceed
+            the opposite rate.
             %
             There is thus a net movement toward regions of small $C$.\footnote{
                 This is the same mechanism by which sand on a vibrating
@@ -1019,26 +1052,26 @@
                 effect}.
             }
             %
-            Our theory makes this intuition precise; the drift is in the
-            direction of $-\nabla C$, and the effect is strongest when gradient
-            noise is not averaged out by large batch sizes:
+            Our theory makes this precise; $\theta$ drifts in the direction
+            $-\nabla C$, and the effect is weaker when gradient noise is
+            averaged out by large batch sizes:
             \begin{cor}[Computed from $\sdia{c(01-2)(01-12)}$] \label{cor:batch}
                 SGD with $E=B=1$ avoids high-$C$ regions more than GD:
                 $
-                    l_{C}
-                        \triangleq
-                    \frac{N-1}{4 N}
-                    \nabla^\mu C^{\nu}_{\nu}
+                    \expct{\theta_{GD} - \theta_{SGD}}^\mu 
                         =
-                    \expct{\theta_{GD} - \theta_{SGD}}^\mu - o(\eta^2)
+                    T \cdot \frac{N-1}{4 N}
+                    \nabla^\mu C^{\nu}_{\nu} + o(\eta^2)
                 $.
-                If $\hat{l_c}$ is a smooth unbiased estimator of $l_c$, then GD
-                on $l + \hat{l_c}$ has an expected testing loss that agrees with
-                SGD's to order $\eta^2$.  We call this method GDC.
             \end{cor}
             \noindent
             \cite{ro19} obtained a version of this Corollary with a nearly
-            equal error of $O(\eta^2/N)\vee o(\eta^2)$
+            equal error of $O(\eta^2/N)\vee o(\eta^2)$.  The Corollary's proof
+            implies that if $\hat{l_c}$ is a
+            smooth unbiased estimator of $\frac{N-1}{4 N}
+            C^{\nu}_{\nu}$, then GD on $l + \hat{l_c}$ has an expected testing
+            loss that agrees with SGD's to order $\eta^2$.  We call this method
+            \textbf{GDC}.
 
             An analogous form of averaging occurs over multiple epochs.  For a
             tight comparison, we scale the learning rates appropriately so
@@ -1046,12 +1079,12 @@
             few-epoch and many-epoch SGD differ, to leading order, in their
             sensitivity to $\nabla C$:
             \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
-                SGD with $M=1$ and $\eta=\eta_0$ avoids high-$C$ regions more
-                than SGD with $M=M_0$ and $\eta=\eta_0/M_0$.  Precisely:
+                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
+                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
                 $
-                    \expct{\theta_{M=M_0} - \theta_{M=1}}^\mu
+                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
                         =
-                    \wrap{\frac{M_0-1}{4 M_0}} N
+                    \wrap{\frac{E_0-1}{4 E_0}} N
                     \wrap{\nabla^\mu C^{\nu}_{\nu}}
                     + o(\eta^2)
                 $.
@@ -1061,17 +1094,18 @@
             large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
             and resolve some questions posed therein.    
 
-        \subsection{Non-Gaussian noise affects SGD but not SDE}
+        \subsection{SGD and SDE respond differently to changes in curvature}
+            %Non-Gaussian noise affects 
     
-            Stochastic differential equations (SDE: see \cite{li18}) are a
-            popular theoretical approximation of SGD, but SDE and SGD differ in
-            several ways.  For instance, the inter-epoch noise correlations in
-            multi-epoch SGD measurably affect SGD's final testing loss (Corollary
-            \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
-            Even if we restrict to single-epoch SGD, time discretization and non-Gaussian noise lead
-            SGD and SDE to respond differently to changes in curvature.
-            The following
-            treats SGD with $E=B=1$.   
+            Ordinary and stochastic differential equations (ODE and SDE: see
+            \cite{li18}) are a popular models of SGD, but
+            they differ from SGD in several ways.  For instance, the inter-epoch
+            noise correlations in multi-epoch SGD measurably affect SGD's final
+            testing loss (Corollary \ref{cor:epochs}), but SDE assumes
+            uncorrelated gradient updates.  Even if we restrict to single-epoch
+            SGD, time discretization and non-Gaussian noise lead SGD and SDE to
+            respond differently to changes in curvature.  The following treats
+            SGD with $E=B=1$.   
                         %
             \begin{cor}[$\sdia{c(01-2)(02-12)}$, $\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
                 For fixed $T$, SGD's final testing loss exceeds both ODE's and
@@ -1135,9 +1169,9 @@
             In avoiding \cite{we19b}'s assumptions of constant $C$, we find
             that SGD's velocity field is typically non-conservative, i.e.\ has
             curl (\S\ref{subsect:entropic}).  Indeed, $\nabla(CH)$ is a total
-            derivative but $C\nabla H$ is not.  Since, by low-pass filter
-            theory, $CH/2+o(C)$ is the loss increase upon convolving $l$ with a
-            $C$-shaped Gaussian, we say that SGD descends on a $C$-smoothed
+            derivative but $C\nabla H$ is not.  By low-pass filter theory, 
+            $l$ increases by $CH/2!+o(C)$ when we convolve $l$ with a
+            $C$-shaped Gaussian, so we say that SGD descends on a $C$-smoothed
             landscape that changes as $C$ does.
             %
             Our $T\gg 1$ result is $\Theta(\eta^2)$, while \cite{ya19b}'s
@@ -3754,9 +3788,9 @@
             proposition.
 
             \begin{prop}\label{prop:ordtwo}
-                To order $\eta^2$, the testing loss of SGD --- on $N$
-                samples for $M$ epochs with batch size $B$ dividing $N$ and with any
-                shuffling scheme --- has expectation
+                To order $\eta^2$, the testing loss of SGD --- on $N$ samples
+                for $T=MN$ timesteps with batch size $B$ dividing $N$ and with
+                any shuffling scheme --- has expectation
                 {\small
                 \begin{align*}
                                                             l              
@@ -3771,21 +3805,24 @@
             \begin{proof}[of Proposition \ref{prop:ordtwo}]
                 To prove Proposition \ref{prop:ordtwo}, we simply count
                 the embeddings of the diagrams, noting that the automorphism groups
-                are all of size $1$ or $2$.  Since we use fuzzy outlines instead of
-                fuzzy ties, we allow untied nodes to occupy the same row, since the
-                excess will be canceled out by the term subtract in the definition of
-                fuzzy outlines.  See Table \ref{tbl:ordtwo}.
+                are all of size $1$ or $2$. 
+                %Since we use fuzzy outlines instead of
+                %fuzzy ties, we allow untied nodes to occupy the same row, since the
+                %excess will be canceled out by the term subtract in the definition of
+                %fuzzy outlines.
+                See Table \ref{tbl:ordtwo}.
                 \begin{table}[h]
                     \centering
                     \begin{tabular}{cll}
                         diagram                 & embed.s w/ $\wabs{\Aut_f}=1$  & embed.s w/ $\wabs{\Aut_f}=2$   \\ \hline
                         $\sdia{(0)()}$          & $1$                           & $0$                            \\  
                         $\sdia{(0-1)(01)}$      & $MNB$                         & $0$                            \\                  
-                        $\sdia{(0-1-2)(01-12)}$ & ${MNB\choose 2}$              & $0$                            \\
+                        $\sdia{(0-1-2)(01-12)}$ & ${MN\choose 2}B^2$            & $0$                            \\
                         $\sdia{c(01-2)(01-12)}$ & $N{MB\choose 2}$              & $0$                            \\
-                        $\sdia{(0-1-2)(02-12)}$ & ${MNB\choose 2}$              & $0$                            \\
+                        $\sdia{(0-1-2)(02-12)}$ & ${MNB\choose 2}$              & $MNB$                          \\
                         $\sdia{c(01-2)(02-12)}$ & $N{MB\choose 2}$              & $MNB$                             
                     \end{tabular}
+                    \caption{Terms used in proof of Proposition \ref{prop:ordtwo}}
                     \label{tbl:ordtwo}
                 \end{table}
             \end{proof}
