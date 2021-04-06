@@ -1,0 +1,159 @@
+\documentclass{article}
+\usepackage[
+    top   =1in,
+    bottom=1in,
+    left  =1in,
+    right =1in,
+]{geometry}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath, amssymb, amsthm, bm}
+
+\newcommand{\Ra}{\textmd{\textsf{\color{purple!50} {R1}}}}
+\newcommand{\Rb}{\textmd{\textsf{\color{green!50}  {R2}}}}
+\newcommand{\Rc}{\textmd{\textsf{\color{blue!50}   {R3}}}}
+\newcommand{\PP}{\mathbb{P}}
+
+\newcommand{\sct}[1]{\textmd{\textsf{Sct #1}}}
+\newcommand{\cor}[1]{\textmd{\textsf{Cor #1}}}
+\newcommand{\dfn}[1]{\textmd{\textsf{Dfn #1}}}
+\newcommand{\apx}[1]{\textmd{\textsf{Apx #1}}}
+\newcommand{\lin}[1]{\textmd{\textsf{Lin #1}}}
+\newcommand{\fig}[1]{\textmd{\textsf{Fig #1}}}
+\newcommand{\thm}[1]{\textmd{\textsf{Thm #1}}}
+\newcommand{\prp}[1]{\textmd{\textsf{Prp #1}}}
+
+\newcommand{\cit}[1]{[\textbf{#1}]}
+
+\newcommand{\moosect}[1]{\par\noindent\textbf{#1} ---}
+\newtheorem*{proposition*}{{\textsc{Proposition}}}
+
+\usepackage{amsfonts, makerobust, float}
+\usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
+\usepackage[export]{adjustbox}
+%---------------------  graphics and figures  ---------------------------------
+\usepackage{wrapfig, caption}
+\usepackage{hanging, txfonts, ifthen}
+
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+
+
+\newcommand{\offive}[1]{
+    {\tiny
+        \raisebox{-0.04cm}{\color{gray}\scalebox{2.5}{$\substack{
+            \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
+        }$}}%
+        \raisebox{0.04cm}{$\substack{
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}   
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square} \\
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+        }$}%
+    }%
+}
+
+
+
+\begin{document}
+
+    We thank reviewers \Ra, \Rb, \Rc\ for their feedback.  Reviewers had
+    concerns over our work's correctness (\Ra), counterintuitiveness (\Rc), 
+    citations (\Rb), and clarity (\Ra,\Rb,\Rc).  We address these concerns in
+    sqeuence. 
+
+\moosect{Limits}
+    view the expected testing loss as a function
+    $L(\eta, T)$.  For each $d$ is a $d$th order truncation $L_d(\eta, T)$, a
+    degree-$d$ polynomial in $\eta$ whose coefficients depend on $T$.
+    \thm{2} gives a sufficient condition for $L_{d,\infty}(\eta) \triangleq
+    \lim_{T\to\infty} L_{d}(\eta,T)$ to exist as well as 
+    a formula for $L_{d,\infty}$. %; \prp{1} specializes \thm{2}.
+    %
+    \Ra\ points out that, though
+    \thm{2} controls $\text{LHS}(\eta)\triangleq \lim_{d\to\infty}
+    \lim_{T\to \infty} L_d(\eta,T)$, it is
+    $\text{RHS}(\eta)\triangleq \lim_{T\to\infty} \lim_{d\to\infty}
+    L_d(\eta,T)$ that more interests us.  So how do LHS and RHS relate?
+    %
+    \begin{proposition*}\vspace{-0.25cm}
+        Assume \apx{B.1}'s setting and suppose
+        that $\nabla l(\theta_\star)=0$ and that on some neighborhood $U$ of
+        $\theta_\star$ the hessian $\nabla\nabla l_x(\theta)$ is lower-bounded
+        by some strictly positive definite form $Q(\theta)$ continuous in
+        $\theta$.  \emph{Then} for any initialization $\theta_0\in V$ in some
+        neighborhood $V$ of $\theta_\star$ and for any homogeneous polynomial
+        $p(\eta)$ (of $\eta$'s $\text{dim}\times\text{dim}$ many components)
+        with exactly one root (at $\eta=0$): $\lim_{\eta\to 0}
+        (\text{LHS}(\eta)-\text{RHS}(\eta))/p(\eta) = 0$.\vspace{-0.25cm}
+    \end{proposition*}
+    %
+    %Even without this proposition, though, $\text{LHS}(\eta)$ and
+    %$\text{RHS}(\eta)$ disagree, we still have that 
+    \text{\color{moor} TODO: prove, discuss, and discuss irrelevance!}
+
+\moosect{Sharp Minima}
+    \Rb\ notes that \cor{5} statement --- that the amount of overfitting
+    (defined as the increase in testing loss $l$ upon initializing at a local
+    minimum of $l$ and then training) is, to second order in $\eta$, greatest
+    when the hessian has moderate curvature with respect to $\eta$ --- is
+    counterintutive.
+    %
+    Comparing \fig{5 \offive{1}} to \cit{Ke}'s \fig{1}, we note that SGD's
+    natural noise structure is \emph{not} that of \emph{displacements} in
+    weight space; rather, it is that of additive error terms $\nabla
+    l_x(\theta)-\nabla l(x)$ in the \emph{gradient} estimate.
+    %
+    Consider a one-dimensional $\theta$ and imagine a quadratic testing loss
+    $l(\theta)=a \theta^2/2$ and a training loss $\hat
+    l(\theta)=l(\theta)+b\theta$.  At the training minimum $\theta=-b/a$, the
+    testing loss is $b^2/(2a)$.  Thus, for fixed $b$, sharper minima (larger
+    $a$) overfit less.  The gradient covariance $C$ controls $b^2$,
+    explaining \cor{5}'s $C/2H$ factor.  This example suggests that if we
+    optimize to convergence, sharp minima overfit least.
+    %
+    But it is near flat minima that
+    convergence is slowest, so for fixed $\eta, T$, we expect
+    overfitting to vanish as the Hessian shrinks.  By making explicit $\eta$'s
+    role in translating gradients into displacements, our theory accounts for
+    both effects, thus reconciling \cit{Ke}'s pro-flat intuitions with 
+    [Di]'s pro-sharp intuitions.
+    %
+    We view it as a merit that our formalism makes such counterintuitive
+    phenomena visible.
+    
+\moosect{Citations}
+    Thank you for pointing us to Barrett et al.  
+    
+\moosect{Clarity}
+    Our work uses a convention standard in physics and in high-dimensional
+    statistics. 
+
+\par\noindent
+\vspace{0.1cm}
+\hrule
+
+    \noindent
+    \cit{Ba} D.G.Barrett, B.Dherin.  Implicit Gradient Regularization.  ICLR 2021.
+
+    \noindent
+    \cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  Sharp Minima Can Generalize for Deep Nets.  ICML 2017.
+
+    \noindent
+    \cit{Dy} E.Dyer, G.Gur-Ari.  Asymptotics of Wide Networks from Feynman Diagrams.  ICLR 2020.
+
+    \noindent
+    %\cit{Ke} N.S.Keskar, D.Mudigere, J.Nocedal, M.Smelyanskiy, P.T.P.Tang.  On Large-Batch Training for Deep Learning.  ICLR 2017.
+    \cit{Ke} N.S.Keskar et alia.  On Large-Batch Training for Deep Learning.  ICLR 2017.
+
+\end{document}
