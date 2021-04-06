@@ -23,19 +23,18 @@
 \newcommand{\Rc}{\textmd{\textsf{\color{blue!50}   {R3}}}}
 \newcommand{\PP}{\mathbb{P}}
 
-\newcommand{\sct}[1]{\textmd{\textsf{Sct #1}}}
-\newcommand{\cor}[1]{\textmd{\textsf{Cor #1}}}
-\newcommand{\dfn}[1]{\textmd{\textsf{Dfn #1}}}
-\newcommand{\apx}[1]{\textmd{\textsf{Apx #1}}}
-\newcommand{\lin}[1]{\textmd{\textsf{Lin #1}}}
+\newcommand{\cor}[1]{\textmd{\textsf{Cor #1}}} 
+\newcommand{\dfn}[1]{\textmd{\textsf{Defn#1}}}
+\newcommand{\apx}[1]{\textmd{\textsf{Apdx#1}}}
+\newcommand{\pag}[1]{\textmd{\textsf{Page#1}}}
 \newcommand{\fig}[1]{\textmd{\textsf{Fig #1}}}
 \newcommand{\thm}[1]{\textmd{\textsf{Thm #1}}}
-\newcommand{\prp}[1]{\textmd{\textsf{Prp #1}}}
+\newcommand{\prp}[1]{\textmd{\textsf{Prop#1}}}
 
 \newcommand{\cit}[1]{[\textbf{#1}]}
 
 \newcommand{\moosect}[1]{\par\noindent\textbf{#1} ---}
-\newtheorem*{proposition*}{{\textsc{Proposition}}}
+\newtheorem*{proposition*}{{\textsc{Proposition A}}}
 
 \usepackage{amsfonts, makerobust, float}
 \usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
@@ -64,6 +63,17 @@
 }
 
 
+\newcommand{\ofsix}[1]{
+    {\tiny \raisebox{0.04cm}{$\substack{
+        \IfSubStr{#1}{0}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}  \\ 
+        \IfSubStr{#1}{3}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{4}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{5}{{\color{moor}\blacksquare}}{\square}    
+    }$}}%
+}
+
 
 \begin{document}
 
@@ -80,64 +90,124 @@
     \lim_{T\to\infty} L_{d}(\eta,T)$ to exist as well as 
     a formula for $L_{d,\infty}$. %; \prp{1} specializes \thm{2}.
     %
-    \Ra\ points out that, though
-    \thm{2} controls $\text{LHS}(\eta)\triangleq \lim_{d\to\infty}
-    \lim_{T\to \infty} L_d(\eta,T)$, it is
-    $\text{RHS}(\eta)\triangleq \lim_{T\to\infty} \lim_{d\to\infty}
-    L_d(\eta,T)$ that more interests us.  So how do LHS and RHS relate?
+    \Ra\ observes that, though \thm{2} controls
+    $\text{LHS}(\eta)\triangleq \lim_{d\to\infty} \lim_{T\to \infty}
+    L_d(\eta,T)$, it is $\text{RHS}(\eta)\triangleq \lim_{T\to\infty}
+    \lim_{d\to\infty} L_d(\eta,T)$ that more interests us.  How do LHS and
+    RHS relate?
     %
     \begin{proposition*}\vspace{-0.25cm}
-        Assume \apx{B.1}'s setting and suppose
-        that $\nabla l(\theta_\star)=0$ and that on some neighborhood $U$ of
-        $\theta_\star$ the hessian $\nabla\nabla l_x(\theta)$ is lower-bounded
-        by some strictly positive definite form $Q(\theta)$ continuous in
-        $\theta$.  \emph{Then} for any initialization $\theta_0\in V$ in some
-        neighborhood $V$ of $\theta_\star$ and for any homogeneous polynomial
-        $p(\eta)$ (of $\eta$'s $\text{dim}\times\text{dim}$ many components)
-        with exactly one root (at $\eta=0$): $\lim_{\eta\to 0}
+        Assume \S B.1's boundedness and analyticity properties.
+        \textsc{Supposing} that $\nabla l(\theta_\star)=0$ and that on some
+        open neighborhood $U$ of $\theta_\star$ the hessian $\nabla\nabla
+        l_x(\theta)$ is lower-bounded by some strictly positive definite form
+        $Q(\theta)$ continuous in $\theta$, \textsc{then} for any
+        initialization $\theta_0\in V$ in some open neighborhood $V$ of
+        $\theta_\star$ and for any homogeneous polynomial $p(\eta)$ (of
+        $\eta$'s $\text{dim}\times\text{dim}$ many components) with no roots
+        (besides $\eta=0$): $\lim_{\eta\to 0}
         (\text{LHS}(\eta)-\text{RHS}(\eta))/p(\eta) = 0$.\vspace{-0.25cm}
     \end{proposition*}
-    %
-    %Even without this proposition, though, $\text{LHS}(\eta)$ and
-    %$\text{RHS}(\eta)$ disagree, we still have that 
+    \begin{proof}[\textbf{Proof idea}]
+        Gradient and hessian bounds give for all $\epsilon$ some
+        $\delta,\delta^\prime$ so that for all $T$, all $\eta<\delta$, and all
+        $\theta_0$ with $|\theta_0-\theta_\star|<\delta^\prime$:
+        $|\theta_T-\theta_0|<\epsilon$ with probability $1$.
+        %
+        In fact, 
+        \vspace{-0.25cm}
+    \end{proof}
     \text{\color{moor} TODO: prove, discuss, and discuss irrelevance!}
+    %
+    \prp{A} is a straightforward extension of the proof of \thm{2}.  But from
+    our viewpoint, \prp{A} is inessential: in practice (e.g.,
+    with CIFAR conv-nets) we have observed none of the pathologies that \prp{A}
+    seeks to control (\pag{6, last par}).  We the authors prefer to admit both
+    mathematical analysis and scientific measurement as means of
+    discovering.   
 
 \moosect{Sharp Minima}
-    \Rb\ notes that \cor{5} statement --- that the amount of overfitting
+    \Rb\ finds \cor{5}'s statement ({\small that overfitting
     (defined as the increase in testing loss $l$ upon initializing at a local
     minimum of $l$ and then training) is, to second order in $\eta$, greatest
-    when the hessian has moderate curvature with respect to $\eta$ --- is
-    counterintutive.
+    when the $\eta H$ has moderate eigenvalues}) 
+    counterintutive.  We do, too.
     %
-    Comparing \fig{5 \offive{1}} to \cit{Ke}'s \fig{1}, we note that SGD's
-    natural noise structure is \emph{not} that of \emph{displacements} in
-    weight space; rather, it is that of additive error terms $\nabla
-    l_x(\theta)-\nabla l(x)$ in the \emph{gradient} estimate.
+    Compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1} and note that SGD's noise
+    structure is \emph{not} that of \emph{displacements} in weight space;
+    rather, it is that of error terms $\nabla l_x(\theta)-\nabla l(x)$ in the
+    \emph{gradient} estimate.  
     %
-    Consider a one-dimensional $\theta$ and imagine a quadratic testing loss
+    Say $\text{dim}=1$ and imagine a testing loss
     $l(\theta)=a \theta^2/2$ and a training loss $\hat
     l(\theta)=l(\theta)+b\theta$.  At the training minimum $\theta=-b/a$, the
-    testing loss is $b^2/(2a)$.  Thus, for fixed $b$, sharper minima (larger
-    $a$) overfit less.  The gradient covariance $C$ controls $b^2$,
-    explaining \cor{5}'s $C/2H$ factor.  This example suggests that if we
-    optimize to convergence, sharp minima overfit least.
+    testing loss is $b^2/(2a)$.  So for fixed $b$, sharp minima ($a\gg 1$)
+    overfit less (we invite \Rb\ to run the gist at
+    \href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{gist.github.com/anonymous-taylor-series} to 
+    see this `in person').
+    %The gradient covariance $C$ controls $b^2$, explaining
+    %\cor{5}'s $C/2H$ factor.  
     %
-    But it is near flat minima that
-    convergence is slowest, so for fixed $\eta, T$, we expect
-    overfitting to vanish as the Hessian shrinks.  By making explicit $\eta$'s
-    role in translating gradients into displacements, our theory accounts for
-    both effects, thus reconciling \cit{Ke}'s pro-flat intuitions with 
-    [Di]'s pro-sharp intuitions.
+    This example suggests that (\textbf{A}) if we optimize to
+    convergence, sharp minima overfit less; that (\textbf{B}) convergence is slow near
+    flat minima explains why theory and measurement find that flat minima also
+    overfit little.  (Our small-$\eta$ assumption rules out the possibility
+    that $H$ is so sharp that SGD diverges: in the regime $1/T \ll \eta H \ll
+    1$, sharper minima overfit less).
+    %
+    Prior work (see \pag{12, par 5}) finds that (contrary to \cit{Ke}) sharp
+    minima overfit little.  By explicating $\eta$'s role in translating
+    gradients into displacements, our theory accounts for both (\textbf{A}) and
+    (\textbf{B}), thus unifying existing pro-flat and pro-sharp intuitions
+    (e.g., \cit{Ke} and \cit{Di}).
     %
     We view it as a merit that our formalism makes such counterintuitive
     phenomena visible.
     
-\moosect{Citations}
-    Thank you for pointing us to Barrett et al.  
+\moosect{Implicit Regularization}
     
-\moosect{Clarity}
-    Our work uses a convention standard in physics and in high-dimensional
-    statistics. 
+\moosect{Assumptions} Reviewers  
+
+\moosect{Notation}
+    Our paper used a tensor-index convention found in tensor statistics
+    (\cit{Mc}, \cit{Dy}) but not in CS at large.  Our camera-ready will make
+    all `$\sum$s explicit.  Based on \Rb,\Rc's feedback, we believe this small
+    change will substantially improve a reader's experience.
+
+\moosect{Organization}
+    Reviewers \Rb,\Rc\ struggled with our paper's organization.  We believe 
+    that decomposing the paper into three tracks (to be selected between based
+    on a reader's goals) will help us tell our story without causing the burden
+    of too many frontloaded concepts or the confusion of too many
+    forward references to backloaded concepts.
+    %
+    \textbf{Track A} [pgs 1-4], for the reader who wants a `free sample', will
+    eschew diagrams, general theorems, and \S
+    1.1, 2.2's heavy notations.  It will illustrate Taylor series via \S
+    2.1's proof, identify the concrete terms relevant to \S 3.3, state
+    (with \S B.1's assumptions explicit and with \prp{A}'s level of precision)
+    \cor{4}, and conclude with \S 4.2's verification of SGD's sensitivity to
+    curl.  
+    %
+    \textbf{Track B} [pgs 1-4, 5-12], for she who seeks physical intuition for
+    our corollaries, will take Track A as motivation for the formalism of \S
+    1.1 and \S 2.2, which we will illustrate as in \S A.4's.  \S 2.3 will 
+    discuss of re-summation physically, in the style of \fig{5, 7}.
+    \S 2.4 will include \prp{A} per \Ra's feedback.  For space, we'll
+    move \S 4 to \S C; but each of \S 3.1, 3.2, 3.4 will briefly summarize the
+    relevant empirical confirmation.
+    %
+    \textbf{Track C} [pgs 4-12, 15-42], for she who wishes to use and extend
+    our formalism, will .
+    %
+    We will re-organize the paper accordingly.
+
+\moosect{Surprise}
+    We are glad that some of our results surprised \Rb, \Rc.  We believe these
+    results, and more importantly the physical-geometric viewpoint that led to
+    them, are worth sharing.  Recalling that many of our favorite papers
+    are those offering a disorientingly fresh viewpoint, we hope that the
+    reviewers can feel the same about our work.
 
 \par\noindent
 \vspace{0.1cm}
@@ -155,5 +225,11 @@
     \noindent
     %\cit{Ke} N.S.Keskar, D.Mudigere, J.Nocedal, M.Smelyanskiy, P.T.P.Tang.  On Large-Batch Training for Deep Learning.  ICLR 2017.
     \cit{Ke} N.S.Keskar et alia.  On Large-Batch Training for Deep Learning.  ICLR 2017.
+
+    \noindent
+    \cit{Mc} P.McCullagh.  Tensor Methods in Statistics.  Dover Books 2017.
+
+    %\noindent
+    %\cit{Mc} J.Ragan-Kelley et alia.  Easy Optimization of Image Processing Pipelines.  ACM Transactions July 2012.
 
 \end{document}
