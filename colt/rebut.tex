@@ -33,8 +33,8 @@
 
 \newcommand{\cit}[1]{[\textbf{#1}]}
 
-\newcommand{\moosect}[1]{\par\noindent\textbf{#1} ---}
-\newtheorem*{proposition*}{{\textsc{Proposition A}}}
+\newcommand{\moosect}[1]{\par\textsc{\textbf{#1}} ---}
+\newtheorem*{proposition*}{{Proposition A}}
 
 \usepackage{amsfonts, makerobust, float}
 \usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
@@ -94,19 +94,19 @@
     $\text{LHS}(\eta)\triangleq \lim_{d\to\infty} \lim_{T\to \infty}
     L_d(\eta,T)$, it is $\text{RHS}(\eta)\triangleq \lim_{T\to\infty}
     \lim_{d\to\infty} L_d(\eta,T)$ that more interests us.  How do LHS and
-    RHS relate?
+    RHS relate (and do they exist)?
     %
     \begin{proposition*}\vspace{-0.25cm}
-        Assume \S B.1's boundedness and analyticity properties.
-        \textsc{Supposing} that $\nabla l(\theta_\star)=0$ and that on some
+        Assume \S B.1's boundedness and analyticity properties;
+        {\textbf{if}} $\nabla l(\theta_\star)=0$ and on some
         open neighborhood $U$ of $\theta_\star$ the hessian $\nabla\nabla
         l_x(\theta)$ is lower-bounded by some strictly positive definite form
-        $Q(\theta)$ continuous in $\theta$, \textsc{then} for any
+        $Q(\theta)$ continuous in $\theta$, {\textbf{then}} for any
         initialization $\theta_0\in V$ in some open neighborhood $V$ of
         $\theta_\star$ and for any homogeneous polynomial $p(\eta)$ (of
-        $\eta$'s $\text{dim}\times\text{dim}$ many components) with no roots
-        (besides $\eta=0$): $\lim_{\eta\to 0}
-        (\text{LHS}(\eta)-\text{RHS}(\eta))/p(\eta) = 0$.\vspace{-0.25cm}
+        $\eta$'s $\text{dim}\times\text{dim}$ many components; and with no roots
+        besides $\eta=0$): $\lim_{\eta\to 0}
+        (\text{LHS}(\eta)-\text{RHS}(\eta))/p(\eta) = 0$ is well-defined and vanishes.\vspace{-0.25cm}
     \end{proposition*}
     \begin{proof}[\textbf{Proof idea}]
         Gradient and hessian bounds give for all $\epsilon$ some
@@ -115,121 +115,108 @@
         $|\theta_T-\theta_0|<\epsilon$ with probability $1$.
         %
         In fact, 
+        {\color{moor}{FILL IN}}
         \vspace{-0.25cm}
     \end{proof}
-    \text{\color{moor} TODO: prove, discuss, and discuss irrelevance!}
-    %
-    \prp{A} is a straightforward extension of the proof of \thm{2}.  But from
-    our viewpoint, \prp{A} is inessential: in practice (e.g.,
-    with CIFAR conv-nets) we have observed none of the pathologies that \prp{A}
-    seeks to control (\pag{6, last par}).  We the authors prefer to admit both
-    mathematical analysis and scientific measurement as means of
-    discovering.   
+    \noindent
+    \prp{A} is a straightforward extension of \thm{2}'s proof.  But in
+    some sense, \prp{A} is inessential: in practice we have observed none
+    of the pathologies that \prp{A} seeks to control (\pag{6, last par}).
+    Ultimately, we view our experiments (e.g., with CIFAR conv-nets) as
+    verifying that our theory has substance.
 
 \moosect{Sharp Minima}
-    \Rb\ finds \cor{5}'s statement ({\small that overfitting
-    (defined as the increase in testing loss $l$ upon initializing at a local
-    minimum of $l$ and then training) is, to second order in $\eta$, greatest
+    \Rc\ finds \cor{5} ({\small that overfitting
+    (i.e., the excess testing loss $l$ incurred after initializing at a testing
+    minimum then training) is, to second order in $\eta$, greatest
     when the $\eta H$ has moderate eigenvalues}) 
     counterintutive.  We do, too.
     %
-    Compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1} and note that SGD's noise
-    structure is \emph{not} that of \emph{displacements} in weight space;
-    rather, it is that of error terms $\nabla l_x(\theta)-\nabla l(x)$ in the
-    \emph{gradient} estimate.  
+    Compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1}; note that SGD's noise
+    consists not of \emph{displacements} in weight space but of
+    error terms $\nabla l_x(\theta)-\nabla l(x)$ in the \emph{gradient}
+    estimate.  
     %
-    Say $\text{dim}=1$ and imagine a testing loss
-    $l(\theta)=a \theta^2/2$ and a training loss $\hat
-    l(\theta)=l(\theta)+b\theta$.  At the training minimum $\theta=-b/a$, the
-    testing loss is $b^2/(2a)$.  So for fixed $b$, sharp minima ($a\gg 1$)
-    overfit less (we invite \Rb\ to run the gist at
-    \href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{gist.github.com/anonymous-taylor-series} to 
-    see this `in person').
-    %The gradient covariance $C$ controls $b^2$, explaining
-    %\cor{5}'s $C/2H$ factor.  
-    %
-    This example suggests that (\textbf{A}) if we optimize to
-    convergence, sharp minima overfit less; that (\textbf{B}) convergence is slow near
-    flat minima explains why theory and measurement find that flat minima also
-    overfit little.  (Our small-$\eta$ assumption rules out the possibility
-    that $H$ is so sharp that SGD diverges: in the regime $1/T \ll \eta H \ll
-    1$, sharper minima overfit less).
+    Say $\text{dim}=1$ with testing loss $l(\theta)=a \theta^2/2$ training loss
+    $\hat l(\theta)=l(\theta)+b\theta$.  At the training minimum $\theta=-b/a$,
+    the testing loss is $b^2/(2a)$.  So for fixed $b$, sharp minima ($a\gg 1$)
+    overfit less.  The covariance $C$ controls $b^2$, explaining
+    \cor{5}'s $C/2H$ factor.  (Run this toy example at \href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{gist.github.com/anonymous-taylor-series}.)
+    In this case, optimization to convergence favors sharp minima
+    (\textbf{A}); but convergence is slow near flat minima, so theory and
+    measurement agree that flat minima also overfit little (\textbf{B}).  (Our
+    small-$\eta$ assumption rules out the possibility that $H$ is so sharp that
+    SGD diverges: in the regime $1/T \ll \eta H \ll 1$, sharper minima overfit
+    less).
     %
     Prior work (see \pag{12, par 5}) finds that (contrary to \cit{Ke}) sharp
     minima overfit little.  By explicating $\eta$'s role in translating
     gradients into displacements, our theory accounts for both (\textbf{A}) and
-    (\textbf{B}), thus unifying existing pro-flat and pro-sharp intuitions
+    (\textbf{B}) and unifies existing pro-flat and pro-sharp intuitions
     (e.g., \cit{Ke} and \cit{Di}).
     %
     We view it as a merit that our formalism makes such counterintuitive
     phenomena visible.
     
-\moosect{Implicit Regularization}
+\moosect{Implicit Regularization and ODE}
+    We thank \Rb\ for the highly relevant article.  In brief,  
     
-\moosect{Assumptions} Reviewers  
+\moosect{Verification} \Rc,\Ra\ raise concerns about verifiability.
 
 \moosect{Notation}
-    Our paper used a tensor-index convention found in tensor statistics
-    (\cit{Mc}, \cit{Dy}) but not in CS at large.  Our camera-ready will make
-    all `$\sum$s explicit.  Based on \Rb,\Rc's feedback, we believe this small
-    change will substantially improve a reader's experience.
+    \Rb,\Rc\ note that our use of `Einstein notation' (though found in tensor
+    statistics (\cit{Mc}, \cit{Dy})) is alien to CS at large.  Our camera-ready
+    will make all `$\sum$'s explicit while also referring the reader to
+    \cit{Mc}, as well as a new Einstein-free appendix \S{D}, for examples of tensor manipulations.
 
 \moosect{Organization}
-    Reviewers \Rb,\Rc\ struggled with our paper's organization.  We believe 
-    that decomposing the paper into three tracks (to be selected between based
-    on a reader's goals) will help us tell our story without causing the burden
-    of too many frontloaded concepts or the confusion of too many
-    forward references to backloaded concepts.
+    \Rb,\Rc\ stress the challenge of 
+    organizing our paper so as to avoid both the burden of too many
+    frontloaded concepts and the confusion of too many forward references to
+    concepts delayed.  We'll address this challenge by segmenting the paper
+    into three tracks (to be selected by a reader \emph{based on her goals}), each
+    with a self-contained subset of concepts: 
     %
-    \textbf{Track A} [pgs 1-4], for the reader who wants a `free sample', will
-    eschew diagrams, general theorems, and \S
-    1.1, 2.2's heavy notations.  It will illustrate Taylor series via \S
-    2.1's proof, identify the concrete terms relevant to \S 3.3, state
-    (with \S B.1's assumptions explicit and with \prp{A}'s level of precision)
-    \cor{4}, and conclude with \S 4.2's verification of SGD's sensitivity to
-    curl.  
+    \textbf{Track A} [pgs 1-4], for readers who want a `free sample', will
+    eschew diagrams, general theorems, and \S1.1/\S2.2's heavy notations.  It will illustrate Taylor series via \S
+    2.1's proof, identify the concrete terms relevant to \S 3.3, state \cor{4}
+    (with \S B.1's assumptions explicit and with \prp{A}'s level of precision),
+    and conclude with \S 4.2's verification of SGD's sensitivity to curl.  
     %
-    \textbf{Track B} [pgs 1-4, 5-12], for she who seeks physical intuition for
-    our corollaries, will take Track A as motivation for the formalism of \S
-    1.1 and \S 2.2, which we will illustrate as in \S A.4's.  \S 2.3 will 
-    discuss of re-summation physically, in the style of \fig{5, 7}.
-    \S 2.4 will include \prp{A} per \Ra's feedback.  For space, we'll
-    move \S 4 to \S C; but each of \S 3.1, 3.2, 3.4 will briefly summarize the
-    relevant empirical confirmation.
+    \textbf{Track B} [pgs 1-4, 5-12], for she who seeks our results and their
+    physical intuitions, will use Track A to motivate (and \S A.4 to
+    illustrate) \S1.1/2.2/2.3's definitions, relegating \S2.2/2.1's Lemma and
+    discussions of terms to \S B.  \S 2.4 will include \prp{A} per \Ra's
+    feedback as well as a cartoon (in \fig{5,7}'s style) of resummation's
+    `physics'.  For space, we'll move \S 4 to \S C; but each of \S 3.1/3.2/3.4
+    will briefly summarize the relevant empirical confirmation.
     %
-    \textbf{Track C} [pgs 4-12, 15-42], for she who wishes to use and extend
-    our formalism, will .
-    %
-    We will re-organize the paper accordingly.
+    \textbf{Track C} [pgs 5-12, 15-42], for she who wishes to use and extend
+    our formalism, will {\color{moor}{FILL IN}}.
 
-\moosect{Surprise}
-    We are glad that some of our results surprised \Rb, \Rc.  We believe these
-    results, and more importantly the physical-geometric viewpoint that led to
-    them, are worth sharing.  Recalling that many of our favorite papers
-    are those offering a disorientingly fresh viewpoint, we hope that the
-    reviewers can feel the same about our work.
+\moosect{References}
+    \cit{Ba} D.G.Barrett, B.Dherin.  \emph{Implicit Gradient Regularization}.  ICLR 2021.
+    ---
+    \cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  \emph{Sharp Minima Can Generalize for Deep Nets}.  ICML 2017.
+    ---
+    \cit{Dy} E.Dyer, G.Gur-Ari.  \emph{Asymptotics of Wide Networks from Feynman Diagrams}.  ICLR 2020.
+    ---
+    \cit{Ke} N.S.Keskar et alia.  \emph{On Large-Batch Training for Deep Learning}.  ICLR 2017.
+    ---
+    \cit{Mc} P.McCullagh.  \emph{Tensor Methods in Statistics}.  Dover Books 2017.
+\end{document}
 
-\par\noindent
-\vspace{0.1cm}
-\hrule
-
-    \noindent
-    \cit{Ba} D.G.Barrett, B.Dherin.  Implicit Gradient Regularization.  ICLR 2021.
-
-    \noindent
-    \cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  Sharp Minima Can Generalize for Deep Nets.  ICML 2017.
-
-    \noindent
-    \cit{Dy} E.Dyer, G.Gur-Ari.  Asymptotics of Wide Networks from Feynman Diagrams.  ICLR 2020.
-
-    \noindent
+%\moosect{Surprise}
+%    We are glad that some of our results surprised \Rb, \Rc.  We believe these
+%    results, and more importantly the physical-geometric viewpoint that led to
+%    them, are worth sharing.  Recalling that many of our favorite papers
+%    are those offering a disorientingly fresh viewpoint, we hope that the
+%    reviewers can feel the same about our work.
     %\cit{Ke} N.S.Keskar, D.Mudigere, J.Nocedal, M.Smelyanskiy, P.T.P.Tang.  On Large-Batch Training for Deep Learning.  ICLR 2017.
-    \cit{Ke} N.S.Keskar et alia.  On Large-Batch Training for Deep Learning.  ICLR 2017.
-
-    \noindent
-    \cit{Mc} P.McCullagh.  Tensor Methods in Statistics.  Dover Books 2017.
-
-    %\noindent
     %\cit{Mc} J.Ragan-Kelley et alia.  Easy Optimization of Image Processing Pipelines.  ACM Transactions July 2012.
 
-\end{document}
+
+    %We the authors prefer to admit both
+    %mathematical analysis and scientific measurement as means of
+    %discovering.   
+

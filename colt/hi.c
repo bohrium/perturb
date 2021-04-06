@@ -1,6 +1,25 @@
-// Save this to a file named `overfit.c' and then run: 
+//       |       |       |       |       |  
+//       |       |       |       |       |  
+//       |       |       |       |       |  
+//       |       |       |       |       |        
+//       |       |       |       |       |        
+//     \ | /   \ | /   \ | /   \ | /   \ | /      
+//      \|/     \|/     \|/     \|/     \|/       
+//       V       V       V       V       V        
+// Run:
+//      curl -o overfit.c https://gist.githubusercontent.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e/raw/77fe17c6f2b7b78514439902750a8b5577ee6d77/overfit.c
 //      gcc overfit.c -o overfit.o
 //      ./overfit.o
+//
+//       A       A       A       A       A     
+//      /|\     /|\     /|\     /|\     /|\   
+//     / | \   / | \   / | \   / | \   / | \  
+//       |       |       |       |       |           
+//       |       |       |       |       |           
+//       |       |       |       |       |           
+//       |       |       |       |       |           
+//       |       |       |       |       |           
+//
 // The output shows sharp and flat minima both outperforming medium minima: 
 //      H=0.01 -> loss=0.17
 //      H=0.03 -> loss=0.37
