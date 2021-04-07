@@ -1,0 +1,286 @@
+\documentclass[12pt]{colt2021} %% Anonymized submission
+\usepackage{times}
+\usepackage{soul}
+%\usepackage[
+%    top   =1in,
+%    bottom=1in,
+%    left  =1in,
+%    right =1in,
+%]{geometry}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[clock,weather]{ifsym}
+
+%\usepackage[dvipsnames]{xcolor}
+%\usepackage{amsmath, amssymb, amsthm, bm}
+
+\newcommand{\Ra}{\textmd{\textsf{\color{purple!50} {R1}}}}
+\newcommand{\Rb}{\textmd{\textsf{\color{green!60}  {R2}}}}
+\newcommand{\Rc}{\textmd{\textsf{\color{blue!50}   {R3}}}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\RR}{\mathbb{R}}
+
+\newcommand{\cor}[1]{\textmd{{\color{gray}Cor}{#1}}} 
+\newcommand{\dfn}[1]{\textmd{\textsf{Defn#1}}}
+\newcommand{\apx}[1]{\textmd{\textsf{Apdx#1}}}
+\newcommand{\pag}[1]{\textmd{{\color{gray}Pg}{#1}}}
+\newcommand{\pgph}[1]{\textmd{{\color{gray}Par}{#1}}}
+\newcommand{\fig}[1]{\textmd{{\color{gray}Fig}#1}}
+\newcommand{\thm}[1]{\textmd{{\color{gray}Thm}{#1}}}
+\newcommand{\lem}[1]{\textmd{{\color{gray}Lem}{#1}}}
+\newcommand{\prp}[1]{\textmd{{\color{gray}Prp}{#1}}}
+\newcommand{\trk}[1]{\textmd{{\color{gray}Trk}{#1}}}
+\newcommand{\tab}[1]{\textmd{{\color{gray}Tab}{#1}}}
+
+\newcommand{\cit}[1]{[\textbf{#1}]}
+
+\newcommand{\moosect}[1]{\par\noindent\hspace{-1cm}\textsc{\textbf{#1}}.}
+\newtheorem*{propA*}{{Prop A}}
+\newtheorem*{thm2*}{{Thm 2}}
+
+\usepackage{amsfonts, makerobust, float}
+\usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
+\usepackage[export]{adjustbox}
+%---------------------  graphics and figures  ---------------------------------
+\usepackage{wrapfig, caption}
+\usepackage{hanging, txfonts, ifthen}
+
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+
+
+\newcommand{\offive}[1]{
+    {\tiny
+        \raisebox{-0.04cm}{\color{gray}\scalebox{2.5}{$\substack{
+            \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
+        }$}}%
+        \raisebox{0.04cm}{$\substack{
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}   
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square} \\
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+        }$}%
+    }%
+}
+
+
+\newcommand{\ofsix}[1]{
+    {\tiny \raisebox{0.04cm}{$\substack{
+        \IfSubStr{#1}{0}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}  \\ 
+        \IfSubStr{#1}{3}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{4}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{5}{{\color{moor}\blacksquare}}{\square}    
+    }$}}%
+}
+
+%   The following reconciles COLT's style with \includegraphics:
+%       (see tex.stackexchange.com/questions/520891)
+\makeatletter
+\let\Ginclude@graphics\@org@Ginclude@graphics
+\makeatother
+
+
+
+\newcommand{\sizeddia}[2]{%
+    \begin{gathered}%
+        \includegraphics[scale=#2]{../diagrams/#1.png}%
+    \end{gathered}%
+}
+\newcommand{\bdia}[1]{\protect \sizeddia{#1}{0.22}}
+\newcommand{\dia} [1]{\protect \sizeddia{#1}{0.18}}
+\newcommand{\mdia}[1]{\protect \sizeddia{#1}{0.14}}
+\newcommand{\sdia}[1]{\protect \sizeddia{#1}{0.10}}
+
+
+
+\begin{document}
+
+    \newcommand{\LaT}{\Lambda_{\text{\tiny\VarClock}}}
+    \newcommand{\Lad}{\Lambda_{\text{\tiny\Thermo{4}}}}
+
+    \noindent
+    We thank reviewers \Ra, \Rb, \Rc\ for their substantial time investment
+    and for their incisive feedback. 
+    %We address in turn concerns over
+    %our work's correctness (\Ra), counterintuitiveness (\Rc), citations (\Rb),
+    %and clarity (\Ra,\Rb,\Rc): 
+
+\moosect{Limits}
+    \Ra\ highlights ways our precision must improve. %, %noting that
+    %\thm{2} gives convergence of \emph{truncated} series
+    %(\pag{6}\pgph{(-1)}).
+    \thm{2} states:
+    \emph{\textbf{\{\!\{}For each $d$, every non-deg.\ local min.\ $\theta_\star$ has a nbhd $U$
+        whose every member $\theta_0$ induces, via \thm{1}, a
+        $T$-indexed sequence of degree-$d$ truncations $f_T\in \RR[\eta]$ that
+        converges
+        %(uniformly on any compact set of $\eta$s)
+        as $T\to \infty$ to
+        some $f_d\in\RR[\eta]$.\textbf{\}\!\}}}
+    $\RR[\eta]$ is the free polynomial ring in $\dim(\Mm)^2$ many
+    variables, topologized as euclidean space.
+    \noindent
+    So if $L_{d,T}(\eta)$ is \thm{1}'s truncation, \thm{2}
+    controls $L_d(\eta) = \lim_{\tilde T\to\infty} L_{d,\tilde T}(\eta)$ but not
+    $L_T(\eta) = \lim_{\tilde d\to\infty} L_{\tilde d,T}(\eta)$, even for $d,T\gg 1$. 
+    \thm{1,2}'s significance stems from \textbf{empirical} findings that
+    their \emph{formal} power series \cit{Wi} bear on SGD practice (w.r.t.\ which \emph{any}
+    infinities are idealizations).   
+    %as \Rb\ noted, they offer empirically supported intuitive insights into
+    %SGD. 
+    %
+    Our mathematics was but a strong
+    heuristic,\footnote{%
+        By clcal.mech.\ (CM) of thermal continua, ice cubes have
+        energy=$\infty$ [McQuarrie '97, \S{1-1}].
+        But CM gives real insight.
+        %one manipulates
+        %\emph{formal} power series.
+        %\cit{Qu}
+        %D.A.McQuarrie, J.D.Simon.  \emph{Physical Chemistry}, \S{1-1}.
+        %University Science Books 1997.
+    } so we didn't examine when 
+    $L_d, L_T$ agree.  Still:
+    \textbf{Prop A}.\emph{
+    \textbf{\{\!\{}Fix $U\subseteq \Mm$ open, %with compact closure $\bar{U}$, 
+        $\theta_\star\in U$ a non-deg.\ local min.\ of $l$.
+        Assume \S{B.1} as well as global, prob.-$1$ bounds $(|l_x(\theta)|,\|\nabla
+        l_x(\theta_\star)\|)<C$.
+        \textbf{If} some $Q_-,Q_+\in \text{SPD}$ bound the hessian
+        ($Q_- < \nabla\nabla l_x(\theta)<Q_+$) on $U$,
+        \textbf{then} $\forall d$ and for any $\theta_0$ in
+        some nbhd $V_d$ of $\theta_\star$: $\exists T_0, g$ with
+        $|g(T)|$ in $\exp(-\text{big}\Omega(T))$ so that
+        $\sup_{T\geq T_0} |L_d(\eta)-L_T(\eta)-g(T)|$
+        (exists on some nbhd in $\text{SPSD}$ of
+        $\eta=0$ and) is
+        $o(\eta^d)$.\textbf{\}\!\}}
+    }
+    $\textbf{SP(S)D}$ consists of symmetric positive
+        (semi)definites.
+
+\moosect{Sharp Minima}
+    Like us, \Rc\ finds \cor{5}\footnote{i.e.: \emph{that \textbf{overfitting}}
+    ($\triangleq$ $l(\theta_T)-l(\theta_0)$ where $\theta_0$ is a min.\ of $l$)
+    \emph{has an $\eta^2$ term greatest
+    when $\eta H$ has moderate eigenvalues}.}
+    counterintutive.
+    %
+    SGD's noise consists
+    not of weight \emph{displacements} but
+    of error terms $\nabla l_x(\theta)-\nabla l(x)$ in the \emph{gradient}
+    estimate; compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1}. 
+    %
+    Say $\theta$'s 1D with $l(\theta)=a \theta^2/2$ and training loss
+    $\hat l(\theta)=l(\theta)+b\theta$.  At $\hat l$'s min.\ $\theta=-b/a$, $l(\theta)=b^2/(2a)$.  So for
+    fixed $b$, sharp min.a ($a\gg 1$) overfit less (\href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{demo
+    here}).  The
+    covariance $C$ controls $b^2$, explaining
+    \cor{5}'s $C/2H$ factor.  
+    Here, optimization \emph{to convergence} favors sharp min.a
+    ($\star$); convergence is slow at flat min.a, so flat min.a also overfit
+    little ($\diamond$).  (Our small-$\eta$ assumption rules out the
+    possibility that $H$ is so sharp that SGD diverges: we treat $\eta H \ll 1$).
+    %
+    Prior work (\pag{12}\pgph{5}, e.g.\ \cit{Ke} and \cit{Di}) supports both
+    pro-flat and pro-sharp intuitions.  Recognizing $\eta$'s role in
+    translating gradients to displacements, we account for both
+    ($\star$) and ($\diamond$) and hence unify existing intuitions (\S{4.3}).
+    %
+    We view it as a merit that our theory makes such counterintuitive
+    phenomena visible.
+    
+\moosect{Comparison to ODE}
+    We thank \Rb\ for \cit{Ba}.  \cit{Ba}'s \lem{A.3} specializes our
+    \lem{Key}.   In our language, \cit{Ba} computes fuzzless diagrams
+    (noiseless $\equiv$ cumulants vanish $\equiv$ fuzz-having diagrams vanish).
+    The only such $\eta^2$ diagrams for $l(\theta_T)$ are
+    $\sdia{c(0-1-2)(02-12)}$, $\sdia{c(0-1-2)(01-12)}$.  The $N^{-1}$
+    correction to $\cit{Ba}$'s noiseless assumption consists of diagrams with
+    one fuzzy outline (\pag{24}\tab{1}).
+    
+%\moosect{Assumptions} \Rc,\Ra\ raise concerns about verifiability.
+%        {\color{moor}{FILL IN}}
+
+\moosect{Notation}
+    \Rc\ recognizes our expectands as tensor expressions;
+    they are often fully contracted (so scalar) and are always
+    random variables in some $\RR^k$. %with the standard $\sigma$-algebra.
+    %We'd be happy to clarify specific instances.
+    %
+    Per \Rb,\Rc, we'll disemploy `Einstein notation' and cite
+    \cit{Cu} (+ a new \S{D}) for tensor
+    examples.
+    %
+    If advised, we'll also forgo diagrams:
+    e.g.\ $[a][ab:c:d][bcd]$ for
+    $\sdia{MOOc(0-123-4)(01-14-34-24)}$ (letters name edges).
+    %
+    \Rc, \pag{6}\thm{2} defines `\textbf{non-degenerate}' as `$H\in \text{SPD}$'.
+
+\moosect{Organization}
+    \Rb,\Rc\ stress the paper's narrative challenge.  We'll arrange the paper
+    into $3$ self-contained tracks, each pertinent to a different goal: 
+    %
+    \trk{A} [pgs 1-4], for casual readers, will
+    eschew diagrams, theorems, and \S1.1/\S2.2's heavy notations; illustrate Taylor series via \S
+    2.1's proof; identify \S{3.3}'s terms; state \cor{4}
+    (w/ \S B.1's assumptions explicit, w/ \prp{A}'s precision);
+    explain \S 4.2's curl effect.
+    %
+    \trk{B} [pgs 1-4, 5-12], for seekers of physical intuition, will use
+    \trk{A} to motivate (and \S A.4 to illustrate) \S1.1/\S2's definitions;
+    relegate \S2.2/2.1's \lem{Key}/discussion to \S{B}; add to \S2.3.1 a resummation cartoon \`a la 
+    \fig{5,7}.
+    For space, \S{C}'ll absorb \S{4}.
+    %; but
+    %each \S3.i will note the relevant empirical support.
+    %
+    \trk{C} [pgs 5-12, 15-45], for our theory's extenders, will include
+    \prp{A} (per \Ra) and more explicit statements and arguments throughout.  
+
+\moosect{References}
+    \small%footnotesize
+    %\cit{Am} S-I.Amari, H.Nagaoka. \emph{Information Geometry}, pg 5.  Oxford UP 1993.  
+    \cit{Ba} D.G.Barrett, B.Dherin.  \emph{Implicit Gradient Regularization}.  ICLR 2021.
+    \cit{Cu} P.McCullagh.  \emph{Tensor Methods in Statistics}, \S{1.1-1.4},\S{1.8}.  Dover 2017.
+    \cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  \emph{Sharp Minima Can Generalize for Deep Nets}, \S{1},\S{5}.  ICML 2017.
+    \cit{Ke} N.S.Keskar et alia.  \emph{Large-Batch Training for Deep Learning}, \S{4}.  ICLR 2017.
+    \cit{Wi} H.Wilf.  \emph{Generatingfunctionology}, \S{2.1-2.3}.  Academic Press 1994.
+    %---
+    %\cit{Tr} C.Truesdell.   \emph{Six Lectures on Modern Natural Philosophy}, pgs 1,2,89. Springer-Verlag 1966.
+    %---
+    %\cit{Mo} L.d.Moura et alia.  \emph{The Lean Theorem Prover}.  CADE 2015.
+%\cit{Dy} E.Dyer, G.Gur-Ari.  \emph{Asymptotics of Wide Networks from Feynman Diagrams}, \S{2.2, B.1}.  ICLR 2020.
+    %---
+\end{document}
+
+%\moosect{Surprise}
+%    We are glad that some of our results surprised \Rb, \Rc.  We believe these
+%    results, and more importantly the physical-geometric viewpoint that led to
+%    them, are worth sharing.  Recalling that many of our favorite papers
+%    are those offering a disorientingly fresh viewpoint, we hope that the
+%    reviewers can feel the same about our work.
+    %\cit{Ke} N.S.Keskar, D.Mudigere, J.Nocedal, M.Smelyanskiy, P.T.P.Tang.  On Large-Batch Training for Deep Learning.  ICLR 2017.
+    %\cit{Mc} J.Ragan-Kelley et alia.  Easy Optimization of Image Processing Pipelis.  ACM Transactions July 2012.
+
+
+    %We the authors prefer to admit both
+    %mathematical analysis and scientific measurement as means of
+    %discovering.   
+

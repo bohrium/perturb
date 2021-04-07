@@ -1,6 +1,6 @@
 rebut:
-	pdflatex rebut.tex
-	evince   rebut.pdf
+	pdflatex author_response.tex
+	evince   author_response.pdf
 
 fast:
 	bibtex   perturb-colt.aux
