@@ -14,27 +14,36 @@
 \usepackage{amsfonts}       % blackboard math symbols
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
+\usepackage[clock,weather]{ifsym}
 
 \usepackage[dvipsnames]{xcolor}
 \usepackage{amsmath, amssymb, amsthm, bm}
 
 \newcommand{\Ra}{\textmd{\textsf{\color{purple!50} {R1}}}}
-\newcommand{\Rb}{\textmd{\textsf{\color{green!50}  {R2}}}}
+\newcommand{\Rb}{\textmd{\textsf{\color{green!60}  {R2}}}}
 \newcommand{\Rc}{\textmd{\textsf{\color{blue!50}   {R3}}}}
 \newcommand{\PP}{\mathbb{P}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\RR}{\mathbb{R}}
 
 \newcommand{\cor}[1]{\textmd{\textsf{Cor #1}}} 
 \newcommand{\dfn}[1]{\textmd{\textsf{Defn#1}}}
 \newcommand{\apx}[1]{\textmd{\textsf{Apdx#1}}}
-\newcommand{\pag}[1]{\textmd{\textsf{Page#1}}}
-\newcommand{\fig}[1]{\textmd{\textsf{Fig #1}}}
-\newcommand{\thm}[1]{\textmd{\textsf{Thm #1}}}
-\newcommand{\prp}[1]{\textmd{\textsf{Prop#1}}}
+\newcommand{\pag}[1]{\textmd{{\color{gray}Pg}{#1}}}
+\newcommand{\pgph}[1]{\textmd{{\color{gray}Par}{#1}}}
+\newcommand{\fig}[1]{\textmd{{\color{gray}Fig}#1}}
+\newcommand{\thm}[1]{\textmd{{\color{gray}Thm}{#1}}}
+\newcommand{\prp}[1]{\textmd{{\color{gray}Prp}{#1}}}
 
 \newcommand{\cit}[1]{[\textbf{#1}]}
 
 \newcommand{\moosect}[1]{\par\textsc{\textbf{#1}} ---}
-\newtheorem*{proposition*}{{Proposition A}}
+\newtheorem*{propA*}{{Prop A}}
+\newtheorem*{thm2*}{{Thm 2}}
 
 \usepackage{amsfonts, makerobust, float}
 \usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
@@ -75,84 +84,169 @@
 }
 
 
+\newcommand{\sizeddia}[2]{%
+    \begin{gathered}%
+        \includegraphics[scale=#2]{../diagrams/#1.png}%
+    \end{gathered}%
+}
+\newcommand{\bdia}[1]{\protect \sizeddia{#1}{0.22}}
+\newcommand{\dia} [1]{\protect \sizeddia{#1}{0.18}}
+\newcommand{\mdia}[1]{\protect \sizeddia{#1}{0.14}}
+\newcommand{\sdia}[1]{\protect \sizeddia{#1}{0.10}}
+
+
+
 \begin{document}
 
-    We thank reviewers \Ra, \Rb, \Rc\ for their feedback.  Reviewers had
-    concerns over our work's correctness (\Ra), counterintuitiveness (\Rc), 
-    citations (\Rb), and clarity (\Ra,\Rb,\Rc).  We address these concerns in
-    sqeuence. 
+    We thank reviewers \Ra, \Rb, \Rc\ for their substantial time investment
+    and for incisive feedback.  We address in turn your concerns over
+    our work's correctness (\Ra), counterintuitiveness (\Rc), citations (\Rb),
+    and clarity (\Ra,\Rb,\Rc): 
 
 \moosect{Limits}
-    view the expected testing loss as a function
-    $L(\eta, T)$.  For each $d$ is a $d$th order truncation $L_d(\eta, T)$, a
-    degree-$d$ polynomial in $\eta$ whose coefficients depend on $T$.
-    \thm{2} gives a sufficient condition for $L_{d,\infty}(\eta) \triangleq
-    \lim_{T\to\infty} L_{d}(\eta,T)$ to exist as well as 
-    a formula for $L_{d,\infty}$. %; \prp{1} specializes \thm{2}.
-    %
-    \Ra\ observes that, though \thm{2} controls
-    $\text{LHS}(\eta)\triangleq \lim_{d\to\infty} \lim_{T\to \infty}
-    L_d(\eta,T)$, it is $\text{RHS}(\eta)\triangleq \lim_{T\to\infty}
-    \lim_{d\to\infty} L_d(\eta,T)$ that more interests us.  How do LHS and
-    RHS relate (and do they exist)?
-    %
-    \begin{proposition*}\vspace{-0.25cm}
-        Assume \S B.1's boundedness and analyticity properties;
-        {\textbf{if}} $\nabla l(\theta_\star)=0$ and on some
-        open neighborhood $U$ of $\theta_\star$ the hessian $\nabla\nabla
-        l_x(\theta)$ is lower-bounded by some strictly positive definite form
-        $Q(\theta)$ continuous in $\theta$, {\textbf{then}} for any
-        initialization $\theta_0\in V$ in some open neighborhood $V$ of
-        $\theta_\star$ and for any homogeneous polynomial $p(\eta)$ (of
-        $\eta$'s $\text{dim}\times\text{dim}$ many components; and with no roots
-        besides $\eta=0$): $\lim_{\eta\to 0}
-        (\text{LHS}(\eta)-\text{RHS}(\eta))/p(\eta) = 0$ is well-defined and vanishes.\vspace{-0.25cm}
-    \end{proposition*}
-    \begin{proof}[\textbf{Proof idea}]
-        Gradient and hessian bounds give for all $\epsilon$ some
-        $\delta,\delta^\prime$ so that for all $T$, all $\eta<\delta$, and all
-        $\theta_0$ with $|\theta_0-\theta_\star|<\delta^\prime$:
-        $|\theta_T-\theta_0|<\epsilon$ with probability $1$.
-        %
-        In fact, 
-        {\color{moor}{FILL IN}}
+    \newcommand{\LaT}{\Lambda_{\text{\tiny\VarClock}}}
+    \newcommand{\Lad}{\Lambda_{\text{\tiny\Thermo{4}}}}
+    We thank \Ra\ for highlighting ways our precision must improve.  For
+    instance, Thm 2 gives convergence of \emph{truncated} series
+    (\pag{6}\pgph{(-1)}).  Explicitly ({\Rc: note \thm{2} defines
+    `non-degenerate' as `{$H(\theta_\star)$ is positive definite}'}):
+    \begin{thm2*}
         \vspace{-0.25cm}
-    \end{proof}
+        For each $d$, each non-deg.\ local min.\ $\theta_\star$ has a
+        nbhd $U$ whose every member $\theta_0$ induces, via Thm 1, a
+        $T$-indexed sequence (of degree-$d$ polynomials $f_T\in \RR[\eta]$)
+        that converges (uniformly on any compact set of $\eta$s) as $T\to
+        \infty$ to some element $f_!\in\RR[\eta]$.  Here, $\RR[\eta]$ is the
+        formal polynomial ring in $\dim(\Mm)^2$ many variables.
+        \vspace{-0.25cm}
+    \end{thm2*}
+    %
     \noindent
-    \prp{A} is a straightforward extension of \thm{2}'s proof.  But in
-    some sense, \prp{A} is inessential: in practice we have observed none
-    of the pathologies that \prp{A} seeks to control (\pag{6, last par}).
-    Ultimately, we view our experiments (e.g., with CIFAR conv-nets) as
-    verifying that our theory has substance.
+    So if $L_{d,T}(\eta)$ is \thm{1}'s truncation, \thm{2}
+    controls $L_d(\eta) = \lim_{\tilde T\to\infty} L_{d,\tilde T}(\eta)$ but not
+    $L_T(\eta) = \lim_{\tilde d\to\infty} L_{\tilde d,T}(\eta)$, even for $d,T\gg 1$. 
+    What makes \thm{1,2} significant is our \textbf{empirical} finding that
+    their formal power series bear on SGD practice (w.r.t.\ which \emph{any}
+    infinities are idealizations).\footnote{In the
+    classical continuum mechanics (CCM) of thermalized solids, ice cubes have
+    infinite ergy; one manipulates \emph{formal} power series.  Yet in
+    experience, CCM well-models many phenomena.  \cit{Qu} D.A.McQuarrie,
+    J.D.Simon.  \emph{Physical Chemistry}, \S{1-1}.  University Science Books
+    1997.}   
+    Formal power series are logically consistent algebraic objects \cit{Wi},
+    and, as \Rb\ noted, they offer empirically supported intuitive insights into
+    SGD. 
+    %
+    Since our mathematical analysis was but an inspiring probe and a strong
+    heuristic, we did not examine conditions (such as \prp{A}'s) under which
+    $L_d, L_T$ agree:
+    %(\textbf{B}) 
+        \begin{propA*}\vspace{-0.25cm}
+            Fix $U\subseteq \Mm$ open with compact closure $\bar{U}$, 
+            $\theta_\star\in U$ a non-deg.\ local min.\ of $l$.
+            Assume \S{B.1} as well as global, prob.-$1$ bounds $(|l_x(\theta)|,\|\nabla
+            l_x(\theta_\star)\|)<C$.
+            \textbf{If} some $Q_-,Q_+\in \text{SPD}$ bound the hessian
+            ($Q_- < \nabla\nabla l_x(\theta)<Q_+$) on $\bar{U}$,
+            \textbf{then} for all $d$ and for any $\theta_0$ in
+            some nbhd $V_d$ of $\theta_\star$: for some $T_0$ and
+            $|g|$ in $\exp(-{\rm big}\Omega(T))$:
+            $\sup_{T\geq T_0} |L_d(\eta)-L_T(\eta)-g(T)|$ is
+            $o(\eta^d)$
+            (and exists on some nbhd in $\text{SPSD}$ of
+            $\eta=0$).  Here, $\text{SP(S)D}$ consists of symmetric positive
+            (semi)definite forms.
+        \end{propA*}
+
+    %We believe that mathematical analysis mixed with pragmatic empiricism  
+
+%- prong 0: X does not have to be close to Y for theory to be useful.  In
+%practice, o works with finite T,eta and empirically Thm 1 makes good
+%predictions.  We work as physicists.
+%
+%-- prong 1: Thm 2 has significance as a relation between formal power series:
+%that each degree d term of Thm 1's expression converges as T grows is not a
+%priori obvious.  Two followup directions: when does Thm 1's expression match
+%the limlim (smooth vs analytic) [see prop A]; what is the significance of these
+%formal d terms [process interaction interpretation; boundedss<< and 
+%empirically good fit occam]
+%
+%-- prong 2: in special cases, X is provably and quantifiably close to Y
+%[proposition A].
+%
+%-- merged prong: the theory's precise quantitative predictions and novel
+%qualitative predictions agree with experiment; the work ahead is that of
+%deliating the theory's assumptions and scope.  We take empirics as primary
+%answer to this, and we can refi analytic hypotheses in revision
+%
+%    view the testing loss for fixed initialization as
+%    a random function $L(\eta, T)$ (randomss from the training set).  For
+%    each natural $d$ is a truncation $L_d(\eta, T)$, a degree-$d$
+%    polynomial in $\eta$ whose coefficients depend on $T$.  \thm{2} gives a
+%    sufficient existence criterion as well as a formula for
+%    $\lim_{T\to\infty} \EE[L_{d}(\eta,T)]$.
+%    %
+%    \Ra\ stresses that $\text{LHS}_d(\eta)\triangleq
+%    \lim_{T\to \infty} \EE[L_d(\eta,T)]$ may differ substantially from
+%    $\text{RHS}_T(\eta)\triangleq \lim_{d\to\infty}
+%    \EE[L_d(\eta,T)]$, even for $d,T$ large.  However:
+%    %
+    %\begin{proof}[\textbf{Proof idea}]
+    %        Hessian bounds give compact nbhd $\Hh$ of $0$ and $\Tt$ of
+    %    $\theta_\star$ so that for all $(T,\eta,\theta_0) \in
+    %    \NN\times\Hh\times\Tt$: almost surely $\theta_T\in \Tt$\!.  By gradient
+    %    bounds and Chernoff, we may choose $N=T$ so large that with
+    %    probability $\geq 1-\delta$: each `{\color{moor} superbatch}' has a sample 
+    %    gradient and hessian that agrees with $l$'s to within $\epsilon$. 
+    %    %
+    %    %By \thm{2}'s formula, $\lim_T \EE[L_{d}(\eta,T)]$ has a degree-$k$
+    %    %coefficient bounded in magnitude by $l(\theta_0)$'s degree-$k$
+    %    %coefficient times a expontial function $\exp(\beta k)$, where $\beta$
+    %    %depends on $Q_-, \theta_0$ but not $T, d$.  Since $l$ is analytic, LHS
+    %    %exists.
+    %    {\color{moor}{FILL IN}}
+    %    \vspace{-0.25cm}
+    %\end{proof}
+    %\noindent
+    %%
+    %For instance, \prp{A}'s hypotheses hold for cross-entropy ts defined by
+    %analytic functions, applied to 
+    %bounded data, and with sufficient ($L_2$) weight decay.
+    %
+    %But \prp{A} seems relevant more to math than to science:
+       %We view our contribution as scientific rather than mathematical and our
+    %experiments (e.g., with CIFAR conv-ts) as the key test of our theory's
+    %substance.
 
 \moosect{Sharp Minima}
-    \Rc\ finds \cor{5} ({\small that overfitting
-    (i.e., the excess testing loss $l$ incurred after initializing at a testing
-    minimum then training) is, to second order in $\eta$, greatest
-    when the $\eta H$ has moderate eigenvalues}) 
+    \Rc\ finds \cor{5}\footnote{i.e.: that overfitting
+    ($\triangleq$ $l(\theta_T)-l(\theta_0)$ after initializing at a testing
+    minimum)'s second order term is greatest
+    when $\eta H$ has moderate eigenvalues}
     counterintutive.  We do, too.
     %
     Compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1}; note that SGD's noise
-    consists not of \emph{displacements} in weight space but of
+    consists not of weight \emph{displacements} but of
     error terms $\nabla l_x(\theta)-\nabla l(x)$ in the \emph{gradient}
     estimate.  
     %
     Say $\text{dim}=1$ with testing loss $l(\theta)=a \theta^2/2$ training loss
-    $\hat l(\theta)=l(\theta)+b\theta$.  At the training minimum $\theta=-b/a$,
-    the testing loss is $b^2/(2a)$.  So for fixed $b$, sharp minima ($a\gg 1$)
-    overfit less.  The covariance $C$ controls $b^2$, explaining
-    \cor{5}'s $C/2H$ factor.  (Run this toy example at \href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{gist.github.com/anonymous-taylor-series}.)
+    $\hat l(\theta)=l(\theta)+b\theta$
+    (\href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{anonymized code here}).  At the training minimum $\theta=-b/a$, the testing loss is
+    $b^2/(2a)$.  So for fixed $b$, sharp minima ($a\gg 1$) overfit less.  The
+    covariance $C$ controls $b^2$, explaining
+    \cor{5}'s $C/2H$ factor.  
     In this case, optimization to convergence favors sharp minima
-    (\textbf{A}); but convergence is slow near flat minima, so theory and
-    measurement agree that flat minima also overfit little (\textbf{B}).  (Our
+    ($\star$); but convergence is slow ar flat minima, so 
+    flat minima also overfit little ($\diamond$).  (Our
     small-$\eta$ assumption rules out the possibility that $H$ is so sharp that
     SGD diverges: in the regime $1/T \ll \eta H \ll 1$, sharper minima overfit
     less).
     %
-    Prior work (see \pag{12, par 5}) finds that (contrary to \cit{Ke}) sharp
-    minima overfit little.  By explicating $\eta$'s role in translating
-    gradients into displacements, our theory accounts for both (\textbf{A}) and
-    (\textbf{B}) and unifies existing pro-flat and pro-sharp intuitions
+    Prior work (see \pag{12}\pgph{5}) finds that (contrary to \cit{Ke}) sharp
+    minima overfit little.  Recognizing $\eta$'s role in translating
+    gradients to displacements, our theory accounts for both ($\star$) and
+    ($\diamond$) and unifies existing pro-flat and pro-sharp intuitions
     (e.g., \cit{Ke} and \cit{Di}).
     %
     We view it as a merit that our formalism makes such counterintuitive
@@ -160,22 +254,31 @@
     
 \moosect{Implicit Regularization and ODE}
     We thank \Rb\ for the highly relevant article.  In brief,  
+    {\color{moor} FILL IN}
     
-\moosect{Verification} \Rc,\Ra\ raise concerns about verifiability.
+\moosect{Assumptions and Verification} \Rc,\Ra\ raise concerns about verifiability.
+        {\color{moor}{FILL IN}}
 
 \moosect{Notation}
-    \Rb,\Rc\ note that our use of `Einstein notation' (though found in tensor
-    statistics (\cit{Mc}, \cit{Dy})) is alien to CS at large.  Our camera-ready
+    \Ra\ notes that we work with vector quantities, not scalars {\color{moor}FILL IN}.
+    %
+    \Rb,\Rc\ identify `Einstein notation' (though found in tensor
+    statistics literature (\cit{Cu}, \cit{Am})) as alien to CS at large.  Our camera-ready
     will make all `$\sum$'s explicit while also referring the reader to
-    \cit{Mc}, as well as a new Einstein-free appendix \S{D}, for examples of tensor manipulations.
+    \cit{Cu} (and to as a w pedagogical Einstein-free appendix \S{D}) for tensor manipulation examples.
+    %
+    We are also open to translating all diagrams to a more text-friendly
+    representation, e.g., $[a][ab:c:d][bcd]$ for $\sdia{MOOc(0-123-4)(01-14-34-24)}$
+    (letters name edges).
+
 
 \moosect{Organization}
     \Rb,\Rc\ stress the challenge of 
     organizing our paper so as to avoid both the burden of too many
-    frontloaded concepts and the confusion of too many forward references to
+    frontloaded concepts and the confusion of too many pointers to
     concepts delayed.  We'll address this challenge by segmenting the paper
-    into three tracks (to be selected by a reader \emph{based on her goals}), each
-    with a self-contained subset of concepts: 
+    into three tracks (to be selected by a reader based on her goals), each
+    with a self-contaid subset of concepts: 
     %
     \textbf{Track A} [pgs 1-4], for readers who want a `free sample', will
     eschew diagrams, general theorems, and \S1.1/\S2.2's heavy notations.  It will illustrate Taylor series via \S
@@ -195,15 +298,21 @@
     our formalism, will {\color{moor}{FILL IN}}.
 
 \moosect{References}
+    \small%footnotesize
+    \cit{Am} S-I.Amari, H.Nagaoka. \emph{Information Geometry}, pg 5.  Oxford UP 1993.  
     \cit{Ba} D.G.Barrett, B.Dherin.  \emph{Implicit Gradient Regularization}.  ICLR 2021.
-    ---
-    \cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  \emph{Sharp Minima Can Generalize for Deep Nets}.  ICML 2017.
-    ---
-    \cit{Dy} E.Dyer, G.Gur-Ari.  \emph{Asymptotics of Wide Networks from Feynman Diagrams}.  ICLR 2020.
-    ---
-    \cit{Ke} N.S.Keskar et alia.  \emph{On Large-Batch Training for Deep Learning}.  ICLR 2017.
-    ---
-    \cit{Mc} P.McCullagh.  \emph{Tensor Methods in Statistics}.  Dover Books 2017.
+    \cit{Cu} P.McCullagh.  \emph{Tensor Methods in Statistics}, \S{1.1-1.4},\S{1.8}.  Dover 2017.
+    \cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  \emph{Sharp Minima Can Generalize for Deep Nets}, \S{1},\S{5}.  ICML 2017.
+    \cit{Ke} N.S.Keskar et alia.  \emph{Large-Batch Training for Deep Learning}, \S{4}.  ICLR 2017.
+    \cit{Wi} H.Wilf.  \emph{Generatingfunctionology}, \S{2.1-2.3}.  Academic Press 1994.
+
+    %---
+    %\cit{Tr} C.Truesdell.   \emph{Six Lectures on Modern Natural Philosophy}, pgs 1,2,89. Springer-Verlag 1966.
+    %---
+    %\cit{Mo} L.d.Moura et alia.  \emph{The Lean Theorem Prover}.  CADE 2015.
+%\cit{Dy} E.Dyer, G.Gur-Ari.  \emph{Asymptotics of Wide Networks from Feynman Diagrams}, \S{2.2, B.1}.  ICLR 2020.
+    %---
+
 \end{document}
 
 %\moosect{Surprise}
@@ -213,7 +322,7 @@
 %    are those offering a disorientingly fresh viewpoint, we hope that the
 %    reviewers can feel the same about our work.
     %\cit{Ke} N.S.Keskar, D.Mudigere, J.Nocedal, M.Smelyanskiy, P.T.P.Tang.  On Large-Batch Training for Deep Learning.  ICLR 2017.
-    %\cit{Mc} J.Ragan-Kelley et alia.  Easy Optimization of Image Processing Pipelines.  ACM Transactions July 2012.
+    %\cit{Mc} J.Ragan-Kelley et alia.  Easy Optimization of Image Processing Pipelis.  ACM Transactions July 2012.
 
 
     %We the authors prefer to admit both
