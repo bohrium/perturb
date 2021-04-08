@@ -114,8 +114,7 @@
     \newcommand{\Lad}{\Lambda_{\text{\tiny\Thermo{4}}}}
 
     \noindent
-    We thank reviewers \Ra, \Rb, \Rc\ for their substantial time investment
-    and for their incisive feedback. 
+    We thank reviewers \Ra, \Rb, \Rc\ for substantial time investment, incisive feedback, and \cit{Ba}. 
     %We address in turn concerns over
     %our work's correctness (\Ra), counterintuitiveness (\Rc), citations (\Rb),
     %and clarity (\Ra,\Rb,\Rc): 
@@ -186,9 +185,11 @@
     of error terms $\nabla l_x(\theta)-\nabla l(x)$ in the \emph{gradient}
     estimate; compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1}. 
     %
-    Say $\theta$'s 1D with $l(\theta)=a \theta^2/2$ and training loss
-    $\hat l(\theta)=l(\theta)+b\theta$.  At $\hat l$'s min.\ $\theta=-b/a$, $l(\theta)=b^2/(2a)$.  So for
-    fixed $b$, sharp min.a ($a\gg 1$) overfit less (\href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{demo
+    Say $\theta$'s 1D with $l(\theta)=a \theta^2/2$ and training loss $\hat
+    l(\theta)=l(\theta)+b\theta$.  At $\hat l$'s min.\ $\theta=-b/a$,
+    $l(\theta)=b^2/(2a)$.  So for fixed $b$, sharp min.a ($a\gg 1$) overfit
+    less
+    (\href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{demo
     here}).  The
     covariance $C$ controls $b^2$, explaining
     \cor{5}'s $C/2H$ factor.  
@@ -205,15 +206,30 @@
     We view it as a merit that our theory makes such counterintuitive
     phenomena visible.
     
-\moosect{Comparison to ODE}
-    We thank \Rb\ for \cit{Ba}.  \cit{Ba}'s \lem{A.3} specializes our
-    \lem{Key}.   In our language, \cit{Ba} computes fuzzless diagrams
-    (noiseless $\equiv$ cumulants vanish $\equiv$ fuzz-having diagrams vanish).
-    The only such $\eta^2$ diagrams for $l(\theta_T)$ are
-    $\sdia{c(0-1-2)(02-12)}$, $\sdia{c(0-1-2)(01-12)}$.  The $N^{-1}$
-    correction to $\cit{Ba}$'s noiseless assumption consists of diagrams with
-    one fuzzy outline (\pag{24}\tab{1}).
-    
+\moosect{ODE}
+    \cit{Ba}'s \lem{A.3}
+    specializes \lem{Key}.   In our terms, \cit{Ba}'s \thm{3.1} computes
+    $\eta^2$ weight displacements using \emph{fuzzless} diagrams (noiseless $\equiv$
+    cumulants vanish $\equiv$ fuzz-having diagrams vanish); see \tab{1} for the
+    leading corrections to $\cit{Ba}$ due to noise.
+    Per\vspace{-0.1cm} \S{A.6} (say $E\!\!=\!\!B\!\!=\!\!\!1$), %the relevant fuzzless diagrams are
+    %$\mdia{MOOc(0)(0)}, \mdia{MOOc(0-1)(01-1)}$\vspace{-0.1cm}.
+    %with uvalues $G^\mu, G_\nu
+    %H^{\nu\mu}$
+    %and $T, {T\choose 2}$ many embeddings ($E\!\!=\!\!B\!\!=\!\!\!1$).
+    GD displaces $\theta$ by 
+    \vspace{-0.05cm}
+    $\Delta^l_{GD} (\eta,T) = -T\mdia{MOOc(0)(0)} + {{T\choose {\colorbox{moog!20}2}}}\mdia{MOOc(0-1)(01-1)} + o(\eta^2)$.
+    Now, ${\colorbox{moor!20} 2}\mdia{MOOc(0-1)(01-1)}=\nabla^\mu \mdia{c(0-1)(01)}$,
+    %(${\colorbox{moor!20}2}$ due to Aut),
+    whence arises \cit{Ba}\pag{2}'s
+    \vspace{-0.15cm}
+    $\lambda R = \eta G^2/4=\mdia{c(0-1)(01)}/({\colorbox{moog!20}2}!\cdot {\colorbox{moor!20}2})$.
+    %
+    (Note: our analysis applies because, via Euler, ODE `is' $k$ steps of rate-$\eta/k$ GD ($k\gg 1$)).
+    %The main correction to $\cit{Ba}$'s noiseless assumption consists of
+    %diagrams with $1$ fuzzy outline.
+% {\color{moor}{FILL IN}}
 %\moosect{Assumptions} \Rc,\Ra\ raise concerns about verifiability.
 %        {\color{moor}{FILL IN}}
 
@@ -232,6 +248,7 @@
     $\sdia{MOOc(0-123-4)(01-14-34-24)}$ (letters name edges).
     %
     \Rc, \pag{6}\thm{2} defines `\textbf{non-degenerate}' as `$H\in \text{SPD}$'.
+ %{\color{moor}{Verifiability?/}}
 
 \moosect{Organization}
     \Rb,\Rc\ stress the paper's narrative challenge.  We'll arrange the paper
