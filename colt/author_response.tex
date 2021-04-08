@@ -109,6 +109,7 @@
 
 
 \begin{document}
+\title{}
 
     \newcommand{\LaT}{\Lambda_{\text{\tiny\VarClock}}}
     \newcommand{\Lad}{\Lambda_{\text{\tiny\Thermo{4}}}}
@@ -126,93 +127,96 @@
     \thm{2} states:
     \emph{\textbf{\{\!\{}For each $d$, every non-deg.\ local min.\ $\theta_\star$ has a nbhd $U$
         whose every member $\theta_0$ induces, via \thm{1}, a
-        $T$-indexed sequence of degree-$d$ truncations $f_T\in \RR[\eta]$ that
-        converges
+        sequence $(L_{d,T} : T\in\NN)$ of truncations, each a degree-$d$ polynomial
+        in $\eta$, that converges ptwise 
         %(uniformly on any compact set of $\eta$s)
-        as $T\to \infty$ to
-        some $f_d\in\RR[\eta]$.\textbf{\}\!\}}}
-    $\RR[\eta]$ is the free polynomial ring in $\dim(\Mm)^2$ many
-    variables, topologized as euclidean space.
+        as $T\to \infty$ to some polynomial $L_d$.\textbf{\}\!\}}}
+    %$\RR[\eta]$ is the free polynomial ring in $\dim(\Mm)^2$ many
+    %variables, topologized as $\bigcup \RR^k$.
     \noindent
-    So if $L_{d,T}(\eta)$ is \thm{1}'s truncation, \thm{2}
-    controls $L_d(\eta) = \lim_{\tilde T\to\infty} L_{d,\tilde T}(\eta)$ but not
-    $L_T(\eta) = \lim_{\tilde d\to\infty} L_{\tilde d,T}(\eta)$, even for $d,T\gg 1$. 
-    \thm{1,2}'s significance stems from \textbf{empirical} findings that
-    their \emph{formal} power series \cit{Wi} bear on SGD practice (w.r.t.\ which \emph{any}
-    infinities are idealizations).   
+    So if $L_{d,T}(\eta)$ is \thm{1}'s truncation, \thm{2} controls $L_d(\eta)
+    = \lim_{\tilde T\to\infty} L_{d,\tilde T}(\eta)$ but not $L_T(\eta) =
+    \lim_{\tilde d\to\infty} L_{\tilde d,T}(\eta)$, even for $d,T\gg 1$. 
+    %
+    \textbf{Empirically}, we find that \thm{1/2}'s \emph{formal} power series
+    \cit{Wi} predict SGD-in-practice (w.r.t.\ which \emph{any} infinities are
+    idealizations).   
+    %
+   % \thm{1,2}'s significance stems from \textbf{empirical} findings that their
+   % \emph{formal} power series \cit{Wi} predict SGD-in-practice (w.r.t.\ which
+   % \emph{any} infinities are idealizations).   
     %as \Rb\ noted, they offer empirically supported intuitive insights into
     %SGD. 
     %
-    Our mathematics was but a strong
+    Regarding our mathematics as but a strong
     heuristic,\footnote{%
-        By clcal.mech.\ (CM) of thermal continua, ice cubes have
+        By cl'cal.mech.\ (CM) of thermal continua, ice cubes have
         energy=$\infty$ [McQuarrie '97, \S{1-1}].
-        But CM gives real insight.
+        Still, CM gives insight.
         %one manipulates
         %\emph{formal} power series.
         %\cit{Qu}
         %D.A.McQuarrie, J.D.Simon.  \emph{Physical Chemistry}, \S{1-1}.
         %University Science Books 1997.
-    } so we didn't examine when 
+    } we didn't examine when 
     $L_d, L_T$ agree.  Still:
     \textbf{Prop A}.\emph{
     \textbf{\{\!\{}Fix $U\subseteq \Mm$ open, %with compact closure $\bar{U}$, 
         $\theta_\star\in U$ a non-deg.\ local min.\ of $l$.
-        Assume \S{B.1} as well as global, prob.-$1$ bounds $(|l_x(\theta)|,\|\nabla
+        Assume \S{B.1} and global, prob.-$1$ bounds $(|l_x(\theta)|,\|\nabla
         l_x(\theta_\star)\|)<C$.
-        \textbf{If} some $Q_-,Q_+\in \text{SPD}$ bound the hessian
+        \textbf{If} $\exists Q_-,Q_+\in \text{SPD}$ bounding the hessian
         ($Q_- < \nabla\nabla l_x(\theta)<Q_+$) on $U$,
-        \textbf{then} $\forall d$ and for any $\theta_0$ in
-        some nbhd $V_d$ of $\theta_\star$: $\exists T_0, g$ with
-        $|g(T)|$ in $\exp(-\text{big}\Omega(T))$ so that
-        $\sup_{T\geq T_0} |L_d(\eta)-L_T(\eta)-g(T)|$
-        (exists on some nbhd in $\text{SPSD}$ of
-        $\eta=0$ and) is
+        \textbf{then} $\forall d$ and $\forall\theta_0$ in
+        some nbhd $V_d$ of $\theta_\star$: $\exists T_0,A,B>0$ 
+        so that
+        $\sup_{T\geq T_0} \text{ReLU}(|L_d(\eta)-L_T(\eta)|-\exp(A-BT))$
+        exists on some nbhd in $\text{SPSD}$ of
+        $\eta=0$ and is
         $o(\eta^d)$.\textbf{\}\!\}}
     }
     $\textbf{SP(S)D}$ consists of symmetric positive
-        (semi)definites.
+    (semi)definites.
 
 \moosect{Sharp Minima}
-    Like us, \Rc\ finds \cor{5}\footnote{i.e.: \emph{that \textbf{overfitting}}
+    Like us, \Rc\ finds \cor{5}
+    counterintutive.\footnote{i.e.: \emph{that \textbf{overfitting}}
     ($\triangleq$ $l(\theta_T)-l(\theta_0)$ where $\theta_0$ is a min.\ of $l$)
     \emph{has an $\eta^2$ term greatest
     when $\eta H$ has moderate eigenvalues}.}
-    counterintutive.
     %
     SGD's noise consists
-    not of weight \emph{displacements} but
-    of error terms $\nabla l_x(\theta)-\nabla l(x)$ in the \emph{gradient}
+    not of weight \textbf{displacements} but
+    of error terms $\nabla l_x-\nabla l$ in the \textbf{gradient}
     estimate; compare \fig{5\offive{1}} to \cit{Ke}'s \fig{1}. 
     %
-    Say $\theta$'s 1D with $l(\theta)=a \theta^2/2$ and training loss $\hat
+    Say $\theta$ is 1D with $l(\theta)=a \theta^2/2$ and training loss $\hat
     l(\theta)=l(\theta)+b\theta$.  At $\hat l$'s min.\ $\theta=-b/a$,
-    $l(\theta)=b^2/(2a)$.  So for fixed $b$, sharp min.a ($a\gg 1$) overfit
+    $l(\theta)=b^2/(2a)$.  So for fixed $b$, sharp min'a ($a\gg 1$) overfit
     less
     (\href{https://gist.github.com/anonymous-taylor-series/60ee7ca824e44a9e8f25e69ceb60995e}{demo
-    here}).  The
-    covariance $C$ controls $b^2$, explaining
+    here}).  $C$ controls $b^2$, hence 
     \cor{5}'s $C/2H$ factor.  
-    Here, optimization \emph{to convergence} favors sharp min.a
-    ($\star$); convergence is slow at flat min.a, so flat min.a also overfit
-    little ($\diamond$).  (Our small-$\eta$ assumption rules out the
-    possibility that $H$ is so sharp that SGD diverges: we treat $\eta H \ll 1$).
+    Here, opt'z'n \emph{to convergence} favors sharp min'a
+    ($\star$); cnv'gnce is slow at flat min'a, so flat min'a also overfit
+    little ($\diamond$).  (Our small-$\eta$ assumption precludes $H$ from being so sharp
+    that SGD diverges: we treat $\eta H \ll 1$).
     %
     Prior work (\pag{12}\pgph{5}, e.g.\ \cit{Ke} and \cit{Di}) supports both
     pro-flat and pro-sharp intuitions.  Recognizing $\eta$'s role in
     translating gradients to displacements, we account for both
-    ($\star$) and ($\diamond$) and hence unify existing intuitions (\S{4.3}).
+    ($\star$,$\diamond$), unifying existing intuitions (\S{4.3}).
     %
-    We view it as a merit that our theory makes such counterintuitive
+    It is a merit that our theory makes such counterintuitive
     phenomena visible.
     
 \moosect{ODE}
     \cit{Ba}'s \lem{A.3}
     specializes \lem{Key}.   In our terms, \cit{Ba}'s \thm{3.1} computes
     $\eta^2$ weight displacements using \emph{fuzzless} diagrams (noiseless $\equiv$
-    cumulants vanish $\equiv$ fuzz-having diagrams vanish); see \tab{1} for the
+    cumulants vanish $\equiv$ fuzzy diagrams vanish); see \tab{1} for the
     leading corrections to $\cit{Ba}$ due to noise.
-    Per\vspace{-0.1cm} \S{A.6} (say $E\!\!=\!\!B\!\!=\!\!\!1$), %the relevant fuzzless diagrams are
+    Per\vspace{-0.1cm} \S{A.6} (fix $E\!\!=\!\!B\!\!=\!\!\!1$), %the relevant fuzzless diagrams are
     %$\mdia{MOOc(0)(0)}, \mdia{MOOc(0-1)(01-1)}$\vspace{-0.1cm}.
     %with uvalues $G^\mu, G_\nu
     %H^{\nu\mu}$
@@ -264,7 +268,7 @@
     \trk{A} to motivate (and \S A.4 to illustrate) \S1.1/\S2's definitions;
     relegate \S2.2/2.1's \lem{Key}/discussion to \S{B}; add to \S2.3.1 a resummation cartoon \`a la 
     \fig{5,7}.
-    For space, \S{C}'ll absorb \S{4}.
+    For space, \S{C} will absorb \S{4}.
     %; but
     %each \S3.i will note the relevant empirical support.
     %
