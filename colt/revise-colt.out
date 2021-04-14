@@ -1,0 +1,66 @@
+\BOOKMARK [1][-]{section.0.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.0.2}{Paradigmatic example: a non-conservative entropic force}{}% 2
+\BOOKMARK [2][-]{subsection.0.2.1}{Taylor series: method and challenges}{section.0.2}% 3
+\BOOKMARK [2][-]{subsection.0.2.2}{Some interesting terms; Displacement}{section.0.2}% 4
+\BOOKMARK [2][-]{subsection.0.2.3}{A non-conservative entropic force}{section.0.2}% 5
+\BOOKMARK [1][-]{section.0.3}{Background, notation, assumptions}{}% 6
+\BOOKMARK [1][-]{section.0.4}{Perturbative theory of SGD}{}% 7
+\BOOKMARK [2][-]{subsection.0.4.1}{Diagrams arise from Taylor series and depict information-flow processes}{section.0.4}% 8
+\BOOKMARK [2][-]{subsection.0.4.2}{Diagrams overcome the challenges of using Taylor series to study SGD}{section.0.4}% 9
+\BOOKMARK [3][-]{subsubsection.0.4.2.1}{Resummation}{subsection.0.4.2}% 10
+\BOOKMARK [2][-]{subsection.0.4.3}{Main result}{section.0.4}% 11
+\BOOKMARK [1][-]{section.0.5}{Consequences of the theory}{}% 12
+\BOOKMARK [2][-]{subsection.0.5.1}{Gradient noise repels SGD}{section.0.5}% 13
+\BOOKMARK [2][-]{subsection.0.5.2}{SGD and SDE respond differently to changes in curvature}{section.0.5}% 14
+\BOOKMARK [2][-]{subsection.0.5.3}{SGD descends on a landscape smoothed by the current C}{section.0.5}% 15
+\BOOKMARK [2][-]{subsection.0.5.4}{Both flat and sharp minima overfit less}{section.0.5}% 16
+\BOOKMARK [1][-]{section.0.6}{Experiments}{}% 17
+\BOOKMARK [2][-]{subsection.0.6.1}{Training time, epochs, and batch size; C repels SGD more than GD}{section.0.6}% 18
+\BOOKMARK [2][-]{subsection.0.6.2}{Sharp and flat minima both overfit less than medium minima}{section.0.6}% 19
+\BOOKMARK [1][-]{section.0.7}{Conclusion}{}% 20
+\BOOKMARK [2][-]{subsection.0.7.1}{Related work}{section.0.7}% 21
+\BOOKMARK [1][-]{section.0.A}{Tutorial: how to use diagrams}{}% 22
+\BOOKMARK [2][-]{subsection.0.A.1}{Two example calculations}{section.0.A}% 23
+\BOOKMARK [3][-]{subsubsection.0.A.1.1}{Computations: Grids}{subsection.0.A.1}% 24
+\BOOKMARK [3][-]{subsubsection.0.A.1.2}{Computations: Embeddings of diagrams into grids}{subsection.0.A.1}% 25
+\BOOKMARK [3][-]{subsubsection.0.A.1.3}{Computations: Evaluating each diagram embedding}{subsection.0.A.1}% 26
+\BOOKMARK [3][-]{subsubsection.0.A.1.4}{Computations: Summing the embeddings' values}{subsection.0.A.1}% 27
+\BOOKMARK [2][-]{subsection.0.A.2}{How to identify the relevant grid}{section.0.A}% 28
+\BOOKMARK [2][-]{subsection.0.A.3}{How to identify the relevant diagram embeddings}{section.0.A}% 29
+\BOOKMARK [2][-]{subsection.0.A.4}{How to evaluate each embedding}{section.0.A}% 30
+\BOOKMARK [3][-]{subsubsection.0.A.4.1}{Un-resummed values: uvalue\(D\)}{subsection.0.A.4}% 31
+\BOOKMARK [3][-]{subsubsection.0.A.4.2}{Resummed values: rvaluef\(D\)}{subsection.0.A.4}% 32
+\BOOKMARK [3][-]{subsubsection.0.A.4.3}{Overall}{subsection.0.A.4}% 33
+\BOOKMARK [2][-]{subsection.0.A.5}{How to sum the embeddings' values}{section.0.A}% 34
+\BOOKMARK [2][-]{subsection.0.A.6}{How to solve variant problems}{section.0.A}% 35
+\BOOKMARK [2][-]{subsection.0.A.7}{Do diagrams streamline computation?}{section.0.A}% 36
+\BOOKMARK [3][-]{subsubsection.0.A.7.1}{Effect of batch size}{subsection.0.A.7}% 37
+\BOOKMARK [3][-]{subsubsection.0.A.7.2}{Effect of non-Gaussian noise at a minimum.}{subsection.0.A.7}% 38
+\BOOKMARK [1][-]{section.0.B}{Mathematics of the theory}{}% 39
+\BOOKMARK [2][-]{subsection.0.B.1}{Assumptions and Definitions}{section.0.B}% 40
+\BOOKMARK [2][-]{subsection.0.B.2}{A key lemma \340 la Dyson}{section.0.B}% 41
+\BOOKMARK [2][-]{subsection.0.B.3}{From Dyson to diagrams}{section.0.B}% 42
+\BOOKMARK [2][-]{subsection.0.B.4}{Interlude: a review of M\366bius inversion}{section.0.B}% 43
+\BOOKMARK [2][-]{subsection.0.B.5}{Theorems 1 and 2}{section.0.B}% 44
+\BOOKMARK [2][-]{subsection.0.B.6}{Proofs of corollaries}{section.0.B}% 45
+\BOOKMARK [3][-]{subsubsection.0.B.6.1}{Corollary 4}{subsection.0.B.6}% 46
+\BOOKMARK [3][-]{subsubsection.0.B.6.2}{Corollary 5's first part}{subsection.0.B.6}% 47
+\BOOKMARK [3][-]{subsubsection.0.B.6.3}{Corollary 5's second part}{subsection.0.B.6}% 48
+\BOOKMARK [3][-]{subsubsection.0.B.6.4}{Corollaries 2 and 1}{subsection.0.B.6}% 49
+\BOOKMARK [3][-]{subsubsection.0.B.6.5}{Corollary 3}{subsection.0.B.6}% 50
+\BOOKMARK [2][-]{subsection.0.B.7}{Future topics}{section.0.B}% 51
+\BOOKMARK [1][-]{section.0.C}{Experimental methods}{}% 52
+\BOOKMARK [2][-]{subsection.0.C.1}{What artificial landscapes did we use?}{section.0.C}% 53
+\BOOKMARK [3][-]{subsubsection.0.C.1.1}{Gauss}{subsection.0.C.1}% 54
+\BOOKMARK [3][-]{subsubsection.0.C.1.2}{Helix}{subsection.0.C.1}% 55
+\BOOKMARK [3][-]{subsubsection.0.C.1.3}{Mean Estimation}{subsection.0.C.1}% 56
+\BOOKMARK [2][-]{subsection.0.C.2}{What image-classification landscapes did we use?}{section.0.C}% 57
+\BOOKMARK [3][-]{subsubsection.0.C.2.1}{Architectures}{subsection.0.C.2}% 58
+\BOOKMARK [3][-]{subsubsection.0.C.2.2}{Datasets}{subsection.0.C.2}% 59
+\BOOKMARK [2][-]{subsection.0.C.3}{Measurement process}{section.0.C}% 60
+\BOOKMARK [3][-]{subsubsection.0.C.3.1}{Diagram evaluation on real landscapes}{subsection.0.C.3}% 61
+\BOOKMARK [3][-]{subsubsection.0.C.3.2}{Descent simulations}{subsection.0.C.3}% 62
+\BOOKMARK [2][-]{subsection.0.C.4}{Implementing optimizers}{section.0.C}% 63
+\BOOKMARK [2][-]{subsection.0.C.5}{Software frameworks and hardware}{section.0.C}% 64
+\BOOKMARK [2][-]{subsection.0.C.6}{Unbiased estimators of landscape statistics}{section.0.C}% 65
+\BOOKMARK [2][-]{subsection.0.C.7}{Additional figures}{section.0.C}% 66

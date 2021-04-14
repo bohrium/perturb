@@ -142,9 +142,9 @@
     \cit{Wi} predict SGD-in-practice (w.r.t.\ which \emph{any} infinities are
     idealizations).   
     %
-   % \thm{1,2}'s significance stems from \textbf{empirical} findings that their
-   % \emph{formal} power series \cit{Wi} predict SGD-in-practice (w.r.t.\ which
-   % \emph{any} infinities are idealizations).   
+    %\thm{1,2}'s significance stems from \textbf{empirical} findings that their
+    %\emph{formal} power series \cit{Wi} predict SGD-in-practice (w.r.t.\ which
+    %\emph{any} infinities are idealizations).   
     %as \Rb\ noted, they offer empirically supported intuitive insights into
     %SGD. 
     %
@@ -159,7 +159,8 @@
         %D.A.McQuarrie, J.D.Simon.  \emph{Physical Chemistry}, \S{1-1}.
         %University Science Books 1997.
     } we didn't examine when 
-    $L_d, L_T$ agree.  Still:
+    $L_d, L_T$ agree.  
+    Still:
     \textbf{Prop A}.\emph{
     \textbf{\{\!\{}Fix $U\subseteq \Mm$ open, %with compact closure $\bar{U}$, 
         $\theta_\star\in U$ a non-deg.\ local min.\ of $l$.
@@ -215,7 +216,7 @@
     specializes \lem{Key}.   In our terms, \cit{Ba}'s \thm{3.1} computes
     $\eta^2$ weight displacements using \emph{fuzzless} diagrams (noiseless $\equiv$
     cumulants vanish $\equiv$ fuzzy diagrams vanish); see \tab{1} for the
-    leading corrections to $\cit{Ba}$ due to noise.
+    leading corrections to $\cit{Ba}$ due to noise..
     Per\vspace{-0.1cm} \S{A.6} (fix $E\!\!=\!\!B\!\!=\!\!\!1$), %the relevant fuzzless diagrams are
     %$\mdia{MOOc(0)(0)}, \mdia{MOOc(0-1)(01-1)}$\vspace{-0.1cm}.
     %with uvalues $G^\mu, G_\nu
@@ -230,7 +231,9 @@
     \vspace{-0.15cm}
     $\lambda R = \eta G^2/4=\mdia{c(0-1)(01)}/({\colorbox{moog!20}2}!\cdot {\colorbox{moor!20}2})$.
     %
-    (Note: our analysis applies because, via Euler, ODE `is' $k$ steps of rate-$\eta/k$ GD ($k\gg 1$)).
+    %(Note:  applies because, via Euler, ODE `is' $k$ steps of rate-$\eta/k$ GD ($k\gg 1$)).
+    Our \cor{1} is analogous to \cit{Ba}\thm{3.1}.
+    See \href{https://github.com/anonymous-taylor-series/sgd-colt-2021/blob/main/barrett.pdf}{our analysis}.
     %The main correction to $\cit{Ba}$'s noiseless assumption consists of
     %diagrams with $1$ fuzzy outline.
 % {\color{moor}{FILL IN}}
@@ -240,40 +243,43 @@
 \moosect{Notation}
     \Rc\ recognizes our expectands as tensor expressions;
     they are often fully contracted (so scalar) and are always
-    random variables in some $\RR^k$. %with the standard $\sigma$-algebra.
+    random variables in an $\RR^k$. %with the standard $\sigma$-algebra.
     %We'd be happy to clarify specific instances.
     %
     Per \Rb,\Rc, we'll disemploy `Einstein notation' and cite
     \cit{Cu} (+ a new \S{D}) for tensor
     examples.
     %
-    If advised, we'll also forgo diagrams:
-    e.g.\ $[a][ab:c:d][bcd]$ for
+    As \Rc\ asked and \Rb\ noted, diagrams organize (\pag{5}\pgph{(-1)}) an
+    otherwise unwieldy (\pag{4}\pgph{2}) analysis; if advised, we'll
+    text-ify diagrams: e.g.\ $[a][ab:c:d][bcd]$ for
     $\sdia{MOOc(0-123-4)(01-14-34-24)}$ (letters name edges).
     %
     \Rc, \pag{6}\thm{2} defines `\textbf{non-degenerate}' as `$H\in \text{SPD}$'.
+    %
  %{\color{moor}{Verifiability?/}}
 
 \moosect{Organization}
     \Rb,\Rc\ stress the paper's narrative challenge.  We'll arrange the paper
+    (\href{https://github.com/anonymous-taylor-series/sgd-colt-2021/blob/main/perturb-in-progress.pdf}{see revision in progress})
     into $3$ self-contained tracks, each pertinent to a different goal: 
     %
-    \trk{A} [pgs 1-4], for casual readers, will
+    \trk{A} [\pag{1-4}], for casual readers, will
     eschew diagrams, theorems, and \S1.1/\S2.2's heavy notations; illustrate Taylor series via \S
     2.1's proof; identify \S{3.3}'s terms; state \cor{4}
     (w/ \S B.1's assumptions explicit, w/ \prp{A}'s precision);
     explain \S 4.2's curl effect.
     %
-    \trk{B} [pgs 1-4, 5-12], for seekers of physical intuition, will use
-    \trk{A} to motivate (and \S A.4 to illustrate) \S1.1/\S2's definitions;
-    relegate \S2.2/2.1's \lem{Key}/discussion to \S{B}; add to \S2.3.1 a resummation cartoon \`a la 
+    \trk{B} [\pag{1-4,5-12}], for seekers of physical intuition, will use
+    \trk{A} to motivate (\& \S A.4 to illustrate) \S1.1/\S2's def'ns;
+    relegate \S2.2/2.1's \lem{Key}/discussion to \S{B}; add to \S2.3.1 a resum'n cartoon \`a la 
     \fig{5,7}.
     For space, \S{C} will absorb \S{4}.
     %; but
     %each \S3.i will note the relevant empirical support.
     %
-    \trk{C} [pgs 5-12, 15-45], for our theory's extenders, will include
-    \prp{A} (per \Ra) and more explicit statements and arguments throughout.  
+    \trk{C} [\pag{5-12,15-}], for our theory's extenders, will include
+    \prp{A} (per \Ra) and more explicit statements and proofs throughout.  
 
 \moosect{References}
     \small%footnotesize

@@ -1,0 +1,261 @@
+%\documentclass[12pt]{colt2021} %% Anonymized submission
+\documentclass[12pt]{article}
+
+\usepackage{times}
+\usepackage{soul}
+\usepackage[
+    top   =1.0in,
+    bottom=1.0in,
+    left  =1.0in,
+    right =1.0in,
+]{geometry}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[clock,weather]{ifsym}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath, amssymb, amsthm, bm}
+
+\newcommand{\Ra}{\textmd{\textsf{\color{purple!50} {R1}}}}
+\newcommand{\Rb}{\textmd{\textsf{\color{green!60}  {R2}}}}
+\newcommand{\Rc}{\textmd{\textsf{\color{blue!50}   {R3}}}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\RR}{\mathbb{R}}
+
+\newcommand{\cor}[1]{\textmd{{\color{gray}Cor}{#1}}} 
+\newcommand{\dfn}[1]{\textmd{\textsf{Def#1}}}
+\newcommand{\apx}[1]{\textmd{\textsf{Apdx#1}}}
+\newcommand{\pag}[1]{\textmd{{\color{gray}Pg}{#1}}}
+\newcommand{\pgph}[1]{\textmd{{\color{gray}Par}{#1}}}
+\newcommand{\fig}[1]{\textmd{{\color{gray}Fig}#1}}
+\newcommand{\thm}[1]{\textmd{{\color{gray}Thm}{#1}}}
+\newcommand{\lem}[1]{\textmd{{\color{gray}Lem}{#1}}}
+\newcommand{\prp}[1]{\textmd{{\color{gray}Prp}{#1}}}
+\newcommand{\trk}[1]{\textmd{{\color{gray}Trk}{#1}}}
+\newcommand{\tab}[1]{\textmd{{\color{gray}Tab}{#1}}}
+\newcommand{\exm}[1]{\textmd{{\color{gray}Exm}{#1}}}
+
+\newcommand{\cit}[1]{[\textbf{#1}]}
+
+\newcommand{\moosect}[1]{\par\noindent\hspace{-1cm}\textsc{\textbf{#1}}.}
+%\newtheorem*{propA*}{{Prop A}}
+%\newtheorem*{thm2*}{{Thm 2}}
+
+\usepackage{amsfonts, makerobust, float}
+\usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
+\usepackage[export]{adjustbox}
+%---------------------  graphics and figures  ---------------------------------
+\usepackage{wrapfig, caption}
+\usepackage{hanging, txfonts, ifthen}
+
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+
+
+\newcommand{\offive}[1]{
+    {\tiny
+        \raisebox{-0.04cm}{\color{gray}\scalebox{2.5}{$\substack{
+            \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
+        }$}}%
+        \raisebox{0.04cm}{$\substack{
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}   
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square} \\
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+        }$}%
+    }%
+}
+
+
+\newcommand{\ofsix}[1]{
+    {\tiny \raisebox{0.04cm}{$\substack{
+        \IfSubStr{#1}{0}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}  \\ 
+        \IfSubStr{#1}{3}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{4}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{5}{{\color{moor}\blacksquare}}{\square}    
+    }$}}%
+}
+
+%   The following reconciles COLT's style with \includegraphics:
+%       (see tex.stackexchange.com/questions/520891)
+%\makeatletter
+%\let\Ginclude@graphics\@org@Ginclude@graphics
+%\makeatother
+
+
+
+\newcommand{\sizeddia}[2]{%
+    \begin{gathered}%
+        \includegraphics[scale=#2]{../diagrams/#1.png}%
+    \end{gathered}%
+}
+\newcommand{\bdia}[1]{\protect \sizeddia{#1}{0.22}}
+\newcommand{\dia} [1]{\protect \sizeddia{#1}{0.18}}
+\newcommand{\mdia}[1]{\protect \sizeddia{#1}{0.14}}
+\newcommand{\sdia}[1]{\protect \sizeddia{#1}{0.10}}
+
+
+
+\begin{document}
+%\title{}
+
+    \newcommand{\LaT}{\Lambda_{\text{\tiny\VarClock}}}
+    \newcommand{\Lad}{\Lambda_{\text{\tiny\Thermo{4}}}}
+
+    \noindent
+    %This is a brief note on \cit{Ba}, the paper suggested by \Rb.
+    \cit{Ba}
+    relates strongly with our work; we plan to discuss it in (the revision's
+    analogue of) \S{5.1, 3.2}.
+
+\moosect{Locating \cit{Ba} in our theory}
+    \cit{Ba}'s \thm{3.1} computes order-$\eta^2$ weight
+    displacements $\theta_T-\theta_0$ in the noiseless case $l_x=l$.  The
+    relevant diagrams are thus those with $\leq 2$ edges and that contain no
+    fuzzy outlines.
+    %
+    Indeed, noiseless $\implies$ cumulants vanish $\implies$ any diagram that
+    contains one or more fuzzy outlines has a uvalue (and rvalue) equal to
+    zero.  So a sum over diagrams is the same as a sum over fuzzless diagrams,
+    i.e., over each diagram whose partition (\pag{5}\dfn{1}) is maximally fine.
+
+    Per \S{A.6}, we use `rootless' diagrams, e.g.\
+    $\mdia{MOOc(0-1)(01-1)}, \mdia{MOOc(0-1-2)(01-12-2)}$.  These diagrams look
+    different from ordinary ones because we are computing weight displacements
+    $\Delta_l \triangleq \EE[\theta_T-\theta_0]$, not test losses
+    $\EE[l(\theta_T)]$.  Of course, in the noiseless case, those expectation
+    symbols are redundant.  Likewise, in the noiseless case $\Delta_l$ is a
+    function only of $\eta, T$ (and of the loss landscape $l$ and the
+    initialization $\theta_0$); in particular, we may set $E,B$ as convenient.
+    Let's set $E=B=1$.
+
+\moosect{GD's displacement}
+    So, we seek rootless fuzzless diagrams width $\leq 2$ edges. 
+    $\mdia{MOOc(0)(0)}$ and
+    $\mdia{MOOc(0-1)(01-1)}$ are the only such.
+    %
+    Let's use their uvalues as in \pag{36}\thm{3} to compute $\Delta_l(T,\eta)$.
+    We read off:
+    $$
+    \text{uvalue}(\mdia{MOOc(0)(0)}) = G_\mu \eta^{\mu\nu} = h G 
+    \hspace{1cm}
+    \text{uvalue}(\mdia{MOOc(0-1)(01-1)}) = G_\mu \eta^{\mu\sigma} H_{\sigma\rho} \eta^{\rho\nu} = h^2 (H G)   
+    $$
+    The RHSs of the above concretize to the case that $\eta^{\mu\sigma}$ (in our
+    directionality-aware theory a symmetric bilinear form that takes two covectors and outputs a
+    scalar) is $h$ times the standard dot product and that $G, H$ are represented
+    in standard ways as matrices.
+    %
+    The diagrams embed (into an $E=B=1$ grid that looks
+    like the rightmost grid on \pag{18}) in $T$ and in ${T\choose 2}$ many
+    ways, respectively.\footnote{%
+        An embedding of a rootless diagram (e.g.\ $\mdia{MOOc(0-1)(01-1)}$)
+        assigns \emph{every} node to a grid cell.  \pag{19}
+        decrees that we assign only \emph{non-root} nodes when computing
+        $\EE[l(\theta_T)]$; indeed, the root node
+        represents the test-time factor $l$ and thus 
+        corresponds to no training point or training step.  By contrast,
+        every factor of every term in $\EE[\theta_T-\theta_0]$
+        corresponds to some training point $n$ and training step $t$.
+        So we assign \emph{all} nodes to grid cells.  We'll expand \S{A.6}
+        to note as much.
+        %(and analogously for \S{A.6}'s other two
+        %variants).
+    }  
+    The ${T\choose 2}$ arises due to \pag{19}'s
+    time-ordering condition: $\mdia{MOOc(0-1)(01-1)}$ has one embedding for
+    every pair $0\leq t<t^\prime<T$, where $t$ is the red node's column
+    and $t^\prime$ is the green node's column.
+
+    These embeddings have trivial Aut groups
+    %(as
+    %implied by the fact that no two nodes of a diagram inhabit the same cell; see
+    (\pag{28}\exm{5}), so any fixed $T$ has a grand total:
+    $$
+        \Delta_l(T,h)
+        =
+        -hTG
+        hT 
+        +
+        (h^2(T^2-T)/2)
+        HG
+        +
+        o(\eta^2)
+    $$
+
+\moosect{\cit{Ba}'s regularizer}
+    %How does $\Delta_l$ relate to \cit{Ba}'s \thm{3.1}? 
+    Since EulerMethod (EM) (simulation time $h$, $k$ steps) 
+    is just GD with $\eta=h/k$, $T=k$, we can use $\Delta_{\tilde l}(k,h/k)$ to predict
+    EM's behavior ---and hence ODE's behavior---
+    on a loss $\tilde l$.
+    %
+    For $k$ huge and $\eta$ tiny (in a way that depends on $k$),
+    $\Delta_{\tilde l}(k,h/k)$ is close to
+    $$
+        \star(h) = -h\tilde G
+        +
+        (\tilde H \tilde G)
+        h^2/2
+    $$
+    (I.e., $\tilde l$ analytic $\implies$
+    $\forall\epsilon$ $\exists k_0\forall k>k_0$ $\forall A>0$ $\exists h_0>h_0\forall h<h_0$:
+        $\|\Delta_{\tilde l}(k,h/k) - \star(h)\| < A h^2 + \epsilon$.)
+
+    To match $\star$ with ordinary GD's one-step displacement $\Delta_l(1,h)
+    = -hG$, we just need $hG = h\tilde{G} - (\tilde H \tilde G) h^2/2 + o(h^2)$;
+    it's enough to set $G=\tilde{G}+(\tilde H \tilde G) h/2$.  Recognizing
+    the RHS as a total derivative (as $\nabla(\tilde G\cdot \tilde
+    G) = 2\tilde{H}\tilde{G}$), we see it's enough that $G = \nabla(\tilde l - (h/4) (\tilde G\cdot \tilde G))$ or:
+    \begin{align*}
+        l &= \tilde l - (h/4) (\tilde G\cdot \tilde G) \\
+          &= \tilde l - (h/4) (G\cdot G) + o(h^2)
+    \end{align*}
+
+    This shows how to turn a loss $\tilde l$ (on which we plan to run ODE),
+    into a loss $l$ such that running one GD step on $l$ matches ODE on $\tilde
+    l$ to leading non-trivial order.  Or how to turn
+    $l$ into $\tilde l$.  In either case, the key term is $(h/4) (G\cdot G)$ with
+    the appropriate sign.
+
+\moosect{Mistakes in our work}
+    We've found several oversights in our paper.
+    %
+    E.g.: our \cor{3} fails to state that the computed loss difference
+    between SGD and ODE is the leading-order difference \emph{due to noise},
+    i.e., that scales with some higher cumulant such as $C$.  Of course, even
+    without noise, there is also a difference due to time discretization, given
+    by $\mdia{c(0-1-2)(01-12)}$'s embeddings into ODE's $T=kT_0$ grid minus
+    its embeddings into SGD's $T=T_0$ grid.  For large $k$, $(h/k)^2
+    {kT_0\choose 2}\approx h^2T_0^2/2$, so ODE suffers $(T_0^2/2 - {T_0\choose
+    2}) \text{uvalue}(\mdia{c(0-1-2)(01-12)}) = (h^2 T_0/2)(GHG)$ more loss
+    than SGD for noiseless loss landscapes.
+
+    And \tab{1}'s caption should clarify the same point. 
+
+%\moosect{References}
+    %\small%footnotesize
+    %\cit{Am} S-I.Amari, H.Nagaoka. \emph{Information Geometry}, pg 5.  Oxford UP 1993.  
+    %\cit{Ba} D.G.Barrett, B.Dherin.  \emph{Implicit Gradient Regularization}.  ICLR 2021.
+    %\cit{Cu} P.McCullagh.  \emph{Tensor Methods in Statistics}, \S{1.1-1.4},\S{1.8}.  Dover 2017.
+    %\cit{Di} L.Dinh, R.Pascanu, S.Bengio, Y.Bengio.  \emph{Sharp Minima Can Generalize for Deep Nets}, \S{1},\S{5}.  ICML 2017.
+    %\cit{Ke} N.S.Keskar et alia.  \emph{Large-Batch Training for Deep Learning}, \S{4}.  ICLR 2017.
+    %\cit{Wi} H.Wilf.  \emph{Generatingfunctionology}, \S{2.1-2.3}.  Academic Press 1994.
+\end{document}
+
