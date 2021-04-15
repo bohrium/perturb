@@ -143,6 +143,7 @@
 \newcommand{\pr}{\prime}
 \newcommand{\squish}{\vspace{-0.05cm}}
 \newcommand{\squash}{\vspace{-0.15cm}}
+\newcommand{\crunch}{\vspace{-0.45cm}}
 
 %---------------------  expanding containers  ---------------------------------
 
@@ -364,21 +365,14 @@
             We thus factor the analysis of SGD into the analyses of individual
             processes, a technique that may power future theoretical
             inquiries.  
-            %
-            %This diagram technique is potentially powerful.
-            %\S\ref{appendix:tutorial} offers a tutorial in our diagram
-            %technique to promote future inquiry.
-            %Overall, this process-based perspective may inspire future
-            %theoretical inquiries beyond the \S\ref{sect:consequences}'s
-            %results.
-
+            
     \section{Paradigmatic example: a non-conservative entropic force}\label{sect:entropic-example}
             This section illustrates our theory by sketching a path toward
             Corollary \ref{cor:entropic} while avoiding the generality and
             abstraction of \S\ref{sect:calculus}'s theorems and diagram
             notation.\squash\squash 
 
-        \subsection{Notation and assumptions}\label{sect:setup}
+        \subsection{Notation and assumptions, I}\label{sect:setup}
             %--  the landscape  -----------------------------------------------
     
             We formalize the loss --- suffered by a fixed architecture on a
@@ -400,7 +394,6 @@
                 \coloneqq
                 \theta_t^\mu -
                 \sum_{\nu}
-                %\eta^{\mu\nu} \frac{\del l_{n_t}}{\del \theta^\nu}(\theta_t)
                 \eta^{\mu\nu} \nabla_\nu l_{n_t}(\theta_t)
                 \squash
             $$
@@ -428,13 +421,13 @@
             %
             %Thus, $\nabla \expct{p}=\expct{\nabla p}$.
             %
-            We \textbf{sometimes} (each time explicitly) also assume
+            We sometimes (each time explicitly) also assume
             \textbf{Local Strength}:
                 on a nbhd.\ of $\theta_0$ some positive definite $Q_-,Q_+$
                 bound every $l_x$'s hessian: ($Q_- < \nabla\nabla
                 l_x(\theta)<Q_+$).
 
-            We quote a well-known proposition
+            We quote a well-known prop
             (\cite{ne04}, \S 2.1) to illustrate our notation:
             \begin{prop}\label{prop:nest}
                 $G = \nabla l(\theta_0)$ controls the loss to leading order:
@@ -445,15 +438,21 @@
                     + o(\eta^1)
                 $.
             \end{prop}
-            %One proves this estimate by induction on $T$.
+            Proof: induction on $T$.
             For noiseless linear landscapes, (i.e., when $\nabla l_x(\theta)$
-            depends on neither $x$ nor $\theta$), this estimate is exact.\squash\squash
+            depends on neither $x$ nor $\theta$), this estimate is exact.
+            %
+            This paper identifies how noise and curvature correct Prop
+            \ref{prop:nest} by developing and using large-$T$ techniques less
+            opaque and more convergent than induction.
+            %
 
-        \subsection{Taylor series: method and challenges}
-            \subsubsection{Proving Prop \ref{prop:nest}}
+
+        \subsection{Taylor series: method and challenges}\label{sect:challenges}
+            %\subsubsection{Proving Prop \ref{prop:nest}}
             Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
             up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
-            \begin{proof} %(of Proposition \ref{prop:nest}).
+            \begin{proof} %(of Prop \ref{prop:nest}).
                 By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
                 We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
                 -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
@@ -509,13 +508,13 @@
             Totalling the correction over time thus yields
             $\sum_{0\leq \tilde T<T}\tilde T = {T \choose 2}$\squish\
             summands, each (e.g.\ $\nabla\nabla l_{5} \nabla l_{2}$)
-            involving a \emph{pair} of times.  In general, order-$d$
+            involving a \emph{pair} of times.  Order-$d$
             corrections represent the joint influence of $d$-tuples of times.
             %
             Prop \ref{prop:nest}'s result $\sum_{\tilde T}
             \wrap{\text{\translucent{moolime}{$- \eta \nabla l_{{\tilde
-            T}}(\theta_0)$}}}$\squish\squish\ is degree $1$ in $T$; but the order-$d$ displacement is
-            degree $d$ in $T$.
+            T}}(\theta_0)$}}}$\squish\squish\ is degree $1$ in $T$; but the
+            order-$d$ displacement is a degree $d$ polynomial --- very divergent --- in $T$.
 
             \textsc{Factoring's Failure} --- To obtain \translucent{moogold}{$-TG\eta G$},\squish\ we multiplied
             $l$'s derivatives by the expectations of such summands.
@@ -540,7 +539,6 @@
             \squash
             $$
                 \textstyle
-                %\frac{1}{2}
                 \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
                     \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
                     \,
@@ -571,7 +569,7 @@
             terms.  Our paper develops tools to organize and interpret these
             terms.
 
-            \subsubsection{Diagrams in brief}
+            \subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
 
             That development begins with the observation that each $\eta$
             `connects' two $\nabla$ operators as indices prescribe.  So we
@@ -596,56 +594,14 @@
             their topology has dynamical significance; diagrams thus permit a
             physical interpretation of SGD.
 
-            %\S\ref{sect:entropic-example}'s remainder states results but not
-            %the diagrams that led to them.  So we won't relate diagrams to the
-            %summands (i.e., the `un-resummed values') they represent; we'll use
-            %none of
-            %these examples:
-            %\nopagebreak
-            %    \newcommand{\AAA}{{\color{black}\nabla_\mu}}
-            %    \newcommand{\BBB}{{\color{black}\nabla_\nu}}
-            %    \newcommand{\CCC}{{\color{black}\nabla_\xi}}
-            %    \newcommand{\DDD}{{\color{black}\nabla_\omicron}}
-            %    \newcommand{\EEE}{{\color{black}\nabla_\pi}}
-            %    \newcommand{\FFF}{{\color{black}\nabla_\rho}}
-            %    \newcommand{\ww}[1]{\CC\wasq{#1}}
-            %    \newcommand{\rRr}[1]{{\color{moor}#1}}
-            %    \newcommand{\gGg}[1]{{\color{moog}#1}}
-            %    \newcommand{\bBb}[1]{{\color{moob}#1}}
-            %    \newcommand{\sixsum}{\textstyle\sum_{{\mu\nu\xi\omicron\pi\rho}} }
-            %\begin{figure}[H]
-            %    \centering  
-            %    \squash\squash\squash
-            %    \begin{tabular}{rcl}
-            %        $\text{uvalue}(\mdia{c(01-2-3)(02-13-23)})$ &
-            %        $=$ &
-            %        $\sixsum \eta^{\mu\xi} \eta^{\nu\pi} \eta^{\omicron\rho} \,\, \ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD      l_x}} \ww{\bBb{\EEE \FFF l_x}}$\\
-            %        \squash\squash\squash\squash\squash
-            %        \\
-            %        $\text{uvalue}(\mdia{c(01-2-3)(02-12-23)})$ &
-            %        $=$ &
-            %        $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD \EEE l_x}} \ww{\bBb{     \FFF l_x}}$\\
-            %        \squash\squash\squash\squash\squash
-            %        \\
-            %        $\text{uvalue}(\mdia{c(012-3)(02-12-23)})$ &
-            %        $=$ &
-            %        $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{\rRr{\AAA l_x} \rRr{\BBB l_x}      \rRr{\CCC \DDD \EEE l_x}} \ww{\gGg{     \FFF l_x}}$
-            %    \end{tabular}
-            %    \caption{
-            %        Illustration of \textbf{Def.\ 
-            %        \ref{dfn:uvalue-body}}.
-            %    }
-            %    \label{fig:uvalue-example}
-            %\end{figure}
-
-        \subsection{An entropic force with curl}\label{subsect:entropic}
+        \subsection{An entropic force with curl}\label{sect:entropic-curl}
             The displacement $M_1=\expc[\theta_T - \theta_0]$ contains many
             order-$\eta^3$ summands, including those of the form\squash
             $$
                 \textstyle
                 \Delta^\xi_{xyz} \propto 
                 -
-                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+                \sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}
                     \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
                     \,
                 \expct{
@@ -658,12 +614,9 @@
                 \squash
             $$
             where $0\leq x,y,z<N$ label datapoints.
-            %We write `$\propto$'
-            %to hide factorial factors.
             Let $\Delta_\circ = \expc[\Delta_{xxz}-\Delta_{xyz}]$ for $x,y,z$
             distinct.\squash\  $l_x, l_y, l_z$ are i.i.d., so:
             $ 
-                %\textstyle
                 \Delta_\circ^\xi \propto 
                 -
                 \sum_{\cdots}
@@ -675,57 +628,34 @@
                 \propto -\eta^3 C\nabla H}$.\squish\ 
             Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
             $H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
-            $J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$.%is $l$'s `jerk' (\href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041 (2009)}, \S1).
+            $J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$.
+            %is $l$'s `jerk' (\href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041 (2009)}, \S1).
             %\footnote{
             %    `\textbf{J}erk' is a standard term for third derivatives in dynamical systems.  .
             %}
 
             \begin{wrapfigure}{r}{0.3\textwidth}
                 \centering
-                \squash\squash\squash\squash
+                \crunch\squash
                 \plotmoow{colt/cubic}{0.3\textwidth}{}
-                %\hfill  
-                %\plotmooh{colt/spring}{}{0.35\columnwidth}
                 \caption{%
-                    %\textbf{Geometric intuition for curvature-noise interactions.}
-                    %\textbf{Left}:
-                    {Gradient noise pushes SGD toward minima flat w.r.t.\ $\mathbf{C}$.}
+                    {Gradient noise pushes SGD toward minima flat w.r.t.\ $C$.}%$\mathbf{C}$.}
                         \small
                         A 2D loss near
                         a valley of minima.  Red densities show typical
                         $\theta$s, perturbed by noise ($C$),
                         in two cross sections of the valley.  The hessian
                         changes across the valley: $J \neq 0$.  
-                        %See Corollary
-                        %\ref{cor:entropic}.
-                        %We label but do
-                        %not assume \cite{we19b}'s `fast' vs `slow' modes.
-                        %C.f.\ Figure \ref{fig:archimedes}.
-                        %
-                    %\textbf{\bf Right}:
-                    %    Both curvature and noise structure affect overfitting.
-                    %    In each subplot, the  $\leftrightarrow$
-                    %    axis represents weight space and the $\updownarrow$
-                    %    axis represents loss.  Noise (blue) transforms
-                    %    the testing loss (thin curve) into the observed loss
-                    %    (thick curve).  Red dots mark the testing loss at the
-                    %    arg-min of the observed loss.  \protect\offive{1}:
-                    %    \emph{covector}-perturbed landscapes favor large $H$s.
-                    %    \protect\offive{2}: \emph{vector}-perturbed landscapes
-                    %    favor small $H$s.  SGD's implicit regularization
-                    %    interpolates between these rows (Corollary
-                    %    \ref{cor:overfit}).
                 }
-                %\squash\squash%\squash\squash
                 \label{fig:cubic}
             \end{wrapfigure}
             The expression $-\eta^3 C\nabla H$ suggests that SGD moves
             toward flat minima (see  Figure \ref{fig:cubic}).
             %
-            It is the bilinear form
+            The bilinear form
             $F^{\mu\nu}=\textstyle\sum_{\xi\omicron}\eta^{\mu\xi}
-            \eta^{\nu\omicron} C_{\xi\omicron}$ that determines which hessians
-            count as `large' or `small'.  For example, if $F$
+            \eta^{\nu\omicron} C_{\xi\omicron}$ determines which $H$s
+            are `large' or `small'.  E.g.: if $F$
             degenerates along a covector $v$, then $H$'s 
             $v$-component does not affect $\Delta_\circ$.
             %\footnote{
@@ -734,10 +664,9 @@
             %    then replacing $H$ by $\tilde H_{\mu\nu} = H_{\mu\nu} + 42 v_\mu v_\nu$ 
             %    will not change $\Delta_\circ$.
             %}
-            %In sum: minima \emph{that are flat w.r.t.\
-            %$C$} attract SGD.
             %
-            This `entropic force'\footnote{
+            Diagram techniques establish\squash\
+            this `entropic force'\footnote{
                 Thermal systems tend toward disorder as if pushed by an
                 `entropic force'.
                 So arises the tension of rubber
@@ -752,29 +681,34 @@
                 integrate noise over time, amplifying $C$'s
                 effect. 
             }
-            dominates near $l$'s minima when
-            $E=1$: with ${\mathcal P}_T(s) = \lim_{s^\pr\to s}(1 - \exp(-Ts^\pr)))/s^\pr$,\squash\squash
+            as dominant when $G=0$, $N=T$.  
+            Evaluating a single diagram
+            ($
+                \sdia{c(01-2-3)(02-12-23)}
+            $) yields:\squash\squash
             %
             \begin{cor}%[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
                 \label{cor:entropic}
-                Start SGD at a minimum of $l$ with $H>0$, $E=B=1$ and use
+                Start SGD at a minimum of $l$ with $H>0$, $N=T$ and use
                 an eigenbasis of $K=\eta H$.  
-                For any $T$, the displacement is %$\expct{\theta_T-\theta_0}^\xi$ is 
-                \squash
+                For any $T$, the final displacement is
+                \squish\squish
                 $$
-                    M_1^\xi = %\expct{\theta_T-\theta_0}^\xi = 
+                    M_1^\xi =
                     -
-                    {\textstyle\sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}}
+                    {\textstyle\sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}}
                         C_{\mu\omicron}
                         {\color{gray}{\mathcal P}_T(K_{\mu\mu} + K_{\omicron\omicron})}
                         \eta^{\mu\nu}\eta^{\omicron\pi}
                         J_{\nu\pi\xi}
-                        {\color{gray}{\mathcal P}_T(K_{\xi\xi})}\eta^{\rho\rho}/2
+                        {\color{gray}{\mathcal P}_T(K_{\xi\xi})}\eta^{\xi\rho}/2
                     + o(\eta^3)
-                    \squash\squash
+                    \squish\squish
                 $$
-                Assuming Local Strength (\S\ref{sect:setup}), the error
-                decays uniformly, i.e.,
+                %with ${\mathcal P}_T(s) = \lim_{s^\pr\to s}(1 - \exp(-Ts^\pr))/s^\pr$.
+                with ${\mathcal P}_T(s) = (1 - \exp(-Ts))/s$.
+                Assuming Local Strength (\S\ref{sect:setup}), 
+                %the error decays uniformly, i.e.,
                 $\lim_{T\to\infty} \epsilon(\eta,T)$ exists and is $o(\eta^2)$
                 for
                 $\epsilon(\eta,T) = M_1 + \sum \eta^3 C {\mathcal P} J
@@ -800,9 +734,9 @@
         %\subsection{Curl in the entropic force}
             \begin{figure}[h!]
                 \centering
-                \rotatebox[origin=c]{-90}{\plotmoow{plots/from-above}{0.17\textwidth}{}}
-                \plotmooh{colt/screw-trajectory-cropped}{}{0.17\textwidth} 
-                \plotmooh{plots/neurips-thermo-linear-screw}{}{0.17\textwidth}
+                \rotatebox[origin=c]{-90}{\plotmoow{plots/from-above}{0.19\textwidth}{}}
+                \plotmooh{colt/screw-trajectory-cropped}{}{0.19\textwidth} 
+                \plotmooh{plots/neurips-thermo-linear-screw}{}{0.19\textwidth}
                 \squash
                 \caption{%
                     \textbf{Leftmost}: \Helix\ is defined on a 3D $\Mm$ that
@@ -829,13 +763,7 @@
                     thus never settles and the phenomena depicted here continue
                     forever.
                     {\bf Right}: Predictions near minima excel for
-                    large $\eta T$.  %SGD traverses \Helix'
-                    %valley.
-                    %Note: $H$ and $C$ are bounded across the valley, we see
-                    %drift for all small $\eta$, and we see displacement
-                    %exceeding the landscape's period of $2\pi$.  So: the drift
-                    %is not a pathology of well-chosen $\eta$, of divergent
-                    %noise, or of ephemeral initial conditions.
+                    large $\eta T$.
                 }
                 \squash\squash
                 \label{fig:archimedes}
@@ -863,259 +791,132 @@
             %
             %In avoiding \cite{we19b}'s constant-$C$ assumption, we
             %find that SGD's velocity field typically has curl. 
-
-            %\S\ref{appendix:artificial}.
             
-    \section{Background, notation, assumptions}\label{sect:background}
+    \section{Perturbative theory of SGD}\label{sect:calculus}
+
+        %\S\ref{sect:exegesis} illustrates by example a Taylor series approach
+        %to studying SGD dynamics.
+        \S\ref{sect:diagrams} introduces a diagram
+        notation for the formulae that thus appear.  \S\ref{sect:using} shows
+        how to evaluate diagrams to obtain numbers.  \S\ref{sect:main} states
+        our main result: that diagram-based analysis is correct.
+
+        \subsection{Notation and assumptions, II}\label{sect:background}
 
             %--  names of sgd parameters  -------------------------------------
 
-            SGD performs $\eta$-steepest descent on the estimates $l_n$.  Our
-            theory describes SGD with any number
-            %    $\mathbf{N}$ of training points,
-            %    $\mathbf{T}$ of updates, and 
-            %    $\mathbf{B}$ of points per batch.
-            %Specifically, SGD runs $T$ many updates (hence
-            %    $\mathbf{E}=TB/N$ epochs or
-            %    $\mathbf{M}=T/N$ updates per training point) of the form
-                \translucent{moolime}{$\mathbf{N}$ of training points},
-                \translucent{moolime}{$\mathbf{T}$ of updates}, and 
-                \translucent{moolime}{$\mathbf{B}$ of points per batch}.
-            Specifically, SGD runs $T$ many updates (hence
-                \translucent{moolime}{$\mathbf{E}=TB/N$ epochs} or
-                \translucent{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
-            $$
-                \textstyle
-                \theta^\mu
-                \coloneqq
-                \theta^\mu -
-                \eta^{\mu\nu} \nabla_\nu
-                    \sum_{n\in \Bb_t} l_n(\theta) / B
-            $$
-            where in each epoch, we sample the $t$th batch $\Bb_t$ without
-            replacement from the training sequence.  So each initialization
-            $\theta_0 \in \Mm$ induces a distribution over
-            trajectories $(\theta_t: 0\leq t \leq T)$, with randomness due both
-            to training data and batch selection.  We especially study
-            the \textbf{final testing loss} $\expc[l(\theta_T)]$.
-
-            %--  tensor conventions  ------------------------------------------
-
             \begin{wrapfigure}{r}{0.4\textwidth}
-                \vspace{-0.4cm}
+                \squash\squash
                 \begin{tabular}{lclcl}
-                    $G$ &$=$& $\ex{\nb\lx}        $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $\\
-                    $H$ &$=$& $\ex{\nb\nb\lx}     $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $\\ 
-                    $J$ &$=$& $\ex{\nb\nb\nb\lx}  $ &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\\
-                    $C$ &$=$& $\ex{(\nb\lx - G)^2}$ &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\\
-                    $S$ &$=$& $\ex{(\nb\lx - G)^3}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
+                    $G_\mu$         &$=$& $\expc[\nb_\mu\lx]$                           &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $                  \\
+                    $H_{\mu\nu}$    &$=$& $\expc[\nb_\mu\nb_\nu\lx]$                    &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $                  \\ 
+                    $J_{\mu\nu\xi}$ &$=$& $\expc[\nb_\mu\nb_\nu\nb_\xi\lx]$             &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\squash           \\
+                    $C_{\mu\nu}$    &$=$& $\expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$    &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\squash\squash    \\
+                    $S_{\mu\nu\xi}$ &$=$& $\expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
                 \end{tabular}
-                \vspace{-0.5cm}
+                \crunch
                 \caption{
                     \textbf{Named tensors}, typically evaluated at
                     initialization ($\theta=\theta_0$).  Def.\
                     \ref{dfn:uvalue-body} explains how diagrams depict tensors.
                 }
+                \squash\squash
                 \label{fig:tensor}
-                \vspace{-0.5cm}
             \end{wrapfigure}
-            We make heavy use Figure \ref{fig:tensor}'s tensors;
-            $G, H, J, C, S$ have $1, 2, 3, 2, 3$ (lower) indices, respectively.
-            We implicitly sum repeated Greek indices: if a covector $U$
-            and a vector $V$\footnote{
-                Vectors/covectors, a.k.a.\ column/row vectors,
-                represent distinct geometric concepts \citep{ko93}. 
-            } have coefficients $U_\mu, V^\mu$, then 
-            $
-                U_\mu V^\mu
-                \triangleq
-                \sum_\mu U_\mu \cdot V^\mu
-            $.
-            We regard the learning rate as an inverse metric $\eta^{\mu\nu}$
-            that converts gradient covectors to displacement vectors
-            \citep{bo13}.  We use the learning rate $\eta$ to raise indices;
-            thus,
-            $
-                H^{\mu}_{\lambda}
-                \triangleq
-                \sum_{\nu} 
-                \eta^{\mu\nu} H_{\nu\lambda}
-            $ and
-            $
-                C^{\mu}_{\mu}
-                \triangleq
-                \sum_{\mu \nu} \eta^{\mu\nu} \cdot C_{\nu\mu}
-            $.
+            \textsc{Batches and Epochs} --- Generalizing \S\ref{sect:setup}, our theory describes SGD with
+            any number
+                {$\mathbf{N}$ of training points},
+                {$\mathbf{T}$ of updates}, and 
+                {$\mathbf{B}$ of points per batch}.
+            SGD runs $T$ updates (hence
+                {$\mathbf{E}=TB/N$ epochs} or
+                {$\mathbf{M}=T/N$ updates per training point}) of the form
+            %    \translucent{moolime}{$\mathbf{N}$ of training points},
+            %    \translucent{moolime}{$\mathbf{T}$ of updates}, and 
+            %    \translucent{moolime}{$\mathbf{B}$ of points per batch}.
+            %Specifically, SGD runs $T$ many updates (hence
+            %    \translucent{moolime}{$\mathbf{E}=TB/N$ epochs} or
+            %    \translucent{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
+            $$
+                %\textstyle
+                \theta_{t+1}^\mu
+                \coloneqq
+                \theta_t^\mu -
+                \sum_\nu
+                \eta^{\mu\nu} \nabla_\nu
+                    \sum_{n\in \Bb_t} l_n(\theta) / B
+            $$
+            where in each epoch %$(k(N/B)\leq t<(k+1)(N/B))$,
+            we sample the
+            $t$th batch $\Bb_t$ without replacement from the training sequence.
+            %
+            %We especially study
+            %the \textbf{final testing loss} $\expc[l(\theta_T)]$.
+            %and the \textbf{final displacement} $\expc[\theta_T-\theta_0]$.
 
-            Little-$o$s by default indicate $\eta\to 0$ limits potentially
-            non-uniform in parameters (such as $T$) other than $\eta$. 
-            ``\emph{Order $d$}'' means \emph{with error term
-            $o(\eta^d)$} and ``\emph{leading order}'' means \emph{with error factor
-            $1+o(1)$}.
-            %with convergence not necessarily uniform
-            %w.r.t.\ $T$.
-            %A quantity $q$ \emph{vanishes to order $d$} when $\lim_{\eta\to 0}
-            %q/p(\eta) = 0$ for some homogeneous degree-$d$ polynomial $p$; we
-            %then say $q\in o(\eta^d)$.  THIS SENTENCE CONFUSES!
+            %--  tensor conventions  ------------------------------------------
+
+            \textsc{Tensors} --- We make heavy use Figure \ref{fig:tensor}'s tensors;
+            $G, H, J, C, S$ have $1, 2, 3, 2, 3$ many axes.%, respectively.
+
+            \textsc{Vectors vs Covectors} --- 
+                Those axes all transform under change-of-basis like covectors.
+                \emph{What does this mean}?  Imagine an air-conditioned
+                hallway's temperature gradient ($0.1^\circ
+                \text{K}/\text{meter}$) and length ($20\,\text{meters}$).
+                When we switch units from m to cm, the temperature
+                gradient numerically \emph{decreases} (to $0.001$) but the length
+                numerically \emph{increases} (to $2000$).  So gradients
+                (covectors) and displacements (vectors) are distinct geometric
+                concepts.  We respect this distinction throughout; that's why our $\eta$ is a tensor (whose two
+                axes transform like vectors).
+                %
+                \cite{mi73} (\S2.5) illustrates the distinction(=it) with
+                helpful pictures; \cite{ko93} (\S7,14) pinpoints the sense in
+                which to ignore it is unnatural; \cite{cu87} (\S1.4) relates
+                it to common tensors in statistics.
+
+            \textsc{Little-{\rm o} Notation} --- A (potentially tensor)
+            quantity $q$ \emph{vanishes to order $\eta^d$} when
+            for some homogeneous degree-$d$ polynomial $p$
+            $\lim_{\eta\to 0} q/p(\eta) = 0$; we then say $q\in o(\eta^d)$.
 
             %--  example  -----------------------------------------------------
 
-            To illustrate our notation, we quote a well-known proposition
-            (\cite{ne04}, \S 2.1):
-            %\begin{prop}\label{prop:nest}
-            %    $G$ controls the leading order loss decrease:
+            %and how evaluation of a single diagram 
+            %    \squash
+            %$$
+            %    \sdia{c(012-3)(03-13-23)}
+            %    \crunch
+            %$$
+            %gives a case of
+            %%the leading order result
+            %Corollary \ref{cor:vsode}, quoted
+            %here assuming isotropic curvature ($\eta H = cI$) and $E=B=1$:\squash
+            %\begin{prop}\label{prop:splash}
+            %    Assume Local Strength and initialize at a minimum of $l$.  Then
+            %    in the large-$T$ limit, the skewness $S$
+            %    contributes 
             %    $
-            %        \expc[l(\theta_T) - l(\theta_0)] =%\in
-            %        - 
-            %        T G_\mu G^\mu
-            %        + o(\eta^1)
-            %    $.
+            %        - \sum_{\substack{\mu\nu\xi\\ \omicron\rho\pi}} \eta^{\mu\omicron}\eta^{\nu\rho}\eta^{\xi\pi} S_{\mu\nu\xi}
+            %        J_{\omicron\rho\pi} / (18 c) + o(\eta^2)
+            %    $
+            %    to the final testing loss $\expc[l(\theta_T)]$. 
+            %    \squash
             %\end{prop}
-            One proves this estimate by induction on $T$.  When the loss
-            landscape is noiseless and linear (that is, when $\nabla
-            l_x(\theta)$ depends on neither $x$ nor $\theta$), this estimate is
-            exact.
+            %So skewness affects loss in proportion to the logarithmic
+            %derivative $J/H$ of curvature.  Prop \ref{prop:splash} is order
+            %$\eta^2$ and thus a leading correction
+            %to Prop \ref{prop:nest}.  Gaussian approximations (e.g.\
+            %SDE) miss this effect. 
 
-            This paper's contributions are two-fold: first, to identify how
-            gradient noise and curvature correct Proposition \ref{prop:nest};
-            and second, to replace induction by less opaque and more convergent
-            large-$T$ techniques.
-            %
-            For example, our framework allows us to assess how gradient noise's
-            non-Gaussianity affects the final testing loss.
-            \S\ref{sect:calculus} details how evaluation of a
-            \emph{single diagram}
-                \vspace{-0.20cm}
-            $$
-                \sdia{c(012-3)(03-13-23)}
-                \vspace{-0.40cm}
-            $$
-            gives a case of
-            %the leading order result
-            Corollary \ref{cor:vsode}, quoted
-            here assuming isotropic curvature ($\eta H \propto I$) and $E=B=1$: 
-            \begin{prop}\label{prop:splash}
-                If we initialize near a non-degenerate minimum of $l$, then in
-                the large-$T$ limit, the skewness $S$ of gradient noise
-                contributes 
-                $
-                    - S_{\alpha\beta\gamma}
-                    J^{\alpha\beta\gamma} / 18 \|\eta H\|_2 + o(\eta^2)
-                $
-                to the final testing loss.  
-            \end{prop}
-            So skewness affects loss in proportion to the logarithmic
-            derivative $J/H$ of curvature.  The dependence on $\eta$
-            is second order\footnote{
-                Three $\eta$s raise $J$'s indices; one $\eta$ appears in the
-                denominator $18 \|\eta H\|$.
-            } and is hence a leading correction
-            to Proposition \ref{prop:nest}.  Gaussian approximations (e.g.\
-            SDE) miss this effect. 
-
-    \section{Perturbative theory of SGD}\label{sect:calculus}
-
-        \S\ref{sect:exegesis} illustrates by example a Taylor series approach
-        to studying SGD dynamics.  \S\ref{sect:diagrams} introduces a diagram
-        notation for the formulae that thus appear.  \S\ref{sect:using} shows
-        how to evaluate diagrams to obtain numbers.  \S\ref{sect:main} states
-        our main result: that diagram-based analysis is correct.
-
+            %\newpage
         \subsection{Diagrams arise from Taylor series and depict information-flow processes}\label{sect:diagrams}
 
-            This section prepares for \S\ref{sect:using}, which uses
-            diagrams to generalize \S\ref{sect:exegesis}'s separation, tame
-            \S\ref{sect:exegesis}'s combinatorial explosion of terms, and
-            temper \S\ref{sect:exegesis}'s polynomial divergence.  
-            %
-            We start by characterizing the higher order terms.  Suppose
-            $s$ is an analytic function on $\Mm$.  For example, $s$ might be
-            the testing loss $l$.  The following Lemma, reminiscent of
-            \cite{dy49a}'s, tracks $s(\theta)$ as SGD updates $\theta$:
-            \begin{klem*} \label{lem:dyson}
-                For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a
-                sum over tuples of natural numbers:
-                \begin{equation}\label{eq:dyson}
-                    \sum_{(d_t: 0\leq t<T) \in \NN^T}
-                    (-\eta)^{\sum_t d_t}
-                    \wrap{
-                        \prod_{0 \leq t < T}
-                            \wrap{\left.
-                                \frac{(g \nabla)^{d_t}}{d_t!}
-                            \right|_{g = \sum_{n\in \Bb_t} \nabla l_n(\theta) / B}}
-                    }(s) (\theta_0)
-                \end{equation}
-                Moreover, an expectation symbol (over training sets) commutes
-                with the outer sum.
-            \end{klem*}
-            Here, we consider each $(g \nabla)^{d_t}$ as a higher order
-            function that takes in a function $f$ defined on weight space and
-            outputs a function equal to the $d_t$th derivative of $f$, times
-            $g^{d_t}$.  The above product then indicates composition of $(g
-            \nabla)^{d_t}$'s across the different $t$'s.  In total, that
-            product takes the function $s$ as input and outputs a function
-            equal to some polynomial of $s$'s derivatives.
-
-            For example, the $\eta^3$ terms that appear in the above
-            (for $s=l$) include:
-            $$
-                -\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}
-                 \nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}
-                 \nabla^{\lambda} l
-                %
-                \hspace{2cm}
-                %
-                -\nabla_{\mu} l_{t=2} \nabla_{\lambda} l_{t=2}
-                 \nabla^{\mu}\nabla_{\nu} l_{t=5}
-                 \nabla^{\nu}\nabla^{\lambda} l
-            $$
-            Let us take expectations over training sets.  Suppose $B=1$ and
-            $N>5$; then batches at $t=2,5$ are independent so the
-            expectations factor (we use ``$\leftrightsquigarrow$'', not
-            of ``$=$'', due to page's \pageref{dfn:uvalue-body}'s footnote):  
-            \begin{align*}
-               -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
-                \expc[\nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}]
-                \expc[\nabla^{\lambda} l]
-                &&
-               -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
-                \expc[\nabla^{\mu}\nabla_{\lambda} l_{t=5}]
-                \expc[\nabla^{\nu}\nabla^{\lambda} l] \\
-               = -(GG+C)_{\mu\nu}J^{\mu\nu}_{\lambda}G^{\lambda} 
-                && 
-               = -(GG+C)_{\mu\nu}H^{\mu}_{\lambda} H^{\nu\lambda} \\
-                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-12-23)})
-                && 
-                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
-            \end{align*}
-            To prepare for \S\ref{sect:using}, we write terms (such as
-            above) as uvalues (Def.\ \ref{dfn:uvalue-body}) of diagrams.
-            %(e.g.\ $\sdia{c(01-2-3)(02-12-23)}, \sdia{c(01-2-3)(02-13-23)}$).
-            See Fig.\ \ref{fig:uvalue-example}.
-            %We notated the tensors above using diagrams.  Diagrams help us
-            %organize (\ref{eq:dyson})'s terms.
-            %Each diagram evaluates to a
-            %tensor: its \emph{un-resummed value} or
-            %\translucent{moolime}{\emph{\textbf{uvalue}}, defined as a product containing a $d$th}
-            %\translucent{moolime}{derivative of $l_x$ for each degree-$d$ node, grouped under
-            %expectation symbols per the diagram's gray}
-            %\translucent{moolime}{outlines, and tensor-contracted per the diagram's black edges}
-            %(\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
-            %    We write $\leftrightsquigarrow$ instead of $=$ since diagrams
-            %    evaluate to products of cumulants $C$ rather than of moments
-            %    $GG+C$: \S\ref{appendix:evaluate-embeddings}.
-            %}
-            %%
-            %We express (\ref{eq:dyson}) as a weighted sum of the $\uvalue$s of
-            %all diagrams formally defined below.
-            %We supplu The following examples of
-            %(in)valid diagrams supply an informal sense sufficient to
-            %read this paper's body.\footnote{
-            %    Throughout, colors help us refer to parts of diagrams; colors
-            %    lack mathematical meaning.
-            %}
-            \noindent
-            %\translucent{moolime}{\noindent\parbox{\textwidth}{
+            We formalize \S\ref{sect:diagrams-in-brief}'s identification of
+            terms (in $\expc[l(\theta_T)]$'s Taylor expansion) with diagrams.
+            (Throughout, colors help us refer to parts of diagrams; colors lack
+            mathematical meaning.)
             \begin{dfn}[\S\ref{appendix:toward-diagrams}]
                 \emph{A \translucent{moolime}{\textbf{diagram}} is a rooted tree equipped with an
                     equivalence relation on (i.e.\ a partition of) its non-root
@@ -1123,16 +924,13 @@
                     precede parents; the root is thus rightmost.  We draw the
                     partition structure with minimally many outlined ties.}\mend 
             \end{dfn}
-            %}
             \begin{table}[h!]
                 \centering
-                \vspace{-0.3cm}
+                \crunch
                 \adjustbox{width=\textwidth}{
                 \begin{tabular}{ccc}
-                    examples: of valid diagrams\footnote{
-                Throughout, colors help us refer to parts of diagrams; colors
-                lack mathematical meaning.
-            } &\hspace{0.2cm}& of invalid diagrams \\ \hline
+                    examples: of valid diagrams
+                    &\hspace{0.2cm}& of invalid diagrams \\ \hline\squash 
                     $\mdia{c(0-1)(01)},
                     \mdia{c(0-1-2)(02-12)},
                     \mdia{c(012-3)(02-12-23)},
@@ -1147,9 +945,10 @@
                      \dia{MOOc(0-1-2)(02)},$
                      \adjustbox{trim=0 0 {.5\width} 0}{$\dia{MOOc(02-012-3)(02-12-23)}$}
                      ~~
+                     \squash
                 \end{tabular}
                 }
-                \vspace{-0.7cm}
+                \crunch
             \end{table}
             Since a diagram is just a rooted tree and partition,
             $
@@ -1157,12 +956,14 @@
                 \sdia{c(02-1-3)(02-13-23)} = 
                 \sdia{c(0-12-3)(03-12-23)} 
             $ are the same diagrams.
+
+            \squash
             \begin{dfn}[\S\ref{appendix:evaluate-embeddings}]\label{dfn:uvalue-body}
                 \emph{
                     A diagram $D$'s \emph{un-resummed value} (\translucent{moolime}{\textbf{uvalue}})
                     is a product with one factor of $l_x$'s $d$th derivative
                     for each degree-$d$ node, grouped
-                    under expectation symbols\footnote{
+                    under cumulant symbols $\CC$ (think: expectation symbols $\expc$)\footnote{
                         Inconsequential technicality: uvalues are products of
                         \emph{cumulants} such as $C$, not of moments such as
                         $GG+C$.
@@ -1170,11 +971,53 @@
                         %until the Appendix. See
                         \S\ref{appendix:evaluate-embeddings}.
                     }
-                    per $D$'s gray outlines, and tensor-contracting the
-                    result per $D$'s edges.  We thus have a
+                    per $D$'s gray outlines, and tensor-contracted 
+                    via a %per $D$'s edges.  We thus have a
                     factor $\eta^{\mu\nu}$ for each edge.
                 }\mend
             \end{dfn}
+            The cumulant symbol $\CC[a]$ is $a$'s mean; $\CC[a\cdot b]$ is
+            $a,b$'s covariance instead of $(ab)$'s mean; in general, we
+            define higher cumulants $\CC[\prod_i a_i]$ recursively to `center
+            them with respect to lower cumulants' (see 
+            \S\ref{appendix:evaluate-embeddings};
+            this centering won't be crucial to our discussion).  For example:
+                \newcommand{\AAA}{{\color{black}\nabla_\mu}}
+                \newcommand{\BBB}{{\color{black}\nabla_\nu}}
+                \newcommand{\CCC}{{\color{black}\nabla_\xi}}
+                \newcommand{\DDD}{{\color{black}\nabla_\omicron}}
+                \newcommand{\EEE}{{\color{black}\nabla_\pi}}
+                \newcommand{\FFF}{{\color{black}\nabla_\rho}}
+                \newcommand{\ww}[1]{\,\CC[#1]\,}%\wasq{#1}}
+                \newcommand{\rRr}[1]{{\color{moor}#1}}
+                \newcommand{\gGg}[1]{{\color{moog}#1}}
+                \newcommand{\bBb}[1]{{\color{moob}#1}}
+                \newcommand{\sixsum}{\textstyle\sum_{{\mu\nu\xi\omicron\pi\rho}} }
+            \begin{figure}[H]
+                \centering  
+                \crunch
+                \begin{tabular}{rcl}
+                    $\text{uvalue}(\mdia{c(01-2-3)(02-13-23)})$ &
+                    $=$ &
+                    $\sixsum \eta^{\mu\xi} \eta^{\nu\pi} \eta^{\omicron\rho} \, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})}       \ww{(\gGg{\CCC \DDD      l_x})} \ww{(\bBb{\EEE \FFF l_x})}$\\
+                    \crunch\squash\squash
+                    \\                   
+                    $\text{uvalue}(\mdia{c(01-2-3)(02-12-23)})$ &
+                    $=$ &                                       
+                    $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})}       \ww{(\gGg{\CCC \DDD \EEE l_x})} \ww{(\bBb{     \FFF l_x})}$\\
+                    \crunch\squash\squash
+                    \\
+                    $\text{uvalue}(\mdia{c(012-3)(02-12-23)})$ &
+                    $=$ &
+                    $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})  \cdot     (\rRr{\CCC \DDD \EEE l_x})} \ww{(\gGg{     \FFF l_x})}$
+                \end{tabular}
+                \crunch
+                %\caption{
+                %    Illustration of \textbf{Def.\ 
+                %    \ref{dfn:uvalue-body}}.
+                %}
+                \label{fig:uvalue-example}
+            \end{figure}
 
             There are dozens of small diagrams.  In many analyses, only a few
             diagrams are relevant.  Examples: for fixed $T$, \textbf{to order
@@ -1192,7 +1035,8 @@
 
             %-----  embeddings and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
-            Having expressed terms in (\ref{eq:dyson}) as uvalues of
+            Having expressed terms in $\expc[l(\theta_T)]$'s Taylor expansion %(\ref{eq:dyson})
+            as uvalues of
             diagrams, we seek the coefficient for each uvalue.  Intuitively, a
             diagram represents a process (as in Figure \ref{fig:paradigm}) and
             a diagram's contribution scales with the number of ways that
@@ -1215,7 +1059,7 @@
                 any two nodes' $\emph{n}$s are equal if and only if the nodes
                 are in the same part of the partition.}\mend 
             \end{dfn}
-            \begin{klem*}\emph{(\textbf{restated})} %\label{thm:pathint}
+            \begin{klem*}%\emph{(\textbf{restated})} %\label{thm:pathint}
                 For all $T$: for $\eta$ sufficiently small, the final testing
                 loss is:
                 \vspace{-0.15cm}
@@ -1235,32 +1079,33 @@
                 that preserve $f$. (Typically $\wabs{\Aut_f(D)}=1$.)% (see \ref{appendix:sum-embeddings} for  ).
             \end{klem*}
 
-            For example, $\sdia{(0-1)(01)}$ has just one non-root node, it has
+            For example, $\sdia{(0-1)(01)}$ has just one non-root node.  It has
             as many embeddings as there are $(n,t)$ cells where $n$ participates
-            in the $t$th update.  So it has
+            in the $t$th update, i.e.,
             $B\cdot T$ embeddings.  Since $\sdia{(0-1)(01)}$ is the only
             diagram with one edge, it gives the full $\eta^1$ contribution to
-            final testing loss.  We thus obtain Proposition
+            final testing loss.  We thus obtain Prop
             \ref{prop:nest}:
                 \vspace{-0.15cm}
             $$
                 -(\text{\# of embeddings of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
                 =
-                -T \cdot G_\mu G^\mu
+                -T \cdot \textstyle\sum_{\mu\nu} G_\mu \eta^{\mu\nu} G_\nu
             $$
                 \vspace{-0.65cm}
 
             %-----  isolate effect of tensors; crossing symmetries  -----------
             Diagrams streamline analysis of SGD because it is in practice
-            straightforward to count a diagram's embeddings.  Moreover, the
-            topology of diagrams has dynamical significance: $t^d T^{-p}$-th
-            order correction\footnote{We compare ODE integrated to time $t$ to
-            $T$ steps of SGD with $\eta = \eta_\star t/T$ and $E=B=1$, and we
-            assume $p\neq 0$.} to the ordinary differential equation
-            approximation of SGD is given by diagrams with $d$ edges and $p$
-            many outlined ties.  Likewise, if we seek to isolate the effect, say,
-            of $C$ or $H$ or $S$ or $J$, we may consider only those diagrams
-            that contain the corresponding subgraph in Figure \ref{fig:tensor}.
+            straightforward to count a diagram's embeddings.  
+            %
+            Also, the topology of diagrams has dynamical significance: the $t^d
+            T^{-p}$-th order correction\footnote{We compare ODE integrated to
+            time $t$ to $T$ steps of SGD with $\eta = \eta_\star t/T$ and
+            $E=B=1$, and we assume $p\neq 0$.} to the ODE approximation of SGD
+            is given by diagrams with $d$ edges and $p$ many outlined ties.
+            Likewise, if we seek to isolate the effect, say, of $C$ or $H$ or
+            $S$ or $J$, we may consider only those diagrams that contain the
+            corresponding subgraph in Figure \ref{fig:tensor}.
 
             %
             %Moreover, we may
@@ -1299,13 +1144,12 @@
             %-----  resummation  ----------------------------------------------
             \subsubsection{Resummation}\label{sect:resummation}
             So far, diagrams have been a convenient but dispensible
-            book-keeping tool.  And so far, \S\ref{sect:exegesis}'s polynomial
-            divergence remains in (\ref{eq:sgdcoef}).  We now show that diagrams enable us to correct
-            this divergence.%, thus establishing diagrams as a necessary
-            %concept.
+            book-keeping tool; so far, \S\ref{sect:challenges}'s polynomial
+            divergence remains in (\ref{eq:sgdcoef}).  We now show how
+            diagrams enable us to tame this divergence.
 
             Let us collect similar diagrams, where our notion of
-            ``similar'' permits chains to grow or shrink (see Definition
+            `similar' permits chains to grow or shrink (see Definition
             \ref{dfn:link}).  We obtain lists (each conveniently represented by
             its smallest member) such as: 
             \vspace{-0.30cm}
@@ -1321,6 +1165,7 @@
                 \mdia{MOOc(02-1-3-4)(01-14-23-34)},\cdots
             \end{align*}
             \vspace{-0.60cm}
+
 
             \begin{wrapfigure}{r}{0.35\textwidth}
                 \centering  
@@ -1348,41 +1193,40 @@
             \end{wrapfigure}
             \noindent
             We will express in closed form the total contribution to
-            (\ref{eq:dyson}) of all diagrams in such a list.  The idea is that
+            (\ref{eq:sgdcoef}) of all diagrams in such a list.  The idea is that
             the uvalues of chains are powers of hessians --- e.g.\
             $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so we
             may sum over chain lengths via geometric series.
 
+            %This is the \emph{resummed value} (\emph{rvalue}) of the list's
+            %smallest member.
+            We define an embedded diagram's \emph{resummed value} or
+            \emph{\textbf{rvalue}} as we defined
+            the $\uvalue$, except that we use $(I-\eta H)^{\Delta t-1}\eta$
+            instead of $\eta$ to contract a pair of tensors embedded 
+            $\Delta t$ timesteps apart.
+            %
+            For example, take Figure \ref{fig:resumintuition}'s embedding of
+            $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  is
+            $\sum_{\mu\nu} G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and an
+            $\eta$ for each edge.  By contrast, the associated rvalue is
+            $\sum_{\mu\nu} G_\mu((I-\eta H)^{11-1}\eta)^{\mu\nu}G_\nu$ since the edge spans
+            $11$ timesteps.  Distributing out this expression reveals uvalues for
+            embeddings of $\sdia{c(0-1-2)(01-12)}$, etc.
+            %A sum over embeddings is a sum of terms with a
+            %range of exponents in place of $12-1$.
+
+            \squash\squash
             \begin{dfn}\label{dfn:link}
                 \emph{A \textbf{link} is a degree-$2$ non-root node that
                 participates in no gray outlines.  
                 E.g.\ $\sdia{c(02-1-3)(01-13-23)}$ has one link (green).
                 To \emph{reduce} at a link, we
                 replace the link by a black edge connecting the link's two
-                neighbors.  Reduction generates an equivalence relation on
-                diagrams. Each equivalence class has exactly one
+                neighbors.  E.g.\ $\sdia{c(02-1-3)(01-13-23)}\rightsquigarrow\sdia{c(01-2)(02-12)}$.  Reduction generates an equivalence relation on
+                diagrams. Each equivalence class contains exactly one
                 \textbf{linkless} diagram.  }\mend
-                
             \end{dfn}
-
-            \noindent
-            %This is the \emph{resummed value} (\emph{rvalue}) of the list's
-            %smallest member.
-            More precisely, we define we define the \emph{resummed value} or
-            \emph{\textbf{rvalue}} of an embedded diagram just as we defined
-            the $\uvalue$ except that pairs of tensor indices are not
-            contracted using $\eta^{\mu\nu}$.  Instead, whenever an embedded
-            edge spans $\Delta t$ many time steps, we contract the two
-            corresponding tensor indices using $(I-\eta H)^{\Delta t-1}\eta$.
-            (For example, take Figure \ref{fig:resumintuition}'s embedding of
-            $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  is
-            $G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and an
-            $\eta$ for each edge.  By contrast, the associated rvalue is
-            $G_\mu((I-\eta H)^{12-1}\eta)^{\mu\nu}G_\nu$ since the edge spans
-            $12$ timesteps.  We see that this rvalue includes uvalues for
-            embeddings of $\sdia{c(0-1-2)(01-12)}$, etc.)
-            %A sum over embeddings is a sum of terms with a
-            %range of exponents in place of $12-1$.
 
         \subsection{Main result}\label{sect:main}
     
@@ -1412,9 +1256,10 @@
      
             \begin{rmk} \label{rmk:integrate}
                 \emph{In practice, we replace sums over embeddings by
-                integrals over $t$ and $(I-\eta H)^t$ by $\exp(- \eta H t)$,
-                reducing to a routine integration of exponentials at the cost
-                of an error factor $1 + o(\eta)$.}\mend
+                integrals over $t$; $(I-\eta H)^t$, by $\exp(- \eta H t)$.
+                To thus reduce to a routine integration of exponentials
+                costs
+                an error factor $1 + o(\eta)$.}\mend
                 %--- and thus preserving
                 %leading-order results.}\mend
             \end{rmk}
@@ -1422,19 +1267,30 @@
             %-----  convergence  ----------------------------------------------
      
             \begin{thm} \label{thm:converge}
-                If $\theta_\star$is a non-degenerate local minimum of $l$
+                If $\theta_\star$ is a non-degenerate local minimum of $l$
                 (i.e.\ $G(\theta_\star)=0$ and $H(\theta_\star) > 0$), then for
-                SGD initialized sufficiently close to $\theta_\star$, the
+                SGD initialized close to $\theta_\star$, the
                 $d$th-order truncation of Theorem \ref{thm:resum} converges as
                 $T\to \infty$.
+                Assuming Local Strength, the truncation's large-time error
+                $\lim_{T\to\infty} \epsilon(\eta,T)$ exists for small $\eta$
+                and is $o(\eta^d)$
             \end{thm}
-            \par\noindent
-            Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge}
-            might not measure any well-defined limit of SGD, since the limit
-            might not commute with the infinite sum.  We see no such
-            pathologies in practice, so we will freely speak of ``SGD in the
-            large-$T$ limit'' as informal shorthand when referencing this
-            Theorem.
+            \begin{rmk}
+                \emph{
+                Even without Local Strength, we have not in practice observed the
+                pathologies (of non-commuting limits, i.e., of consequentially non-uniform
+                little-$o$s) that Thm \ref{thm:converge} precludes.  We take
+                as a physically plausible and empirically supported hypothesis 
+                that Thm \ref{thm:resum} predicts SGD's behavior
+                for practical (finite but large) $T$s and landscapes.}\mend
+                %Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge}
+                %might not measure any well-defined limit of SGD, since the
+                %limit might not commute with the infinite sum.  We see no such
+                %pathologies in practice, so we will freely speak of ``SGD in
+                %the large-$T$ limit'' as informal shorthand when referencing
+                %this Theorem.
+            \end{rmk}
 
     \section{Consequences of the theory}\label{sect:consequences}
 
@@ -1554,54 +1410,40 @@
                         + o(\eta^3)
                 \end{align*}
                 to the excess final testing loss over SDE.  This 
-                expression specializes to Proposition \ref{prop:splash}.
+                expression specializes to Prop \ref{prop:splash}.
             \end{cor}
 
-        \subsection{SGD descends on a landscape smoothed by the current $C$}
-    
-            %Intuitively, $D = \sdia{c(01-2-3)(02-12-23)}$ connects the
-            %subdiagram $\sdia{c(01-2)(02-12)} \propto CH$, via an extra edge on
-            %the green node (an extra $\nabla$ on $H$), to $D$'s degree-$1$
-            %root, $G$.  By l'H\^opital,\footnote{
-            %    %
-            %    Roughly:
-            %    if a displacement $\Delta\theta$ grows loss by $G C\nabla H$
-            %    nats, and by $G$ nats per foot, then $\Delta \theta$ is
-            %    $C\nabla H$ feet.
-            %    %
-            %} the displacement is $\propto -C\nabla H$.  
-            The displacement scales as $-C\nabla H$.
-            That is, SGD moves toward minima that are flat \emph{with respect
-            to} $C$ (Figure
-            \ref{fig:cubicandspring}\offive{0}).
-            %
-            Taking limits to drop the non-degeneracy hypothesis, we expect
-            \emph{sustained} motion toward flat regions in a valley of minima.
-            In avoiding \cite{we19b}'s constant-$C$ assumption, we find that
-            SGD's velocity field is typically has curl
-            (\S\ref{subsect:entropic}).  For $\nabla(CH)$ is a total
-            derivative but $C\nabla H$ is not.  By low-pass filter theory, $l$
-            increases by $CH/2+o(C)$ when we convolve $l$ with a $C$-shaped
-            Gaussian.  So we say that SGD descends on a $C$-smoothed landscape
-            that changes as $C$ does.
-            %
-            Our $T\gg 1$ result is $\Theta(\eta^2)$, while \cite{ya19b}'s
-            similar $T=2$ result is $\Theta(\eta^3)$, since our analysis
-            integrates the noise over time, hence amplifying $C$'s
-            effect.  Experiments verify our law.
-      
-            %So SGD descends on a $C$-smoothed landscape and prefers 
-            %minima flat with respect to $C$.
-
-
+        \subsection{SGD descends on a landscape smoothed by the current $C$ {\rm --- See \S\ref{sect:entropic-curl}.}}
 
         \subsection{Both flat and sharp minima overfit less}
             \label{subsect:curvature-and-overfitting}%
 
+
+            \begin{wrapfigure}{r}{0.3\textwidth}
+                \centering
+                \crunch\squash
+                \plotmoow{colt/spring}{0.3\textwidth}{}
+                \caption{%
+                    Both curvature and noise structure affect overfitting.
+                    \small
+                    In each pane, the  $\leftrightarrow$
+                    axis represents weight space and the $\updownarrow$
+                    axis represents loss.  Noise (blue) transforms
+                    the testing loss (thin curve) into the observed loss
+                    (thick curve).  Red dots mark the testing loss at the
+                    arg-min of the observed loss.  \protect\offive{1}:
+                    \emph{covector}-perturbed landscapes favor large $H$s.
+                    \protect\offive{2}: \emph{vector}-perturbed landscapes
+                    favor small $H$s.  SGD's implicit regularization
+                    interpolates between these rows (Corollary
+                    \ref{cor:overfit}).
+                }
+                \label{fig:spring}
+            \end{wrapfigure}
             Intuitively, sharp minima are robust to slight changes in the
             average \emph{gradient} and flat minima are robust to slight
             \emph{displacements} in weight space (Figure
-            \ref{fig:cubicandspring}\protect\offive{12}).  However, as SGD by
+            \ref{fig:spring}\protect\offive{12}).  However, as SGD by
             definition equates displacements with gradients, it may be unclear
             how to reason about overfitting in the presence of curvature.
             %
@@ -1619,7 +1461,9 @@
                     \wrap{\frac{C/N}{2H}}_{\mu\nu}^{\rho\lambda} ~
                         \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
                         + o(\eta^2)
-                    ~~~~~ ; ~~~~~
+                $$
+                and
+                $$
                     \wrap{\frac{C/N}{H}}_{\mu\nu}^{\mu\lambda} ~
                         \wrap{I - \exp(-\eta T H)}^{\nu}_{\lambda}
                         + o(\eta)
@@ -1635,13 +1479,13 @@
     
    
     \section{Experiments}
-        Despite the convergence results in Theorems \ref{thm:resum} and
-        \ref{thm:converge}, we have no theoretical bounds for the domain and
-        rate of convergence.  Instead, we test our predictions by experiment.
-        We perceive support for our theory in drastic rejections of the null
-        hypothesis.  For instance, in Figure \ref{fig:vanilla}\ofsix{4},
-        \cite{ch18} predict a velocity of $0$ while we predict a velocity of
-        $\eta^2/6$.
+        We have no theoretical bounds for the domain and rate of convergence in
+        Theorems \ref{thm:resum} and \ref{thm:converge}. 
+        %
+        We thus test our theory by experiment.  We perceive support for our
+        theory in drastic rejections of the null hypothesis.  For instance, in
+        Figure \ref{fig:vanilla}\ofsix{4}, \cite{ch18} predict a velocity of
+        $0$ while we predict a velocity of $\eta^2/6$.
         %
         Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark
         $95\%$ confidence intervals based on the standard error of the mean.
@@ -1664,9 +1508,16 @@
             This is significant because $C$ controls the rate at which the
             generalization gap (testing minus training loss) grows (Corollary
             \ref{cor:overfit}, Figure \ref{fig:vanilla}\ofsix{3}).
+            %%%%\pmoo{3.5cm}{multi-fashion-logistic-0}
+            %%%%\pmoo{3.5cm}{vs-sde}
+            %%%%\pmoo{3.5cm}{tak-reg}
+            %%%%\caption{
+            %%%%    \textbf{Further experimental results}.
+            %%%%    %
+
             \begin{figure}[h!] 
                 \centering
-                \pmoo{3.85cm}{neurips-test-small} \hfill \pmoo{3.85cm}{new-big-bm-new}          \hfill \pmoo{3.85cm}{neurips-thermo-linear-screw}
+                \pmoo{3.85cm}{neurips-test-small} \hfill \pmoo{3.85cm}{new-big-bm-new}          \hfill \pmoo{3.85cm}{multi-fashion-logistic-0}
                 \pmoo{3.85cm}{neurips-test-large} \hfill \pmoo{3.85cm}{neurips-gen-cifar-lenet} \hfill \pmoo{3.85cm}{neurips-tak}
                 \caption{
                     {\bf Experiments on natural and artificial landscapes.}
@@ -1718,13 +1569,14 @@
                     %%%
                     \newline
                     {\bf Right: Predictions near minima excel for
-                    large $\eta T$.} \protect\ofsix{4}: SGD traverses \Helix'
-                    valley of global minima. %in the positive $z$ direction.
-                    Note: $H$ and $C$ are bounded across the valley, we see
-                    drift for all small $\eta$, and we see displacement
-                    exceeding the landscape's period of $2\pi$.  So: the drift
-                    is not a pathology of well-chosen $\eta$, of divergent
-                    noise, or of ephemeral initial conditions.
+                    large $\eta T$.} \protect\ofsix{4}: 
+                    SGD with $2, 3, 5, 8$ epochs incurs greater test
+                    loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the
+                    predicted amounts (predictions shaded) for a range of learning
+                    rates.  Here, all SGD runs have $N=10$; we scale the learning
+                    rate for $E$-epoch SGD by $1/E$ to isolate the effect of
+                    inter-epoch correlations away from the effect of larger $\eta
+                    T$.
                     %
                     \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and
                     a range of $H$s, initialized at the truth, the testing
@@ -1759,8 +1611,6 @@
             estimate may serve as a regularizer term enabling descent-based
             tuning of hyperparameters such as a model's $l_2$ coefficients.
             
-            
-            \vfill
     \section{Conclusion}
 
         %\subsection{Contributions}
@@ -1896,6 +1746,48 @@
                 $H$ is typical in modern learning \citep{ro12, ku19}
             } so we may model VAEs. 
             \nopagebreak
+            %\S\ref{sect:entropic-example}'s remainder states results but not
+            %the diagrams that led to them.  So we won't relate diagrams to the
+            %summands (i.e., the `un-resummed values') they represent; we'll use
+            %none of
+            %these examples:
+            %\nopagebreak
+            %    \newcommand{\AAA}{{\color{black}\nabla_\mu}}
+            %    \newcommand{\BBB}{{\color{black}\nabla_\nu}}
+            %    \newcommand{\CCC}{{\color{black}\nabla_\xi}}
+            %    \newcommand{\DDD}{{\color{black}\nabla_\omicron}}
+            %    \newcommand{\EEE}{{\color{black}\nabla_\pi}}
+            %    \newcommand{\FFF}{{\color{black}\nabla_\rho}}
+            %    \newcommand{\ww}[1]{\CC\wasq{#1}}
+            %    \newcommand{\rRr}[1]{{\color{moor}#1}}
+            %    \newcommand{\gGg}[1]{{\color{moog}#1}}
+            %    \newcommand{\bBb}[1]{{\color{moob}#1}}
+            %    \newcommand{\sixsum}{\textstyle\sum_{{\mu\nu\xi\omicron\pi\rho}} }
+            %\begin{figure}[H]
+            %    \centering  
+            %    \crunch
+            %    \begin{tabular}{rcl}
+            %        $\text{uvalue}(\mdia{c(01-2-3)(02-13-23)})$ &
+            %        $=$ &
+            %        $\sixsum \eta^{\mu\xi} \eta^{\nu\pi} \eta^{\omicron\rho} \,\, \ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD      l_x}} \ww{\bBb{\EEE \FFF l_x}}$\\
+            %        \crunch\squash\squash
+            %        \\
+            %        $\text{uvalue}(\mdia{c(01-2-3)(02-12-23)})$ &
+            %        $=$ &
+            %        $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{\rRr{\AAA l_x} \rRr{\BBB l_x}} \ww{\gGg{\CCC \DDD \EEE l_x}} \ww{\bBb{     \FFF l_x}}$\\
+            %        \crunch\squash\squash
+            %        \\
+            %        $\text{uvalue}(\mdia{c(012-3)(02-12-23)})$ &
+            %        $=$ &
+            %        $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{\rRr{\AAA l_x} \rRr{\BBB l_x}      \rRr{\CCC \DDD \EEE l_x}} \ww{\gGg{     \FFF l_x}}$
+            %    \end{tabular}
+            %    \caption{
+            %        Illustration of \textbf{Def.\ 
+            %        \ref{dfn:uvalue-body}}.
+            %    }
+            %    \label{fig:uvalue-example}
+            %\end{figure}
+
 
 
     \newpage
@@ -1996,7 +1888,7 @@
             answer the following two questions.
 
             %\subsubsection{Leading order effect of gradients}
-                Our first example calculation reproduces Proposition \ref{prop:nest}.
+                Our first example calculation reproduces Prop \ref{prop:nest}.
                 In other words, it answers the question:
                 \begin{quest}[Leading order effect of gradients]\label{qst:grad}
                     What's the leading order loss decrease
@@ -2337,7 +2229,7 @@
                 G_\mu G^\mu
                 = TB \cdot (- G_\mu G^\mu/B)
             \end{align*}
-            Proposition \ref{prop:nest}'s expression $-T G_\mu G^\mu$ follows.
+            Prop \ref{prop:nest}'s expression $-T G_\mu G^\mu$ follows.
           &
             Referring again to \S\ref{sect:exampleembed}, we see that
             $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
@@ -2740,7 +2632,7 @@
         \begin{rmk*}
             In this paper's corollaries, we seek to extract the specific effect
             of a specific landscape or optimization feature such as skewed
-            noise (Proposition \ref{prop:splash}) or multiple epochs
+            noise (Prop \ref{prop:splash}) or multiple epochs
             (\S\ref{appendix:example}).  In these cases, it is usually the case
             that most diagrams are irrelevant.  For example, because a diagram
             evaluates to a product of its components, the only way the skewness
@@ -4058,7 +3950,7 @@
             embeddings that assign to each part of a diagram's partition  a
             distinct cell.  Such embeddings factor through a diagram
             ordering and are thus easily counted using factorials per
-            Proposition \ref{prop:vanilla}.  That proposition immediately
+            Prop \ref{prop:vanilla}.  That prop immediately
             follows from the now-proven Theorem \ref{thm:pathint}.
         \end{rmk}
 
@@ -4308,7 +4200,7 @@
 
             Corollary \ref{cor:epochs} and Corollary \ref{cor:batch} follow
             from plugging appropriate values of $M, N, B$ into the following
-            proposition.
+            prop.
 
             \begin{prop}\label{prop:ordtwo}
                 To order $\eta^2$, the testing loss of SGD --- on $N$ samples
@@ -4325,8 +4217,8 @@
                 }
             \end{prop}
 
-            \begin{proof}[of Proposition \ref{prop:ordtwo}]
-                To prove Proposition \ref{prop:ordtwo}, we simply count
+            \begin{proof}[of Prop \ref{prop:ordtwo}]
+                To prove Prop \ref{prop:ordtwo}, we simply count
                 the embeddings of the diagrams, noting that the automorphism groups
                 are all of size $1$ or $2$. 
                 %Since we use fuzzy outlines instead of
@@ -4345,7 +4237,7 @@
                         $\sdia{(0-1-2)(02-12)}$ & ${MNB\choose 2}$              & $MNB$                          \\
                         $\sdia{c(01-2)(02-12)}$ & $N{MB\choose 2}$              & $MNB$                             
                     \end{tabular}
-                    \caption{Terms used in proof of Proposition \ref{prop:ordtwo}}
+                    \caption{Terms used in proof of Prop \ref{prop:ordtwo}}
                     \label{tbl:ordtwo}
                 \end{table}
             \end{proof}
@@ -4353,7 +4245,7 @@
         \subsubsection{Corollary \ref{cor:vsode}}
 
             The corollary's first part follows immediately from 
-            Proposition \ref{prop:ordtwo}.
+            Prop \ref{prop:ordtwo}.
 
             \begin{proof}[Proof of second part]
                 Because $\expct{\nabla l}$ vanishes at initialization, all
@@ -4875,3 +4767,114 @@
 
 
 \end{document}
+
+%%This section prepares for \S\ref{sect:using}, which uses
+%%            diagrams to generalize \S\ref{sect:exegesis}'s separation, tame
+%%            \S\ref{sect:exegesis}'s combinatorial explosion of terms, and
+%%            temper \S\ref{sect:exegesis}'s polynomial divergence.  
+%%            %
+%%            We start by characterizing the higher order terms.  Suppose
+%%            $s$ is an analytic function on $\Mm$.  For example, $s$ might be
+%%            the testing loss $l$.  The following Lemma, reminiscent of
+%%            \cite{dy49a}'s, tracks $s(\theta)$ as SGD updates $\theta$:
+%%            \begin{klem*} \label{lem:dyson}
+%%                For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a
+%%                sum over tuples of natural numbers:
+%%                \begin{equation}\label{eq:dyson}
+%%                    \sum_{(d_t: 0\leq t<T) \in \NN^T}
+%%                    (-\eta)^{\sum_t d_t}
+%%                    \wrap{
+%%                        \prod_{0 \leq t < T}
+%%                            \wrap{\left.
+%%                                \frac{(g \nabla)^{d_t}}{d_t!}
+%%                            \right|_{g = \sum_{n\in \Bb_t} \nabla l_n(\theta) / B}}
+%%                    }(s) (\theta_0)
+%%                \end{equation}
+%%                Moreover, an expectation symbol (over training sets) commutes
+%%                with the outer sum.
+%%            \end{klem*}
+%%            Here, we consider each $(g \nabla)^{d_t}$ as a higher order
+%%            function that takes in a function $f$ defined on weight space and
+%%            outputs a function equal to the $d_t$th derivative of $f$, times
+%%            $g^{d_t}$.  The above product then indicates composition of $(g
+%%            \nabla)^{d_t}$'s across the different $t$'s.  In total, that
+%%            product takes the function $s$ as input and outputs a function
+%%            equal to some polynomial of $s$'s derivatives.
+%%
+%%            For example, the $\eta^3$ terms that appear in the above
+%%            (for $s=l$) include:
+%%            $$
+%%                -\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}
+%%                 \nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}
+%%                 \nabla^{\lambda} l
+%%                %
+%%                \hspace{2cm}
+%%                %
+%%                -\nabla_{\mu} l_{t=2} \nabla_{\lambda} l_{t=2}
+%%                 \nabla^{\mu}\nabla_{\nu} l_{t=5}
+%%                 \nabla^{\nu}\nabla^{\lambda} l
+%%            $$
+%%            Let us take expectations over training sets.  Suppose $B=1$ and
+%%            $N>5$; then batches at $t=2,5$ are independent so the
+%%            expectations factor (we use ``$\leftrightsquigarrow$'', not
+%%            of ``$=$'', due to page's \pageref{dfn:uvalue-body}'s footnote):  
+%%            \begin{align*}
+%%               -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%%                \expc[\nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}]
+%%                \expc[\nabla^{\lambda} l]
+%%                &&
+%%               -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%%                \expc[\nabla^{\mu}\nabla_{\lambda} l_{t=5}]
+%%                \expc[\nabla^{\nu}\nabla^{\lambda} l] \\
+%%               = -(GG+C)_{\mu\nu}J^{\mu\nu}_{\lambda}G^{\lambda} 
+%%                && 
+%%               = -(GG+C)_{\mu\nu}H^{\mu}_{\lambda} H^{\nu\lambda} \\
+%%                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-12-23)})
+%%                && 
+%%                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
+%%            \end{align*}
+%%            To prepare for \S\ref{sect:using}, we write terms (such as
+%%            above) as uvalues (Def.\ \ref{dfn:uvalue-body}) of diagrams.
+%%            %(e.g.\ $\sdia{c(01-2-3)(02-12-23)}, \sdia{c(01-2-3)(02-13-23)}$).
+%%            See Fig.\ \ref{fig:uvalue-example}.
+%%            %We notated the tensors above using diagrams.  Diagrams help us
+%%            %organize (\ref{eq:dyson})'s terms.
+%%            %Each diagram evaluates to a
+%%            %tensor: its \emph{un-resummed value} or
+%%            %\translucent{moolime}{\emph{\textbf{uvalue}}, defined as a product containing a $d$th}
+%%            %\translucent{moolime}{derivative of $l_x$ for each degree-$d$ node, grouped under
+%%            %expectation symbols per the diagram's gray}
+%%            %\translucent{moolime}{outlines, and tensor-contracted per the diagram's black edges}
+%%            %(\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
+%%            %    We write $\leftrightsquigarrow$ instead of $=$ since diagrams
+%%            %    evaluate to products of cumulants $C$ rather than of moments
+%%            %    $GG+C$: \S\ref{appendix:evaluate-embeddings}.
+%%            %}
+%%            %%
+%%            %We express (\ref{eq:dyson}) as a weighted sum of the $\uvalue$s of
+%%            %all diagrams formally defined below.
+%%            %We supplu The following examples of
+%%            %(in)valid diagrams supply an informal sense sufficient to
+%%            %read this paper's body.\footnote{
+%%            %    Throughout, colors help us refer to parts of diagrams; colors
+%%            %    lack mathematical meaning.
+%%            %}
+%%            \noindent
+%%
+%            So
+%            \begin{align*}
+%                \uvalue(\sdia{c(01-2-3)(02-12-23)}) &=
+%                \textstyle
+%                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+%                \expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%                \expc[\nabla_{\omicron}\nabla_{\pi}\nabla_{\xi} l_{t=5}]
+%                \expc[\nabla_{\rho} l]\eta^{\mu\omicron}\eta^{\nu\pi}\eta^{\xi\rho}
+%                \\
+%                \uvalue(\sdia{c(01-2-3)(02-13-23)}) &= 
+%                \textstyle
+%                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+%                \expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%                \expc[\nabla_{\omicron}\nabla_{\xi} l_{t=5}]
+%                \expc[\nabla_{\pi}\nabla_{\rho} l]\eta^{\mu\omicron}\eta^{\nu\pi}\eta^{\xi\rho} \\
+%            \end{align*}
+%            %\translucent{moolime}{\noindent\parbox{\textwidth}{
