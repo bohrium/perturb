@@ -112,6 +112,7 @@
 
 %\theoremstyle{plain}
     \newtheorem*{klem*}{Key Lemma}
+    \newtheorem*{lem}{Lemma}
     \newtheorem{thm}{Theorem}
     \newtheorem*{thm*}{Theorem}
     \newtheorem{cor}{Corollary}
@@ -1268,8 +1269,8 @@
      
             \begin{thm} \label{thm:converge}
                 If $\theta_\star$ is a non-degenerate local minimum of $l$
-                (i.e.\ $G(\theta_\star)=0$ and $H(\theta_\star) > 0$), then for
-                SGD initialized close to $\theta_\star$, the
+                (i.e., $H(\theta_\star) > 0$), then for
+                constant-$M$ SGD initialized close to $\theta_\star$, the
                 $d$th-order truncation of Theorem \ref{thm:resum} converges as
                 $T\to \infty$.
                 Assuming Local Strength, the truncation's large-time error
@@ -1838,8 +1839,9 @@
         \par\indent     B.1 ~~ Setting and assumptions                          \hfill \pageref{appendix:assumptions}
         \par\indent     B.2 ~~ A key lemma \`a la Dyson                         \hfill \pageref{appendix:key-lemma}
         \par\indent     B.3 ~~ From Dyson to diagrams                           \hfill \pageref{appendix:toward-diagrams}
-        \par\indent     B.4 ~~ Interlude: a review of M\"obius inversion        \hfill \pageref{appendix:mobius}
-        \par\indent     B.5 ~~ Theorems \ref{thm:resum} and \ref{thm:converge}  \hfill \pageref{appendix:resum}
+        %\par\indent     B.4 ~~ Interlude: a review of M\"obius inversion       \hfill \pageref{appendix:mobius}
+        \par\indent     B.4 ~~ Proof of Theorem \ref{thm:resum}                 \hfill \pageref{appendix:resum}
+        \par\indent     B.5 ~~ Proof of Theorem \ref{thm:converge}              \hfill \pageref{appendix:converge}
         \par\indent     B.6 ~~ Proofs of corollaries                            \hfill \pageref{appendix:corollaries}
         \par\indent     B.7 ~~ Future topics                                    \hfill \pageref{appendix:future}
     
@@ -1852,7 +1854,14 @@
         \par\indent     C.5 ~~ Software frameworks and hardware                 \hfill \pageref{appendix:frameworks}
         \par\indent     C.6 ~~ Unbiased estimators of landscape statistics      \hfill \pageref{appendix:bessel}
         \par\indent     C.7 ~~ Additional figures                               \hfill \pageref{appendix:figures}
- 
+
+        {\bf
+        \par\noindent D ~ Review of Tensors}                                    \hfill {\bf page \pageref{appendix:tensors}}
+        \par\indent     D.1 ~~ What is a tensor?                                \hfill \pageref{appendix:what-tensor}  
+        \par\indent     D.2 ~~ Vectors versus covectors                         \hfill \pageref{appendix:tensor-variance}
+        \par\indent     D.3 ~~ Contraction of tensors                           \hfill \pageref{appendix:tensor-contraction}
+        \par\indent     D.4 ~~ Linear maps as tensors                           \hfill \pageref{appendix:tensor-hom}
+
 \newpage
 \section{Tutorial: how to use diagrams}                \label{appendix:tutorial}
     This paper presents a new technique for calculating the expected learning
@@ -3968,15 +3977,16 @@
             contiguous.
         \end{prop}
 
-    \subsection{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
+    %\subsection{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
 
-        We say an embedding is \textbf{strict} if it assigns to each part
+    
+    \subsection{Proof of Theorem \ref{thm:resum}}    \label{appendix:resum}
+
+        (We say an embedding is \textbf{strict} if it assigns to each part
         a different datapoint $n$.
         Then, by M\"obius inversion (\cite{ro64}), a sum over strict embeddings
         of moment values (\S\ref{appendix:evaluate-embeddings}) matches 
-        a sum over all embeddings of $\uvalue$s.
-
-    \subsection{Theorems \ref{thm:resum} and \ref{thm:converge}}    \label{appendix:resum}
+        a sum over all embeddings of $\uvalue$s.)
 
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
         may be grouped by their geometric realizations.  Each nonempty class of
@@ -4101,6 +4111,60 @@
             \ref{thm:resum} and \ref{thm:pathint} match.
         \end{proof}
 
+    \subsection{Proof of Theorem \ref{thm:converge}}    \label{appendix:converge}
+
+        Let $L_{d,T}(\eta)$ be the $d$th order truncation of Thm \ref{thm:resum}'s series.
+        The following lemma compares $L_d = \lim_{T\to\infty} L_{d,T}$ to
+        $L_T = \lim_{d\to\infty} L_{d,T}$.
+        %
+        For convenience, we fix some inner product on $\Mm$. 
+        %
+        \begin{lem}\label{lem:strength}
+            Fix $U\subseteq \Mm$ open and $\theta_\star\in U$ a local minimum
+            of $l$.  Assume Local Strength.  Then for all $d$ and for all
+            initializations $\theta_0$ in some neighborhood $V_d$ of
+            $\theta_\star$: there exist $T_0,A,B>0$ so that $\sup_{T\geq T_0}
+            {\rm ReLU}(|L_d(\eta)-L_T(\eta)|-\exp(A-BT))$ is well-defined and
+            is $o(\eta^d)$.
+            `Well-defined' means the sup is finite on some
+            neighborhood (in the space of symmetric positive semidefinite
+            forms) of $\eta=0$.
+        \end{lem}
+        \begin{proof}
+            In what follows, $\epsilon,\delta,s,\epsilon^\pr$ denote positive
+            quantities to be regarded as small and under our control.  We
+            follow proof-writing tradition by \emph{using} each quantity
+            before \emph{setting} it.
+
+            Let $\hat l = \sum_n l_n/N$ denote the training landscape.  Since
+            $\nabla l_x, \nabla\nabla l_x$ are universally bounded, Chernoff
+            implies that for any compact $K$ and any $\epsilon,\delta>0$:
+            there are $T_0, \eta_\star>0$ so that whenever 
+            $\eta < \eta_\star$ and $T>T_0$, the error $\sup_{\theta\in K}
+            \|\nabla \hat l-\nabla l\|$ is small ($<\epsilon$) with high
+            probability ($>1-\delta$).
+
+            Since $l_x$ is universally bounded, the low-probability fringe
+            event contributes $O(\delta)$ to the final testing loss $L_T$.  In
+            fact, by Chernoff this contribution decays exponentially in $T$.
+            (Thence arises the lemma's term $\exp(A-BT)$). 
+
+            Let's thus focus on the high-probability bulk event.  For any
+            $s>0$, we may arrange $K, \epsilon$ with reference to Local
+            Strength's $Q_-$ so that, conditioned on this bulk event, SGD's
+            trajectory is confined to an open radius-$s$ ball
+            $B_s(\theta_\star)$ around $\theta_\star$ when it is
+            initialized at $\theta_\star$.  This confinement being an open
+            condition and dynamics being continuous, we may in fact arrange $K,
+            \epsilon$ so that (again conditioned on the bulk event) SGD's
+            trajectory is confined to $B_s(\theta_\star)$ when 
+            $\theta_0 \in B_{r(s)}(\theta_\star)$.
+
+            Invoking $L_{T_0}$'s analyticity, we re-choose $\eta_\star>0$ as
+            needed so that for all lesser $\eta$,
+            $|L_{d,T_0}(\eta)-L_{T_0}(\eta)|<\epsilon^\pr$.  
+        \end{proof}
+
         \begin{proof}[Proof of Theorem \ref{thm:converge}]
             Since we assumed hessians are positive: for any $m$, the propagator
             $K^t = \wrap{(I-\eta H)^{\otimes m}}^t$ exponentially decays to $0$
@@ -4113,7 +4177,9 @@
             at least one exponent $t$ exceeding that threshold grows
             polynomially in $T$ (with degree $d$).  The exponential decay of
             each term overwhelms the polynomial growth in the number of terms,
-            and the convergence statement follows.
+            and Theorem's first part follows.
+
+            More difficult is the Theorem's statement about Local Strength.
         \end{proof}
 
     %\subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
@@ -4476,7 +4542,19 @@
                 Gaussian-Xavier initialization of the linear maps in each layer
                 differentially pulls back to standard normal initializations of the
                 parameters.
-                
+
+                Some of our experiments involve Gaussian noise, which is not
+                bounded and so violates the our assumptions.  In practice,
+                Gaussians are effectively bounded in that our predictions vary
+                smoothly with the first few moments of this distribution, so
+                that a $\pm 12$-clipped Gaussian will yield almost the same
+                predictions.
+                %
+                Even more experiments permit arbitrarily large losses and  
+                thus also violate our boundedness assumptions; since in practice
+                SGD with small learning rates does not explore regions of
+                very-large loss, we consider this violation negligible.
+
             \subsubsection{Datasets}
                 For image classification landscapes, we regard the finite amount of
                 available data as the true (sum of diracs) distribution $\Dd$ from
@@ -4564,8 +4642,8 @@
 
     \subsection{Unbiased estimators of landscape statistics}        \label{appendix:bessel}
         %
-        We use the following method --- familiar to some of our colleagues but
-        hard to find writings on --- for obtaining unbiased estimates for
+        We use the following method --- familiar to some but apparently nowhere
+        described in writing --- for obtaining unbiased estimates for
         various statistics of the loss landscape.  The method is merely an
         elaboration of Bessel's factor \citep{ga23}.  For completeness, we
         explain it here. 
@@ -4764,7 +4842,11 @@
             \label{fig:takreg}
         \end{figure}
 
-
+    \section{Review of Tensors}
+        \subsection{What is a tensor?}
+        \subsection{Vectors versus covectors}
+        \subsection{Contraction}
+        \subsection{Linear maps as tensors}
 
 \end{document}
 

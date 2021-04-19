@@ -1,0 +1,113 @@
+\documentclass[12pt]{colt2021} %% Anonymized submission
+\usepackage{times}
+\usepackage{soul}
+%\usepackage[
+%    top   =1in,
+%    bottom=1in,
+%    left  =1in,
+%    right =1in,
+%]{geometry}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage[clock,weather]{ifsym}
+
+%\usepackage[dvipsnames]{xcolor}
+%\usepackage{amsmath, amssymb, amsthm, bm}
+
+\newcommand{\Ra}{\textmd{\textsf{\color{purple!50} {R1}}}}
+\newcommand{\Rb}{\textmd{\textsf{\color{green!60}  {R2}}}}
+\newcommand{\Rc}{\textmd{\textsf{\color{blue!50}   {R3}}}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\RR}{\mathbb{R}}
+
+\newcommand{\cor}[1]{\textmd{{\color{gray}Cor}{#1}}} 
+\newcommand{\dfn}[1]{\textmd{\textsf{Defn#1}}}
+\newcommand{\apx}[1]{\textmd{\textsf{Apdx#1}}}
+\newcommand{\pag}[1]{\textmd{{\color{gray}Pg}{#1}}}
+\newcommand{\pgph}[1]{\textmd{{\color{gray}Par}{#1}}}
+\newcommand{\fig}[1]{\textmd{{\color{gray}Fig}#1}}
+\newcommand{\thm}[1]{\textmd{{\color{gray}Thm}{#1}}}
+\newcommand{\lem}[1]{\textmd{{\color{gray}Lem}{#1}}}
+\newcommand{\prp}[1]{\textmd{{\color{gray}Prp}{#1}}}
+\newcommand{\trk}[1]{\textmd{{\color{gray}Trk}{#1}}}
+\newcommand{\tab}[1]{\textmd{{\color{gray}Tab}{#1}}}
+
+\newcommand{\cit}[1]{[\textbf{#1}]}
+
+\newcommand{\moosect}[1]{\par\noindent\hspace{-1cm}\textsc{\textbf{#1}}.}
+\newtheorem*{propA*}{{Prop A}}
+\newtheorem*{thm2*}{{Thm 2}}
+
+\usepackage{amsfonts, makerobust, float}
+\usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
+\usepackage[export]{adjustbox}
+%---------------------  graphics and figures  ---------------------------------
+\usepackage{wrapfig, caption}
+\usepackage{hanging, txfonts, ifthen}
+
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+
+
+\newcommand{\offive}[1]{
+    {\tiny
+        \raisebox{-0.04cm}{\color{gray}\scalebox{2.5}{$\substack{
+            \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
+        }$}}%
+        \raisebox{0.04cm}{$\substack{
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}   
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square} \\
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+        }$}%
+    }%
+}
+
+
+\newcommand{\ofsix}[1]{
+    {\tiny \raisebox{0.04cm}{$\substack{
+        \IfSubStr{#1}{0}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}  \\ 
+        \IfSubStr{#1}{3}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{4}{{\color{moor}\blacksquare}}{\square}    
+        \IfSubStr{#1}{5}{{\color{moor}\blacksquare}}{\square}    
+    }$}}%
+}
+
+%   The following reconciles COLT's style with \includegraphics:
+%       (see tex.stackexchange.com/questions/520891)
+\makeatletter
+\let\Ginclude@graphics\@org@Ginclude@graphics
+\makeatother
+
+
+
+\newcommand{\sizeddia}[2]{%
+    \begin{gathered}%
+        \includegraphics[scale=#2]{../diagrams/#1.png}%
+    \end{gathered}%
+}
+\newcommand{\bdia}[1]{\protect \sizeddia{#1}{0.22}}
+\newcommand{\dia} [1]{\protect \sizeddia{#1}{0.18}}
+\newcommand{\mdia}[1]{\protect \sizeddia{#1}{0.14}}
+\newcommand{\sdia}[1]{\protect \sizeddia{#1}{0.10}}
+
+
+
+\begin{document}
+\title{Proposition A}
+\end{document}

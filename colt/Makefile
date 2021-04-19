@@ -1,3 +1,7 @@
+prop-a:
+	pdflatex prop-a.tex
+	evince   prop-a.pdf
+
 fast:
 	bibtex   revise-colt.aux
 	pdflatex revise-colt.tex
