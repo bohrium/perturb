@@ -368,10 +368,10 @@
             inquiries.  
             
     \section{Paradigmatic example: a non-conservative entropic force}\label{sect:entropic-example}
-            This section illustrates our theory by sketching a path toward
-            Corollary \ref{cor:entropic} while avoiding the generality and
-            abstraction of \S\ref{sect:calculus}'s theorems and diagram
-            notation.\squash\squash 
+            We sketch a path toward
+            Corollary \ref{cor:entropic} while avoiding the generality 
+            and notation of 
+            \S\ref{sect:calculus}.\squash\squash 
 
         \subsection{Notation and assumptions, I}\label{sect:setup}
             %--  the landscape  -----------------------------------------------
@@ -420,13 +420,7 @@
             moreover, $\expct{p}$'s radii of convergence are strictly bounded from $0$,
             even as $\theta$ varies.
             %
-            %Thus, $\nabla \expct{p}=\expct{\nabla p}$.
-            %
-            We sometimes (each time explicitly) also assume
-            \textbf{Local Strength}:
-                on a nbhd.\ of $\theta_0$ some positive definite $Q_-,Q_+$
-                bound every $l_x$'s hessian: ($Q_- < \nabla\nabla
-                l_x(\theta)<Q_+$).
+            Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
 
             We quote a well-known prop
             (\cite{ne04}, \S 2.1) to illustrate our notation:
@@ -447,7 +441,6 @@
             \ref{prop:nest} by developing and using large-$T$ techniques less
             opaque and more convergent than induction.
             %
-
 
         \subsection{Taylor series: method and challenges}\label{sect:challenges}
             %\subsubsection{Proving Prop \ref{prop:nest}}
@@ -708,12 +701,12 @@
                 $$
                 %with ${\mathcal P}_T(s) = \lim_{s^\pr\to s}(1 - \exp(-Ts^\pr))/s^\pr$.
                 with ${\mathcal P}_T(s) = (1 - \exp(-Ts))/s$.
-                Assuming Local Strength (\S\ref{sect:setup}), 
-                %the error decays uniformly, i.e.,
-                $\lim_{T\to\infty} \epsilon(\eta,T)$ exists and is $o(\eta^2)$
-                for
-                $\epsilon(\eta,T) = M_1 + \sum \eta^3 C {\mathcal P} J
-                {\mathcal P}/2$.
+                %Assuming Local Strength (\S\ref{sect:setup}), 
+                %%the error decays uniformly, i.e.,
+                %$\lim_{T\to\infty} \epsilon(\eta,T)$ exists and is $o(\eta^2)$
+                %for
+                %$\epsilon(\eta,T) = M_1 + \sum \eta^3 C {\mathcal P} J
+                %{\mathcal P}/2$.
             \end{cor}\squash\squash
 
             Consider a 1D valley of near-minima wherein $\eta H$ has spectrum
@@ -1270,21 +1263,23 @@
             \begin{thm} \label{thm:converge}
                 If $\theta_\star$ is a non-degenerate local minimum of $l$
                 (i.e., $H(\theta_\star) > 0$), then for
-                constant-$M$ SGD initialized close to $\theta_\star$, the
-                $d$th-order truncation of Theorem \ref{thm:resum} converges as
-                $T\to \infty$.
-                Assuming Local Strength, the truncation's large-time error
-                $\lim_{T\to\infty} \epsilon(\eta,T)$ exists for small $\eta$
-                and is $o(\eta^d)$
+                constant-$M$ or constant-$N$ SGD initialized close to
+                $\theta_\star$, the $d$th-order truncation of Theorem
+                \ref{thm:resum} converges as $T\to \infty$.
+                %Assuming Local Strength, the truncation's large-time error
+                %$\lim_{T\to\infty} \epsilon(\eta,T)$ exists for small $\eta$
+                %and is $o(\eta^d)$
             \end{thm}
             \begin{rmk}
                 \emph{
-                Even without Local Strength, we have not in practice observed the
-                pathologies (of non-commuting limits, i.e., of consequentially non-uniform
-                little-$o$s) that Thm \ref{thm:converge} precludes.  We take
-                as a physically plausible and empirically supported hypothesis 
-                that Thm \ref{thm:resum} predicts SGD's behavior
-                for practical (finite but large) $T$s and landscapes.}\mend
+                %Even without Local Strength, 
+                We have not in practice observed the pathologies (of
+                non-commuting limits, i.e., of consequentially non-uniform
+                little-$o$s) that might plague Thm \ref{thm:converge}'s
+                expression.  We take as a physically plausible and empirically
+                supported hypothesis that Thm \ref{thm:resum} predicts SGD's
+                behavior in the settings of \S\ref{sect:consequences} for
+                practical (finite but large) $T$s and landscapes.}\mend
                 %Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge}
                 %might not measure any well-defined limit of SGD, since the
                 %limit might not commute with the infinite sum.  We see no such
@@ -1857,10 +1852,10 @@
 
         {\bf
         \par\noindent D ~ Review of Tensors}                                    \hfill {\bf page \pageref{appendix:tensors}}
-        \par\indent     D.1 ~~ What is a tensor?                                \hfill \pageref{appendix:what-tensor}  
-        \par\indent     D.2 ~~ Vectors versus covectors                         \hfill \pageref{appendix:tensor-variance}
-        \par\indent     D.3 ~~ Contraction of tensors                           \hfill \pageref{appendix:tensor-contraction}
-        \par\indent     D.4 ~~ Linear maps as tensors                           \hfill \pageref{appendix:tensor-hom}
+        \par\indent     D.1 ~~ Vectors versus covectors                         \hfill \pageref{appendix:tensor-variance}
+        \par\indent     D.2 ~~ What is a tensor?                                \hfill \pageref{appendix:what-tensor}  
+        \par\indent     D.3 ~~ Tensors of type $^u_d$                           \hfill \pageref{appendix:what-tensor}  
+        \par\indent     D.4 ~~ Contraction of tensors                           \hfill \pageref{appendix:tensor-contraction}
 
 \newpage
 \section{Tutorial: how to use diagrams}                \label{appendix:tutorial}
@@ -4843,10 +4838,346 @@
         \end{figure}
 
     \section{Review of Tensors}
-        \subsection{What is a tensor?}
+
+        The linear algebra of tensors plays a role in our analysis similar to
+        the role of types in Haskell or C.  One could do entirely without
+        types, but to do so would hinder interpretation of the
+        raw bitstrings we manipulate and would obscure which operations
+        (e.g.\ dereferencing of a pointer; concatenation of strings) are
+        natural and which are not (e.g.\ dereferencing of a float;
+        concatenation of file pointers). 
+        %
+        The language of tensors likewise supplies our analysis with
+        abstractions and algebraic operations appropriate to derivatives and
+        moments in high dimensional loss landscapes.
+
+        For example, we immediately recognize $C^{-1} + H$ as ill-formed, even
+        though in our formalism both $C^{-1}$ and $H$ are square grids of
+        numbers of the same shape.  This is because $C^{-1}$ and $H$ are
+        tensors of types $^2_0$ and $^0_2$, respectively.
+
+        So here's a brief refresher for tensors.  
+        %
+        We recommend these sources for more details:
+        \cite{si17} \S1 for motivational background;
+        \cite{mi73} \S2.5 for helpful pictures;
+        \cite{co14} \S2 for examples of how new tensors arise from old;
+        \cite{ko93} \S7 and \S14 for precise formalism; and
+        \cite{cu87} \S1.4 for statistics-relevant examples.\footnote{
+            Some of these sources contrast the physicists' and statisticians'
+            uses of tensors and of linear algebra overall.
+            %
+            Physicists often use vector spaces whose elements represent changes
+            through physical space and time; statisticians often use vector
+            spaces whose elements represent mixtures of experimental subjects.
+            %
+            Our paper doesn't commit to or rely on any domain interpretation
+            of our loss landscape and its associated vector spaces, so to us
+            these distinctions are irrelevant. 
+        }\footnote{
+            Some of these sources refer to
+            \emph{symmetric tensors} and \emph{antisymmetric tensors} (a.k.a.\
+            \emph{alternating forms}).  Our paper does not use these concepts,
+            so we invite the reader to black-box adjectives such as
+            `symmetric' when consulting those sources.  A symmetric tensor
+            (etc) is just a special case of tensors as we define in this
+            appendix.
+        }
+
         \subsection{Vectors versus covectors}
+            
+            Imagine an air-conditioned hallway's temperature gradient
+            ($0.1^\circ \text{K}/\text{meter}$) and length
+            ($20\,\text{meters}$).  When we switch units from m to cm, the
+            temperature gradient numerically \emph{decreases} (to $0.001$) but
+            the length numerically \emph{increases} (to $2000$).  So
+            temperature gradients and spatial displacements are instances of
+            distinct geometric types.  A displacement inhabits a vector
+            space $V$ of primary interest; a gradient inhabits $V$'s \emph{dual
+            space} $V^\star$, defined as the set of linear maps from $V$ to
+            $\RR$.  When $V$ is clear from context, we call elements of $V$
+            \emph{vectors} and elements of $V^\star$ \emph{covectors}.\footnote{
+                This duality is most apparent when we
+                recall that elements in $V$ correspond bijectively with 
+                linear maps from $\RR$ to $V$.  Then a
+                \emph{vector}\footnote{a.k.a.\ \emph{column} a.k.a.\
+                \emph{displacement} a.k.a.\ \emph{primal} vector} is a linear
+                map of type $\RR\to V$ and a \emph{covector}\footnote{a.k.a.\
+                \emph{row} a.k.a.\ \emph{gradient} a.k.a.\ \emph{dual} vector}
+                is a linear map of type $V\to \RR$.
+            }\footnote{
+                Here's why the word \emph{dual} is apt.
+                We may map $V \to (V^\star)^\star$ by evaluation: $v
+                \mapsto (f \mapsto f(v))$.  In finite dimensions, each 
+                $\omega\in (V^\star)^\star$ arises this way.  So we
+                identify $(V^\star)^\star = V$.  So a space's double dual is
+                the space itself.
+            }
+
+        \subsection{What is a tensor?}
+            We've seen that the first derivative $\nabla f$ of a smooth function
+            $f:V\to \RR$ (evaluated, say, at $x\in V$) inhabits $V^\star$, not
+            $V$.  How about higher derivatives?  To answer this question, we
+            introduce \textbf{tensor}s: multi-axis grids of numbers viewed
+            as linear algebraic objects.
+
+            Take the third derivative $\nabla\nabla\nabla f$ evaluated at
+            $x\in V$.  We can describe $\nabla\nabla\nabla f(x)$ completely by
+            specifying the $p^3$ many partial derivatives with respect to a
+            basis
+            $\mathcal{E} = (e^i: 0\leq i<p)$ of $V$:
+            $$ 
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+                \triangleq 
+                \left.
+                \frac{\partial}{\partial t}
+                \frac{\partial}{\partial t^{\prime}}
+                \frac{\partial}{\partial t^{\prime\prime}}
+                f(x + t                \cdot e^i
+                    + t^{\prime}       \cdot e^j
+                    + t^{\prime\prime} \cdot e^k)
+                \right|_{t=t^\prime=t^{\prime\prime}=0}
+                \hspace{1.0cm}
+                \text{for $i,j,k\in \{i: 0\leq i<p\}^3$}
+            $$
+            The $p^3$ many components
+            $
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+            $
+            enjoy key algebraic properties such as symmetry:
+            $$
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+                =
+                \left[D_{j,i,k}^{\mathcal{E}} f\right](x)
+                =
+                \left[D_{i,k,j}^{\mathcal{E}} f\right](x)
+            $$
+            and linearity (which we see from the chain rule for derivatives):
+            $$
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+                =
+                \sum_{\hat i} 
+                \sum_{\hat j}
+                \sum_{\hat k}
+                C^{\hat i}_i
+                C^{\hat j}_j
+                C^{\hat k}_k
+                \left[D_{\hat i,\hat j,\hat k}^{\mathcal{F}} f\right](x)
+            $$
+            Here, $\mathcal{F}$ is a basis expressible in terms of
+            $\mathcal{E}$ via $f^i = \sum_{\hat i} C^i_{\hat i} e^{\hat i}$.
+
+            %Such linearity rules find application, for instance, when we
+            %pre-condition a linear system for better convergence. 
+            %
+            %More importantly,
+            By showing how $\nabla\nabla\nabla f$'s components change
+            coherently as we change basis, the linearity rule helps us
+            interpret $\nabla\nabla\nabla f$ as a geometric object with
+            magnitude and directional information rather than as a mere grid of
+            numbers.
+
+            We capture the essential aspects of the above by defining what it
+            means for a vector space $P$ to be a tensor product of given vector
+            spaces $V, W$; a `tensor' is then just an element of $P$.
+            %
+            The \textsc{defining quality} of $P$ is that \textbf{a linear map
+            from $P$ to $X$ is `as good as' a bilinear map from $V, W$ to $X$,
+            for any vector space $X$.}\footnote{
+                Precisely, a tensor product of $V, W$ is a vector space $P$
+                equipped with a natural family of vector-space isomorphisms $$
+                \iota_X: \text{Bilin}(V,W;X) \xrightarrow{\sim} \text{Lin}(P;X)
+                $$ from the vector space of bilinear maps to the vector space
+                of linear maps.
+                %
+                The word `natural' just means that for any linear map $\phi:
+                X\to Y$ and any $b \in \text{Bilin}(V,W;X)$: $$ \phi \circ
+                \iota_X(b) = \iota_Y(\phi \circ b) $$ Naturality captures the
+                intuition that $\iota$ just `re-packages' data without
+                `altering' its content.
+                %
+                For instance, if $\kappa:X\to X$ is a non-trivial isomorphism,
+                then defining $\iota^\prime_X(b) = \kappa \circ \iota_X(b)$ and
+                $\iota^\prime_Z = \iota_Z$ for all $Z\neq X$ would turn a
+                natural family $\iota$ of isomorphisms into a non-natural
+                family $\iota^\prime$ of isomorphisms.
+            }
+            %
+            We write $V\otimes W$ for the two-axis tensor $P$.  More
+            generally, we write $U\otimes V\otimes \cdots \otimes W$ for 
+            an $m$-axis tensor $P$, the maps from which correspond to
+            the $m$-linear maps from $U,V,\cdots,W$.
+
+            We may now interpret the third derivative $\nabla\nabla\nabla f(x)$
+            as a linear-algebraic object:
+            $$
+                \nabla\nabla\nabla f(x) \in  (V\otimes V\otimes V)^\star
+            $$
+            The defining quality of $V\otimes V\otimes V = P$ says that such an
+            element is specified the moment we specify a trilinear map from $V,
+            V, V$ to $\RR$.  This trilinear map is simply 
+            $$
+                (u,v,w) \mapsto 
+                \frac{\partial}{\partial t}
+                \frac{\partial}{\partial t^{\prime}}
+                \frac{\partial}{\partial t^{\prime\prime}}
+                f(x + t                \cdot u 
+                    + t^{\prime}       \cdot v
+                    + t^{\prime\prime} \cdot w)
+            $$
+            So $\nabla\nabla\nabla f(x)$ is a tensor.  We now explain what we
+            mean when we say that it is a tensor of type $^0_3$. 
+
+        \subsection{Tensors of type $^u_d$}
+            We've seen two ways to make new finite-dimensional
+            vector spaces from old: we can dualize (to get $V^\star$ from $V$)
+            and we can tensor (to get $U\otimes V\otimes \cdots \otimes W$ from
+            $U,V,\cdots W$).
+
+            No matter how we compose these operations, we'll get a space of the
+            standard form 
+            $$
+                (U \otimes
+                V \otimes \cdots
+                W) \otimes
+                (X^\star \otimes
+                Y^\star \otimes \cdots
+                Z^\star)
+            $$
+            In other words, we have a tensor product of $\mathbf{u}$ many non-dualized
+            vector spaces and $\mathbf{d}$ many dualized vector spaces.  We won't provide
+            a proof.\footnote{
+                Here's an special case that contains all the ideas of a general
+                proof.
+                We'll define a natural isomorphism $\phi:U^\star\otimes
+                V^\star\otimes W^\star \to (U\otimes V\otimes W)^\star$.  By
+                the defining quality of the domain, to specify $\phi$ is to
+                specify a trilinear map from $U^\star, V^\star, W^\star$ into
+                the codomain.  By the defining quality of the codomain, to
+                specify a map into the codomain is to specify a map into the
+                space of trilinear real-valued maps on $U, W, V$.  
+                %
+                We accomplish all this by sending $f,g,h$ to $((u,v,w) \mapsto
+                f(u)\cdot g(v)\cdot h(w))$.  We've thus defined a linear map
+                $\phi$.  It is routine to check that $\phi$ sends no element
+                except zero to zero, that $\phi$'s domain and codomain have
+                equal and finite dimension, and thus that $\phi$ is an
+                isomorphism.
+            }
+
+            An example is that $((U^\star \otimes V)^\star \otimes
+            W^\star)^\star$, though not of the above form, is naturally
+            isomorphic to $U^\star \otimes V \otimes W$, which \emph{is} of the
+            above form.  That example illustrates a general algorithm: the
+            factors in an un-standardized expression correspond with the
+            factors in a standardized expression; whether a standardized factor
+            is dualized or not depends simply on the \textsc{parity} of the
+            number of dual operations that act on the corresponding factor in
+            the original expression.  Here, $U,V,W$ appear with $3,2,2$ layers
+            of duals, respectively, whence by parity we obtain the $1,0,0$
+            layers of duals in the standardization.
+
+            In the common case where all the underlying spaces $U,\cdots, Z$
+            agree with a vector space $V$ understood from
+            context, we say that elements of the combined space are
+            \textbf{tensors of type $\mathbf{^u_d}$}.  We represent such
+            tensors as grids with $u+d$ many axes, where each axis has a length
+            equal to the dimension of $V$.
+            %
+            Thus, elements of $((V^\star \otimes V)^\star \otimes
+            V^\star)^\star$ are tensors of type $^2_1$.  Numerically, they have
+            $2+1=3$ axes: $2$ that transform like vectors and $1$ that
+            transforms like a covector.  
+            The derivative of $\theta_T$'s covariance matrix with respect to
+            the initialization $\theta_0$ is an instance of such a type-$^2_1$
+            tensor.
+
+            As special cases, scalars are tensors of type $^0_0$,
+            vectors are tensors of type $^1_0$, covectors are tensors of
+            type $^0_1$, and linear maps from $V$ to $V$ are tensors of type
+            $^1_1$.\footnote{
+                Here's an example that our paper doesn't use but that may
+                aid geometric intuition.
+                %
+                If $V$ has dimension $p$, then to specify a linear-algebraic
+                notion of volume in $V$ is to specify a tensor of type $^0_p$
+                obeying certain antisymmetry properties.
+                Intuitively, such a tensor produces for any given sequence
+                of $p$ input vectors a real number.  We interpret this real
+                number as the volume of a parallelepiped spanned by those $p$
+                vectors.
+            }
+
+            Whenever we have a tensor of type $^a_a$, we may interpret it as a
+            linear map from the $a$-fold tensor product $V\otimes
+            V\otimes\cdots\otimes V$ to itself.  In our work, this linear map  
+            will sometimes be invertible, in which case we use standard notation
+            $(\cdot)^{-1}$ to denote the inverse.
+            %
+            As a variation on this theme, a tensor (such as $C$) of type
+            $^0_2$ we may view as a linear map from $V$ to $V^\star$.
+            This linear map  
+            is invertible whenever $C$ is positive definite, in which case
+            we use the notation $C^{-1}$ to denote its inverse.  Observe that
+            this inverse, being a linear map from $V^\star$ to $V$, is a tensor
+            of type $^2_0$, unlike $C$.
+
         \subsection{Contraction}
-        \subsection{Linear maps as tensors}
+            Let's define a map $\epsilon_V:V\otimes V^\star \to \RR$ by
+            evaluation: $(v,f) \mapsto f(v)$.  We may similarly define
+            $$
+                {\text{id}_{(T\otimes U)}}\otimes \epsilon_V:(T\otimes
+                U)\otimes V\otimes V^\star \to (T\otimes U)
+            $$
+            by $(x,v,f) \mapsto f(v)\cdot x$ for $x\in T\otimes U$.
+            %
+            In general, we can map any tensor
+            product of the form
+            $$
+                (U \otimes
+                V \otimes \cdots
+                W) \otimes
+                (U^\star \otimes
+                Y^\star \otimes \cdots
+                Z^\star)
+            $$
+            to one of the form
+            $$
+                (V \otimes \cdots
+                W) \otimes
+                (Y^\star \otimes \cdots
+                Z^\star)
+            $$
+            by applying the evaluation map $\epsilon_U$.
+
+            Say we have a tensor of type $^{u+1}_{d+1}$.  \textsc{If} we
+            specify a specific axis among the ${u+1}$ vector-type axes as well
+            as a specific axis among the ${d+1}$ covector-type axes
+            \textsc{then} we may apply the above linear map to get a tensor of
+            type $^u_d$.  We call this operation \textbf{contraction}.  
+            Operationally, contraction just means summing across the two specified
+            axes over the $\text{dim}(V)$ many `diagonal' index pairs $(i,i)$.
+
+            For example, a linear map $\phi$ is the same as a tensor of type
+            $^1_1$.  We may contract it to get a tensor of type $^0_0$, that is,
+            a real number.  The number we get is the trace of $\phi$.
+
+            As another example, consider the learning rate $\eta$ (a tensor
+            of type $^2_0$) and the hessian $H=\nabla G$ (a tensor of type
+            $^0_2$).  Then $\eta \otimes H$ is a tensor of type $^2_2$ and we
+            may contract (in $2\times 2$ many ways, here all equivalent due to
+            $\eta,H$'s symmetry) to obtain tensor of type $^1_1$: a linear map.
+
+            What is this linear map, concretely?  It acts on a vector $v$ by
+            sending it to the vector $w$ such that a gradient descent step
+            $\theta \mapsto \theta - \eta \nabla f$ on the non-standard loss
+            function $$ f(x) = G(x)\cdot v \in \RR $$ displaces $\theta$ by
+            $-w$.
+            %
+            We see that the language of tensors concisely expresses otherwise
+            cumbersome conceptual gymnastics.  In our experience, this language
+            also guides us through otherwise treacherously brittle algebraic
+            manipulations.
 
 \end{document}
 

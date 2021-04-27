@@ -18,6 +18,9 @@
 \usepackage{microtype}      % microtypography
 \usepackage[clock,weather]{ifsym}
 
+\usepackage[symbol]{footmisc}
+\renewcommand{\thefootnote}{{\color{red}\fnsymbol{footnote}}}
+
 %\usepackage[dvipsnames]{xcolor}
 %\usepackage{amsmath, amssymb, amsthm, bm}
 
@@ -109,5 +112,38 @@
 
 
 \begin{document}
-\title{Proposition A}
+\title{Statement and Proof of Special Convergence Result}
+    We study the expected loss ${\mathcal L}(T, \eta)$ upon running SGD for $T$ steps with
+    learning rate $\eta$ from an initialization $\theta_0$ that we fix once and
+    for all.  In practice, $T$ is large (but finite) and $\eta$ is small.
+
+    Thm 1 defines for any $T, d, \eta$ a truncated series $L^d_T(\eta)\in
+    \RR$.  Thm 1 states that for all $T$ there exists $\eta_\star>0$\footnote{
+        We write $A>B$ to indicate that ($A, B$ are symmetric bilinear forms
+        and) $(A-B)$ is positive definite.
+    } so that whenever $0\leq \eta<\eta_\star$, the following equality is (well
+    defined and) true:
+    $$
+        {\mathcal L}_T(\eta) = L_T(\eta) \triangleq \lim_{d\to \infty} L^d_T(\eta)
+    $$
+    Thm 2 states that when $H>0$, for all $\eta$ sufficiently small with
+    respect to $T$, the following limit exists:
+    $$
+        L^d(\eta) \triangleq \lim_{T\to \infty} L^d_T(\eta)
+    $$
+    Moreover, it converges at a rate uniform in $d, \eta$: for some $B>0$
+    we have $|L^d_T(\eta) - L^d(\eta)| < \exp(A_{d,\eta} - BT)$.
+    Here, we fix $B$ and we fix either $N$ or $M$ --- that is, the batchsize is 
+    fixed throughout and $N$ is either constant or linear in $T$.
+
+    One wonders when $L_T(\eta)$ and $L^d(\eta)$ are close for $T,d$ large.
+    Our author response suggested a sufficient condition (Prop A) for
+    `closeness'.  Our Prop A is false (note: this has no bearing on the
+    validity of our paper's results).  Below we present a corrected Prop A.
+
+    We consider SGD with one-epoch, batchsize-one SGD ($E=B=1$).  Say that we
+    initialize at a minimum, and that for each neighborhood $U$ of $\theta_0$
+    and for all $\eta$ sufficiently small with respect to $U$, each $\theta_T\in U$.
+    (TODO: permit delta chance of escape).
+
 \end{document}
