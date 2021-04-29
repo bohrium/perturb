@@ -580,12 +580,14 @@
             `connects' two $\nabla$ operators as indices prescribe.  So we
             draw
             $\eta$s as edges, $\nabla^k l$s as nodes, and each
-            summand
+            summand of the form
+            \squash
             $$
                 \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
                 \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
                 l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
                 l\,\,\,\,\,\,\,\,\text{(evaluated at $\theta=\theta_0$)}
+            \squash
             $$
             as an undirected graph with edges indexed by $j\in J$, nodes
             indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
@@ -633,11 +635,11 @@
                 \propto -\eta^3 C\nabla H}$.\squish\ 
             Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
             $H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
-            $J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$.
-            %is $l$'s `jerk' (\href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041 (2009)}, \S1).
-            %\footnote{
-            %    `\textbf{J}erk' is a standard term for third derivatives in dynamical systems.  .
-            %}
+            $J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$
+            is $l$'s `jerk'.\footnote{
+                `\textbf{J}erk' is a standard term for third derivatives in dynamical systems:
+                \href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041 (2009)}, \S1.
+            }
 
             \begin{wrapfigure}{r}{0.3\textwidth}
                 \centering
@@ -653,6 +655,7 @@
                         changes across the valley: $J \neq 0$.  
                 }
                 \label{fig:cubic}
+                \crunch
             \end{wrapfigure}
             The expression $-\eta^3 C\nabla H$ suggests that SGD moves
             toward flat minima (see  Figure \ref{fig:cubic}).
@@ -1334,9 +1337,12 @@
                     \eta^{\omicron\rho}
                 H_{\pi\rho}
             $$
-            We used Remark \ref{rmk:integrate}'s integral approximation.
-            We've derived a variant of Corollary \ref{cor:overfit}.
-
+            We used Remark \ref{rmk:integrate} to approximate
+            $(I-K)^\mu_\xi(I-K)^\nu_\omicron$ by $\exp(-K\otimes I - I\otimes K)^{\mu\nu}_{\xi\omicron}$.
+            The above is the leading contribution of the gradient covariance $C$
+            to SGD's final testing loss.  We have derived an $E=B=1$ variant of
+            Corollary \ref{cor:overfit}'s 
+            $E=T$, $B=N$ result (\S\ref{subsect:curvature-and-overfitting}).
             \newpage
     \section{Consequences of the theory}\label{sect:consequences}
 
@@ -1517,9 +1523,9 @@
             definition equates displacements with gradients, it may be unclear
             how to reason about overfitting in the presence of curvature.
             %
-            Our theory, by accounting for the implicit
-            regularization of fixed-$T$ descent, shows that both effects play
-            a role.  In fact, by routine calculus on the left hand side of
+            Our theory accounts for the implicit
+            regularization of fixed-$T$ descent and shows that both effects play
+            a role.  In fact, by routine calculus on 
             Corollary \ref{cor:overfit}, overfitting is maximized for medium
             minima with curvature $H \sim (\eta T)^{-1}$.
             %
@@ -1551,6 +1557,21 @@
 
             \newpage
     \subsection{Experiments}
+        Our theory does not control our Taylor series' rates of convergence. 
+        %
+        We thus test our theory by experiment.  We perceive support for our
+        theory in drastic rejections of the null hypothesis.  For instance, in
+        Figure \ref{fig:archimedes}, \cite{ch18} predict a velocity of
+        $0$ while we predict a velocity of $\eta^2/6$.  Likewise, published
+        intuitions (\S\ref{sect:related}) suggest that Figure
+        \ref{fig:experiments}\offourseq{3} overfitting (test loss minus test
+        minimum) is monotonic in a landscape's hessian, whereas we do not.
+        %
+        Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark
+        $95\%$ confidence intervals based on the standard error of the mean.
+        \S\ref{appendix:experiments} describes neural architectures, artificial
+        landscapes, sample sizes, and further plots.
+
         \begin{figure}[h!]
             \centering  
             \plotmoow{plots/neurips-test-small}{0.24\textwidth}{}
@@ -1597,21 +1618,6 @@
             }
             \label{fig:experiments}
         \end{figure}
-        Our theory does not control our Taylor series' rates of convergence. 
-        %
-        We thus test our theory by experiment.  We perceive support for our
-        theory in drastic rejections of the null hypothesis.  For instance, in
-        Figure \ref{fig:archimedes}, \cite{ch18} predict a velocity of
-        $0$ while we predict a velocity of $\eta^2/6$.  Likewise, published
-        intuitions (\S\ref{sect:related}) suggest that Figure
-        \ref{fig:experiments}\offourseq{3} overfitting (test loss minus test
-        minimum) is monotonic in a landscape's hessian, whereas we do not.
-        %
-        Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark
-        $95\%$ confidence intervals based on the standard error of the mean.
-        \S\ref{appendix:experiments} describes neural architectures, artificial
-        landscapes, sample sizes, and further plots.
-
         %\subsection{Training time, epochs, and batch size; $C$ repels SGD more
         %than GD}
             %-----  vanilla sgd  ---------------------------------------------- 
