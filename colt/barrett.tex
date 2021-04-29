@@ -118,8 +118,31 @@
     \newcommand{\LaT}{\Lambda_{\text{\tiny\VarClock}}}
     \newcommand{\Lad}{\Lambda_{\text{\tiny\Thermo{4}}}}
 
-    \noindent
-    %This is a brief note on \cit{Ba}, the paper suggested by \Rb.
+
+\moosect{Mistakes in our work}
+    We've found several oversights in our paper.
+    %
+    E.g.: our \cor{3} fails to state that the computed loss difference
+    between SGD and ODE is the leading-order difference \emph{due to noise},
+    i.e., that scales with some higher cumulant such as $C$.  Of course, even
+    without noise, there is also a difference due to time discretization, given
+    by $\mdia{c(0-1-2)(01-12)}$'s embeddings into ODE's $T=kT_0$ grid minus
+    its embeddings into SGD's $T=T_0$ grid.  For large $k$, $(h/k)^2
+    {kT_0\choose 2}\approx h^2T_0^2/2$, so ODE suffers $(T_0^2/2 - {T_0\choose
+    2}) \text{uvalue}(\mdia{c(0-1-2)(01-12)}) = (h^2 T_0/2)(GHG)$ more loss
+    than SGD for noiseless loss landscapes.
+
+    And \tab{1}'s caption should clarify the same point. 
+
+    The section introducing resummation should say `spanning 11 timesteps'
+    instead of `spanning 12 timesteps' in its example.
+
+    ALso, the "proposition A" we mentioned in our author response is false.
+    Luckily, our paper doesn't depend on it.
+
+    \par\noindent\hrulefill
+    \par\noindent\hrulefill
+
     \cit{Ba}
     relates strongly with our work; we plan to discuss it in (the revision's
     analogue of) \S{5.1, 3.2}.
@@ -234,23 +257,6 @@
     $l$ into $\tilde l$.  In either case, the key term is $(h/4) (G\cdot G)$ with
     the appropriate sign.
 
-\moosect{Mistakes in our work}
-    We've found several oversights in our paper.
-    %
-    E.g.: our \cor{3} fails to state that the computed loss difference
-    between SGD and ODE is the leading-order difference \emph{due to noise},
-    i.e., that scales with some higher cumulant such as $C$.  Of course, even
-    without noise, there is also a difference due to time discretization, given
-    by $\mdia{c(0-1-2)(01-12)}$'s embeddings into ODE's $T=kT_0$ grid minus
-    its embeddings into SGD's $T=T_0$ grid.  For large $k$, $(h/k)^2
-    {kT_0\choose 2}\approx h^2T_0^2/2$, so ODE suffers $(T_0^2/2 - {T_0\choose
-    2}) \text{uvalue}(\mdia{c(0-1-2)(01-12)}) = (h^2 T_0/2)(GHG)$ more loss
-    than SGD for noiseless loss landscapes.
-
-    And \tab{1}'s caption should clarify the same point. 
-
-    The section introducing resummation should say `spanning 11 timesteps'
-    instead of `spanning 12 timesteps' in its example.
 
 %\moosect{References}
     %\small%footnotesize
