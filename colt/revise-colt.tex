@@ -1242,6 +1242,7 @@
                 $t$; $(I-\eta H)^t$, by $\exp(- \eta H t)$, thus reducing to a
                 routine integration of exponentials at the cost an error factor
                 $1 + o(\eta)$.}\mend
+                \squash
             \end{rmk}
             \begin{rmk}
                 \emph{Theorem \ref{thm:resum} gives us the expectation of 
@@ -1249,6 +1250,7 @@
                 to compute variances instead of expectations, training
                 statistics instead of testing statistics, and weight
                 displacements instead of losses.  See \S{appendix:solve-variants}.}\mend
+                \squash
             \end{rmk}
             %-----  convergence  ----------------------------------------------
             \begin{thm} \label{thm:converge}
@@ -1333,7 +1335,7 @@
                 H_{\pi\rho}
             $$
             We used Remark \ref{rmk:integrate}'s integral approximation.
-            We've derived part of Corollary \ref{cor:overfit}.
+            We've derived a variant of Corollary \ref{cor:overfit}.
 
             \newpage
     \section{Consequences of the theory}\label{sect:consequences}
@@ -1388,7 +1390,7 @@
                     \expct{\theta_{GD} - \theta_{SGD}}^\rho
                         =
                     T \cdot \frac{N-1}{4 N}
-                    \sum_{\mu\nu\xi} \eta^{\mu\rho} \eta^{\nu\xi} [\nabla_\mu C_{\nu\xi} + o(\eta^2)
+                    \sum_{\mu\nu\xi} \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi} + o(\eta^2)
                 $.
             \end{cor}
             \noindent
@@ -1412,7 +1414,8 @@
                     \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
                         =
                     \wrap{\frac{E_0-1}{4 E_0}} N
-                    \wrap{\nabla^\mu C^{\nu}_{\nu}}
+                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
+                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
                     + o(\eta^2)
                 $.
             \end{cor}
@@ -1443,12 +1446,13 @@
             \begin{cor}[$\sdia{c(01-2)(02-12)}$] \label{cor:vsode}
                 The covariance of gradient noise contributes  
                 $
-                    \frac{T}{2} C_{\mu\nu} H^{\mu\nu} + o(\eta^2) + o(1/k) 
+                    \frac{T}{2} \sum_{\mu\nu\xi\omicron} C_{\mu\nu} \eta^{\mu\xi}\eta^{\nu\omicron}
+                    H_{\xi\omicron} + o(\eta^2) + o(1/k) 
                 $  
                 to $E=B=1$ SGD's final testing loss excess over SDE's.
             \end{cor}
 
-        \subsection{Non-gaussian noise}
+        \subsection{SDE and SGD respond differently to changes in curvature}
             SDE differs from SGD in ways beyond time-discretization effects.
             For instance, the inter-epoch noise correlations in multi-epoch SGD
             measurably affect SGD's final testing loss (Corollary
@@ -1524,12 +1528,14 @@
                 The overfitting (testing loss minus $l(\theta_\star)$) and generalization
                 gap (testing minus training loss) due to training are:
                 $$
+                    \sum_{\mu\nu\rho\lambda}
                     \wrap{C/(2NH)}_{\mu\nu}^{\rho\lambda} ~
                         \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
                         + o(\eta^2)
                 $$
                 and
                 $$
+                    \sum_{\mu\nu\rho\lambda}
                     \wrap{C/(2NH)}_{\mu\nu}^{\mu\lambda} ~
                         \wrap{I - \exp(-\eta T H)}^{\nu}_{\lambda}
                         + o(\eta)
@@ -1543,8 +1549,7 @@
             expression is descendably smooth, may be used with MAP or ELBO tasks
             instead of just ML, and does not assume a well-specified model.
 
-
-    
+            \newpage
     \subsection{Experiments}
         \begin{figure}[h!]
             \centering  
@@ -1737,8 +1742,9 @@
             %
             We avoid these pitfalls by Taylor expanding around $\eta=0$ as in
             \cite{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
-            and $T=2$.  To do so, we develop new summation techniques with
-            improved large-$T$ convergence.  Our interpretion of the resulting
+            and $T=2$.  %To do so, we develop new summation techniques with
+            %improved large-$T$ convergence.
+            Our interpretion of the resulting
             terms offers a new qualitative picture of SGD as a superposition of
             simpler information-flow processes.
             
