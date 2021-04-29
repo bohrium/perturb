@@ -692,8 +692,7 @@
                 \sdia{c(01-2-3)(02-12-23)}
             $) yields:\squash\squash
             %
-            \begin{cor}%[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
-                \label{cor:entropic}
+            \begin{cor}\label{cor:entropic}%[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
                 Start SGD at a minimum of $l$ with $H>0$, $N=T$ and use
                 an eigenbasis of $K=\eta H$.  
                 For any $T$, the final displacement is
@@ -710,14 +709,7 @@
                     + o(\eta^3)
                     \squish\squish
                 $$
-                %with ${\mathcal P}_T(s) = \lim_{s^\pr\to s}(1 - \exp(-Ts^\pr))/s^\pr$.
                 with ${\mathcal P}_T(s) = (1 - \exp(-Ts))/s$.
-                %Assuming Local Strength (\S\ref{sect:setup}), 
-                %%the error decays uniformly, i.e.,
-                %$\lim_{T\to\infty} \epsilon(\eta,T)$ exists and is $o(\eta^2)$
-                %for
-                %$\epsilon(\eta,T) = M_1 + \sum \eta^3 C {\mathcal P} J
-                %{\mathcal P}/2$.
             \end{cor}\squash\squash
 
             Consider a 1D valley of near-minima wherein $\eta H$ has spectrum
@@ -1061,7 +1053,7 @@
                 nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
                 training point participates in the $t$th batch; parents'
                 $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
-                any two nodes' $\emph{n}$s are equal if and only if the nodes
+                any two nodes' $\emph{n}$s are equal if the nodes
                 are in the same part of the partition.}\mend 
             \end{dfn}
 
@@ -1287,22 +1279,63 @@
                 tests and physical intution that we decide whether in a given
                 situation our theory's little-$o$ error terms may be ignored. 
                 }
-                %
-                %We take as a physically plausible and
-                %empirically supported hypothesis that Thm \ref{thm:resum}
-                %predicts SGD's behavior in the settings of
-                %\S\ref{sect:consequences} for practical (finite but large) $T$s
-                %and landscapes.}\mend
-                %
-                %
-                %Caution: the $T\to \infty$ limit in Theorem \ref{thm:converge}
-                %might not measure any well-defined limit of SGD, since the
-                %limit might not commute with the infinite sum.  We see no such
-                %pathologies in practice, so we will freely speak of ``SGD in
-                %the large-$T$ limit'' as informal shorthand when referencing
-                %this Theorem.
             \end{rmk}
 
+        \subsubsection{Example Computation}
+            \begin{wrapfigure}{r}{0.4\textwidth}
+                \crunch
+                \begin{tabular}{ccc}
+                    diagram                     & \#embed.s         & interpretation            \\\hline
+                    $\sdia{c(0-1)(01)}$         & $ T            $  & na\"ive descent           \\
+                    $\sdia{c(0-1-2)(02-12)}$    & ${T+1\choose 2}$  & $\theta$-dependent loss   \\
+                    $\sdia{c(01-2)(02-12)}$     & $ T            $  & gradient noise            \\
+                    $\sdia{c(01-2)(01-12)}$     & $ 0            $  & correl'd batches
+                \end{tabular}
+                \crunch
+            \end{wrapfigure}
+            We improve on Prop \ref{prop:nest} for SGD with $E=B=1$.
+            The one $1$-edged diagram ($\sdia{c(0-1)(01)}$) embeds
+            in $T$ ways (one for each timestep) and contributes (let
+            $K^\mu_\nu = \sum_{\xi} \eta^{\mu\xi} H_{\xi\nu}$):
+            $$
+                \sum_{0\leq t<T} \sum_{\mu\nu} G_\mu \wasq{(I-K)^{T-t-1} \eta}^{\mu\nu} G_\nu 
+                = 
+                \sum_{\mu\nu} G_\mu \wasq{\frac{I - K^T}{I - K} \eta}^{\mu\nu} G_\nu 
+            $$
+            to the loss.  This is the re-summed %(Hessian-corrected)
+            Prop.  There are three $2$-edged linkless diagrams (see table
+            for intuitive interpretations).
+            The two diagrams involving higher cumulants (i.e., gray
+            outlines) give the leading order effect of gradient noise. 
+            Since $E=1$, $\sdia{c(01-2)(01-12)}$ has no embeddings; so 
+            only $\sdia{c(01-2)(02-12)}$ contributes.  Up to a $1+o(\eta)$
+            factor, its rvalues sum to (a sum over all indices of):
+            $$
+                \int_t
+                C_{\mu\nu}
+                    \wasq{
+                        \exp\wrap{-(T-t)(K\otimes I + I\otimes K)}
+                    }^{\mu\nu}_{\xi\omicron}
+                    \eta^{\xi\pi}
+                    \eta^{\omicron\rho}
+                H_{\pi\rho}
+                =
+                C_{\mu\nu}
+                    \wasq{
+                        \frac{
+                            I-\exp\wrap{-T(K\otimes I + I\otimes K)}
+                        }{
+                            (K\otimes I + I\otimes K)
+                        }
+                    }^{\mu\nu}_{\xi\omicron}
+                    \eta^{\xi\pi}
+                    \eta^{\omicron\rho}
+                H_{\pi\rho}
+            $$
+            We used Remark \ref{rmk:integrate}'s integral approximation.
+            We've derived part of Corollary \ref{cor:overfit}.
+
+            \newpage
     \section{Consequences of the theory}\label{sect:consequences}
 
         %\begin{samepage}
@@ -1315,62 +1348,6 @@
             results do not exhaust our theory's scope;
             \S\ref{appendix:future} sketches 
             extensions to Hessian methods and natural GD.
-
-        \subsection{Time discretization penalizes sloped regions}
-            The following corollary recovers \cite{ba21}'s main dynamical
-            result: 
-            \begin{cor}[$\sdia{c(0-1-2)(01-12)}$] \label{cor:epochs}
-                On a noiseless landscape, SGD prefers small-$G^2$ regions
-                more than ODE: 
-                $
-                    \expct{\theta_{\text{SGD}} - \theta_{\text{ODE}}}^\rho
-                        =
-                    -\frac{T}{4}
-                    \sum_{\mu\nu} \eta^{\xi\rho} \eta^{\mu\nu} \nabla_\xi(G_\mu G_\nu)
-                    + o(\eta^2) + o(1/k) 
-                $.
-            \end{cor}
-            Due to time discretization, in the presence of curvature SGD's
-            response to gradient noise `overshoots' more than SDE.  The
-            following corollary makes this precise and separates SDE from SGD,
-            even on landscapes obeying SDE's assumption of gaussian noise:
-            \begin{cor}[$\sdia{c(01-2)(02-12)}$] \label{cor:vsode}
-                The covariance of gradient noise contributes  
-                $
-                    \frac{T}{2} C_{\mu\nu} H^{\mu\nu} + o(\eta^2) + o(1/k) 
-                $  
-                to $E=B=1$ SGD's final testing loss excess over SDE's.
-            \end{cor}
-
-        \subsection{Non-gaussian noise }
-            SDE differs from SGD in ways beyond time-discretization effects.
-            For instance, the inter-epoch noise correlations in multi-epoch SGD
-            measurably affect SGD's final testing loss (Corollary
-            \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
-            Even if we restrict to single-epoch SGD, 
-            non-Gaussian noise lead SGD and SDE to respond differently to
-            changes in curvature: 
-            %
-            \begin{cor}[$\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
-                For $E=B=1$ SGD, the skewness of gradient noise contributes  
-                \begin{align*}
-                    -\frac{\eta^3}{3!}
-                    \sum_{\mu\nu\lambda}
-                        S_{\mu\nu\lambda}
-                        \frac{
-                            1 - \exp(-T\eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda}))
-                        }{
-                            \eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda})
-                        }
-                        J_{\mu\nu\lambda}
-                        + o(\eta^3)
-                        + o(1/k)
-                \end{align*}
-                (in an
-                eigenbasis of $\eta H$)
-                to the excess final testing loss over SDE.
-            \end{cor}
-
 
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
         %\end{samepage}
@@ -1444,8 +1421,66 @@
             large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
             and resolve some questions posed therein.    
 
-        
-            \newpage
+ 
+        \subsection{Time discretization penalizes sloped regions}
+            The following corollary recovers \cite{ba21}'s main dynamical
+            result: 
+            \begin{cor}[$\sdia{c(0-1-2)(01-12)}$] \label{cor:epochs}
+                On a noiseless landscape, SGD prefers small-$G^2$ regions
+                more than ODE: 
+                $
+                    \expct{\theta_{\text{SGD}} - \theta_{\text{ODE}}}^\rho
+                        =
+                    -\frac{T}{4}
+                    \sum_{\mu\nu} \eta^{\xi\rho} \eta^{\mu\nu} \nabla_\xi(G_\mu G_\nu)
+                    + o(\eta^2) + o(1/k) 
+                $.
+            \end{cor}
+            Due to time discretization, in the presence of curvature SGD's
+            response to gradient noise `overshoots' more than SDE.  The
+            following corollary makes this precise and separates SDE from SGD,
+            even on landscapes obeying SDE's assumption of gaussian noise:
+            \begin{cor}[$\sdia{c(01-2)(02-12)}$] \label{cor:vsode}
+                The covariance of gradient noise contributes  
+                $
+                    \frac{T}{2} C_{\mu\nu} H^{\mu\nu} + o(\eta^2) + o(1/k) 
+                $  
+                to $E=B=1$ SGD's final testing loss excess over SDE's.
+            \end{cor}
+
+        \subsection{Non-gaussian noise}
+            SDE differs from SGD in ways beyond time-discretization effects.
+            For instance, the inter-epoch noise correlations in multi-epoch SGD
+            measurably affect SGD's final testing loss (Corollary
+            \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
+            Even if we restrict to single-epoch SGD, 
+            non-Gaussian noise lead SGD and SDE to respond differently to
+            changes in curvature: 
+            %
+            \begin{cor}[$\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
+                For $E=B=1$ SGD, the skewness of gradient noise contributes  
+                \crunch
+                \begin{align*}
+                    -\frac{\eta^3}{3!}
+                    \sum_{\mu\nu\lambda}
+                        S_{\mu\nu\lambda}
+                        \frac{
+                            1 - \exp(-T\eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda}))
+                        }{
+                            \eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda})
+                        }
+                        J_{\mu\nu\lambda}
+                        + o(\eta^3)
+                        + o(1/k)
+                        \squash
+                \end{align*}
+                (in an
+                eigenbasis of $\eta H$)
+                to the excess final testing loss over SDE.
+            \end{cor}
+
+
+       
         \subsection{SGD descends on a landscape smoothed by the current $C$ {\rm --- See \S\ref{sect:entropic-curl}.}}
         \subsection{Both flat and sharp minima overfit less}
             \label{subsect:curvature-and-overfitting}%
@@ -1631,7 +1666,7 @@
             \ref{cor:overfit} together show that SGD avoids curvature and
             noise, which to leading order control generalization.
 
-            Analyzing $\sdia{c(01-2)(02-12)}$, we proved that \textbf{flat and
+            Analyzing $\sdia{c(01-2)(02-12)}$, we found that \textbf{flat and
             sharp minima both overfit less} than medium minima.  Intuitively, flat
             minima are robust to vector noise, sharp minima are robust to covector
             noise, and medium minima robust to neither.  We thus proposed a
