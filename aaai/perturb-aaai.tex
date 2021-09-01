@@ -1,0 +1,88 @@
+\input{style-sect}
+
+\begin{document}
+
+    \title{A Perturbative Analysis of Stochastic Gradient Descent}
+    \author {
+        Samuel C.\ Tenka \\
+    }
+    \affiliations{
+        MIT, CSAIL \\
+        \sammail
+    }
+    \maketitle
+    
+    \begin{abstract}
+        We quantify how gradient noise shapes the dynamics of stochastic
+        gradient descent (SGD) by taking Taylor series in the learning rate.
+        %
+        We present in particular a new diagram-based notation that permits
+        resummation to convergent results.
+        %
+        We employ our theory to contrast SGD against two popular
+        approximations: deterministic descent and stochastic differential
+        equations.  We find that SGD's trajectory avoids regions of weight
+        space with high gradient noise and avoids minima that are sharp with
+        respect to gradient noise.
+    \end{abstract}
+    
+    %\begin{keywords}
+    %    SGD, learning rates, generalization, gradient noise, perturbation. 
+    %\end{keywords}
+
+    \section{Introduction}\label{sect:intro}
+        \input{intro-sect}
+           
+    \section{Paradigmatic example: a non-conservative entropic force}\label{sect:entropic-example}
+        \input{cubic-sect}
+      
+    \section{Perturbative theory of SGD}\label{sect:calculus}
+        \input{prtrb-sect}
+
+    \section{Consequences of the theory}\label{sect:consequences}
+        \input{corol-sect}
+       
+    \section{Conclusion}
+        \input{concl-sect}
+
+    \newpage
+    \subsubsection{Acknowledgments.}
+        We are deeply grateful to Sho Yaida and Dan A.\ Roberts for their
+        generous mentorship and to Joshua B.\ Tenenbaum for patiently
+        granted autonomy.  Dan introduced us to the SGD literature, taught us
+        Taylor series street smarts, and inspired this project.  Sho stoked and
+        usefully channeled our interest in physics, galvanized our search for a
+        resummation technique, and made time for wide-ranging chats.  We also
+        appreciate technical discussions with Greg Wornell, David Schwab, and
+        Wenli Zhao as well as writerly advice from Ben R.\ Bray, Chloe and Ryan
+        Kleinfeldt-Britton, and Karl Winsor.
+        %
+        We thank our anonymous reviewers for incisive feedback toward our
+        writing's clarity.
+    %}
+    
+    \bibliography{perturb}
+    
+    \appendix
+
+    \newpage
+    \section*{Organization of the appendices}
+        \input{organ-sect}
+
+    \newpage
+    \section{Tutorial: how to use diagrams}\label{appendix:tutorial}
+        \input{tutor-sect}
+    
+    \newpage
+    \section{Mathematics of the theory}\label{appendix:math}
+        \input{proof-sect}
+    
+    \newpage
+    \section{Experimental methods}\label{appendix:experiments}
+        \input{mthds-sect}
+    
+    \newpage
+    \section{Review of Tensors}
+        \input{tnsrs-sect}
+
+\end{document}

@@ -1,0 +1,876 @@
+    \subsection{Assumptions and Definitions}                        \label{appendix:assumptions}
+        We assume throughout this work the following regularity properties of
+        the loss landscape.
+        
+        \textbf{Existence of Taylor Moments} --- we assume
+        that each finite collection of polynomials of the $0$th and higher
+        derivatives of the $l_x$, all evaluated at any point $\theta$, may be
+        considered together as a random variable insofar as they are equipped
+        with a probability measure upon the standard Borel algebra.
+
+        \textbf{Analyticity Uniform in Randomness} --- we assume that
+        the functions $\theta \mapsto l_x(\theta)$ --- and the expectations
+        of polynomials of their $0$th and higher derivatives --- exist and are
+        analytic with radii of convergence bounded from $0$ (by a potentially
+        $\theta$-dependent function).  So expectations and derivatives commute. 
+
+        \textbf{Boundedness of Gradients} --- we also assume that the gradients
+        $\nabla l_x(\theta)$, considered as random covectors, are bounded by
+        some continuous function of $\theta$.\footnote{
+            Some of our experiments involve Gaussian noise, which is not
+            bounded and so violates the hypothesis.  In practice, Gaussians are
+            effectively bounded
+            %, on the one hand in that with high
+            %probability no standard normal sample encountered on Gigahertz
+            %hardware within the age of the universe will much exceed $\sqrt{2
+            %\log(10^{30})} \approx 12$, and on the other hand
+            in that
+            our predictions vary smoothly with the first few moments of this
+            distribution, so that a $\pm 12$-clipped Gaussian will yield almost
+            the same predictions.
+        }
+        A metric-independent way of expressing this boundedness constraint
+        is that the gradients all lie in some subset $\Ss \subseteq TM$ of
+        the tangent bundle of weight space, where, for any compact $\Cc
+        \subseteq M$, we have that the topological pullback --- of
+        $\Ss \hookrightarrow TM \twoheadrightarrow M$
+        and
+        $\Cc \hookrightarrow M$ ---
+        is compact.
+        
+        Now we turn to definitions.
+
+        \begin{dfn}[Diagrams] \label{dfn:diagrams}
+            A diagram is a finite rooted tree equipped with a partition of
+            non-root  nodes.  We draw the tree using thin ``edges''.  By
+            convention, we draw each node to the right of its children; the
+            root is thus always rightmost.  We draw the partition
+            by connecting the nodes within each part via fuzzy ``ties''.  For
+            example, $\sdia{c(012-3)(03-13-23)}$ has $2$ parts.
+            %
+            We insist on using as few fuzzy ties as possible so that, if $d$
+            counts edges and $c$ counts ties, then $d+1-c$ counts parts of the
+            partition.
+            %
+            There may be multiple ways to draw a single diagram, e.g.
+            $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
+        \end{dfn}
+        \begin{dfn}[Embedding a Diagram into a Grid]
+            An embedding of a diagram into a grid is an assignment of that
+            diagram's non-root nodes to pairs $(n,t)$ such that each node
+            occurs at a time $t^\prime$ strictly after each of its children and
+            such that two nodes occupy the same row $n$ if they
+            inhabit the same part of $D$'s partition.
+            %
+            In situations of interest, the permissible pairs $(n,t)$ are those
+            pairs such that the $n$th trainingpoint participates in the $t$th
+            SGD update.  We prefer to draw all such pairs by shading the
+            corresponding cells in a square grid whose rows are indexed by
+            training points $n$ and whose columns aare indexed by timesteps
+            $t$.  
+        \end{dfn}
+        We define $\uvalue(D)$ and $\rvalue_f(D)$ as in
+        \S\ref{appendix:evaluate-embeddings}.
+
+    \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
+
+        Suppose $s$ is an analytic function defined on the space of weights.
+        The following Lemma, reminiscent of \cite{dy49a}, helps us track
+        $s(\theta)$ as SGD updates $\theta$:
+        \begin{klem*} \label{lem:dyson}
+            For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a sum
+            over tuples of natural numbers:
+            \begin{equation}\label{eq:dyson2}
+                s(\theta_T) = 
+                \sum_{(d_t: 0\leq t<T) \in \NN^T}
+                (-\eta)^{\sum_t d_t}
+                \wrap{
+                    \prod_{0 \leq t < T}
+                        \wrap{\left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g = \sum_{n\in \Bb_t} \nabla l_n(\theta) / B}}
+                }(s) (\theta_0)
+            \end{equation}
+            Moreover, the expectation symbol (over training sets) commutes with
+            the outer sum.
+        \end{klem*}
+        Here, we consider each $(g \nabla)^{d_t}$ as a higher order function
+        that takes in a function $f$ defined on weight space and outputs a
+        function equal to the $d_t$th derivative of $f$, times $g^{d_t}$.
+        The above product then indicates composition of $(g \nabla)^{d_t}$'s
+        across the different $t$'s.  In total, that product takes the function
+        $s$ as input and outputs a function equal to some polynomial of $s$'s
+        derivatives.
+
+        \begin{proof}[Proof of the Key Lemma]%
+            We work in a neighborhood of the initialization so that the tangent
+            space of weight space is a trivial bundle.  For convenience, we fix
+            a  coordinate system, and with it the induced flat,
+            non-degenerate inverse metric $\tilde\eta$; the benefit is that we
+            may compare our varying $\eta$ against one fixed $\tilde\eta$.
+            Henceforth, a ``ball'' unless otherwise specified will mean a ball
+            with respect to $\tilde\eta$ around the initialization $\theta_0$.
+            Since $s$ is analytic, its Taylor series converges to $s$ within
+            some positive radius $\rho$ ball.  By assumption, every $l_t$ is
+            also analytic with radius of convergence around $\theta_0$ at least
+            some $\rho>0$.  Since gradients are $x$-uniformly
+            bounded by a continuous function of $\theta$, and since in finite
+            dimensions the closed $\rho$-ball is compact, we have a strict
+            gradient bound $b$ uniform in both $x$ and $\theta$ on gradient
+            norms within that closed ball.  When
+            \begin{equation} \label{eq:smalleta}
+                2 \eta T b < \rho \tilde\eta
+            \end{equation}
+            as norms, SGD after $T$ steps on any train set
+            will necessarily stay within the $\rho$-ball.\footnote{
+                The $2$ ensures that SGD initialized at
+                any point within a $\rho/2$ ball will necessarily stay within
+                the $\rho$-ball.
+            } We note that the above condition on $\eta$ is weak enough to
+            permit all $\eta$ within some open neighborhood of $\eta=0$.  
+
+            Condition \ref{eq:smalleta} together with analyticity of $s$ then
+            implies that
+            $
+                \wrap{\exp(-\eta g \nabla) s}(\theta) = s(\theta - \eta g)
+            $
+            when $\theta$ lies in the $\tilde\eta$ ball (of radius $\rho$) and
+            its $\eta$-distance from that $\tilde\eta$ ball's boundary exceeds
+            $b$, and that both sides are analytic in $\eta, \theta$ on the same
+            domain --- and \emph{a fortiori} when $\theta$ lies in the ball of
+            radius $\rho (1 - 1/(2T))$.  Likewise, a routine induction through
+            $T$ gives the value of $s$ (after doing $T$ gradient steps from an
+            initialization $\theta$) as
+            $$
+                \wrap{
+                    \prod_{0\leq t<T}
+                        \left.
+                            \exp(-\eta g \nabla)
+                        \right|_{g=\nabla l_t(\theta)}
+                }
+                (s)(\theta)
+            $$
+            for any $\theta$ in the $\rho (1-T/(2T)$-ball (that is, the
+            $\rho/2$-ball), and that both sides are analytic in $\eta, \theta$
+            on that same domain.  Note that in each exponential, the
+            $\nabla_\nu$ does not act on the $\nabla_\mu l(\theta)$ with which
+            it pairs.  
+
+            Now we use the standard expansion of $\exp$.  Because (by
+            analyticity) the order $d$ coeffients of $l_t, s$ are bounded by
+            some exponential decay in $d$ that has by assumption an $x$-uniform
+            rate, we have absolute convergence and may rearrange sums.  We
+            choose to group by total degree:
+            \begin{equation} \label{eq:expansion}
+                \cdots 
+                =
+                \sum_{0\leq d < \infty} (-\eta)^d
+                \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } s (\theta)
+            \end{equation}
+            The first part of the Key Lemma is proved.  It remains to show that
+            expectations over train sets commute with the above summation.
+
+            We will apply Fubini's Theorem.  To do so, it suffices to show that   
+            $$
+                \wabs{c_d((l_t: 0\leq t<T))} 
+                \triangleq
+                \wabs{
+                    \sum_{\substack{(d_t: 0\leq t<T) \\ \sum_t d_t = d}}
+                    \wrap{
+                        \prod_{0 \leq t < T} \left.
+                            \frac{(g \nabla)^{d_t}}{d_t!}
+                        \right|_{g=\nabla l_t(\theta)}
+                    } s (\theta)
+                }
+            $$
+            has an expectation that decays exponentially with $d$.  The symbol
+            $c_d$ we introduce purely for convenience; that its value depends
+            on the train set we emphasize using function application
+            notation.  Crucially, no matter the train set, we have shown
+            that the expansion \ref{eq:expansion} (that features $c_d$ appear
+            as coefficients) converges to an analytic function for all $\eta$
+            bounded as in condition \ref{eq:smalleta}.  The uniformity of this
+            demanded bound on $\eta$ implies by the standard relation between
+            radii of convergence and decay of coefficients that $\wabs{c_d}$
+            decays exponentially in $d$ at a rate uniform over train sets.
+            If the expectation of $\wabs{c_d}$ exists at all, then, it will
+            likewise decay at that same shared rate.
+            
+            Finally, $\wabs{c_d}$ indeed has a well-defined expected value, for
+            $\wabs{c_d}$ is a bounded continuous function of a
+            (finite-dimensional) space of $T$-tuples (each of whose entries can
+            specify the first $d$ derivatives of an $l_t$) and because the
+            latter space enjoys a joint distribution.  So Fubini's Theorem
+            applies.  The Key Lemma follows.   
+        \end{proof}
+
+    \subsection{From Dyson to diagrams}                             \label{appendix:toward-diagrams}
+
+        %{\color{red} TODO: define diagrams! FILL IN }
+
+        We now describe the terms that appear in the Key Lemma.  The following
+        result looks like Theorem \ref{thm:resum}, except it has $\uvalue(D)$
+        instead of $\uvalue_f(D)$, and the sum is over all diagrams, not just
+        linkless ones.  In fact, we will use Theorem \ref{thm:pathint} to
+        prove Theorem \ref{thm:resum}.
+
+        \begin{thm}[Test Loss as a Path Integral] \label{thm:pathint}
+            For all $T$: for $\eta$ sufficiently small, SGD's expected test
+            loss is
+            \begin{equation*}\label{eq:sgdcoef}
+                \sum_{D}
+                %\wrap{
+                    \sum_{\text{embeddings}~f}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                %}
+                \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
+            \end{equation*}
+            Here, $D$ is a diagram whose root $r$ does not participate in
+            any fuzzy edge, $f$ is an embedding of $D$ into a grid, and
+            $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
+            preserve $f$'s assignment of nodes to cells.
+            %
+            If we replace $D$ by 
+            $
+                \wrap{-\sum_{p \in \parts(D)} (D_{rp} - D)/N}
+            $, where $r$ is $D$'s root,
+            we obtain the expected generalization gap (testing minus training loss).
+        \end{thm}
+
+        Theorem \ref{thm:pathint} describe the terms that appear in the Key
+        Lemma by matching each term to an embedding of a diagram in a grid,
+        so that the infinite sum becomes a sum over all diagram grid 
+        configurations.  The main idea is that the combinatorics of diagrams
+        parallels the combinatorics of repeated applications of the product
+        rule for derivatives applied to the expression in the Key Lemma.
+        Balancing against this combinatorial explosion are factorial-style
+        denominators, again from the Key Lemma, that we summarize in terms of
+        the sizes of automorphism groups.
+
+        \begin{proof}[Proof of Theorem \ref{thm:pathint}]
+            We first prove the statement about testing losses.
+            Due to the analyticity property established in our proof of the
+            Key Lemma, it suffices to show agreement at each degree $d$ and
+            train set individually.  That is, it suffices to show --- for
+            each train set $(l_n: 0\leq n<N)$, grid $S$, function $\pi:
+            S\to [N]$ that induces $\sim$, and natural $d$ --- that
+            \begin{align} \label{eq:toprove}
+                (-\eta)^d
+                \sum_{\substack{
+                    (d_t: 0\leq t<T) \\
+                    \sum_t d_t = d
+                }}
+                \wrap{
+                    \prod_{0 \leq t < T} \left.
+                        \frac{(g \nabla)^{d_t}}{d_t!}
+                    \right|_{g=\nabla l_t(\theta)}
+                } l (\theta)
+                = \nonumber \\
+                \sum_{\substack{
+                    D \in \image(\Free) \\
+                    \textnormal{with $d$ edges}
+                }}
+                \wrap{
+                    \sum_{f: D\to\Free(S)}
+                    \frac{1}{\wabs{\Aut_f(D)}}
+                }
+                \frac{\uvalue_\pi(D, f)}{B^{d}}
+            \end{align}
+            Here, $\uvalue_\pi$ is the value of a diagram embedding before
+            taking expectations over train sets.  We have for all $f$ that
+            $\expct{\uvalue_\pi(D, f)} = \uvalue(D)$.
+            Observe that both sides of \ref{eq:toprove} are finitary sums.
+
+            \begin{rmk}[Differentiating Products] \label{rmk:leibniz}
+                The product rule of Leibniz easily generalizes to higher
+                derivatives of finitary products:
+                $$
+                    \nabla^{\wabs{M}} \prod_{k \in K} p_k
+                    = 
+                    \sum_{\nu:M\to K} \prod_{k\in K} \wrap{
+                        \nabla^{\wabs{\nu^{-1}(k)}} p_k
+                    }
+                $$
+                The above has $\wabs{K}^{\wabs{M}}$ many term indexed by
+                functions to $K$ from $M$.
+            \end{rmk}
+
+            We proceed by joint induction on $d$ and $S$.  The base cases
+            wherein $S$ is empty or $d=0$ both follow immediately from the Key
+            Lemma, for then the only embedding is the unique embedding of the
+            one-node diagram $\sdia{(0)()}$.  For the induction step, suppose
+            $S$ is a sequence of $\Mm = \min S \subseteq S$ followed by a
+            strictly smaller $S$ and that the result is proven for $(\tilde d,
+            \tilde S)$ for every $\tilde d \leq d$.  Let us group by $d_0$ the
+            terms on the left hand side of desideratum \ref{eq:toprove}.
+            Applying the induction hypothesis with $\tilde d = d - d_0$, we
+            find that that left hand side is:
+            \begin{align*}
+                \sum_{\substack{
+                    0 \leq d_0 \leq d
+                }}
+                \sum_{\substack{
+                    \tilde D \in \image(\Free) \\
+                    \textnormal{with $d-d_0$ edges}
+                }}
+                \frac{1}{d_0!}
+                \sum_{\tilde f: \tilde D\to\Free(\tilde S)} \wrap{
+                    \frac{1}{\wabs{\Aut_{\tilde f}(\tilde D)}}
+                }
+                ~\cdot~
+                \\ %---------------------------------------------
+                (-\eta)^{d_0}
+                \left.
+                    (g \nabla)^{d_0}
+                \right|_{g=\nabla l_0(\theta)}
+                \frac{\uvalue_\pi(\tilde D, \tilde f)}{B^{d-d_0}}
+            \end{align*}
+            Since $\uvalue_\pi(\tilde D, \tilde f)$ is a multilinear product of
+            $d-d_0+1$ many tensors, the product rule for derivatives tells us
+            that $(g \nabla)^{d_0}$ acts on $\uvalue_\pi(\tilde D, \tilde f)$
+            to produce $(d-d_0+1)^{d_0}$ terms.  In fact,
+            $
+                g = \sum_{m\in \Mm} \nabla l_m(\theta) / B
+            $ 
+            expands to
+            $B^{d_0}(d-d_0+1)^{d_0}$ terms, each conveniently indexed
+            by a pair of functions $\beta:[d_0]\to \Mm$ and $\nu:[d_0]\to
+            \tilde D$.  The $(\beta, \nu)$-term corresponds to an embedding
+            $f$ of a larger diagram $D$ in the sense that it contributes
+            $\uvalue_\pi(D, f)/B^{d_0}$ to the sum.  Here, $(f, D)$ is $(\tilde
+            f, \tilde D)$ with $\wabs{\wrap{\beta \times \nu}^{-1}(n, v)}$ many
+            additional edges from the cell of datapoint $n$ at time $0$ to the
+            $v$th node of $\tilde D$ as embedded by $\tilde f$.
+
+            By the Leibniz rule of Remark \label{rmk:leibniz}, this $(\beta,
+            \nu)$-indexed sum by corresponds to a sum over embeddings $f$ that
+            restrict to $\tilde f$, whose terms are multiples of the value of
+            the corresponding embedding of $D$.  Together with the sum over
+            $\tilde f$, this gives a sum over all embeddings $f$.  So we now
+            only need to check that the coefficients for each $f:D\to S$ are as
+            claimed.
+
+            We note that the $(\beta, \nu)$ diagram (and its value) agrees with
+            the $(\beta \circ \sigma, \nu \circ \sigma)$ diagram (and its
+            value) for any permutation $\sigma$ of $[d_0]$.  The corresponding
+            orbit has size
+            \begin{align*}
+                \frac{d_0!}{
+                    \prod_{(m, i) \in \Mm \times \tilde D}
+                        \wabs{(\beta \times \nu)^{-1}(m, i)}!
+                }
+            \end{align*}
+            by the Orbit Stabilizer Theorem of elementary group theory.   
+
+            It is thus enough to show that
+            \begin{align*} \label{eqn:countclaim}
+                \wabs{\Aut_f(D)} = 
+                \wabs{\Aut_{\tilde f}(D)}
+                \prod_{(m, i) \in \Mm \times \tilde D}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            \end{align*}
+            We will show this by a direct bijection.  First, observe that
+            $
+                f = \beta \sqcup \tilde f:
+                    [d_0] \sqcup \tilde D \to \Mm \sqcup \tilde S
+            $. 
+            So each automorphism $\phi: D\to D$ that commutes with $f$ induces
+            both an automorphism
+            $
+                \Aa = \phi|_{\tilde D}: \tilde D\to \tilde D
+            $
+            that commutes with $\tilde f$ together with the data of a map
+            $
+                \Bb = \phi_{[d_0]}: [d_0] \to [d_0] 
+            $
+            that both commutes with $\beta$.  However, not every such pair of
+            maps arises from a $\phi$.  For, in order for $\Aa \sqcup \Bb: D
+            \to D$ to be an automorphism, it must respect the order structure
+            of $D$.  In particular, if $x\leq_D y$ with $x \in [d_0]$ and $y
+            \in \tilde D$, then we need
+            $$
+                \Bb(x) \leq_D \Aa(y)
+            $$
+            as well.  The
+            pairs $(\Aa, \Bb)$ that thusly preserve order are in bijection with
+            the $\phi \in \Aut_f(D)$.  There are $\wabs{\Aut_{\tilde f}(\tilde
+            D)}$ many $\Aa$.  For each $\Aa$, there are as many $\Bb$ as there
+            are sequences $(\sigma_i: i \in \tilde D)$ of permutations on
+            $
+                \{j\in [d_0]: j\leq_D i\} \subseteq [d_0]
+            $ 
+            that commute with $\Bb$.  These permutations may be chosen
+            independently; there are 
+            $
+                \prod_{m\in \Mm}
+                    \wabs{(\beta \times \nu)^{-1}(m, i)}!
+            $
+            many choices for $\sigma_i$.  Claim \ref{eqn:countclaim} follows,
+            and with it the correctness of coefficients.
+ 
+            The argument for generalization gaps parallels the above when we
+            use $l-\sum_n l_n/N$ instead of $l$ as the value for $s$. 
+            Theorem \ref{thm:pathint} is proved.
+        \end{proof}
+
+        \begin{rmk}[The Case of $E=B=1$ SGD]
+            The grid of $E=B=1$ SGD permits all and only those
+            embeddings that assign to each part of a diagram's partition  a
+            distinct cell.  Such embeddings factor through a diagram
+            ordering and are thus easily counted using factorials per
+            Prop \ref{prop:vanilla}.  That prop immediately
+            follows from the now-proven Theorem \ref{thm:pathint}.
+        \end{rmk}
+
+        \begin{prop} \label{prop:vanilla}
+            The order $\eta^d$ contribution to the expected testing loss of
+            one-epoch SGD with singleton batches is:
+            \begin{equation*}\label{eq:sgdbasiccoef}
+                \frac{(-1)^d}{d!} \sum_{D} 
+                |\ords(D)| {N \choose P-1} {d \choose d_0,\cdots,d_{P-1}}
+                \uvalue(D)
+            \end{equation*}
+            where $D$ ranges over $d$-edged diagrams.  Here, $D$'s parts have
+            sizes $d_p: 0\leq p\leq P$, and $|\ords(D)|$ counts the total
+            orderings of $D$ s.t.\ children precede parents and parts are
+            contiguous.
+        \end{prop}
+
+    %\subsection{Interlude: a review of M\"obius inversion}          \label{appendix:mobius}
+
+    
+    \subsection{Proof of Theorem \ref{thm:resum}}    \label{appendix:resum}
+
+        (We say an embedding is \textbf{strict} if it assigns to each part
+        a different datapoint $n$.
+        Then, by M\"obius inversion (\cite{ro64}), a sum over strict embeddings
+        of moment values (\S\ref{appendix:evaluate-embeddings}) matches 
+        a sum over all embeddings of $\uvalue$s.)
+
+        The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
+        may be grouped by their geometric realizations.  Each nonempty class of
+        diagrams with a given geometric realization has a unique element with
+        minimally many edges, and in this way all and only linkless diagrams
+        arise. 
+
+        We encounter two complications: on one hand, that the sizes of
+        automorphism groups might not be uniform among the class of diagrams
+        with a given geometric realization.  On the other hand, that the
+        embeddings of a specific member of that class might be hard to count.
+        The first we handle using Orbit-Stabilizer.  The second we address as
+        described by \S\ref{appendix:mobius} via M\"obius sums.
+           
+        \begin{proof}[Proof of Theorem \ref{thm:resum}]
+            We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
+            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).
+            %The result
+            %is that chains of embeddings  
+            %{\color{red} FILL IN}
+
+            The difference in loss from the noiseless case is given by all the
+            diagram embeddings with at least one fuzzy tie, where the fuzzy tie
+            pattern is actually replaced by a difference between noisy and
+            noiseless cases as prescribed by the preceding discussion on
+            M\"obius Sums.  Beware that even relatively noiseless embeddings
+            may have illegal collisions of non-fuzzily-tied nodes within a
+            single grid (data) row.  Throughout the rest of this proof, we
+            permit such illegal embeddings of the fuzz-less diagrams that arise
+            from the aforementioned decomposition.  
+
+            Because the Taylor series for analytic functions converge
+            absolutely in the interior of the disk of convergence, the
+            rearrangement of terms corresponding to a grouping by geometric
+            realizations preserves the convergence result of Theorem
+            \ref{thm:pathint}.  
+
+            Let us then focus on those diagrams $\sigma$ with a given geometric
+            realization represented by an linkless diagram $\rho$.  By
+            Theorem \ref{thm:pathint}, it suffices to show that
+            \begin{equation} \label{eq:hard}
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \frac{1}{\wabs{\Aut_{\tilde f}(\sigma)}}
+                =
+                \sum_{f:\rho\to S}
+                \sum_{\substack{
+                    \tilde f:\sigma\to S \\
+                    \exists i_\star: f=\tilde f \circ i_\star
+                }}
+                \sum_{\substack{
+                    i:\rho\to\sigma \\
+                    f = \tilde f \circ i
+                }}
+                \frac{1}{\wabs{\Aut_{f}(\rho)}}
+            \end{equation}
+            Here, $f$ is considered up to an equivalence defined by
+            precomposition with an automorphism of $\rho$.  We likewise
+            consider $\tilde f$ up to automorphisms of $\sigma$.  And above,
+            $i$ ranges through maps that induce isomorphisms of geometric
+            realizations, where $i$ is considered equivalent to $\hat i$ when
+            for some automorphism $\phi \in \Aut_{\tilde f}(\sigma)$, we have
+            $\hat i = i \circ \phi$.  Name as $X$ the set of all such $i$s
+            under this equivalence relation.
+
+            In equation \ref{eq:hard}, we have introduced
+            redundant sums to structurally align the two expressions on the
+            page; besides this rewriting, we see that equation \ref{eq:hard}'s
+            left hand side matches Theorem \ref{thm:pathint} resulting formula
+            and tgat its right hand side is the desired formula of Theorem
+            \ref{thm:resum}. 
+
+            To prove equation \ref{eq:hard}, it suffices to show (for any
+            $f, \tilde f, i$ as above) that
+            $$
+                \wabs{\Aut_f(\rho)}
+                =
+                \wabs{\Aut_{\tilde f}(\sigma)}
+                \cdot
+                \wabs{X}
+            $$
+            We will prove this using the Orbit Stabilizer Theorem by presenting
+            an action of $\Aut_f(\rho)$ on $X$.  We simply use precomposition
+            so that $\psi\in \Aut_f(\rho)$ sends $i\in X$ to $i\circ \psi$.
+            Since $f\circ\psi = f$, $i\circ \psi \in X$.  Moreover, the action
+            is well-defined, because if $i\sim \hat i$ by $\phi$, then $i \circ
+            \psi \sim \hat i \circ \psi$ also by $\phi$.
+            
+            The stabilizer of $i$ has size $\wabs{\Aut_{\tilde f}(\rho)}$.
+            For, when $i \sim i \circ \psi$ via $\phi \in \Aut_{\tilde
+            f}(\rho)$, we have $i\circ \psi = \phi \circ i$.  This relation in
+            fact induces a bijective correspondence: \emph{every} $\phi$
+            induces a $\psi$ via $\psi = i^{-1} \circ \phi \circ i$, so we have
+            a map $\text{stabilizer}(i) \hookleftarrow \Aut_{\tilde f}(\rho)$
+            seen to be well-defined and injective because structure set
+            morphisms are by definition strictly increasing and because $i$s
+            must induce isomorphisms of geometric realizations.  Conversely,
+            every $\psi$ that stabilizes enjoys \emph{only} one $\phi$ via
+            which $i \sim i \circ \phi$, again by the same (isomorphism and
+            strict increase) properties.  So the stabilizer has the claimed
+            size.
+
+            Meanwhile, the orbit is all of $\wabs{X}$.  Indeed, suppose $i_A,
+            i_B \in X$.  We will present $\psi \in \Aut_f(\rho)$ such that $i_B
+            \sim i_A \circ \psi$ by $\phi=\text{identity}$.  We simply define
+            $\psi = i_A^{-1} \circ i_B$, well-defined by the aforementioned
+            (isomorphisms and strict increase) properties.  It is then routine
+            to verify that
+            $
+                f \circ \psi
+                =
+                \tilde f \circ i_A \circ i_A^{-1} \circ i_B
+                =
+                \tilde f \circ i_B
+                = f.
+            $
+            So the orbit has the claimed size, and by the Orbit Stabilizer
+            Theorem, the coefficients in the expansions of Theorems 
+            \ref{thm:resum} and \ref{thm:pathint} match.
+        \end{proof}
+
+    \subsection{Proof of Theorem \ref{thm:converge}}    \label{appendix:converge}
+
+        %Let $L_{d,T}(\eta)$ be the $d$th order truncation of Thm \ref{thm:resum}'s series.
+        %The following lemma compares $L_d = \lim_{T\to\infty} L_{d,T}$ to
+        %$L_T = \lim_{d\to\infty} L_{d,T}$.
+        %%
+        %For convenience, we fix some inner product on $\Mm$. 
+        %%
+        %\begin{lem}\label{lem:strength}
+        %    Fix $U\subseteq \Mm$ open and $\theta_\star\in U$ a local minimum
+        %    of $l$.  Assume Local Strength.  Then for all $d$ and for all
+        %    initializations $\theta_0$ in some neighborhood $V_d$ of
+        %    $\theta_\star$: there exist $T_0,A,B>0$ so that $\sup_{T\geq T_0}
+        %    {\rm ReLU}(|L_d(\eta)-L_T(\eta)|-\exp(A-BT))$ is well-defined and
+        %    is $o(\eta^d)$.
+        %    `Well-defined' means the sup is finite on some
+        %    neighborhood (in the space of symmetric positive semidefinite
+        %    forms) of $\eta=0$.
+        %\end{lem}
+        %\begin{proof}
+        %    In what follows, $\epsilon,\delta,s,\epsilon^\pr$ denote positive
+        %    quantities to be regarded as small and under our control.  We
+        %    follow proof-writing tradition by \emph{using} each quantity
+        %    before \emph{setting} it.
+
+        %    Let $\hat l = \sum_n l_n/N$ denote the training landscape.  Since
+        %    $\nabla l_x, \nabla\nabla l_x$ are universally bounded, Chernoff
+        %    implies that for any compact $K$ and any $\epsilon,\delta>0$:
+        %    there are $T_0, \eta_\star>0$ so that whenever 
+        %    $\eta < \eta_\star$ and $T>T_0$, the error $\sup_{\theta\in K}
+        %    \|\nabla \hat l-\nabla l\|$ is small ($<\epsilon$) with high
+        %    probability ($>1-\delta$).
+
+        %    Since $l_x$ is universally bounded, the low-probability fringe
+        %    event contributes $O(\delta)$ to the final testing loss $L_T$.  In
+        %    fact, by Chernoff this contribution decays exponentially in $T$.
+        %    (Thence arises the lemma's term $\exp(A-BT)$). 
+
+        %    Let's thus focus on the high-probability bulk event.  For any
+        %    $s>0$, we may arrange $K, \epsilon$ with reference to Local
+        %    Strength's $Q_-$ so that, conditioned on this bulk event, SGD's
+        %    trajectory is confined to an open radius-$s$ ball
+        %    $B_s(\theta_\star)$ around $\theta_\star$ when it is
+        %    initialized at $\theta_\star$.  This confinement being an open
+        %    condition and dynamics being continuous, we may in fact arrange $K,
+        %    \epsilon$ so that (again conditioned on the bulk event) SGD's
+        %    trajectory is confined to $B_s(\theta_\star)$ when 
+        %    $\theta_0 \in B_{r(s)}(\theta_\star)$.
+
+        %    Invoking $L_{T_0}$'s analyticity, we re-choose $\eta_\star>0$ as
+        %    needed so that for all lesser $\eta$,
+        %    $|L_{d,T_0}(\eta)-L_{T_0}(\eta)|<\epsilon^\pr$.  
+        %\end{proof}
+
+        \begin{proof}[Proof of Theorem \ref{thm:converge}]
+            Since we assumed hessians are positive: for any $m$, the propagator
+            $K^t = \wrap{(I-\eta H)^{\otimes m}}^t$ exponentially decays to $0$
+            (at a rate dependent on $m$).  Since up to degree $d$ only a finite
+            number of diagrams exist and hence only a finite number of possible
+            $m$s, the exponential rates are bounded away from $0$.  Moreover,
+            for any fixed $t_{\text{big}}$, the number of diagrams ---
+            involving no exponent $t$ exceeding $t_{\text{big}}$ --- is
+            eventually constant as $T$ grows.  Meanwhile, the number involving
+            at least one exponent $t$ exceeding that threshold grows
+            polynomially in $T$ (with degree $d$).  The exponential decay of
+            each term overwhelms the polynomial growth in the number of terms,
+            and Theorem's first part follows.
+            %More difficult is the Theorem's statement about Local Strength.
+        \end{proof}
+
+    %\subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
+
+    \subsection{Proofs of corollaries}                              \label{appendix:corollaries}
+
+        \subsubsection{Corollary \ref{cor:entropic}}
+
+            \begin{proof}
+                The relevant linkless diagram is $\sdia{c(01-2-3)(02-12-23)}$
+                {color{red} (amputated as in the previous subsubsection)}.   
+                An embedding of this diagram into $E=B=1$ SGD's grid 
+                is determined by two durations --- 
+                $t$ from {\color{moor}red} to {\color{moog}green} and
+                $\tilde t$ from {\color{moog}green} to {\color{moob}blue} ---
+                obeying $t+\tilde t \leq T$.
+                The automorphism group of each embedding has size $2$: identity
+                or switch the {\color{moor}red} nodes.  So the answer is: 
+                $$
+                    C_{\mu \nu}
+                    J^{\rho\lambda}_{\sigma}
+                    \wrap{\int_{t+\tilde t\leq T}
+                        \wrap{\exp(-t \eta H) \eta}^{\mu\rho}
+                        \wrap{\exp(-t \eta H) \eta}^{\nu\lambda}
+                        \wrap{\exp(-\tilde t \eta H) \eta}^{\sigma\pi}
+                    }
+                $$
+                Standard calculus then gives the desired result.
+            \end{proof}
+
+        \subsubsection{Corollary \ref{cor:overfit}'s first part}
+
+            \begin{proof}[Proof.]
+                The relevant linkless diagram is $\sdia{(01-2)(02-12)}$
+                (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
+                minimum).  This diagram has one embedding for each pair of
+                same-row shaded cells, potentially identical, in a grid; for
+                GD, the grid has every cell shaded, so each
+                \emph{non-decreasing} pair of durations in $[0,T]^2$ is
+                represented; the symmetry factor for the case where the cells
+                is identical is $1/2$, so we lose no precision by interpreting
+                a automorphism-weighted sum over the \emph{non-decreasing}
+                pairs as half of a sum over all pairs.  Each of these may embed
+                into $N$ many rows, hence the factor below of $N$.  The two
+                integration variables (say, $t, \tilde t$) separate, and we
+                have:
+                $$
+                    \frac{N}{B^{\text{degree}}}
+                    \frac{C_{\mu\nu}}{2}
+                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
+                    \int_{\tilde t} \wrap{\exp(-\tilde t \eta H)}^\nu_\rho
+                    \eta^{\lambda\sigma}
+                    \eta^{\rho\pi}
+                    H_{\sigma\pi}
+                $$
+                Since for GD we have $N=B$ and we are working to degree $2$,
+                the prefactor is $1/N$.  Since $\int_t \exp(a t) = (I-\exp(-a
+                T))/a$, the desired result follows. 
+            \end{proof}
+
+        \subsubsection{Corollary \ref{cor:overfit}'s second part}
+
+            We apply the generalization gap modification (described in
+            \S\ref{appendix:solve-variants}) to Theorem \ref{thm:resum}'s
+            result about testing losses.
+
+            \begin{proof}[Proof]
+                The relevant linkless diagram is $\sdia{c(01)(01)}$.  This
+                diagram has one embedding for each shaded cell of grid;
+                for GD, the grid has every cell shaded, so each duration
+                from $0$ to $T$ is represented.  So the generalization gap is,
+                to leading order,
+                $$
+                    + \frac{C_{\mu\nu}}{N}
+                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
+                    \eta^{\lambda\nu}
+                $$
+                Here, the minus sign from the gen-gap modification canceled
+                with the minus sign from the odd power of $-\eta$.  Integration
+                finishes the proof.
+            \end{proof}
+ 
+        \subsubsection{Corollaries \ref{cor:epochs} and \ref{cor:batch}}
+
+            Corollary \ref{cor:epochs} and Corollary \ref{cor:batch} follow
+            from plugging appropriate values of $M, N, B$ into the following
+            prop.
+
+            \begin{prop}\label{prop:ordtwo}
+                To order $\eta^2$, the testing loss of SGD --- on $N$ samples
+                for $T=MN$ timesteps with batch size $B$ dividing $N$ and with
+                any shuffling scheme --- has expectation
+                {\small
+                \begin{align*}
+                                                            l              
+                    &- MN                                   G_\mu G^\mu       
+                     + MN\wrap{MN - \frac{1}{2}}            G_\mu H^{\mu}_{\nu} G^\nu \\
+                    &+ MN\wrap{\frac{M}{2}}                 C_{\mu \nu} H^{\mu \nu}
+                     + MN\wrap{\frac{M-\frac{1}{B}}{2}}     \wrap{\nabla_\mu C^{\nu}_{\nu}} G^\mu / 2
+                \end{align*}
+                }
+            \end{prop}
+
+            \begin{proof}[of Prop \ref{prop:ordtwo}]
+                To prove Prop \ref{prop:ordtwo}, we simply count
+                the embeddings of the diagrams, noting that the automorphism groups
+                are all of size $1$ or $2$. 
+                %Since we use fuzzy outlines instead of
+                %fuzzy ties, we allow untied nodes to occupy the same row, since the
+                %excess will be canceled out by the term subtract in the definition of
+                %fuzzy outlines.
+                See Table \ref{tbl:ordtwo}.
+                \begin{table}[h]
+                    \centering
+                    \begin{tabular}{cll}
+                        diagram                 & embed.s w/ $\wabs{\Aut_f}=1$  & embed.s w/ $\wabs{\Aut_f}=2$   \\ \hline
+                        $\sdia{(0)()}$          & $1$                           & $0$                            \\  
+                        $\sdia{(0-1)(01)}$      & $MNB$                         & $0$                            \\                  
+                        $\sdia{(0-1-2)(01-12)}$ & ${MN\choose 2}B^2$            & $0$                            \\
+                        $\sdia{c(01-2)(01-12)}$ & $N{MB\choose 2}$              & $0$                            \\
+                        $\sdia{(0-1-2)(02-12)}$ & ${MNB\choose 2}$              & $MNB$                          \\
+                        $\sdia{c(01-2)(02-12)}$ & $N{MB\choose 2}$              & $MNB$                             
+                    \end{tabular}
+                    \caption{Terms used in proof of Prop \ref{prop:ordtwo}}
+                    \label{tbl:ordtwo}
+                \end{table}
+            \end{proof}
+
+        \subsubsection{Corollary \ref{cor:vsode}}
+
+            The corollary's first part follows immediately from 
+            Prop \ref{prop:ordtwo}.
+
+            \begin{proof}[Proof of second part]
+                Because $\expct{\nabla l}$ vanishes at initialization, all
+                diagrams with a degree-one vertex that is a singleton vanish.
+                Because we work at order $\eta^3$, we consider $3$-edged
+                diagrams.  Finally, because all first and second moments match
+                between the two landscapes, we consider only diagrams with at
+                least one part (in their partition) of size at least $3$.  The
+                only such test diagram is $\sdia{c(012-3)(03-13-23)}$.  This
+                embeds in $T$ ways (one for each grid cell --- recall that
+                $E=B=1$) and has symmetry factor $1/3!$ for a total of
+                $$
+                    \frac{T \eta^3 }{6}
+                    \expct{\nabla^3 l}
+                    \expct{\nabla l_{n_{t_a}} \nabla l_{n_{t_b}} \nabla l_{n_{t_c}}}
+                    = 
+                    \frac{T \eta^3 }{6}
+                    S_{\mu\nu\sigma}J^{\mu\nu\sigma}
+                $$
+                This is the un-resummed expression.  To obtain the re-summed
+                expression, we replace $\eta^{\mu\nu}$ with $(I-\eta H)^{\Delta t-1}\eta)^{\mu\nu}$. 
+                The embeddings range over $T$ many times uniformly spaced in $[0,T]$. 
+                So we may integrate (let's name our variable of integration $\tau$,
+                and let's have it represent $\tau=\Delta t-1 = T-t-1$):
+                $$
+                    \int_{0\leq \tau < T}
+                        \wrap{\exp(-\tau \eta H) \eta}^{\mu\nu}
+                        \wrap{\exp(-\tau \eta H) \eta}^{\pi\sigma}
+                        \wrap{\exp(-\tau \eta H) \eta}^{\lambda\rho}
+                        S_{\mu\pi\lambda}J_{\nu\sigma\rho}
+                $$
+                Observe that 
+                $$
+                        \wrap{\exp(-\tau \eta H)}_\mu^\nu 
+                        \wrap{\exp(-\tau \eta H)}_\pi^\sigma 
+                        \wrap{\exp(-\tau \eta H)}_\lambda^\rho
+                    =
+                        \wrap{\exp(-\tau Y)}_{\mu\nu\pi}^{\sigma\lambda\rho}
+                $$                         
+                where $Y = \eta H \otimes I \otimes I + I \otimes \eta H \otimes I + I \otimes I \otimes \eta H$
+                is a six-index tensor.  We finish by recalling that 
+                $$
+                    \int_t \exp(A t) = \frac{\exp(A t)}{A} |_t 
+                $$
+            \end{proof}                     
+
+            %\newpage
+    \subsection{Future topics}                                      \label{appendix:future}
+
+        Our diagrams invite exploration of Lagrangian formalisms and curved
+        backgrounds:\footnote{
+            \cite{la60, la51} review these concepts.
+        }
+        \begin{quest}
+            Does some least-action principle govern SGD; if not, what is an
+            essential obstacle to this characterization?
+        \end{quest}
+        Lagrange's least-action formalism intimately intertwines with the
+        diagrams of physics.  Together, they afford a modular framework for
+        introducing new interactions as new terms or diagram nodes.  In fact,
+        we find that some \emph{higher-order} methods --- such as the
+        Hessian-based update
+        $
+            \theta \leftsquigarrow
+            \theta -
+            (\eta^{-1} + \lambda \nabla \nabla l_t(\theta))^{-1}
+            \nabla l_t(\theta)
+        $
+        parameterized by small $\eta, \lambda$ --- admit diagrammatic analysis
+        when we represent the $\lambda$ term as a second type of diagram node.
+        Though diagrams suffice for computation, it is Lagrangians that most
+        deeply illuminate scaling and conservation laws.
+
+        Our work assumes a flat metric $\eta^{\mu\nu}$, but it might
+        generalize to weight spaces curved in the sense of Riemann.\footnote{
+            One may represent the affine connection as a node, thus giving
+            rise to non-tensorial and hence gauge-dependent diagrams.
+        }  Such curvature finds concrete application in the \emph{learning on
+        manifolds} paradigm of \cite{ab07, zh16}, notably specialized to
+        \cite{am98}'s \emph{natural gradient descent} and \cite{ni17}'s
+        \emph{hyperbolic embeddings}.  While that work focuses on
+        \emph{optimization} on curved weight spaces, in machine learning we
+        also wish to analyze \emph{generalization}.
+        %
+        Starting with the intuition that ``smaller'' hypothesis classes
+        generalize better and that curvature controls the volume of small
+        neighborhoods, we conjecture that sectional curvature regularizes
+        learning:
+        \begin{conj}[Sectional curvature regularizes]
+            If $\eta(\tau)$ is a Riemann metric on weight space, smoothly
+            parameterized by $\tau$, and if the sectional curvature through
+            every $2$-form at $\theta_0$ increases as $\tau$ grows, then
+            the gen.\ gap attained by fixed-$T$ SGD with learning rate $c
+            \eta(\tau)$ (when initialized from $\theta_0$) decreases as $\tau$
+            grows, for all sufficiently small $c>0$.
+        \end{conj}
+        We are optimistic our formalism may resolve conjectures such as above.
+
+

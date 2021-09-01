@@ -1,0 +1,292 @@
+\def\year{2021}\relax
+\documentclass[letterpaper]{article} % DO NOT CHANGE THIS
+\usepackage{aaai21}  % DO NOT CHANGE THIS
+\usepackage{times}  % DO NOT CHANGE THIS
+\usepackage{helvet} % DO NOT CHANGE THIS
+\usepackage{courier}  % DO NOT CHANGE THIS
+\usepackage[hyphens]{url}  % DO NOT CHANGE THIS
+\usepackage{graphicx} % DO NOT CHANGE THIS
+\urlstyle{rm} % DO NOT CHANGE THIS
+\def\UrlFont{\rm}  % DO NOT CHANGE THIS
+\usepackage{natbib}  % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\usepackage{caption} % DO NOT CHANGE THIS AND DO NOT ADD ANY OPTIONS TO IT
+\frenchspacing  % DO NOT CHANGE THIS
+\setlength{\pdfpagewidth}{8.5in}  % DO NOT CHANGE THIS
+\setlength{\pdfpageheight}{11in}  % DO NOT CHANGE THIS
+\pdfinfo{
+/Title (AAAI Press Formatting Instructions for Authors Using LaTeX -- A Guide)
+/Author (AAAI Press Staff, Pater Patel Schneider, Sunil Issar, J. Scott Penberthy, George Ferguson, Hans Guesgen, Francisco Cruz, Marc Pujol-Gonzalez)
+/TemplateVersion (2021.2)
+}
+\usepackage{tikz}
+
+%\usepackage{times}
+
+\usepackage{amsthm, amsfonts, makerobust, float}
+\usepackage{makerobust, float}
+\usepackage{mathtools, nicefrac, xstring, enumitem, pdflscape, multicol}
+
+\newcommand{\subthreesect}[1]{\par\noindent\textsc{#1} --- }
+
+%%%   The following reconciles COLT's style with \includegraphics:
+%%%       (see tex.stackexchange.com/questions/520891)
+%%\makeatletter
+%%\let\Ginclude@graphics\@org@Ginclude@graphics
+%%\makeatother
+
+\usepackage[export]{adjustbox}
+
+%---------------------  graphics and figures  ---------------------------------
+\usepackage{wrapfig, caption}
+\usepackage{hanging, txfonts, ifthen}
+
+\newcommand{\ofsix}[1]{
+    {\tiny \raisebox{0.04cm}{$\substack{
+        \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{2}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{4}}{{\color{moor}\blacksquare}}{\square} \\
+        \ifthenelse{\equal{#1}{1}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{3}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{5}}{{\color{moor}\blacksquare}}{\square}
+    }$}}%
+}
+
+\newcommand{\offive}[1]{
+    {\tiny
+        \raisebox{-0.04cm}{\color{gray}\scalebox{2.5}{$\substack{
+            \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square} 
+        }$}}%
+        \raisebox{0.04cm}{$\substack{
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square}   
+            \IfSubStr{#1}{1}{{\color{moor}\blacksquare}}{\square} \\
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+            \IfSubStr{#1}{2}{{\color{moor}\blacksquare}}{\square}    
+        }$}%
+    }%
+}
+
+\newcommand{\ofthree}[1]{
+    {\tiny \raisebox{0.04cm}{$
+        \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{1}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{2}}{{\color{moor}\blacksquare}}{\square}
+    $}}%
+}
+
+\newcommand{\offour}[1]{
+    {\tiny \raisebox{0.04cm}{$
+        %\ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{1}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{2}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{3}}{{\color{moor}\blacksquare}}{\square}
+    $}}%
+}
+
+\newcommand{\offourseq}[1]{
+    {\tiny \raisebox{0.04cm}{$
+        \ifthenelse{\equal{#1}{0}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{1}}{{\color{moor}\blacksquare}}{\square}    
+        \ifthenelse{\equal{#1}{2}}{{\color{moor}\blacksquare}}{\square}
+        \ifthenelse{\equal{#1}{3}}{{\color{moor}\blacksquare}}{\square}
+    $}}%
+}
+
+
+
+
+
+%---------------------  colors  -----------------------------------------------
+
+\usepackage{xcolor, framed}
+\definecolor{moolime}{rgb}{0.90,1.00,0.90}
+\definecolor{moosky}{rgb}{0.90,0.90,1.00}
+\definecolor{moopink}{rgb}{1.00,0.90,0.90}
+
+\definecolor{moogold}{rgb}{1.00,1.00,0.80}
+
+\definecolor{moor}{rgb}{0.8,0.2,0.2}
+\definecolor{moog}{rgb}{0.2,0.8,0.2}
+\definecolor{moob}{rgb}{0.2,0.2,0.8}
+\definecolor{mooteal}{rgb}{0.1,0.6,0.4}
+
+\definecolor{spacetimered}{rgb}{0.8, 0.2, 0.0}
+\definecolor{spacetimeorange}{rgb}{0.6, 0.4, 0.1}
+\definecolor{spacetimelemon}{rgb}{0.4, 0.6, 0.1}
+\definecolor{spacetimegreen}{rgb}{0.0, 0.8, 0.2}
+\definecolor{spacetimeteal}{rgb}{0.1, 0.6, 0.4}
+\definecolor{spacetimesky}{rgb}{0.1, 0.4, 0.6}
+\definecolor{spacetimeblue}{rgb}{0.2, 0.0, 0.8}
+\definecolor{spacetimeindigo}{rgb}{0.4, 0.1, 0.6}
+\definecolor{spacetimepurple}{rgb}{0.6, 0.1, 0.4}
+
+%\newcommand{\translucent}[2]{{\tikz\node[opacity=0.75,fill=#1]{#2};}}
+\newcommand{\translucent}[2]{\colorbox{#1}{#2}}
+
+%---------------------  intertext: footnotes and hyperlinks  ------------------ 
+
+\usepackage[perpage]{footmisc}
+\renewcommand*{\thefootnote}{%
+    \color{red}%
+    \arabic{footnote}%
+    %\fnsymbol{footnote}%
+} 
+
+\usepackage{hyperref}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Theorem Environments  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%---------------------  mathematical results  ---------------------------------
+
+%\theoremstyle{plain}
+    \newtheorem*{klem*}{Key Lemma}
+    \newtheorem*{lem}{Lemma}
+    \newtheorem{thm}{Theorem}
+    \newtheorem*{thm*}{Theorem}
+    \newtheorem{cor}{Corollary}
+    \newtheorem{prop}{Prop}
+    \newtheorem*{prop*}{Prop}
+    \setcounter{prop}{-1}
+
+%---------------------  mathematical questions  -------------------------------
+
+    \newtheorem{conj}{Conjecture}
+    \newtheorem{quest}{Question}
+    \newtheorem*{quest*}{Question}
+    \newtheorem*{quests*}{Questions}
+
+%---------------------  definitions, answers, remarks  ------------------------
+
+%\theoremstyle{definition}
+    \newtheorem{dfn}{Definition}
+    \newtheorem*{answ*}{Answer}
+    \newtheorem{rmk}{Remark}
+    \newtheorem*{midea*}{Main Idea}
+    \newtheorem*{rmk*}{Remark}
+    \newtheorem{exm}{Example}
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Custom Math Commands  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\newcommand{\pr}{\prime}
+\newcommand{\squish}{\vspace{-0.05cm}}
+\newcommand{\squash}{\vspace{-0.15cm}}
+\newcommand{\crunch}{\vspace{-0.45cm}}
+
+%---------------------  expanding containers  ---------------------------------
+
+
+\newcommand{\wrap}[1]{\left(#1\right)}
+\newcommand{\wasq}[1]{\left[#1\right]}
+\newcommand{\wang}[1]{\left\langle#1\right\rangle}
+\newcommand{\wive}[1]{\left\llbracket#1\right\rrbracket}
+\newcommand{\worm}[1]{\left\|#1\right\|}
+\newcommand{\wabs}[1]{\left|#1\right|}
+\newcommand{\wurl}[1]{\left\{#1\right\}}
+
+\newcommand{\partitionbox}[1]{
+    \text{
+        \fboxsep=0.5pt
+        \tiny
+        \fbox{#1}
+    }
+}
+
+%---------------------  special named objects  --------------------------------
+
+
+        \newcommand{\del} { \partial}
+        \newcommand{\nb} { \nabla }
+        \newcommand{\lx} { l_x(\theta) }
+        \newcommand{\teq} { \triangleq }
+        \newcommand{\ex}[1] { \expc_x \wasq{#1} }
+
+
+\newcommand{\Free}{\mathcal{F}}
+\newcommand{\Forg}{\mathcal{G}}
+\newcommand{\Mod}{\mathcal{M}}
+\newcommand{\Hom}{\text{\textnormal{Hom}}}
+\newcommand{\Aut}{\text{\textnormal{Aut}}}
+\newcommand{\image}{\text{\textnormal{im}}}
+\newcommand{\uvalue}{\text{\textnormal{uvalue}}}
+\newcommand{\rvalue}{\text{\textnormal{rvalue}}}
+\newcommand{\edges}{\text{\textnormal{edges}}}
+\newcommand{\ords}{\text{\textnormal{ords}}}
+\newcommand{\parts}{\text{\textnormal{parts}}}
+\newcommand{\SGD}{\text{\textnormal{SGD}}}
+\DeclareMathOperator*{\Avg}{\text{\sffamily A}}
+\newcommand{\expc}{\mathbb{E}}
+\newcommand{\expct}[1]{\mathbb{E}\left[#1\right]}
+
+%---------------------  fancy letters  ----------------------------------------
+
+\newcommand{\Aa}{\mathcal{A}}
+\newcommand{\Bb}{\mathcal{B}}
+\newcommand{\Cc}{\mathcal{C}}   \newcommand{\CC}{\mathbb{C}}
+\newcommand{\Dd}{\mathcal{D}}
+\newcommand{\Ee}{\mathcal{E}}
+\newcommand{\Ff}{\mathcal{F}}
+\newcommand{\Gg}{\mathcal{G}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Ll}{\mathcal{L}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Nn}{\mathcal{N}}   \newcommand{\NN}{\mathbb{N}}
+\newcommand{\Oo}{\mathcal{O}}
+\newcommand{\Pp}{\mathcal{P}}   \newcommand{\PP}{\mathbb{P}}
+\newcommand{\Qq}{\mathcal{Q}}   \newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\Rr}{\mathcal{R}}   \newcommand{\RR}{\mathbb{R}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Uu}{\mathcal{U}}
+\newcommand{\Vv}{\mathcal{V}}
+\newcommand{\Ww}{\mathcal{W}}
+\newcommand{\Xx}{\mathcal{X}}
+\newcommand{\Yy}{\mathcal{Y}}
+\newcommand{\Zz}{\mathcal{Z}}   \newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\omicron}{{\acute{o}}}
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~  Pictures  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%---------------------  pictures with specified width or height  --------------
+
+\newcommand{\plotmoow}[3]{\includegraphics[width=#2          ]{../#1}}
+\newcommand{\plotmooh}[3]{\includegraphics[         height=#3]{../#1}}
+\newcommand{\pmoo}[2]{\includegraphics[height=#1]{../plots/#2}}
+\newcommand{\dmoo}[2]{\includegraphics[height=#1]{../diagrams/#2}}
+
+%---------------------  inline diagrams of various sizes  ---------------------
+
+\newcommand{\sizeddia}[2]{%
+    \begin{gathered}%
+        \includegraphics[scale=#2]{../diagrams/#1.png}%
+    \end{gathered}%
+}
+\newcommand{\bdia}[1]{\protect \sizeddia{#1}{0.22}}
+\newcommand{\dia} [1]{\protect \sizeddia{#1}{0.18}}
+\newcommand{\mdia}[1]{\protect \sizeddia{#1}{0.14}}
+\newcommand{\sdia}[1]{\protect \sizeddia{#1}{0.10}}
+
+\newcommand{\mend}{\hfill $\Diamond$}
+
+\newcommand{\Gauss}{\textsc{Gauss}}
+\newcommand{\Helix}{\textsc{Helix}}
+\newcommand{\MeanEstimation}{\textsc{Mean Estimation}}
+
+\newcommand{\sS}{\hspace{0.43em}}
+\newcommand{\sammail}{%
+    C{\sS}%
+    O{\sS}%
+    L{\sS}%
+    I{\tiny{@}}%
+    M{\sS}%
+    I{\sS}%
+    T{\sS}%
+    .{\sS}%
+    e{\sS}%
+    d{\sS}%
+    u%
+}
+
+

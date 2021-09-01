@@ -1,0 +1,503 @@
+
+    \subsection{What artificial landscapes did we use?}             \label{appendix:artificial}
+
+        We define three artificial landscapes, called
+        \Gauss, \Helix, and \MeanEstimation.
+
+        \subsubsection{\Gauss}
+            Consider fitting a centered normal $\Nn(0, \sigma^2)$ to some
+            centered standard normal data.  We parameterize the landscape by
+            $h=\log(\sigma^2)$ so that the Fisher information matches the
+            standard dot product \citep{am98}.   
+            %
+            More explicitly, the \Gauss\, landscape is a probability
+            distribution $\Dd$ over functions $l_x:\RR^1\to \RR$ on
+            $1$-dimensional weight space, indexed by standard-normally
+            distributed $1$-dimensional datapoints $x$ and defined by the
+            expression:
+            $$
+                l_x(h)
+                \triangleq
+                \frac{1}{2} \wrap{h + x^2 \exp(-h)}
+            $$
+            The gradient at sample $x$ and weight $\sigma$ is then $g_x(h) =
+            (1-x^2\exp(-h))/2$.  Since $x\sim \Nn(0, 1)$, the gradient $g_x(h)$
+            will be affinely related to a chi-squared, and in particular
+            non-Gaussian.
+            
+            To measure overfitting, we initialize at the true test minimum
+            $h=0$, then train and see how much the testing loss increases.  At
+            $h=0$, the expected gradient vanishes, and the testing loss of SGD
+            involves only diagrams that have no leaves of size one.
+            
+        \subsubsection{\Helix}
+            The \Helix\ landscape has chirality, much like Archimedes'
+            screw.
+            %\cite{vi00}. 
+            Specifically, the \Helix\ landscape has
+            %
+            weights     $\theta = (u,v,z) \in \RR^3$,
+            %
+            data points $x \sim \Nn(0, 1)$,
+            %
+            and loss:
+            %
+            $$
+                l_x(\theta)
+                \triangleq
+                \frac{1}{2} H(\theta) + x \cdot S(\theta)
+            $$
+            %
+            Here,
+            $$
+                H(\theta) = u^2 + v^2 + (\cos(z) u + \sin(z) v)^2
+            $$
+            is quadratic in $u, v$, and
+            $$
+                S(\theta) = \cos(z-\pi/4) u + \sin(z-\pi/4) v
+            $$
+            is linear in $u, v$.
+            Also, since $x \sim \Nn(0,1)$, the $x \cdot S(\theta)$ term has
+            expectation $0$.
+            %
+            In fact, the landscape has a three-dimensional continuous screw
+            symmetry consisting of translation along $z$ and simulateous
+            rotation in the $u-v$ plane.  Our experiments are initialized at
+            $u=v=z=0$, which lies within a valley of global minima defined by
+            $u=v=0$.  
+
+            The paper body showed that SGD travels in \Helix' $+z$
+            direction.  By topologically quotienting the weight space, say by
+            identifying points related by a translation by $\Delta z = 200\pi$,
+            we may turn the line-shaped valley into a circle-shaped valley.
+            Then SGD eternally travels, say, counterclockwise.  Alternatively,
+            one may preserve the homotopy type of the underlying weight space
+            by Nash-embedding a flat solid torus
+            $$
+                [-10^1,+10^1]\times[-10^1,+10^1]\times[-10^3,+10^3]/((x,y,-10^3)\sim(x,y,+10^3))
+            $$
+            in a higher-dimensional Euclidean space and extending \Helix\ from
+            that torus to the ambient space.
+
+            Slightly modifying \Helix\ by adding a linear term $\alpha\cdot z$
+            to $l$ for $\eta\alpha^2 \ll \eta^2/6$ leads SGD to perpetually ascend.
+           
+        \subsubsection{\MeanEstimation}
+            The \MeanEstimation\, family of landscapes has $1$ dimensional
+            weights $\theta$ and $1$-dimensional datapoints $x$.  It is defined
+            by the expression:
+            $$
+                l_x(\theta)
+                \triangleq
+                \frac{1}{2} H \theta^2 + x S \theta
+            $$
+            Here, $H, S$ are positive reals parameterizing the family; they
+            give the hessian and (square root of) gradient covariance,
+            respectively.
+
+            For our hyperparameter-selection experiment (Figure
+            \ref{fig:takreg}\ofthree{2}) we introduce an $l_2$
+            regularization term as follows:
+            $$
+                l_x(\theta, \lambda)
+                \triangleq
+                \frac{1}{2} (H + \lambda) \theta^2 + x S \theta
+            $$
+            Here, we constrain $\lambda\geq 0$ during optimization using
+            projections; we found similar results when parameterizing $\lambda
+            = \exp(h)$, which obviates the need for projection but necessitates
+            a non-canonical choice of initialization.  We initialize
+            $\lambda=0$.
+
+    \subsection{What image-classification landscapes did we use?}   \label{appendix:natural}
+
+        \subsubsection{Architectures}
+            In addition to the artificial loss landscapes
+                \Gauss, \Helix, and \MeanEstimation, 
+                we tested our predictions on logistic linear regression
+                and simple convolutional networks (2 convolutional weight layers
+                each with kernel $5$, stride $2$, and $10$ channels, followed by
+                two dense weight layers with hidden dimension $10$) for the
+                CIFAR-10 \cite{kr09} and Fashion-MNIST datasets \cite{xi17}.  The
+                convolutional architectures used $\tanh$ activations and Gaussian
+                Xavier initialization.  To set a standard distance scale on weight
+                space, we parameterized the model so that the
+                Gaussian-Xavier initialization of the linear maps in each layer
+                differentially pulls back to standard normal initializations of the
+                parameters.
+
+                Some of our experiments involve Gaussian noise, which is not
+                bounded and so violates the our assumptions.  In practice,
+                Gaussians are effectively bounded in that our predictions vary
+                smoothly with the first few moments of this distribution, so
+                that a $\pm 12$-clipped Gaussian will yield almost the same
+                predictions.
+                %
+                Even more experiments permit arbitrarily large losses and  
+                thus also violate our boundedness assumptions; since in practice
+                SGD with small learning rates does not explore regions of
+                very-large loss, we consider this violation negligible.
+
+            \subsubsection{Datasets}
+                For image classification landscapes, we regard the finite amount of
+                available data as the true (sum of diracs) distribution $\Dd$ from
+                which we sample testing and training sets in i.i.d.\ manner (and hence
+                ``with replacement'').  We do this to gain practical access to a
+                ground truth against which we may compare our predictions.  One
+                might object that this sampling procedure would cause testing and
+                training sets to overlap, hence biasing testing loss measurements.  In
+                fact, testing and training sets overlap only in reference, not in
+                sense: the situation is analogous to a text prediction task in
+                which two training points culled from different corpora happen to
+                record the same sequence of words, say, ``Thank you!''.  In any
+                case, all of our experiments focus on the limited-data regime, e.g.
+                $10^1$ datapoints out of $\sim 10^{4.5}$ dirac masses, so overlaps
+                are rare.
+
+        \subsection{Measurement process}                                \label{appendix:measure}
+
+            \subsubsection{Diagram evaluation on real landscapes}
+                We implemented the formulae of \S\ref{appendix:bessel} in order
+                to estimate diagram values from real data measured at
+                initialization from batch averages of products of derivatives.
+
+            \subsubsection{Descent simulations}
+                We recorded testing and training losses for each of the trials below.  To
+                improve our estimation of average differences, when we compared two
+                optimizers, we gave them the same random seed (and hence the same
+                training sets).
+
+                We ran $2 \cdot 10^5$ trials of \Gauss\, with SDE and SGD,
+                initialized at the test minimum with $T=1$ and $\eta$ ranging from
+                $5\cdot 10^{-2}$ to $2.5\cdot 10^{-1}$.
+                We ran $5 \cdot 10^1$ trials of \Helix with SGD with $T=10^4$
+            and $\eta$ ranging from $10^{-2}$ to $10^{-1}$.
+            We ran $10^3$ trials of \MeanEstimation with GD and STIC
+            with $T=10^2$, $H$ ranging from $10^{-4}$ to $4 \cdot 10^0$,
+            a covariance of gradients of $10^2$, and the true mean $0$ or
+            $10$ units away from initialization.
+
+            We ran $5 \cdot 10^4$ trials of the CIFAR-10 convnet on each of $6$
+            Glorot-Xavier initializations we fixed once and for all through
+            these experiments for the optimizers SGD, GD, and GDC, with $T=10$
+            and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We did
+            likewise for the linear logistic model on the one initialization of
+            $0$.
+
+            We ran $4 \cdot 10^4$ trials of the Fashion-MNIST convnet on each
+            of $6$ Glorot-Xavier initializations we fixed once and for all
+            through these experiments for the optimizers SGD, GD, and GDC with
+            $T=10$ and $\eta$ between $10^{-3}$ and $2.5 \cdot 10^{-2}$.  We
+            did likewise for the linear logistic model on the one
+            initialization of $0$. 
+
+    \subsection{Implementing optimizers}                            \label{appendix:optimizers}
+
+        We approximated SDE by refining time discretization by a factor of
+        $16$, scaling learning rate down by a factor of $16$, and introducing
+        additional noise in the shape of the covariance in proportion as
+        prescribed by the Wiener process scaling.
+
+        Our GDC regularizer was implemented using the unbiased estimator
+        $$
+            \hat{C} \triangleq (l_x - l_y)_\mu {l_x}_\nu / 2
+        $$
+        
+        For our tests of regularization based on Corollary \ref{cor:overfit},
+        we exploited the low-dimensional special structure of the artificial
+        landscape in order to avoid diagonalizing to perform the matrix
+        exponentiation: precisely, we used that, even on training landscapes,
+        the covariance of gradients would be degenerate in all but one
+        direction, and so we need only exponentiate a scalar.
+
+    \subsection{Software frameworks and hardware}                   \label{appendix:frameworks}
+
+        All code and data-wrangling scripts can be found on
+        {\color{mooteal}github.com/???????/perturb}.  This link will be made
+        available after the period of double-blind review.
+        %
+        Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
+        other substantive dependencies.  The code's randomness is parameterized
+        by random seeds and hence reproducible.
+        %
+        We ran experiments on a Lenovo laptop and on our institution's
+        clusters; we consumed about $100$ GPU-hours.
+
+    \subsection{Unbiased estimators of landscape statistics}        \label{appendix:bessel}
+        %
+        We use the following method --- familiar to some but apparently nowhere
+        described in writing --- for obtaining unbiased estimates for
+        various statistics of the loss landscape.  The method is merely an
+        elaboration of Bessel's factor \citep{ga23}.  For completeness, we
+        explain it here. 
+        
+        Given samples from a joint probability space $\prod_{0\leq d<D} X_d$,
+        we seek unbiased estimates of \emph{multipoint correlators} (i.e.\ products of
+        expectations of products) such as $\wang{x_0 x_1 x_2}\wang{x_3}$.  Here,
+        angle brackets denote expectations over the population. 
+        For
+        example, say $D=2$ and from $2S$ samples we'd like to estimate
+        $\wang{x_0 x_1}$.  Most simply, we could use $\Avg_{0\leq s<2S}
+        x_0^{(s)} x_1^{(s)}$, where $\Avg$ denotes averaging over the sample.  In fact, the
+        following also works:
+        %
+        \begin{equation} \label{eq:bessel}
+            S
+            \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+            \wrap{\Avg_{0\leq s< S} x_1^{(s)}}
+            +
+            (1-S)
+            \wrap{\Avg_{0\leq s< S} x_0^{(s)}}
+            \wrap{\Avg_{S\leq s<2S} x_1^{(s)}}
+        \end{equation}
+        %
+        When multiplication is expensive (e.g. when each $x_d^{(s)}$ is a
+        tensor and multiplication is tensor contraction), we prefer the latter,
+        since it uses $O(1)$ rather than $O(S)$ multiplications.  This in turn
+        allows more efficient use of batch computations on GPUs.  We now
+        generalize this estimator to higher-point correlators (and $D\cdot S$
+        samples).
+
+        For uniform notation, we assume without loss that each of the $D$
+        factors appears exactly once in the multipoint expression of interest;
+        such expressions then correspond to partitions on $D$ elements, which
+        we represent as maps $\mu:\wasq{D}\to \wasq{D}$ with $\mu(d)\leq d$ and
+        $\mu\circ \mu=\mu$.  Note that $\wabs{\mu} \coloneqq \wabs{im(\mu)}$
+        counts $\mu$'s parts.  We then define the statistic
+        %
+        $$
+            \wurl{x}_\mu
+            \triangleq
+            \prod_{0\leq d<D} \Avg_{0\leq s<S} x_d^{(\mu(d)\cdot S + s)}
+        $$
+        %
+        and the correlator $\wang{x}_\mu$ we define to be the expectation of 
+        $\wurl{x}_\mu$ when $S=1$.  In this notation, \ref{eq:bessel} says: 
+        $$
+            \wang{x}_{\partitionbox{0}\partitionbox{1}}
+            =
+            \expct{
+                S       \cdot \wurl{x}_{\partitionbox{0 1}} +
+                (1-S)   \cdot \wurl{x}_{\partitionbox{0}\partitionbox{1}}
+            }
+        $$
+        %
+        Here, the boxes indicate partitions of $\wasq{D}=\wasq{2}=\{0,1\}$.
+        Now, for general $\mu$, we have:
+        %
+        \begin{equation} \label{eq:newbessel}
+            \expct{S^D \wurl{x}_\mu}
+            =
+            \sum_{\tau\leq \mu} \wrap{
+                \prod_{0\leq d<D}
+                    \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+            }
+            \wang{x}_\tau
+        \end{equation}
+        %
+        where `$\tau \leq \mu$' ranges through partitions \emph{finer} than 
+        $\mu$, i.e. maps $\tau$ through which $\mu$ factors.   
+        In smaller steps, \ref{eq:newbessel} holds because
+        %
+        \begin{align*}
+            \expct{S^D \wurl{x}_\mu}
+            &=
+            \expct{
+                \sum_{(0\leq s_d<S) \in \wasq{S}^D}
+                \prod_{0\leq d<D}
+                x_d^{\wrap{\mu(d)\cdot S + s_d}}
+            }\\
+            &=
+            \sum_{\substack{(0\leq s_d<S) \\ \in \wasq{S}^D}}
+            \expct{
+                \prod_{0\leq d<D}
+                x_d^{\wrap{\min \wurl{
+                    \tilde{d}~:~\mu(\tilde{d})\cdot S+s_{\tilde{d}} = \mu(d)\cdot S+s_d
+                }}}
+            }\\
+            &=
+            \sum_{\tau} \wabs{\wurl{\substack{
+                (0\leq s_d<S)~\in~[S]^D~: \\
+                \wrap{\substack{
+                    \mu(d)=\mu(\tilde{d}) \\
+                    \wedge~s_d=s_{\tilde{d}}
+                }}
+                \Leftrightarrow
+                \tau(d)=\tau(\tilde{d})
+            }}}
+            \wang{x}_\tau \\
+            &=
+            \sum_{\tau\leq \mu} \wrap{
+                \prod_{0\leq d<D}
+                    \frac{S!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+            }
+            \wang{x}_\tau
+        \end{align*}
+
+        Solving \ref{eq:newbessel} for $\wang{x}_\mu$, we find:
+        %
+        \begin{equation*}
+            \text{\fbox{$
+            \wang{x}_\mu
+            =
+            \frac{S^D}{S^{\wabs{\mu}}}
+            \expct{
+                \wurl{x}_\mu
+            }
+            -
+            \sum_{\tau < \mu} \wrap{
+                \prod_{d\in im(\mu)}
+                \frac{\wrap{S-1}!}{\wrap{S-\wabs{\tau(\mu^{-1}(d))}}!}
+            }
+            \wang{x}_\tau
+            $}}
+        \end{equation*}
+        %
+        This expresses $\wang{x}_\mu$ in terms of the batch-friendly estimator
+        $\wurl{x}_\mu$ as well as correlators $\wang{x}_\tau$ for $\tau$
+        \emph{strictly} finer than $\mu$.  We may thus (use dynamic programming
+        to) obtain unbiased estimators $\wang{x}_\mu$ for all partitions $\mu$.
+        Symmetries of the joint distribution and of the multilinear
+        multiplication may further streamline estimation by turning a sum over
+        $\tau$ into a multiplication by a combinatorial factor.  For example,
+        in the case of complete symmetry:
+        %
+        $$
+            \wang{x}_{\partitionbox{012}}
+            =
+            S^2
+            \wurl{x}_{\partitionbox{012}}
+            -
+            \frac{(S-1)!}{(S-3)!}
+            \wurl{x}_{\partitionbox{0}\partitionbox{1}\partitionbox{2}}
+            -
+            3\frac{(S-1)!}{(S-2)!}
+            \wurl{x}_{\partitionbox{0}\partitionbox{12}}
+        $$
+
+    \subsection{Additional figures}                                 \label{appendix:figures}
+
+            \begin{figure}[h!] 
+                \centering
+                \pmoo{3.85cm}{neurips-test-small} \hfill \pmoo{3.85cm}{new-big-bm-new}          \hfill \pmoo{3.85cm}{multi-fashion-logistic-0}
+                \pmoo{3.85cm}{neurips-test-large} \hfill \pmoo{3.85cm}{neurips-gen-cifar-lenet} \hfill \pmoo{3.85cm}{neurips-tak}
+                \caption{
+                    {\bf Experiments on natural and artificial landscapes.}
+                    \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
+                    predictions, approximated as in Remark \ref{rmk:integrate}.
+                    %\texttt{uvalue} indicates polynomial approximations
+                    %to Theorem \ref{thm:resum}'s result (see
+                    %\S\ref{appendix:sum-embeddings}).
+                    \texttt{uvalue}s are
+                    simpler but (see\protect\ofsix{4})
+                    less accurate.
+                    %%%
+                    %%%
+                    \newline
+                    {\bf Left: Perturbation models SGD for small $\eta
+                    T$.} Fashion-MNIST convnet's testing loss vs learning rate.
+                    In this small $T$ setting, we choose to use our theory's
+                    simpler un-resummed values
+                    (\ref{appendix:evaluate-embeddings}) instead of the more
+                    precise $\rvalue$s.
+                    %
+                    \protect\ofsix{0}: For all initializations tested ($1$
+                    shown, $11$ unshown), the order $3$ prediction agrees with
+                    experiment through $\eta T \approx 10^0$, corresponding to
+                    a decrease in $0\mbox{-}1$ error of $\approx 10^{-3}$.
+                    %
+                    \protect\ofsix{1}: For large $\eta T$, our predictions
+                    break down.  Here, the order $3$ prediction holds until the
+                    $0\mbox{-}1$ error improves by $5\cdot 10^{-3}$.  Beyond
+                    this, $2$nd order agreement with experiment is
+                    coincidental.  
+                    %%%
+                    %%%
+                    \newline
+                    {\bf Center: $C$ controls generalization gap.}%.and distinguishes GD from SGD.}
+                    %
+                    With equal-scaled axes, \protect\ofsix{2} shows that GDC
+                    matches SGD (small vertical variance) better than GD
+                    matches SGD (large horizontal variance) in testing loss for
+                    a range of $\eta$ ($\approx 10^{-3}-10^{-1}$) and initializations
+                    (zero and several Xavier-Glorot trials) for logistic
+                    regression and convnets.  Here, $T=10$. 
+                    %
+                    \protect\ofsix{3}: CIFAR-10 generalization gaps.  For all
+                    initializations tested ($1$ shown, $11$ unshown), the degree-$2$
+                    prediction agrees with experiment through $\eta T \approx
+                    5\cdot 10^{-1}$.
+                    %%%
+                    %%%
+                    \newline
+                    {\bf Right: Predictions near minima excel for
+                    large $\eta T$.} \protect\ofsix{4}: 
+                    SGD with $2, 3, 5, 8$ epochs incurs greater test
+                    loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the
+                    predicted amounts (predictions shaded) for a range of learning
+                    rates.  Here, all SGD runs have $N=10$; we scale the learning
+                    rate for $E$-epoch SGD by $1/E$ to isolate the effect of
+                    inter-epoch correlations away from the effect of larger $\eta
+                    T$.
+                    %
+                    \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and
+                    a range of $H$s, initialized at the truth, the testing
+                    losses after fixed-$T$ GD are smallest for very sharp and
+                    very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
+                    \citep{di18}.
+                    %%%
+                    %%%
+                }
+                \label{fig:vanilla}
+            \end{figure}
+
+
+        In the rightmost figure, 
+        we add Corollary \ref{cor:overfit}'s
+            generalization gap estimate to $l$.  By descending on this
+            regularized loss, we may tune smooth hyperparameters such as $l_2$
+            regularization coefficients for small datasets ($H \ll C/N$)
+            (\S\ref{appendix:figures}).  Since matrix exponentiation takes time
+            cubic in dimension, this regularizer is most useful for small
+            models.
+
+
+        \begin{figure}[h] 
+            \centering
+            \centering
+            \pmoo{3.5cm}{multi-fashion-logistic-0}
+            \pmoo{3.5cm}{vs-sde}
+            \pmoo{3.5cm}{tak-reg}
+            \caption{
+                \textbf{Further experimental results}.
+                %
+                \textbf{Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test
+                loss than one-epoch SGD (difference shown in I bars) by the
+                predicted amounts (predictions shaded) for a range of learning
+                rates.  Here, all SGD runs have $N=10$; we scale the learning
+                rate for $E$-epoch SGD by $1/E$ to isolate the effect of
+                inter-epoch correlations away from the effect of larger $\eta
+                T$.
+                %
+                \textbf{Center}: SGD's difference from SDE after $\eta T
+                \approx 10^{-1}$ with maximal coarseness on \Gauss.  Two
+                effects not modeled by SDE --- time-discretization and
+                non-Gaussian noise oppose on this landscape but do not
+                completely cancel.  Our theory approximates the above curve
+                with a correct sign and order of magnitude; we expect that the
+                fourth order corrections would improve it further.
+                %
+                \textbf{Right}: Blue intervals show regularization using Corollary
+                \ref{cor:overfit}.  When the blue intervals fall below the
+                black bar, this proposed method outperforms plain GD.  For
+                \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized
+                a fixed distance \emph{away} from the true minimum, descent on
+                an $l_2$ penalty coefficient $\lambda$ improves on plain GD for
+                most Hessians.  The new method does not always outperform GD,
+                because $\lambda$ is not perfectly tuned according to STIC but
+                instead descended on for finite $\eta T$.
+            }
+            \label{fig:takreg}
+        \end{figure}
+
+

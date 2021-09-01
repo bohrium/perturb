@@ -1,0 +1,412 @@
+            We sketch a path toward
+            Corollary \ref{cor:entropic} while avoiding the generality 
+            and notation of 
+            \S\ref{sect:calculus}.\squash\squash 
+
+        \subsection{Notation and assumptions, I}\label{sect:setup}
+            %--  the landscape  -----------------------------------------------
+    
+            We formalize the loss --- suffered by a fixed architecture on a
+            random datapoint --- as a distribution $\Dd$ over functions from a
+            space $\Mm$ of weights.  The \emph{testing loss} $l:\Mm\to\RR$ is
+            $\Dd$'s mean.  We write $\theta\in\Mm$, $l_x\sim\Dd$ for generic
+            elements.
+            %
+            We consider training sequences $(l_n: 0\leq n<N) \sim \Dd^N$.  We
+            refer to $n$ and to $l_n$ as \emph{training points}.
+            %
+            Each initialization $\theta_0 \in \Mm$ then induces --- via SGD ---
+            a distribution over trajectories $(\theta_t: 0\leq t \leq T)$.
+            Specifically, SGD runs $T$ steps of $\eta$-steepest descent:
+                \squash
+            $$
+                \textstyle
+                \theta_{t+1}^\mu
+                \coloneqq
+                \theta_t^\mu -
+                \sum_{\nu}
+                \eta^{\mu\nu} \nabla_\nu l_{n_t}(\theta_t)
+                \squash
+            $$
+            where each sequence $(n_t: kN\leq t<kN+N)$ is a permutation of $(n:
+            0\leq n<N)$.  Here, Greek indices name components of
+            $\theta,\eta,\nabla$ with respect to a fixed basis.  We view $\eta$
+            as a bilinear form, not for generality but to constrain the natural
+            operations to those of geometric significance.
+            %
+
+            Throughout this paper we assume:
+            %
+            \textbf{Derivative Bounds}:
+            there compact sets $(K_k: k\geq 0)$ so that
+            $\nabla^n l_x(\theta)\in K_k$ for all $\theta,l_x$. 
+            Here $\nabla^k
+            l_x(\theta)$ is a $k$th derivative, a tensor with $k$ axes.
+            %
+            \textbf{Analytic Moments}:
+            any polynomial $p$ of the $l_x$ and its higher derivatives
+            induces a random variable so that
+            $\expct{p}:\Mm\to\RR$ (exists and) is analytic in $\theta$;
+            moreover, $\expct{p}$'s radii of convergence are strictly bounded from $0$,
+            even as $\theta$ varies.
+            %
+            Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
+
+            We quote a well-known prop
+            (\cite{ne04}, \S 2.1) to illustrate our notation:
+            \begin{prop}\label{prop:nest}
+                $G = \nabla l(\theta_0)$ controls the loss to leading order:
+                $
+                    \expc[l(\theta_T)-l(\theta_0)]^\mu =
+                    - 
+                    T \sum_{\mu\nu} G_\mu \eta^{\mu\nu} G_\nu
+                    + o(\eta^1)
+                $.
+            \end{prop}
+            A proof inducts on $T$.
+            For noiseless linear landscapes, (i.e., when $\nabla l_x(\theta)$
+            depends on neither $x$ nor $\theta$), this estimate is exact.
+            %
+            This paper identifies how noise and curvature correct Prop
+            \ref{prop:nest} by developing and using large-$T$ techniques less
+            opaque and more convergent than induction.
+            %
+
+        \subsection{Taylor series: method and challenges}\label{sect:challenges}
+            %\subsubsection{Proving Prop \ref{prop:nest}}
+            Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
+            up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+            \begin{proof} %(of Prop \ref{prop:nest}).
+                By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
+                We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
+                -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
+                %
+                The claim holds when $T=0$.  Say the claim holds for
+                ${\tilde T}$-step SGD with
+                $T = {\tilde T}+1$.  Then:\squash
+                \begin{align*}
+                    \wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu
+                    &= - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}}) \\
+                    &= - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+                             l_{n_{\tilde T}}(\theta_0)
+                             + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}
+                             + o(\theta_{{\tilde T}} - \theta_0)
+                         } \\ 
+                    &= - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+                                l_{n_{\tilde T}}(\theta_0)
+                                + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
+                            } \\
+                    &= \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{{\tilde T}}(\theta_0)$}} + o(\eta^1)
+                \end{align*}
+                Applying the induction hypothesis proves the claim.
+                %
+                We plug the claim into $l$'s Taylor series:
+                \begin{align*}
+                    \expc[l(\theta_T) - l(\theta_0)]
+                    &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0)]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
+                    &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
+                    &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
+                \end{align*}
+                Indeed, due to analytic moments, the above expectations of
+                $o(\eta^1)$ terms are still $o(\eta^1)$.
+            \end{proof}
+
+            \subsubsection{What happens when we keep higher order terms?}
+
+            \textsc{Multiple Moments} ---
+            We used above
+            that, to order $\eta^1$, $\expct{l(\theta_T)}$ depends on the
+            training data only through the first moment
+            \translucent{moopink}{$\expc[\theta_T - \theta_0]$}.\squish\squish\ But to compute  
+            $\expct{l(\theta_T)}$ to higher order, we'd also need
+            the $k$th moments $M_k^{\mu_0\mu_1\cdots} = \expc\wasq{\prod_i (\theta_T - \theta_0)^{\mu_i}}$.\squish\  We may achieve this by inductively
+            proving multiple \textbf{claim}s, one for each moment. 
+
+            \textsc{Tuples of Times} --- Complications arise even as we compute $M_1$\squish\ to order $\eta^2$.  We may not neglect the gradient
+            correction $\nabla (\text{\translucent{moosky}{$\nabla
+            l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} -
+            \theta_0)$}})$\squash\ at the $\tilde{T}$th induction step. As the
+            displacement $\theta_{{\tilde T}} - \theta_0$ contains (to order
+            $\eta^1$) $\tilde T$ terms, so will the correction.
+            %
+            Totalling the correction over time thus yields
+            $\sum_{0\leq \tilde T<T}\tilde T = {T \choose 2}$\squish\
+            summands, each (e.g.\ $\nabla\nabla l_{5} \nabla l_{2}$)
+            involving a \emph{pair} of times.  Order-$d$
+            corrections represent the joint influence of $d$-tuples of times.
+            %
+            Prop \ref{prop:nest}'s result $\sum_{\tilde T}
+            \wrap{\text{\translucent{moolime}{$- \eta \nabla l_{{\tilde
+            T}}(\theta_0)$}}}$\squish\squish\ is degree $1$ in $T$; but the
+            order-$d$ displacement is a degree $d$ polynomial --- very divergent --- in $T$.
+
+            \textsc{Factoring's Failure} --- To obtain \translucent{moogold}{$-TG\eta G$},\squish\ we multiplied
+            $l$'s derivatives by the expectations of such summands.
+            %
+            In contrast to Prop \ref{prop:nest}, these expectations, even those of a fixed
+            degree in $\eta$, now vary in form due to noise: some (e.g.\
+            $\nabla\nabla l_{5} \nabla l_{2}$) have statistically independent
+            factors that permit expectations to factor; others (e.g.\
+            $\nabla\nabla l_{5} \nabla l_{5}$) do not.  This is how $\nabla
+            l_x$'s higher cumulants (such as the covariance and skew of the gradient distribution) appear in our analysis.
+
+            \textsc{Diverse Derivatives} --- 
+            At order $\eta^3$, a hessian correction $\nabla((\theta_{{\tilde T}} -
+            \theta_0) \cdot \nabla \nabla l_{n_{\tilde T}}(\theta_0) \cdot
+            (\theta_{{\tilde T}} - \theta_0)/2)$ augments the gradient
+            correction.
+            %
+            Then $M_1$'s order-$\eta^3$ summands vary in form, even when all
+            expectations factor (as happens on noiseless landscapes).  For
+            instance, the hessian and gradient corrections respectively induce
+            order-$\eta^3$ summands of $\expct{l(\theta_T)}$ such as
+            \squash
+            $$
+                \textstyle
+                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+                    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+                    \,
+                    (\nabla_\mu l_x)
+                    \,
+                    (\nabla_\nu l_y)
+                    \,
+                    (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
+                    \,
+                    (\nabla_\xi l)
+                %
+                \hspace{0.75cm}
+                %
+                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+                    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+                    \,
+                    (\nabla_\mu l_x)
+                    \,
+                    (\nabla_\omicron\nabla_\nu l_y)
+                    \,
+                    (\nabla_\pi \nabla_\xi l_z)
+                    \,
+                    (\nabla_\rho l)
+                \squash
+            $$
+            And $M_2, M_3$'s terms are yet more diverse.  In short, a Taylor
+            expansion even to low degrees yields a combinatorial explosion of
+            terms.  Our paper develops tools to organize and interpret these
+            terms.
+
+            \subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
+
+            That development begins with the observation that each $\eta$
+            `connects' two $\nabla$ operators as indices prescribe.  So we
+            draw
+            $\eta$s as edges, $\nabla^k l$s as nodes, and each
+            summand of the form
+            \squash
+            $$
+                \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
+                \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
+                l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
+                l\,\,\,\,\,\,\,\,\text{(evaluated at $\theta=\theta_0$)}
+            \squash
+            $$
+            as an undirected graph with edges indexed by $j\in J$, nodes
+            indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
+            to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
+            $\{\mu_j,\nu_j\}$.  Per \textsc{factoring}, we also equip these
+            graphs with a partition of nodes to account for correlation
+            structure.
+            %
+            Such diagrams have advantages of compactness and of clarity as
+            decimal numerals have over unary numerals.  More importantly,
+            their topology has dynamical significance; diagrams thus permit a
+            physical interpretation of SGD.
+
+        \subsection{An entropic force with curl}\label{sect:entropic-curl}
+            The displacement $M_1=\expc[\theta_T - \theta_0]$ contains many
+            order-$\eta^3$ summands, including those of the form\squash
+            $$
+                \textstyle
+                \Delta^\xi_{xyz} \propto 
+                -
+                \sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}
+                    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+                    \,
+                \expct{
+                    (\nabla_\mu l_x)
+                    \,
+                    (\nabla_\nu l_y)
+                    \,
+                    (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
+                }
+                \squash
+            $$
+            where $0\leq x,y,z<N$ label datapoints.
+            Let $\Delta_\circ = \expc[\Delta_{xxz}-\Delta_{xyz}]$ for $x,y,z$
+            distinct.\squash\  $l_x, l_y, l_z$ are i.i.d., so:
+            $ 
+                \Delta_\circ^\xi \propto 
+                -
+                \sum_{\cdots}
+                \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+                C_{\mu\nu} J_{\omicron\pi\rho}
+            $
+            or, schematically, 
+                $\boxed{\Delta_\circ^\xi
+                \propto -\eta^3 C\nabla H}$.\squish\ 
+            Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
+            $H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
+            $J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$
+            is $l$'s `jerk'.\footnote{
+                `\textbf{J}erk' is a standard term for third derivatives in dynamical systems:
+                \href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041 (2009)}, \S1.
+            }
+
+            \begin{wrapfigure}{r}{0.3\textwidth}
+                \centering
+                \crunch\squash
+                \plotmoow{colt/cubic}{0.3\textwidth}{}
+                \caption{%
+                    {Gradient noise pushes SGD toward minima flat w.r.t.\ $C$.}%$\mathbf{C}$.}
+                        \small
+                        A 2D loss near
+                        a valley of minima.  Red densities show typical
+                        $\theta$s, perturbed by noise ($C$),
+                        in two cross sections of the valley.  The hessian
+                        changes across the valley: $J \neq 0$.  
+                }
+                \label{fig:cubic}
+                \crunch
+            \end{wrapfigure}
+            The expression $-\eta^3 C\nabla H$ suggests that SGD moves
+            toward flat minima (see  Figure \ref{fig:cubic}).
+            %
+            The bilinear form
+            $F^{\mu\nu}=\textstyle\sum_{\xi\omicron}\eta^{\mu\xi}
+            \eta^{\nu\omicron} C_{\xi\omicron}$ determines which $H$s
+            are `large' or `small'.  E.g.: if $F$
+            degenerates along a covector $v$, then $H$'s 
+            $v$-component does not affect $\Delta_\circ$.
+            %\footnote{
+            %    Explicitly: if
+            %        $\sum_{\mu\nu} v_\mu F^{\mu\nu} v_\nu = 0$,
+            %    then replacing $H$ by $\tilde H_{\mu\nu} = H_{\mu\nu} + 42 v_\mu v_\nu$ 
+            %    will not change $\Delta_\circ$.
+            %}
+            %
+            Diagram techniques establish\squash\
+            this `entropic force'\footnote{
+                Thermal systems tend toward disorder as if pushed by an
+                `entropic force'.
+                So arises the tension of rubber
+                bands: their polymers can wreathe in
+                many ways; can be straight in only one.
+                Such `forces' characteristically depend linearly on the
+                temperature (i.e., noise scale).  As the Corollary
+                scales with $C$, we regard it as describing an entropic force.
+            }\footnote{
+                Our result ($T\gg 1$) is $\Theta(\eta^2)$; \cite{ya19b}'s
+                ($T=2$) is $\Theta(\eta^3)$.  We
+                integrate noise over time, amplifying $C$'s
+                effect. 
+            }
+            as dominant when $G=0$, $N=T$.  
+            Evaluating a single diagram
+            ($
+                \sdia{c(01-2-3)(02-12-23)}
+            $) yields:\squash\squash
+            %
+            \begin{cor}\label{cor:entropic}%[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
+                Start SGD at a minimum of $l$ with $H>0$, $N=T$ and use
+                an eigenbasis of $K=\eta H$.  
+                For any $T$, the final displacement is
+                \squish\squish
+                $$
+                    M_1^\xi =
+                    -
+                    {\textstyle\sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}}
+                        C_{\mu\omicron}
+                        {\color{gray}{\mathcal P}_T(K_{\mu\mu} + K_{\omicron\omicron})}
+                        \eta^{\mu\nu}\eta^{\omicron\pi}
+                        J_{\nu\pi\xi}
+                        {\color{gray}{\mathcal P}_T(K_{\xi\xi})}\eta^{\xi\rho}/2
+                    + o(\eta^3)
+                    \squish\squish
+                $$
+                with ${\mathcal P}_T(s) = (1 - \exp(-Ts))/s$.
+            \end{cor}\squash\squash
+
+            Consider a 1D valley of near-minima wherein $\eta H$ has spectrum
+            $\lambda_0 \ll 1/T \ll \lambda_1 \leq \cdots$ for eigenvectors
+            $v_i$.  Let's ignore diffusion along the valley: $(\eta C) v_0 =
+            0$.
+            %
+            Then ${\mathcal P}_T(\lambda_0)\approx T$ and every
+            $C_{ij}{\mathcal P}_T(\lambda_i+\lambda_j)$ is $O(T^0)$.  So $M_1$
+            scales linearly with $T$.  We thus expect SGD to move with
+            velocity $-f(\eta,H,T)\cdot C\nabla H/2$ toward flat minima.  
+            Observe that $\nabla ({\frak G}_C \star l) = \nabla l+C\nabla
+            H/2 + o(C)$, where ${\frak G}_C \star$ denotes convolution with a
+            \emph{fixed} centered $C$-shaped Gaussian; we conclude with the
+            intuition that \emph{SGD descends on a $C$-smoothed landscape that
+            changes as $C$ does}.  Since the smoothed $l$ may itself evolve,
+            SGD might eternally circulate.
+      
+        %\subsection{Curl in the entropic force}
+            \begin{figure}[h!]
+                \centering
+                \rotatebox[origin=c]{-90}{\plotmoow{plots/from-above}{0.19\textwidth}{}}
+                \plotmooh{colt/screw-trajectory-cropped}{}{0.19\textwidth} 
+                \plotmooh{plots/neurips-thermo-linear-screw}{}{0.19\textwidth}
+                \squash
+                \caption{%
+                    \textbf{Leftmost}: \Helix\ is defined on a 3D $\Mm$ that
+                    extends into and out of the page.  A helical
+                    level surface $S$ (orange-green) of $l$ winds around 
+                    a 1D valley of minima orthogonal to the
+                    page.  $l$ $\gg$ $1$ outside $S$.  Gradient noise
+                    is parallel to the page and to the line between outer tubes.
+                    %
+                    Thanks to
+                    \href{https://www.monroecc.edu/faculty/paulseeburger/calcnsf/CalcPlot3D/}{CalcPlot3D}.
+                    %
+                    \textbf{Center}: SGD moves
+                    into the page.  In green: SGD's trajectory over 
+                    cross sections of $\Mm$ that descend progressively
+                    into the page.  In blue: $l$'s contours; $l$'s valley
+                    intersects each pane's center.  Dotted
+                    curves help compare adjacent panes.  Red bi-arrows: $C$'s
+                    major axis.
+                    %
+                    Gradient noise kicks $\theta$ from A; $\theta$ then falls
+                    (\hspace{-0.08cm}\protect\offour{1}) to B in \protect\offour{2}.  At C,
+                    noise kicks $\theta$ uphill (\hspace{-0.08cm}\protect\offour{3}); $\theta$
+                    thus never settles and the phenomena depicted here continue
+                    forever.
+                    {\bf Right}: Predictions near minima excel for
+                    large $\eta T$.
+                }
+                \squash\squash
+                \label{fig:archimedes}
+            \end{figure}
+
+            To test Corollary \ref{cor:entropic}'s $C$-dependence,
+            \S\ref{appendix:artificial} constructs a landscape, \Helix, on
+            whose valley of global minima $C$ varies (Figure
+            \ref{fig:archimedes}).  As in Rock-Paper-Scissors, each point
+            $\theta$ has a neighbor that is more attractive (flatter) with
+            respect to $C(\theta)$.  This permits eternal motion into the page
+            despite the landscape's discrete translation symmetry in that
+            direction.  Corollary \ref{cor:entropic} predicts a velocity of
+            $+\eta^2/6$ per timestep, while \cite{ch18}'s SDE-based analysis
+            predicts a constant velocity of $0$.\footnote{
+                Indeed, \Helix' velocity is $\eta$-perpendicular to the image
+                of $(\eta C)^\mu_\nu$ in tangent space.
+            }
+            One may add a small linear term to \Helix\ to make SGD eternally
+            ascend; one may wrap \Helix\ in a loop to make SGD circulate,
+            witnessing a velocity field with curl (\S\ref{appendix:artificial});
+            this is
+            possible because $C\nabla H$, unlike $\nabla(CH)$, is not a total
+            derivative. 
+            In avoiding \cite{we19b}'s constant-$C$ assumption, we 
+            find that SGD's velocity field can has curl. 
+      

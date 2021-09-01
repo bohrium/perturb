@@ -1,0 +1,320 @@
+
+        %\begin{samepage}
+        By Cor.s \ref{cor:batch} and \ref{cor:epochs}, gradient noise repels SGD.
+        By Cor.\ \ref{cor:vsode}, SGD senses changes in $H$ more than
+            SDE; in fact, (Cor.\ \ref{cor:entropic}) SGD seeks small-$H$
+            weights.
+        Cor.\ \ref{cor:overfit} relates
+            $C$ and $H$ to overfitting.  These
+            results do not exhaust our theory's scope;
+            \S\ref{appendix:future} sketches 
+            extensions to Hessian methods and natural GD.
+
+        \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
+        %\end{samepage}
+            \begin{wrapfigure}{r}{3.3cm}
+                \vspace{-0.60cm}
+                \plotmooh{colt/chladni-drift}{}{3.2cm}
+                \vspace{-0.20cm}
+                \caption{
+                    Chladni drift on $\Mm=\RR^2$.  Red bi-arrows depict
+                    $C(\theta)$'s major axis.  SGD updates (green) tend toward
+                    small $C$.
+                }
+                \vspace{-1.00cm}
+            \end{wrapfigure}
+            Physical intuition suggests that noise repels SGD: if two
+            neighboring regions of weight space have high and low levels of
+            gradient noise, respectively, then
+            %we expect
+            the rate at which
+            $\theta$ jumps from the former to the latter
+            exceeds%to exceed
+            the opposite rate.
+            %
+            There is thus a net movement toward regions of small $C$.\footnote{
+                This is the same mechanism by which sand on a vibrating
+                plate accumulates in quiet regions \citep{ch87}.  We thus dub
+                the SGD phenomenon the
+                \href{http://dataphys.org/list/chladni-plates/}{Chladni
+                drift}.
+            }
+            %
+            Our theory makes this precise; $\theta$ drifts in the direction
+            $-\nabla C$, and the effect is weaker when gradient noise is
+            averaged out by large batch sizes:
+            \begin{cor}[Computed from $\sdia{c(01-2)(01-12)}$] \label{cor:batch}
+                SGD with $E=B=1$ avoids high-$C$ regions more than GD:
+                $
+                    \expct{\theta_{GD} - \theta_{SGD}}^\rho
+                        =
+                    T \cdot \frac{N-1}{4 N}
+                    \sum_{\mu\nu\xi} \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi} + o(\eta^2)
+                $.
+            \end{cor}
+            \noindent
+            \cite{ro19} obtained a version of this Corollary with a nearly
+            equal error of $O(\eta^2/N)\vee o(\eta^2)$.  The Corollary's proof
+            implies that if $\hat{l_c}$ is a
+            smooth unbiased estimator of $\frac{N-1}{4 N}
+            C^{\nu}_{\nu}$, then GD on $l + \hat{l_c}$ has an expected testing
+            loss that agrees with SGD's to order $\eta^2$.  We call this method
+            \textbf{GDC}.
+
+            An analogous form of averaging occurs over multiple epochs.  For a
+            tight comparison, we scale the learning rates appropriately so
+            that, to leading order, few-epoch and many-epoch SGD agree.  Then
+            few-epoch and many-epoch SGD differ, to leading order, in their
+            sensitivity to $\nabla C$:
+            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
+                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
+                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
+                $
+                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
+                        =
+                    \wrap{\frac{E_0-1}{4 E_0}} N
+                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
+                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
+                    + o(\eta^2)
+                $.
+            \end{cor}
+
+            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
+            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
+            and resolve some questions posed therein.    
+
+ 
+        \subsection{Time discretization penalizes sloped regions}
+            The following corollary recovers \cite{ba21}'s main dynamical
+            result: 
+            \begin{cor}[$\sdia{c(0-1-2)(01-12)}$] \label{cor:epochs}
+                On a noiseless landscape, SGD prefers small-$G^2$ regions
+                more than ODE: 
+                $
+                    \expct{\theta_{\text{SGD}} - \theta_{\text{ODE}}}^\rho
+                        =
+                    -\frac{T}{4}
+                    \sum_{\mu\nu} \eta^{\xi\rho} \eta^{\mu\nu} \nabla_\xi(G_\mu G_\nu)
+                    + o(\eta^2) + o(1/k) 
+                $.
+            \end{cor}
+            Due to time discretization, in the presence of curvature SGD's
+            response to gradient noise `overshoots' more than SDE.  The
+            following corollary makes this precise and separates SDE from SGD,
+            even on landscapes obeying SDE's assumption of gaussian noise:
+            \begin{cor}[$\sdia{c(01-2)(02-12)}$] \label{cor:vsode}
+                The covariance of gradient noise contributes  
+                $
+                    \frac{T}{2} \sum_{\mu\nu\xi\omicron} C_{\mu\nu} \eta^{\mu\xi}\eta^{\nu\omicron}
+                    H_{\xi\omicron} + o(\eta^2) + o(1/k) 
+                $  
+                to $E=B=1$ SGD's final testing loss excess over SDE's.
+            \end{cor}
+
+        \subsection{SDE and SGD respond differently to changes in curvature}
+            SDE differs from SGD in ways beyond time-discretization effects.
+            For instance, the inter-epoch noise correlations in multi-epoch SGD
+            measurably affect SGD's final testing loss (Corollary
+            \ref{cor:epochs}), but SDE assumes uncorrelated gradient updates.
+            Even if we restrict to single-epoch SGD, 
+            non-Gaussian noise lead SGD and SDE to respond differently to
+            changes in curvature: 
+            %
+            \begin{cor}[$\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
+                For $E=B=1$ SGD, the skewness of gradient noise contributes  
+                \crunch
+                \begin{align*}
+                    -\frac{\eta^3}{3!}
+                    \sum_{\mu\nu\lambda}
+                        S_{\mu\nu\lambda}
+                        \frac{
+                            1 - \exp(-T\eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda}))
+                        }{
+                            \eta (H_{\mu\mu} + H_{\nu\nu} + H_{\lambda\lambda})
+                        }
+                        J_{\mu\nu\lambda}
+                        + o(\eta^3)
+                        + o(1/k)
+                        \squash
+                \end{align*}
+                (in an
+                eigenbasis of $\eta H$)
+                to the excess final testing loss over SDE.
+            \end{cor}
+
+
+       
+        \subsection{SGD descends on a landscape smoothed by the current $C$ {\rm --- See \S\ref{sect:entropic-curl}.}}
+        \subsection{Both flat and sharp minima overfit less}
+            \label{subsect:curvature-and-overfitting}%
+
+            \begin{wrapfigure}{r}{0.3\textwidth}
+                \centering
+                \crunch\squash
+                \plotmoow{colt/spring}{0.3\textwidth}{}
+                \caption{%
+                    Both curvature and noise affect overfitting.
+                    %\small
+                    In each pane, the  $\leftrightarrow$
+                    axis represents weight space and the $\updownarrow$
+                    axis represents loss.  Noise (blue) transforms
+                    the testing loss (thin curve) into the observed loss
+                    (thick curve).  Red dots mark the testing loss at the
+                    arg-min of the observed loss.  \protect\offive{1}:
+                    \emph{covector}-perturbed landscapes favor large $H$s.
+                    \protect\offive{2}: \emph{vector}-perturbed landscapes
+                    favor small $H$s.  %SGD's implicit regularization
+                    %interpolates between these rows %(Corollary
+                    %\ref{cor:overfit}).
+                }
+                \label{fig:spring}
+            \end{wrapfigure}
+            Intuitively, sharp minima are robust to slight changes in the
+            average \emph{gradient} and flat minima are robust to slight
+            \emph{displacements} in weight space (Figure
+            \ref{fig:spring}\protect\offive{12}).  However, as SGD by
+            definition equates displacements with gradients, it may be unclear
+            how to reason about overfitting in the presence of curvature.
+            %
+            Our theory accounts for the implicit
+            regularization of fixed-$T$ descent and shows that both effects play
+            a role.  In fact, by routine calculus on 
+            Corollary \ref{cor:overfit}, overfitting is maximized for medium
+            minima with curvature $H \sim (\eta T)^{-1}$.
+            %
+            \begin{cor}[from $\sdia{c(01-2)(02-12)}$, $\sdia{c(01)(01)}$]\label{cor:overfit}
+                Initialize GD at a non-degenerate test minimum $\theta_\star$.
+                The overfitting (testing loss minus $l(\theta_\star)$) and generalization
+                gap (testing minus training loss) due to training are:
+                $$
+                    \sum_{\mu\nu\rho\lambda}
+                    \wrap{C/(2NH)}_{\mu\nu}^{\rho\lambda} ~
+                        \wrap{(I - \exp(-\eta T H))^{\otimes 2}}^{\mu\nu}_{\rho\lambda}
+                        + o(\eta^2)
+                $$
+                and
+                $$
+                    \sum_{\mu\nu\rho\lambda}
+                    \wrap{C/(2NH)}_{\mu\nu}^{\mu\lambda} ~
+                        \wrap{I - \exp(-\eta T H)}^{\nu}_{\lambda}
+                        + o(\eta)
+                $$
+            \end{cor}
+            The generalization gap tends  
+            to $C_{\mu\nu}(H^{-1})^{\mu\nu}/N$ as $T\to\infty$.  For maximum
+            likelihood (ML) estimation in well-specified models near the ``true''
+            minimum, $C=H$ is the Fisher metric, so we recover the AIC:
+            $(\textnormal{model dimension})/N$.  Unlike AIC, our more general
+            expression is descendably smooth, may be used with MAP or ELBO tasks
+            instead of just ML, and does not assume a well-specified model.
+
+            \newpage
+    \subsection{Experiments}
+        Our theory does not control our Taylor series' rates of convergence. 
+        %
+        We thus test our theory by experiment.  We perceive support for our
+        theory in drastic rejections of the null hypothesis.  For instance, in
+        Figure \ref{fig:archimedes}, \cite{ch18} predict a velocity of
+        $0$ while we predict a velocity of $\eta^2/6$.  Likewise, published
+        intuitions (\S\ref{sect:related}) suggest that Figure
+        \ref{fig:experiments}\offourseq{3} overfitting (test loss minus test
+        minimum) is monotonic in a landscape's hessian, whereas we do not.
+        %
+        Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark
+        $95\%$ confidence intervals based on the standard error of the mean.
+        \S\ref{appendix:experiments} describes neural architectures, artificial
+        landscapes, sample sizes, and further plots.
+
+        \begin{figure}[h!]
+            \centering  
+            \plotmoow{plots/neurips-test-small}{0.24\textwidth}{}
+            \plotmoow{plots/neurips-test-large}{0.24\textwidth}{}
+            \plotmoow{plots/neurips-gen-cifar-lenet}{0.24\textwidth}{}
+            \plotmoow{plots/neurips-tak}{0.24\textwidth}{}
+            %\plotmoow{plots/new-big-bm-new}{0.24\textwidth}{}
+            %\plotmoow{plots/multi-fashion-logistic-0}{0.24\textwidth}{}
+            %\plotmoow{plots/vs-sde}{0.24\textwidth}{}
+            %\plotmoow{plots/tak-reg}{0.24\textwidth}{}
+            \caption{
+                %{\bf Experiments on natural and artificial landscapes.}
+                %
+                %In this small $T$ setting, we choose to use our theory's
+                %simpler un-resummed values
+                %(\ref{appendix:evaluate-embeddings}) instead of the more
+                %precise $\rvalue$s.
+                %
+                \protect\offourseq{0}: 
+                Fashion-MNIST convnet's testing loss vs learning rate.
+                For all initializations tested ($1$
+                shown, $11$ unshown), the order $3$ prediction agrees with
+                experiment through $\eta T \approx 10^0$, corresponding to
+                a decrease in $0\mbox{-}1$ error of $\approx 10^{-3}$.
+                %
+                \protect\offourseq{1}:
+                Fashion-MNIST convnet's testing loss.
+                For large $\eta T$, our predictions
+                break down.  Here, the order $3$ prediction holds until the
+                $0\mbox{-}1$ error improves by $5\cdot 10^{-3}$.  Beyond
+                this, $2$nd order agreement with experiment is
+                coincidental.  
+                %
+                \protect\offourseq{2}: CIFAR-10 convnet generalization gaps.  For all
+                initializations tested ($1$ shown, $11$ unshown), the degree-$2$
+                prediction agrees with experiment through $\eta T \approx
+                5\cdot 10^{-1}$.
+                %
+                \protect\offourseq{3}: For \MeanEstimation\, with fixed $C$ and
+                a range of $H$s, initialized at the truth, the testing
+                losses after fixed-$T$ GD are smallest for very sharp and
+                very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
+                \citep{di18}.
+            }
+            \label{fig:experiments}
+        \end{figure}
+        %\subsection{Training time, epochs, and batch size; $C$ repels SGD more
+        %than GD}
+            %-----  vanilla sgd  ---------------------------------------------- 
+            %We test Theorem \ref{thm:resum}'s third-order truncation on
+            %smooth convnets for CIFAR-10 and Fashion-MNIST.  Theory agrees with
+            %experiment through timescales long enough for accuracy to increase
+            %by $0.5\%$ (Figure \ref{fig:vanilla}\ofsix{0},\ofsix{1}).
+            %-----  epochs and overfitting  -----------------------------------
+            %\S\ref{appendix:figures} supports Corollary \ref{cor:epochs}'s
+            %predictions about epoch number.
+            %-----  emulating small batches with large ones  ------------------
+            %Figure \ref{fig:vanilla}\offourseq{2} tests Corollary
+            %\ref{cor:batch}'s claim that, relative to GD, high-$C$ regions
+            %\emph{repel} SGD.  This is significant because $C$ controls the
+            %rate at which the generalization gap (testing minus training loss)
+            %grows (Corollary \ref{cor:overfit}, Figure
+            %\ref{fig:vanilla}\ofsix{3}).
+            %%%%\pmoo{3.5cm}{multi-fashion-logistic-0}
+            %%%%\pmoo{3.5cm}{vs-sde}
+            %%%%\pmoo{3.5cm}{tak-reg}
+            %%%%\caption{
+            %%%%    \textbf{Further experimental results}.
+            %%%%    %
+
+        %----------------------------------------------------------------------
+        %           Thermodynamic Engine                        
+        %----------------------------------------------------------------------
+            %\newpage
+        %----------------------------------------------------------------------
+        %           Sharp vs Flat Minima                        
+        %----------------------------------------------------------------------
+        %\subsection{Sharp and flat minima both overfit less than medium minima} \label{subsect:overfit}
+    
+            %Prior work (\S\ref{sect:related}) finds both that SGD leads to
+            %overfits less near \emph{sharp} minima (for, $l^2$ regularization
+            %sharpens minima) or that SGD overfits less near \emph{flat} minima
+            %(for, flat minima are robust to small displacements).  In fact,
+            %both phenomena occur, and noise structure determines which
+            %dominates (Corollary \ref{cor:overfit}).  This effect appears even
+            %in \MeanEstimation\, (\S\ref{appendix:artificial}): Figure
+            %\ref{fig:vanilla}\ofsix{5}.
+            %
+            %\S\ref{appendix:figures} also presents preliminary results
+            %suggesting that Corollary \ref{cor:overfit}'s generalization gap
+            %estimate may serve as a regularizer term enabling descent-based
+            %tuning of hyperparameters such as a model's $l_2$ coefficients.
+     

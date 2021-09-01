@@ -1,0 +1,476 @@
+
+        The linear algebra of tensors plays a role in our analysis similar to
+        the role of types in C.  One eschew types entirely, but to
+        do so would hinder interpretation of the raw bitstrings we manipulate
+        and would obscure which operations (e.g.\ dereferencing of a pointer)
+        are natural and which are not (e.g.\ dereferencing of a float). 
+        %
+        The language of tensors supplies our analysis with
+        abstractions and operations appropriate to derivatives and
+        moments in high dimensional loss landscapes.
+
+        For example, we recognize $C^{-1} + H$ as ill-formed, even
+        though both $C^{-1}$ and $H$ are square grids of
+        numbers of the same shape.  This is because $C^{-1}$ and $H$ are
+        tensors of types $^2_0$ and $^0_2$, respectively.
+
+        So here's a brief refresher for tensors.  
+        %
+        We recommend these sources for more details:
+        \cite{si17} \S1 for motivational background;
+        \cite{mi73} \S2.5 for helpful pictures;
+        \cite{co14} \S2 for examples of how new tensors arise from old;
+        \cite{ko93} \S7 and \S14 for precise formalism; and
+        \cite{cu87} \S1.4 for statistics-relevant examples.\footnote{
+            Some of these sources contrast the physicists' and statisticians'
+            uses of tensors and of linear algebra overall.
+            %
+            Physicists often use vector spaces whose elements represent changes
+            through physical space and time; statisticians often use vector
+            spaces whose elements represent mixtures of experimental subjects.
+            %
+            Our paper doesn't commit to or rely on any domain interpretation
+            of our loss landscape and its associated vector spaces, so to us
+            these distinctions are irrelevant. 
+        }\footnote{
+            Some of these sources refer to
+            \emph{symmetric tensors} and \emph{antisymmetric tensors} (a.k.a.\
+            \emph{alternating forms}).  Our paper does not use these concepts,
+            so we invite the reader to black-box adjectives such as
+            `symmetric' when consulting those sources.  A symmetric tensor
+            (etc) is just a special case of tensors as we define in this
+            appendix.
+        }
+        \subsection{Vectors versus covectors}
+            
+            Imagine an air-conditioned hallway's temperature gradient
+            ($0.1^\circ \text{K}/\text{meter}$) and length
+            ($20\,\text{meters}$).  When we switch units from m to cm, the
+            temperature gradient numerically \emph{decreases} (to $0.001$) but
+            the length numerically \emph{increases} (to $2000$).  So
+            temperature gradients and spatial displacements are instances of
+            distinct geometric types.  A displacement inhabits a vector
+            space $V$ of primary interest; a gradient inhabits $V$'s \emph{dual
+            space} $V^\star$, defined as the set of linear maps from $V$ to
+            $\RR$.  When $V$ is clear from context (e.g.\ throughout our paper
+            $V$ consists of tangent vectors on $\Mm$), we call elements of $V$
+            \emph{vectors} and elements of $V^\star$ \emph{covectors}.\footnote{
+                This duality is most apparent when we
+                recall that elements in $V$ correspond bijectively with 
+                linear maps from $\RR$ to $V$.  Then a
+                \emph{vector} (a.k.a.\ \emph{column} a.k.a.\
+                \emph{displacement} a.k.a.\ \emph{primal} vector) is a linear
+                map of type $\RR\to V$ and a \emph{covector} (a.k.a.\
+                \emph{row} a.k.a.\ \emph{gradient} a.k.a.\ \emph{dual} vector)
+                is a linear map of type $V\to \RR$.
+            }\footnote{
+                Here's why the word \emph{dual} is apt.
+                We may map $V \to (V^\star)^\star$ by evaluation: $v
+                \mapsto (f \mapsto f(v))$.  In finite dimensions, each 
+                $\omega\in (V^\star)^\star$ arises this way.  So we
+                identify $(V^\star)^\star = V$.  So a space's double dual is
+                the space itself.
+            }
+
+            %Fix a (real) vector space $V$ of (finite) dimension $p$.
+
+            Imagine a smooth real-valued function $f:V\to \RR$.  Then 
+            we can specify the first derivative $\nabla f(x)$ (say at $x=0$) 
+            by specifying $f$'s $p$ many partials with respect to a basis of
+            $V$.
+            %
+            Imagine a (say, compactly supported) probability measure $\mu$ on
+            $V$.  We can specify the first moment $\expc_\mu[v]$ of $\mu$ 
+            by specifying $\expc_\mu[v]$'s $p$ many projections with respect
+            to a basis of $V$.
+
+            So both $\nabla f(0)$ and $\expc_\mu[v]$ are objects of dimension
+            $p$.  But $\expc_\mu[v] \in V$ is a vector while $\nabla f(0) \in
+            V^\star$ is a covector: the two differ in their geometric
+            properties.
+            %
+            There is a canonical way to push $\mu$ forward along a
+            linear map $\phi:V\to W$ and thereby to send $\expc_\mu[v]$ to
+            $\expc_\mu[\phi(v)]$.  And there is a canonical way to pull $f$ back
+            along a linear map $\psi:U\to V$ and thereby to send $\nabla f(0)$
+            to $\nabla (f\circ \psi)(0)$.  But there is no natural non-zero way
+            to pull $\mu, \expc_\mu[v]$ backward or to push $f, \nabla f(0)$
+            forward (try it!).
+
+        \subsection{What is a tensor?}
+            We've seen that the first derivative $\nabla f$ of a smooth function
+            $f:V\to \RR$ (evaluated, say, at $x\in V$) inhabits $V^\star$, not
+            $V$.  How about higher derivatives?  To answer this question, we
+            introduce \textbf{tensor}s: multi-axis grids of numbers viewed
+            as linear algebraic objects.
+
+            Take the third derivative $\nabla\nabla\nabla f$ evaluated at
+            $x\in V$.  We can describe $\nabla\nabla\nabla f(x)$ completely by
+            specifying the $p^3$ many partial derivatives with respect to a
+            basis
+            $\mathcal{E} = (e^i: 0\leq i<p)$ of $V$:
+            $$ 
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+                \triangleq 
+                \left.
+                \frac{\partial}{\partial t}
+                \frac{\partial}{\partial t^{\prime}}
+                \frac{\partial}{\partial t^{\prime\prime}}
+                f(x + t                \cdot e^i
+                    + t^{\prime}       \cdot e^j
+                    + t^{\prime\prime} \cdot e^k)
+                \right|_{t=t^\prime=t^{\prime\prime}=0}
+                \hspace{1.0cm}
+                \text{for $i,j,k\in \{i: 0\leq i<p\}^3$}
+            $$
+            The $p^3$ many components
+            $
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+            $
+            enjoy key algebraic properties such as symmetry:
+            $$
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+                =
+                \left[D_{j,i,k}^{\mathcal{E}} f\right](x)
+                =
+                \left[D_{i,k,j}^{\mathcal{E}} f\right](x)
+            $$
+            and linearity (which we see from the chain rule for derivatives):
+            $$
+                \left[D_{\hat i,\hat j,\hat k}^{\mathcal{F}} f\right](x)
+                =
+                \sum_{\hat i} 
+                \sum_{\hat j}
+                \sum_{\hat k}
+                C_{\hat i}^i
+                C_{\hat j}^j
+                C_{\hat k}^k
+                \left[D_{i,j,k}^{\mathcal{E}} f\right](x)
+            $$
+            Here, $\mathcal{F}$ is a basis expressible in terms of
+            $\mathcal{E}$ via $f^i = \sum_{\hat i} C^i_{\hat i} e^{\hat i}$.
+
+            %Such linearity rules find application, for instance, when we
+            %pre-condition a linear system for better convergence. 
+            %
+            %More importantly,
+            By showing how $\nabla\nabla\nabla f$'s components change
+            coherently as we change basis, the linearity rule helps us
+            interpret $\nabla\nabla\nabla f$ as a geometric object with
+            magnitude and directional information rather than as a mere grid of
+            numbers.
+
+            We capture the essence of such linearity rules of by defining what
+            it means for a vector space $P$ to be a tensor product of given
+            vector spaces $V, W$; a `tensor' is then just an element of $P$.
+            %
+            The \textsc{defining quality} of $P$ is that \textbf{a linear map
+            from $P$ to $X$ is `as good as' a bilinear map from $V, W$ to $X$,
+            for any vector space $X$}.\footnote{
+                Precisely, a tensor product of $V, W$ is a vector space $P$
+                equipped with a natural family of vector-space isomorphisms $$
+                \iota_X: \text{Bilin}(V,W;X) \xrightarrow{\sim} \text{Lin}(P;X)
+                $$ from the vector space of bilinear maps to the vector space
+                of linear maps.
+                %
+                The word `natural' just means that for any linear map $\phi:
+                X\to Y$ and any $b \in \text{Bilin}(V,W;X)$: $$ \phi \circ
+                \iota_X(b) = \iota_Y(\phi \circ b) $$ Naturality captures the
+                intuition that $\iota$ just `re-packages' data without
+                `altering' its content.
+                %
+                For instance, if $\kappa:X\to X$ is a non-trivial isomorphism,
+                then defining $\iota^\prime_X(b) = \kappa \circ \iota_X(b)$ and
+                $\iota^\prime_Z = \iota_Z$ for all $Z\neq X$ would turn a
+                natural family $\iota$ of isomorphisms into a non-natural
+                family $\iota^\prime$ of isomorphisms.
+            }
+            %
+            We write $V\otimes W$ for the two-axis tensor $P$.  More
+            generally, we write $U\otimes V\otimes \cdots \otimes W$ for 
+            an $m$-axis tensor $P$, the maps from which correspond to
+            the $m$-linear maps from $U,V,\cdots,W$.
+
+            We may now interpret the third derivative $\nabla\nabla\nabla f(x)$
+            as a linear-algebraic object:
+            $$
+                \nabla\nabla\nabla f(x) \in  (V\otimes V\otimes V)^\star
+            $$
+            The defining quality of $V\otimes V\otimes V = P$ says that such an
+            element is specified the moment we specify a trilinear map from $V,
+            V, V$ to $\RR$.  This trilinear map is simply 
+            $$
+                (u,v,w) \mapsto 
+                \frac{\partial}{\partial t}
+                \frac{\partial}{\partial t^{\prime}}
+                \frac{\partial}{\partial t^{\prime\prime}}
+                f(x + t                \cdot u 
+                    + t^{\prime}       \cdot v
+                    + t^{\prime\prime} \cdot w)
+            $$
+            So $\nabla\nabla\nabla f(x)$ is a tensor.  We now explain what we
+            mean when we say that it is a tensor of type $^0_3$. 
+
+        \subsection{Tensors of type $^u_d$}
+            We've seen two ways to make new finite-dimensional
+            vector spaces from old: we can dualize (to get $V^\star$ from $V$)
+            and we can tensor (to get $U\otimes V\otimes \cdots \otimes W$ from
+            $U,V,\cdots W$).
+
+            No matter how we compose these operations, we'll get a space of the
+            standard form 
+            $$
+                (U \otimes
+                V \otimes \cdots
+                W) \otimes
+                (X^\star \otimes
+                Y^\star \otimes \cdots
+                Z^\star)
+            $$
+            In other words, we have a tensor product of $\mathbf{u}$ many non-dualized
+            vector spaces and $\mathbf{d}$ many dualized vector spaces.  We won't provide
+            a proof.\footnote{
+                Here's an special case that contains all the ideas of a general
+                proof.
+                We'll define a natural isomorphism $\phi:U^\star\otimes
+                V^\star\otimes W^\star \to (U\otimes V\otimes W)^\star$.  By
+                the defining quality of the domain, to specify $\phi$ is to
+                specify a trilinear map from $U^\star, V^\star, W^\star$ into
+                the codomain.  By the defining quality of the codomain, to
+                specify a map into the codomain is to specify a map into the
+                space of trilinear real-valued maps on $U, W, V$.  
+                %
+                We accomplish all this by sending $f,g,h$ to $((u,v,w) \mapsto
+                f(u)\cdot g(v)\cdot h(w))$.  We've thus defined a linear map
+                $\phi$.  It is routine to check that $\phi$ sends no element
+                except zero to zero, that $\phi$'s domain and codomain have
+                equal and finite dimension, and thus that $\phi$ is an
+                isomorphism.
+            }
+
+            An example is that $((U^\star \otimes V)^\star \otimes
+            W^\star)^\star$, though not of the above form, is naturally
+            isomorphic to $U^\star \otimes V \otimes W$, which \emph{is} of the
+            above form.  That example illustrates a general algorithm: the
+            factors in an un-standardized expression correspond with the
+            factors in a standardized expression; whether a standardized factor
+            is dualized or not depends simply on the \textsc{parity} of the
+            number of dual operations that act on the corresponding factor in
+            the original expression.  Here, $U,V,W$ appear with $3,2,2$ layers
+            of duals, respectively, whence by parity we obtain the $1,0,0$
+            layers of duals in the standardization.
+
+            In the common case where all the underlying spaces $U,\cdots, Z$
+            agree with a vector space $V$ understood from
+            context, we say that elements of the combined space are
+            \textbf{tensors of type $\mathbf{^u_d}$}.  We represent such
+            tensors as grids with $u+d$ many axes, where each axis has a length
+            equal to the dimension of $V$.
+            %
+            Thus, elements of $((V^\star \otimes V)^\star \otimes
+            V^\star)^\star$ are tensors of type $^2_1$.  Numerically, they have
+            $2+1=3$ axes: $2$ that transform like vectors and $1$ that
+            transforms like a covector.  
+            The derivative of $\theta_T$'s covariance matrix with respect to
+            the initialization $\theta_0$ is an instance of such a type-$^2_1$
+            tensor.
+
+            As special cases, scalars are tensors of type $^0_0$,
+            vectors are tensors of type $^1_0$, covectors are tensors of
+            type $^0_1$, and linear maps from $V$ to $V$ are tensors of type
+            $^1_1$.\footnote{
+                Here's an example that our paper doesn't use but that may
+                aid geometric intuition.
+                %
+                If $V$ has dimension $p$, then to specify a linear-algebraic
+                notion of volume in $V$ is to specify a tensor of type $^0_p$
+                obeying certain antisymmetry properties.
+                Intuitively, such a tensor produces for any given sequence
+                of $p$ input vectors a real number.  We interpret this real
+                number as the volume of a parallelepiped spanned by those $p$
+                vectors.
+            }
+
+            Whenever we have a tensor of type $^a_a$, we may interpret it as a
+            linear map from the $a$-fold tensor product $V\otimes
+            V\otimes\cdots\otimes V$ to itself.  In our work, this linear map  
+            will sometimes be invertible, in which case we use standard notation
+            $(\cdot)^{-1}$ to denote the inverse.
+            %
+            As a variation on this theme, a tensor (such as $C$) of type
+            $^0_2$ we may view as a linear map from $V$ to $V^\star$.
+            This linear map  
+            is invertible whenever $C$ is positive definite, in which case
+            we use the notation $C^{-1}$ to denote its inverse.  Observe that
+            this inverse, being a linear map from $V^\star$ to $V$, is a tensor
+            of type $^2_0$, unlike $C$.
+
+        \subsection{Contraction}
+            Let's define a map $\epsilon_V:V\otimes V^\star \to \RR$ by
+            evaluation: $(v,f) \mapsto f(v)$.  We may similarly define
+            $$
+                {\text{id}_{(T\otimes U)}}\otimes \epsilon_V:(T\otimes
+                U)\otimes V\otimes V^\star \to (T\otimes U)
+            $$
+            by $(x,v,f) \mapsto f(v)\cdot x$ for $x\in T\otimes U$.
+            %
+            In general, we can map any tensor
+            product of the form
+            $$
+                (U \otimes
+                V \otimes \cdots
+                W) \otimes
+                (U^\star \otimes
+                Y^\star \otimes \cdots
+                Z^\star)
+            $$
+            to one of the form
+            $$
+                (V \otimes \cdots
+                W) \otimes
+                (Y^\star \otimes \cdots
+                Z^\star)
+            $$
+            by applying the evaluation map $\epsilon_U$.
+
+            Say we have a tensor of type $^{u+1}_{d+1}$.  \textsc{If} we
+            specify a specific axis among the ${u+1}$ vector-type axes as well
+            as a specific axis among the ${d+1}$ covector-type axes
+            \textsc{then} we may apply the above linear map to get a tensor of
+            type $^u_d$.  We call this operation \textbf{contraction}.  
+            Operationally, contraction just means summing across the two specified
+            axes over the $\text{dim}(V)$ many `diagonal' index pairs $(i,i)$.
+
+            For example, a linear map $\phi$ is the same as a tensor of type
+            $^1_1$.  We may contract it to get a tensor of type $^0_0$, that is,
+            a real number.  The number we get is the trace of $\phi$.
+
+            As another example, consider the learning rate $\eta$ (a tensor
+            of type $^2_0$) and the hessian $H=\nabla G$ (a tensor of type
+            $^0_2$).  Then $\eta \otimes H$ is a tensor of type $^2_2$ and we
+            may contract (in $2\times 2$ many ways, here all equivalent due to
+            $\eta,H$'s symmetry) to obtain tensor of type $^1_1$: a linear map.
+
+            What is this linear map, concretely?  It acts on a vector $v$ by
+            sending it to the vector $w$ such that a gradient descent step
+            $\theta \mapsto \theta - \eta \nabla f$ on the non-standard loss
+            function $$ f(x) = G(x)\cdot v \in \RR $$ displaces $\theta$ by
+            $-w$.
+            %
+            We see that the language of tensors concisely expresses otherwise
+            cumbersome conceptual gymnastics.  In our experience, this language
+            also guides us through otherwise treacherously brittle algebraic
+            manipulations.
+
+\end{document}
+
+%%This section prepares for \S\ref{sect:using}, which uses
+%%            diagrams to generalize \S\ref{sect:exegesis}'s separation, tame
+%%            \S\ref{sect:exegesis}'s combinatorial explosion of terms, and
+%%            temper \S\ref{sect:exegesis}'s polynomial divergence.  
+%%            %
+%%            We start by characterizing the higher order terms.  Suppose
+%%            $s$ is an analytic function on $\Mm$.  For example, $s$ might be
+%%            the testing loss $l$.  The following Lemma, reminiscent of
+%%            \cite{dy49a}'s, tracks $s(\theta)$ as SGD updates $\theta$:
+%%            \begin{klem*} \label{lem:dyson}
+%%                For all $T$: for $\eta$ sufficiently small, $s(\theta_T)$ is a
+%%                sum over tuples of natural numbers:
+%%                \begin{equation}\label{eq:dyson}
+%%                    \sum_{(d_t: 0\leq t<T) \in \NN^T}
+%%                    (-\eta)^{\sum_t d_t}
+%%                    \wrap{
+%%                        \prod_{0 \leq t < T}
+%%                            \wrap{\left.
+%%                                \frac{(g \nabla)^{d_t}}{d_t!}
+%%                            \right|_{g = \sum_{n\in \Bb_t} \nabla l_n(\theta) / B}}
+%%                    }(s) (\theta_0)
+%%                \end{equation}
+%%                Moreover, an expectation symbol (over training sets) commutes
+%%                with the outer sum.
+%%            \end{klem*}
+%%            Here, we consider each $(g \nabla)^{d_t}$ as a higher order
+%%            function that takes in a function $f$ defined on weight space and
+%%            outputs a function equal to the $d_t$th derivative of $f$, times
+%%            $g^{d_t}$.  The above product then indicates composition of $(g
+%%            \nabla)^{d_t}$'s across the different $t$'s.  In total, that
+%%            product takes the function $s$ as input and outputs a function
+%%            equal to some polynomial of $s$'s derivatives.
+%%
+%%            For example, the $\eta^3$ terms that appear in the above
+%%            (for $s=l$) include:
+%%            $$
+%%                -\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}
+%%                 \nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}
+%%                 \nabla^{\lambda} l
+%%                %
+%%                \hspace{2cm}
+%%                %
+%%                -\nabla_{\mu} l_{t=2} \nabla_{\lambda} l_{t=2}
+%%                 \nabla^{\mu}\nabla_{\nu} l_{t=5}
+%%                 \nabla^{\nu}\nabla^{\lambda} l
+%%            $$
+%%            Let us take expectations over training sets.  Suppose $B=1$ and
+%%            $N>5$; then batches at $t=2,5$ are independent so the
+%%            expectations factor (we use ``$\leftrightsquigarrow$'', not
+%%            of ``$=$'', due to page's \pageref{dfn:uvalue-body}'s footnote):  
+%%            \begin{align*}
+%%               -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%%                \expc[\nabla^{\mu}\nabla^{\nu}\nabla_{\lambda} l_{t=5}]
+%%                \expc[\nabla^{\lambda} l]
+%%                &&
+%%               -\expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%%                \expc[\nabla^{\mu}\nabla_{\lambda} l_{t=5}]
+%%                \expc[\nabla^{\nu}\nabla^{\lambda} l] \\
+%%               = -(GG+C)_{\mu\nu}J^{\mu\nu}_{\lambda}G^{\lambda} 
+%%                && 
+%%               = -(GG+C)_{\mu\nu}H^{\mu}_{\lambda} H^{\nu\lambda} \\
+%%                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-12-23)})
+%%                && 
+%%                \leftrightsquigarrow -\uvalue(\sdia{c(01-2-3)(02-13-23)})
+%%            \end{align*}
+%%            To prepare for \S\ref{sect:using}, we write terms (such as
+%%            above) as uvalues (Def.\ \ref{dfn:uvalue-body}) of diagrams.
+%%            %(e.g.\ $\sdia{c(01-2-3)(02-12-23)}, \sdia{c(01-2-3)(02-13-23)}$).
+%%            See Fig.\ \ref{fig:uvalue-example}.
+%%            %We notated the tensors above using diagrams.  Diagrams help us
+%%            %organize (\ref{eq:dyson})'s terms.
+%%            %Each diagram evaluates to a
+%%            %tensor: its \emph{un-resummed value} or
+%%            %\translucent{moolime}{\emph{\textbf{uvalue}}, defined as a product containing a $d$th}
+%%            %\translucent{moolime}{derivative of $l_x$ for each degree-$d$ node, grouped under
+%%            %expectation symbols per the diagram's gray}
+%%            %\translucent{moolime}{outlines, and tensor-contracted per the diagram's black edges}
+%%            %(\S\ref{appendix:evaluate-embeddings} provides details).\footnote{
+%%            %    We write $\leftrightsquigarrow$ instead of $=$ since diagrams
+%%            %    evaluate to products of cumulants $C$ rather than of moments
+%%            %    $GG+C$: \S\ref{appendix:evaluate-embeddings}.
+%%            %}
+%%            %%
+%%            %We express (\ref{eq:dyson}) as a weighted sum of the $\uvalue$s of
+%%            %all diagrams formally defined below.
+%%            %We supplu The following examples of
+%%            %(in)valid diagrams supply an informal sense sufficient to
+%%            %read this paper's body.\footnote{
+%%            %    Throughout, colors help us refer to parts of diagrams; colors
+%%            %    lack mathematical meaning.
+%%            %}
+%%            \noindent
+%%
+%            So
+%            \begin{align*}
+%                \uvalue(\sdia{c(01-2-3)(02-12-23)}) &=
+%                \textstyle
+%                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+%                \expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%                \expc[\nabla_{\omicron}\nabla_{\pi}\nabla_{\xi} l_{t=5}]
+%                \expc[\nabla_{\rho} l]\eta^{\mu\omicron}\eta^{\nu\pi}\eta^{\xi\rho}
+%                \\
+%                \uvalue(\sdia{c(01-2-3)(02-13-23)}) &= 
+%                \textstyle
+%                \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+%                \expc[\nabla_{\mu} l_{t=2} \nabla_{\nu} l_{t=2}]
+%                \expc[\nabla_{\omicron}\nabla_{\xi} l_{t=5}]
+%                \expc[\nabla_{\pi}\nabla_{\rho} l]\eta^{\mu\omicron}\eta^{\nu\pi}\eta^{\xi\rho} \\
+%            \end{align*}
+%            %\translucent{moolime}{\noindent\parbox{\textwidth}{
