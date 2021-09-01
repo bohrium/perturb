@@ -9,28 +9,28 @@
             \ref{cor:overfit} together show that SGD avoids curvature and
             noise, which to leading order control generalization.
 
-            Analyzing $\sdia{c(01-2)(02-12)}$, we found that \textbf{flat and
-            sharp minima both overfit less} than medium minima.  Intuitively, flat
-            minima are robust to vector noise, sharp minima are robust to covector
-            noise, and medium minima robust to neither.  We thus proposed a
-            regularizer enabling gradient-based hyperparameter tuning.
-            %
-            Inspecting $\sdia{c(01-2-3)(02-12-23)}$, we extended \cite{we19b} to
-            nonconstant, non-isotropic covariance to reveal that \textbf{SGD
-            descends on a landscape smoothed by the current covariance $C$}.  As
-            $C$ evolves, the smoothed landscape evolves, resulting in
-            non-conservative dynamics.
-            %
-            %Corollaries \ref{cor:entropic} and
-            %\ref{cor:overfit} together potentially illuminate SGD's success in
-            %training deep networks: SGD avoids curvature and noise, which
-            %control generalization.
-            %
-            Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may
-            emulate SGD}, as suggested by \cite{ro18}.  This is significant
-            because, while small batch sizes can lead to better generalization
-            \citep{bo91}, modern infrastructure increasingly rewards large
-            batch sizes \citep{go18}.  
+            %%Analyzing $\sdia{c(01-2)(02-12)}$, we found that \textbf{flat and
+            %%sharp minima both overfit less} than medium minima.  Intuitively, flat
+            %%minima are robust to vector noise, sharp minima are robust to covector
+            %%noise, and medium minima robust to neither.  We thus proposed a
+            %%regularizer enabling gradient-based hyperparameter tuning.
+            %%%
+            %%Inspecting $\sdia{c(01-2-3)(02-12-23)}$, we extended \cite{we19b} to
+            %%nonconstant, non-isotropic covariance to reveal that \textbf{SGD
+            %%descends on a landscape smoothed by the current covariance $C$}.  As
+            %%$C$ evolves, the smoothed landscape evolves, resulting in
+            %%non-conservative dynamics.
+            %%%
+            %%%Corollaries \ref{cor:entropic} and
+            %%%\ref{cor:overfit} together potentially illuminate SGD's success in
+            %%%training deep networks: SGD avoids curvature and noise, which
+            %%%control generalization.
+            %%%
+            %%Examining $\sdia{c(01-2)(01-12)}$, we showed that \textbf{GD may
+            %%emulate SGD}, as suggested by \cite{ro18}.  This is significant
+            %%because, while small batch sizes can lead to better generalization
+            %%\citep{bo91}, modern infrastructure increasingly rewards large
+            %%batch sizes \citep{go18}.  
 
             %-----  anticipate criticism of limitations  ----------------------
     
@@ -55,39 +55,40 @@
     
             %--  history of sgd  ----------------------------------------------
 
-            \cite{ki52} united gradient descent \citep{ca47} with stochastic
+            \citet{ki52} united gradient descent \citep{ca47} with stochastic
             approximation \citep{ro51} to invent SGD.  Since the development of
-            back-propagation for efficient differentiation \citep{we74}, SGD
+            back-propagation \citep{we74}, SGD
             has been used to train connectionist models, e.g.\ neural networks
             \citep{bo91}, recently to remarkable success \citep{le15}.
-        
+            %%
             %--  analyzing overfitting; relevance of optimization; sde errs  --
-        
-            Several lines of work treat the overfitting of SGD-trained networks
-            \citep{ne17a}.  For example, \cite{ba17} controls the Rademacher
+            %%
+            Several research programs treat overfitting of SGD-trained
+            networks.  \citep{ne17a}.  \citet{ba17} controls the Rademacher
             complexity of deep hypothesis classes, leading to
             optimizer-agnostic generalization bounds.  Yet SGD-trained networks
             generalize despite their ability to shatter large sets
             \citep{zh17}, so generalization must arise from not only
-            architecture but also optimization \citep{ne17b}.  
+            architecture but also optimization%'s implicit regularization
+            \citep{ne17b}.  
 
-            Some analyses of optimization's implicit regularization use a
-            Langevin dynamics or SDE approximation (e.g.\ \cite{ch18,zh19}),
-            but, per \cite{ya19a}, such continuous-time or uncorrelated-noise
-            analyses treat SGD noise incorrectly.
+            Some analyses of implicit regularization use a Langevin or SDE
+            approximation (e.g.\ \citet{ch18,zh19}), but, per \citet{ya19a},
+            such continuous-time or uncorrelated-noise analyses treat SGD noise
+            incorrectly.
             %
             %--  we extend dan's approach  ------------------------------------
             %
             We avoid these pitfalls by Taylor expanding around $\eta=0$ as in
-            \cite{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
+            \citet{ro18}.  Unlike that work, we generalize beyond order $\eta^1$
             and $T=2$.  %To do so, we develop new summation techniques with
             %improved large-$T$ convergence.
             Our interpretion of the resulting
             terms offers a new qualitative picture of SGD as a superposition of
             simpler information-flow processes.
-            
+            %%
             %--  double descent  ----------------------------------------------
-
+            %%
             Other research focuses on \emph{double descent} and suggests that
             some highly overparameterized models share implicit regularization
             properties with linear least-squares models \citep{be19}, for

@@ -1,73 +1,57 @@
+%-----  object of study  ------------------------------------------------------
 
-        %\subsection{SGD}
+  Gradient estimates, measured on minibatches and thus noisy, form the primary
+learning signal when training deep neural nets.  While users of deep learning
+benefit from the intuition that such \emph{stochastic gradient descent} (SGD)
+approximates deterministic descent (GD) \citep{bo91,le15}, SGD's
+gradient noise in practice alters training dynamics and testing losses
+\citep{go18,wu20}.  Studying SGD on short timescales or near minima,
+we show that \textbf{gradient noise biases learning} toward low-curvature,
+low-noise regions of the loss landscape.
 
-            %--  object of study  ---------------------------------------------
-            %
-            Gradient estimates, measured on minibatches and thus noisy, form
-            the primary learning signal when training deep neural nets.  While
-            users of deep learning benefit from the intuition that such
-            \emph{stochastic gradient descent} (SGD) approximates deterministic
-            gradient descent (GD) \citep{bo91,le15}, SGD's gradient noise in
-            practice alters training dynamics and testing losses
-            \citep{go18, %zh19,
-            wu20}.  This paper studies SGD on
-            short timescales or near minima and shows that \textbf{gradient
-            noise biases learning} toward low-curvature, low-noise regions of
-            the loss landscape.
+%-----  vs ode and sde  -------------------------------------------------------
 
-            %--  vs ode and sde  ----------------------------------------------
-            %
-            %
-            Generalizing \cite{li18,we19b,zh19,ba21}, we model correlated,
-            non-gaussian, non-isotropic, non-constant gradient noise and
-            find qualitative differences in dynamics.  For example, we
-            construct a non-pathological
-            %\footnote{%
-            %    All higher derivatives exist and are quadratically bounded; the
-            %    gradient noise at each weight vector is $1$-subgaussian.%
-            %}
-            loss landscape on which SGD's trajectory
-            \emph{ascends}.
-            %We argue that our theory enhances practical intuitions.
-            We verify our theory on convolutional CIFAR-10 and Fashion-MNIST
-            loss landscapes.
+Generalizing \cite{li18,we19b,zh19,ba21}, we model correlated, non-gaussian,
+non-isotropic, non-constant gradient noise and find qualitative differences in
+dynamics.  For example, we construct a non-pathological loss landscape on which
+SGD's trajectory \emph{ascends}.  We verify our theory on convolutional
+CIFAR-10 and Fashion-MNIST landscapes.
 
-            %--  soft benefits: retrospective  --------------------------------
-            %
-            \begin{wrapfigure}{r}{0.40\textwidth}
-                \centering  
-                \vspace{-0.40cm}
-                \plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
-                \caption{
-                    \textbf{A sub-process of SGD}.  Timesteps index
-                    columns; training data index rows.  The $5$th datum
-                    participates in the $2$nd SGD update.  This
-                    {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
-                    testing loss both directly and via the
-                    {\color{spacetimeteal}$(1,12)$ event}, which is itself
-                    modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
-                }\vspace{+0.60cm}
-                \label{fig:paradigm}
-            \end{wrapfigure}
-            Our theory offers a new physics-inspired perspective of SGD as a
-            superposition of concurrent information-flow processes.  Indeed, we
-            study the post-training testing loss by Taylor expanding it w.r.t.\
-            the learning rate $\eta$.  We interpret the resulting terms as
-            describing processes by which data influence weights.  E.g.\ an
-            instance of the process\footnote{
-                Throughout, colors help us refer to parts of diagrams; colors
-                lack mathematical meaning.
-            }
-                \vspace{-0.25cm}
-            $$
-                \mdia{MOOc(01-2-3-4)(04-13-23-34)}
-                \vspace{-0.65cm}
-            $$
-            is shown on the right.  Notating processes with such diagrams, we
-            show in \S\ref{sect:main} how to compute the effect of each process
-            and that summing the finitely many processes with $d$ or fewer
-            edges suffices to answer dynamical questions to error $o(\eta^d)$.  
-            We thus factor the analysis of SGD into the analyses of individual
-            processes, a technique that may power future theoretical
-            inquiries.  
+%-----  soft benefits: retrospective  -----------------------------------------
+
+\begin{figure}%{r}{0.40\textwidth}
+    \centering  
+    %\vspace{-0.40cm}
+    \plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
+    \caption{
+        \textbf{A sub-process of SGD}.  Timesteps index
+        columns; training data index rows.  The $5$th datum
+        participates in the $2$nd SGD update.  This
+        {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
+        testing loss both directly and via the
+        {\color{spacetimeteal}$(1,12)$ event}, which is itself
+        modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
+    }\vspace{-0.60cm}
+    \label{fig:paradigm}
+\end{figure}
+
+Our theory offers a new physics-inspired perspective of SGD as a superposition
+of concurrent information-flow processes.  Indeed, we study the post-training
+testing loss $\ell$ by Taylor expanding $\ell$ w.r.t.\ the learning rate $\eta$.  We
+interpret the resulting terms as describing processes by which data influence
+weights.  Figure \ref{fig:paradigm} shows an instance of the process\footnote{
+    Throughout, colors help us refer to parts of diagrams; colors
+    lack mathematical meaning.
+}
+\vspace{-0.25cm}
+\begin{equation*}
+    \mdia{MOOc(01-2-3-4)(04-13-23-34)}
+    \vspace{-0.65cm}
+\end{equation*}
+Notating processes with such diagrams, we show in
+\S\ref{sect:main} how to compute the effect of each process and that summing
+the finitely many processes with $d$ or fewer edges suffices to answer
+dynamical questions to error $o(\eta^d)$.  We thus factor the analysis of SGD
+into the analyses of individual processes, a technique that may power future
+theoretical inquiries.  
  

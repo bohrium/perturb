@@ -12,17 +12,6 @@
 
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
         %\end{samepage}
-            \begin{wrapfigure}{r}{3.3cm}
-                \vspace{-0.60cm}
-                \plotmooh{colt/chladni-drift}{}{3.2cm}
-                \vspace{-0.20cm}
-                \caption{
-                    Chladni drift on $\Mm=\RR^2$.  Red bi-arrows depict
-                    $C(\theta)$'s major axis.  SGD updates (green) tend toward
-                    small $C$.
-                }
-                \vspace{-1.00cm}
-            \end{wrapfigure}
             Physical intuition suggests that noise repels SGD: if two
             neighboring regions of weight space have high and low levels of
             gradient noise, respectively, then
@@ -148,11 +137,17 @@
         \subsection{Both flat and sharp minima overfit less}
             \label{subsect:curvature-and-overfitting}%
 
-            \begin{wrapfigure}{r}{0.3\textwidth}
+            \begin{figure}%{r}{0.3\textwidth}
                 \centering
                 \crunch\squash
-                \plotmoow{colt/spring}{0.3\textwidth}{}
+                \plotmooh{colt/chladni-drift}{}{2.5cm}
+                \plotmooh{colt/spring}{}{5cm}
                 \caption{%
+                    Left.  Chladni drift on $\Mm=\RR^2$.  Red bi-arrows depict
+                    $C(\theta)$'s major axis.  SGD updates (green) tend toward
+                    small $C$.
+                    %
+                    Right.
                     Both curvature and noise affect overfitting.
                     %\small
                     In each pane, the  $\leftrightarrow$
@@ -168,7 +163,7 @@
                     %\ref{cor:overfit}).
                 }
                 \label{fig:spring}
-            \end{wrapfigure}
+            \end{figure}
             Intuitively, sharp minima are robust to slight changes in the
             average \emph{gradient} and flat minima are robust to slight
             \emph{displacements} in weight space (Figure
@@ -208,7 +203,7 @@
             expression is descendably smooth, may be used with MAP or ELBO tasks
             instead of just ML, and does not assume a well-specified model.
 
-            \newpage
+            %\newpage
     \subsection{Experiments}
         Our theory does not control our Taylor series' rates of convergence. 
         %
@@ -227,14 +222,15 @@
 
         \begin{figure}[h!]
             \centering  
-            \plotmoow{plots/neurips-test-small}{0.24\textwidth}{}
-            \plotmoow{plots/neurips-test-large}{0.24\textwidth}{}
-            \plotmoow{plots/neurips-gen-cifar-lenet}{0.24\textwidth}{}
-            \plotmoow{plots/neurips-tak}{0.24\textwidth}{}
-            %\plotmoow{plots/new-big-bm-new}{0.24\textwidth}{}
-            %\plotmoow{plots/multi-fashion-logistic-0}{0.24\textwidth}{}
-            %\plotmoow{plots/vs-sde}{0.24\textwidth}{}
-            %\plotmoow{plots/tak-reg}{0.24\textwidth}{}
+            \plotmoow{plots/neurips-test-small}{0.23\textwidth}{}
+            \plotmoow{plots/neurips-test-large}{0.23\textwidth}{}\\
+            \plotmoow{plots/neurips-gen-cifar-lenet}{0.23\textwidth}{}
+            \plotmoow{plots/multi-fashion-logistic-0}{0.23\textwidth}{}\\
+            \plotmoow{plots/neurips-thermo-linear-screw}{0.23\textwidth}{}
+            \plotmoow{plots/neurips-tak}{0.23\textwidth}{}
+            %\plotmoow{plots/new-big-bm-new}{0.23\textwidth}{}
+            %\plotmoow{plots/vs-sde}{0.23\textwidth}{}
+            %\plotmoow{plots/tak-reg}{0.19\textwidth}{}
             \caption{
                 %{\bf Experiments on natural and artificial landscapes.}
                 %
@@ -268,6 +264,8 @@
                 losses after fixed-$T$ GD are smallest for very sharp and
                 very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
                 \citep{di18}.
+            {\bf Right}: Predictions near minima excel for
+            large $\eta T$.
             }
             \label{fig:experiments}
         \end{figure}

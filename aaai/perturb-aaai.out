@@ -1,47 +1,47 @@
 \BOOKMARK [1][-]{section*.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section*.3}{Paradigmatic example: a non-conservative entropic force}{}% 2
+\BOOKMARK [1][-]{section*.3}{Paradigmatic example}{}% 2
 \BOOKMARK [2][-]{section*.4}{Notation and assumptions, I}{section*.3}% 3
 \BOOKMARK [2][-]{section*.5}{Taylor series: method and challenges}{section*.3}% 4
 \BOOKMARK [2][-]{section*.8}{An entropic force with curl}{section*.3}% 5
 \BOOKMARK [1][-]{section*.11}{Perturbative theory of SGD}{}% 6
 \BOOKMARK [2][-]{section*.12}{Notation and assumptions, II}{section*.11}% 7
-\BOOKMARK [2][-]{section*.16}{Diagrams overcome the challenges of using Taylor series to study SGD}{section*.11}% 8
-\BOOKMARK [2][-]{section*.23}{Main result}{section*.11}% 9
-\BOOKMARK [1][-]{section*.26}{Consequences of the theory}{}% 10
-\BOOKMARK [2][-]{section*.27}{Gradient noise repels SGD}{section*.26}% 11
-\BOOKMARK [2][-]{section*.29}{Time discretization penalizes sloped regions}{section*.26}% 12
-\BOOKMARK [2][-]{section*.30}{SDE and SGD respond differently to changes in curvature}{section*.26}% 13
-\BOOKMARK [2][-]{section*.31}{SGD descends on a landscape smoothed by the current C \204 See \247.}{section*.26}% 14
-\BOOKMARK [2][-]{section*.32}{Both flat and sharp minima overfit less}{section*.26}% 15
-\BOOKMARK [2][-]{section*.34}{Experiments}{section*.26}% 16
-\BOOKMARK [1][-]{section*.36}{Conclusion}{}% 17
-\BOOKMARK [2][-]{section*.37}{Related work}{section*.36}% 18
-\BOOKMARK [1][-]{section*.41}{Tutorial: how to use diagrams}{}% 19
-\BOOKMARK [2][-]{section*.42}{Two example calculations}{section*.41}% 20
-\BOOKMARK [2][-]{section*.47}{How to identify the relevant grid}{section*.41}% 21
-\BOOKMARK [2][-]{section*.50}{How to identify the relevant diagram embeddings}{section*.41}% 22
-\BOOKMARK [2][-]{section*.53}{How to evaluate each embedding}{section*.41}% 23
-\BOOKMARK [2][-]{section*.57}{How to sum the embeddings' values}{section*.41}% 24
-\BOOKMARK [2][-]{section*.58}{How to solve variant problems}{section*.41}% 25
-\BOOKMARK [2][-]{section*.62}{Do diagrams streamline computation?}{section*.41}% 26
-\BOOKMARK [1][-]{section*.65}{Mathematics of the theory}{}% 27
-\BOOKMARK [2][-]{section*.66}{Assumptions and Definitions}{section*.65}% 28
-\BOOKMARK [2][-]{section*.67}{A key lemma \340 la Dyson}{section*.65}% 29
-\BOOKMARK [2][-]{section*.68}{From Dyson to diagrams}{section*.65}% 30
-\BOOKMARK [2][-]{section*.69}{Proof of Theorem 1}{section*.65}% 31
-\BOOKMARK [2][-]{section*.70}{Proof of Theorem 2}{section*.65}% 32
-\BOOKMARK [2][-]{section*.71}{Proofs of corollaries}{section*.65}% 33
-\BOOKMARK [2][-]{section*.78}{Future topics}{section*.65}% 34
-\BOOKMARK [1][-]{section*.79}{Experimental methods}{}% 35
-\BOOKMARK [2][-]{section*.80}{What artificial landscapes did we use?}{section*.79}% 36
-\BOOKMARK [2][-]{section*.84}{What image-classification landscapes did we use?}{section*.79}% 37
-\BOOKMARK [2][-]{section*.87}{Measurement process}{section*.79}% 38
-\BOOKMARK [2][-]{section*.90}{Implementing optimizers}{section*.79}% 39
-\BOOKMARK [2][-]{section*.91}{Software frameworks and hardware}{section*.79}% 40
-\BOOKMARK [2][-]{section*.92}{Unbiased estimators of landscape statistics}{section*.79}% 41
-\BOOKMARK [2][-]{section*.93}{Additional figures}{section*.79}% 42
-\BOOKMARK [1][-]{section*.96}{Review of Tensors}{}% 43
-\BOOKMARK [2][-]{section*.97}{Vectors versus covectors}{section*.96}% 44
-\BOOKMARK [2][-]{section*.98}{What is a tensor?}{section*.96}% 45
-\BOOKMARK [2][-]{section*.99}{Tensors of type ud}{section*.96}% 46
-\BOOKMARK [2][-]{section*.100}{Contraction}{section*.96}% 47
+\BOOKMARK [2][-]{section*.16}{Diagrams overcome \247's challenges}{section*.11}% 8
+\BOOKMARK [2][-]{section*.22}{Main result}{section*.11}% 9
+\BOOKMARK [1][-]{section*.25}{Consequences of the theory}{}% 10
+\BOOKMARK [2][-]{section*.26}{Gradient noise repels SGD}{section*.25}% 11
+\BOOKMARK [2][-]{section*.27}{Time discretization penalizes sloped regions}{section*.25}% 12
+\BOOKMARK [2][-]{section*.28}{SDE and SGD respond differently to changes in curvature}{section*.25}% 13
+\BOOKMARK [2][-]{section*.29}{SGD descends on a landscape smoothed by the current C \204 See \247.}{section*.25}% 14
+\BOOKMARK [2][-]{section*.30}{Both flat and sharp minima overfit less}{section*.25}% 15
+\BOOKMARK [2][-]{section*.32}{Experiments}{section*.25}% 16
+\BOOKMARK [1][-]{section*.34}{Conclusion}{}% 17
+\BOOKMARK [2][-]{section*.35}{Related work}{section*.34}% 18
+\BOOKMARK [1][-]{section*.39}{Tutorial: how to use diagrams}{}% 19
+\BOOKMARK [2][-]{section*.40}{Two example calculations}{section*.39}% 20
+\BOOKMARK [2][-]{section*.45}{How to identify the relevant grid}{section*.39}% 21
+\BOOKMARK [2][-]{section*.48}{How to identify the relevant diagram embeddings}{section*.39}% 22
+\BOOKMARK [2][-]{section*.51}{How to evaluate each embedding}{section*.39}% 23
+\BOOKMARK [2][-]{section*.55}{How to sum the embeddings' values}{section*.39}% 24
+\BOOKMARK [2][-]{section*.56}{How to solve variant problems}{section*.39}% 25
+\BOOKMARK [2][-]{section*.60}{Do diagrams streamline computation?}{section*.39}% 26
+\BOOKMARK [1][-]{section*.63}{Mathematics of the theory}{}% 27
+\BOOKMARK [2][-]{section*.64}{Assumptions and Definitions}{section*.63}% 28
+\BOOKMARK [2][-]{section*.65}{A key lemma \340 la Dyson}{section*.63}% 29
+\BOOKMARK [2][-]{section*.66}{From Dyson to diagrams}{section*.63}% 30
+\BOOKMARK [2][-]{section*.67}{Proof of Theorem 1}{section*.63}% 31
+\BOOKMARK [2][-]{section*.68}{Proof of Theorem 2}{section*.63}% 32
+\BOOKMARK [2][-]{section*.69}{Proofs of corollaries}{section*.63}% 33
+\BOOKMARK [2][-]{section*.76}{Future topics}{section*.63}% 34
+\BOOKMARK [1][-]{section*.77}{Experimental methods}{}% 35
+\BOOKMARK [2][-]{section*.78}{What artificial landscapes did we use?}{section*.77}% 36
+\BOOKMARK [2][-]{section*.82}{What image-classification landscapes did we use?}{section*.77}% 37
+\BOOKMARK [2][-]{section*.85}{Measurement process}{section*.77}% 38
+\BOOKMARK [2][-]{section*.88}{Implementing optimizers}{section*.77}% 39
+\BOOKMARK [2][-]{section*.89}{Software frameworks and hardware}{section*.77}% 40
+\BOOKMARK [2][-]{section*.90}{Unbiased estimators of landscape statistics}{section*.77}% 41
+\BOOKMARK [2][-]{section*.91}{Additional figures}{section*.77}% 42
+\BOOKMARK [1][-]{section*.94}{Review of Tensors}{}% 43
+\BOOKMARK [2][-]{section*.95}{Vectors versus covectors}{section*.94}% 44
+\BOOKMARK [2][-]{section*.96}{What is a tensor?}{section*.94}% 45
+\BOOKMARK [2][-]{section*.97}{Tensors of type ud}{section*.94}% 46
+\BOOKMARK [2][-]{section*.98}{Contraction}{section*.94}% 47
