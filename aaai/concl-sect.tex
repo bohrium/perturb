@@ -5,9 +5,31 @@
 
             This paper presents a new physics-inspired perspective on SGD.  We
             use diagrams to study stochastic optimization on short timescales
-            or near minima.  Corollaries \ref{cor:entropic} and
+            or near minima. 
+%-----  vs ode and sde  -------------------------------------------------------
+Generalizing \cite{li18,we19b,zh19,ba21}, we model correlated, non-gaussian,
+non-isotropic, non-constant gradient noise and find qualitative differences in
+dynamics.  For example, we construct a non-pathological loss landscape on which
+SGD's trajectory \emph{ascends}.  We verify our theory on convolutional
+CIFAR-10 and Fashion-MNIST landscapes.
+            Corollaries \ref{cor:entropic} and
             \ref{cor:overfit} together show that SGD avoids curvature and
             noise, which to leading order control generalization.
+
+
+Our theory offers a new physics-inspired perspective of SGD as a
+superposition of concurrent information-flow processes.  
+    We interpret the resulting terms as describing processes  
+by which data influence
+weights.  
+Notating processes with such diagrams, we show
+%in S\ref{sect:main}
+how to compute the effect of each process and that summing the finitely many
+processes with $d$ or fewer edges suffices to answer dynamical questions to
+error $o(\eta^d)$.  We thus factor the analysis of SGD into the analyses of
+individual processes, a technique that may power future theoretical inquiries.  
+
+
 
             %%Analyzing $\sdia{c(01-2)(02-12)}$, we found that \textbf{flat and
             %%sharp minima both overfit less} than medium minima.  Intuitively, flat
@@ -96,7 +118,7 @@
             dimensions) of feature matrices and weight spaces
             \citep{me20}.\footnote{
                 \cite{me20}'s eq.\ 75 bounds a log-determinant defined in eq.\
-                61 of a transformed feature matrix.  Compare to linear
+                61 of a transformed feature matrix.  C.f.\ to linear
                 Representer Theorems \citep{mo18b}.
             }
             %
@@ -130,12 +152,13 @@
             testing losses and to compare to ODE and SDE to \emph{arbitrary
             order} in $\eta$.  
             We allow correlated,
-            non-Gaussian noise and thus \emph{any} smooth architecture.  E.g.\
-            we assume no information-geometric relationships between $C$ and
-            $H$,\footnote{
-                Disagreement of $C$ and
-                $H$ is typical in modern learning \citep{ro12, ku19}
-            } so we may model VAEs.  
+            non-Gaussian noise and thus \emph{any} smooth architecture.
+            %%E.g.\
+            %%we assume no information-geometric relationships between $C$ and
+            %%$H$,\footnote{
+            %%    Disagreement of $C$ and
+            %%    $H$ is typical in modern learning \citep{ro12, ku19}
+            %%} so we may model VAEs.  
 
 %\moosect{Locating \cit{Ba} in our theory}
 %    \cit{Ba}'s \thm{3.1} computes order-$\eta^2$ weight
@@ -188,5 +211,95 @@
 %        corresponds to some training point $n$ and training step $t$.
 %        So we assign \emph{all} nodes to grid cells.  We'll expand \S{A.6}
 
-            \nopagebreak
+            %\nopagebreak
+
+            \vspace{1cm}
+            \newpage
+
+            \begin{figure}[h]%{r}{0.35\textwidth}
+                \centering  
+                \vspace{-0.50cm}
+                \dmoo{2.5cm}{spacetime-g}
+                %\dmoo{3cm}{spacetime-h}
+                \caption{
+                    \textbf{Resummation propagates information damped by
+                    curvature}.
+                    %\textbf{Left}:
+                    Each resummed value (here, for $\sdia{c(0-1)(01)}$)
+                    represents many un-resummed values, four shown here, each
+                    modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$) in a
+                    different way.
+                    %
+                    %\textbf{Right}: One of many un-resummed terms
+                    %captured by a single resummed term for
+                    %$\sdia{c(01-2)(02-12)}$.
+                    %Because two nodes appear at $(n=2,t=2)$, the process shown
+                    %is an effect of the 2nd cumulant of the gradient noise
+                    %distribution.
+                }
+                \label{fig:resumintuition}
+            \end{figure}
+            \begin{figure}[h]%{r}{0.4\textwidth}
+                \begin{tabular}{lclcl}
+                    $G_\mu$         &$=$& $\expc[\nb_\mu\lx]$                           &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $                  \\
+                    $H_{\mu\nu}$    &$=$& $\expc[\nb_\mu\nb_\nu\lx]$                    &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $                  \\ 
+                    $J_{\mu\nu\xi}$ &$=$& $\expc[\nb_\mu\nb_\nu\nb_\xi\lx]$             &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\squash           \\
+                    $C_{\mu\nu}$    &$=$& $\expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$    &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\squash\squash    \\
+                    $S_{\mu\nu\xi}$ &$=$& $\expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
+                \end{tabular}
+                \crunch
+                \caption{
+                    \textbf{Named tensors}, typically evaluated at
+                    initialization ($\theta=\theta_0$).  Def.\
+                    \ref{dfn:uvalue-body} explains how diagrams depict tensors.
+                }
+                \label{fig:tensor}
+            \end{figure}
+
+For a
+            tight comparison, we scale the learning rates appropriately so
+            that, to leading order, few-epoch and many-epoch SGD agree.  Then
+            few-epoch and many-epoch SGD differ, to leading order, in their
+            sensitivity to $\nabla C$:
+            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
+                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
+                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
+                $
+                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
+                        =
+                    \wrap{\frac{E_0-1}{4 E_0}} N
+                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
+                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
+                    + o(\eta^2)
+                $.
+            \end{cor}
+
+            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
+            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
+            and resolve some questions posed therein.    
+
+Figure \ref{fig:paradigm} shows an instance of the process\footnote{
+    Throughout, colors help us refer to parts of diagrams; colors
+    lack mathematical meaning.
+}
+\begin{equation*}
+    \mdia{MOOc(01-2-3-4)(04-13-23-34)}
+\end{equation*}
+\begin{figure}[h]%{r}{0.40\textwidth}
+    \centering  
+    %\vspace{-0.40cm}
+    %\plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
+    \plotmoow{diagrams/paradigm}{0.49\linewidth}{}\vspace{-0.10cm}
+    \caption{
+        \textbf{A sub-process of SGD}.  Timesteps index
+        columns; training data index rows.  The $5$th datum
+        participates in the $2$nd SGD update.  This
+        {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
+        testing loss both directly and via the
+        {\color{spacetimeteal}$(1,12)$ event}, which is itself
+        modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
+    }\vspace{-0.60cm}
+    \label{fig:paradigm}
+\end{figure}
+
 

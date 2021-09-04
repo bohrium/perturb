@@ -5,53 +5,62 @@ learning signal when training deep neural nets.  While users of deep learning
 benefit from the intuition that such \emph{stochastic gradient descent} (SGD)
 approximates deterministic descent (GD) \citep{bo91,le15}, SGD's
 gradient noise in practice alters training dynamics and testing losses
-\citep{go18,wu20}.  Studying SGD on short timescales or near minima,
-we show that \textbf{gradient noise biases learning} toward low-curvature,
-low-noise regions of the loss landscape.
+\citep{go18,wu20}.  We develop a general theory of SGD on short timescales or
+near minima.  As an application of this theory, we show that \textbf{gradient
+noise biases learning} toward low-curvature, low-noise regions of the loss
+landscape.
 
-%-----  vs ode and sde  -------------------------------------------------------
+  Specifically, we study the expectation over training sets of the testing loss
+by Taylor expanding that loss in the learning rate $\eta$.  By
+induction on $T$, the loss decrease due to $T$ steps of training is 
+$-T G\eta G + o(\eta)$, where $G=\expc_x[\nabla l_x(\theta_0)]$ is the
+expectation over testing samples $x$ of the loss gradient at initialization.
+%%%This matches the intuition that if the gradient doubles, then training
+%%%displaces the weight twice as far and each unit displacement corresponds to
+%%%twice the loss decrease, for an overall quadrupling of loss-decrease.
+%
+This estimate is exact for loss landscapes that are deterministic and linear,
+that is, when $\nabla l_x(\theta)$ depends neither on $x$ nor on $\theta$.
+We derive the corrections to that estimate due to noise and curvature.
 
-Generalizing \cite{li18,we19b,zh19,ba21}, we model correlated, non-gaussian,
-non-isotropic, non-constant gradient noise and find qualitative differences in
-dynamics.  For example, we construct a non-pathological loss landscape on which
-SGD's trajectory \emph{ascends}.  We verify our theory on convolutional
-CIFAR-10 and Fashion-MNIST landscapes.
+  A Taylor series analysis of SGD presents three technical challenges.
+%
+\emph{First}, the variety of resulting terms explodes combinatorially even for
+the main correction to $-T G\eta G$; indeed, that correction represents the
+diverse ways that some past update may affects a future weight $\theta_t$ and
+thus a future update involving $\nabla l_{x_t}(\theta_t)$.  So our
+analysis must describe \textbf{interactions} between updates.
+%
+\emph{Second}, the SGD's gradient noise is correlated between timesteps.  For
+example, the same training sample reappears in each epoch.  Whereas the
+aforementioned induction on $T$ had an induction hypothesis of the same form
+as its conclusion, to analyze \textbf{finite-sample} effects
+we must extend the induction hypothesis to keep track of joint moments.  
+%
+\emph{Third}, the $d$th order truncation of the exact Taylor expansion \textbf{diverges}
+as $T$ grows.  A simple qualitative argument shows why this must be: on typical
+landscapes such as least squares linear regression, the loss grows
+exponentially with time for any negative $\eta$.  We thus do not expect a
+Taylor trunction that --- even when restricted to $\eta$ in a neighborhood of
+$0$ --- has error uniform in $T$. 
 
+  Our theory addresses all three challenges.  The key idea is
+a new diagram-based notation to organize and evaluate many terms at once.  We
+physically interpret SGD as a superposition of many concurrent weight-data
+interactions, each depicted by a diagram.  We discuss how diagrams clarify
+the effect of correlated noise.  We show how to balance each term in
+a $d$th order truncation by a collection of higher
+order terms, thus taming the large-$T$ divergence.\footnote{%
+  Analogous uses of geometric series appear in condensed physics'
+  \emph{ladder summation} and in programming languages' \emph{rational data
+  types}
+}
+In contrast to direct truncation, these `\textbf{re-summed}' expressions have
+vanishing large-$T$ error for quadratic landscapes (with correlated,
+potentially non-Gaussian gradient noise) and they have provably finite and
+empirically small errors for convolutional landscapes on CIFAR-10 and
+Fashion-MNIST.
+ 
 %-----  soft benefits: retrospective  -----------------------------------------
 
-\begin{figure}%{r}{0.40\textwidth}
-    \centering  
-    %\vspace{-0.40cm}
-    \plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
-    \caption{
-        \textbf{A sub-process of SGD}.  Timesteps index
-        columns; training data index rows.  The $5$th datum
-        participates in the $2$nd SGD update.  This
-        {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
-        testing loss both directly and via the
-        {\color{spacetimeteal}$(1,12)$ event}, which is itself
-        modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
-    }\vspace{-0.60cm}
-    \label{fig:paradigm}
-\end{figure}
 
-Our theory offers a new physics-inspired perspective of SGD as a superposition
-of concurrent information-flow processes.  Indeed, we study the post-training
-testing loss $\ell$ by Taylor expanding $\ell$ w.r.t.\ the learning rate $\eta$.  We
-interpret the resulting terms as describing processes by which data influence
-weights.  Figure \ref{fig:paradigm} shows an instance of the process\footnote{
-    Throughout, colors help us refer to parts of diagrams; colors
-    lack mathematical meaning.
-}
-\vspace{-0.25cm}
-\begin{equation*}
-    \mdia{MOOc(01-2-3-4)(04-13-23-34)}
-    \vspace{-0.65cm}
-\end{equation*}
-Notating processes with such diagrams, we show in
-\S\ref{sect:main} how to compute the effect of each process and that summing
-the finitely many processes with $d$ or fewer edges suffices to answer
-dynamical questions to error $o(\eta^d)$.  We thus factor the analysis of SGD
-into the analyses of individual processes, a technique that may power future
-theoretical inquiries.  
- 

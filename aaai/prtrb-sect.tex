@@ -12,23 +12,6 @@
             %--  names of sgd parameters  -------------------------------------
 
             \subsubsection{Loss Landscape, SGD, Associated Tensors}
-
-            \begin{figure}%{r}{0.4\textwidth}
-                \begin{tabular}{lclcl}
-                    $G_\mu$         &$=$& $\expc[\nb_\mu\lx]$                           &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $                  \\
-                    $H_{\mu\nu}$    &$=$& $\expc[\nb_\mu\nb_\nu\lx]$                    &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $                  \\ 
-                    $J_{\mu\nu\xi}$ &$=$& $\expc[\nb_\mu\nb_\nu\nb_\xi\lx]$             &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\squash           \\
-                    $C_{\mu\nu}$    &$=$& $\expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$    &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\squash\squash    \\
-                    $S_{\mu\nu\xi}$ &$=$& $\expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
-                \end{tabular}
-                \crunch
-                \caption{
-                    \textbf{Named tensors}, typically evaluated at
-                    initialization ($\theta=\theta_0$).  Def.\
-                    \ref{dfn:uvalue-body} explains how diagrams depict tensors.
-                }
-                \label{fig:tensor}
-            \end{figure}
             \textsc{Batches and Epochs} --- Generalizing \S\ref{sect:setup}, our theory describes SGD with
             any number
                 {$\mathbf{N}$ of training points},
@@ -44,7 +27,7 @@
             %    \translucent{moolime}{$\mathbf{E}=TB/N$ epochs} or
             %    \translucent{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
             $$
-                %\textstyle
+                \textstyle
                 \theta_{t+1}^\mu
                 \coloneqq
                 \theta_t^\mu -
@@ -62,25 +45,34 @@
 
             %--  tensor conventions  ------------------------------------------
 
-            \textsc{Tensors} --- We make heavy use Figure \ref{fig:tensor}'s tensors;
-            $G, H, J, C, S$ have $1, 2, 3, 2, 3$ many axes.%, respectively.
-
-            \textsc{Vectors vs Covectors} --- 
-                Those axes all transform under change-of-basis like covectors.
+            \textsc{Tensors} --- We make heavy use of the %Figure \ref{fig:tensor}'s tensors;
+            \textbf{gradient} $G_\mu = \expc[\nb_\mu\lx]$, % \leftrightsquigarrow \sdia{MOO(0)(0)}$,
+            \textbf{hessian} $H_{\mu\nu} = \expc[\nb_\mu\nb_\nu\lx]$, %  \leftrightsquigarrow \sdia{MOO(0)(0-0)}$,
+            \textbf{jerk} \squish $J_{\mu\nu\xi} = \expc[\nb_\mu\nb_\nu\nb_\xi\lx]$, %  \leftrightsquigarrow \sdia{MOO(0)(0-0-0)}$,
+            \textbf{covariance} $C_{\mu\nu} = \expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$, %     \leftrightsquigarrow \sdia{MOOc(01)(0-1)}$, and
+            \textbf{skew} \squash $S_{\mu\nu\xi} = \expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$, %  \leftrightsquigarrow \sdia{MOOc(012)(0-1-2)}$,
+            \squash typically evaluated at
+            initialization ($\theta=\theta_0$).
+            %Def.\ \ref{dfn:uvalue-body} explains how diagrams depict tensors.
+            So $G, H, J, C, S$ respectively have $1, 2, 3, 2, 3$ many axes, each of which
+            transforms under change-of-basis like a covector.\footnote{
+            %\textsc{Vectors vs Covectors} --- 
                 \emph{What does this mean}?  Imagine an air-conditioned
                 hallway's temperature gradient ($0.1^\circ
                 \text{K}/\text{meter}$) and length ($20\,\text{meters}$).
                 When we switch units from m to cm, the temperature
                 gradient numerically \emph{decreases} (to $0.001$) but the length
                 numerically \emph{increases} (to $2000$).  So gradients
-                (covectors) and displacements (vectors) are distinct geometric
-                concepts.  We respect this distinction throughout; that's why our $\eta$ is a tensor (whose two
-                axes transform like vectors).
+                (covectors) and displacements (vectors) have geometrically
+                distinct types.  We respect this distinction throughout; that's
+                why our $\eta$ is a tensor (whose two axes transform like
+                vectors).
                 %
-                \cite{mi73} (\S2.5) illustrates the distinction(=it) with
-                helpful pictures; \cite{ko93} (\S7,14) pinpoints the sense in
-                which to ignore it is unnatural; \cite{cu87} (\S1.4) relates
-                it to common tensors in statistics.
+                \cite{mi73} (\S2.5) visualizes this geometry; \cite{ko93}
+                (\S7,14) pinpoints the sense in which to ignore this distinction
+                is unnatural; \cite{cu87} (\S1.4) discusses vectors vs covectors
+                in statistics.
+            }
 
             \textsc{Comparing Tensors} --- A (potentially tensor)
             quantity $q$ \emph{vanishes to order $\eta^d$} when
@@ -113,15 +105,17 @@
                 parameters such as $\eta, T$.  It is physical intuition and
                 experiment that determine when such error terms are negligible.
 
-        \subsection{Diagrams overcome \S\ref{sect:challenges}'s challenges}\label{sect:using}\label{sect:diagrams}
+        \subsection{Diagrams overcome Taylor Series challenges}\label{sect:using}\label{sect:diagrams}
 
             \subsubsection{Diagrams organize the combinatorial explosion of terms}
             We formalize \S\ref{sect:diagrams-in-brief}'s identification of
             terms (in $\expc[l(\theta_T)]$'s Taylor expansion) with diagrams.
             (Throughout, colors help us refer to parts of diagrams; colors lack
             mathematical meaning.)
-            \begin{dfn}[\S\ref{appendix:toward-diagrams}]
-                \emph{A \translucent{moolime}{\textbf{diagram}} is a rooted
+            \begin{dfn}%[\S\ref{appendix:toward-diagrams}]
+                \emph{%A \translucent{moolime}{\textbf{diagram}}
+                A {\textbf{diagram}}
+                is a rooted
                 tree equipped with an equivalence relation on (i.e.\ a
                 partition of) its non-root nodes.  We orient the tree
                 left-to-right so that children precede parents; the root is
@@ -152,30 +146,33 @@
             $ are the same diagrams.
 
             \squash
-            \begin{dfn}[\S\ref{appendix:evaluate-embeddings}]\label{dfn:uvalue-body}
+            \begin{dfn}%[\S\ref{appendix:evaluate-embeddings}]\label{dfn:uvalue-body}
                 \emph{
-                    A diagram $D$'s \emph{un-resummed value} (\translucent{moolime}{\textbf{uvalue}})
+                    A diagram $D$'s \squish \emph{un-resummed value} 
+                    %(\translucent{moolime}{\textbf{uvalue}})
+                    ({\textbf{uvalue}})
                     is a product with one factor of $l_x$'s $d$th derivative
                     for each degree-$d$ node, grouped
                     under cumulant symbols $\CC$ (think: expectation symbols $\expc$)\footnote{
                         Inconsequential technicality: uvalues are products of
-                        \emph{cumulants} such as $C$, not of moments such as
+                        \emph{cumulants} such as $C$, not of un-centered moments such as
                         $GG+C$.
-                        %this will not concern us
-                        %until the Appendix. See
-                        \S\ref{appendix:evaluate-embeddings}.
+                        %
+                        The symbol $\CC[a]$ gives $a$'s mean; $\CC[a\cdot
+                        b]$, $a,b$'s covariance; 
+                        we center higher cumulants 
+                        $\CC[\prod_i a_i]$ with respect to lower
+                        cumulants.
+                        %
+                        See \S\ref{appendix:evaluate-embeddings}.
                     }
                     per $D$'s gray outlines, and tensor-contracted 
                     via a %per $D$'s edges.  We thus have a
                     factor $\eta^{\mu\nu}$ for each edge.
                 }\mend
             \end{dfn}
-            The cumulant symbol $\CC[a]$ is $a$'s mean; $\CC[a\cdot b]$ is
-            $a,b$'s covariance instead of $(ab)$'s mean; in general, we
-            define higher cumulants $\CC[\prod_i a_i]$ recursively to `center
-            them with respect to lower cumulants' (see 
-            \S\ref{appendix:evaluate-embeddings};
-            this centering won't be crucial to our discussion).  For example:
+            For example,
+            $\text{uvalue}(\sdia{c(01-2-3)(02-12-23)})$ is:\squash
                 \newcommand{\AAA}{{\color{black}\nabla_\mu}}
                 \newcommand{\BBB}{{\color{black}\nabla_\nu}}
                 \newcommand{\CCC}{{\color{black}\nabla_\xi}}
@@ -187,31 +184,32 @@
                 \newcommand{\gGg}[1]{{\color{moog}#1}}
                 \newcommand{\bBb}[1]{{\color{moob}#1}}
                 \newcommand{\sixsum}{\textstyle\sum_{{\mu\nu\xi\omicron\pi\rho}} }
-            \begin{figure}[H]
-                \centering  
-                \crunch
-                \begin{tabular}{rcl}
-                    $\text{uvalue}(\mdia{c(01-2-3)(02-13-23)})$ &
-                    $=$ &
-                    $\sixsum \eta^{\mu\xi} \eta^{\nu\pi} \eta^{\omicron\rho} \, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})}       \ww{(\gGg{\CCC \DDD      l_x})} \ww{(\bBb{\EEE \FFF l_x})}$\\
-                    \crunch\squash\squash
-                    \\                   
-                    $\text{uvalue}(\mdia{c(01-2-3)(02-12-23)})$ &
-                    $=$ &                                       
-                    $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})}       \ww{(\gGg{\CCC \DDD \EEE l_x})} \ww{(\bBb{     \FFF l_x})}$\\
-                    \crunch\squash\squash
-                    \\
-                    $\text{uvalue}(\mdia{c(012-3)(02-12-23)})$ &
-                    $=$ &
-                    $\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})  \cdot     (\rRr{\CCC \DDD \EEE l_x})} \ww{(\gGg{     \FFF l_x})}$
-                \end{tabular}
-                \crunch
-                %\caption{
-                %    Illustration of \textbf{Def.\ 
-                %    \ref{dfn:uvalue-body}}.
-                %}
-                \label{fig:uvalue-example}
-            \end{figure}
+            %\begin{figure}[H]
+            %    \centering  
+            %    \crunch
+            %    \begin{tabular}{rcl}
+            %        %%$\text{uvalue}(\mdia{c(01-2-3)(02-13-23)})$ &
+            %        %%$=$ &
+            %        %%$\sixsum \eta^{\mu\xi} \eta^{\nu\pi} \eta^{\omicron\rho} \, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})}       \ww{(\gGg{\CCC \DDD      l_x})} \ww{(\bBb{\EEE \FFF l_x})}$\\
+            %        %%\crunch\squash\squash
+            %        %%\\                   
+            %        %%$\text{uvalue}(\mdia{c(01-2-3)(02-12-23)})$ &
+            %        %%$=$ &                                         
+                    $$\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})}       \ww{(\gGg{\CCC \DDD \EEE l_x})} \ww{(\bBb{     \FFF l_x})}$$
+                    %\\
+                    %\crunch\squash\squash
+                    %%\\
+                    %%$\text{uvalue}(\mdia{c(012-3)(02-12-23)})$ &
+                    %%$=$ &
+                    %%$\sixsum \eta^{\mu\xi} \eta^{\nu\omicron} \eta^{\pi\rho} \,\, \ww{(\rRr{\AAA l_x}) \cdot (\rRr{\BBB l_x})  \cdot     (\rRr{\CCC \DDD \EEE l_x})} \ww{(\gGg{     \FFF l_x})}$
+            %    \end{tabular}
+            %    \crunch
+            %    %\caption{
+            %    %    Illustration of \textbf{Def.\ 
+            %    %    \ref{dfn:uvalue-body}}.
+            %    %}
+            %    \label{fig:uvalue-example}
+            %\end{figure}
 
             There are dozens of small diagrams.  In many analyses, only a few
             diagrams are relevant.  Examples: for fixed $T$, \textbf{to order
@@ -325,46 +323,21 @@
 
             Let us collect similar diagrams, where our notion of
             `similar' permits chains to grow or shrink (see Definition
-            \ref{dfn:link}).  We obtain lists (each conveniently represented by
-            its smallest member) such as: 
-            \vspace{-0.30cm}
-            \begin{align*}
-                \sdia{c(0-1)(01)},
-                \sdia{c(0-1-2)(01-12)},
-                \sdia{c(0-1-2-3)(01-12-23)},
-                \mdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
-                &&
-                \sdia{c(01-2)(02-12)},
-                \sdia{c(02-1-3)(01-13-23)},
-                \mdia{MOOc(03-1-2-4)(01-12-24-34)},
-                \mdia{MOOc(02-1-3-4)(01-14-23-34)},\cdots
-            \end{align*}
-            \vspace{-0.60cm}
-
-
-            \begin{figure}%{r}{0.35\textwidth}
-                \centering  
-                \vspace{-0.50cm}
-                \dmoo{2.5cm}{spacetime-g}
-                %\dmoo{3cm}{spacetime-h}
-                \caption{
-                    \textbf{Resummation propagates information damped by
-                    curvature}.
-                    %\textbf{Left}:
-                    Each resummed value (here, for $\sdia{c(0-1)(01)}$)
-                    represents many un-resummed values, four shown here, each
-                    modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$) in a
-                    different way.
-                    %
-                    %\textbf{Right}: One of many un-resummed terms
-                    %captured by a single resummed term for
-                    %$\sdia{c(01-2)(02-12)}$.
-                    %Because two nodes appear at $(n=2,t=2)$, the process shown
-                    %is an effect of the 2nd cumulant of the gradient noise
-                    %distribution.
-                }
-                \label{fig:resumintuition}
-            \end{figure}
+            \ref{dfn:link}).  We obtain lists\squash (each conveniently represented by
+            its smallest member) such as: \squash
+            %%\vspace{-0.30cm}
+            %%\begin{align*}
+                $\sdia{c(0-1)(01)}$,
+                $\sdia{c(0-1-2)(01-12)}$,
+                $\sdia{c(0-1-2-3)(01-12-23)}, \cdots$ or
+                %%\sdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
+            %%    &&
+                $\sdia{c(01-2)(02-12)}$,
+                $\sdia{c(02-1-3)(01-13-23)}$,
+                $\sdia{MOOc(03-1-2-4)(01-12-24-34)},\cdots$.\squash
+                %$\sdia{MOOc(02-1-3-4)(01-14-23-34)},\cdots
+            %%\end{align*}
+            %%\vspace{-0.60cm}
             \noindent
             We will express in closed form the total contribution to
             (\ref{eq:sgdcoef}) of all diagrams in such a list.  The idea is that
@@ -438,7 +411,7 @@
                 $t$; $(I-\eta H)^t$, by $\exp(- \eta H t)$, thus reducing to a
                 routine integration of exponentials at the cost an error factor
                 $1 + o(\eta)$.}\mend
-                \squash
+                %\squash
             \end{rmk}
             \begin{rmk}
                 \emph{Theorem \ref{thm:resum} gives us the expectation of 
@@ -446,15 +419,15 @@
                 to compute variances instead of expectations, training
                 statistics instead of testing statistics, and weight
                 displacements instead of losses.  See \S{appendix:solve-variants}.}\mend
-                \squash
+                %\squash
             \end{rmk}
             %-----  convergence  ----------------------------------------------
             \begin{thm} \label{thm:converge}
-                Consider constant-$M=P$ or constant-$N=P$ SGD.
+                For constant-$M=P$ or constant-$N=P$ SGD:
                 $\forall \theta_\star,P:\, (G(\theta)=0 \wedge H(\theta)\succ
                 0) \implies \exists U\ni \theta_\star\,\,\text{open}:\, \forall
                 \theta_0\in U:\,$
-                the $d$th-order truncation of Theorem \ref{thm:resum} converges
+                Theorem \ref{thm:resum}'s $d$th-order truncation converges
                 as $T\to \infty$.
                 %Assuming Local Strength, the truncation's large-time error
                 %$\lim_{T\to\infty} \epsilon(\eta,T)$ exists for small $\eta$
@@ -468,7 +441,7 @@
                 %
                 It does not compare $\lim_{d\to\infty}
                 \lim_{T\to\infty} L_d(T,\eta)$ with $\lim_{T\to\infty}
-                \lim_{d\to\infty} L_d(T,\eta)$, though we note that we have not in practice
+                \lim_{d\to\infty} L_d(T,\eta)$ (however, we note that we have not in practice
                 observed pathologies of non-commuting limits).
                 %
                 Our theory suggests but does not guarantee that when $d, T$ are
@@ -508,8 +481,8 @@
             Since $E=1$, $\sdia{c(01-2)(01-12)}$ has no embeddings; so 
             only $\sdia{c(01-2)(02-12)}$ contributes.  Up to a $1+o(\eta)$
             factor, its rvalues sum to (a sum over all indices of):
-            $$
-                \int_t
+            \begin{align*}
+                &\int_t
                 C_{\mu\nu}
                     \wasq{
                         \exp\wrap{-(T-t)(K\otimes I + I\otimes K)}
@@ -517,8 +490,8 @@
                     \eta^{\xi\pi}
                     \eta^{\omicron\rho}
                 H_{\pi\rho}
-                =
-                C_{\mu\nu}
+                \\=
+                &C_{\mu\nu}
                     \wasq{
                         \frac{
                             I-\exp\wrap{-T(K\otimes I + I\otimes K)}
@@ -529,11 +502,12 @@
                     \eta^{\xi\pi}
                     \eta^{\omicron\rho}
                 H_{\pi\rho}
-            $$
+            \end{align*}
             We used Remark \ref{rmk:integrate} to approximate
             $(I-K)^\mu_\xi(I-K)^\nu_\omicron$ by $\exp(-K\otimes I - I\otimes K)^{\mu\nu}_{\xi\omicron}$.
             The above is the leading contribution of the gradient covariance $C$
             to SGD's final testing loss.  We have derived an $E=B=1$ variant of
             Corollary \ref{cor:overfit}'s 
             $E=T$, $B=N$ result (\S\ref{subsect:curvature-and-overfitting}).
+
 

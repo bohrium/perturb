@@ -5,10 +5,11 @@
             SDE; in fact, (Cor.\ \ref{cor:entropic}) SGD seeks small-$H$
             weights.
         Cor.\ \ref{cor:overfit} relates
-            $C$ and $H$ to overfitting.  These
-            results do not exhaust our theory's scope;
-            \S\ref{appendix:future} sketches 
-            extensions to Hessian methods and natural GD.
+            $C$ and $H$ to overfitting.
+            %%These
+            %%results do not exhaust our theory's scope;
+            %%\S\ref{appendix:future} sketches 
+            %%extensions to Hessian methods and natural GD.
 
         \subsection{Gradient noise repels SGD}\label{subsect:epochs-batch}
         %\end{samepage}
@@ -50,28 +51,7 @@
             loss that agrees with SGD's to order $\eta^2$.  We call this method
             \textbf{GDC}.
 
-            An analogous form of averaging occurs over multiple epochs.  For a
-            tight comparison, we scale the learning rates appropriately so
-            that, to leading order, few-epoch and many-epoch SGD agree.  Then
-            few-epoch and many-epoch SGD differ, to leading order, in their
-            sensitivity to $\nabla C$:
-            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
-                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
-                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
-                $
-                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
-                        =
-                    \wrap{\frac{E_0-1}{4 E_0}} N
-                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
-                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
-                    + o(\eta^2)
-                $.
-            \end{cor}
-
-            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
-            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
-            and resolve some questions posed therein.    
-
+            An analogous form of averaging occurs over multiple epochs.  
  
         \subsection{Time discretization penalizes sloped regions}
             The following corollary recovers \cite{ba21}'s main dynamical
@@ -100,7 +80,7 @@
                 to $E=B=1$ SGD's final testing loss excess over SDE's.
             \end{cor}
 
-        \subsection{SDE and SGD respond differently to changes in curvature}
+        \subsection{Jerk distinguishes SDE and SGD}
             SDE differs from SGD in ways beyond time-discretization effects.
             For instance, the inter-epoch noise correlations in multi-epoch SGD
             measurably affect SGD's final testing loss (Corollary
@@ -111,7 +91,6 @@
             %
             \begin{cor}[$\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
                 For $E=B=1$ SGD, the skewness of gradient noise contributes  
-                \crunch
                 \begin{align*}
                     -\frac{\eta^3}{3!}
                     \sum_{\mu\nu\lambda}
@@ -133,7 +112,7 @@
 
 
        
-        \subsection{SGD descends on a landscape smoothed by the current $C$ {\rm --- See \S\ref{sect:entropic-curl}.}}
+        \subsection{SGD descends on a $C$-smoothed landscape {\rm --- See \S\ref{sect:entropic-curl}.}}
         \subsection{Both flat and sharp minima overfit less}
             \label{subsect:curvature-and-overfitting}%
 

@@ -3,44 +3,44 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: perturb-aaai.aux
 The style file: aaai21.bst
 Database file #1: perturb.bib
-You've used 57 entries,
+You've used 55 entries,
             2951 wiz_defined-function locations,
-            830 strings with 11333 characters,
-and the built_in function-call counts, 32295 in all, are:
-= -- 2386
-> -- 1836
+            822 strings with 11040 characters,
+and the built_in function-call counts, 31089 in all, are:
+= -- 2296
+> -- 1760
 < -- 0
-+ -- 683
-- -- 609
-* -- 2154
-:= -- 5510
-add.period$ -- 228
-call.type$ -- 57
-change.case$ -- 394
-chr.to.int$ -- 58
-cite$ -- 57
-duplicate$ -- 2387
-empty$ -- 2162
-format.name$ -- 725
-if$ -- 6056
++ -- 657
+- -- 585
+* -- 2066
+:= -- 5310
+add.period$ -- 220
+call.type$ -- 55
+change.case$ -- 380
+chr.to.int$ -- 56
+cite$ -- 55
+duplicate$ -- 2301
+empty$ -- 2086
+format.name$ -- 695
+if$ -- 5828
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 508
-newline$ -- 294
-num.names$ -- 228
-pop$ -- 1443
+missing$ -- 490
+newline$ -- 284
+num.names$ -- 220
+pop$ -- 1387
 preamble$ -- 1
-purify$ -- 394
+purify$ -- 380
 quote$ -- 0
-skip$ -- 1093
+skip$ -- 1053
 stack$ -- 0
-substring$ -- 643
-swap$ -- 952
+substring$ -- 621
+swap$ -- 916
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 513
+type$ -- 495
 warning$ -- 0
-while$ -- 228
+while$ -- 220
 width$ -- 0
-write$ -- 692
+write$ -- 668
