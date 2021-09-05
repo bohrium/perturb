@@ -28,7 +28,7 @@ SGD runs $T$ steps of $\eta$-steepest descent:
 where each sequence $(n_t: kN\leq t<kN+N)$ is a permutation of $(n:
 0\leq n<N)$.  Here, Greek indices name components of
 $\theta,\eta,\nabla$ with respect to a fixed basis.  We view $\eta$
-as a bilinear form, not for generality but to constrain the natural
+as a bilinear form, not for generality but to constrain the type-correct
 operations to those of geometric significance.
 %
 
@@ -70,127 +70,6 @@ This paper identifies how noise and curvature correct Prop
 techniques less
 opaque and more convergent than induction.
 %
-
-\subsection{Taylor series: method and challenges}\label{sect:challenges}
-    %\subsubsection{Proving Prop \ref{prop:nest}}
-    Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
-    up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
-    \begin{proof} %(of Prop \ref{prop:nest}).
-        By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
-        We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
-        -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
-        %
-        The claim holds when $T=0$.  Say the claim holds for
-        ${\tilde T}$-step SGD with
-        $T = {\tilde T}+1$.  The displacement
-        $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
-        evaluates to:
-        \begin{align*}
-               & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
-            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
-                       l_{n_{\tilde T}}(\theta_0)
-                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}
-                       + o(\theta_{{\tilde T}} - \theta_0)
-                   }    
-            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
-                          l_{n_{\tilde T}}(\theta_0)
-                          + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
-                      }    
-            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{{\tilde T}}(\theta_0)$}} + o(\eta^1)
-        \end{align*}
-        Applying the induction hypothesis proves the claim.
-        %
-        We plug the claim into $l$'s Taylor series:
-        \begin{align*}
-            \expc[l(\theta_T) - l(\theta_0)]
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0)]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
-            &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
-        \end{align*}
-        Indeed, due to the assumption of analytic moments, the above
-        expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
-    \end{proof}
-
-\subsubsection{What happens when we keep higher order terms?}
-
-\textsc{Multiple Moments} ---
-We used above
-that, to order $\eta^1$, $\expct{l(\theta_T)}$ depends on the
-training data only through the first moment
-\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.\squish\squish\ But to compute  
-$\expct{l(\theta_T)}$ to higher order, we'd also need
-the $k$th moments $M_k^{\mu_0\mu_1\cdots} = \expc\wasq{\prod_i (\theta_T - \theta_0)^{\mu_i}}$.\squish\  We may achieve this by inductively
-proving multiple \textbf{claim}s, one for each moment. 
-
-\textsc{Tuples of Times} --- Complications arise even as we compute $M_1$\squish\ to order $\eta^2$.  We may not neglect the gradient
-correction $\nabla (\text{\translucent{moosky}{$\nabla
-l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} -
-\theta_0)$}})$\squash\ at the $\tilde{T}$th induction step. As the
-displacement $\theta_{{\tilde T}} - \theta_0$ contains (to order
-$\eta^1$) $\tilde T$ terms, so will the correction.
-%
-Totalling the correction over time thus yields
-$\sum_{0\leq \tilde T<T}\tilde T = {T \choose 2}$\squish\
-summands, each (e.g.\ $\nabla\nabla l_{5} \nabla l_{2}$)
-involving a \emph{pair} of times.  Order-$d$
-corrections represent the joint influence of $d$-tuples of times.
-%
-Prop \ref{prop:nest}'s result $\sum_{\tilde T}
-\wrap{\text{\translucent{moolime}{$- \eta \nabla l_{{\tilde
-T}}(\theta_0)$}}}$\squish\squish\ is degree $1$ in $T$; but the
-order-$d$ displacement is a degree $d$ polynomial --- very divergent --- in $T$.
-
-\textsc{Factoring's Failure} --- To obtain \translucent{moogold}{$-TG\eta G$},\squish\ we multiplied
-$l$'s derivatives by the expectations of such summands.
-%
-In contrast to Prop \ref{prop:nest}, these expectations, even those of a fixed
-degree in $\eta$, now vary in form due to noise: some (e.g.\
-$\nabla\nabla l_{5} \nabla l_{2}$) have statistically independent
-factors that permit expectations to factor; others (e.g.\
-$\nabla\nabla l_{5} \nabla l_{5}$) do not.  This is how $\nabla
-l_x$'s higher cumulants (such as the covariance and skew of the gradient distribution) appear in our analysis.
-
-\textsc{Diverse Derivatives} --- 
-At order $\eta^3$, a hessian correction $\nabla((\theta_{{\tilde T}} -
-\theta_0) \cdot \nabla \nabla l_{n_{\tilde T}}(\theta_0) \cdot
-(\theta_{{\tilde T}} - \theta_0)/2)$ augments the gradient
-correction.
-%
-Then $M_1$'s order-$\eta^3$ summands vary in form, even when all
-expectations factor (as happens on noiseless landscapes).  For
-instance, the hessian and gradient corrections respectively induce
-order-$\eta^3$ summands of $\expct{l(\theta_T)}$ such as
-$$
-    %%\textstyle
-    %%\sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
-    %%    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-    %%    \,
-    %%    (\nabla_\mu l_x)
-    %%    \,
-    %%    (\nabla_\nu l_y)
-    %%    \,
-    %%    (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
-    %%    \,
-    %%    (\nabla_\xi l)
-    %%%
-    %%$$ $$
-    %
-    \textstyle
-    \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
-        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-        \,
-        (\nabla_\mu l_x)
-        \,
-        (\nabla_\omicron\nabla_\nu l_y)
-        \,
-        (\nabla_\pi \nabla_\xi l_z)
-        \,
-        (\nabla_\rho l)
-$$
-And $M_2, M_3$'s terms are yet more diverse.  In short, a Taylor
-expansion even to low degrees yields a combinatorial explosion of
-terms.  Our paper develops tools to organize and interpret these
-terms.
 
 \subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
 

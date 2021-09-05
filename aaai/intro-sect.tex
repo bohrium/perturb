@@ -1,66 +1,96 @@
 %-----  object of study  ------------------------------------------------------
 
   Gradient estimates, measured on minibatches and thus noisy, form the primary
-learning signal when training deep neural nets.  While users of deep learning
-benefit from the intuition that such \emph{stochastic gradient descent} (SGD)
-approximates deterministic descent (GD) \citep{bo91,le15}, SGD's
-gradient noise in practice alters training dynamics and testing losses
-\citep{go18,wu20}.  We develop a general theory of SGD on short timescales or
-near minima.  As an application of this theory, we show that \textbf{gradient
-noise biases learning} toward low-curvature, low-noise regions of the loss
-landscape.
+learning signal in deep learning.  While users of deep learning
+benefit from the intuition that \emph{stochastic gradient descent} (SGD)
+approximates deterministic descent (GD) \citep{bo91,le15}, SGD's gradient noise
+in practice alters training dynamics and testing losses \citep{go18,wu20}.  We
+analyze these dynamics for SGD on short timescales or near minima.  We apply
+this theory to find that \textbf{gradient noise biases
+learning} toward low-curvature, low-noise weights.%regions of the loss landscape.
 
-  Specifically, we study the expectation over training sets of the testing loss
-by Taylor expanding that loss in the learning rate $\eta$.  By
-induction on $T$, the loss decrease due to $T$ steps of training is 
-$-T G\eta G + o(\eta)$, where $G=\expc_x[\nabla l_x(\theta_0)]$ is the
-expectation over testing samples $x$ of the loss gradient at initialization.
+  Specifically, we study the expectation over training sets of the
+post-training testing loss by Taylor expanding that loss in the learning rate
+$\eta$.  By induction on $T$, the loss decreases by $-T G\eta G + o(\eta)$
+after $T$ training steps, where $G=\expc_x[\nabla l_x(\theta_0)]$ is the
+expectation over testing samples $x$ of the gradient at initialization.
 %%%This matches the intuition that if the gradient doubles, then training
 %%%displaces the weight twice as far and each unit displacement corresponds to
 %%%twice the loss decrease, for an overall quadrupling of loss-decrease.
 %
-This estimate is exact for loss landscapes that are deterministic and linear,
-that is, when $\nabla l_x(\theta)$ depends neither on $x$ nor on $\theta$.
-We derive the corrections to that estimate due to noise and curvature.
+This estimate is exact for deterministic linear loss landscapes:
+when $\nabla l_x(\theta)$ depends neither on $x$ nor on $\theta$.  We compute
+how noise and curvature correct this estimate.
 
-  A Taylor series analysis of SGD presents three technical challenges.
+  A Taylor series analysis of SGD presents three challenges.
 %
-\emph{First}, the variety of resulting terms explodes combinatorially even for
-the main correction to $-T G\eta G$; indeed, that correction represents the
-diverse ways that some past update may affects a future weight $\theta_t$ and
-thus a future update involving $\nabla l_{x_t}(\theta_t)$.  So our
-analysis must describe \textbf{interactions} between updates.
+\emph{First}, the resulting terms explode in variety.  Even the main
+correction to $-T G\eta G$ represents the diverse ways that some past
+update may affects a future weight $\theta_t$ and thus a future update
+involving $\nabla l_{x_t}(\theta_t)$.  So our analysis must describe
+inter-update \textbf{interactions}.
 %
-\emph{Second}, the SGD's gradient noise is correlated between timesteps.  For
-example, the same training sample reappears in each epoch.  Whereas the
-aforementioned induction on $T$ had an induction hypothesis of the same form
-as its conclusion, to analyze \textbf{finite-sample} effects
-we must extend the induction hypothesis to keep track of joint moments.  
+\emph{Second}, SGD's gradient noise is correlated between timesteps: %e.g.\
+the
+same training sample reappears in each epoch.  Whereas one derives the $-T
+G\eta G$ using an induction hypothesis of the same form as the conclusion, an
+analogous analysis of \textbf{finite-sample} effects must enrich its
+induction hypothesis to keep track of joint moments.  
 %
-\emph{Third}, the $d$th order truncation of the exact Taylor expansion \textbf{diverges}
-as $T$ grows.  A simple qualitative argument shows why this must be: on typical
-landscapes such as least squares linear regression, the loss grows
-exponentially with time for any negative $\eta$.  We thus do not expect a
-Taylor trunction that --- even when restricted to $\eta$ in a neighborhood of
-$0$ --- has error uniform in $T$. 
+\emph{Third}, the series' $d$th order truncation 
+\textbf{diverges} as $T$ grows.  Indeed, on typical landscapes (e.g.\ least
+squares linear regression), the loss grows exponentially with time for any
+negative $\eta$.  Then on no neighorhood of $\eta=0$ does
+any Taylor truncation suffer an error uniform in $T$. 
 
-  Our theory addresses all three challenges.  The key idea is
-a new diagram-based notation to organize and evaluate many terms at once.  We
-physically interpret SGD as a superposition of many concurrent weight-data
-interactions, each depicted by a diagram.  We discuss how diagrams clarify
-the effect of correlated noise.  We show how to balance each term in
+  Our theory addresses all three challenges by using a new diagram-based
+notation to organize and evaluate many terms at once, including correlation
+effects.
+%%We
+%%physically interpret SGD as a superposition of many concurrent weight-data
+%%interactions, each depicted by a diagram.
+%
+%%We discuss how diagrams clarify
+%%the effect of correlated noise.
+We show how to balance each term in
 a $d$th order truncation by a collection of higher
-order terms, thus taming the large-$T$ divergence.\footnote{%
-  Analogous uses of geometric series appear in condensed physics'
-  \emph{ladder summation} and in programming languages' \emph{rational data
-  types}
-}
-In contrast to direct truncation, these `\textbf{re-summed}' expressions have
-vanishing large-$T$ error for quadratic landscapes (with correlated,
-potentially non-Gaussian gradient noise) and they have provably finite and
-empirically small errors for convolutional landscapes on CIFAR-10 and
+order terms, thus taming the large-$T$ divergence.
+%%\footnote{%
+%%  Analogous uses of geometric series appear in condensed physics'
+%%  \emph{ladder summation} and in programming languages' \emph{rational data
+%%  types}
+%%}
+In contrast to plain truncation, these `\textbf{re-summed}' expressions' errors
+vanish uniformly in $T$ for quadratic landscapes (with correlated,
+potentially non-Gaussian gradient noise) --- and are provably finite and
+empirically small for convolutional landscapes on CIFAR-10 and
 Fashion-MNIST.
- 
+
+  Let's analyze the expected testing loss for one-epoch, batchsize-one SGD.
+Simplest diagrams include
+$\sdia{c(0)()}$,
+$\sdia{c(0-1)(01)}$,
+%$\sdia{c(0-1-2)(01-12)}$,
+$\sdia{c(01-2)(02-12)}$,
+$\sdia{c(0-1-2)(02-12)}$.
+%%$\sdia{c(0-1-2-3)(03-13-23)}$,
+%%$\sdia{c(01-2-3)(03-13-23)}$,
+%%$\sdia{c(012-3)(03-13-23)}$.
+To obtain a result with $o(\eta^d)$ error, we sum the contributions of the
+finitely many diagrams with $d$ or fewer thin edges.  Each diagram contributes a
+sum over its `histories', where a history is an assignment of a timestep to
+each non-rightmost fuzzily grouped subset of nodes such that each thin edge's
+left node temporally precedes its right node.
+%
+tensor expression constructed as follows: for each node with $d$ thin edges,
+write a $d$th derivative of $\expc[l_x]$.  For each thin edge spanning $\Delta$
+many timesteps, write a matrix $\eta(I - \eta H)^{\Delta-1}$, where
+$H=\expc[\nabla\nabla_x(\theta_0)]$ is the hessian.  Then dot product all those
+factors together per the diagram's topology.
+
+
+
+\vfill
+\pagebreak
+
 %-----  soft benefits: retrospective  -----------------------------------------
-
-
