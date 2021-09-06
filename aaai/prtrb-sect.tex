@@ -1,9 +1,7 @@
 
 
-We introduce the Taylor series approach to studying SGD dynamics and then the
-diagram notation for the terms that thus appear.  After showing how to
-evaluate diagrams to numbers, we state our main result: that diagram-based
-analysis is correct.
+After explaining the diagram-based Taylor series approach to SGD dynamics, we
+state our main result: that diagram-based analysis is correct.
 
         \subsection{Notation and assumptions, II}\label{sect:background}
 
@@ -12,7 +10,7 @@ analysis is correct.
 \textsc{Regularity Conditions} ---
 We assume the following throughout.
 %
-\emph{Derivative bounds}:
+\textbf{Derivative bounds}:
 there are compact sets $(K_k: k\geq 0)$ so that
 $\nabla^n l_x(\theta)\in K_k$ for all $\theta,l_x$. 
 Here $\nabla^k
@@ -95,23 +93,30 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                 parameters such as $\eta, T$.  It is physical intuition and
                 experiment that determine when such error terms are negligible.
 
-\subsection{Taylor series: method and challenges}\label{sect:challenges}
+\subsection{Diagrams arise from and organize Taylor series}\label{sect:challenges}
+        %\subsection{Diagrams overcome Taylor Series challenges}
+        \label{sect:using}\label{sect:diagrams}
+
+
     %\subsubsection{Proving Prop \ref{prop:nest}}
     %Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
     %up,
     %we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
-    We'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+
+    \subsubsection{Structure of the Taylor Expansion} %---
+    We discuss how to analyze SGD by expanding in powers of $\eta$.  We begin
+    by proving Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
 
     \begin{proof} %(of Prop \ref{prop:nest}).
-        By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
-        We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
-        -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
+        By our gradient bound assumption: $\theta_T - \theta_0$ is $O(\eta^1)$.
+        We {claim} that $(\theta_T - \theta_0)^\mu =
+        -\sum_t \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_t}(\theta_0) + o(\eta^1)$.
         %
         The claim holds when $T=0$.  Say the claim holds for
         ${\tilde T}$-step SGD with
         $T = {\tilde T}+1$.  The displacement
         $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
-        evaluates to:
+        is:%evaluates to:
         \begin{align*}
                & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
             \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
@@ -123,7 +128,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                           l_{n_{\tilde T}}(\theta_0)
                           + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
                       }    
-            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{{\tilde T}}(\theta_0)$}} + o(\eta^1)
+            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_0)$}} + o(\eta^1)
         \end{align*}
         Applying the induction hypothesis proves the claim.
         %
@@ -131,42 +136,76 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
         \begin{align*}
             \expc[l(\theta_T) - l(\theta_0)]
             &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
-            &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
+            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (\text{\translucent{moogold}{$-T\eta G + o(\eta^1)$}}) + o(O(\eta^1)) \\
+            &= \textstyle - \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu + o(\eta^1)
         \end{align*}
-        Indeed, due to the assumption of analytic moments, the above
+        Indeed, due our assumption of analytic moments, the above
         expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
     \end{proof}
 
-\subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
+    The above proof gives an order-$1$ result.  %Correction terms involve
+At higher order, higher derivatives correct
+${\translucent{moosky}{$\cdots$}}$
+%${\translucent{moosky}{$\nabla l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} - \theta_0)$}}$
+and higher
+moments augment
+\translucent{moopink}{$\cdots$}.
+%\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.
+%
+%%Whereas \translucent{moogold}{$-TG\eta G$}
+%%we multiplied
+%%$l$'s derivatives by the expectations of such summands.
+%
+Whereas above the displacement is a sum over $\tilde T$s of
+\translucent{moolime}{$\cdots$}s, due to ${\translucent{moosky}{$\cdots$}}$'s
+corrections the displacement at higher order is a sum over \emph{tuples} of
+times with summands such as $\nabla\nabla l_{n_{T^\prime}} \nabla l_{n_{\tilde
+T}}$ instead of $\nabla l_{n_{\tilde T}}$.
+%
+When we then take expectations of \translucent{moolime}{$\cdots$} to evaluate 
+\translucent{moopink}{$\cdots$} as  
+\translucent{moogold}{$\cdots$},
+some summands (e.g.\ $\expc[\nabla\nabla l_{5}
+\nabla l_{2}]=\expc[\nabla\nabla l_{5}]
+\expc[\nabla l_{2}]$) are uncorrelated and thus factor; others (e.g.\ $\expc[\nabla\nabla
+l_{5} \nabla l_{5}]$) do not.  This is how $\nabla l_x$'s higher cumulants such
+as $C, S$ appear in our analysis.
+%In short, a Taylor
+%expansion even to low degrees yields a combinatorial explosion of
+%terms.
+%
+    %\textsc{Diagrams in brief} ---
+    \label{sect:diagrams-in-brief}
+%That development begins with the observation that each $\eta$
+%`connects' two $\nabla$ operators as indices prescribe.  So we
+%draw
+%$\eta$s as edges, $\nabla^k l$s as nodes, and each
+%summand of the following form 
 
-That development begins with the observation that each $\eta$
-`connects' two $\nabla$ operators as indices prescribe.  So we
-draw
-$\eta$s as edges, $\nabla^k l$s as nodes, and each
-summand of the following form (evaluated at $\theta=\theta_0$)
+  Overall, a general summand in \translucent{moolime}{$\cdots$} has the following form (evaluated at $\theta=\theta_0$):
 $$
     \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
     \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
     l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
     l
 $$
-as an undirected graph with edges indexed by $j\in J$, nodes
-indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
+We represent such a summand
+as an undirected graph equipped with a partition of nodes, with
+edges indexed by $j\in J$, nodes
+indexed by $i\in I\sqcup \{\star\}$, an edge $j$ incident
 to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
-$\{\mu_j,\nu_j\}$.  Per \textsc{factoring}, we also equip these
-graphs with a partition of nodes to account for correlation
-structure.
-%
-Such diagrams offer the same advantages over direct notation that %of compactness and of clarity as
-decimal numerals offer over unary numerals.  More importantly,
-their topology has dynamical significance and leads to a
-physical interpretation of SGD.
+$\{\mu_j,\nu_j\}$, and nodes $i,i^\prime$ grouped in the partition when
+$x_i=x_j$.
+
+%Such diagrams offer the same advantages over direct notation that %of compactness and of clarity as
+%decimal numerals offer over unary numerals.  More importantly,
+%their topology has dynamical significance and leads to a
+%physical interpretation of SGD.
 
 
 
 
-        \subsection{Diagrams overcome Taylor Series challenges}\label{sect:using}\label{sect:diagrams}
+        %\subsection{Diagrams overcome Taylor Series challenges}\label{sect:using}\label{sect:diagrams}
 
             %%\subsubsection{Diagrams organize the combinatorial explosion of terms}
             %%We formalize \S\ref{sect:diagrams-in-brief}'s identification of
@@ -288,6 +327,7 @@ physical interpretation of SGD.
             %}
 
             \subsubsection{SGD as a Sum over Histories}\label{sect:histories}
+            %\textsc{SGD as a Sum over Histories}\label{sect:histories} ---
             %-----  histories and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
             Having expressed terms in $\expc[l(\theta_T)]$'s Taylor expansion %(\ref{eq:dyson})
@@ -308,7 +348,7 @@ physical interpretation of SGD.
             }
 
             \begin{dfn}
-                \emph{An \textbf{history} of a diagram is an assignment of non-root
+                \emph{A \textbf{history} of a diagram is an assignment of non-root
                 nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
                 training point participates in the $t$th batch; parents'
                 $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
@@ -381,7 +421,7 @@ physical interpretation of SGD.
 
             %\newpage
             %-----  resummation  ----------------------------------------------
-            \subsubsection{Re-summation cures large-$T$ divergences}\label{sect:resummation}
+            \subsection{Re-summation cures large-$T$ divergences}\label{sect:resummation}
             So far, diagrams have been a convenient but dispensible
             book-keeping tool; so far, \S\ref{sect:challenges}'s polynomial
             divergence remains in (\ref{eq:sgdcoef}).  We now show how
@@ -408,7 +448,7 @@ physical interpretation of SGD.
             We will express in closed form the total contribution to
             (\ref{eq:sgdcoef}) of all diagrams in such a list.  The idea is that
             the uvalues of chains are powers of hessians --- e.g.\
-            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = (-\eta)^4 GH^3G$ --- so we
+            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = (\eta)^4 GH^3G$ --- so we
             may sum over chain lengths via geometric series.
 
             \begin{figure}%{r}{0.2\linewidth}
@@ -519,6 +559,7 @@ physical interpretation of SGD.
                 %$\lim_{T\to\infty} \epsilon(\eta,T)$ exists for small $\eta$
                 %and is $o(\eta^d)$
             \end{thm}
+            {\large\color{red}QUADRATIC EXACTNESS!}
             \begin{rmk}
                 \emph{
                 Thm \ref{thm:converge} claims only that a limit

@@ -4,45 +4,45 @@
 \BOOKMARK [2][-]{section*.5}{SGD descends on a C-smoothed landscape}{section*.3}% 4
 \BOOKMARK [1][-]{section*.8}{Perturbative theory of SGD}{}% 5
 \BOOKMARK [2][-]{section*.9}{Notation and assumptions, II}{section*.8}% 6
-\BOOKMARK [2][-]{section*.10}{Taylor series: method and challenges}{section*.8}% 7
-\BOOKMARK [2][-]{section*.12}{Diagrams overcome Taylor Series challenges}{section*.8}% 8
-\BOOKMARK [2][-]{section*.16}{Main result}{section*.8}% 9
-\BOOKMARK [1][-]{section*.21}{Consequences of the theory}{}% 10
-\BOOKMARK [2][-]{section*.22}{Gradient noise repels SGD}{section*.21}% 11
-\BOOKMARK [2][-]{section*.23}{Time discretization penalizes sloped regions}{section*.21}% 12
-\BOOKMARK [2][-]{section*.24}{Jerk distinguishes SDE and SGD}{section*.21}% 13
-\BOOKMARK [2][-]{section*.25}{Both flat and sharp minima overfit less}{section*.21}% 14
-\BOOKMARK [2][-]{section*.27}{Experiments}{section*.21}% 15
-\BOOKMARK [1][-]{section*.29}{Discussion}{}% 16
-\BOOKMARK [2][-]{section*.30}{Related work}{section*.29}% 17
-\BOOKMARK [2][-]{section*.31}{Conclusion}{section*.29}% 18
-\BOOKMARK [2][-]{section*.35}{Taylor series: method and challenges}{section*.29}% 19
-\BOOKMARK [1][-]{section*.40}{Tutorial: how to use diagrams}{}% 20
-\BOOKMARK [2][-]{section*.41}{Two example calculations}{section*.40}% 21
-\BOOKMARK [2][-]{section*.46}{How to identify the relevant grid}{section*.40}% 22
-\BOOKMARK [2][-]{section*.49}{How to identify the relevant diagram histories}{section*.40}% 23
-\BOOKMARK [2][-]{section*.52}{How to evaluate each history}{section*.40}% 24
-\BOOKMARK [2][-]{section*.56}{How to sum the histories' values}{section*.40}% 25
-\BOOKMARK [2][-]{section*.57}{How to solve variant problems}{section*.40}% 26
-\BOOKMARK [2][-]{section*.61}{Do diagrams streamline computation?}{section*.40}% 27
-\BOOKMARK [1][-]{section*.64}{Mathematics of the theory}{}% 28
-\BOOKMARK [2][-]{section*.65}{Assumptions and Definitions}{section*.64}% 29
-\BOOKMARK [2][-]{section*.66}{A key lemma \340 la Dyson}{section*.64}% 30
-\BOOKMARK [2][-]{section*.67}{From Dyson to diagrams}{section*.64}% 31
-\BOOKMARK [2][-]{section*.68}{Proof of Theorem 1}{section*.64}% 32
-\BOOKMARK [2][-]{section*.69}{Proof of Theorem 2}{section*.64}% 33
-\BOOKMARK [2][-]{section*.70}{Proofs of corollaries}{section*.64}% 34
-\BOOKMARK [2][-]{section*.77}{Future topics}{section*.64}% 35
-\BOOKMARK [1][-]{section*.78}{Experimental methods}{}% 36
-\BOOKMARK [2][-]{section*.79}{What artificial landscapes did we use?}{section*.78}% 37
-\BOOKMARK [2][-]{section*.83}{What image-classification landscapes did we use?}{section*.78}% 38
-\BOOKMARK [2][-]{section*.86}{Measurement process}{section*.78}% 39
-\BOOKMARK [2][-]{section*.89}{Implementing optimizers}{section*.78}% 40
-\BOOKMARK [2][-]{section*.90}{Software frameworks and hardware}{section*.78}% 41
-\BOOKMARK [2][-]{section*.91}{Unbiased estimators of landscape statistics}{section*.78}% 42
-\BOOKMARK [2][-]{section*.92}{Additional figures}{section*.78}% 43
-\BOOKMARK [1][-]{section*.95}{Review of Tensors}{}% 44
-\BOOKMARK [2][-]{section*.96}{Vectors versus covectors}{section*.95}% 45
-\BOOKMARK [2][-]{section*.97}{What is a tensor?}{section*.95}% 46
-\BOOKMARK [2][-]{section*.98}{Tensors of type ud}{section*.95}% 47
-\BOOKMARK [2][-]{section*.99}{Contraction}{section*.95}% 48
+\BOOKMARK [2][-]{section*.10}{Diagrams arise from and organize Taylor series}{section*.8}% 7
+\BOOKMARK [2][-]{section*.13}{Re-summation cures large-T divergences}{section*.8}% 8
+\BOOKMARK [2][-]{section*.15}{Main result}{section*.8}% 9
+\BOOKMARK [1][-]{section*.20}{Consequences of the theory}{}% 10
+\BOOKMARK [2][-]{section*.21}{Gradient noise repels SGD}{section*.20}% 11
+\BOOKMARK [2][-]{section*.22}{Time discretization penalizes sloped regions}{section*.20}% 12
+\BOOKMARK [2][-]{section*.23}{Jerk distinguishes SDE and SGD}{section*.20}% 13
+\BOOKMARK [2][-]{section*.24}{Both flat and sharp minima overfit less}{section*.20}% 14
+\BOOKMARK [2][-]{section*.26}{Experiments}{section*.20}% 15
+\BOOKMARK [1][-]{section*.28}{Discussion}{}% 16
+\BOOKMARK [2][-]{section*.29}{Related work}{section*.28}% 17
+\BOOKMARK [2][-]{section*.30}{Conclusion}{section*.28}% 18
+\BOOKMARK [2][-]{section*.34}{Taylor series: method and challenges}{section*.28}% 19
+\BOOKMARK [1][-]{section*.39}{Tutorial: how to use diagrams}{}% 20
+\BOOKMARK [2][-]{section*.40}{Two example calculations}{section*.39}% 21
+\BOOKMARK [2][-]{section*.45}{How to identify the relevant grid}{section*.39}% 22
+\BOOKMARK [2][-]{section*.48}{How to identify the relevant diagram histories}{section*.39}% 23
+\BOOKMARK [2][-]{section*.51}{How to evaluate each history}{section*.39}% 24
+\BOOKMARK [2][-]{section*.55}{How to sum the histories' values}{section*.39}% 25
+\BOOKMARK [2][-]{section*.56}{How to solve variant problems}{section*.39}% 26
+\BOOKMARK [2][-]{section*.60}{Do diagrams streamline computation?}{section*.39}% 27
+\BOOKMARK [1][-]{section*.63}{Mathematics of the theory}{}% 28
+\BOOKMARK [2][-]{section*.64}{Assumptions and Definitions}{section*.63}% 29
+\BOOKMARK [2][-]{section*.65}{A key lemma \340 la Dyson}{section*.63}% 30
+\BOOKMARK [2][-]{section*.66}{From Dyson to diagrams}{section*.63}% 31
+\BOOKMARK [2][-]{section*.67}{Proof of Theorem 1}{section*.63}% 32
+\BOOKMARK [2][-]{section*.68}{Proof of Theorem 2}{section*.63}% 33
+\BOOKMARK [2][-]{section*.69}{Proofs of corollaries}{section*.63}% 34
+\BOOKMARK [2][-]{section*.76}{Future topics}{section*.63}% 35
+\BOOKMARK [1][-]{section*.77}{Experimental methods}{}% 36
+\BOOKMARK [2][-]{section*.78}{What artificial landscapes did we use?}{section*.77}% 37
+\BOOKMARK [2][-]{section*.82}{What image-classification landscapes did we use?}{section*.77}% 38
+\BOOKMARK [2][-]{section*.85}{Measurement process}{section*.77}% 39
+\BOOKMARK [2][-]{section*.88}{Implementing optimizers}{section*.77}% 40
+\BOOKMARK [2][-]{section*.89}{Software frameworks and hardware}{section*.77}% 41
+\BOOKMARK [2][-]{section*.90}{Unbiased estimators of landscape statistics}{section*.77}% 42
+\BOOKMARK [2][-]{section*.91}{Additional figures}{section*.77}% 43
+\BOOKMARK [1][-]{section*.94}{Review of Tensors}{}% 44
+\BOOKMARK [2][-]{section*.95}{Vectors versus covectors}{section*.94}% 45
+\BOOKMARK [2][-]{section*.96}{What is a tensor?}{section*.94}% 46
+\BOOKMARK [2][-]{section*.97}{Tensors of type ud}{section*.94}% 47
+\BOOKMARK [2][-]{section*.98}{Contraction}{section*.94}% 48
