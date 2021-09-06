@@ -82,32 +82,8 @@ Our work identifies how noise and curvature correct Prop
 %
 
 
-%\subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
-%
-%That development begins with the observation that each $\eta$
-%`connects' two $\nabla$ operators as indices prescribe.  So we
-%draw
-%$\eta$s as edges, $\nabla^k l$s as nodes, and each
-%summand of the following form (evaluated at $\theta=\theta_0$)
-%$$
-%    \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
-%    \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
-%    l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
-%    l
-%$$
-%as an undirected graph with edges indexed by $j\in J$, nodes
-%indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
-%to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
-%$\{\mu_j,\nu_j\}$.  Per \textsc{factoring}, we also equip these
-%graphs with a partition of nodes to account for correlation
-%structure.
-%%
-%Such diagrams offer the same advantages over direct notation that %of compactness and of clarity as
-%decimal numerals offer over unary numerals.  More importantly,
-%their topology has dynamical significance and leads to a
-%physical interpretation of SGD.
-
-\subsection{An entropic force with curl}\label{sect:entropic-curl}
+\subsection{SGD descends on a $C$-smoothed landscape}\label{sect:entropic-curl}
+%An entropic force with curl}
 
 Let's study the displacement $\expc[\theta_T-\theta_0]$ of one-epoch,
 batch-size-one SGD initialized at a testing loss minimum.

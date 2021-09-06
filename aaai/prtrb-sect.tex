@@ -1,25 +1,24 @@
 
 
-        %\S\ref{sect:exegesis} illustrates by example a Taylor series approach
-        %to studying SGD dynamics.
-        \S\ref{sect:diagrams} introduces a diagram
-        notation for the formulae that thus appear.  \S\ref{sect:using} shows
-        how to evaluate diagrams to obtain numbers.  \S\ref{sect:main} states
-        our main result: that diagram-based analysis is correct.
+We introduce the Taylor series approach to studying SGD dynamics and then the
+diagram notation for the terms that thus appear.  After showing how to
+evaluate diagrams to numbers, we state our main result: that diagram-based
+analysis is correct.
 
         \subsection{Notation and assumptions, II}\label{sect:background}
 
             %--  names of sgd parameters  -------------------------------------
 
-Throughout this paper we assume:
+\textsc{Regularity Conditions} ---
+We assume the following throughout.
 %
-\textbf{Derivative Bounds}:
+\emph{Derivative bounds}:
 there are compact sets $(K_k: k\geq 0)$ so that
 $\nabla^n l_x(\theta)\in K_k$ for all $\theta,l_x$. 
 Here $\nabla^k
 l_x(\theta)$ is a $k$th derivative, a $k$-axis tensor.
 %
-\textbf{Analytic Moments}:
+\textbf{Analytic moments}:
 any polynomial $p$ of $l_x$ and its higher derivatives
 induces a random variable so that
 $\expct{p}:\Mm\to\RR$ (exists and) is analytic in $\theta$;
@@ -29,8 +28,9 @@ even as $\theta$ varies.
 Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
 
 
-            \subsubsection{Loss Landscape, SGD, Associated Tensors}
-            \textsc{Batches and Epochs} --- Generalizing \S\ref{sect:setup}, our theory describes SGD with
+%            \subsubsection{Loss Landscape, SGD}
+            \textsc{Batches and Epochs} --- Generalizing the previous section,
+            our theory describes SGD with
             any number
                 {$\mathbf{N}$ of training points},
                 {$\mathbf{T}$ of updates}, and 
@@ -71,7 +71,8 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             We write $A \preceq B$ ($\prec$) for symmetric bilinear forms $A,
             B$ when $A(v,v) \leq B(v,v)$ ($<$) for all $v\neq 0$. 
 
-            \subsubsection{Continuous Time}
+\textsc{Continuous Time} ---
+            %\subsubsection{Continuous Time}
                 Ordinary and stochastic differential equations (ODE, SDE) are
                 popular models of SGD \citep{li18, ba21}.  They correspond to
                 continuous-time limits of large-training-set SGD with
@@ -96,8 +97,11 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
 
 \subsection{Taylor series: method and challenges}\label{sect:challenges}
     %\subsubsection{Proving Prop \ref{prop:nest}}
-    Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
-    up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+    %Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
+    %up,
+    %we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+    We'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+
     \begin{proof} %(of Prop \ref{prop:nest}).
         By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
         We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
@@ -126,7 +130,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
         We plug the claim into $l$'s Taylor series:
         \begin{align*}
             \expc[l(\theta_T) - l(\theta_0)]
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0)]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
+            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
             &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
             &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
         \end{align*}
@@ -134,14 +138,41 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
         expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
     \end{proof}
 
+\subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
+
+That development begins with the observation that each $\eta$
+`connects' two $\nabla$ operators as indices prescribe.  So we
+draw
+$\eta$s as edges, $\nabla^k l$s as nodes, and each
+summand of the following form (evaluated at $\theta=\theta_0$)
+$$
+    \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
+    \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
+    l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
+    l
+$$
+as an undirected graph with edges indexed by $j\in J$, nodes
+indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
+to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
+$\{\mu_j,\nu_j\}$.  Per \textsc{factoring}, we also equip these
+graphs with a partition of nodes to account for correlation
+structure.
+%
+Such diagrams offer the same advantages over direct notation that %of compactness and of clarity as
+decimal numerals offer over unary numerals.  More importantly,
+their topology has dynamical significance and leads to a
+physical interpretation of SGD.
+
+
+
 
         \subsection{Diagrams overcome Taylor Series challenges}\label{sect:using}\label{sect:diagrams}
 
-            \subsubsection{Diagrams organize the combinatorial explosion of terms}
-            We formalize \S\ref{sect:diagrams-in-brief}'s identification of
-            terms (in $\expc[l(\theta_T)]$'s Taylor expansion) with diagrams.
-            (Throughout, colors help us refer to parts of diagrams; colors lack
-            mathematical meaning.)
+            %%\subsubsection{Diagrams organize the combinatorial explosion of terms}
+            %%We formalize \S\ref{sect:diagrams-in-brief}'s identification of
+            %%terms (in $\expc[l(\theta_T)]$'s Taylor expansion) with diagrams.
+            %%(Throughout, colors help us refer to parts of diagrams; colors lack
+            %%mathematical meaning.)
             \begin{dfn}%[\S\ref{appendix:toward-diagrams}]
                 \emph{%A \translucent{moolime}{\textbf{diagram}}
                 A {\textbf{diagram}}
@@ -196,7 +227,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                         %
                         %%See \S\ref{appendix:evaluate-histories}.
                     }
-                    per $D$'s gray outlines, and tensor-contracted 
+                    per $D$'s fuzzy groups, and tensor-contracted 
                     via a %per $D$'s edges.  We thus have a
                     factor $\eta^{\mu\nu}$ for each edge.
                 }\mend
@@ -248,7 +279,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             if $E=B=1$ (\S\ref{sect:background}), each diagram with an ancestor-descendant pair in the
             same part contributes zero to $\expc[l(\theta_T)]$; for $\theta_0$ a minimum of
             $l$, all diagrams vanish that contain a leaf node
-            participating in no gray outline.%\footnote{
+            not fuzzily grouped.%\footnote{
                 %Recall that $E,T,B,M,N;G,H,J,C,S;\Dd,\Mm,l_x,\eta,\theta$
                 %are defined in \S\ref{sect:background}.
             %}
@@ -287,15 +318,16 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             in the $t$th update, i.e.,
             $B\cdot T$ histories.  Since $\sdia{(0-1)(01)}$ is the only
             diagram with one edge, it gives the full $\eta^1$ contribution to
-            final testing loss.  We thus recover Prop
-            \ref{prop:nest}:
-                \vspace{-0.15cm}
-            $$
-                -(\text{\# of histories of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
-                =
-                -T \cdot \textstyle\sum_{\mu\nu} G_\mu \eta^{\mu\nu} G_\nu
-            $$
-                \vspace{-0.65cm}
+            final testing loss.  
+            %%We thus recover Prop
+            %%\ref{prop:nest}:
+            %%    \vspace{-0.15cm}
+            %%$$
+            %%    -(\text{\# of histories of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
+            %%    =
+            %%    -T \cdot \textstyle\sum_{\mu\nu} G_\mu \eta^{\mu\nu} G_\nu
+            %%$$
+            %%    \vspace{-0.65cm}
 
             %-----  isolate effect of tensors; crossing symmetries  -----------
             Diagrams streamline analysis of SGD because it is in practice
@@ -305,10 +337,11 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             T^{-p}$-th order correction\footnote{We compare ODE integrated to
             time $t$ to $T$ steps of SGD with $\eta = \eta_\star t/T$ and
             $E=B=1$, and we assume $p\neq 0$.} to the ODE approximation of SGD
-            is given by diagrams with $d$ edges and $p$ many outlined ties.
+            is given by diagrams with $d$ edges and $d+1-p$ many fuzzy groups
+            (counting each node not fuzzily grouped as its own group).
             Likewise, if we seek to isolate the effect, say, of $C$ or $H$ or
             $S$ or $J$, we may consider only those diagrams that contain the
-            corresponding subgraph in Figure \ref{fig:tensor}.
+            corresponding subgraph.%in Figure \ref{fig:tensor}.
 
             %
             %Moreover, we may
@@ -353,7 +386,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
 
             Let us collect similar diagrams, where our notion of
             `similar' permits chains to grow or shrink (see Definition
-            \ref{dfn:link}).  We obtain lists\squash (each conveniently represented by
+            \ref{dfn:link}).  We obtain lists (each conveniently represented by
             its smallest member) such as %: \squash
             %%%%\vspace{-0.30cm}
             %%%%\begin{align*}
@@ -372,7 +405,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             We will express in closed form the total contribution to
             (\ref{eq:sgdcoef}) of all diagrams in such a list.  The idea is that
             the uvalues of chains are powers of hessians --- e.g.\
-            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = GH^3G$ --- so we
+            $\uvalue(\sdia{MOOc(0-1-2-3-4)(01-12-23-34)}) = (-\eta)^4 GH^3G$ --- so we
             may sum over chain lengths via geometric series.
 
             %This is the \emph{resummed value} (\emph{rvalue}) of the list's
@@ -396,7 +429,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             \squash\squash
             \begin{dfn}\label{dfn:link}
                 \emph{A \textbf{link} is a degree-$2$ non-root node that
-                participates in no gray outlines.  
+                is not fuzzily grouped.
                 E.g.\ $\sdia{c(02-1-3)(01-13-23)}$ has one link (green).
                 To \emph{reduce} at a link, we
                 replace the link by a black edge connecting the link's two
@@ -482,7 +515,7 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                 }
             \end{rmk}
 
-        \subsubsection{Example Computation}
+        \subsubsection{Example Computation A}
             \begin{figure}%{r}{0.4\textwidth}
                 \crunch
                 \begin{tabular}{ccc}
@@ -504,7 +537,10 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                 \sum_{\mu\nu} G_\mu \wasq{\frac{I - K^T}{I - K} \eta}^{\mu\nu} G_\nu 
             $$
             to the loss.  This is the re-summed %(Hessian-corrected)
-            Prop.  There are three $2$-edged linkless diagrams (see table
+            Prop.
+
+        \subsubsection{Example Computation B}
+            There are three $2$-edged linkless diagrams (see table
             for intuitive interpretations).
             The two diagrams involving higher cumulants (i.e., gray
             outlines) give the leading order effect of gradient noise. 
