@@ -10,13 +10,13 @@
     \begin{itemize}
         \item {\bf Specify, as a grid}, the batch size, training set
             size, and number of epochs. 
-        \item {\bf Draw embeddings}, of diagrams into the
+        \item {\bf Draw histories}, of diagrams into the
             grid, as needed for the desired precision.
-        \item {\bf Evaluate each diagram embedding}, whether exactly
+        \item {\bf Evaluate each diagram history}, whether exactly
             (via $\rvalue$s)
             or roughly
             (via $\uvalue$s).
-        \item {\bf Sum the embeddings' values} to obtain the quantity of
+        \item {\bf Sum the histories' values} to obtain the quantity of
               interest as a function of $\eta$.
     \end{itemize}
     \noindent
@@ -135,10 +135,10 @@
     \begin{landscape}
         \subsubsection{Computations: Embeddings of diagrams into grids}\label{sect:exampleembed}
         Say we permit order-$d$ errors.  We draw all relevant
-        diagrams with $d$ or fewer edges and then characterize the embeddings
+        diagrams with $d$ or fewer edges and then characterize the histories
         of those diagrams in \S\ref{sect:gridss}'s grid.
         %
-        An \emph{embedding} of a diagram $D$ in a grid is an
+        An \emph{history} of a diagram $D$ in a grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
         the following criteria:
         \par \indent $\bullet$ \textbf{time-ordering condition}: the times $t$
@@ -148,11 +148,11 @@
                                in the same part of $D$'s partition, then they
                                are assigned to the same datapoint $n$.
         \par\noindent
-        We draw embeddings by placing nodes in their assigned shaded
+        We draw histories by placing nodes in their assigned shaded
         $(n,t)$cells; we draw the root nodes outside the
         grids (at arbitrary positions). 
         %
-        %Drawn on each of the two grids are examples of embeddings.
+        %Drawn on each of the two grids are examples of histories.
         \newline
         \par\noindent
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
@@ -160,18 +160,18 @@
             \hline
             We seek an order $1$ result and thus consider
             one-edged diagrams; there is only one: 
-            $\sdia{c(0-1)(01)}$.  We now describe the embeddings of this diagram: 
+            $\sdia{c(0-1)(01)}$.  We now describe the histories of this diagram: 
             \begin{center}\parbox{0.90\linewidth}{
                 \begin{center}
                     \dmoo{3.75cm}{spacetime-b2-e4-nosh-populated}
                 \end{center}
                 \par
-                    \textbf{$\protect\sdia{c(0-1)(01)}$ has one embedding for
-                    each shaded cell}.  An embedding of a non-root node at cell
+                    \textbf{$\protect\sdia{c(0-1)(01)}$ has one history for
+                    each shaded cell}.  An history of a non-root node at cell
                     $(n,t)$ represents the influence of the datapoint $n$ on
                     the testing loss due to the $t$th update.  To first order
                     (i.e.\ one-edged diagrams), the influences of different
-                    timesteps do not interact.  The combinatorics of embeddings
+                    timesteps do not interact.  The combinatorics of histories
                     is thus straightforward.
             }\end{center}
                         &
@@ -181,7 +181,7 @@
             $\sdia{c(01-2)(02-12)}$,
             $\sdia{c(0-1-2)(01-12)}$, and
             $\sdia{c(01-2)(01-12)}$.
-            The figure below shows some embeddings of order-$1$ and
+            The figure below shows some histories of order-$1$ and
             order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
             grid relevant to Question \ref{qst:multi}.
             %
@@ -217,7 +217,7 @@
     \end{landscape}
 
     \begin{landscape}
-        \subsubsection{Computations: Evaluating each diagram embedding}\label{sect:example-eval}
+        \subsubsection{Computations: Evaluating each diagram history}\label{sect:example-eval}
             We evaluate \S\ref{sect:exampleembed}'s diagrams.  We choose here to
             compute $\uvalue$s (apt for fixed $T$), not
             $\rvalue$s.  These rules translate diagrams to numbers:
@@ -246,7 +246,7 @@
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
-            In \S\ref{sect:exampleembed} we determined the embeddings of
+            In \S\ref{sect:exampleembed} we determined the histories of
             $\sdia{c(0-1)(01)}$.  Now we evaluate $\uvalue(\sdia{c(0-1)(01)})$. 
             The node rule suggests that we begin with
             $$
@@ -280,12 +280,12 @@
             In \S\ref{sect:exampleembed} we saw that
             $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
             and single-epoch grids: its multi-epoch
-            embeddings correspond by a $M_0^2:1$ map to its single-epoch
-            embeddings.  Since we scaled the learning rate of the two SGD
+            histories correspond by a $M_0^2:1$ map to its single-epoch
+            histories.  Since we scaled the learning rate of the two SGD
             versions by a factor of $M_0$, and since %$2$-edged diagrams such as
             $\sdia{c(0-1-2)(02-12)}$ (being two-edged) scales as $\eta^2$, \emph{the total
-            $\uvalue$ of its multi-epoch embeddings will match the
-            total $\uvalue$ of its single-epoch embeddings.}  So 
+            $\uvalue$ of its multi-epoch histories will match the
+            total $\uvalue$ of its single-epoch histories.}  So 
             we need not compute $\sdia{c(0-1-2)(02-12)}$'s contribution.
             \newline
             We see that this cancellation happens for all of the order-$2$
@@ -324,14 +324,14 @@
     \end{landscape}
 
     \begin{landscape}
-        \subsubsection{Computations: Summing the embeddings' values}
+        \subsubsection{Computations: Summing the histories' values}
         Our Key Lemma('s restatement) says that to compute a testing loss,
         \par\indent$\bullet$ we sum \S\ref{sect:example-eval}'s uvalues, each weighted by the number of ways its diagram
         embeds in the grid,
-        \par\indent$\bullet$ where embeddings with $s$ many symmetries count only $1/s$ much
-        toward the total number of embeddings.
+        \par\indent$\bullet$ where histories with $s$ many symmetries count only $1/s$ much
+        toward the total number of histories.
         \par\noindent
-        A symmetry of an embedding $f$
+        A symmetry of an history $f$
         of a diagram $D$, i.e.\ an element of $\Aut_f(D)$, is defined to be a
         relabeling of $D$'s nodes that simultaneously preserves $D$'s rooted
         tree structure, $D$'s partition structure, and $f$'s assignment of
@@ -339,7 +339,7 @@
         there will typically be no symmetries except for the identity, meaning
         that $s=1$.  
         % In sum:
-        %\par\indent$\bullet$ For each diagram under consideration, compute the sum $\gamma$ of all the $1/|\Aut_f(D)|$ where $f$ ranges over embeddings.
+        %\par\indent$\bullet$ For each diagram under consideration, compute the sum $\gamma$ of all the $1/|\Aut_f(D)|$ where $f$ ranges over histories.
         %\par\indent$\bullet$ Sum the uvalues of all diagrams under consideration, weighted by the aforementioned sums $\gamma$.  This is the answer.
         \newline
         \par\noindent
@@ -347,13 +347,13 @@
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
             Referring again to \S\ref{sect:exampleembed}, we see that
-            $D=\sdia{c(0-1)(01)}$ has $TB$ many embeddings ($B$ many embeddings
+            $D=\sdia{c(0-1)(01)}$ has $TB$ many histories ($B$ many histories
             per column for $T$ many columns).  Since $D$ has no non-trivial
             automorphisms (i.e.\ no non-trivial relabeling of nodes that
             preserves the root, the graph structure, and the equivalence
             relation on non-root nodes), $D$ has no non-trivial automorphisms
-            that preserve any given embedding.  Thus $|\Aut_f(D)|=1$ for each
-            embedding of $D$.  We conclude that the Restated Key Lemma's
+            that preserve any given history.  Thus $|\Aut_f(D)|=1$ for each
+            history of $D$.  We conclude that the Restated Key Lemma's
             expression (\ref{eq:sgdcoef})
             \begin{equation*}
                 \sum_{\substack{D~\text{a} \\ \text{diagram}}}
@@ -366,7 +366,7 @@
             \end{equation*}
             has as its contribution from $D=\sdia{c(0-1)(01)}$ the value
             \begin{align*}
-                (\#\text{of embeddings}~f)
+                (\#\text{of histories}~f)
                 \cdot
                 \frac{(-B)^{-1}}{1}
                 \,
@@ -376,10 +376,10 @@
             Prop \ref{prop:nest}'s expression $-T G_\mu G^\mu$ follows.
           &
             Referring again to \S\ref{sect:exampleembed}, we see that
-            $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
-            into the multi-epoch grid (one embedding per pair of distinct
-            epochs, per row) --- and no embeddings into the single-epoch grid.
-            Moreover, each embedding of $\sdia{c(01-2)(01-12)}$ has
+            $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many histories
+            into the multi-epoch grid (one history per pair of distinct
+            epochs, per row) --- and no histories into the single-epoch grid.
+            Moreover, each history of $\sdia{c(01-2)(01-12)}$ has
             $\wabs{\Aut_f(D)}= 1$.  
             %
             We conclude that the testing loss of $M=M_0$ SGD exceeds the
@@ -479,7 +479,7 @@
     %        %path condition mentioned in \S\ref{sect:calculus}, because we are
     %        %no longer restricting to the special case $E=B=1$.
     %        %
-    %        An \emph{embedding} of a diagram $D$ into a grid is an
+    %        An \emph{history} of a diagram $D$ into a grid is an
     %        assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
     %        the following criteria:
     %        \begin{itemize}
@@ -490,9 +490,9 @@
     %                datapoint $n$.
     %        \end{itemize}
 
-    %        We may conveniently draw embeddings by placing nodes in the shaded
+    %        We may conveniently draw histories by placing nodes in the shaded
     %        cells to which they are assigned.  Figure
-    %        \ref{fig:multi-embeddings} shows some embeddings of order-$1$ and
+    %        \ref{fig:multi-histories} shows some histories of order-$1$ and
     %        order-$2$ diagrams (i.e. one-edged and two-edged diagrams) into the
     %        grid relevant to Question \ref{qst:multi}.
     %        \begin{figure}[h!] 
@@ -503,7 +503,7 @@
     %            \caption{
     %                \textbf{The diagram $\protect\sdia{c(01-2)(01-12)}$ embeds
     %                    into multi-epoch but not single-epoch grid.}
-    %                Drawn on each of the two grids are examples of embeddings.
+    %                Drawn on each of the two grids are examples of histories.
     %                The black nodes external to the grids are positioned
     %                arbitrarily. 
     %                From top to bottom in each grid, the five 
@@ -528,31 +528,31 @@
     %                    time-ordering condition forces the red nodes into
     %                    distinct columns and thus distinct cells.
     %            }
-    %            \label{fig:multi-embeddings}
+    %            \label{fig:multi-histories}
     %        \end{figure}
 
-    %    \subsubsection{Values of the embeddings}
+    %    \subsubsection{Values of the histories}
 
     %        We choose to compute $\uvalue$s instead of $\rvalue$s.  The former
     %        are an approximation of the latter, appropriate when $T$ is fixed
     %        instead of taken to infinity.  $\uvalue$s have the same asymptotic
     %        error as $\rvalue$s with respect to $\eta$.  Moreover, $\uvalue$s
     %        are simpler to calculate, since their numeric values depend only on
-    %        diagrams, not on embeddings.  So to compute a testing loss, we
+    %        diagrams, not on histories.  So to compute a testing loss, we
     %        multiply each diagram's $\uvalue$ by the number of ways that
     %        diagram embeds.
 
-    %        Figure \ref{fig:multi-embeddings} shows us that the diagram
+    %        Figure \ref{fig:multi-histories} shows us that the diagram
     %        $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
     %        and single-epoch spacetimes.  More precisely,
-    %        its multi-epoch embeddings correspond by a $M_0^2:1$ map to
-    %        its single-epoch embeddings.  Since we scaled the learning rate of
+    %        its multi-epoch histories correspond by a $M_0^2:1$ map to
+    %        its single-epoch histories.  Since we scaled the learning rate of
     %        the two SGD versions by a factor of $M_0$, and since $2$-edged
     %        diagrams such as $\sdia{c(0-1-2)(02-12)}$ scale as $\eta^2$, the
-    %        total $\uvalue$ of the diagram's multi-epoch embeddings will match
-    %        the total $\uvalue$ of the diagram's single-epoch embeddings. 
+    %        total $\uvalue$ of the diagram's multi-epoch histories will match
+    %        the total $\uvalue$ of the diagram's single-epoch histories. 
     %        %
-    %        In fact, Figure \ref{fig:multi-embeddings} shows that this
+    %        In fact, Figure \ref{fig:multi-histories} shows that this
     %        cancellation happens for all of the order-$2$ diagrams
     %        \emph{except} for $\sdia{c(01-2)(01-12)}$.
     %        %
@@ -578,11 +578,11 @@
 
     %    \subsubsection{Sum of the values}
 
-    %        Referring again to Figure \ref{fig:multi-embeddings}, we see that
-    %        $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many embeddings
-    %        into the multi-epoch grid (one embedding per pair
-    %        of distinct epochs, per row) --- and no embeddings into the 
-    %        single-epoch grid.  Moreover, each embedding of $\sdia{c(01-2)(01-12)}$
+    %        Referring again to Figure \ref{fig:multi-histories}, we see that
+    %        $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many histories
+    %        into the multi-epoch grid (one history per pair
+    %        of distinct epochs, per row) --- and no histories into the 
+    %        single-epoch grid.  Moreover, each history of $\sdia{c(01-2)(01-12)}$
     %        has $\wabs{\Aut_f(D)}= 1$.  Now we plug into the overall formula
     %        for testing loss: 
     %        \begin{equation*}
@@ -684,7 +684,7 @@
         %losses.})
 
     %\newpage
-    \subsection{How to identify the relevant diagram embeddings}    \label{appendix:draw-embeddings}
+    \subsection{How to identify the relevant diagram histories}    \label{appendix:draw-histories}
 
         We explain below what the words mean in this green summary box.
         \par\noindent
@@ -692,7 +692,7 @@
             \textsc{When using the} diagram method to compute SGD's final testing loss
             to order $o(\eta^d)$, we consider all
             diagrams with $d$ or fewer edges and that have a non-zero number of
-            embeddings into the relevant grid.
+            histories into the relevant grid.
             \par\hspace{0.5cm}
             If we seek the isolated contribution due to a landscape statistic
             (e.g.\ due to $J=\mdia{MOO(0)(0-0-0)}$), we may ignore all diagrams
@@ -703,7 +703,7 @@
             \par\hspace{0.5cm}
             If we are using $\rvalue$s (see next section for discussion of
             $\rvalue$s and $\uvalue$s), then we consider only the linkless
-            diagrams.  For each diagram, we must enumerate the embeddings,
+            diagrams.  For each diagram, we must enumerate the histories,
             i.e.\ the assignments of the diagram's nodes to grid cells that
             obey both the time-ordering condition and correlation condition.
         }}
@@ -735,7 +735,7 @@
         $\sdia{c(0-1-2)(02-12)}, \sdia{c(0-1-2-3)(01-13-23)}, \cdots$
         is linkless.
 
-        An \emph{embedding} of a diagram $D$ into a grid is an
+        An \emph{history} of a diagram $D$ into a grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ that
         obeys the following two criteria:
         \begin{itemize}
@@ -745,28 +745,28 @@
                 part of $D$'s partition, then they are assigned to the same
                 datapoint $n$.
         \end{itemize}
-        We may conveniently draw embeddings by placing nodes in the shaded
+        We may conveniently draw histories by placing nodes in the shaded
         cells to which they are assigned.  Then, the time-ordering condition 
         forbids (among other things) intra-cell edges, and the correlation
         condition demands that fuzzily tied nodes are in the same row.  See
-        Figure \ref{fig:embeddings}.
+        Figure \ref{fig:histories}.
         \begin{figure}[h] 
             \centering  
             \plotmooh{diagrams/spacetime-e}{}{0.26\columnwidth}
             \caption{
                 Embeddings, legal and illegal.
-                \textbf{Left}: illegal embedding of $\sdia{c(0-1-2)(01-12)}$,
+                \textbf{Left}: illegal history of $\sdia{c(0-1-2)(01-12)}$,
                     since the time-ordering condition is not obeyed. 
-                    For the same reason, not a legal embedding of $\sdia{c(01-2)(01-12)}$.
-                \textbf{Middle}: an embedding of $\sdia{c(0-1-2)(01-12)}$.
-                Also an embedding of $\sdia{c(01-2)(01-12)}$,
+                    For the same reason, not a legal history of $\sdia{c(01-2)(01-12)}$.
+                \textbf{Middle}: an history of $\sdia{c(0-1-2)(01-12)}$.
+                Also an history of $\sdia{c(01-2)(01-12)}$,
                 since the correlation condition is obeyed.
-                \textbf{Right}: a legal embedding of $\sdia{c(0-1-2)(01-12)}$.
-                    Not an embedding of
+                \textbf{Right}: a legal history of $\sdia{c(0-1-2)(01-12)}$.
+                    Not an history of
                     $\sdia{c(01-2)(01-12)}$, since the correlation condition is
                     not obeyed.
             }
-            \label{fig:embeddings}
+            \label{fig:histories}
         \end{figure}
 
         In principle, the relevant diagrams for a calculation with error
@@ -786,7 +786,7 @@
             %Thus, the analysis in Example \ref{exm:first} was able
             %to ignore diagrams such as $\sdia{c(01-2)(02-12)}$. 
             Likewise, in \S\ref{appendix:example} we argued by considering 
-            which embeddings that the only diagram relevant to Question
+            which histories that the only diagram relevant to Question
             \ref{qst:multi} is $\sdia{c(01-2)(01-12)}$.  
             \mend
         \end{rmk*}
@@ -839,7 +839,7 @@
                 diagrams for $B=E=1$ SGD's testing loss.}
                 Because the grid of $B=E=1$ SGD has only one cell per row and
                 one cell per column, the only diagrams that have a non-zero
-                number of embeddings are the diagrams such that each
+                number of histories are the diagrams such that each
                 ancestor-descendant pair in the rooted tree occupie two
                 different parts of the partition.
                 We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams.
@@ -853,7 +853,7 @@
                 outlines) indicate correlations between nodes (i.e. noise), 
                 diagrams with fuzzy outlines show deviations of SGD away from
                 deterministic ODE.  The big-$\Theta$ notation that heads the
-                columns gives the asymptotics of the sum-over-embeddings of 
+                columns gives the asymptotics of the sum-over-histories of 
                 each diagram's $\uvalue$s 
                 (for $N$ large and $\eta$ small even relative to $1/N$).
                 {\bf Left}: Diagrams for ODE behavior.
@@ -865,9 +865,9 @@
             \label{tab:scatthree}
         \end{table}
    
-    \subsection{How to evaluate each embedding}                     \label{appendix:evaluate-embeddings}
+    \subsection{How to evaluate each history}                     \label{appendix:evaluate-histories}
         We will discuss how to compute both $\rvalue$s and $\uvalue$s.  Both
-        are ways of turning a diagram embedding into a number.  The paper body
+        are ways of turning a diagram history into a number.  The paper body
         mainly mentions $\rvalue$s.  $\uvalue$s are simpler to calculate, since
         they depend only on a diagram's topology, not on the way it is
         embedded.  Physical intution suggests that $\rvalue$s are more
@@ -878,7 +878,7 @@
         \par
         \noindent
         \translucent{moolime}{\parbox{\textwidth}{
-            \textsc{Turn an embedding of a diagram} into its uvalue or rvalue
+            \textsc{Turn an history of a diagram} into its uvalue or rvalue
             by applying the following rules. 
             \par \indent $\bullet$
                 \textbf{Node rule}: Replace each degree $d$ node by $\nabla^d
@@ -1068,7 +1068,7 @@
                     \mdia{MOOc(0)(0-0)}
                     = C_{\mu\nu} H_{\lambda\rho}
                 $.
-                Then if $f$ is an embedding of $\mdia{c(01-2)(02-12)}$ that
+                Then if $f$ is an history of $\mdia{c(01-2)(02-12)}$ that
                 sends the diagram's red part to a time $t$ (and its green root
                 to $T$), we have:
                 $$
@@ -1085,7 +1085,7 @@
             \end{exm}
 
         \subsubsection{Overall}
-            In sum, we evaluate an embedding of a diagram by using the 
+            In sum, we evaluate an history of a diagram by using the 
             \textbf{node}, 
             \textbf{outline}, and
             \textbf{edge}
@@ -1093,7 +1093,7 @@
             $\eta$s.  The difference between $\uvalue$s and $\rvalue$s lies
             only in their edge rule.
 
-    \subsection{How to sum the embeddings' values}                  \label{appendix:sum-embeddings}
+    \subsection{How to sum the histories' values}                  \label{appendix:sum-histories}
 
         We give examples of automorphism groups and we illustrate the
         integration mentioned in this green summary box:
@@ -1101,13 +1101,13 @@
         \noindent
         \translucent{moolime}{\parbox{\textwidth}{
             \textsc{We obtain overall} final testing loss expressions
-            by adding together the $\uvalue$s of all diagram embeddings, weighted
+            by adding together the $\uvalue$s of all diagram histories, weighted
             by automorphism-group sizes as in \ref{thm:resum}.
             %
             \newline
             \par
             If we are using rvalues instead of uvalues, 
-            we approximate sums over embeddings by
+            we approximate sums over histories by
                 integrals over $t$, we approximate $(I-\eta H)^t$ by $\exp(- \eta H t)$,
             and we apply:rule
                 $$\int_{0\leq u<T} \, du \, \exp(-u A) = (I - \exp(-T A))/A$$ 
@@ -1140,15 +1140,15 @@
                 {\uvalue}(D)
             \end{equation*}
             Here, $B$ is the batch size.
-            %We say an embedding is \emph{strict} if it assigns to each part
+            %We say an history is \emph{strict} if it assigns to each part
             %a different datapoint $n$.
         \end{thm*}
 
         How do we evaluate the above sum?
-        Summing $\uvalue$s reduces to counting embeddings, which in all the
+        Summing $\uvalue$s reduces to counting histories, which in all the
         applications reported in this text is a routine combinatorial exercise. 
         However, when summing $\rvalue$s, it is often convenient to replace
-        a sum over embeddings by an integral over times, and
+        a sum over histories by an integral over times, and
         the power $\wrap{I-\eta H}^{\Delta t-1}$ by
         the exponential $\exp{-\Delta t \eta H}$.  This incurs a term-by-term
         $1+o(\eta)$ error factor, meaning that it preserves leading order
@@ -1158,7 +1158,7 @@
             \emph{Let us return to $D=\mdia{c(01-2)(02-12)}$, embedded, say, in the
             grid of  one-epoch one-sample-per-batch SGD.
             From Example \ref{exm:resum}, we know that we want to sum the 
-            following value over all embeddings $f$, i.e. over all $0\leq t<T$
+            following value over all histories $f$, i.e. over all $0\leq t<T$
             to which the red part of the diagram's partition may be assigned:
             $$
                 \rvalue_f(\mdia{c(01-2)(02-12)})
@@ -1167,7 +1167,7 @@
                 \wrap{K^{T-t-1} \eta}^{\nu\rho}
                 H_{\lambda\rho}
             $$
-            Each embedding has a factor 
+            Each history has a factor 
                 $(-B)^{-|\edges(D)|}/\wabs{\Aut_f(D)} = (-B)^{-2}/2$;
             we will multiply in this factor at the end so we now we focus on
             the $\sum_f$.
@@ -1219,7 +1219,7 @@
             \mend
         \end{exm}
 
-        An \textbf{automorphism of $D$ that preserves an embedding $f$ of $D$}
+        An \textbf{automorphism of $D$ that preserves an history $f$ of $D$}
         is a relabeling of $D$'s nodes that preserves the root, the graph
         structure, the equivalence relation on non-root nodes, and that at the
         same time respects $f$: $f$ must send a node to the same $(n,t)$ pair
@@ -1228,10 +1228,10 @@
         (that is, they usually contain only the the identity relabeling).
         \begin{exm}[Automorphisms]
             \emph{
-                We take as examples the diagram embeddings of \S\ref{sect:exampleembeds}
-                (figure reproduced here).  All the embeddings in the \textbf{left
+                We take as examples the diagram histories of \S\ref{sect:exampleembeds}
+                (figure reproduced here).  All the histories in the \textbf{left
                 figure} have $|\Aut_f(D)|=1$.  For instance, the bottom-most
-                embedding (of $\sdia{c(01-2)(01-12)}$) has a non-trivial relabeling  
+                history (of $\sdia{c(01-2)(01-12)}$) has a non-trivial relabeling  
                 (namely, swap the two non-root nodes)
                 that obeys all of the automorphism conditions \emph{except}
                 the ``respects $f$'' condition.  Indeed, the two non-root nodes are
@@ -1239,9 +1239,9 @@
                 without violating the  ``respects $f$'' condition.
             }\par
             \emph{
-                By contrast, one of the embeddings (among the valid embeddings)
+                By contrast, one of the histories (among the valid histories)
                 shown in the \textbf{right figure} has a non-trivial automorphism
-                group.  This is the bottom-most embedding (of
+                group.  This is the bottom-most history (of
                 $\sdia{c(01-2)(01-12)}$, again).  Observe that swapping that
                 diagram's two non-root nodes preserves the root, preserves the
                 graph structure, and preserves the equivalence relation on non-root
@@ -1285,10 +1285,10 @@
     %            values, each modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$)
     %            in a different way.
     %            \textbf{Left}: Here is one of many un-resummed terms captured by
-    %            a single resummed embedding for $\sdia{c(0-1)(01)}$.
+    %            a single resummed history for $\sdia{c(0-1)(01)}$.
     %            \textbf{Left}: each resummed value represents many un-resummed
     %            values.  Here is one of many un-resummed terms captured by
-    %            a single resummed embedding for $\sdia{c(01-2)(02-12)}$.
+    %            a single resummed history for $\sdia{c(01-2)(02-12)}$.
     %        }
     %        \label{fig:intuition}
     %    \end{figure}
@@ -1395,12 +1395,12 @@
                 first diagram, $\sdia{(01-2)(02-12)}$, embeds in GD's space time in
                 $N^2$ as many ways as it embeds in SGD's spacetime, due to
                 horizontal shifts.  Likewise, there are $N^2$ times as many
-                embeddings of $\sdia{(01-2)(02-12)}$ in distinct epochs of GD's
+                histories of $\sdia{(01-2)(02-12)}$ in distinct epochs of GD's
                 spacetime as there are in distinct epochs of SGD's spacetime.
-                However, each same-epoch embedding of $\sdia{(01-2)(01-12)}$ within
+                However, each same-epoch history of $\sdia{(01-2)(01-12)}$ within
                 any one epoch of GD's spacetime corresponds by vertical shifts to
-                an embedding of $\sdia{(0-1-2)(01-12)}$ in SGD.  There are
-                $MN{N\choose 2}$ many such embeddings in GD's spacetime, so GD's
+                an history of $\sdia{(0-1-2)(01-12)}$ in SGD.  There are
+                $MN{N\choose 2}$ many such histories in GD's spacetime, so GD's
                 testing loss exceeds SGD's by 
                 $
                     \frac{MN{N\choose 2}}{N^2}~

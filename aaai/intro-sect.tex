@@ -1,4 +1,4 @@
-%-----  object of study  ------------------------------------------------------
+/bin/bash: v: command not found
 
   Gradient estimates, measured on minibatches and thus noisy, form the primary
 learning signal in deep learning.  While users of deep learning
@@ -10,87 +10,178 @@ this theory to find that \textbf{gradient noise biases
 learning} toward low-curvature, low-noise weights.%regions of the loss landscape.
 
   Specifically, we study the expectation over training sets of the
-post-training testing loss by Taylor expanding that loss in the learning rate
-$\eta$.  By induction on $T$, the loss decreases by $-T G\eta G + o(\eta)$
+%post-training
+testing loss by Taylor expanding that loss in the learning rate
+$\eta$.  By induction on $T$, the loss changes by $-T G\eta G + o(\eta)$
 after $T$ training steps, where $G=\expc_x[\nabla l_x(\theta_0)]$ is the
 expectation over testing samples $x$ of the gradient at initialization.
-%%%This matches the intuition that if the gradient doubles, then training
-%%%displaces the weight twice as far and each unit displacement corresponds to
-%%%twice the loss decrease, for an overall quadrupling of loss-decrease.
 %
-This estimate is exact for deterministic linear loss landscapes:
-when $\nabla l_x(\theta)$ depends neither on $x$ nor on $\theta$.  We compute
+This estimate is exact when $\nabla l_x(\theta)$ depends on neither $x$ nor $\theta$, i.e.,
+for deterministic linear loss landscapes.  We compute
 how noise and curvature correct this estimate.
 
   A Taylor series analysis of SGD presents three challenges.
 %
-\emph{First}, the resulting terms explode in variety.  Even the main
+\emph{First}, the terms explode in variety.  Even the main
 correction to $-T G\eta G$ represents the diverse ways that some past
-update may affects a future weight $\theta_t$ and thus a future update
-involving $\nabla l_{x_t}(\theta_t)$.  So our analysis must describe
-inter-update \textbf{interactions}.
+update may affect a future weight $\theta_t$ and thus a future update
+involving $\nabla l_{x_t}(\theta_t)$.  That is, 
+updates \textbf{interact}.
 %
 \emph{Second}, SGD's gradient noise is correlated between timesteps: %e.g.\
 the
-same training sample reappears in each epoch.  Whereas one derives the $-T
-G\eta G$ using an induction hypothesis of the same form as the conclusion, an
-analogous analysis of \textbf{finite-sample} effects must enrich its
-induction hypothesis to keep track of joint moments.  
+same training sample reappears in each epoch.
+Such \textbf{finite-sample} effects complicate the simple induction that led to
+$-T G\eta G$.
+%Whereas one derives the $-T
+%G\eta G$ using an induction hypothesis of the same form as the conclusion, an
+%analogous analysis of \textbf{finite-sample} effects must enrich its
+%induction hypothesis to keep track of joint moments.  
 %
 \emph{Third}, the series' $d$th order truncation 
-\textbf{diverges} as $T$ grows.  Indeed, on typical landscapes (e.g.\ least
-squares linear regression), the loss grows exponentially with time for any
-negative $\eta$.  Then on no neighorhood of $\eta=0$ does
-any Taylor truncation suffer an error uniform in $T$. 
+\textbf{diverges} as $T$ grows.  Indeed, on landscapes such as least
+squares linear regression, the loss grows exponentially with time for
+$\eta<0$.  So on no neighorhood of $\eta=0$ does any Taylor truncation suffer
+an error uniform in $T$. 
 
-  Our theory addresses all three challenges by using a new diagram-based
-notation to organize and evaluate many terms at once, including correlation
-effects.
+  We address the three challenges by using diagrams such as
+$\sdia{c(0-1)(01)}$,
+$\sdia{c(01-2)(02-12)}$,
+$\sdia{c(0-1-2)(02-12)}$ 
+to organize and evaluate many terms at once, including correlation
+effects.\footnote{{\color{moor!90} Colors lack formal meaning but help us
+refer to diagram parts.}}
 %%We
 %%physically interpret SGD as a superposition of many concurrent weight-data
 %%interactions, each depicted by a diagram.
 %
 %%We discuss how diagrams clarify
 %%the effect of correlated noise.
-We show how to balance each term in
-a $d$th order truncation by a collection of higher
-order terms, thus taming the large-$T$ divergence.
-%%\footnote{%
-%%  Analogous uses of geometric series appear in condensed physics'
-%%  \emph{ladder summation} and in programming languages' \emph{rational data
-%%  types}
-%%}
-In contrast to plain truncation, these `\textbf{re-summed}' expressions' errors
-vanish uniformly in $T$ for quadratic landscapes (with correlated,
-potentially non-Gaussian gradient noise) --- and are provably finite and
-empirically small for convolutional landscapes on CIFAR-10 and
-Fashion-MNIST.
-
-  Let's analyze the expected testing loss for one-epoch, batchsize-one SGD.
-Simplest diagrams include
-$\sdia{c(0)()}$,
-$\sdia{c(0-1)(01)}$,
-%$\sdia{c(0-1-2)(01-12)}$,
-$\sdia{c(01-2)(02-12)}$,
-$\sdia{c(0-1-2)(02-12)}$.
-%%$\sdia{c(0-1-2-3)(03-13-23)}$,
-%%$\sdia{c(01-2-3)(03-13-23)}$,
-%%$\sdia{c(012-3)(03-13-23)}$.
-To obtain a result with $o(\eta^d)$ error, we sum the contributions of the
-finitely many diagrams with $d$ or fewer thin edges.  Each diagram contributes a
-sum over its `histories', where a history is an assignment of a timestep to
-each non-rightmost fuzzily grouped subset of nodes such that each thin edge's
-left node temporally precedes its right node.
+We identify topologically related higher order diagrams that balance out a
+given diagram's divergence.  In thus modifying plain truncation, we tame the
+large-$T$ divergence.
 %
-tensor expression constructed as follows: for each node with $d$ thin edges,
-write a $d$th derivative of $\expc[l_x]$.  For each thin edge spanning $\Delta$
-many timesteps, write a matrix $\eta(I - \eta H)^{\Delta-1}$, where
-$H=\expc[\nabla\nabla_x(\theta_0)]$ is the hessian.  Then dot product all those
-factors together per the diagram's topology.
+These `\textbf{re-summed}' expressions' errors
+vanish uniformly in $T$ for quadratic landscapes (with 
+%potentially
+non-Gaussian gradient noise) %---
+and are provably finite and
+empirically small for convolutional landscapes. %on CIFAR-10.%and
+%Fashion-MNIST.
+
+  
+%%  Let's analyze the expected testing loss decrease for one-epoch, batchsize-one
+%%SGD.
+
+%
+%%  \subsubsection{Sum over Histories}
+
+  %Roughly, the analytical procedure we develop is this.
+  We interpret each diagram as depicting a class of interactions or
+  ``\textbf{histories}'' between updates.
+%
+E.g.\ $\sdia{c(01-2-3)(02-12-23)}$ depicts an update's (red's) double effect
+on a future update (green) that in turn affects the testing loss (blue).
+%
+%We weight each diagram's tensor expression by its number of histories.
+Up to $o(\eta^d)$ error, the testing
+  loss is a sum over all histories of all diagrams with $\leq d$ edges of
+  certain diagram-dependent tensor expressions.  
+
+%%  Each diagram
+%%represents a kind of process that might `happen' during training in a number of
+%%ways.  Diagrams evaluate to tensor expressions.  Summing diagram values over
+%%all possible diagrams and histories gives the expected testing loss.
+%%Considering only diagrams with $d$ or fewer edges leads to $o(\eta^d)$ error. 
+
+%%E.g.\ $\sdia{c(0-1)(01)}$ depicts some update's (red node's)
+%%direct effect on the testing loss (the righmost node).  So $\sdia{c(0-1)(01)}$
+%%%can happen in $T$ ways; it
+%%``represents $T$ many histories''.
+%
+
+\begin{figure}[h!]
+    \plotmoow{aaai/recipe-a}{0.60\linewidth}{} 
+    \hspace{0.04\linewidth}
+    \plotmoow{aaai/embeddings-small}{0.33\linewidth}{} 
+    \caption{%
+        Diagrams evaluate to tensor expressions (\!\!\protect\ofthree{01}):
+        a degree-$d$ node gives a $d$th derivative;  an edge gives a $(-\eta)$;
+        expectation brackets enclose each fuzzy group.  
+        Each diagram depicts a class of histories;
+        \!\!\protect\ofthree{2} shows an 
+        example history for each of
+        $\sdia{c(0-1)(01)}, \sdia{c(01-2)(02-12)}, \sdia{c(0-1-2)(02-12)}$. 
+        Summing diagram values over all possible %diagrams and
+        histories gives
+        the expected testing loss. 
+    }
+\end{figure}
 
 
+
+  %It turns out that
+  Only one diagram, $\sdia{c(0-1)(01)}$, has $d=1$ edges.
+$\sdia{c(0-1)(01)}$ evaluates to $\expc[\nabla l](-\eta)\expc[\nabla l]= -G\eta G$.
+And $\sdia{c(0-1)(01)}$ describes $T$ many histories, since its red node can
+be any update while its green node represents testing.
+We've thus recovered the (un-resummed) value $-TG\eta G$ above.  
+The re-summed value, 
+$-TG\frac{1-\exp(-T\eta H)}{H}G$,
+includes contributions from
+$\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
+\sdia{c(0-1-2-3)(01-12-23)}, \cdots$.
 
 \vfill
 \pagebreak
 
 %-----  soft benefits: retrospective  -----------------------------------------
+
+
+
+%%%%%Each diagram contributes a sum over its `histories', where a history is
+%%%%%an assignment of a timestep to each fuzzy group of nodes.  We demand
+%%%%%that each  edge's left node temporally precedes its right node and that the
+%%%%%rightmost node is assigned timestep $T$.
+%%%%%%
+%%%%%Each history contributes a tensor expression constructed as follows: for each
+%%%%%node touching $d$  edges, write a $d$th derivative of $l_x$.  For
+%%%%%each  edge
+%%%%%%%spanning $\Delta$ many timesteps,
+%%%%%write a $-\eta$.
+%%%%%And wrap each fuzzy group of nodes in expectation brackets. 
+%%%%%%matrix $-\eta(I - \eta H)^{\Delta-1}$, where $H=\expc[\nabla\nabla_x(\theta_0)]$ is the hessian.
+%%%%%Then dot product those factors together per the diagram's
+%%%%%topology.\footnote{
+%%%%%  Inconsequential technicalities:
+%%%%%  we actually use cumulants instead of uncentered expectations.  And
+%%%%%  we divide by ``symmetry factors'' such as the
+%%%%%  factorial denominators in a Taylor series.
+%%%%%}
+
+
+%%  Since $\sdia{c(0-1)(01)}$ has only one non-rightmost node, it has as many
+%%histories as there are timesteps.  And $\sdia{c(0-1)(01)}$'s has two
+%%degree-$1$ nodes, each in its own fuzzy group, so each history's contribution
+%%$G(-\eta)G$ involves two $1$st derivatives $\expc[\nabla l]=G$.  Since $T$ histories contribute
+%%$G(-\eta)G$ each, we have recovered the $-TG\eta G$ from above.    
+
+%%  The same procedure gives us the second order terms.  The diagram
+%%$\sdia{c(01-2)(02-12)}$ has $T$ many histories.  The fuzzy group of two
+%%degree-$1$ nodes gives a factor $\expc[\nabla l_x \nabla l_x]$, which is the
+%%gradient covariance $C$.  The single degree-$2$ node gives a factor
+%%$\expc[\nabla \nabla l_x]$, which is the hessian $H$.  So the contribution
+%%is $T C\eta^2 H/2!$.
+
+
+%%\footnote{%
+%%  Analogous uses of geometric series appear in condensed physics'
+%%  \emph{ladder summation} and in programming languages' \emph{rational data
+%%  types}
+%%}
+%In contrast to plain truncation,
+
+%%%This matches the intuition that if the gradient doubles, then training
+%%%displaces the weight twice as far and each unit displacement corresponds to
+%%%twice the loss decrease, for an overall quadrupling of loss-decrease.
+

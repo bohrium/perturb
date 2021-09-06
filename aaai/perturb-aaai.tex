@@ -14,16 +14,27 @@
     
     \begin{abstract}
         We quantify how gradient noise shapes the dynamics of stochastic
-        gradient descent (SGD) by taking Taylor series in the learning rate.
-        %
-        We present in particular a new diagram-based notation that permits
-        resummation to convergent results.
-        %
-        We employ our theory to contrast SGD against two popular
-        approximations: deterministic descent and stochastic differential
-        equations.  We find that SGD's trajectory avoids regions of weight
-        space with high gradient noise and avoids minima that are sharp with
-        respect to gradient noise.
+        gradient descent (SGD) by Taylor-expanding with respect to the learning
+        rate.  We present a new diagram-based technique that permits
+        re-summation of that series to convergent results on short timescales
+        or near local minima.  We physically interpret the resulting terms as
+        entropic corrections to deterministic descent.  Our theory predicts that
+        gradient noise biases SGD's trajectory toward low-curvature, low-noise
+        regions of the loss landscape.  We contrast our theory against popular
+        approximations of SGD such as SDE
+        and experimentally verify our theory's predictions.
+
+        %%We quantify how gradient noise shapes the dynamics of stochastic
+        %%gradient descent (SGD) by taking Taylor series in the learning rate.
+        %%%
+        %%We present in particular a new diagram-based notation that permits
+        %%resummation to convergent results.
+        %%%
+        %%We employ our theory to contrast SGD against two popular
+        %%approximations: deterministic descent and stochastic differential
+        %%equations.  We find that SGD's trajectory avoids regions of weight
+        %%space with high gradient noise and avoids minima that are sharp with
+        %%respect to gradient noise.
     \end{abstract}
     
     %\begin{keywords}

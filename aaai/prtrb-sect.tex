@@ -146,7 +146,7 @@
             $ are the same diagrams.
 
             \squash
-            \begin{dfn}%[\S\ref{appendix:evaluate-embeddings}]\label{dfn:uvalue-body}
+            \begin{dfn}%[\S\ref{appendix:evaluate-histories}]\label{dfn:uvalue-body}
                 \emph{
                     A diagram $D$'s \squish \emph{un-resummed value} 
                     %(\translucent{moolime}{\textbf{uvalue}})
@@ -164,7 +164,7 @@
                         $\CC[\prod_i a_i]$ with respect to lower
                         cumulants.
                         %
-                        %%See \S\ref{appendix:evaluate-embeddings}.
+                        %%See \S\ref{appendix:evaluate-histories}.
                     }
                     per $D$'s gray outlines, and tensor-contracted 
                     via a %per $D$'s edges.  We thus have a
@@ -223,8 +223,8 @@
                 %are defined in \S\ref{sect:background}.
             %}
 
-            \subsubsection{Embeddings depict concrete information-flow processes}\label{sect:embeddings}
-            %-----  embeddings and patterns of influence  ---------------------
+            \subsubsection{Embeddings depict concrete information-flow processes}\label{sect:histories}
+            %-----  histories and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
             Having expressed terms in $\expc[l(\theta_T)]$'s Taylor expansion %(\ref{eq:dyson})
             as uvalues of
@@ -234,8 +234,8 @@
             process may occur.
             Specifically, the Key Lemma in \S{\ref{appendix:key-lemma}
             establishes that a diagram's coefficient in the expansion is the
-            number of its \emph{embeddings} (weighted by symmetry factors to
-            counter overcounting), where we define \emph{embeddings}
+            number of its \emph{histories} (weighted by symmetry factors to
+            counter overcounting), where we define \emph{histories}
             below with
             respect to given SGD hyperparameters $N,E,B$.\footnote{
                 and w.r.t.\ a deterministic selector of the
@@ -244,7 +244,7 @@
             }
 
             \begin{dfn}
-                \emph{An \textbf{embedding} of a diagram is an assignment of non-root
+                \emph{An \textbf{history} of a diagram is an assignment of non-root
                 nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
                 training point participates in the $t$th batch; parents'
                 $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
@@ -253,15 +253,15 @@
             \end{dfn}
 
             For example, $\sdia{(0-1)(01)}$ has just one non-root node.  It has
-            as many embeddings as there are $(n,t)$ cells where $n$ participates
+            as many histories as there are $(n,t)$ cells where $n$ participates
             in the $t$th update, i.e.,
-            $B\cdot T$ embeddings.  Since $\sdia{(0-1)(01)}$ is the only
+            $B\cdot T$ histories.  Since $\sdia{(0-1)(01)}$ is the only
             diagram with one edge, it gives the full $\eta^1$ contribution to
             final testing loss.  We thus recover Prop
             \ref{prop:nest}:
                 \vspace{-0.15cm}
             $$
-                -(\text{\# of embeddings of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
+                -(\text{\# of histories of~}\sdia{(0-1)(01)}) \cdot \uvalue(\sdia{(0-1)(01)}) / B
                 =
                 -T \cdot \textstyle\sum_{\mu\nu} G_\mu \eta^{\mu\nu} G_\nu
             $$
@@ -269,7 +269,7 @@
 
             %-----  isolate effect of tensors; crossing symmetries  -----------
             Diagrams streamline analysis of SGD because it is in practice
-            straightforward to count a diagram's embeddings.  
+            straightforward to count a diagram's histories.  
             %
             Also, the topology of diagrams has dynamical significance: the $t^d
             T^{-p}$-th order correction\footnote{We compare ODE integrated to
@@ -324,14 +324,14 @@
             Let us collect similar diagrams, where our notion of
             `similar' permits chains to grow or shrink (see Definition
             \ref{dfn:link}).  We obtain lists\squash (each conveniently represented by
-            its smallest member) such as: \squash
-            %%\vspace{-0.30cm}
-            %%\begin{align*}
-                $\sdia{c(0-1)(01)}$,
-                $\sdia{c(0-1-2)(01-12)}$,
-                $\sdia{c(0-1-2-3)(01-12-23)}, \cdots$ or
-                %%\sdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
-            %%    &&
+            its smallest member) such as %: \squash
+            %%%%\vspace{-0.30cm}
+            %%%%\begin{align*}
+            %%    $\sdia{c(0-1)(01)}$,
+            %%    $\sdia{c(0-1-2)(01-12)}$,
+            %%    $\sdia{c(0-1-2-3)(01-12-23)}, \cdots$ or
+            %%    %%\sdia{MOOc(0-1-2-3-4)(01-12-23-34)},\cdots
+            %%%%    &&
                 $\sdia{c(01-2)(02-12)}$,
                 $\sdia{c(02-1-3)(01-13-23)}$,
                 $\sdia{MOOc(03-1-2-4)(01-12-24-34)},\cdots$.\squash
@@ -353,14 +353,14 @@
             instead of $\eta$ to contract a pair of tensors embedded 
             $\Delta t$ timesteps apart.
             %
-            For example, take Figure \ref{fig:resumintuition}'s embedding of
+            For example, take Figure \ref{fig:resumintuition}'s history of
             $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  is
             $\sum_{\mu\nu} G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and an
             $\eta$ for each edge.  By contrast, the associated rvalue is
             $\sum_{\mu\nu} G_\mu((I-\eta H)^{11-1}\eta)^{\mu\nu}G_\nu$ since the edge spans
             $11$ timesteps.  Distributing out this expression reveals uvalues for
-            embeddings of $\sdia{c(0-1-2)(01-12)}$, etc.
-            %A sum over embeddings is a sum of terms with a
+            histories of $\sdia{c(0-1-2)(01-12)}$, etc.
+            %A sum over histories is a sum of terms with a
             %range of exponents in place of $12-1$.
 
             \squash\squash
@@ -397,7 +397,7 @@
                     \squash
                 \end{equation*}
                 Here, $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$
-                that preserve $f$. (Typically $\wabs{\Aut_f(D)}=1$.)%(see \ref{appendix:sum-embeddings} for  ).
+                that preserve $f$. (Typically $\wabs{\Aut_f(D)}=1$.)%(see \ref{appendix:sum-histories} for  ).
             \end{thm}
             %-----  simplifications  ------------------------------------------
             \begin{rmk} \label{rmk:integrate}
@@ -407,7 +407,7 @@
                 A diagram with $d$ edges scales as
                 $O(\eta^d)$, so the Theorem expresses a series in $\eta$.  In
                 practice, we truncate to small $d$ (thus focusing on few-edged
-                diagrams) and we replace sums over embeddings by integrals over
+                diagrams) and we replace sums over histories by integrals over
                 $t$; $(I-\eta H)^t$, by $\exp(- \eta H t)$, thus reducing to a
                 routine integration of exponentials at the cost an error factor
                 $1 + o(\eta)$.}\mend
@@ -478,7 +478,7 @@
             for intuitive interpretations).
             The two diagrams involving higher cumulants (i.e., gray
             outlines) give the leading order effect of gradient noise. 
-            Since $E=1$, $\sdia{c(01-2)(01-12)}$ has no embeddings; so 
+            Since $E=1$, $\sdia{c(01-2)(01-12)}$ has no histories; so 
             only $\sdia{c(01-2)(02-12)}$ contributes.  Up to a $1+o(\eta)$
             factor, its rvalues sum to (a sum over all indices of):
             \begin{align*}

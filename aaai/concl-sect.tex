@@ -201,7 +201,7 @@ individual processes, a technique that may power future theoretical inquiries.
 %    The diagrams embed (into an $E=B=1$ grid that looks
 %    like the rightmost grid on \pag{18}) in $T$ and in ${T\choose 2}$ many
 %    ways, respectively.\footnote{%
-%        An embedding of a rootless diagram (e.g.\ $\mdia{MOOc(0-1)(01-1)}$)
+%        An history of a rootless diagram (e.g.\ $\mdia{MOOc(0-1)(01-1)}$)
 %        assigns \emph{every} node to a grid cell.  \pag{19}
 %        decrees that we assign only \emph{non-root} nodes when computing
 %        $\EE[l(\theta_T)]$; indeed, the root node
@@ -423,5 +423,16 @@ And $M_2, M_3$'s terms are yet more diverse.  In short, a Taylor
 expansion even to low degrees yields a combinatorial explosion of
 terms.  Our paper develops tools to organize and interpret these
 terms.
+
+
+  Since $\sdia{c(0-1)(01)}$ has only one non-rightmost node, it has as many
+histories as there are timesteps.  Since two nodes have degree $1$, each
+history's contribution $G(-\eta(I-\eta H)^{\Delta-1})G$ involves two $1$st 
+derivatives: $G$.  We use geometric series to sum from $\Delta=1$ through
+$\Delta=T$ to find the testing loss change up to $o(\eta^1)$ error:
+$
+  - G((I - (I-\eta H)^T)/H)G
+$.
+This is a more precise form of the above $-T G \eta G$ result.
 
 

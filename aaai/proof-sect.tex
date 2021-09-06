@@ -56,7 +56,7 @@
             $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
         \end{dfn}
         \begin{dfn}[Embedding a Diagram into a Grid]
-            An embedding of a diagram into a grid is an assignment of that
+            An history of a diagram into a grid is an assignment of that
             diagram's non-root nodes to pairs $(n,t)$ such that each node
             occurs at a time $t^\prime$ strictly after each of its children and
             such that two nodes occupy the same row $n$ if they
@@ -70,7 +70,7 @@
             $t$.  
         \end{dfn}
         We define $\uvalue(D)$ and $\rvalue_f(D)$ as in
-        \S\ref{appendix:evaluate-embeddings}.
+        \S\ref{appendix:evaluate-histories}.
 
     \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
 
@@ -225,13 +225,13 @@
             \begin{equation*}\label{eq:sgdcoef}
                 \sum_{D}
                 %\wrap{
-                    \sum_{\text{embeddings}~f}
+                    \sum_{\text{histories}~f}
                     \frac{1}{\wabs{\Aut_f(D)}}
                 %}
                 \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
             \end{equation*}
             Here, $D$ is a diagram whose root $r$ does not participate in
-            any fuzzy edge, $f$ is an embedding of $D$ into a grid, and
+            any fuzzy edge, $f$ is an history of $D$ into a grid, and
             $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
             preserve $f$'s assignment of nodes to cells.
             %
@@ -243,7 +243,7 @@
         \end{thm}
 
         Theorem \ref{thm:pathint} describe the terms that appear in the Key
-        Lemma by matching each term to an embedding of a diagram in a grid,
+        Lemma by matching each term to an history of a diagram in a grid,
         so that the infinite sum becomes a sum over all diagram grid 
         configurations.  The main idea is that the combinatorics of diagrams
         parallels the combinatorics of repeated applications of the product
@@ -281,7 +281,7 @@
                 }
                 \frac{\uvalue_\pi(D, f)}{B^{d}}
             \end{align}
-            Here, $\uvalue_\pi$ is the value of a diagram embedding before
+            Here, $\uvalue_\pi$ is the value of a diagram history before
             taking expectations over train sets.  We have for all $f$ that
             $\expct{\uvalue_\pi(D, f)} = \uvalue(D)$.
             Observe that both sides of \ref{eq:toprove} are finitary sums.
@@ -302,7 +302,7 @@
 
             We proceed by joint induction on $d$ and $S$.  The base cases
             wherein $S$ is empty or $d=0$ both follow immediately from the Key
-            Lemma, for then the only embedding is the unique embedding of the
+            Lemma, for then the only history is the unique history of the
             one-node diagram $\sdia{(0)()}$.  For the induction step, suppose
             $S$ is a sequence of $\Mm = \min S \subseteq S$ followed by a
             strictly smaller $S$ and that the result is proven for $(\tilde d,
@@ -340,7 +340,7 @@
             expands to
             $B^{d_0}(d-d_0+1)^{d_0}$ terms, each conveniently indexed
             by a pair of functions $\beta:[d_0]\to \Mm$ and $\nu:[d_0]\to
-            \tilde D$.  The $(\beta, \nu)$-term corresponds to an embedding
+            \tilde D$.  The $(\beta, \nu)$-term corresponds to an history
             $f$ of a larger diagram $D$ in the sense that it contributes
             $\uvalue_\pi(D, f)/B^{d_0}$ to the sum.  Here, $(f, D)$ is $(\tilde
             f, \tilde D)$ with $\wabs{\wrap{\beta \times \nu}^{-1}(n, v)}$ many
@@ -348,10 +348,10 @@
             $v$th node of $\tilde D$ as embedded by $\tilde f$.
 
             By the Leibniz rule of Remark \label{rmk:leibniz}, this $(\beta,
-            \nu)$-indexed sum by corresponds to a sum over embeddings $f$ that
+            \nu)$-indexed sum by corresponds to a sum over histories $f$ that
             restrict to $\tilde f$, whose terms are multiples of the value of
-            the corresponding embedding of $D$.  Together with the sum over
-            $\tilde f$, this gives a sum over all embeddings $f$.  So we now
+            the corresponding history of $D$.  Together with the sum over
+            $\tilde f$, this gives a sum over all histories $f$.  So we now
             only need to check that the coefficients for each $f:D\to S$ are as
             claimed.
 
@@ -420,8 +420,8 @@
 
         \begin{rmk}[The Case of $E=B=1$ SGD]
             The grid of $E=B=1$ SGD permits all and only those
-            embeddings that assign to each part of a diagram's partition  a
-            distinct cell.  Such embeddings factor through a diagram
+            histories that assign to each part of a diagram's partition  a
+            distinct cell.  Such histories factor through a diagram
             ordering and are thus easily counted using factorials per
             Prop \ref{prop:vanilla}.  That prop immediately
             follows from the now-proven Theorem \ref{thm:pathint}.
@@ -446,11 +446,11 @@
     
     \subsection{Proof of Theorem \ref{thm:resum}}    \label{appendix:resum}
 
-        (We say an embedding is \textbf{strict} if it assigns to each part
+        (We say an history is \textbf{strict} if it assigns to each part
         a different datapoint $n$.
-        Then, by M\"obius inversion (\cite{ro64}), a sum over strict embeddings
-        of moment values (\S\ref{appendix:evaluate-embeddings}) matches 
-        a sum over all embeddings of $\uvalue$s.)
+        Then, by M\"obius inversion (\cite{ro64}), a sum over strict histories
+        of moment values (\S\ref{appendix:evaluate-histories}) matches 
+        a sum over all histories of $\uvalue$s.)
 
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
         may be grouped by their geometric realizations.  Each nonempty class of
@@ -461,7 +461,7 @@
         We encounter two complications: on one hand, that the sizes of
         automorphism groups might not be uniform among the class of diagrams
         with a given geometric realization.  On the other hand, that the
-        embeddings of a specific member of that class might be hard to count.
+        histories of a specific member of that class might be hard to count.
         The first we handle using Orbit-Stabilizer.  The second we address as
         described by \S\ref{appendix:mobius} via M\"obius sums.
            
@@ -469,17 +469,17 @@
             We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
             \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).
             %The result
-            %is that chains of embeddings  
+            %is that chains of histories  
             %{\color{red} FILL IN}
 
             The difference in loss from the noiseless case is given by all the
-            diagram embeddings with at least one fuzzy tie, where the fuzzy tie
+            diagram histories with at least one fuzzy tie, where the fuzzy tie
             pattern is actually replaced by a difference between noisy and
             noiseless cases as prescribed by the preceding discussion on
-            M\"obius Sums.  Beware that even relatively noiseless embeddings
+            M\"obius Sums.  Beware that even relatively noiseless histories
             may have illegal collisions of non-fuzzily-tied nodes within a
             single grid (data) row.  Throughout the rest of this proof, we
-            permit such illegal embeddings of the fuzz-less diagrams that arise
+            permit such illegal histories of the fuzz-less diagrams that arise
             from the aforementioned decomposition.  
 
             Because the Taylor series for analytic functions converge
@@ -654,12 +654,12 @@
             \begin{proof}
                 The relevant linkless diagram is $\sdia{c(01-2-3)(02-12-23)}$
                 {color{red} (amputated as in the previous subsubsection)}.   
-                An embedding of this diagram into $E=B=1$ SGD's grid 
+                An history of this diagram into $E=B=1$ SGD's grid 
                 is determined by two durations --- 
                 $t$ from {\color{moor}red} to {\color{moog}green} and
                 $\tilde t$ from {\color{moog}green} to {\color{moob}blue} ---
                 obeying $t+\tilde t \leq T$.
-                The automorphism group of each embedding has size $2$: identity
+                The automorphism group of each history has size $2$: identity
                 or switch the {\color{moor}red} nodes.  So the answer is: 
                 $$
                     C_{\mu \nu}
@@ -678,7 +678,7 @@
             \begin{proof}[Proof.]
                 The relevant linkless diagram is $\sdia{(01-2)(02-12)}$
                 (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
-                minimum).  This diagram has one embedding for each pair of
+                minimum).  This diagram has one history for each pair of
                 same-row shaded cells, potentially identical, in a grid; for
                 GD, the grid has every cell shaded, so each
                 \emph{non-decreasing} pair of durations in $[0,T]^2$ is
@@ -711,7 +711,7 @@
 
             \begin{proof}[Proof]
                 The relevant linkless diagram is $\sdia{c(01)(01)}$.  This
-                diagram has one embedding for each shaded cell of grid;
+                diagram has one history for each shaded cell of grid;
                 for GD, the grid has every cell shaded, so each duration
                 from $0$ to $T$ is represented.  So the generalization gap is,
                 to leading order,
@@ -748,7 +748,7 @@
 
             \begin{proof}[of Prop \ref{prop:ordtwo}]
                 To prove Prop \ref{prop:ordtwo}, we simply count
-                the embeddings of the diagrams, noting that the automorphism groups
+                the histories of the diagrams, noting that the automorphism groups
                 are all of size $1$ or $2$. 
                 %Since we use fuzzy outlines instead of
                 %fuzzy ties, we allow untied nodes to occupy the same row, since the
@@ -796,7 +796,7 @@
                 $$
                 This is the un-resummed expression.  To obtain the re-summed
                 expression, we replace $\eta^{\mu\nu}$ with $(I-\eta H)^{\Delta t-1}\eta)^{\mu\nu}$. 
-                The embeddings range over $T$ many times uniformly spaced in $[0,T]$. 
+                The histories range over $T$ many times uniformly spaced in $[0,T]$. 
                 So we may integrate (let's name our variable of integration $\tau$,
                 and let's have it represent $\tau=\Delta t-1 = T-t-1$):
                 $$
@@ -855,7 +855,7 @@
         }  Such curvature finds concrete application in the \emph{learning on
         manifolds} paradigm of \cite{ab07, zh16}, notably specialized to
         \cite{am98}'s \emph{natural gradient descent} and \cite{ni17}'s
-        \emph{hyperbolic embeddings}.  While that work focuses on
+        \emph{hyperbolic histories}.  While that work focuses on
         \emph{optimization} on curved weight spaces, in machine learning we
         also wish to analyze \emph{generalization}.
         %
