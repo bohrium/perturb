@@ -168,8 +168,9 @@ So to leading order the displacement is some time-dependent number of histories 
     \label{fig:cubic}
     \crunch
 \end{figure}
-The displacement $-\eta^3 C\nabla H$ indicates that \textbf{SGD moves
-toward flat minima}, and that this effect scales with the noise intensity $C$; Figure \ref{fig:cubic} depicts the mechanism.
+Since $-\eta^3 C\nabla H$ points toward small $H$, \textbf{SGD moves
+toward flat minima} (Figure \ref{fig:cubic}).
+This effect scales with $C$.  
 %
 %%The bilinear form
 %%$F^{\mu\nu}=\textstyle\sum_{\xi\omicron}\eta^{\mu\xi}
@@ -271,14 +272,15 @@ changes as $C$ does}.  %Since the smoothed $l$ may itself evolve,
 \end{figure}
 
 To test Corollary \ref{cor:entropic}'s $C$-dependence,
-the appendix %\S\ref{appendix:artificial}
-constructs a landscape, \Helix, on
+we %\S\ref{appendix:artificial}
+construct a landscape, \Helix, on
 whose valley of global minima $C$ varies (Figure
-\ref{fig:archimedes}).  As in Rock-Paper-Scissors, each point
-$\theta$ has a neighbor that is more attractive (flatter) with
-respect to $C(\theta)$.  This induces eternal motion into the page
-despite the landscape's discrete translation symmetry in that
-direction.  Corollary \ref{cor:entropic} predicts a velocity of
+\ref{fig:archimedes}).  As in Rock-Paper-Scissors, each 
+$\theta$ has a neighbor that is more attractive (flatter) w.r.t.\
+$C(\theta)$.  This induces eternal motion into the page
+despite \Helix's discrete translation symmetry.
+%in that direction.
+Corollary \ref{cor:entropic} predicts a velocity of
 $+\eta^2/6$ per timestep, while \cite{ch18}'s SDE-based analysis
 predicts a constant velocity of $0$.\footnote{
     For, \Helix' velocity is $\eta$-perpendicular to the image
@@ -286,8 +288,8 @@ predicts a constant velocity of $0$.\footnote{
 }
 %One may add a small linear term to \Helix\ to make SGD eternally
 %ascend;
-One may wrap \Helix\ in a loop to make SGD circulate,
-witnessing a velocity field with curl. %(\S\ref{appendix:artificial});
+Wrapping \Helix\ in a loop makes SGD circulate. %in
+%a velocity field with curl. %(\S\ref{appendix:artificial});
 This is
 possible because $C\nabla H$, unlike $\nabla(CH)$, is not a total
 derivative. 
