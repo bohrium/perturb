@@ -235,7 +235,7 @@ physical interpretation of SGD.
                     factor $\eta^{\mu\nu}$ for each edge.
                 }\mend
             \end{dfn}
-            E.g.\
+            For example,
             $\text{uvalue}(\sdia{c(01-2-3)(02-12-23)})$ is:\squash
                 \newcommand{\AAA}{{\color{black}\nabla_\mu}}
                 \newcommand{\BBB}{{\color{black}\nabla_\nu}}
@@ -316,11 +316,11 @@ physical interpretation of SGD.
                 are in the same part of the partition.}\mend 
             \end{dfn}
 
-            E.g.\ $\sdia{(0-1)(01)}$ has just one non-root node.  It has
+            For example, $\sdia{(0-1)(01)}$ has just one non-root node.  It has
             as many histories as there are $(n,t)$ cells where $n$ participates
             in the $t$th update, i.e.,
             $B\cdot T$ histories.  Since $\sdia{(0-1)(01)}$ is the only
-            $1$-edged diagram, it gives the full $\eta^1$ contribution to
+            diagram with one edge, it gives the full $\eta^1$ contribution to
             final testing loss.  
             %%We thus recover Prop
             %%\ref{prop:nest}:
@@ -417,17 +417,14 @@ physical interpretation of SGD.
                 \plotmoow{aaai/resum-cubic-histories}{4.15cm}{}
                 %\plotmooh{aaai/chladni-drift}{}{2.7cm}
                 \caption{%
-                  {\protect\offiveprime{0}}: a diagram consists of nodes,
-                  edges, and fuzzy groupings that dictate the diagram's
-                  corresponding tensor expression.
-                  %Summing 
-                  %over all possible histories gives the expected testing loss.
+                  {\protect\offiveprime{0}}: a diagram consists of nodes, edges, and fuzzy groupings
+                  that dictate the diagram's corresponding tensor expression.
                   %diagram $\sdia{c(01-2-3)(02-12-23)}$ evaluates to
-                  %$C(-\eta)^2(\nabla H)(-\eta)G$.
-                  {\protect\offiveprime{1}}
-                  shows one of a diagram's histories.  Re-summation balances
-                  that history topologically related histories of
-                  related diagrams such as {\!\!\protect\offiveprime{234}}.
+                  %$C(-\eta)^2(\nabla H)(-\eta)G$.  {\protect\offiveprime{1}}
+                  shows one of this diagram's many histories.  Re-summation
+                  balances that history's contribution with the contributions
+                  of topologically related histories of related diagrams such
+                  as {\!\!\protect\offiveprime{234}}.
                 }
             \end{figure}
 
