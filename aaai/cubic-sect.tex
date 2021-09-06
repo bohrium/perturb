@@ -1,7 +1,13 @@
-  We illustrate the content and methods of our theory by using it in this
-  section to derive a non-conservative entropic force that affects SGD.
-  We sketch a path toward Corollary \ref{cor:entropic} while avoiding the
-  generality and notation of the next section.%\S\ref{sect:calculus}.\squash
+  We illustrate our theory by deriving a ``non-conservative
+entropic force'' in SGD.  We avoid the next section's generality.%and
+%
+%
+%notational complexity.
+
+  %We illustrate the content and methods of our theory by using it in this
+  %section to derive a non-conservative entropic force that affects SGD.
+  %We sketch a path toward Corollary \ref{cor:entropic} while avoiding the
+  %generality and notation of the next section.%\S\ref{sect:calculus}.\squash
 
 \subsection{Notation and assumptions, I}\label{sect:setup}
     %--  the landscape  -----------------------------------------------
@@ -25,32 +31,35 @@ SGD runs $T$ steps of $\eta$-steepest descent:
     \sum_{\nu}
     \eta^{\mu\nu} \nabla_\nu l_{n_t}(\theta_t)
   \end{equation*}
-where each sequence $(n_t: kN\leq t<kN+N)$ is a permutation of $(n:
-0\leq n<N)$.  Here, Greek indices name components of
-$\theta,\eta,\nabla$ with respect to a fixed basis.  We view $\eta$
-as a bilinear form, not for generality but to constrain the type-correct
-operations to those of geometric significance.
+Each sequence $(n_t: kN\leq t<kN+N)$ is a permutation of $(n:
+0\leq n<N)$.  Our Greek indices name components of
+$\theta,\eta,\nabla$ w.r.t.\ a fixed basis.  We view $\eta$
+as a bilinear form %, not for generality but
+so that the only type-correct expressions have geometric significance.
 %
 
-Throughout this paper we assume:
-%
-\textbf{Derivative Bounds}:
-there compact sets $(K_k: k\geq 0)$ so that
-$\nabla^n l_x(\theta)\in K_k$ for all $\theta,l_x$. 
-Here $\nabla^k
-l_x(\theta)$ is a $k$th derivative, a tensor with $k$ axes.
-%
-\textbf{Analytic Moments}:
-any polynomial $p$ of the $l_x$ and its higher derivatives
-induces a random variable so that
-$\expct{p}:\Mm\to\RR$ (exists and) is analytic in $\theta$;
-moreover, $\expct{p}$'s radii of convergence are strictly bounded from $0$,
-even as $\theta$ varies.
-%
-Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
+We heavily use the
+\textbf{gradient} $G_\mu = \expc[\nb_\mu\lx]$, % \leftrightsquigarrow \sdia{MOO(0)(0)}$,
+\textbf{hessian} $H_{\mu\nu} = \expc[\nb_\mu\nb_\nu\lx]$, %  \leftrightsquigarrow \sdia{MOO(0)(0-0)}$,
+\textbf{jerk} \squish $J_{\mu\nu\xi} = \expc[\nb_\mu\nb_\nu\nb_\xi\lx]$, %  \leftrightsquigarrow \sdia{MOO(0)(0-0-0)}$,
+\textbf{covariance} $C_{\mu\nu} = \expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$, %     \leftrightsquigarrow \sdia{MOOc(01)(0-1)}$, and
+and
+\textbf{skew} \squash $S_{\mu\nu\xi} = \expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$, %  \leftrightsquigarrow \sdia{MOOc(012)(0-1-2)}$,
+typically evaluated at
+initialization ($\theta=\theta_0$).
+So $G, H, J, C, S$ respectively have $1, 2, 3, 2, 3$ many axes, each of which
+transforms under change-of-basis like a covector.\footnote{
+    Gradients
+    (covectors, dollars-per-mile) and displacements (vectors, miles) have geometrically
+    distinct types.  We respect this distinction throughout; that's
+    why our $\eta$ is a tensor.
+    \cite{mi73} (\S2.5) visualizes this geometry;
+    \cite{cu87} (\S1.4) discusses vectors vs covectors in statistics.
+}
 
-We quote a well-known result
-(\cite{ne04}, \S 2.1), proved by induction on $T$, to illustrate our notation:
+To illustrate our notation
+we quote %a well-known result
+\citet{ne04}, \S 2.1:
 \begin{prop}\label{prop:nest}
     $G = \nabla l(\theta_0)$ controls the loss to leading order.
     Precisely,
@@ -61,80 +70,77 @@ We quote a well-known result
         + o(\eta^1)
     $.
 \end{prop}
-For noiseless linear landscapes (when $\nabla l_x(\theta)$
-depends on neither $x$ nor $\theta$), this estimate is exact.
+%For noiseless linear landscapes (when $\nabla l_x(\theta)$
+%depends on neither $x$ nor $\theta$), this estimate is exact.
 %
-This paper identifies how noise and curvature correct Prop
-\ref{prop:nest} by developing 
+\noindent
+Our work identifies how noise and curvature correct Prop
+\ref{prop:nest}.%by developing 
 %large-$T$
-techniques less
-opaque and more convergent than induction.
+%techniques less
+%opaque and more convergent than induction.
 %
 
-\subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
 
-That development begins with the observation that each $\eta$
-`connects' two $\nabla$ operators as indices prescribe.  So we
-draw
-$\eta$s as edges, $\nabla^k l$s as nodes, and each
-summand of the following form (evaluated at $\theta=\theta_0$)
-$$
-    \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
-    \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
-    l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
-    l
-$$
-as an undirected graph with edges indexed by $j\in J$, nodes
-indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
-to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
-$\{\mu_j,\nu_j\}$.  Per \textsc{factoring}, we also equip these
-graphs with a partition of nodes to account for correlation
-structure.
+%\subsubsection{Diagrams in brief}\label{sect:diagrams-in-brief}
 %
-Such diagrams offer the same advantages over direct notation that %of compactness and of clarity as
-decimal numerals offer over unary numerals.  More importantly,
-their topology has dynamical significance and leads to a
-physical interpretation of SGD.
+%That development begins with the observation that each $\eta$
+%`connects' two $\nabla$ operators as indices prescribe.  So we
+%draw
+%$\eta$s as edges, $\nabla^k l$s as nodes, and each
+%summand of the following form (evaluated at $\theta=\theta_0$)
+%$$
+%    \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
+%    \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
+%    l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
+%    l
+%$$
+%as an undirected graph with edges indexed by $j\in J$, nodes
+%indexed by $i\in I\sqcup \{\star\}$, and an edge $j$ incident
+%to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
+%$\{\mu_j,\nu_j\}$.  Per \textsc{factoring}, we also equip these
+%graphs with a partition of nodes to account for correlation
+%structure.
+%%
+%Such diagrams offer the same advantages over direct notation that %of compactness and of clarity as
+%decimal numerals offer over unary numerals.  More importantly,
+%their topology has dynamical significance and leads to a
+%physical interpretation of SGD.
 
 \subsection{An entropic force with curl}\label{sect:entropic-curl}
-The displacement $M_1=\expc[\theta_T - \theta_0]$ contains many
-order-$\eta^3$ summands, including those of the form\squash
-$$
-    \textstyle
-    \Delta^\xi_{xyz} \propto 
-    -
-    \sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}
-        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-        \,
-    \expct{
-        (\nabla_\mu l_x)
-        \,
-        (\nabla_\nu l_y)
-        \,
-        (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
-    }
-    \squash
-$$
-where $0\leq x,y,z<N$ label datapoints.
-Let $\Delta_\circ = \expc[\Delta_{xxz}-\Delta_{xyz}]$ for $x,y,z$
-distinct.\squash\  $l_x, l_y, l_z$ are i.i.d., so:
-$ 
-    \Delta_\circ^\xi \propto 
-    -
-    \sum_{\cdots}
-    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-    C_{\mu\nu} J_{\omicron\pi\rho}
-$
-or, schematically, 
-    $\boxed{\Delta_\circ^\xi
-    \propto -\eta^3 C\nabla H}$.\squish\ 
-Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
-$H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
-$J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$
-is $l$'s `jerk'.\footnote{
-    `\textbf{J}erk' names $3$rd derivatives in dynamical systems:
-    \href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041}.% (2009)}.%, \S1.
-}
+
+Let's study the displacement $\expc[\theta_T-\theta_0]$ of one-epoch,
+batch-size-one SGD initialized at a testing loss minimum.
+
+We sketched above how a sum over diagrams gives 
+$\expc[l(\theta_T)]$ for the testing loss $l$.  We may likewise compute
+$\expc[s(\theta_T)]$ for other $s:\Mm\to\RR$; we need only replace the factor
+$\expc[\nabla^k l(\theta_0)]$ corresponding to each diagram's root by
+the factor $\expc[\nabla^k s(\theta_0)]$.
+%
+Specifically, a linear
+$s(\theta)=w\cdot \theta$ reveals the displacement's $w$-component. 
+%
+Since $s$'s higher derivatives vanish, any diagram whose root has
+degree $>1$ will evaluate to zero.  So 
+only diagrams with degree-$1$ root are relevant to computing
+displacements (e.g.\ $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)}, \sdia{c(01-2-3)(02-12-23)}$).
+
+Because in this example we initialize at a minimum ($G=0$), 
+we may ignore yet more diagrams: those with a factor of $\expc[\nabla l]$, i.e.,
+those with a degree-$1$ non-root node that's not fuzzily grouped.
+So we rule out $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)}, \cdots$.
+%
+%It turns out that
+Only one fewest-edged diagram remains:
+$\sdia{c(01-2-3)(02-12-23)}$, which evaluates to
+$\expc[\nabla l\nabla l](-\eta)^2\expc[\nabla\nabla \nabla l](-\eta)\expc[\nabla s]=-\eta^3 (C\nabla H)\cdot (\nabla s)$.
+%
+So to leading order the displacement is some time-dependent number of histories times $-\eta^3 (C\nabla H)$.
+%%/2!$ to leading order.\footnote{%
+%%    The $2!$ comes 
+%%    ``symmetry factors'' that we ignore for now. 
+%%}
 
 \begin{figure}%{r}{0.3\textwidth}
     \centering
@@ -162,15 +168,15 @@ is $l$'s `jerk'.\footnote{
     \label{fig:cubic}
     \crunch
 \end{figure}
-The expression $-\eta^3 C\nabla H$ suggests that SGD moves
-toward flat minima (see  Figure \ref{fig:cubic}).
+The displacement $-\eta^3 C\nabla H$ indicates that \textbf{SGD moves
+toward flat minima}, and that this effect scales with the noise intensity $C$; Figure \ref{fig:cubic} depicts the mechanism.
 %
-The bilinear form
-$F^{\mu\nu}=\textstyle\sum_{\xi\omicron}\eta^{\mu\xi}
-\eta^{\nu\omicron} C_{\xi\omicron}$ determines which $H$s
-are `large' or `small'.  E.g.: if $F$
-degenerates along a covector $v$, then $H$'s 
-$v$-component does not affect $\Delta_\circ$.
+%%The bilinear form
+%%$F^{\mu\nu}=\textstyle\sum_{\xi\omicron}\eta^{\mu\xi}
+%%\eta^{\nu\omicron} C_{\xi\omicron}$ determines which $H$s
+%%are `sharp' or `flat'.  E.g.: if $F$
+%%degenerates along a covector $v$, then $H$'s 
+%%$v$-component does not affect $\expc[\theta_T-\theta_0]$
 %\footnote{
 %    Explicitly: if
 %        $\sum_{\mu\nu} v_\mu F^{\mu\nu} v_\nu = 0$,
@@ -178,8 +184,8 @@ $v$-component does not affect $\Delta_\circ$.
 %    will not change $\Delta_\circ$.
 %}
 %
-Diagram techniques establish
-this `entropic force'\footnote{
+%Diagram techniques establish
+Re-summation more precisely quantifies this `entropic force':\footnote{
     Thermal systems tend toward disorder as if pushed by an
     `entropic force'.
     So arises the tension of rubber
@@ -194,20 +200,22 @@ this `entropic force'\footnote{
     integrate noise over time, amplifying $C$'s
     effect. 
 }
-as dominant when $G=0$, $N=T$.
-Evaluating a single diagram
-($
-    \sdia{c(01-2-3)(02-12-23)}
-$) yields:
+%%as dominant when $G=0$, $N=T$.
+%%Evaluating a single diagram
+%%($
+%%    \sdia{c(01-2-3)(02-12-23)}
+%%$) yields:
 %
 \begin{cor}\label{cor:entropic}%[Computed from $\sdia{c(01-2-3)(02-12-23)}$]
-    Start SGD at a minimum of $l$ with $H>0$, $N=T$ and use
+    Start SGD at a minimum of $l$ with $H>0$, $N=T$.  Use
     an eigenbasis of $K=\eta H$.  
     For any $T$ and
     with ${\mathcal P}_T(s) = (1 - \exp(-Ts))/s$,
-    the final displacement
-        $M_1^\xi$
-    is
+    the 
+    expected displacement is
+    %final displacement
+    %    $M_1^\xi$
+    %is
     $$
         -
         {\textstyle\sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}}
@@ -227,15 +235,16 @@ $v_i$.  Let's ignore diffusion along the valley: $(\eta C) v_0 =
 0$.
 %
 Then ${\mathcal P}_T(\lambda_0)\approx T$ and every
-$C_{ij}{\mathcal P}_T(\lambda_i+\lambda_j)$ is $O(T^0)$.  So $M_1$
+$C_{ij}{\mathcal P}_T(\lambda_i+\lambda_j)$ is $O(T^0)$.  So $\expc[\theta_T-\theta_0]$
 scales linearly with $T$.  We thus expect SGD to move with
-velocity $-f(\eta,H,T)\cdot C\nabla H/2$ toward flat minima.  
+%velocity $-f(\eta,H,T)\cdot C\nabla H/2$ toward flat minima.  
+velocity $\approx -\eta^2 C\nabla H/2$ per timestep toward flat minima.  
 Observe that $\nabla ({\frak G}_C \star l) = \nabla l+C\nabla
 H/2 + o(C)$, where ${\frak G}_C \star$ denotes convolution with a
 \emph{fixed} centered $C$-shaped Gaussian; we conclude with the
 intuition that \emph{SGD descends on a $C$-smoothed landscape that
-changes as $C$ does}.  Since the smoothed $l$ may itself evolve,
-SGD might eternally circulate.
+changes as $C$ does}.  %Since the smoothed $l$ may itself evolve,
+%SGD might eternally circulate.
 
 %\subsection{Curl in the entropic force}
 \begin{figure}[h!]
@@ -262,7 +271,8 @@ SGD might eternally circulate.
 \end{figure}
 
 To test Corollary \ref{cor:entropic}'s $C$-dependence,
-\S\ref{appendix:artificial} constructs a landscape, \Helix, on
+the appendix %\S\ref{appendix:artificial}
+constructs a landscape, \Helix, on
 whose valley of global minima $C$ varies (Figure
 \ref{fig:archimedes}).  As in Rock-Paper-Scissors, each point
 $\theta$ has a neighbor that is more attractive (flatter) with
@@ -271,13 +281,14 @@ despite the landscape's discrete translation symmetry in that
 direction.  Corollary \ref{cor:entropic} predicts a velocity of
 $+\eta^2/6$ per timestep, while \cite{ch18}'s SDE-based analysis
 predicts a constant velocity of $0$.\footnote{
-    Indeed, \Helix' velocity is $\eta$-perpendicular to the image
-    of $(\eta C)^\mu_\nu$ in tangent space.
+    For, \Helix' velocity is $\eta$-perpendicular to the image
+    of $(\eta C)^\mu_\nu$.%in tangent space.
 }
-One may add a small linear term to \Helix\ to make SGD eternally
-ascend; one may wrap \Helix\ in a loop to make SGD circulate,
-witnessing a velocity field with curl (\S\ref{appendix:artificial});
-this is
+%One may add a small linear term to \Helix\ to make SGD eternally
+%ascend;
+One may wrap \Helix\ in a loop to make SGD circulate,
+witnessing a velocity field with curl. %(\S\ref{appendix:artificial});
+This is
 possible because $C\nabla H$, unlike $\nabla(CH)$, is not a total
 derivative. 
 In avoiding \cite{we19b}'s constant-$C$ assumption, we 

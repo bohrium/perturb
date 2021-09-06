@@ -1,5 +1,3 @@
-/bin/bash: v: command not found
-
   Gradient estimates, measured on minibatches and thus noisy, form the primary
 learning signal in deep learning.  While users of deep learning
 benefit from the intuition that \emph{stochastic gradient descent} (SGD)
@@ -76,12 +74,13 @@ empirically small for convolutional landscapes. %on CIFAR-10.%and
 %
 %%  \subsubsection{Sum over Histories}
 
-  %Roughly, the analytical procedure we develop is this.
+  Roughly, the analytical procedure we develop is this.
   We interpret each diagram as depicting a class of interactions or
   ``\textbf{histories}'' between updates.
 %
 E.g.\ $\sdia{c(01-2-3)(02-12-23)}$ depicts an update's (red's) double effect
 on a future update (green) that in turn affects the testing loss (blue).
+The rightmost or rootnode always ``occurs'' post-training.
 %
 %We weight each diagram's tensor expression by its number of histories.
 Up to $o(\eta^d)$ error, the testing

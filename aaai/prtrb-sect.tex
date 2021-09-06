@@ -11,6 +11,24 @@
 
             %--  names of sgd parameters  -------------------------------------
 
+Throughout this paper we assume:
+%
+\textbf{Derivative Bounds}:
+there are compact sets $(K_k: k\geq 0)$ so that
+$\nabla^n l_x(\theta)\in K_k$ for all $\theta,l_x$. 
+Here $\nabla^k
+l_x(\theta)$ is a $k$th derivative, a $k$-axis tensor.
+%
+\textbf{Analytic Moments}:
+any polynomial $p$ of $l_x$ and its higher derivatives
+induces a random variable so that
+$\expct{p}:\Mm\to\RR$ (exists and) is analytic in $\theta$;
+moreover, $\expct{p}$'s radii of convergence are strictly bounded from $0$,
+even as $\theta$ varies.
+%
+Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
+
+
             \subsubsection{Loss Landscape, SGD, Associated Tensors}
             \textsc{Batches and Epochs} --- Generalizing \S\ref{sect:setup}, our theory describes SGD with
             any number
@@ -45,35 +63,6 @@
 
             %--  tensor conventions  ------------------------------------------
 
-            \textsc{Tensors} --- We make heavy use of the %Figure \ref{fig:tensor}'s tensors;
-            \textbf{gradient} $G_\mu = \expc[\nb_\mu\lx]$, % \leftrightsquigarrow \sdia{MOO(0)(0)}$,
-            \textbf{hessian} $H_{\mu\nu} = \expc[\nb_\mu\nb_\nu\lx]$, %  \leftrightsquigarrow \sdia{MOO(0)(0-0)}$,
-            \textbf{jerk} \squish $J_{\mu\nu\xi} = \expc[\nb_\mu\nb_\nu\nb_\xi\lx]$, %  \leftrightsquigarrow \sdia{MOO(0)(0-0-0)}$,
-            \textbf{covariance} $C_{\mu\nu} = \expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$, %     \leftrightsquigarrow \sdia{MOOc(01)(0-1)}$, and
-            \textbf{skew} \squash $S_{\mu\nu\xi} = \expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$, %  \leftrightsquigarrow \sdia{MOOc(012)(0-1-2)}$,
-            \squash typically evaluated at
-            initialization ($\theta=\theta_0$).
-            %Def.\ \ref{dfn:uvalue-body} explains how diagrams depict tensors.
-            So $G, H, J, C, S$ respectively have $1, 2, 3, 2, 3$ many axes, each of which
-            transforms under change-of-basis like a covector.\footnote{
-            %\textsc{Vectors vs Covectors} --- 
-                %%\emph{What does this mean}?  Imagine an air-conditioned
-                %%hallway's temperature gradient ($0.1^\circ
-                %%\text{K}/\text{meter}$) and length ($20\,\text{meters}$).
-                %%When we switch units from m to cm, the temperature
-                %%gradient numerically \emph{decreases} (to $0.001$) but the length
-                %%numerically \emph{increases} (to $2000$).  So
-                Gradients
-                (covectors) and displacements (vectors) have geometrically
-                distinct types.  We respect this distinction throughout; that's
-                why our $\eta$ is a tensor.
-                %%(whose two axes transform like vectors).
-                %
-                \cite{mi73} (\S2.5) visualizes this geometry;
-                %\cite{ko93} (\S7,14) pinpoints the sense in which to ignore this distinction is unnatural;
-                \cite{cu87} (\S1.4) discusses vectors vs covectors in statistics.
-            }
-
             \textsc{Comparing Tensors} --- A (potentially tensor)
             quantity $q$ \emph{vanishes to order $\eta^d$} when
             for some homogeneous degree-$d$ polynomial $p$
@@ -104,6 +93,47 @@
                 are permitted to depend on the loss landscape and optimization
                 parameters such as $\eta, T$.  It is physical intuition and
                 experiment that determine when such error terms are negligible.
+
+\subsection{Taylor series: method and challenges}\label{sect:challenges}
+    %\subsubsection{Proving Prop \ref{prop:nest}}
+    Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
+    up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+    \begin{proof} %(of Prop \ref{prop:nest}).
+        By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
+        We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
+        -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
+        %
+        The claim holds when $T=0$.  Say the claim holds for
+        ${\tilde T}$-step SGD with
+        $T = {\tilde T}+1$.  The displacement
+        $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
+        evaluates to:
+        \begin{align*}
+               & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
+            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+                       l_{n_{\tilde T}}(\theta_0)
+                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}
+                       + o(\theta_{{\tilde T}} - \theta_0)
+                   }    
+            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+                          l_{n_{\tilde T}}(\theta_0)
+                          + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
+                      }    
+            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{{\tilde T}}(\theta_0)$}} + o(\eta^1)
+        \end{align*}
+        Applying the induction hypothesis proves the claim.
+        %
+        We plug the claim into $l$'s Taylor series:
+        \begin{align*}
+            \expc[l(\theta_T) - l(\theta_0)]
+            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0)]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
+            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
+            &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
+        \end{align*}
+        Indeed, due to the assumption of analytic moments, the above
+        expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
+    \end{proof}
+
 
         \subsection{Diagrams overcome Taylor Series challenges}\label{sect:using}\label{sect:diagrams}
 

@@ -436,3 +436,46 @@ $.
 This is a more precise form of the above $-T G \eta G$ result.
 
 
+
+The displacement
+%$M_1=\expc[\theta_T - \theta_0]$
+$\expc[\theta_T - \theta_0]$ contains many
+order-$\eta^3$ summands, including those of the form\squash
+$$
+    \textstyle
+    \Delta^\xi_{xyz} \propto 
+    -
+    \sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}
+        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+        \,
+    \expct{
+        (\nabla_\mu l_x)
+        \,
+        (\nabla_\nu l_y)
+        \,
+        (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
+    }
+    \squash
+$$
+where $0\leq x,y,z<N$ label datapoints.
+Let $\Delta_\circ = \expc[\Delta_{xxz}-\Delta_{xyz}]$ for $x,y,z$
+distinct.\squash\  $l_x, l_y, l_z$ are i.i.d., so:
+$ 
+    \Delta_\circ^\xi \propto 
+    -
+    \sum_{\cdots}
+    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+    C_{\mu\nu} J_{\omicron\pi\rho}
+$
+or, schematically, 
+    $\boxed{\Delta_\circ^\xi
+    \propto -\eta^3 C\nabla H}$.\squish\ 
+Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
+$H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
+$J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$
+is $l$'s `jerk'.\footnote{
+    `\textbf{J}erk' names $3$rd derivatives in dynamical systems:
+    \href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041}.% (2009)}.%, \S1.
+}
+
+
