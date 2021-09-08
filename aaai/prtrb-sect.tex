@@ -43,7 +43,6 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
             %    \translucent{moolime}{$\mathbf{E}=TB/N$ epochs} or
             %    \translucent{moolime}{$\mathbf{M}=T/N$ updates per training point}) of the form
             $$
-                \textstyle
                 \theta_{t+1}^\mu
                 \coloneqq
                 \theta_t^\mu -
@@ -189,8 +188,7 @@ $$
     l_{x_i}} \wrap{\prod_{k\in K_\star} \nabla_{\xi_{\star,k}}}
     l
 $$
-We represent such a summand
-as an undirected graph equipped with a partition of nodes, with
+We represent such a summand's expectation as a diagram with
 edges indexed by $j\in J$, nodes
 indexed by $i\in I\sqcup \{\star\}$, an edge $j$ incident
 to a node $i$ when $\{\xi_{i,k}:k\in K_i\}$ meets
@@ -504,6 +502,9 @@ $x_i=x_j$.
         \subsection{Main result}\label{sect:main}
     
             %-----  recipe for test loss  -------------------------------------
+
+            Our main result is abstract but specializes to several
+            concrete corollaries.
 
             \begin{thm} \label{thm:resum}
                 $\forall T:\, \exists \eta_0 \succ 0:\,

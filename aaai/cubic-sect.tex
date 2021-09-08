@@ -1,5 +1,6 @@
-  We illustrate our theory by deriving a ``non-conservative
-entropic force'' in SGD.  We avoid the next section's generality.
+  We illustrate our theory by deriving a %``non-conservative
+%entropic force''
+flatness-seeking tendency of SGD while avoid the next section's generality.
 
 \subsection{Notation and assumptions, I}\label{sect:setup}
     %--  the landscape  -----------------------------------------------
@@ -82,8 +83,8 @@ Our work identifies how noise and curvature correct Prop
   $\sdia{c(012-3)(02-12-23)}$,
   $\sdia{c(0-1-2-3)(01-12-23)}$.
   And
-  $\sdia{c(01-2-3)(01-13-23)}$ and
-  $\sdia{c(02-1-3)(02-13-23)}$ depict the same diagrams.
+  $\sdia{c(01-2-3)(01-13-23)}$ depicts the same diagram as
+  $\sdia{c(02-1-3)(02-13-23)}$.
   
   \begin{dfn}
     \emph{A \textbf{history} of a diagram is an assignment of non-root nodes to
@@ -120,13 +121,13 @@ Our work identifies how noise and curvature correct Prop
     \hspace{0.04\linewidth}
     \plotmoow{aaai/embeddings-small}{0.33\linewidth}{} 
     \caption{%
-        Diagrams evaluate to tensor expressions (\!\!\protect\ofthree{01}): a
-        degree-$d$ node gives a $d$th derivative;  an edge gives a $(-\eta)$;
-        expectation brackets enclose each fuzzy group.  Each diagram depicts a
-        class of histories; \!\!\protect\ofthree{2} shows an example history
-        for each of $\sdia{c(0-1)(01)}, \sdia{c(01-2)(02-12)},
-        \sdia{c(0-1-2)(02-12)}$.  Summing diagram values over all possible
-        histories gives the expected testing loss. 
+        \textbf{Left}: Diagrams evaluate to tensor expressions: a degree-$d$
+        node gives a $d$th derivative;  an edge gives a $(-\eta)$; expectation
+        brackets enclose each fuzzy group.  \textbf{Right}: Each diagram
+        depicts a class of histories; here is an example history for each of
+        $\sdia{c(0-1)(01)}, \sdia{c(01-2)(02-12)}, \sdia{c(0-1-2)(02-12)}$.
+        Summing diagram values over all possible histories gives the expected
+        testing loss. 
     }
     \label{fig:recipe-a}
   \end{figure}
@@ -153,73 +154,66 @@ including contributions from $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
 \subsection{SGD descends on a $C$-smoothed landscape}\label{sect:entropic-curl}
 %An entropic force with curl}
 
-Let's study the displacement $\expc[\theta_T-\theta_0]$ of one-epoch,
-batch-size-one SGD initialized at a testing loss minimum.
-
 We sketched above how a sum over diagrams gives 
 $\expc[l(\theta_T)]$ for the testing loss $l$.  We may likewise compute
-$\expc[s(\theta_T)]$ for other $s:\Mm\to\RR$; we need only replace the factor
-$\expc[\nabla^k l(\theta_0)]$ corresponding to each diagram's root by
-the factor $\expc[\nabla^k s(\theta_0)]$.
-%
-Specifically, a linear
-$s(\theta)=w\cdot \theta$ reveals the displacement's $w$-component. 
-%
-Since $s$'s higher derivatives vanish, any diagram whose root has
-degree $>1$ will evaluate to zero.  So 
-only diagrams with degree-$1$ root are relevant to computing
-displacements (e.g.\ $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)}, \sdia{c(01-2-3)(02-12-23)}$).
+$\expc[s(\theta_T)]$ for other $s:\Mm\to\RR$; we need only replace
+the $l$ corresponding to each diagram's root by $s$.  For instance, 
+$\sdia{c(01-2-3)(02-12-23)}$ ordinarily evaluates 
+to $-\eta^3 CJ(\nabla l)$ (see Figure \ref{fig:cubic}), but more generally
+evaluates
+to $-\eta^3 CJ(\nabla s)$.
 
-Because in this example we initialize at a minimum ($G=0$), 
-we may ignore yet more diagrams: those with a factor of $\expc[\nabla l]$, i.e.,
-those with a degree-$1$ non-root node that's not fuzzily grouped.
-So we rule out $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)}, \cdots$.
+Now let's study the displacement $\expc[\theta_T-\theta_0]$ of one-epoch,
+batch-size-one SGD initialized at a testing loss minimum.
+%
+To do this, we let 
+$s(\theta)=w\cdot \theta$ be linear.  Then $\expc[s(\theta_T)]$ reveals the
+displacement's $w$-component. 
+%
+Since $s$'s higher derivatives vanish, any diagram whose root has degree $>1$
+will evaluate to zero.  So only diagrams with degree-$1$ root are relevant to
+computing displacements (e.g.\ $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
+\sdia{c(01-2-3)(02-12-23)}$).
+%
+At a minimum, $G=0$ so we may ignore yet more diagrams: those with a factor of
+$\expc[\nabla l]$, i.e., those with a degree-$1$ non-root node that's not
+fuzzily grouped.  So we rule out $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
+\cdots$.
 %
 %It turns out that
 Only one fewest-edged diagram remains:
-$\sdia{c(01-2-3)(02-12-23)}$, which evaluates to
-$\expc[\nabla l\nabla l](-\eta)^2\expc[\nabla\nabla \nabla l](-\eta)\expc[\nabla s]=-\eta^3 (C\nabla H)\cdot (\nabla s)$.
+$\sdia{c(01-2-3)(02-12-23)}$, which above we evaluated as
+$-\eta^3 (C\nabla H)\cdot (\nabla s)$.
 %
-So to leading order the displacement is some time-dependent number of histories times $-\eta^3 (C\nabla H)$.
+So to leading order the displacement is some $T$-dependent number of histories times $-\eta^3 (C\nabla H)$.
 %%/2!$ to leading order.\footnote{%
 %%    The $2!$ comes 
 %%    ``symmetry factors'' that we ignore for now. 
 %%}
 
+
+
 \begin{figure}%{r}{0.3\textwidth}
     \centering
-    \crunch\squash
-    \scalebox{1.0}[1.15]{\plotmoow{aaai/cubic}{0.54\linewidth}{}}
-    %\plotmooh{aaai/helix-blueprint}{}{0.18\textwidth}
-    \plotmoow{aaai/spring-b}{0.44\linewidth}{}
+    \plotmoow{aaai/anatomy-diagram-b}{0.49\linewidth}{}
+    \plotmoow{aaai/cubic}{0.49\linewidth}{}
+    %%\scalebox{1.0}[1.15]{\plotmoow{aaai/cubic}{0.54\linewidth}{}}
+    %%\plotmoow{aaai/spring-b}{0.44\linewidth}{}
     %\rotatebox[origin=c]{-90}{\plotmoow{plots/from-above}{0.17\textwidth}{}}
     \caption{%
-        %\textbf{Left}
-        {\!\!\protect\offive{0}}:
+        \textbf{Left}:
+        a diagram consists of nodes,
+                  edges, and fuzzy groupings that dictate the diagram's
+                  corresponding tensor expression.
+        \textbf{Right}:         %
         Gradient noise pushes SGD toward minima flat w.r.t.\ $C$.
             A 2D loss near
             a valley of minima.  Red densities show typical
-            $\theta$s, perturbed by noise ($C$),
-            in two cross sections of the valley.  The hessian
+            $\theta$s, perturbed by noise,
+            in two slices of the valley.  The hessian
             changes across the valley: $J \neq 0$.  
-        %\textbf{Right}:         %
-        {\!\!\protect\offive{1234}}:
-                    Both curvature and noise affect overfitting.
-                    %\small
-                    In each pane, the  $\leftrightarrow$
-                    axis represents weight space and the $\updownarrow$
-                    axis represents loss.  Noise (blue) transforms
-                    the testing loss (thin curve) into the observed loss
-                    (thick curve).  Red dots mark the testing loss at the
-                    arg-min of the observed loss.  \protect\offive{1}:
-                    \emph{covector}-perturbed landscapes favor large $H$s.
-                    \protect\offive{2}: \emph{vector}-perturbed landscapes
-                    favor small $H$s.  %SGD's implicit regularization
-                    %interpolates between these rows %(Corollary
-                    %\ref{cor:overfit}).
     }
     \label{fig:cubic}
-    \crunch
 \end{figure}
 Since $-\eta^3 C\nabla H$ points toward small $H$, \textbf{SGD moves
 toward flat minima} (Figure \ref{fig:cubic}).
@@ -279,7 +273,7 @@ Re-summation more precisely quantifies this `entropic force':\footnote{
     $$
 \end{cor}
 
-Consider a 1D valley of near-minima wherein $\eta H$ has spectrum
+For instance, consider a 1D valley of near-minima wherein $\eta H$ has spectrum
 $\lambda_0 \ll 1/T \ll \lambda_1 \leq \cdots$ for eigenvectors
 $v_i$.  Let's ignore diffusion along the valley: $(\eta C) v_0 =
 0$.
@@ -344,10 +338,11 @@ despite \Helix's discrete translation symmetry.
 %in that direction.
 Corollary \ref{cor:entropic} predicts a velocity of
 $+\eta^2/6$ per timestep, while \cite{ch18}'s SDE-based analysis
-predicts a constant velocity of $0$.\footnote{
+predicts\footnote{
     For, \Helix' velocity is $\eta$-perpendicular to the image
     of $(\eta C)^\mu_\nu$.%in tangent space.
-}
+} a constant velocity of $0$ (Figure
+\ref{fig:experiments}).
 %One may add a small linear term to \Helix\ to make SGD eternally
 %ascend;
 Wrapping \Helix\ in a loop makes SGD circulate. %in

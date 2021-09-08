@@ -92,8 +92,9 @@
 
             %-----  summarize contributions  ----------------------------------
 
-            This paper presents a new physics-inspired perspective on SGD.  We
-            use diagrams to study stochastic optimization on short timescales
+            %This paper presents a new physics-inspired perspective on SGD.
+            This paper
+            studies stochastic optimization on short timescales
             or near minima. 
 %-----  vs ode and sde  -------------------------------------------------------
 Generalizing \cite{li18,we19b,zh19,ba21}, we model correlated, non-gaussian,
@@ -106,17 +107,14 @@ CIFAR-10 and Fashion-MNIST landscapes.
             noise, which to leading order control generalization.
 
 
-Our theory offers a new physics-inspired perspective of SGD as a
-superposition of concurrent information-flow processes.  
-    We interpret the resulting terms as describing processes  
-by which data influence
-weights.  
-Notating processes with such diagrams, we show
-%in S\ref{sect:main}
-how to compute the effect of each process and that summing the finitely many
-processes with $d$ or fewer edges suffices to answer dynamical questions to
-error $o(\eta^d)$.  We thus factor the analysis of SGD into the analyses of
-individual processes, a technique that may power future theoretical inquiries.  
+    Our theory offers a new physics-inspired perspective of SGD as a
+    superposition of concurrent processes in which data influence weights.
+    Notating such processes with such diagrams, we show how to compute the
+    effect of each process and that summing the finitely many processes with
+    $d$ or fewer edges suffices to answer dynamical questions to error
+    $o(\eta^d)$.  We thus factor the analysis of SGD into the analyses of
+    individual processes, a technique that may power future theoretical
+    inquiries.  
 
 
 
