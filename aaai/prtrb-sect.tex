@@ -1,7 +1,5 @@
-
-
-After explaining the diagram-based Taylor series approach to SGD dynamics, we
-state our main result: that diagram-based analysis is correct.
+We explain the content and origins of our main
+result: that diagram-based analysis is correct.
 
         \subsection{Notation and assumptions, II}\label{sect:background}
 
@@ -102,9 +100,13 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
     %up,
     %we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
 
-    \subsubsection{Structure of the Taylor Expansion} %---
+    \subsubsection{Structure of the Taylor expansion} %---
     We discuss how to analyze SGD by expanding in powers of $\eta$.  We begin
     by proving Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+        We'll name four quantities (${\translucent{moosky}{$W$}}$,
+        ${\translucent{moolime}{$X$}}$, ${\translucent{moopink}{$Y$}}$,
+        ${\translucent{moogold}{$Z$}}$) for later reference in this
+        sub-section (their colors merely aid the eye).
 
     \begin{proof} %(of Prop \ref{prop:nest}).
         By our gradient bound assumption: $\theta_T - \theta_0$ is $O(\eta^1)$.
@@ -120,22 +122,27 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
             \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
                        l_{n_{\tilde T}}(\theta_0)
-                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}
+                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}^{\text{\translucent{moosky}{$_\swarrow W$}}}
                        + o(\theta_{{\tilde T}} - \theta_0)
                    }    
             \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
                           l_{n_{\tilde T}}(\theta_0)
                           + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
                       }    
-            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_0)$}} + o(\eta^1)
+            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_0)$}}^{\text{\translucent{moolime}{$_\swarrow X$}}}
+            + o(\eta^1)
         \end{align*}
         Applying the induction hypothesis proves the claim.
         %
         We plug the claim into $l$'s Taylor series:
         \begin{align*}
             \expc[l(\theta_T) - l(\theta_0)]
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (\text{\translucent{moogold}{$-T\eta G + o(\eta^1)$}}) + o(O(\eta^1)) \\
+            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0)
+              \text{\translucent{moopink}{$\expc[\theta_T - \theta_0]^\mu$}}^{\text{\translucent{moopink}{$_\swarrow Y$}}}
+              + \expc[o(\theta_T - \theta_0)] \\
+            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (%
+              \text{\translucent{moogold}{$-T\eta G + o(\eta^1)$}}^{\text{\translucent{moogold}{$_\swarrow Z$}}})
+              + o(O(\eta^1)) \\
             &= \textstyle - \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu + o(\eta^1)
         \end{align*}
         Indeed, due our assumption of analytic moments, the above
@@ -144,11 +151,11 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
 
     The above proof gives an order-$1$ result.  %Correction terms involve
 At higher order, higher derivatives correct
-${\translucent{moosky}{$\cdots$}}$
+${\translucent{moosky}{$W$}}$
 %${\translucent{moosky}{$\nabla l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} - \theta_0)$}}$
 and higher
 moments augment
-\translucent{moopink}{$\cdots$}.
+\translucent{moopink}{$Y$}.
 %\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.
 %
 %%Whereas \translucent{moogold}{$-TG\eta G$}
@@ -156,14 +163,14 @@ moments augment
 %%$l$'s derivatives by the expectations of such summands.
 %
 Whereas above the displacement is a sum over $\tilde T$s of
-\translucent{moolime}{$\cdots$}s, due to ${\translucent{moosky}{$\cdots$}}$'s
+\translucent{moolime}{$X$}s, due to ${\translucent{moosky}{$W$}}$'s
 corrections the displacement at higher order is a sum over \emph{tuples} of
 times with summands such as $\nabla\nabla l_{n_{T^\prime}} \nabla l_{n_{\tilde
 T}}$ instead of $\nabla l_{n_{\tilde T}}$.
 %
-When we then take expectations of \translucent{moolime}{$\cdots$} to evaluate 
-\translucent{moopink}{$\cdots$} as  
-\translucent{moogold}{$\cdots$},
+When we then take expectations of \translucent{moolime}{$X$} to evaluate 
+\translucent{moopink}{$Y$} as  
+\translucent{moogold}{$Z$},
 some summands (e.g.\ $\expc[\nabla\nabla l_{5}
 \nabla l_{2}]=\expc[\nabla\nabla l_{5}]
 \expc[\nabla l_{2}]$) are uncorrelated and thus factor; others (e.g.\ $\expc[\nabla\nabla
@@ -181,7 +188,7 @@ as $C, S$ appear in our analysis.
 %$\eta$s as edges, $\nabla^k l$s as nodes, and each
 %summand of the following form 
 
-  Overall, a general summand in \translucent{moolime}{$\cdots$} has the following form (evaluated at $\theta=\theta_0$):
+  Overall, a general summand in (the higher order analogue of) \translucent{moolime}{$X$} has the following form (evaluated at $\theta=\theta_0$):
 $$
     \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
     \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
