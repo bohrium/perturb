@@ -3,20 +3,20 @@
 \BOOKMARK [2][-]{section*.3}{Notation and assumptions, I}{section*.2}% 3
 \BOOKMARK [2][-]{section*.4}{Informal statement of result}{section*.2}% 4
 \BOOKMARK [2][-]{section*.6}{SGD descends on a C-smoothed landscape}{section*.2}% 5
-\BOOKMARK [1][-]{section*.9}{The diagrammatic method}{}% 6
+\BOOKMARK [1][-]{section*.9}{Perturbation theory of SGD}{}% 6
 \BOOKMARK [2][-]{section*.10}{Notation and assumptions, II}{section*.9}% 7
 \BOOKMARK [2][-]{section*.11}{Diagrams arise from and organize Taylor series}{section*.9}% 8
-\BOOKMARK [2][-]{section*.16}{Main result}{section*.9}% 9
-\BOOKMARK [1][-]{section*.20}{Consequences of the theory}{}% 10
-\BOOKMARK [2][-]{section*.21}{Gradient noise repels SGD}{section*.20}% 11
-\BOOKMARK [2][-]{section*.22}{Time discretization penalizes sloped regions}{section*.20}% 12
-\BOOKMARK [2][-]{section*.23}{Jerk distinguishes SDE and SGD}{section*.20}% 13
-\BOOKMARK [2][-]{section*.24}{Both flat and sharp minima overfit less}{section*.20}% 14
-\BOOKMARK [2][-]{section*.26}{Experiments}{section*.20}% 15
-\BOOKMARK [1][-]{section*.28}{Discussion}{}% 16
-\BOOKMARK [2][-]{section*.29}{Related work}{section*.28}% 17
-\BOOKMARK [2][-]{section*.30}{Conclusion}{section*.28}% 18
-\BOOKMARK [2][-]{section*.34}{Taylor series: method and challenges}{section*.28}% 19
+\BOOKMARK [2][-]{section*.15}{Main result}{section*.9}% 9
+\BOOKMARK [1][-]{section*.19}{Consequences of the theory}{}% 10
+\BOOKMARK [2][-]{section*.20}{Gradient noise repels SGD}{section*.19}% 11
+\BOOKMARK [2][-]{section*.21}{Time discretization penalizes sloped regions}{section*.19}% 12
+\BOOKMARK [2][-]{section*.22}{Jerk distinguishes SDE and SGD}{section*.19}% 13
+\BOOKMARK [2][-]{section*.23}{Both flat and sharp minima overfit less}{section*.19}% 14
+\BOOKMARK [2][-]{section*.25}{Experiments}{section*.19}% 15
+\BOOKMARK [1][-]{section*.27}{Discussion}{}% 16
+\BOOKMARK [2][-]{section*.28}{Related work}{section*.27}% 17
+\BOOKMARK [2][-]{section*.29}{Conclusion}{section*.27}% 18
+\BOOKMARK [2][-]{section*.33}{Taylor series: method and challenges}{section*.27}% 19
 \BOOKMARK [1][-]{section*.38}{Tutorial: how to use diagrams}{}% 20
 \BOOKMARK [2][-]{section*.39}{Two example calculations}{section*.38}% 21
 \BOOKMARK [2][-]{section*.44}{How to identify the relevant grid}{section*.38}% 22
@@ -41,8 +41,3 @@
 \BOOKMARK [2][-]{section*.88}{Software frameworks and hardware}{section*.76}% 41
 \BOOKMARK [2][-]{section*.89}{Unbiased estimators of landscape statistics}{section*.76}% 42
 \BOOKMARK [2][-]{section*.90}{Additional figures}{section*.76}% 43
-\BOOKMARK [1][-]{section*.93}{Review of Tensors}{}% 44
-\BOOKMARK [2][-]{section*.94}{Vectors versus covectors}{section*.93}% 45
-\BOOKMARK [2][-]{section*.95}{What is a tensor?}{section*.93}% 46
-\BOOKMARK [2][-]{section*.96}{Tensors of type ud}{section*.93}% 47
-\BOOKMARK [2][-]{section*.97}{Contraction}{section*.93}% 48

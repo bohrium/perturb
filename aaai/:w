@@ -13,23 +13,19 @@
     \maketitle
     
     \begin{abstract}
-        %Popular continuous-time approximations of SGD
-        %%stochastic gradient descent (SGD)
-        %such as
-        %%stochastic differential equations (SDE)
-        %SDEs
-        %assume independent Gaussian
-        %gradient noise and thus fail to model the finite-sample effects that 
-        %make generalization non-trivial.
+        Popular approximations of stochastic gradient descent (SGD) such as
+        stochastic differential equations (SDE) fail to include higher order
+        gradient noise terms such as finite-sample effects and skewed gradient noise. 
         %
-        We quantify how correlated, non-Gaussian gradient noise
-        shapes SGD dynamics by Taylor-expanding with respect to the learning
-        rate.  We re-sum that series to convergent
-        results on short timescales or near local minima.  We physically
-        interpret the resulting terms as ``entropic corrections'' to
-        deterministic descent.  Our theory predicts that gradient noise biases
-        SGD's trajectory toward low-curvature, low-noise regions of the loss
-        landscape, a prediction we empirically verify.
+        We quantify gradient noise shapes SGD dynamics
+        by Taylor-expanding with respect to the
+        learning rate.  We present a new diagram-based technique that permits
+        re-summation of that series to convergent results on short timescales
+        or near local minima.  We physically interpret the resulting terms as
+        entropic corrections to deterministic descent.  Our theory predicts
+        that gradient noise biases SGD's trajectory toward low-curvature,
+        low-noise regions of the loss landscape and we experimentally
+        verify these predictions.
         %%%
         % We quantify how gradient noise shapes the dynamics of stochastic
         % gradient descent (SGD) by Taylor-expanding with respect to the
