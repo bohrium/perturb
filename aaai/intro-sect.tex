@@ -12,7 +12,8 @@ learning} toward low-curvature, low-noise regions of the loss landscape.
 sets of the post-training testing loss by Taylor expanding that loss in the
 learning rate $\eta$.  By induction on $T$, the loss changes by $-T G\eta G +
 o(\eta)$ after $T$ training steps, where $G=\expc_x[\nabla l_x(\theta_0)]$ is
-the expectation over testing samples $x$ of the gradient at initialization.
+the expected gradient at initialization.
+%the expectation over testing samples $x$ of the gradient at initialization.
 %
 This estimate is exact when $\nabla l_x(\theta)$ depends on neither $x$ nor
 $\theta$, i.e., for deterministic linear loss landscapes.  We compute how noise
@@ -30,31 +31,35 @@ training sample reappears in each epoch.  Such \textbf{finite-sample} effects
 complicate the simple induction that led to $-T G\eta G$.
 %
 \emph{Third}, the series' $d$th order truncation \textbf{diverges} as $T$
-grows.  Indeed, on landscapes such as least squares linear regression, the loss
-grows exponentially with time for $\eta<0$.  So on no neighorhood of $\eta=0$
-does any Taylor truncation suffer an error uniform in $T$. 
+grows.  E.g.\ for linear least squares, the loss
+grows exponentially with time for $\eta<0$; so on no neighorhood of $\eta=0$
+does a $d$th Taylor truncation suffer an error uniform in $T$. 
 
   We address the three challenges by using diagrams such as
 $\sdia{c(0-1)(01)}$, $\sdia{c(01-2)(02-12)}$, $\sdia{c(0-1-2)(02-12)}$ to
-organize and evaluate many terms at once, including correlation effects. 
+organize and evaluate many Taylor terms at once.   
 %
-Roughly, the analytical procedure we develop is this.  We interpret each
-diagram as depicting a class of interactions or ``\textbf{histories}'' between
-updates.
+%Roughly, the analytical procedure we develop is this.
+We interpret each diagram as depicting a class of interactions or
+``\textbf{histories}'' between updates.
 %
 E.g.\ $\sdia{c(01-2-3)(02-12-23)}$ depicts an update's (red's) double effect on
 a future update (green) that in turn affects the testing loss (blue).  The
 rightmost (``root'') node always represents a post-training measurement.
 %
-Then, up to $o(\eta^d)$ error, \emph{the testing loss is
-a sum --- over all histories of all diagrams with $\leq d$ edges --- of certain
-diagram-dependent tensor expressions.} 
+We show how to compute each diagram's effect and we show that
+small diagrams dominate the testing loss.
+%
+That is: up to $o(\eta^d)$ error, \emph{the testing loss is a sum --- over all
+histories of all diagrams with $\leq d$ edges --- of certain diagram-dependent
+tensor expressions.} 
 
-  More formally, each $d$-edged diagram represents a class of $O(\eta^d)$ terms
+  More formally, each $d$-edged diagram represents multiple $O(\eta^d)$ terms
 in $\expc[l(\theta_T)]$'s Taylor series.  E.g.\ $\sdia{c(0-1)(01)}$'s terms sum
 to $-TG\eta G$, which diverges as $T$ grows.  However, we find that each
-diagram's (e.g.\ $\sdia{c(0-1)(01)}$'s) divergence is countered by those of higher-order topologically
-related diagrams (e.g.\ $\sdia{c(0-1-2)(01-12)}$, $\sdia{c(0-1-2-3)(01-12-23)}, \cdots$).
+diagram's (e.g.\ $\sdia{c(0-1)(01)}$'s) divergence is countered by those of
+higher-order topologically related diagrams (e.g.\ $\sdia{c(0-1-2)(01-12)}$,
+$\sdia{c(0-1-2-3)(01-12-23)}, \cdots$).
 %
 %%We thus modify plain truncation to tame the large-$T$ divergence.
 %
