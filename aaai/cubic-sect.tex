@@ -1,13 +1,5 @@
   We illustrate our theory by deriving a ``non-conservative
-entropic force'' in SGD.  We avoid the next section's generality.%and
-%
-%
-%notational complexity.
-
-  %We illustrate the content and methods of our theory by using it in this
-  %section to derive a non-conservative entropic force that affects SGD.
-  %We sketch a path toward Corollary \ref{cor:entropic} while avoiding the
-  %generality and notation of the next section.%\S\ref{sect:calculus}.\squash
+entropic force'' in SGD.  We avoid the next section's generality.
 
 \subsection{Notation and assumptions, I}\label{sect:setup}
     %--  the landscape  -----------------------------------------------
@@ -24,7 +16,6 @@ Each initialization $\theta_0 \in \Mm$ then induces via SGD a
 distribution over trajectories $(\theta_t: 0\leq t \leq T)$.  Specifically,
 SGD runs $T$ steps of $\eta$-steepest descent:
   \begin{equation*}
-    \textstyle
     \theta_{t+1}^\mu
     \coloneqq
     \theta_t^\mu -
@@ -34,7 +25,7 @@ SGD runs $T$ steps of $\eta$-steepest descent:
 Each sequence $(n_t: kN\leq t<kN+N)$ is a permutation of $(n:
 0\leq n<N)$.  Our Greek indices name components of
 $\theta,\eta,\nabla$ w.r.t.\ a fixed basis.  We view $\eta$
-as a bilinear form %, not for generality but
+as a bilinear form
 so that the only type-correct expressions have geometric significance.
 %
 
@@ -58,7 +49,7 @@ transforms under change-of-basis like a covector.\footnote{
 }
 
 To illustrate our notation
-we quote %a well-known result
+we quote
 \citet{ne04}, \S 2.1:
 \begin{prop}\label{prop:nest}
     $G = \nabla l(\theta_0)$ controls the loss to leading order.
@@ -70,16 +61,93 @@ we quote %a well-known result
         + o(\eta^1)
     $.
 \end{prop}
-%For noiseless linear landscapes (when $\nabla l_x(\theta)$
-%depends on neither $x$ nor $\theta$), this estimate is exact.
-%
 \noindent
 Our work identifies how noise and curvature correct Prop
-\ref{prop:nest}.%by developing 
-%large-$T$
-%techniques less
-%opaque and more convergent than induction.
-%
+\ref{prop:nest}.
+
+\subsection{Informal Statement of Result}
+  \begin{dfn}
+    \emph{
+      A {\textbf{diagram}} is a rooted tree equipped with an equivalence relation
+      on (i.e.\ a partition of) its non-root nodes.  Convention: we orient the tree
+      left-to-right so that children precede parents; the root is thus rightmost.
+      We draw the partition with fuzzy outlines.
+      {\color{moor!90}Colors} in diagrams lack formal meaning but help us refer
+      to diagram parts.%
+    }\mend 
+  \end{dfn}
+  Valid diagrams include
+  $\sdia{c(0-1)(01)}$,
+  $\sdia{c(0-1-2)(02-12)}$,
+  $\sdia{c(012-3)(02-12-23)}$,
+  $\sdia{c(0-1-2-3)(01-12-23)}$.
+  And
+  $\sdia{c(01-2-3)(01-13-23)}$ and
+  $\sdia{c(02-1-3)(02-13-23)}$ depict the same diagrams.
+  
+  \begin{dfn}
+    \emph{A \textbf{history} of a diagram is an assignment of non-root nodes to
+      $\emph{(n,t)}$ pairs such that: the $\emph{n}$th training point
+      participates in the $t$th batch; parents' $\emph{t}$s strictly exceed
+      their children's $\emph{t}$s; and any two nodes' $\emph{n}$s are equal if
+      the nodes are in the same part of the partition.}\mend 
+  \end{dfn}
+
+  %\begin{dfn}
+  %  \emph{
+  %    A diagram $D$'s \emph{un-resummed value} ({\textbf{uvalue}})
+  %    is a product with one factor of $l_x$'s $d$th derivative
+  %    for each degree-$d$ node, grouped
+  %    under cumulant symbols $\CC$ (think: expectation symbols $\expc$)\footnote{
+  %      Inconsequential technicality: uvalues are products of
+  %      \emph{cumulants} such as $C$, not of un-centered moments such as
+  %      $GG+C$.
+  %      %
+  %      The symbol $\CC[a]$ gives $a$'s mean; $\CC[a\cdot
+  %      b]$, $a,b$'s covariance; 
+  %      we center higher cumulants 
+  %      $\CC[\prod_i a_i]$ with respect to lower
+  %      cumulants.
+  %    }
+  %    per $D$'s fuzzy groups, and tensor-contracted 
+  %    via a
+  %    factor $\eta^{\mu\nu}$ for each edge.
+  %  }\mend
+  %\end{dfn}
+
+  \begin{figure}[h!]
+    \plotmoow{aaai/recipe-a}{0.60\linewidth}{} 
+    \hspace{0.04\linewidth}
+    \plotmoow{aaai/embeddings-small}{0.33\linewidth}{} 
+    \caption{%
+        Diagrams evaluate to tensor expressions (\!\!\protect\ofthree{01}): a
+        degree-$d$ node gives a $d$th derivative;  an edge gives a $(-\eta)$;
+        expectation brackets enclose each fuzzy group.  Each diagram depicts a
+        class of histories; \!\!\protect\ofthree{2} shows an example history
+        for each of $\sdia{c(0-1)(01)}, \sdia{c(01-2)(02-12)},
+        \sdia{c(0-1-2)(02-12)}$.  Summing diagram values over all possible
+        histories gives the expected testing loss. 
+    }
+    \label{fig:recipe-a}
+  \end{figure}
+  
+  \begin{thm*}[informal]
+      The expected testing loss $\expc[l(\theta_T)]$ is a sum over
+      all diagram histories, where each diagram is evaluated by a procedure as
+      in Figure \ref{fig:recipe-a}.
+      If we sum only diagrams with at most $d$ edges, we suffer only
+      $o(\eta^d)$ error.
+  \end{thm*}
+
+  For example, the only diagram with $1$ edge is $\sdia{c(0-1)(01)}$.  This
+diagram evaluates to $-G\eta G$ and, since its red node can be any update while
+its green node represents testing, describes $T$ many histories.  We thus
+recover Prop 0's (un-resummed value) $-TG\eta G$.  The re-summed value,
+which turns out to be
+$-TG\frac{1-\exp(-T\eta H)}{H}G$, tempers Prop 0's large-$T$ behavior by
+including contributions from $\sdia{c(0-1)(01)}, \sdia{c(0-1-2)(01-12)},
+\sdia{c(0-1-2-3)(01-12-23)}, \cdots$.
+%and converges as $T$ grows.
 
 
 \subsection{SGD descends on a $C$-smoothed landscape}\label{sect:entropic-curl}
@@ -121,25 +189,34 @@ So to leading order the displacement is some time-dependent number of histories 
 \begin{figure}%{r}{0.3\textwidth}
     \centering
     \crunch\squash
-    \plotmoow{aaai/cubic}{0.28\textwidth}{}
-    \rotatebox[origin=c]{-90}{\plotmoow{plots/from-above}{0.17\textwidth}{}}
+    \scalebox{1.0}[1.15]{\plotmoow{aaai/cubic}{0.54\linewidth}{}}
+    %\plotmooh{aaai/helix-blueprint}{}{0.18\textwidth}
+    \plotmoow{aaai/spring-b}{0.44\linewidth}{}
+    %\rotatebox[origin=c]{-90}{\plotmoow{plots/from-above}{0.17\textwidth}{}}
     \caption{%
-        \textbf{Left}:
+        %\textbf{Left}
+        {\!\!\protect\offive{0}}:
         Gradient noise pushes SGD toward minima flat w.r.t.\ $C$.
             A 2D loss near
             a valley of minima.  Red densities show typical
             $\theta$s, perturbed by noise ($C$),
             in two cross sections of the valley.  The hessian
             changes across the valley: $J \neq 0$.  
-        \textbf{Right}: \Helix\ is defined on an $\Mm=\RR^3$ 
-        extending into the page.  A helical
-        level surface $S$ (orange-green) of $l$ winds around 
-        a 1D valley of minima orthogonal to the
-        page.  $l$ $\gg$ $1$ outside $S$.  Gradient noise
-        is parallel to the page and to the line between outer tubes.
-        %
-        Thanks to
-        \href{https://www.monroecc.edu/faculty/paulseeburger/calcnsf/CalcPlot3D/}{CalcPlot3D}.
+        %\textbf{Right}:         %
+        {\!\!\protect\offive{1234}}:
+                    Both curvature and noise affect overfitting.
+                    %\small
+                    In each pane, the  $\leftrightarrow$
+                    axis represents weight space and the $\updownarrow$
+                    axis represents loss.  Noise (blue) transforms
+                    the testing loss (thin curve) into the observed loss
+                    (thick curve).  Red dots mark the testing loss at the
+                    arg-min of the observed loss.  \protect\offive{1}:
+                    \emph{covector}-perturbed landscapes favor large $H$s.
+                    \protect\offive{2}: \emph{vector}-perturbed landscapes
+                    favor small $H$s.  %SGD's implicit regularization
+                    %interpolates between these rows %(Corollary
+                    %\ref{cor:overfit}).
     }
     \label{fig:cubic}
     \crunch
@@ -190,19 +267,15 @@ Re-summation more precisely quantifies this `entropic force':\footnote{
     with ${\mathcal P}_T(s) = (1 - \exp(-Ts))/s$,
     the 
     expected displacement is
-    %final displacement
-    %    $M_1^\xi$
-    %is
     $$
         -
-        {\textstyle\sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}}
+        {\sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}}
             C_{\mu\omicron}
-            {\color{gray}{\mathcal P}_T(K_{\mu\mu} + K_{\omicron\omicron})}
+            {{\mathcal P}_T(K_{\mu\mu} + K_{\omicron\omicron})}
             \eta^{\mu\nu}\eta^{\omicron\pi}
             J_{\nu\pi\xi}
-            {\color{gray}{\mathcal P}_T(K_{\xi\xi})}\eta^{\xi\rho}/2
+            {{\mathcal P}_T(K_{\xi\xi})}\eta^{\xi\rho}/2
         + o(\eta^3)
-        \squish\squish
     $$
 \end{cor}
 
@@ -225,23 +298,36 @@ changes as $C$ does}.  %Since the smoothed $l$ may itself evolve,
 
 %\subsection{Curl in the entropic force}
 \begin{figure}[h!]
-    \plotmoow{aaai/screw-trajectory-cropped}{0.47\textwidth}{} 
+    \plotmoow{aaai/helix-blueprint}{0.24\linewidth}{}\hspace{-0.04cm}
+    \plotmoow{aaai/screw-trajectory-magnified-3}{0.73\linewidth}{}
+    %\plotmoow{aaai/screw-trajectory-cropped}{0.47\textwidth}{} 
     \squash
     \caption{%
+        {\,\,\protect\offour{0}}: \Helix\ is defined on an $\Mm=\RR^3$ 
+        extending into the page.  A helical
+        level surface $S$ (blue) of $l$ winds around 
+        a 1D valley of minima orthogonal to the
+        page.
+        %Outside $S$, $l$ is large.
+        Gradient noise (red bi-arrows),
+        parallel to the page, twists out of phase with $l$.
         %
-        Green: SGD's trajectory over 
+        {\,\,\protect\offour{123}}: SGD's trajectory (green) over 
         cross sections of \Helix\ descend progressively
-        into the page.  Blue: $l$'s contours; $l$'s valley
-        intersects each pane's center.  Dotted
+        into the page.
+        %$l$'s contours are in blue; $l$'s valley
+        %intersects each pane's center.
+        Dotted
         curves help compare adjacent panes.
-        Red: %bi-arrows:
-        $C$'s
-        major axis.
+        %%Red: %bi-arrows:
+        %%$C$'s
+        %%major axis.
         %
         Gradient noise kicks $\theta$ from A; $\theta$ then falls
-        (\hspace{-0.12cm}\protect\offour{1}) to B in {\hspace{-0.08cm}\protect\offour{2}}.  At C,
-        noise kicks $\theta$ uphill (\hspace{-0.08cm}\protect\offour{3}); $\theta$
-        thus never settles and the descent persists.
+        (\!\!\protect\offour{1}) to B in
+        {\!\!\protect\offour{2}}.  At C, noise kicks $\theta$
+        uphill (\!\!\protect\offour{3}); $\theta$ thus never
+        settles and the descent persists.
     }
     \squash\squash
     \label{fig:archimedes}

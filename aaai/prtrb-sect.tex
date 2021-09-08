@@ -212,41 +212,41 @@ $x_i=x_j$.
             %%terms (in $\expc[l(\theta_T)]$'s Taylor expansion) with diagrams.
             %%(Throughout, colors help us refer to parts of diagrams; colors lack
             %%mathematical meaning.)
-            \begin{dfn}%[\S\ref{appendix:toward-diagrams}]
-                \emph{%A \translucent{moolime}{\textbf{diagram}}
-                A {\textbf{diagram}}
-                is a rooted
-                tree equipped with an equivalence relation on (i.e.\ a
-                partition of) its non-root nodes.  We orient the tree
-                left-to-right so that children precede parents; the root is
-                thus rightmost.  We draw the partition structure with 
-                fuzzy outlines.%
-                %minimally
-                %many outlined ties.
-                }\mend 
-                \squash
-            \end{dfn}
-            Valid diagrams include
-            \squash\squash
-            $\sdia{c(0-1)(01)}$,
-            $\sdia{c(0-1-2)(02-12)}$,
-            $\sdia{c(012-3)(02-12-23)}$,
-            $\sdia{c(01-2-3)(02-12-23)}$,
-            $\sdia{c(0-1-2-3)(01-12-23)}$,
-            $\sdia{MOOc(03-12-4)(03-13-23-34)}$
-            but not \squash\squash $\sdia{MOOc(01)(0-1)}$,  
-                 $\sdia{MOOc(01)(01)}$, 
-                 $\sdia{MOOc(0-1-2)(01-02-12)}$,
-                 $\sdia{MOOc(0-1-2)(01-02)}$, 
-                 $\sdia{MOOc(0-1-2)(02)}$,
-                 $\sdia{MOOc(02-012-3)(02-12-23)}$.
-            \squash\squish
-            Since a diagram is just a rooted tree and partition,
-            $
-                \sdia{c(01-2-3)(01-13-23)} = 
-                \sdia{c(02-1-3)(02-13-23)} = 
-                \sdia{c(0-12-3)(03-12-23)} 
-            $ are the same diagrams.
+            %\begin{dfn}%[\S\ref{appendix:toward-diagrams}]
+            %    \emph{%A \translucent{moolime}{\textbf{diagram}}
+            %    A {\textbf{diagram}}
+            %    is a rooted
+            %    tree equipped with an equivalence relation on (i.e.\ a
+            %    partition of) its non-root nodes.  We orient the tree
+            %    left-to-right so that children precede parents; the root is
+            %    thus rightmost.  We draw the partition structure with 
+            %    fuzzy outlines.%
+            %    %minimally
+            %    %many outlined ties.
+            %    }\mend 
+            %    \squash
+            %\end{dfn}
+            %Valid diagrams include
+            %\squash\squash
+            %$\sdia{c(0-1)(01)}$,
+            %$\sdia{c(0-1-2)(02-12)}$,
+            %$\sdia{c(012-3)(02-12-23)}$,
+            %$\sdia{c(01-2-3)(02-12-23)}$,
+            %$\sdia{c(0-1-2-3)(01-12-23)}$,
+            %$\sdia{MOOc(03-12-4)(03-13-23-34)}$
+            %but not \squash\squash $\sdia{MOOc(01)(0-1)}$,  
+            %     $\sdia{MOOc(01)(01)}$, 
+            %     $\sdia{MOOc(0-1-2)(01-02-12)}$,
+            %     $\sdia{MOOc(0-1-2)(01-02)}$, 
+            %     $\sdia{MOOc(0-1-2)(02)}$,
+            %     $\sdia{MOOc(02-012-3)(02-12-23)}$.
+            %\squash\squish
+            %Since a diagram is just a rooted tree and partition,
+            %$
+            %    \sdia{c(01-2-3)(01-13-23)} = 
+            %    \sdia{c(02-1-3)(02-13-23)} = 
+            %    \sdia{c(0-12-3)(03-12-23)} 
+            %$ are the same diagrams.
 
             \squash
             \begin{dfn}%[\S\ref{appendix:evaluate-histories}]\label{dfn:uvalue-body}
@@ -347,14 +347,14 @@ $x_i=x_j$.
                 algorithms --- \S\ref{appendix:draw-spacetime}. 
             }
 
-            \begin{dfn}
-                \emph{A \textbf{history} of a diagram is an assignment of non-root
-                nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
-                training point participates in the $t$th batch; parents'
-                $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
-                any two nodes' $\emph{n}$s are equal if the nodes
-                are in the same part of the partition.}\mend 
-            \end{dfn}
+            %\begin{dfn}
+            %    \emph{A \textbf{history} of a diagram is an assignment of non-root
+            %    nodes to $\emph{(n,t)}$ pairs such that: the $\emph{n}$th
+            %    training point participates in the $t$th batch; parents'
+            %    $\emph{t}$s strictly exceed their children's $\emph{t}$s; and
+            %    any two nodes' $\emph{n}$s are equal if the nodes
+            %    are in the same part of the partition.}\mend 
+            %\end{dfn}
 
             E.g.\ $\sdia{(0-1)(01)}$ has just one non-root node.  It has
             as many histories as there are $(n,t)$ cells where $n$ participates
@@ -641,5 +641,5 @@ $x_i=x_j$.
             $E=T$, $B=N$ result (\S\ref{subsect:curvature-and-overfitting}).
 
 
-        \subsubsection{On Factoring}
+        %\subsubsection{On Factoring}
 
