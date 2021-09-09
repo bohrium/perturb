@@ -79,12 +79,12 @@
             order} in $\eta$.  
             We allow correlated,
             non-Gaussian noise and thus \emph{any} smooth architecture.
-            %%E.g.\
-            %%we assume no information-geometric relationships between $C$ and
-            %%$H$,\footnote{
-            %%    Disagreement of $C$ and
-            %%    $H$ is typical in modern learning \citep{ro12, ku19}
-            %%} so we may model VAEs.  
+            E.g.\
+            we assume no information-geometric relationships between $C$ and
+            $H$,\footnote{
+                Disagreement of $C$ and
+                $H$ is typical in modern learning \citep{ro12, ku19}
+            } so we may model VAEs.  
 
 
 \subsection{Conclusion}
@@ -98,9 +98,11 @@
 %-----  vs ode and sde  -------------------------------------------------------
 Generalizing \cite{li18,we19b,zh19,ba21}, we model correlated, non-gaussian,
 non-isotropic, non-constant gradient noise and find qualitative differences in
-dynamics.  For example, we construct a non-pathological loss landscape on which
-SGD's trajectory \emph{ascends}.  We verify our theory on convolutional
-CIFAR-10 and Fashion-MNIST landscapes.
+dynamics.  For example, we construct a loss landscape on which
+SGD's trajectory eternally circulates.
+%We verify our theory on convolutional
+%CIFAR-10 and Fashion-MNIST landscapes.
+            Moreover,
             Corollaries \ref{cor:entropic} and
             \ref{cor:overfit} together show that SGD avoids curvature and
             noise, which to leading order control generalization.
@@ -108,7 +110,7 @@ CIFAR-10 and Fashion-MNIST landscapes.
 
     Our theory offers a new physics-inspired perspective of SGD as a
     superposition of concurrent processes in which data influence weights.
-    Notating such processes with such diagrams, we show how to compute the
+    Notating such processes with diagrams, we show how to compute the
     effect of each process and that summing the finitely many processes with
     $d$ or fewer edges suffices to answer dynamical questions to error
     $o(\eta^d)$.  We thus factor the analysis of SGD into the analyses of
@@ -158,6 +160,8 @@ CIFAR-10 and Fashion-MNIST landscapes.
                 of SGD's trajectory.  Equipped with our theory, users of deep
                 learning may refine intuitions --- e.g.\ that SGD descends on
                 the training loss --- to account for noise.
+
+                \newpage
 
 %\moosect{Locating \cit{Ba} in our theory}
 %    \cit{Ba}'s \thm{3.1} computes order-$\eta^2$ weight
