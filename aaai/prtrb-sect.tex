@@ -1,5 +1,6 @@
-We explain the content and origins of our main
+We explain the content of our main abstract
 result: that diagram-based analysis is correct.
+The appendices more thoroughly discuss proofs and examples.  
 
         \subsection{Notation and assumptions, II}\label{sect:background}
 
@@ -91,7 +92,10 @@ Consequently, $\nabla \expct{p}=\expct{\nabla p}$.
                 experiment that determine when such error terms are negligible.
 
 \subsection{Diagrams arise from and organize Taylor series}\label{sect:challenges}
-  Overall, a general summand in (the higher order analogue of) \translucent{moolime}{$X$} has the following form (evaluated at $\theta=\theta_0$):
+  %Overall, a general summand in (the higher order analogue of) \translucent{moolime}{$X$} has the following form (evaluated at $\theta=\theta_0$):
+  One may with effort explicitly differentiate a $T$th iteration of the SGD
+  update  for a fixed sequence of batches. 
+  A general summand in this series looks like (evaluated at $\theta=\theta_0$):
 $$
     \sum_{\text{all Greek indices}} \wrap{\prod_{j\in J} \eta^{\mu_j\nu_j}}
     \wrap{\prod_{i\in I} \wrap{\prod_{k\in K_i} \nabla_{\xi_{i,k}}}
@@ -206,17 +210,18 @@ $x_i=x_j$.
             %\textsc{SGD as a Sum over Histories}\label{sect:histories} ---
             %-----  histories and patterns of influence  ---------------------
             %\subsubsection{Embeddings}
-            Having expressed terms in $\expc[l(\theta_T)]$'s Taylor expansion %(\ref{eq:dyson})
-            as uvalues of
-            diagrams, we seek the coefficient for each uvalue.  Intuitively, a
-            diagram represents a process (as in Figure \ref{fig:paradigm}) and
-            a diagram's contribution scales with the number of ways that
-            process may occur.
-            Specifically, the Key Lemma (see Appendix)
+            Thus, by construction we have represented terms in
+            $\expc[l(\theta_T)]$'s Taylor expansion %(\ref{eq:dyson}) as
+            uvalues of diagrams.
+            What is the coefficient for each diagram?s
+            uvalue simply counts the diagram's histories 
+            Intuitively, a diagram represents a process and so the diagram's
+            contribution scales with the number of ways that process may occur.
+            Indeed, the Key Lemma (proved by induction on $T$; see Appendix)
             establishes that a diagram's coefficient in the expansion is the
             number of its \emph{histories} (weighted by symmetry factors to
-            counter overcounting), where we define \emph{histories}
-            below with
+            counter overcounting), where we have defined \emph{histories}
+            above with
             respect to given SGD hyperparameters $N,E,B$.\footnote{
                 and w.r.t.\ a deterministic selector of the
                 $t$th batch.  One may take expectations over such
@@ -232,12 +237,12 @@ $x_i=x_j$.
             %    are in the same part of the partition.}\mend 
             %\end{dfn}
 
-            E.g.\ $\sdia{(0-1)(01)}$ has just one non-root node.  It has
-            as many histories as there are $(n,t)$ cells where $n$ participates
-            in the $t$th update, i.e.,
-            $B\cdot T$ histories.  Since $\sdia{(0-1)(01)}$ is the only
-            $1$-edged diagram, it gives the full $\eta^1$ contribution to
-            final testing loss.  
+            %E.g.\ $\sdia{(0-1)(01)}$ has just one non-root node.  It has
+            %as many histories as there are $(n,t)$ cells where $n$ participates
+            %in the $t$th update, i.e.,
+            %$B\cdot T$ histories.  Since $\sdia{(0-1)(01)}$ is the only
+            %$1$-edged diagram, it gives the full $\eta^1$ contribution to
+            %final testing loss.  
             %%We thus recover Prop
             %%\ref{prop:nest}:
             %%    \vspace{-0.15cm}

@@ -212,395 +212,395 @@ CIFAR-10 and Fashion-MNIST landscapes.
 
             %\nopagebreak
 
-            \newpage
-            moo\vspace{10cm}
-            \newpage
-            moo\vspace{10cm}
-            \newpage
-
-            \begin{figure}[h]%{r}{0.35\textwidth}
-                \centering  
-                \vspace{-0.50cm}
-                \dmoo{2.5cm}{spacetime-g}
-                %\dmoo{3cm}{spacetime-h}
-                \caption{
-                    \textbf{Resummation propagates information damped by
-                    curvature}.
-                    %\textbf{Left}:
-                    Each resummed value (here, for $\sdia{c(0-1)(01)}$)
-                    represents many un-resummed values, four shown here, each
-                    modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$) in a
-                    different way.
-                    %
-                    %\textbf{Right}: One of many un-resummed terms
-                    %captured by a single resummed term for
-                    %$\sdia{c(01-2)(02-12)}$.
-                    %Because two nodes appear at $(n=2,t=2)$, the process shown
-                    %is an effect of the 2nd cumulant of the gradient noise
-                    %distribution.
-                }
-                \label{fig:resumintuition}
-            \end{figure}
-            \begin{figure}[h]%{r}{0.4\textwidth}
-                \begin{tabular}{lclcl}
-                    $G_\mu$         &$=$& $\expc[\nb_\mu\lx]$                           &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $                  \\
-                    $H_{\mu\nu}$    &$=$& $\expc[\nb_\mu\nb_\nu\lx]$                    &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $                  \\ 
-                    $J_{\mu\nu\xi}$ &$=$& $\expc[\nb_\mu\nb_\nu\nb_\xi\lx]$             &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\squash           \\
-                    $C_{\mu\nu}$    &$=$& $\expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$    &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\squash\squash    \\
-                    $S_{\mu\nu\xi}$ &$=$& $\expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
-                \end{tabular}
-                \crunch
-                \caption{
-                    \textbf{Named tensors}, typically evaluated at
-                    initialization ($\theta=\theta_0$).  Def.\
-                    \ref{dfn:uvalue-body} explains how diagrams depict tensors.
-                }
-                \label{fig:tensor}
-            \end{figure}
-
-For a
-            tight comparison, we scale the learning rates appropriately so
-            that, to leading order, few-epoch and many-epoch SGD agree.  Then
-            few-epoch and many-epoch SGD differ, to leading order, in their
-            sensitivity to $\nabla C$:
-            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
-                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
-                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
-                $
-                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
-                        =
-                    \wrap{\frac{E_0-1}{4 E_0}} N
-                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
-                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
-                    + o(\eta^2)
-                $.
-            \end{cor}
-
-            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
-            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
-            and resolve some questions posed therein.    
-
-Figure \ref{fig:paradigm} shows an instance of the process\footnote{
-    Throughout, colors help us refer to parts of diagrams; colors
-    lack mathematical meaning.
-}
-\begin{equation*}
-    \mdia{MOOc(01-2-3-4)(04-13-23-34)}
-\end{equation*}
-\begin{figure}[h]%{r}{0.40\textwidth}
-    \centering  
-    %\vspace{-0.40cm}
-    %\plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
-    \plotmoow{diagrams/paradigm}{0.49\linewidth}{}\vspace{-0.10cm}
-    \caption{
-        \textbf{A sub-process of SGD}.  Timesteps index
-        columns; training data index rows.  The $5$th datum
-        participates in the $2$nd SGD update.  This
-        {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
-        testing loss both directly and via the
-        {\color{spacetimeteal}$(1,12)$ event}, which is itself
-        modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
-    }\vspace{-0.60cm}
-    \label{fig:paradigm}
-\end{figure}
-
-
-\subsection{Taylor series: method and challenges}\label{sect:challenges}
-    %\subsubsection{Proving Prop \ref{prop:nest}}
-    Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
-    up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
-    \begin{proof} %(of Prop \ref{prop:nest}).
-        By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
-        We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
-        -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
-        %
-        The claim holds when $T=0$.  Say the claim holds for
-        ${\tilde T}$-step SGD with
-        $T = {\tilde T}+1$.  The displacement
-        $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
-        evaluates to:
-        \begin{align*}
-               & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
-            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
-                       l_{n_{\tilde T}}(\theta_0)
-                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}
-                       + o(\theta_{{\tilde T}} - \theta_0)
-                   }    
-            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
-                          l_{n_{\tilde T}}(\theta_0)
-                          + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
-                      }    
-            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{{\tilde T}}(\theta_0)$}} + o(\eta^1)
-        \end{align*}
-        Applying the induction hypothesis proves the claim.
-        %
-        We plug the claim into $l$'s Taylor series:
-        \begin{align*}
-            \expc[l(\theta_T) - l(\theta_0)]
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0)]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
-            &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
-        \end{align*}
-        Indeed, due to the assumption of analytic moments, the above
-        expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
-    \end{proof}
-
-\subsubsection{What happens when we keep higher order terms?}
-
-\textsc{Multiple Moments} ---
-We used above
-that, to order $\eta^1$, $\expct{l(\theta_T)}$ depends on the
-training data only through the first moment
-\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.\squish\squish\ But to compute  
-$\expct{l(\theta_T)}$ to higher order, we'd also need
-the $k$th moments $M_k^{\mu_0\mu_1\cdots} = \expc\wasq{\prod_i (\theta_T - \theta_0)^{\mu_i}}$.\squish\  We may achieve this by inductively
-proving multiple \textbf{claim}s, one for each moment. 
-
-\textsc{Tuples of Times} --- Complications arise even as we compute $M_1$\squish\ to order $\eta^2$.  We may not neglect the gradient
-correction $\nabla (\text{\translucent{moosky}{$\nabla
-l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} -
-\theta_0)$}})$\squash\ at the $\tilde{T}$th induction step. As the
-displacement $\theta_{{\tilde T}} - \theta_0$ contains (to order
-$\eta^1$) $\tilde T$ terms, so will the correction.
+%            \newpage
+%            moo\vspace{10cm}
+%            \newpage
+%            moo\vspace{10cm}
+%            \newpage
 %
-Totalling the correction over time thus yields
-$\sum_{0\leq \tilde T<T}\tilde T = {T \choose 2}$\squish\
-summands, each (e.g.\ $\nabla\nabla l_{5} \nabla l_{2}$)
-involving a \emph{pair} of times.  Order-$d$
-corrections represent the joint influence of $d$-tuples of times.
+%            \begin{figure}[h]%{r}{0.35\textwidth}
+%                \centering  
+%                \vspace{-0.50cm}
+%                \dmoo{2.5cm}{spacetime-g}
+%                %\dmoo{3cm}{spacetime-h}
+%                \caption{
+%                    \textbf{Resummation propagates information damped by
+%                    curvature}.
+%                    %\textbf{Left}:
+%                    Each resummed value (here, for $\sdia{c(0-1)(01)}$)
+%                    represents many un-resummed values, four shown here, each
+%                    modulated by the Hessian ($\sdia{MOOc(0)(0-0)}$) in a
+%                    different way.
+%                    %
+%                    %\textbf{Right}: One of many un-resummed terms
+%                    %captured by a single resummed term for
+%                    %$\sdia{c(01-2)(02-12)}$.
+%                    %Because two nodes appear at $(n=2,t=2)$, the process shown
+%                    %is an effect of the 2nd cumulant of the gradient noise
+%                    %distribution.
+%                }
+%                \label{fig:resumintuition}
+%            \end{figure}
+%            \begin{figure}[h]%{r}{0.4\textwidth}
+%                \begin{tabular}{lclcl}
+%                    $G_\mu$         &$=$& $\expc[\nb_\mu\lx]$                           &$\leftrightsquigarrow$& $\mdia{MOO(0)(0)}       $                  \\
+%                    $H_{\mu\nu}$    &$=$& $\expc[\nb_\mu\nb_\nu\lx]$                    &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0)}     $                  \\ 
+%                    $J_{\mu\nu\xi}$ &$=$& $\expc[\nb_\mu\nb_\nu\nb_\xi\lx]$             &$\leftrightsquigarrow$& $\mdia{MOO(0)(0-0-0)}   $\squash           \\
+%                    $C_{\mu\nu}$    &$=$& $\expc[(\nb\lx - G)^{\otimes 2}]_{\mu\nu}$    &$\leftrightsquigarrow$& $\mdia{MOOc(01)(0-1)}   $\squash\squash    \\
+%                    $S_{\mu\nu\xi}$ &$=$& $\expc[(\nb\lx - G)^{\otimes 3}]_{\mu\nu\xi}$ &$\leftrightsquigarrow$& $\mdia{MOOc(012)(0-1-2)}$
+%                \end{tabular}
+%                \crunch
+%                \caption{
+%                    \textbf{Named tensors}, typically evaluated at
+%                    initialization ($\theta=\theta_0$).  Def.\
+%                    \ref{dfn:uvalue-body} explains how diagrams depict tensors.
+%                }
+%                \label{fig:tensor}
+%            \end{figure}
 %
-Prop \ref{prop:nest}'s result $\sum_{\tilde T}
-\wrap{\text{\translucent{moolime}{$- \eta \nabla l_{{\tilde
-T}}(\theta_0)$}}}$\squish\squish\ is degree $1$ in $T$; but the
-order-$d$ displacement is a degree $d$ polynomial --- very divergent --- in $T$.
-
-\textsc{Factoring's Failure} --- To obtain \translucent{moogold}{$-TG\eta G$},\squish\ we multiplied
-$l$'s derivatives by the expectations of such summands.
+%For a
+%            tight comparison, we scale the learning rates appropriately so
+%            that, to leading order, few-epoch and many-epoch SGD agree.  Then
+%            few-epoch and many-epoch SGD differ, to leading order, in their
+%            sensitivity to $\nabla C$:
+%            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
+%                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
+%                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
+%                $
+%                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
+%                        =
+%                    \wrap{\frac{E_0-1}{4 E_0}} N
+%                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
+%                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
+%                    + o(\eta^2)
+%                $.
+%            \end{cor}
 %
-In contrast to Prop \ref{prop:nest}, these expectations, even those of a fixed
-degree in $\eta$, now vary in form due to noise: some (e.g.\
-$\nabla\nabla l_{5} \nabla l_{2}$) have statistically independent
-factors that permit expectations to factor; others (e.g.\
-$\nabla\nabla l_{5} \nabla l_{5}$) do not.  This is how $\nabla
-l_x$'s higher cumulants (such as the covariance and skew of the gradient distribution) appear in our analysis.
-
-\textsc{Diverse Derivatives} --- 
-At order $\eta^3$, a hessian correction $\nabla((\theta_{{\tilde T}} -
-\theta_0) \cdot \nabla \nabla l_{n_{\tilde T}}(\theta_0) \cdot
-(\theta_{{\tilde T}} - \theta_0)/2)$ augments the gradient
-correction.
+%            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
+%            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
+%            and resolve some questions posed therein.    
 %
-Then $M_1$'s order-$\eta^3$ summands vary in form, even when all
-expectations factor (as happens on noiseless landscapes).  For
-instance, the hessian and gradient corrections respectively induce
-order-$\eta^3$ summands of $\expct{l(\theta_T)}$ such as
-$$
-    %%\textstyle
-    %%\sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
-    %%    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-    %%    \,
-    %%    (\nabla_\mu l_x)
-    %%    \,
-    %%    (\nabla_\nu l_y)
-    %%    \,
-    %%    (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
-    %%    \,
-    %%    (\nabla_\xi l)
-    %%%
-    %%$$ $$
-    %
-    \textstyle
-    \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
-        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-        \,
-        (\nabla_\mu l_x)
-        \,
-        (\nabla_\omicron\nabla_\nu l_y)
-        \,
-        (\nabla_\pi \nabla_\xi l_z)
-        \,
-        (\nabla_\rho l)
-$$
-And $M_2, M_3$'s terms are yet more diverse.  In short, a Taylor
-expansion even to low degrees yields a combinatorial explosion of
-terms.  Our paper develops tools to organize and interpret these
-terms.
-
-
-  Since $\sdia{c(0-1)(01)}$ has only one non-rightmost node, it has as many
-histories as there are timesteps.  Since two nodes have degree $1$, each
-history's contribution $G(-\eta(I-\eta H)^{\Delta-1})G$ involves two $1$st 
-derivatives: $G$.  We use geometric series to sum from $\Delta=1$ through
-$\Delta=T$ to find the testing loss change up to $o(\eta^1)$ error:
-$
-  - G((I - (I-\eta H)^T)/H)G
-$.
-This is a more precise form of the above $-T G \eta G$ result.
-
-
-
-The displacement
-%$M_1=\expc[\theta_T - \theta_0]$
-$\expc[\theta_T - \theta_0]$ contains many
-order-$\eta^3$ summands, including those of the form\squash
-$$
-    \textstyle
-    \Delta^\xi_{xyz} \propto 
-    -
-    \sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}
-        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-        \,
-    \expct{
-        (\nabla_\mu l_x)
-        \,
-        (\nabla_\nu l_y)
-        \,
-        (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
-    }
-    \squash
-$$
-where $0\leq x,y,z<N$ label datapoints.
-Let $\Delta_\circ = \expc[\Delta_{xxz}-\Delta_{xyz}]$ for $x,y,z$
-distinct.\squash\  $l_x, l_y, l_z$ are i.i.d., so:
-$ 
-    \Delta_\circ^\xi \propto 
-    -
-    \sum_{\cdots}
-    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
-    C_{\mu\nu} J_{\omicron\pi\rho}
-$
-or, schematically, 
-    $\boxed{\Delta_\circ^\xi
-    \propto -\eta^3 C\nabla H}$.\squish\ 
-Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
-$H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
-$J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$
-is $l$'s `jerk'.\footnote{
-    `\textbf{J}erk' names $3$rd derivatives in dynamical systems:
-    \href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041}.% (2009)}.%, \S1.
-}
-
-
-Valid diagrams include
-\squash\squash
-$\sdia{c(0-1)(01)}$,
-$\sdia{c(0-1-2)(02-12)}$,
-$\sdia{c(012-3)(02-12-23)}$,
-$\sdia{c(01-2-3)(02-12-23)}$,
-$\sdia{c(0-1-2-3)(01-12-23)}$,
-$\sdia{MOOc(03-12-4)(03-13-23-34)}$
-but not \squash\squash $\sdia{MOOc(01)(0-1)}$,  
-     $\sdia{MOOc(01)(01)}$, 
-     $\sdia{MOOc(0-1-2)(01-02-12)}$,
-     $\sdia{MOOc(0-1-2)(01-02)}$, 
-     $\sdia{MOOc(0-1-2)(02)}$,
-     $\sdia{MOOc(02-012-3)(02-12-23)}$.
-\squash\squish
-Since a diagram is just a rooted tree and partition,
-$
-    \sdia{c(01-2-3)(01-13-23)} = 
-    \sdia{c(02-1-3)(02-13-23)} = 
-    \sdia{c(0-12-3)(03-12-23)} 
-$ are the same diagrams.
-
-\newpage
-
-
-        %\subsection{Diagrams overcome Taylor Series challenges}
-        \label{sect:using}\label{sect:diagrams}
-
-
-    %\subsubsection{Proving Prop \ref{prop:nest}}
-    %Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
-    %up,
-    %we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
-
-    \subsubsection{Structure of the Taylor expansion} %---
-    We discuss how to analyze SGD by expanding in powers of $\eta$.  We begin
-    by proving Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
-        We'll name four quantities (${\translucent{moosky}{$W$}}$,
-        ${\translucent{moolime}{$X$}}$, ${\translucent{moopink}{$Y$}}$,
-        ${\translucent{moogold}{$Z$}}$) for later reference in this
-        sub-section (their colors merely aid the eye).
-
-    \begin{proof} %(of Prop \ref{prop:nest}).
-        By our gradient bound assumption: $\theta_T - \theta_0$ is $O(\eta^1)$.
-        We {claim} that $(\theta_T - \theta_0)^\mu =
-        -\sum_t \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_t}(\theta_0) + o(\eta^1)$.
-        %
-        The claim holds when $T=0$.  Say the claim holds for
-        ${\tilde T}$-step SGD with
-        $T = {\tilde T}+1$.  The displacement
-        $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
-        is:%evaluates to:
-        \begin{align*}
-               & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
-            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
-                       l_{n_{\tilde T}}(\theta_0)
-                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}^{\text{\translucent{moosky}{$_\swarrow W$}}}
-                       + o(\theta_{{\tilde T}} - \theta_0)
-                   }    
-            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
-                          l_{n_{\tilde T}}(\theta_0)
-                          + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
-                      }    
-            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_0)$}}^{\text{\translucent{moolime}{$_\swarrow X$}}}
-            + o(\eta^1)
-        \end{align*}
-        Applying the induction hypothesis proves the claim.
-        %
-        We plug the claim into $l$'s Taylor series:
-        \begin{align*}
-            \expc[l(\theta_T) - l(\theta_0)]
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0)
-              \text{\translucent{moopink}{$\expc[\theta_T - \theta_0]^\mu$}}^{\text{\translucent{moopink}{$_\swarrow Y$}}}
-              + \expc[o(\theta_T - \theta_0)] \\
-            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (%
-              \text{\translucent{moogold}{$-T\eta G + o(\eta^1)$}}^{\text{\translucent{moogold}{$_\swarrow Z$}}})
-              + o(O(\eta^1)) \\
-            &= \textstyle - \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu + o(\eta^1)
-        \end{align*}
-        Indeed, due our assumption of analytic moments, the above
-        expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
-    \end{proof}
-
-    The above proof gives an order-$1$ result.  %Correction terms involve
-At higher order, higher derivatives correct
-${\translucent{moosky}{$W$}}$
-%${\translucent{moosky}{$\nabla l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} - \theta_0)$}}$
-and higher
-moments augment
-\translucent{moopink}{$Y$}.
-%\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.
+%Figure \ref{fig:paradigm} shows an instance of the process\footnote{
+%    Throughout, colors help us refer to parts of diagrams; colors
+%    lack mathematical meaning.
+%}
+%\begin{equation*}
+%    \mdia{MOOc(01-2-3-4)(04-13-23-34)}
+%\end{equation*}
+%\begin{figure}[h]%{r}{0.40\textwidth}
+%    \centering  
+%    %\vspace{-0.40cm}
+%    %\plotmoow{diagrams/paradigm}{0.99\linewidth}{}\vspace{-0.10cm}
+%    \plotmoow{diagrams/paradigm}{0.49\linewidth}{}\vspace{-0.10cm}
+%    \caption{
+%        \textbf{A sub-process of SGD}.  Timesteps index
+%        columns; training data index rows.  The $5$th datum
+%        participates in the $2$nd SGD update.  This
+%        {\color{spacetimepurple}$(n=5,t=2)$ event} affects the
+%        testing loss both directly and via the
+%        {\color{spacetimeteal}$(1,12)$ event}, which is itself
+%        modulated by the {\color{spacetimeindigo}$(2,5)$ event}. 
+%    }\vspace{-0.60cm}
+%    \label{fig:paradigm}
+%\end{figure}
 %
-%%Whereas \translucent{moogold}{$-TG\eta G$}
-%%we multiplied
-%%$l$'s derivatives by the expectations of such summands.
 %
-Whereas above the displacement is a sum over $\tilde T$s of
-\translucent{moolime}{$X$}s, due to ${\translucent{moosky}{$W$}}$'s
-corrections the displacement at higher order is a sum over \emph{tuples} of
-times with summands such as $\nabla\nabla l_{n_{T^\prime}} \nabla l_{n_{\tilde
-T}}$ instead of $\nabla l_{n_{\tilde T}}$.
+%\subsection{Taylor series: method and challenges}\label{sect:challenges}
+%    %\subsubsection{Proving Prop \ref{prop:nest}}
+%    Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
+%    up, we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+%    \begin{proof} %(of Prop \ref{prop:nest}).
+%        By gradient bounds: $\theta_T - \theta_0$ is $O(\eta^1)$.
+%        We \textbf{claim} that $(\theta_T - \theta_0)^\mu =
+%        -T\sum_\nu \eta^{\mu\nu}G_\nu + o(\eta^1)$.
+%        %
+%        The claim holds when $T=0$.  Say the claim holds for
+%        ${\tilde T}$-step SGD with
+%        $T = {\tilde T}+1$.  The displacement
+%        $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
+%        evaluates to:
+%        \begin{align*}
+%               & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
+%            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+%                       l_{n_{\tilde T}}(\theta_0)
+%                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}
+%                       + o(\theta_{{\tilde T}} - \theta_0)
+%                   }    
+%            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+%                          l_{n_{\tilde T}}(\theta_0)
+%                          + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
+%                      }    
+%            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{{\tilde T}}(\theta_0)$}} + o(\eta^1)
+%        \end{align*}
+%        Applying the induction hypothesis proves the claim.
+%        %
+%        We plug the claim into $l$'s Taylor series:
+%        \begin{align*}
+%            \expc[l(\theta_T) - l(\theta_0)]
+%            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) \text{\translucent{moopink}{$\expc[\theta_T - \theta_0)]^\mu$}} + \expc[o(\theta_T - \theta_0)] \\
+%            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (-T\eta G + o(\eta^1)) + o(O(\eta^1)) \\
+%            &= \textstyle \text{\translucent{moogold}{$- \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu$}}+ o(\eta^1)
+%        \end{align*}
+%        Indeed, due to the assumption of analytic moments, the above
+%        expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
+%    \end{proof}
 %
-When we then take expectations of \translucent{moolime}{$X$} to evaluate 
-\translucent{moopink}{$Y$} as  
-\translucent{moogold}{$Z$},
-some summands (e.g.\ $\expc[\nabla\nabla l_{5}
-\nabla l_{2}]=\expc[\nabla\nabla l_{5}]
-\expc[\nabla l_{2}]$) are uncorrelated and thus factor; others (e.g.\ $\expc[\nabla\nabla
-l_{5} \nabla l_{5}]$) do not.  This is how $\nabla l_x$'s higher cumulants such
-as $C, S$ appear in our analysis.
-%In short, a Taylor
+%\subsubsection{What happens when we keep higher order terms?}
+%
+%\textsc{Multiple Moments} ---
+%We used above
+%that, to order $\eta^1$, $\expct{l(\theta_T)}$ depends on the
+%training data only through the first moment
+%\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.\squish\squish\ But to compute  
+%$\expct{l(\theta_T)}$ to higher order, we'd also need
+%the $k$th moments $M_k^{\mu_0\mu_1\cdots} = \expc\wasq{\prod_i (\theta_T - \theta_0)^{\mu_i}}$.\squish\  We may achieve this by inductively
+%proving multiple \textbf{claim}s, one for each moment. 
+%
+%\textsc{Tuples of Times} --- Complications arise even as we compute $M_1$\squish\ to order $\eta^2$.  We may not neglect the gradient
+%correction $\nabla (\text{\translucent{moosky}{$\nabla
+%l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} -
+%\theta_0)$}})$\squash\ at the $\tilde{T}$th induction step. As the
+%displacement $\theta_{{\tilde T}} - \theta_0$ contains (to order
+%$\eta^1$) $\tilde T$ terms, so will the correction.
+%%
+%Totalling the correction over time thus yields
+%$\sum_{0\leq \tilde T<T}\tilde T = {T \choose 2}$\squish\
+%summands, each (e.g.\ $\nabla\nabla l_{5} \nabla l_{2}$)
+%involving a \emph{pair} of times.  Order-$d$
+%corrections represent the joint influence of $d$-tuples of times.
+%%
+%Prop \ref{prop:nest}'s result $\sum_{\tilde T}
+%\wrap{\text{\translucent{moolime}{$- \eta \nabla l_{{\tilde
+%T}}(\theta_0)$}}}$\squish\squish\ is degree $1$ in $T$; but the
+%order-$d$ displacement is a degree $d$ polynomial --- very divergent --- in $T$.
+%
+%\textsc{Factoring's Failure} --- To obtain \translucent{moogold}{$-TG\eta G$},\squish\ we multiplied
+%$l$'s derivatives by the expectations of such summands.
+%%
+%In contrast to Prop \ref{prop:nest}, these expectations, even those of a fixed
+%degree in $\eta$, now vary in form due to noise: some (e.g.\
+%$\nabla\nabla l_{5} \nabla l_{2}$) have statistically independent
+%factors that permit expectations to factor; others (e.g.\
+%$\nabla\nabla l_{5} \nabla l_{5}$) do not.  This is how $\nabla
+%l_x$'s higher cumulants (such as the covariance and skew of the gradient distribution) appear in our analysis.
+%
+%\textsc{Diverse Derivatives} --- 
+%At order $\eta^3$, a hessian correction $\nabla((\theta_{{\tilde T}} -
+%\theta_0) \cdot \nabla \nabla l_{n_{\tilde T}}(\theta_0) \cdot
+%(\theta_{{\tilde T}} - \theta_0)/2)$ augments the gradient
+%correction.
+%%
+%Then $M_1$'s order-$\eta^3$ summands vary in form, even when all
+%expectations factor (as happens on noiseless landscapes).  For
+%instance, the hessian and gradient corrections respectively induce
+%order-$\eta^3$ summands of $\expct{l(\theta_T)}$ such as
+%$$
+%    %%\textstyle
+%    %%\sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+%    %%    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+%    %%    \,
+%    %%    (\nabla_\mu l_x)
+%    %%    \,
+%    %%    (\nabla_\nu l_y)
+%    %%    \,
+%    %%    (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
+%    %%    \,
+%    %%    (\nabla_\xi l)
+%    %%%
+%    %%$$ $$
+%    %
+%    \textstyle
+%    \sum_{\substack{\mu\nu\xi \\ \omicron\pi\rho}}
+%        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+%        \,
+%        (\nabla_\mu l_x)
+%        \,
+%        (\nabla_\omicron\nabla_\nu l_y)
+%        \,
+%        (\nabla_\pi \nabla_\xi l_z)
+%        \,
+%        (\nabla_\rho l)
+%$$
+%And $M_2, M_3$'s terms are yet more diverse.  In short, a Taylor
 %expansion even to low degrees yields a combinatorial explosion of
+%terms.  Our paper develops tools to organize and interpret these
 %terms.
 %
-    %\textsc{Diagrams in brief} ---
-    \label{sect:diagrams-in-brief}
-%That development begins with the observation that each $\eta$
-%`connects' two $\nabla$ operators as indices prescribe.  So we
-%draw
-%$\eta$s as edges, $\nabla^k l$s as nodes, and each
-%summand of the following form 
-
+%
+%  Since $\sdia{c(0-1)(01)}$ has only one non-rightmost node, it has as many
+%histories as there are timesteps.  Since two nodes have degree $1$, each
+%history's contribution $G(-\eta(I-\eta H)^{\Delta-1})G$ involves two $1$st 
+%derivatives: $G$.  We use geometric series to sum from $\Delta=1$ through
+%$\Delta=T$ to find the testing loss change up to $o(\eta^1)$ error:
+%$
+%  - G((I - (I-\eta H)^T)/H)G
+%$.
+%This is a more precise form of the above $-T G \eta G$ result.
+%
+%
+%
+%The displacement
+%%$M_1=\expc[\theta_T - \theta_0]$
+%$\expc[\theta_T - \theta_0]$ contains many
+%order-$\eta^3$ summands, including those of the form\squash
+%$$
+%    \textstyle
+%    \Delta^\xi_{xyz} \propto 
+%    -
+%    \sum_{\substack{\mu\nu    \\ \omicron\pi\rho}}
+%        \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+%        \,
+%    \expct{
+%        (\nabla_\mu l_x)
+%        \,
+%        (\nabla_\nu l_y)
+%        \,
+%        (\nabla_\omicron\nabla_\pi\nabla_\rho l_z)
+%    }
+%    \squash
+%$$
+%where $0\leq x,y,z<N$ label datapoints.
+%Let $\Delta_\circ = \expc[\Delta_{xxz}-\Delta_{xyz}]$ for $x,y,z$
+%distinct.\squash\  $l_x, l_y, l_z$ are i.i.d., so:
+%$ 
+%    \Delta_\circ^\xi \propto 
+%    -
+%    \sum_{\cdots}
+%    \eta^{\mu\omicron} \, \eta^{\nu\pi} \, \eta^{\xi\rho}
+%    C_{\mu\nu} J_{\omicron\pi\rho}
+%$
+%or, schematically, 
+%    $\boxed{\Delta_\circ^\xi
+%    \propto -\eta^3 C\nabla H}$.\squish\ 
+%Here, $C_{\mu\nu} = \expc_x[\nabla_{\mu} l_x \nabla_{\nu} l_x] - G_\mu G_\nu$ is the covariance of gradients,
+%$H_{\pi\rho} = \nabla_\pi\nabla_\rho l$ is $l$'s hessian, and
+%$J_{\omicron\pi\rho} = \nabla_\omicron H_{\pi\rho}$
+%is $l$'s `jerk'.\footnote{
+%    `\textbf{J}erk' names $3$rd derivatives in dynamical systems:
+%    \href{https://www.iso.org/obp/ui/\#iso:std:iso:2041:ed-3:v1:en}{ISO 2041}.% (2009)}.%, \S1.
+%}
+%
+%
+%Valid diagrams include
+%\squash\squash
+%$\sdia{c(0-1)(01)}$,
+%$\sdia{c(0-1-2)(02-12)}$,
+%$\sdia{c(012-3)(02-12-23)}$,
+%$\sdia{c(01-2-3)(02-12-23)}$,
+%$\sdia{c(0-1-2-3)(01-12-23)}$,
+%$\sdia{MOOc(03-12-4)(03-13-23-34)}$
+%but not \squash\squash $\sdia{MOOc(01)(0-1)}$,  
+%     $\sdia{MOOc(01)(01)}$, 
+%     $\sdia{MOOc(0-1-2)(01-02-12)}$,
+%     $\sdia{MOOc(0-1-2)(01-02)}$, 
+%     $\sdia{MOOc(0-1-2)(02)}$,
+%     $\sdia{MOOc(02-012-3)(02-12-23)}$.
+%\squash\squish
+%Since a diagram is just a rooted tree and partition,
+%$
+%    \sdia{c(01-2-3)(01-13-23)} = 
+%    \sdia{c(02-1-3)(02-13-23)} = 
+%    \sdia{c(0-12-3)(03-12-23)} 
+%$ are the same diagrams.
+%
+%\newpage
+%
+%
+%        %\subsection{Diagrams overcome Taylor Series challenges}
+%        \label{sect:using}\label{sect:diagrams}
+%
+%
+%    %\subsubsection{Proving Prop \ref{prop:nest}}
+%    %Let's study $\expct{\theta_T}, \expct{l(\theta_T)}$.  To warm
+%    %up,
+%    %we'll prove Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+%
+%    \subsubsection{Structure of the Taylor expansion} %---
+%    We discuss how to analyze SGD by expanding in powers of $\eta$.  We begin
+%    by proving Prop \ref{prop:nest} (c.f.\ \cite{ne04,ro18}). 
+%        We'll name four quantities (${\translucent{moosky}{$W$}}$,
+%        ${\translucent{moolime}{$X$}}$, ${\translucent{moopink}{$Y$}}$,
+%        ${\translucent{moogold}{$Z$}}$) for later reference in this
+%        sub-section (their colors merely aid the eye).
+%
+%    \begin{proof} %(of Prop \ref{prop:nest}).
+%        By our gradient bound assumption: $\theta_T - \theta_0$ is $O(\eta^1)$.
+%        We {claim} that $(\theta_T - \theta_0)^\mu =
+%        -\sum_t \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_t}(\theta_0) + o(\eta^1)$.
+%        %
+%        The claim holds when $T=0$.  Say the claim holds for
+%        ${\tilde T}$-step SGD with
+%        $T = {\tilde T}+1$.  The displacement
+%        $\wrap{\theta_{T} - \theta_{{\tilde T}}}^\mu$
+%        is:%evaluates to:
+%        \begin{align*}
+%               & - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_{{\tilde T}})   
+%            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+%                       l_{n_{\tilde T}}(\theta_0)
+%                       + \text{\translucent{moosky}{$\sum_{\xi} \nabla_\xi l_{n_{\tilde T}}(\theta_0) (\theta_{{\tilde T}} - \theta_0)^\xi$}}^{\text{\translucent{moosky}{$_\swarrow W$}}}
+%                       + o(\theta_{{\tilde T}} - \theta_0)
+%                   }    
+%            \\=& - \textstyle\sum_{\nu} \eta^{\mu\nu} \nabla_\nu \wrap{
+%                          l_{n_{\tilde T}}(\theta_0)
+%                          + \nabla l_{n_{\tilde T}}(\theta_0) \cdot O(\eta^1) + o(O(\eta^1))
+%                      }    
+%            \\=& \textstyle\text{\translucent{moolime}{$- \sum_\nu \eta^{\mu\nu} \nabla_\nu l_{n_{\tilde T}}(\theta_0)$}}^{\text{\translucent{moolime}{$_\swarrow X$}}}
+%            + o(\eta^1)
+%        \end{align*}
+%        Applying the induction hypothesis proves the claim.
+%        %
+%        We plug the claim into $l$'s Taylor series:
+%        \begin{align*}
+%            \expc[l(\theta_T) - l(\theta_0)]
+%            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0)
+%              \text{\translucent{moopink}{$\expc[\theta_T - \theta_0]^\mu$}}^{\text{\translucent{moopink}{$_\swarrow Y$}}}
+%              + \expc[o(\theta_T - \theta_0)] \\
+%            &= \textstyle \sum_\mu \nabla_\mu l(\theta_0) (%
+%              \text{\translucent{moogold}{$-T\eta G + o(\eta^1)$}}^{\text{\translucent{moogold}{$_\swarrow Z$}}})
+%              + o(O(\eta^1)) \\
+%            &= \textstyle - \sum_{\mu\nu} T G_\mu \eta^{\mu\nu} G_\nu + o(\eta^1)
+%        \end{align*}
+%        Indeed, due our assumption of analytic moments, the above
+%        expectations of $o(\eta^1)$ terms are still $o(\eta^1)$.
+%    \end{proof}
+%
+%    The above proof gives an order-$1$ result.  %Correction terms involve
+%At higher order, higher derivatives correct
+%${\translucent{moosky}{$W$}}$
+%%${\translucent{moosky}{$\nabla l_{n_{\tilde T}}(\theta_0) \cdot (\theta_{{\tilde T}} - \theta_0)$}}$
+%and higher
+%moments augment
+%\translucent{moopink}{$Y$}.
+%%\translucent{moopink}{$\expc[\theta_T - \theta_0]$}.
+%%
+%%%Whereas \translucent{moogold}{$-TG\eta G$}
+%%%we multiplied
+%%%$l$'s derivatives by the expectations of such summands.
+%%
+%Whereas above the displacement is a sum over $\tilde T$s of
+%\translucent{moolime}{$X$}s, due to ${\translucent{moosky}{$W$}}$'s
+%corrections the displacement at higher order is a sum over \emph{tuples} of
+%times with summands such as $\nabla\nabla l_{n_{T^\prime}} \nabla l_{n_{\tilde
+%T}}$ instead of $\nabla l_{n_{\tilde T}}$.
+%%
+%When we then take expectations of \translucent{moolime}{$X$} to evaluate 
+%\translucent{moopink}{$Y$} as  
+%\translucent{moogold}{$Z$},
+%some summands (e.g.\ $\expc[\nabla\nabla l_{5}
+%\nabla l_{2}]=\expc[\nabla\nabla l_{5}]
+%\expc[\nabla l_{2}]$) are uncorrelated and thus factor; others (e.g.\ $\expc[\nabla\nabla
+%l_{5} \nabla l_{5}]$) do not.  This is how $\nabla l_x$'s higher cumulants such
+%as $C, S$ appear in our analysis.
+%%In short, a Taylor
+%%expansion even to low degrees yields a combinatorial explosion of
+%%terms.
+%%
+%    %\textsc{Diagrams in brief} ---
+%    \label{sect:diagrams-in-brief}
+%%That development begins with the observation that each $\eta$
+%%`connects' two $\nabla$ operators as indices prescribe.  So we
+%%draw
+%%$\eta$s as edges, $\nabla^k l$s as nodes, and each
+%%summand of the following form 
+%
 

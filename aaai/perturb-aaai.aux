@@ -73,11 +73,11 @@
 \newlabel{thm:resum}{{1}{4}{}{thm.1}{}}
 \newlabel{eq:resum}{{1}{4}{}{thm.1}{}}
 \newlabel{rmk:integrate}{{1}{4}{}{rmk.1}{}}
+\newlabel{thm:converge}{{2}{4}{}{thm.2}{}}
 \citation{ch87}
 \citation{ro19}
 \citation{ro18}
 \citation{ba21}
-\newlabel{thm:converge}{{2}{5}{}{thm.2}{}}
 \@writefile{toc}{\contentsline {subparagraph}{Example Computation A}{5}{figure.caption.17}\protected@file@percent }
 \@writefile{toc}{\contentsline {subparagraph}{Example Computation B}{5}{section*.18}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{Consequences of the theory}{5}{section*.19}\protected@file@percent }
@@ -113,8 +113,8 @@
 \citation{mo18b}
 \citation{zo20}
 \citation{wu20}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Subfigure {\tmspace  -\thinmuskip {.1667em}\tmspace  -\thinmuskip {.1667em}\ofsix {0}}: {\ofsix {1}}: Chladni drift on $\mathcal  {M}=\mathbb  {R}^2$. Red bi-arrows depict $C(\theta )$'s major axis. SGD updates (green) tend toward small $C$. {\ofsix {2345}}: Both curvature and noise affect overfitting. In each pane, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \ofsix {24}: \emph  {covector}-perturbed landscapes favor large $H$s. \ofsix {35}: \emph  {vector}-perturbed landscapes favor small $H$s. \relax }}{6}{figure.caption.24}\protected@file@percent }
-\newlabel{fig:spring}{{5}{6}{Subfigure {\!\!\protect \ofsix {0}}: {\protect \ofsix {1}}: Chladni drift on $\Mm =\RR ^2$. Red bi-arrows depict $C(\theta )$'s major axis. SGD updates (green) tend toward small $C$. {\protect \ofsix {2345}}: Both curvature and noise affect overfitting. In each pane, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \protect \ofsix {24}: \emph {covector}-perturbed landscapes favor large $H$s. \protect \ofsix {35}: \emph {vector}-perturbed landscapes favor small $H$s. \relax }{figure.caption.24}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Subfigure {\tmspace  -\thinmuskip {.1667em}\tmspace  -\thinmuskip {.1667em}\ofsix {1}}: Chladni drift on $\mathcal  {M}=\mathbb  {R}^2$. Red bi-arrows depict $C(\theta )$'s major axis. SGD updates (green) tend toward small $C$. {\ofsix {2345}}: Both curvature and noise affect overfitting. In each pane, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \ofsix {24}: \emph  {covector}-perturbed landscapes favor large $H$s. \ofsix {35}: \emph  {vector}-perturbed landscapes favor small $H$s. \relax }}{6}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:spring}{{5}{6}{Subfigure {\!\!\protect \ofsix {1}}: Chladni drift on $\Mm =\RR ^2$. Red bi-arrows depict $C(\theta )$'s major axis. SGD updates (green) tend toward small $C$. {\protect \ofsix {2345}}: Both curvature and noise affect overfitting. In each pane, the $\leftrightarrow $ axis represents weight space and the $\updownarrow $ axis represents loss. Noise (blue) transforms the testing loss (thin curve) into the observed loss (thick curve). Red dots mark the testing loss at the arg-min of the observed loss. \protect \ofsix {24}: \emph {covector}-perturbed landscapes favor large $H$s. \protect \ofsix {35}: \emph {vector}-perturbed landscapes favor small $H$s. \relax }{figure.caption.24}{}}
 \newlabel{cor:vsode}{{6}{6}{$\sdia {c(012-3)(03-13-23)}$}{cor.6}{}}
 \@writefile{toc}{\contentsline {subsection}{Both flat and sharp minima overfit less}{6}{section*.23}\protected@file@percent }
 \newlabel{subsect:curvature-and-overfitting}{{}{6}{Both flat and sharp minima overfit less}{section*.23}{}}
@@ -134,36 +134,17 @@
 \citation{pe71}
 \citation{li18,we19b,zh19,ba21}
 \citation{fi17}
+\bibdata{perturb}
+\bibcite{ab07}{{1}{2007}{{Absil, Mahony, and Sepulchre}}{{}}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces  Subfigure {\tmspace  -\thinmuskip {.1667em}\tmspace  -\thinmuskip {.1667em}\ofsixvert {0}}: Fashion-MNIST convnet's testing loss vs learning rate. For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox  {-}1$ error of $\approx 10^{-3}$. \ofsixvert {1}: Fashion-MNIST convnet's testing loss. For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox  {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \ofsixvert {2}: CIFAR-10 convnet generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \ofsixvert {3}: Fashion-MNIST convnet. SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \ofsixvert {4}: SGD traverses \textsc  {Helix}' valley of global minima. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \ofsixvert {5}: For \textsc  {Mean Estimation}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep  {di18}. \relax }}{7}{figure.caption.26}\protected@file@percent }
 \newlabel{fig:experiments}{{6}{7}{Subfigure {\!\!\protect \ofsixvert {0}}: Fashion-MNIST convnet's testing loss vs learning rate. For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsixvert {1}: Fashion-MNIST convnet's testing loss. For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \protect \ofsixvert {2}: CIFAR-10 convnet generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \protect \ofsixvert {3}: Fashion-MNIST convnet. SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \protect \ofsixvert {4}: SGD traverses \Helix ' valley of global minima. Note: $H$ and $C$ are bounded across the valley, we see drift for all small $\eta $, and we see displacement exceeding the landscape's period of $2\pi $. So: the drift is not a pathology of well-chosen $\eta $, of divergent noise, or of ephemeral initial conditions. \protect \ofsixvert {5}: For \MeanEstimation \, with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep {di18}. \relax }{figure.caption.26}{}}
 \@writefile{toc}{\contentsline {subsection}{Conclusion}{7}{section*.29}\protected@file@percent }
-\citation{ro18}
-\citation{ne04,ro18}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \textbf  {Resummation propagates information damped by curvature}. Each resummed value (here, for $\sizeddia {c(0-1)(01)}{0.10}$) represents many un-resummed values, four shown here, each modulated by the Hessian ($\sizeddia {MOOc(0)(0-0)}{0.10}$) in a different way. \relax }}{9}{figure.caption.30}\protected@file@percent }
-\newlabel{fig:resumintuition}{{7}{9}{\textbf {Resummation propagates information damped by curvature}. Each resummed value (here, for $\sdia {c(0-1)(01)}$) represents many un-resummed values, four shown here, each modulated by the Hessian ($\sdia {MOOc(0)(0-0)}$) in a different way. \relax }{figure.caption.30}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  \textbf  {Named tensors}, typically evaluated at initialization ($\theta =\theta _0$). Def.\ \ref  {dfn:uvalue-body} explains how diagrams depict tensors. \relax }}{9}{figure.caption.31}\protected@file@percent }
-\newlabel{fig:tensor}{{8}{9}{\textbf {Named tensors}, typically evaluated at initialization ($\theta =\theta _0$). Def.\^^M\ref {dfn:uvalue-body} explains how diagrams depict tensors. \relax }{figure.caption.31}{}}
-\newlabel{cor:epochs}{{8}{9}{$\sdia {c(01-2)(01-12)}$}{cor.8}{}}
-\FN@pp@footnote@aux{10}{9}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  \textbf  {A sub-process of SGD}. Timesteps index columns; training data index rows. The $5$th datum participates in the $2$nd SGD update. This {\color  {spacetimepurple}$(n=5,t=2)$ event} affects the testing loss both directly and via the {\color  {spacetimeteal}$(1,12)$ event}, which is itself modulated by the {\color  {spacetimeindigo}$(2,5)$ event}. \relax }}{9}{figure.caption.32}\protected@file@percent }
-\newlabel{fig:paradigm}{{9}{9}{\textbf {A sub-process of SGD}. Timesteps index columns; training data index rows. The $5$th datum participates in the $2$nd SGD update. This {\color {spacetimepurple}$(n=5,t=2)$ event} affects the testing loss both directly and via the {\color {spacetimeteal}$(1,12)$ event}, which is itself modulated by the {\color {spacetimeindigo}$(2,5)$ event}. \relax }{figure.caption.32}{}}
-\@writefile{toc}{\contentsline {subsection}{Taylor series: method and challenges}{9}{section*.33}\protected@file@percent }
-\newlabel{sect:challenges}{{}{9}{Taylor series: method and challenges}{section*.33}{}}
-\@writefile{toc}{\contentsline {subparagraph}{What happens when we keep higher order terms?}{9}{section*.34}\protected@file@percent }
-\citation{ne04,ro18}
-\bibdata{perturb}
-\bibcite{ab07}{{1}{2007}{{Absil, Mahony, and Sepulchre}}{{}}}
 \bibcite{am98}{{2}{1998}{{Amari}}{{}}}
 \bibcite{ba21}{{3}{2021}{{Barrett and Dherin}}{{}}}
 \bibcite{ba17}{{4}{2017}{{Bartlett, Foster, and Telgarsky}}{{}}}
 \bibcite{be19}{{5}{2019}{{Belkin et~al.}}{{Belkin, Hsu, Ma, and Mandal}}}
 \bibcite{bo91}{{6}{1991}{{Bottou}}{{}}}
 \bibcite{ca47}{{7}{1847}{{Cauchy}}{{}}}
-\FN@pp@footnote@aux{11}{10}
-\newlabel{sect:using}{{}{10}{What happens when we keep higher order terms?}{section*.34}{}}
-\newlabel{sect:diagrams}{{}{10}{What happens when we keep higher order terms?}{section*.34}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Structure of the Taylor expansion}{10}{section*.35}\protected@file@percent }
-\newlabel{sect:diagrams-in-brief}{{}{10}{Structure of the Taylor expansion}{section*.35}{}}
 \bibcite{ch18}{{8}{2018}{{Chaudhari and Soatto}}{{}}}
 \bibcite{ch87}{{9}{1787}{{Chladni}}{{}}}
 \bibcite{di17}{{10}{2017}{{Dinh et~al.}}{{Dinh, Pascanu, Bengio, and Bengio}}}
@@ -210,137 +191,142 @@
 \bibcite{zh19}{{51}{2019}{{Zhu et~al.}}{{Zhu, Wu, Yu, and Ma}}}
 \bibcite{zo20}{{52}{2020}{{Zou et~al.}}{{Zou, Cao, Zhou, and Gu}}}
 \FN@pp@footnotehinttrue 
-\@writefile{toc}{\contentsline {section}{Tutorial: how to use diagrams}{13}{section*.38}\protected@file@percent }
-\newlabel{appendix:tutorial}{{}{13}{Tutorial: how to use diagrams}{section*.38}{}}
-\@writefile{toc}{\contentsline {subsection}{Two example calculations}{13}{section*.39}\protected@file@percent }
-\newlabel{appendix:example}{{}{13}{Two example calculations}{section*.39}{}}
-\newlabel{qst:grad}{{1}{13}{Leading order effect of gradients}{quest.1}{}}
-\newlabel{qst:multi}{{2}{13}{Leading order effect of epochs}{quest.2}{}}
+\@writefile{toc}{\contentsline {section}{Tutorial: how to use diagrams}{10}{section*.32}\protected@file@percent }
+\newlabel{appendix:tutorial}{{}{10}{Tutorial: how to use diagrams}{section*.32}{}}
+\@writefile{toc}{\contentsline {subsection}{Two example calculations}{10}{section*.33}\protected@file@percent }
+\newlabel{appendix:example}{{}{10}{Two example calculations}{section*.33}{}}
+\newlabel{qst:grad}{{1}{10}{Leading order effect of gradients}{quest.1}{}}
+\newlabel{qst:multi}{{2}{10}{Leading order effect of epochs}{quest.2}{}}
 \FN@pp@footnotehinttrue 
-\newlabel{sect:gridss}{{}{14}{Computations: Grids}{section*.40}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Computations: Grids}{14}{section*.40}\protected@file@percent }
-\FN@pp@footnotehinttrue 
-\FN@pp@footnotehinttrue 
-\newlabel{sect:exampleembed}{{}{15}{Computations: Embeddings of diagrams into grids}{section*.41}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Computations: Embeddings of diagrams into grids}{15}{section*.41}\protected@file@percent }
+\newlabel{sect:gridss}{{}{11}{Computations: Grids}{section*.34}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Computations: Grids}{11}{section*.34}\protected@file@percent }
 \FN@pp@footnotehinttrue 
 \FN@pp@footnotehinttrue 
-\newlabel{sect:example-eval}{{}{16}{Computations: Evaluating each diagram history}{section*.42}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Computations: Evaluating each diagram history}{16}{section*.42}\protected@file@percent }
-\FN@pp@footnote@aux{12}{16}
+\newlabel{sect:exampleembed}{{}{12}{Computations: Embeddings of diagrams into grids}{section*.35}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Computations: Embeddings of diagrams into grids}{12}{section*.35}\protected@file@percent }
 \FN@pp@footnotehinttrue 
 \FN@pp@footnotehinttrue 
-\@writefile{toc}{\contentsline {subparagraph}{Computations: Summing the histories' values}{17}{section*.43}\protected@file@percent }
+\newlabel{sect:example-eval}{{}{13}{Computations: Evaluating each diagram history}{section*.36}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Computations: Evaluating each diagram history}{13}{section*.36}\protected@file@percent }
+\FN@pp@footnote@aux{10}{13}
 \FN@pp@footnotehinttrue 
-\@writefile{toc}{\contentsline {subsection}{How to identify the relevant grid}{18}{section*.44}\protected@file@percent }
-\newlabel{appendix:draw-spacetime}{{}{18}{How to identify the relevant grid}{section*.44}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  \textbf  {The grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \textbf  {Left}: Two epoch SGD with batch size one. \textbf  {Right}: Four epoch SGD with batch size two. \relax }}{18}{figure.caption.45}\protected@file@percent }
-\newlabel{fig:spacetimes}{{10}{18}{\textbf {The grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \textbf {Left}: Two epoch SGD with batch size one. \textbf {Right}: Four epoch SGD with batch size two. \relax }{figure.caption.45}{}}
-\@writefile{toc}{\contentsline {subsection}{How to identify the relevant diagram histories}{18}{section*.47}\protected@file@percent }
-\newlabel{appendix:draw-histories}{{}{18}{How to identify the relevant diagram histories}{section*.47}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces  Embeddings, legal and illegal. \textbf  {Left}: illegal history of $\sizeddia {c(0-1-2)(01-12)}{0.10}$, since the time-ordering condition is not obeyed. For the same reason, not a legal history of $\sizeddia {c(01-2)(01-12)}{0.10}$. \textbf  {Middle}: an history of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Also an history of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is obeyed. \textbf  {Right}: a legal history of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Not an history of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is not obeyed. \relax }}{19}{figure.caption.48}\protected@file@percent }
-\newlabel{fig:histories}{{11}{19}{Embeddings, legal and illegal. \textbf {Left}: illegal history of $\sdia {c(0-1-2)(01-12)}$, since the time-ordering condition is not obeyed. For the same reason, not a legal history of $\sdia {c(01-2)(01-12)}$. \textbf {Middle}: an history of $\sdia {c(0-1-2)(01-12)}$. Also an history of $\sdia {c(01-2)(01-12)}$, since the correlation condition is obeyed. \textbf {Right}: a legal history of $\sdia {c(0-1-2)(01-12)}$. Not an history of $\sdia {c(01-2)(01-12)}$, since the correlation condition is not obeyed. \relax }{figure.caption.48}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's testing loss.} Because the grid of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of histories are the diagrams such that each ancestor-descendant pair in the rooted tree occupie two different parts of the partition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-histories of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. \relax }}{19}{table.caption.49}\protected@file@percent }
-\newlabel{tab:scatthree}{{1}{19}{\textbf {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's testing loss.} Because the grid of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of histories are the diagrams such that each ancestor-descendant pair in the rooted tree occupie two different parts of the partition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-histories of each diagram's $\uvalue $s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf Left}: Diagrams for ODE behavior. {\bf Center}: $1$st order deviation of SGD away from ODE. {\bf Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. \relax }{table.caption.49}{}}
-\@writefile{toc}{\contentsline {subsection}{How to evaluate each history}{19}{section*.50}\protected@file@percent }
-\newlabel{appendix:evaluate-histories}{{}{19}{How to evaluate each history}{section*.50}{}}
+\FN@pp@footnotehinttrue 
+\@writefile{toc}{\contentsline {subparagraph}{Computations: Summing the histories' values}{14}{section*.37}\protected@file@percent }
+\FN@pp@footnotehinttrue 
+\@writefile{toc}{\contentsline {subsection}{How to identify the relevant grid}{15}{section*.38}\protected@file@percent }
+\newlabel{appendix:draw-spacetime}{{}{15}{How to identify the relevant grid}{section*.38}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces  \textbf  {The grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \textbf  {Left}: Two epoch SGD with batch size one. \textbf  {Right}: Four epoch SGD with batch size two. \relax }}{15}{figure.caption.39}\protected@file@percent }
+\newlabel{fig:spacetimes}{{7}{15}{\textbf {The grids of two SGD variants.} Shaded cells show $(n,t)$ pairs (see text). \textbf {Left}: Two epoch SGD with batch size one. \textbf {Right}: Four epoch SGD with batch size two. \relax }{figure.caption.39}{}}
+\@writefile{toc}{\contentsline {subsection}{How to identify the relevant diagram histories}{15}{section*.41}\protected@file@percent }
+\newlabel{appendix:draw-histories}{{}{15}{How to identify the relevant diagram histories}{section*.41}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces  Embeddings, legal and illegal. \textbf  {Left}: illegal history of $\sizeddia {c(0-1-2)(01-12)}{0.10}$, since the time-ordering condition is not obeyed. For the same reason, not a legal history of $\sizeddia {c(01-2)(01-12)}{0.10}$. \textbf  {Middle}: an history of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Also an history of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is obeyed. \textbf  {Right}: a legal history of $\sizeddia {c(0-1-2)(01-12)}{0.10}$. Not an history of $\sizeddia {c(01-2)(01-12)}{0.10}$, since the correlation condition is not obeyed. \relax }}{16}{figure.caption.42}\protected@file@percent }
+\newlabel{fig:histories}{{8}{16}{Embeddings, legal and illegal. \textbf {Left}: illegal history of $\sdia {c(0-1-2)(01-12)}$, since the time-ordering condition is not obeyed. For the same reason, not a legal history of $\sdia {c(01-2)(01-12)}$. \textbf {Middle}: an history of $\sdia {c(0-1-2)(01-12)}$. Also an history of $\sdia {c(01-2)(01-12)}$, since the correlation condition is obeyed. \textbf {Right}: a legal history of $\sdia {c(0-1-2)(01-12)}$. Not an history of $\sdia {c(01-2)(01-12)}$, since the correlation condition is not obeyed. \relax }{figure.caption.42}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces  \textbf  {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's testing loss.} Because the grid of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of histories are the diagrams such that each ancestor-descendant pair in the rooted tree occupie two different parts of the partition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf  {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-histories of each diagram's $\text  {\textnormal  {uvalue}}$s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf  Left}: Diagrams for ODE behavior. {\bf  Center}: $1$st order deviation of SGD away from ODE. {\bf  Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. \relax }}{16}{table.caption.43}\protected@file@percent }
+\newlabel{tab:scatthree}{{1}{16}{\textbf {Multiple ways to draw the $6$ distinct degree-$3$ diagrams for $B=E=1$ SGD's testing loss.} Because the grid of $B=E=1$ SGD has only one cell per row and one cell per column, the only diagrams that have a non-zero number of histories are the diagrams such that each ancestor-descendant pair in the rooted tree occupie two different parts of the partition. We show $(4+2)+(2+2+3)+(1)$ ways to draw the $6$ diagrams. In fact, these drawings show all of the time-orderings of the diagrams' nodes that are consistent with the time-ordering condition. \textbf {Organization}: We organize the diagrams into columns by the number of parts in their partitions. Because partitions (fuzzy outlines) indicate correlations between nodes (i.e. noise), diagrams with fuzzy outlines show deviations of SGD away from deterministic ODE. The big-$\Theta $ notation that heads the columns gives the asymptotics of the sum-over-histories of each diagram's $\uvalue $s (for $N$ large and $\eta $ small even relative to $1/N$). {\bf Left}: Diagrams for ODE behavior. {\bf Center}: $1$st order deviation of SGD away from ODE. {\bf Right}: $2$nd order deviation of SGD from ODE with appearance of non-Gaussian statistics. \relax }{table.caption.43}{}}
+\@writefile{toc}{\contentsline {subsection}{How to evaluate each history}{16}{section*.44}\protected@file@percent }
+\newlabel{appendix:evaluate-histories}{{}{16}{How to evaluate each history}{section*.44}{}}
 \citation{ro64}
-\@writefile{toc}{\contentsline {subparagraph}{Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{20}{section*.51}\protected@file@percent }
-\FN@pp@footnote@aux{13}{20}
-\newlabel{exm:unresum}{{2}{21}{Un-resummed value}{exm.2}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{21}{section*.52}\protected@file@percent }
-\newlabel{exm:resum}{{3}{21}{Re-summed value}{exm.3}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Overall}{21}{section*.53}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{How to sum the histories' values}{21}{section*.54}\protected@file@percent }
-\newlabel{appendix:sum-histories}{{}{21}{How to sum the histories' values}{section*.54}{}}
-\@writefile{toc}{\contentsline {subsection}{How to solve variant problems}{22}{section*.55}\protected@file@percent }
-\newlabel{appendix:solve-variants}{{}{22}{How to solve variant problems}{section*.55}{}}
-\@writefile{toc}{\contentsline {subsection}{Do diagrams streamline computation?}{23}{section*.59}\protected@file@percent }
-\newlabel{appendix:diagrams-streamline}{{}{23}{Do diagrams streamline computation?}{section*.59}{}}
-\FN@pp@footnote@aux{14}{23}
-\@writefile{toc}{\contentsline {subparagraph}{Effect of batch size}{23}{section*.60}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{Effect of non-Gaussian noise at a minimum.}{25}{section*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Un-resummed values: $\text  {\textnormal  {uvalue}}(D)$}{17}{section*.45}\protected@file@percent }
+\FN@pp@footnote@aux{11}{17}
+\newlabel{exm:unresum}{{2}{18}{Un-resummed value}{exm.2}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Resummed values: $\text  {\textnormal  {rvalue}}_f(D)$}{18}{section*.46}\protected@file@percent }
+\newlabel{exm:resum}{{3}{18}{Re-summed value}{exm.3}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Overall}{18}{section*.47}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{How to sum the histories' values}{18}{section*.48}\protected@file@percent }
+\newlabel{appendix:sum-histories}{{}{18}{How to sum the histories' values}{section*.48}{}}
+\@writefile{toc}{\contentsline {subsection}{How to solve variant problems}{19}{section*.49}\protected@file@percent }
+\newlabel{appendix:solve-variants}{{}{19}{How to solve variant problems}{section*.49}{}}
+\@writefile{toc}{\contentsline {subsection}{Do diagrams streamline computation?}{20}{section*.53}\protected@file@percent }
+\newlabel{appendix:diagrams-streamline}{{}{20}{Do diagrams streamline computation?}{section*.53}{}}
+\FN@pp@footnote@aux{12}{20}
+\@writefile{toc}{\contentsline {subparagraph}{Effect of batch size}{20}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Effect of non-Gaussian noise at a minimum.}{22}{section*.55}\protected@file@percent }
+\citation{ne04,ro18}
+\@writefile{toc}{\contentsline {section}{Mathematics of the theory}{24}{section*.56}\protected@file@percent }
+\newlabel{appendix:math}{{}{24}{Mathematics of the theory}{section*.56}{}}
+\@writefile{toc}{\contentsline {subsection}{Assumptions and Definitions}{24}{section*.57}\protected@file@percent }
+\newlabel{appendix:assumptions}{{}{24}{Assumptions and Definitions}{section*.57}{}}
+\FN@pp@footnote@aux{13}{24}
+\newlabel{dfn:diagrams}{{6}{24}{Diagrams}{dfn.6}{}}
+\@writefile{toc}{\contentsline {subsection}{A key lemma \`a la Dyson}{24}{section*.58}\protected@file@percent }
+\newlabel{appendix:key-lemma}{{}{24}{A key lemma \`a la Dyson}{section*.58}{}}
+\newlabel{sect:using}{{}{24}{A key lemma \`a la Dyson}{section*.58}{}}
+\newlabel{sect:diagrams}{{}{24}{A key lemma \`a la Dyson}{section*.58}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Structure of the Taylor expansion}{24}{section*.59}\protected@file@percent }
 \citation{dy49a}
-\@writefile{toc}{\contentsline {section}{Mathematics of the theory}{27}{section*.62}\protected@file@percent }
-\newlabel{appendix:math}{{}{27}{Mathematics of the theory}{section*.62}{}}
-\@writefile{toc}{\contentsline {subsection}{Assumptions and Definitions}{27}{section*.63}\protected@file@percent }
-\newlabel{appendix:assumptions}{{}{27}{Assumptions and Definitions}{section*.63}{}}
-\FN@pp@footnote@aux{15}{27}
-\newlabel{dfn:diagrams}{{6}{27}{Diagrams}{dfn.6}{}}
-\@writefile{toc}{\contentsline {subsection}{A key lemma \`a la Dyson}{27}{section*.64}\protected@file@percent }
-\newlabel{appendix:key-lemma}{{}{27}{A key lemma \`a la Dyson}{section*.64}{}}
-\newlabel{lem:dyson}{{}{27}{}{section*.64}{}}
-\newlabel{eq:dyson2}{{1}{27}{}{equation.Alph0.1}{}}
-\newlabel{eq:smalleta}{{2}{27}{A key lemma \`a la Dyson}{equation.Alph0.2}{}}
-\FN@pp@footnote@aux{16}{27}
-\newlabel{eq:expansion}{{3}{28}{A key lemma \`a la Dyson}{equation.Alph0.3}{}}
-\@writefile{toc}{\contentsline {subsection}{From Dyson to diagrams}{28}{section*.65}\protected@file@percent }
-\newlabel{appendix:toward-diagrams}{{}{28}{From Dyson to diagrams}{section*.65}{}}
-\newlabel{thm:pathint}{{3}{28}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:sgdcoef}{{3}{28}{Test Loss as a Path Integral}{thm.3}{}}
-\newlabel{eq:toprove}{{4}{29}{From Dyson to diagrams}{equation.Alph0.4}{}}
-\newlabel{rmk:leibniz}{{4}{29}{Differentiating Products}{rmk.4}{}}
-\newlabel{rmk:leibniz}{{}{29}{From Dyson to diagrams}{rmk.4}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Dyson}{25}{section*.60}\protected@file@percent }
+\newlabel{lem:dyson}{{}{25}{}{section*.60}{}}
+\newlabel{eq:dyson2}{{1}{25}{}{equation.Alph0.1}{}}
+\newlabel{eq:smalleta}{{2}{25}{Dyson}{equation.Alph0.2}{}}
+\FN@pp@footnote@aux{14}{25}
+\newlabel{eq:expansion}{{3}{25}{Dyson}{equation.Alph0.3}{}}
+\@writefile{toc}{\contentsline {subsection}{From Dyson to diagrams}{26}{section*.61}\protected@file@percent }
+\newlabel{appendix:toward-diagrams}{{}{26}{From Dyson to diagrams}{section*.61}{}}
+\newlabel{thm:pathint}{{3}{26}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:sgdcoef}{{3}{26}{Test Loss as a Path Integral}{thm.3}{}}
+\newlabel{eq:toprove}{{4}{26}{From Dyson to diagrams}{equation.Alph0.4}{}}
+\newlabel{rmk:leibniz}{{4}{26}{Differentiating Products}{rmk.4}{}}
 \citation{ro64}
-\newlabel{prop:vanilla}{{1}{30}{}{prop.1}{}}
-\newlabel{eq:sgdbasiccoef}{{1}{30}{}{prop.1}{}}
-\@writefile{toc}{\contentsline {subsection}{Proof of Theorem \ref  {thm:resum}}{30}{section*.66}\protected@file@percent }
-\newlabel{appendix:resum}{{}{30}{Proof of Theorem \ref {thm:resum}}{section*.66}{}}
-\newlabel{eq:hard}{{5}{30}{Proof of Theorem \ref {thm:resum}}{equation.Alph0.5}{}}
-\@writefile{toc}{\contentsline {subsection}{Proof of Theorem \ref  {thm:converge}}{31}{section*.67}\protected@file@percent }
-\newlabel{appendix:converge}{{}{31}{Proof of Theorem \ref {thm:converge}}{section*.67}{}}
-\@writefile{toc}{\contentsline {subsection}{Proofs of corollaries}{31}{section*.68}\protected@file@percent }
-\newlabel{appendix:corollaries}{{}{31}{Proofs of corollaries}{section*.68}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:entropic}}{31}{section*.69}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:overfit}'s first part}{31}{section*.70}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:overfit}'s second part}{31}{section*.71}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{31}{section*.72}\protected@file@percent }
-\newlabel{prop:ordtwo}{{2}{31}{}{prop.2}{}}
+\newlabel{rmk:leibniz}{{}{27}{From Dyson to diagrams}{rmk.4}{}}
+\newlabel{prop:vanilla}{{1}{27}{}{prop.1}{}}
+\newlabel{eq:sgdbasiccoef}{{1}{27}{}{prop.1}{}}
+\@writefile{toc}{\contentsline {subsection}{Proof of Theorem \ref  {thm:resum}}{27}{section*.62}\protected@file@percent }
+\newlabel{appendix:resum}{{}{27}{Proof of Theorem \ref {thm:resum}}{section*.62}{}}
+\newlabel{eq:hard}{{5}{28}{Proof of Theorem \ref {thm:resum}}{equation.Alph0.5}{}}
+\@writefile{toc}{\contentsline {subsection}{Proof of Theorem \ref  {thm:converge}}{28}{section*.63}\protected@file@percent }
+\newlabel{appendix:converge}{{}{28}{Proof of Theorem \ref {thm:converge}}{section*.63}{}}
+\@writefile{toc}{\contentsline {subsection}{Proofs of corollaries}{28}{section*.64}\protected@file@percent }
+\newlabel{appendix:corollaries}{{}{28}{Proofs of corollaries}{section*.64}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:entropic}}{28}{section*.65}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:overfit}'s first part}{28}{section*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:overfit}'s second part}{29}{section*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Corollaries \ref  {cor:epochs} and \ref  {cor:batch}}{29}{section*.68}\protected@file@percent }
+\newlabel{prop:ordtwo}{{2}{29}{}{prop.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Terms used in proof of Prop \ref  {prop:ordtwo}\relax }}{29}{table.caption.69}\protected@file@percent }
+\newlabel{tbl:ordtwo}{{2}{29}{Terms used in proof of Prop \ref {prop:ordtwo}\relax }{table.caption.69}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:vsode}}{29}{section*.70}\protected@file@percent }
 \citation{la60,la51}
 \citation{ab07,zh16}
 \citation{am98}
 \citation{ni17}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Terms used in proof of Prop \ref  {prop:ordtwo}\relax }}{32}{table.caption.73}\protected@file@percent }
-\newlabel{tbl:ordtwo}{{2}{32}{Terms used in proof of Prop \ref {prop:ordtwo}\relax }{table.caption.73}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Corollary \ref  {cor:vsode}}{32}{section*.74}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Future topics}{32}{section*.75}\protected@file@percent }
-\newlabel{appendix:future}{{}{32}{Future topics}{section*.75}{}}
-\FN@pp@footnote@aux{17}{32}
-\FN@pp@footnote@aux{18}{32}
+\@writefile{toc}{\contentsline {subsection}{Future topics}{30}{section*.71}\protected@file@percent }
+\newlabel{appendix:future}{{}{30}{Future topics}{section*.71}{}}
+\FN@pp@footnote@aux{15}{30}
+\FN@pp@footnote@aux{16}{30}
 \citation{am98}
 \citation{kr09}
 \citation{xi17}
-\@writefile{toc}{\contentsline {section}{Experimental methods}{33}{section*.76}\protected@file@percent }
-\newlabel{appendix:experiments}{{}{33}{Experimental methods}{section*.76}{}}
-\@writefile{toc}{\contentsline {subsection}{What artificial landscapes did we use?}{33}{section*.77}\protected@file@percent }
-\newlabel{appendix:artificial}{{}{33}{What artificial landscapes did we use?}{section*.77}{}}
-\@writefile{toc}{\contentsline {subparagraph}{\textsc  {Gauss}}{33}{section*.78}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{\textsc  {Helix}}{33}{section*.79}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{\textsc  {Mean Estimation}}{33}{section*.80}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{What image-classification landscapes did we use?}{33}{section*.81}\protected@file@percent }
-\newlabel{appendix:natural}{{}{33}{What image-classification landscapes did we use?}{section*.81}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Architectures}{33}{section*.82}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Experimental methods}{31}{section*.72}\protected@file@percent }
+\newlabel{appendix:experiments}{{}{31}{Experimental methods}{section*.72}{}}
+\@writefile{toc}{\contentsline {subsection}{What artificial landscapes did we use?}{31}{section*.73}\protected@file@percent }
+\newlabel{appendix:artificial}{{}{31}{What artificial landscapes did we use?}{section*.73}{}}
+\@writefile{toc}{\contentsline {subparagraph}{\textsc  {Gauss}}{31}{section*.74}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{\textsc  {Helix}}{31}{section*.75}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{\textsc  {Mean Estimation}}{31}{section*.76}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{What image-classification landscapes did we use?}{31}{section*.77}\protected@file@percent }
+\newlabel{appendix:natural}{{}{31}{What image-classification landscapes did we use?}{section*.77}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Architectures}{31}{section*.78}\protected@file@percent }
 \citation{pa19}
 \citation{ga23}
-\@writefile{toc}{\contentsline {subparagraph}{Datasets}{34}{section*.83}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Measurement process}{34}{section*.84}\protected@file@percent }
-\newlabel{appendix:measure}{{}{34}{Measurement process}{section*.84}{}}
-\@writefile{toc}{\contentsline {subparagraph}{Diagram evaluation on real landscapes}{34}{section*.85}\protected@file@percent }
-\@writefile{toc}{\contentsline {subparagraph}{Descent simulations}{34}{section*.86}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Implementing optimizers}{34}{section*.87}\protected@file@percent }
-\newlabel{appendix:optimizers}{{}{34}{Implementing optimizers}{section*.87}{}}
-\@writefile{toc}{\contentsline {subsection}{Software frameworks and hardware}{34}{section*.88}\protected@file@percent }
-\newlabel{appendix:frameworks}{{}{34}{Software frameworks and hardware}{section*.88}{}}
-\@writefile{toc}{\contentsline {subsection}{Unbiased estimators of landscape statistics}{34}{section*.89}\protected@file@percent }
-\newlabel{appendix:bessel}{{}{34}{Unbiased estimators of landscape statistics}{section*.89}{}}
-\newlabel{eq:bessel}{{6}{34}{Unbiased estimators of landscape statistics}{equation.Alph0.6}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Datasets}{32}{section*.79}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Measurement process}{32}{section*.80}\protected@file@percent }
+\newlabel{appendix:measure}{{}{32}{Measurement process}{section*.80}{}}
+\@writefile{toc}{\contentsline {subparagraph}{Diagram evaluation on real landscapes}{32}{section*.81}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Descent simulations}{32}{section*.82}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Implementing optimizers}{32}{section*.83}\protected@file@percent }
+\newlabel{appendix:optimizers}{{}{32}{Implementing optimizers}{section*.83}{}}
+\@writefile{toc}{\contentsline {subsection}{Software frameworks and hardware}{32}{section*.84}\protected@file@percent }
+\newlabel{appendix:frameworks}{{}{32}{Software frameworks and hardware}{section*.84}{}}
+\@writefile{toc}{\contentsline {subsection}{Unbiased estimators of landscape statistics}{32}{section*.85}\protected@file@percent }
+\newlabel{appendix:bessel}{{}{32}{Unbiased estimators of landscape statistics}{section*.85}{}}
+\newlabel{eq:bessel}{{6}{32}{Unbiased estimators of landscape statistics}{equation.Alph0.6}{}}
 \citation{di18}
 \citation{di18}
-\newlabel{eq:newbessel}{{7}{35}{Unbiased estimators of landscape statistics}{equation.Alph0.7}{}}
-\@writefile{toc}{\contentsline {subsection}{Additional figures}{35}{section*.90}\protected@file@percent }
-\newlabel{appendix:figures}{{}{35}{Additional figures}{section*.90}{}}
+\newlabel{eq:newbessel}{{7}{33}{Unbiased estimators of landscape statistics}{equation.Alph0.7}{}}
+\@writefile{toc}{\contentsline {subsection}{Additional figures}{33}{section*.86}\protected@file@percent }
+\newlabel{appendix:figures}{{}{33}{Additional figures}{section*.86}{}}
 \FN@pp@footnotehinttrue 
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces  {\bf  Experiments on natural and artificial landscapes.} \texttt  {rvalue} refers to Theorem \ref  {thm:resum}'s predictions, approximated as in Remark \ref  {rmk:integrate}. \texttt  {uvalue}s are simpler but (see\ofsix {4}) less accurate. \newline  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's testing loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref  {appendix:evaluate-histories}) instead of the more precise $\text  {\textnormal  {rvalue}}$s. \ofsix {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox  {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox  {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline  {\bf  Center: $C$ controls generalization gap.}With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in testing loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Predictions near minima excel for large $\eta T$.} \ofsix {4}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \ofsix {5}: For \textsc  {Mean Estimation}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep  {di18}. \relax }}{36}{figure.caption.91}\protected@file@percent }
-\newlabel{fig:vanilla}{{12}{36}{{\bf Experiments on natural and artificial landscapes.} \texttt {rvalue} refers to Theorem \ref {thm:resum}'s predictions, approximated as in Remark \ref {rmk:integrate}. \texttt {uvalue}s are simpler but (see\protect \ofsix {4}) less accurate. \newline {\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's testing loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref {appendix:evaluate-histories}) instead of the more precise $\rvalue $s. \protect \ofsix {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline {\bf Center: $C$ controls generalization gap.}With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in testing loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel for large $\eta T$.} \protect \ofsix {4}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \protect \ofsix {5}: For \MeanEstimation \, with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep {di18}. \relax }{figure.caption.91}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces  \textbf  {Further experimental results}. \textbf  {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf  {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textsc  {Gauss}. Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf  {Right}: Blue intervals show regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph  {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. \relax }}{37}{figure.caption.92}\protected@file@percent }
-\newlabel{fig:takreg}{{13}{37}{\textbf {Further experimental results}. \textbf {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \Gauss . Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf {Right}: Blue intervals show regularization using Corollary \ref {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. \relax }{figure.caption.92}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces  {\bf  Experiments on natural and artificial landscapes.} \texttt  {rvalue} refers to Theorem \ref  {thm:resum}'s predictions, approximated as in Remark \ref  {rmk:integrate}. \texttt  {uvalue}s are simpler but (see\ofsix {4}) less accurate. \newline  {\bf  Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's testing loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref  {appendix:evaluate-histories}) instead of the more precise $\text  {\textnormal  {rvalue}}$s. \ofsix {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox  {-}1$ error of $\approx 10^{-3}$. \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox  {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline  {\bf  Center: $C$ controls generalization gap.}With equal-scaled axes, \ofsix {2} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in testing loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \ofsix {3}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline  {\bf  Right: Predictions near minima excel for large $\eta T$.} \ofsix {4}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \ofsix {5}: For \textsc  {Mean Estimation}\tmspace  +\thinmuskip {.1667em} with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep  {di18}. \relax }}{34}{figure.caption.87}\protected@file@percent }
+\newlabel{fig:vanilla}{{9}{34}{{\bf Experiments on natural and artificial landscapes.} \texttt {rvalue} refers to Theorem \ref {thm:resum}'s predictions, approximated as in Remark \ref {rmk:integrate}. \texttt {uvalue}s are simpler but (see\protect \ofsix {4}) less accurate. \newline {\bf Left: Perturbation models SGD for small $\eta T$.} Fashion-MNIST convnet's testing loss vs learning rate. In this small $T$ setting, we choose to use our theory's simpler un-resummed values (\ref {appendix:evaluate-histories}) instead of the more precise $\rvalue $s. \protect \ofsix {0}: For all initializations tested ($1$ shown, $11$ unshown), the order $3$ prediction agrees with experiment through $\eta T \approx 10^0$, corresponding to a decrease in $0\mbox {-}1$ error of $\approx 10^{-3}$. \protect \ofsix {1}: For large $\eta T$, our predictions break down. Here, the order $3$ prediction holds until the $0\mbox {-}1$ error improves by $5\cdot 10^{-3}$. Beyond this, $2$nd order agreement with experiment is coincidental. \newline {\bf Center: $C$ controls generalization gap.}With equal-scaled axes, \protect \ofsix {2} shows that GDC matches SGD (small vertical variance) better than GD matches SGD (large horizontal variance) in testing loss for a range of $\eta $ ($\approx 10^{-3}-10^{-1}$) and initializations (zero and several Xavier-Glorot trials) for logistic regression and convnets. Here, $T=10$. \protect \ofsix {3}: CIFAR-10 generalization gaps. For all initializations tested ($1$ shown, $11$ unshown), the degree-$2$ prediction agrees with experiment through $\eta T \approx 5\cdot 10^{-1}$. \newline {\bf Right: Predictions near minima excel for large $\eta T$.} \protect \ofsix {4}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \protect \ofsix {5}: For \MeanEstimation \, with fixed $C$ and a range of $H$s, initialized at the truth, the testing losses after fixed-$T$ GD are smallest for very sharp and very flat $H$. Near $H=0$, our predictions improve on AIC,TIC \citep {di18}. \relax }{figure.caption.87}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces  \textbf  {Further experimental results}. \textbf  {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf  {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \textsc  {Gauss}. Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf  {Right}: Blue intervals show regularization using Corollary \ref  {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \textsc  {Mean Estimation}\ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph  {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. \relax }}{35}{figure.caption.88}\protected@file@percent }
+\newlabel{fig:takreg}{{10}{35}{\textbf {Further experimental results}. \textbf {Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test loss than one-epoch SGD (difference shown in I bars) by the predicted amounts (predictions shaded) for a range of learning rates. Here, all SGD runs have $N=10$; we scale the learning rate for $E$-epoch SGD by $1/E$ to isolate the effect of inter-epoch correlations away from the effect of larger $\eta T$. \textbf {Center}: SGD's difference from SDE after $\eta T \approx 10^{-1}$ with maximal coarseness on \Gauss . Two effects not modeled by SDE --- time-discretization and non-Gaussian noise oppose on this landscape but do not completely cancel. Our theory approximates the above curve with a correct sign and order of magnitude; we expect that the fourth order corrections would improve it further. \textbf {Right}: Blue intervals show regularization using Corollary \ref {cor:overfit}. When the blue intervals fall below the black bar, this proposed method outperforms plain GD. For \MeanEstimation \ with fixed $C$ and a range of $H$s, initialized a fixed distance \emph {away} from the true minimum, descent on an $l_2$ penalty coefficient $\lambda $ improves on plain GD for most Hessians. The new method does not always outperform GD, because $\lambda $ is not perfectly tuned according to STIC but instead descended on for finite $\eta T$. \relax }{figure.caption.88}{}}
