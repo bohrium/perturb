@@ -1,6 +1,6 @@
-  We illustrate our theory by deriving a %``non-conservative
-%entropic force''
-flatness-seeking tendency of SGD while avoiding the next section's generality.
+  We illustrate our theory by deriving a flatness-seeking tendency of SGD.
+This section assumes one-epoch batch-size-one SGD.  We later 
+treat batch and multi-epoch effects.
 
 \subsection{Notation and assumptions, I}\label{sect:setup}
     %--  the landscape  -----------------------------------------------
@@ -62,8 +62,8 @@ we quote
         + o(\eta^1)
     $.
 \end{prop}
-(that
-is, $\nabla l_x(\theta)$'s dependence on $x$ and $\theta$) 
+%(that
+%is, $\nabla l_x(\theta)$'s dependence on $x$ and $\theta$) 
 %\noindent Our work identifies how noise and curvature correct Prop
 %\ref{prop:nest}.
 
@@ -74,23 +74,31 @@ is, $\nabla l_x(\theta)$'s dependence on $x$ and $\theta$)
       on (i.e.\ a partition of) its non-root nodes.  Convention: we orient the tree
       left-to-right so that children precede parents; the root is thus rightmost.
       We draw the partition with fuzzy outlines.
-      {\color{moor!90}Colors} in diagrams lack formal meaning but help us refer
-      to diagram parts.%
+      Node {\color{moor!90}colors} lack formal meaning but help us refer
+      to diagram parts.
+      %
+      Valid diagrams include
+      $\sdia{c(0-1)(01)}$,
+      $\sdia{c(0-1-2)(02-12)}$,
+      $\sdia{c(012-3)(02-12-23)}$ 
+      %$\sdia{c(0-1-2-3)(01-12-23)}$ 
+      but not $\sdia{MOOc(01)(0-1)}$,  
+      $\sdia{MOOc(01)(01)}$, 
+      $\sdia{MOOc(0-1-2)(01-02-12)}$.
     }\mend 
   \end{dfn}
-  Valid diagrams include
-  $\sdia{c(0-1)(01)}$,
-  $\sdia{c(0-1-2)(02-12)}$,
-  $\sdia{c(012-3)(02-12-23)}$,
-  $\sdia{c(0-1-2-3)(01-12-23)}$ 
-  but not $\sdia{MOOc(01)(0-1)}$,  
-     $\sdia{MOOc(01)(01)}$, 
-     $\sdia{MOOc(0-1-2)(01-02-12)}$.
   %$\sdia{MOOc(03-12-4)(03-13-23-34)}$.
-  And
-  $\sdia{c(01-2-3)(01-13-23)}$ is the same diagram as
-  $\sdia{c(02-1-3)(02-13-23)}$.
-  
+  %%And
+  %%$\sdia{c(01-2-3)(01-13-23)}$ is the same diagram as
+  %%$\sdia{c(02-1-3)(02-13-23)}$.
+  %
+  We interpret each diagram as depicting a class of interactions or
+  ``\textbf{histories}'' between updates.
+  %
+  E.g.\ $\sdia{c(01-2-3)(02-12-23)}$ depicts an update's (red's) double effect
+  on a future update (green) that in turn affects the testing loss (blue).  The
+  rightmost (``root'') node always represents a post-training measurement.
+
   \begin{dfn}
     \emph{A \textbf{history} of a diagram is an assignment of non-root nodes to
       $\emph{(n,t)}$ pairs such that: the $\emph{n}$th training point
@@ -145,7 +153,7 @@ is, $\nabla l_x(\theta)$'s dependence on $x$ and $\theta$)
       $o(\eta^d)$ error.
   \end{thm*}
 
-  {\color{red}ONE EPOCH BATCH-SIZE ONE THROUGHOUT THIS SECTION}
+%$\sdia{c(0-1)(01)}$, $\sdia{c(01-2)(02-12)}$, $\sdia{c(0-1-2)(02-12)}$ to
 
   For example, the only diagram with $1$ edge is $\sdia{c(0-1)(01)}$.  This
 diagram evaluates to $-G\eta G$ and, since its red node can be any update while
@@ -212,6 +220,7 @@ So to leading order the displacement is some $T$-dependent number of histories t
         a diagram consists of nodes,
                   edges, and fuzzy groupings that dictate the diagram's
                   corresponding tensor expression.
+        %This diagram helps quantify...
         \textbf{Right}:         %
         Gradient noise pushes SGD toward minima flat w.r.t.\ $C$.
             A 2D loss near
@@ -338,7 +347,8 @@ changes as $C$ does}.  %Since the smoothed $l$ may itself evolve,
 To test Corollary \ref{cor:entropic}'s $C$-dependence,
 we %\S\ref{appendix:artificial}
 construct a landscape, \Helix, on
-whose valley of global minima $C$ varies (Figure
+whose valley of %global
+minima $C$ varies (Figure
 \ref{fig:archimedes}).  Each 
 $\theta$ has a neighbor that is more attractive (flatter) w.r.t.\
 $C(\theta)$.  This induces eternal motion into the page

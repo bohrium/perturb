@@ -63,6 +63,28 @@
             \textbf{GDC}.
 
             An analogous form of averaging occurs over multiple epochs.  
+            For a
+            tight comparison, we scale the learning rates %appropriately
+            so
+            that, to leading order, few-epoch and many-epoch SGD agree.  Then
+            few-epoch and many-epoch SGD differ, to leading order, in their
+            sensitivity to $\nabla C$:
+            \begin{cor}[$\sdia{c(01-2)(01-12)}$] \label{cor:epochs}
+                SGD with $E=B=1$, $\eta=\eta_0$ avoids high-$C$ regions more
+                than SGD with $E=E_0$, $B=1$, $\eta=\eta_0/E_0$.  Precisely:
+                $
+                    \expct{\theta_{E=E_0} - \theta_{E=1}}^\mu
+                        =
+                    \wrap{\frac{E_0-1}{4 E_0}} N
+                    \eta^{\mu\rho} \eta^{\nu\xi} \nabla_\mu C_{\nu\xi}
+                    %\wrap{\nabla^\mu C^{\nu}_{\nu}}
+                    + o(\eta^2)
+                $.
+            \end{cor}
+
+            In sum, high-$C$ regions repel small-$(E,B)$ SGD more than
+            large-$(E,B)$ SGD.  We thus extend the $T=2$ result of \cite{ro18}
+            and resolve some questions posed therein.    
  
         \subsection{Time discretization penalizes sloped regions}
             The following corollary recovers \cite{ba21}'s main dynamical
@@ -129,21 +151,23 @@
                 \plotmooh{aaai/chladni-drift}{}{2.41cm}\hspace{0.050cm}
                 \plotmooh{aaai/spring}{}{5cm}
                 \caption{%
-                    Left.  Chladni drift on $\Mm=\RR^2$.  Red bi-arrows depict
+                    {\protect\ofsix{0}}:
+                    {\protect\ofsix{1}}:
+                    Chladni drift on $\Mm=\RR^2$.  Red bi-arrows depict
                     $C(\theta)$'s major axis.  SGD updates (green) tend toward
                     small $C$.
                     %
                     %Right.
-                    Both curvature and noise affect overfitting.
+                    {\protect\ofsix{2345}}: Both curvature and noise affect overfitting.
                     %\small
                     In each pane, the  $\leftrightarrow$
                     axis represents weight space and the $\updownarrow$
                     axis represents loss.  Noise (blue) transforms
                     the testing loss (thin curve) into the observed loss
                     (thick curve).  Red dots mark the testing loss at the
-                    arg-min of the observed loss.  \protect\offive{1}:
+                    arg-min of the observed loss.  \protect\ofsix{24}:
                     \emph{covector}-perturbed landscapes favor large $H$s.
-                    \protect\offive{2}: \emph{vector}-perturbed landscapes
+                    \protect\ofsix{35}: \emph{vector}-perturbed landscapes
                     favor small $H$s.  %SGD's implicit regularization
                     %interpolates between these rows %(Corollary
                     %\ref{cor:overfit}).
@@ -191,19 +215,19 @@
 
             %\newpage
     \subsection{Experiments}
-        Our theory does not control our Taylor series' rates of convergence. 
+        Our theory does not control \emph{rates} of convergence. 
         %
         We thus test our theory by experiment.  We perceive support for our
         theory in drastic rejections of the null hypothesis.  For instance, in
-        Figure \ref{fig:archimedes}, \cite{ch18} predict a velocity of
+        Figure \ref{fig:experiments}\ofsixvert{4}, \cite{ch18} predict a velocity of
         $0$ while we predict a velocity of $\eta^2/6$.  Likewise, published
-        intuitions (\S\ref{sect:related}) suggest that Figure
-        \ref{fig:experiments}\offourseq{3} overfitting (test loss minus test
+        intuitions (\S Related work) suggest that Figure
+        \ref{fig:experiments}\ofsixvert{5}'s overfitting (testing loss minus testing
         minimum) is monotonic in a landscape's hessian, whereas we do not.
         %
         Here, \texttt{I} bars, \texttt{+} signs, and shaded regions all mark
         $95\%$ confidence intervals based on the standard error of the mean.
-        \S\ref{appendix:experiments} describes neural architectures, artificial
+        The appendix describes neural architectures, artificial
         landscapes, sample sizes, and further plots.
 
 
@@ -226,14 +250,14 @@
                 %(\ref{appendix:evaluate-histories}) instead of the more
                 %precise $\rvalue$s.
                 %
-                \protect\offourseq{0}: 
+                \protect\ofsixvert{0}: 
                 Fashion-MNIST convnet's testing loss vs learning rate.
                 For all initializations tested ($1$
                 shown, $11$ unshown), the order $3$ prediction agrees with
                 experiment through $\eta T \approx 10^0$, corresponding to
                 a decrease in $0\mbox{-}1$ error of $\approx 10^{-3}$.
                 %
-                \protect\offourseq{1}:
+                \protect\ofsixvert{1}:
                 Fashion-MNIST convnet's testing loss.
                 For large $\eta T$, our predictions
                 break down.  Here, the order $3$ prediction holds until the
@@ -241,18 +265,34 @@
                 this, $2$nd order agreement with experiment is
                 coincidental.  
                 %
-                \protect\offourseq{2}: CIFAR-10 convnet generalization gaps.  For all
+                \protect\ofsixvert{2}: CIFAR-10 convnet generalization gaps.  For all
                 initializations tested ($1$ shown, $11$ unshown), the degree-$2$
                 prediction agrees with experiment through $\eta T \approx
                 5\cdot 10^{-1}$.
                 %
-                \protect\offourseq{3}: For \MeanEstimation\, with fixed $C$ and
+                \protect\ofsixvert{3}: 
+                Fashion-MNIST convnet.  SGD with $2, 3, 5, 8$ epochs incurs
+                greater test loss than one-epoch SGD (difference shown in I
+                bars) by the predicted amounts (predictions shaded) for a range
+                of learning rates.  Here, all SGD runs have $N=10$; we scale
+                the learning rate for $E$-epoch SGD by $1/E$ to isolate the
+                effect of inter-epoch correlations away from the effect of
+                larger $\eta T$.
+                %
+                \protect\ofsixvert{4}: SGD traverses \Helix' valley of global
+                minima.  Note: $H$ and $C$ are bounded across the valley,
+                we see drift for all small $\eta$, and we see displacement
+                exceeding the landscape's period of $2\pi$.  So: the drift
+                is not a pathology of well-chosen $\eta$, of divergent
+                noise, or of ephemeral initial conditions. 
+                %
+                \protect\ofsixvert{5}: For \MeanEstimation\, with fixed $C$ and
                 a range of $H$s, initialized at the truth, the testing
                 losses after fixed-$T$ GD are smallest for very sharp and
                 very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
                 \citep{di18}.
-            {\bf Right}: Predictions near minima excel for
-            large $\eta T$.
+            %{\bf Right}: Predictions near minima excel for
+            %large $\eta T$.
             }
             \label{fig:experiments}
         \end{figure}

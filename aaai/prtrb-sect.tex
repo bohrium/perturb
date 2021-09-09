@@ -212,7 +212,7 @@ $x_i=x_j$.
             diagram represents a process (as in Figure \ref{fig:paradigm}) and
             a diagram's contribution scales with the number of ways that
             process may occur.
-            Specifically, the Key Lemma in \S{\ref{appendix:key-lemma}
+            Specifically, the Key Lemma (see Appendix)
             establishes that a diagram's coefficient in the expansion is the
             number of its \emph{histories} (weighted by symmetry factors to
             counter overcounting), where we define \emph{histories}
@@ -220,7 +220,7 @@ $x_i=x_j$.
             respect to given SGD hyperparameters $N,E,B$.\footnote{
                 and w.r.t.\ a deterministic selector of the
                 $t$th batch.  One may take expectations over such
-                algorithms --- \S\ref{appendix:draw-spacetime}. 
+                algorithms.  % --- \S\ref{appendix:draw-spacetime}. 
             }
 
             %\begin{dfn}
@@ -312,10 +312,10 @@ $x_i=x_j$.
             %\newpage
             %-----  resummation  ----------------------------------------------
             \subsubsection{Re-summation cures large-$T$ divergences}\label{sect:resummation}
-            So far, diagrams have been a convenient but dispensible
-            book-keeping tool; so far, \S\ref{sect:challenges}'s polynomial
-            divergence remains in (\ref{eq:sgdcoef}).  We now show how
-            diagrams enable us to tame this divergence.
+            %So far, diagrams have been a convenient but dispensible
+            %book-keeping tool; so far, \S\ref{sect:challenges}'s polynomial
+            %divergence remains in (\ref{eq:sgdcoef}).  We now show how
+            %diagrams enable us to tame this divergence.
 
             Let us collect similar diagrams, where our notion of
             `similar' permits chains to grow or shrink (see Definition
@@ -359,25 +359,31 @@ $x_i=x_j$.
                   a whole class of topologically related histories at once
                   ({\!\!\protect\offiveprime{1234}}).
                 }
+                \label{fig:resum-cubic-histories}
             \end{figure}
 
             %This is the \emph{resummed value} (\emph{rvalue}) of the list's
             %smallest member.
-            We define an embedded diagram's \emph{resummed value} or
-            \emph{\textbf{rvalue}} as we defined
-            the $\uvalue$, except that we use $(I-\eta H)^{\Delta t-1}\eta$
-            instead of $\eta$ to contract a pair of tensors embedded 
-            $\Delta t$ timesteps apart.
+            \begin{dfn}
+              A history's \emph{resummed value} or \emph{\textbf{rvalue}} is
+                constructed the same way as the $\uvalue$, except that we use
+                $(\eta(I-\eta H)^{\Delta t-1})^{\mu\nu}$ instead of
+                $\eta^{\mu\nu}$ to contract each two nodes joined by an edge
+                that spans $\Delta t$ timesteps.  The $\mu,\nu$ label
+                basis components and the $\Delta t-1$ indicates a matrix power.
+            \end{dfn}
             %
-            For example, take Figure \ref{fig:resumintuition}'s history of
-            $\sdia{c(0-1)(01)}$ (topmost of four).  The associated uvalue  is
-            $\sum_{\mu\nu} G_\mu\eta^{\mu\nu}G_\nu$: a $G$ for each degree-one node and an
-            $\eta$ for each edge.  By contrast, the associated rvalue is
-            $\sum_{\mu\nu} G_\mu((I-\eta H)^{11-1}\eta)^{\mu\nu}G_\nu$ since the edge spans
-            $11$ timesteps.  Distributing out this expression reveals uvalues for
-            histories of $\sdia{c(0-1-2)(01-12)}$, etc.
-            %A sum over histories is a sum of terms with a
-            %range of exponents in place of $12-1$.
+            For example, take Figure \ref{fig:resum-cubic-histories}'s history
+            of $\sdia{c(01-2-3)(02-12-23)}$ (uppermost).
+            %
+            The associated uvalue is
+            $-C\eta\eta J\eta G$.
+            %
+            By contrast, the associated rvalue is
+            $-C\eta(I-\eta H)^{3-1}\eta(I-\eta H)^{3-1}J\eta(I-\eta H)^{2-1}G$.  Indeed,
+            the history's three edges span $3,3,2$ timesteps respectively.
+            Distributing out this expression reveals uvalues for histories of
+            $\sdia{MOOc(01-2-3-4)(02-12-23-34)}$, etc.
 
             \squash\squash
             \begin{dfn}\label{dfn:link}
@@ -403,7 +409,6 @@ $x_i=x_j$.
                 \forall 0\preceq \eta \prec \eta_0:\,$
                 the final testing loss is
                 a sum over \emph{linkless} diagrams: 
-                    \squash
                 \begin{equation*} \label{eq:resum}
                     \expc[l(\theta_T)]=
                     \sum_{\substack{D~\text{a linkless} \\ \text{diagram}}}
@@ -412,8 +417,8 @@ $x_i=x_j$.
                     ~
                     \frac{1}{\wabs{\Aut_f(D)}}
                     \,
-                    \frac{{\rvalue_f}(D)}{(-B)^{|\edges(D)|}}
-                    \squash
+                    %\frac{{\rvalue_f}(D)}{(-B)^{|\edges(D)|}}
+                    \frac{{\rvalue_f}(D)}{B^{|\edges(D)|}}
                 \end{equation*}
                 Here, $\wabs{\Aut_f(D)}$ counts the graph automorphisms of $D$
                 that preserve $f$. (Typically $\wabs{\Aut_f(D)}=1$.)%(see \ref{appendix:sum-histories} for  ).
@@ -437,7 +442,7 @@ $x_i=x_j$.
                 the testing loss.  Straightforward variations of the theorem permit us
                 to compute variances instead of expectations, training
                 statistics instead of testing statistics, and weight
-                displacements instead of losses.  See \S{appendix:solve-variants}.}\mend
+                displacements instead of losses.  See Appendix.}\mend
                 %\squash
             \end{rmk}
             %-----  convergence  ----------------------------------------------
@@ -448,11 +453,15 @@ $x_i=x_j$.
                 \theta_0\in U:\,$
                 Theorem \ref{thm:resum}'s $d$th-order truncation converges
                 as $T\to \infty$.
+                %
+                Moreover, if $\nabla\nabla l_x(\theta)$ is a constant $H\succ 0$
+                w.r.t.\ $x, \theta$: the $d$th order truncation error is uniform
+                in $T$ for $\eta$ small enough.
                 %Assuming Local Strength, the truncation's large-time error
                 %$\lim_{T\to\infty} \epsilon(\eta,T)$ exists for small $\eta$
                 %and is $o(\eta^d)$
             \end{thm}
-            {\large\color{red}QUADRATIC EXACTNESS!}
+            %{\large\color{red}QUADRATIC EXACTNESS!}
             \begin{rmk}
                 \emph{
                 Thm \ref{thm:converge} claims only that a limit
@@ -469,20 +478,20 @@ $x_i=x_j$.
                 methods gives insight into SGD's behavior.  It is by empirical
                 tests and physical intution that we decide whether in a given
                 situation our theory's little-$o$ error terms may be ignored. 
+                \hfill\mend
                 }
             \end{rmk}
 
         \subsubsection{Example Computation A}
-            \begin{figure}%{r}{0.4\textwidth}
-                \crunch
+            \begin{figure}[h]%{r}{0.4\textwidth}
+                \centering
                 \begin{tabular}{ccc}
-                    diagram                     & \#embed.s         & interpretation            \\\hline
+                    diagram                     & \#histories       & interpretation            \\\hline
                     $\sdia{c(0-1)(01)}$         & $ T            $  & na\"ive descent           \\
                     $\sdia{c(0-1-2)(02-12)}$    & ${T+1\choose 2}$  & $\theta$-dependent loss   \\
                     $\sdia{c(01-2)(02-12)}$     & $ T            $  & gradient noise            \\
                     $\sdia{c(01-2)(01-12)}$     & $ 0            $  & correl'd batches
                 \end{tabular}
-                \crunch
             \end{figure}
             We improve on Prop \ref{prop:nest} for SGD with $E=B=1$.
             The one $1$-edged diagram ($\sdia{c(0-1)(01)}$) embeds
@@ -531,7 +540,7 @@ $x_i=x_j$.
             The above is the leading contribution of the gradient covariance $C$
             to SGD's final testing loss.  We have derived an $E=B=1$ variant of
             Corollary \ref{cor:overfit}'s 
-            $E=T$, $B=N$ result (\S\ref{subsect:curvature-and-overfitting}).
+            $E=T$, $B=N$ result.
 
 
         %\subsubsection{On Factoring}

@@ -1,12 +1,25 @@
   Gradient estimates, measured on minibatches and thus noisy, form the primary
-learning signal in deep learning.  While users of deep learning
+learning signal when training deep neural nets.  While users of deep learning
 benefit from the intuition that \emph{stochastic gradient descent} (SGD)
 approximates deterministic descent (GD) \citep{bo91,le15}, SGD's gradient noise
-%in practice
-alters training dynamics and testing losses \citep{go18,wu20}.  We
-analyze these dynamics on short timescales or near minima.  We apply
-our theory to find that \textbf{gradient noise biases
-learning} toward low-curvature, low-noise regions of the loss landscape.
+alters training dynamics and testing losses \citep{go18,wu20}.
+%
+The implicit regularization of SGD on finite training data is of particular
+interest.  The learning signal reflects that data's finitude in two
+ways: updates in different epochs are correlated and the gradient estimated on
+each batch has a skewed distribution.
+%
+%Correlations between updates in different epochs and severely skewed gradient
+%noise directly result from the finitude of the training set and thus relate to
+%generalization.  
+%
+However, current models of SGD dynamics such as stochastic differential
+equations (SDE) assume independent Gaussian noise.
+%
+By contrast, we analyze SGD dynamics with correlated, non-Gaussian on short
+timescales or near minima.  We apply our theory to find that \textbf{gradient
+noise biases learning} toward low-curvature, low-noise regions of the loss
+landscape.
 
   Specifically, we study \emph{the expectation over training sets of the
 testing loss after $T$ updates} by Taylor expanding that loss in the learning
@@ -62,21 +75,4 @@ These `\textbf{re-summed}' expressions' errors are uniform in $T$ for quadratic
 landscapes (with non-Gaussian gradient noise) and are provably finite and
 empirically small for convolutional landscapes.
 
-%$\sdia{c(0-1)(01)}$, $\sdia{c(01-2)(02-12)}$, $\sdia{c(0-1-2)(02-12)}$ to
-%
-%E.g.\ $\sdia{c(01-2-3)(02-12-23)}$ depicts an update's (red's) double effect on
-%a future update (green) that in turn affects the testing loss (blue).  The
-%rightmost (``root'') node always represents a post-training measurement.
-%%
-%
-%We interpret each diagram as depicting a class of interactions or
-%``\textbf{histories}'' between updates.
-%%
-%We show how to compute each diagram's effect and we show that
-%small diagrams dominate the testing loss.
-%%
-%That is: up to $o(\eta^d)$ error, \emph{the testing loss is a sum --- over all
-%histories of all diagrams with $\leq d$ edges --- of certain diagram-dependent
-%tensor expressions.} 
-%
-%
+
