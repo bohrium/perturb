@@ -344,7 +344,8 @@ $x_i=x_j$.
             \begin{figure}%{r}{0.2\linewidth}
                 \centering
                 %\plotmoow{aaai/anatomy-diagram-b}{4.15cm}{}
-                \plotmoow{aaai/resum-cubic-histories}{4.15cm}{}
+                \plotmooh{aaai/resum-cubic-histories}{}{3.15cm}
+                \plotmooh{aaai/resum-physics}{}{3.15cm}
                 %\plotmooh{aaai/chladni-drift}{}{2.7cm}
                 \caption{%
                   %{\protect\offiveprime{0}}: a diagram consists of nodes,
@@ -354,10 +355,29 @@ $x_i=x_j$.
                   %over all possible histories gives the expected testing loss.
                   %diagram $\sdia{c(01-2-3)(02-12-23)}$ evaluates to
                   %$C(-\eta)^2(\nabla H)(-\eta)G$.
-                  {\protect\offiveprime{1}}
-                  shows one of a diagram's histories.  Re-summation evaluates
-                  a whole class of topologically related histories at once
-                  ({\!\!\protect\offiveprime{1234}}).
+                    %
+                  %%{\protect\offiveprime{1}}
+                  %%shows one of a diagram's histories. 
+                  \textbf{Left}: Re-summation evaluates a whole class of
+                  topologically related histories at once.  Here are example
+                  histories that appear in a re-summed value for $\sdia{c(01-2-3)(02-12-23)}$. 
+                  %({\!\!\protect\offiveprime{1234}}).
+                  \textbf{Right}:
+                  The Taylor expansion presents SGD behavior as ``default
+                  trajectories'' in weight space (intuitively represented by
+                  diagram edges) punctuated by noise (here, red arrow) and
+                  inter-update interactions (nodes and fuzzy groupings).
+                  %
+                  Un-resummed diagrams correspond to straight default
+                  trajectories (green).  By contrast, re-summed diagrams model
+                  default trajectories (purple) that curve along with the
+                  hessian.
+                  %
+                  Thus, un-resummed expressions tend to diverge with large
+                  time, while re-summed expressions treat trajectories trapped 
+                  near minima (dark blue). 
+                  %in the absence of noise and inter-update
+                  %interactions.
                 }
                 \label{fig:resum-cubic-histories}
             \end{figure}
