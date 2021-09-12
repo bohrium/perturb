@@ -90,7 +90,7 @@
         \subsection{Time discretization penalizes sloped regions}
             The following corollary recovers \cite{ba21}'s main dynamical
             result: 
-            \begin{cor}[$\sdia{c(0-1-2)(01-12)}$] \label{cor:epochs}
+            \begin{cor}[$\sdia{c(0-1-2)(01-12)}$] \label{cor:barret}
                 On a noiseless landscape, SGD prefers small-$G^2$ regions
                 more than ODE: 
                 $
@@ -123,7 +123,7 @@
             non-Gaussian noise lead SGD and SDE to respond differently to
             changes in curvature: 
             %
-            \begin{cor}[$\sdia{c(012-3)(03-13-23)}$] \label{cor:vsode}
+            \begin{cor}[$\sdia{c(012-3)(03-13-23)}$] \label{cor:vssde}
                 For $E=B=1$ SGD and up to error $o(\eta^3) + o(1/k)$:
                 the skewness of gradient noise contributes  
                 \begin{align*}

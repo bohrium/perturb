@@ -136,7 +136,7 @@
         \subsubsection{Computations: Embeddings of diagrams into grids}\label{sect:exampleembed}
         Say we permit order-$d$ errors.  We draw all relevant
         diagrams with $d$ or fewer edges and then characterize the histories
-        of those diagrams in \S\ref{sect:gridss}'s grid.
+        of those diagrams in page \ref{sect:gridss}'s grid.
         %
         An \emph{history} of a diagram $D$ in a grid is an
         assignment of $D$'s non-root nodes to shaded cells $(n,t)$ obeying
@@ -218,7 +218,7 @@
 
     \begin{landscape}
         \subsubsection{Computations: Evaluating each diagram history}\label{sect:example-eval}
-            We evaluate \S\ref{sect:exampleembed}'s diagrams.  We choose here to
+            We evaluate page \pageref{sect:exampleembed}'s diagrams.  We choose here to
             compute $\uvalue$s (apt for fixed $T$), not
             $\rvalue$s.  These rules translate diagrams to numbers:
             \par \indent $\bullet$
@@ -238,7 +238,7 @@
                     $$
                 }
             \par \indent $\bullet$
-                \textbf{Edge rule}: insert a $\eta^{\mu\nu}$ for each
+                \textbf{Edge rule}: insert a $(-\eta^{\mu\nu})$ for each
                 edge.  The indices $\mu, \nu$ should match the corresponding
                 indices of the two nodes incident to the edge.
         \newline
@@ -246,7 +246,7 @@
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
-            In \S\ref{sect:exampleembed} we determined the histories of
+            In page \pageref{sect:exampleembed} we determined the histories of
             $\sdia{c(0-1)(01)}$.  Now we evaluate $\uvalue(\sdia{c(0-1)(01)})$. 
             The node rule suggests that we begin with
             $$
@@ -265,19 +265,19 @@
                 G_\nu
             $$
             since all parts in the diagram's partition have size one.
-            The edge rule inserts a factor $\eta^{\mu\nu}$
+            The edge rule inserts a factor $-\eta^{\mu\nu}$
             to yield:
             $$
                 \uvalue(\sdia{c(0-1)(01)})
                 =
                 G_\mu
                 G_\nu
-                \eta^{\mu\nu}
+                -\eta^{\mu\nu}
                 =
-                G_\mu G^\mu
+                - G_\mu G^\mu
             $$
           &
-            In \S\ref{sect:exampleembed} we saw that
+            In page \pageref{sect:exampleembed} we saw that
             $\sdia{c(0-1-2)(02-12)}$ embeds similarly into multi-epoch
             and single-epoch grids: its multi-epoch
             histories correspond by a $M_0^2:1$ map to its single-epoch
@@ -326,12 +326,12 @@
     \begin{landscape}
         \subsubsection{Computations: Summing the histories' values}
         Our Key Lemma('s restatement) says that to compute a testing loss,
-        \par\indent$\bullet$ we sum \S\ref{sect:example-eval}'s uvalues, each weighted by the number of ways its diagram
+        \par\indent$\bullet$ we sum page \pageref{sect:example-eval}'s uvalues, each weighted by the number of ways its diagram
         embeds in the grid,
         \par\indent$\bullet$ where histories with $s$ many symmetries count only $1/s$ much
         toward the total number of histories.
         \par\noindent
-        A symmetry of an history $f$
+        A symmetry of a history $f$
         of a diagram $D$, i.e.\ an element of $\Aut_f(D)$, is defined to be a
         relabeling of $D$'s nodes that simultaneously preserves $D$'s rooted
         tree structure, $D$'s partition structure, and $f$'s assignment of
@@ -346,7 +346,7 @@
         \begin{tabular}{p{0.48\linewidth}p{0.48\linewidth}}
             \textsc{Effect of Gradients (Question \ref{qst:grad})}&\textsc{Effect of Epochs (Question \ref{qst:multi})}\\
             \hline
-            Referring again to \S\ref{sect:exampleembed}, we see that
+            Referring again to page \pageref{sect:exampleembed}, we see that
             $D=\sdia{c(0-1)(01)}$ has $TB$ many histories ($B$ many histories
             per column for $T$ many columns).  Since $D$ has no non-trivial
             automorphisms (i.e.\ no non-trivial relabeling of nodes that
@@ -375,7 +375,7 @@
             \end{align*}
             Prop \ref{prop:nest}'s expression $-T G_\mu G^\mu$ follows.
           &
-            Referring again to \S\ref{sect:exampleembed}, we see that
+            Referring again to page \pageref{sect:exampleembed}, we see that
             $\sdia{c(01-2)(01-12)}$ has ${M_0 \choose 2} \, N$ many histories
             into the multi-epoch grid (one history per pair of distinct
             epochs, per row) --- and no histories into the single-epoch grid.
@@ -758,11 +758,11 @@
                 \textbf{Left}: illegal history of $\sdia{c(0-1-2)(01-12)}$,
                     since the time-ordering condition is not obeyed. 
                     For the same reason, not a legal history of $\sdia{c(01-2)(01-12)}$.
-                \textbf{Middle}: an history of $\sdia{c(0-1-2)(01-12)}$.
-                Also an history of $\sdia{c(01-2)(01-12)}$,
+                \textbf{Middle}: a history of $\sdia{c(0-1-2)(01-12)}$.
+                Also a history of $\sdia{c(01-2)(01-12)}$,
                 since the correlation condition is obeyed.
                 \textbf{Right}: a legal history of $\sdia{c(0-1-2)(01-12)}$.
-                    Not an history of
+                    Not a history of
                     $\sdia{c(01-2)(01-12)}$, since the correlation condition is
                     not obeyed.
             }
@@ -776,8 +776,7 @@
         \begin{rmk*}
             In this paper's corollaries, we seek to extract the specific effect
             of a specific landscape or optimization feature such as skewed
-            noise (Prop \ref{prop:splash}) or multiple epochs
-            (\S\ref{appendix:example}).  In these cases, it is usually the case
+            noise or multiple epochs.  In these situations, it is usually the case
             that most diagrams are irrelevant.  For example, because a diagram
             evaluates to a product of its components, the only way the skewness
             of gradient noise can appear in our calculations is through 
@@ -785,7 +784,7 @@
             size $3$. 
             %Thus, the analysis in Example \ref{exm:first} was able
             %to ignore diagrams such as $\sdia{c(01-2)(02-12)}$. 
-            Likewise, in \S\ref{appendix:example} we argued by considering 
+            Likewise, in page \pageref{appendix:example} we argued by considering 
             which histories that the only diagram relevant to Question
             \ref{qst:multi} is $\sdia{c(01-2)(01-12)}$.  
             \mend
@@ -878,7 +877,7 @@
         \par
         \noindent
         \translucent{moolime}{\parbox{\textwidth}{
-            \textsc{Turn an history of a diagram} into its uvalue or rvalue
+            \textsc{Turn a history of a diagram} into its uvalue or rvalue
             by applying the following rules. 
             \par \indent $\bullet$
                 \textbf{Node rule}: Replace each degree $d$ node by $\nabla^d
@@ -897,12 +896,12 @@
                     $}.  The recursion is grounds out at maximally-fine partitions, i.e., those partitions
                     whose parts have size one.)
             \par \indent $\bullet$  If we wish to compute a uvalue, then we apply the
-                \textbf{Edge rule for uvalues}: insert a $\eta^{\mu\nu}$ for each
+                \textbf{Edge rule for uvalues}: insert a $(-\eta^{\mu\nu})$ for each
                 edge.  The indices $\mu, \nu$ should match the corresponding
                 indices of the two nodes incident to the edge.
             \par \indent $\bullet$ If we wish to compute an rvalue, then we apply the
                 \textbf{Edge rule for rvalues}: if an edge's endpoints are embedded to times
-                $t, t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$,
+                $t, t^\prime$, insert a factor of $-K^{\wabs{t^\prime-t}-1} \eta$,
                 where $K \triangleq (I-\eta H)$.  Here, we consider the root node
                 as embedded to the time $T$.
         }}
@@ -943,8 +942,10 @@
             However, this would yield (un-centered)
             moments such as $\ex{(\nb\lx)^2}$ instead of cumulants such as
             $C=\ex{(\nb\lx - G)^2}$.
-            For technical reasons (\S\ref{appendix:mobius} and
-            \S\ref{appendix:resum}), cumulants will be easier to work with than
+            %For technical reasons (page \pageref{appendix:mobius} and
+            %page \pageref{appendix:resum}),
+            Because cumulants aid mobius inversion,
+            cumulants will be easier to work with than
             moments, so we will choose to define the values of diagrams
             slightly differently as follows.\footnote{
                 This is just the standard M\"obius recursion for defining cumulants
@@ -1011,12 +1012,13 @@
                         +
                     2 \mdia{(0-1-2-3)(01-13-23)}
                 \end{align*}
-                We will use the concept of ``moment values'' again in \S\ref{appendix:mobius}.}
+                We will use the concept of ``moment values'' again when discussing Theorem \ref{thm:pathint}.
+            }
                 \mend
             \end{exm}
 
             Finally, we come to edges. 
-            \textbf{Edge rule}: insert a factor of $\eta^{\mu\nu}$ for each
+            \textbf{Edge rule}: insert a factor of $-\eta^{\mu\nu}$ for each
             edge.  The indices $\mu, \nu$ should match the corresponding
             indices of the two nodes incident to the edge.
 
@@ -1051,7 +1053,7 @@
             rule for evaluating edges.
 
             \textbf{Edge rule}: if an edge's endpoints are embedded to times
-            $t, t^\prime$, insert a factor of $K^{\wabs{t^\prime-t}-1} \eta$,
+            $t, t^\prime$, insert a factor of $-K^{\wabs{t^\prime-t}-1} \eta$,
             where $K \triangleq (I-\eta H)$.  Here, we consider the root node
             as embedded to the time $T$.
 
@@ -1068,7 +1070,7 @@
                     \mdia{MOOc(0)(0-0)}
                     = C_{\mu\nu} H_{\lambda\rho}
                 $.
-                Then if $f$ is an history of $\mdia{c(01-2)(02-12)}$ that
+                Then if $f$ is a history of $\mdia{c(01-2)(02-12)}$ that
                 sends the diagram's red part to a time $t$ (and its green root
                 to $T$), we have:
                 $$
@@ -1085,7 +1087,7 @@
             \end{exm}
 
         \subsubsection{Overall}
-            In sum, we evaluate an history of a diagram by using the 
+            In sum, we evaluate a history of a diagram by using the 
             \textbf{node}, 
             \textbf{outline}, and
             \textbf{edge}
@@ -1125,7 +1127,7 @@
                 ~
                 \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
                 ~
-                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \frac{B^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
                 \,
                 {\rvalue_f}(D)
             \end{equation*}
@@ -1135,12 +1137,12 @@
                 ~
                 \sum_{\substack{f~\text{an embed-} \\ \text{-ding of}~D}}
                 ~
-                \frac{(-B)^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
+                \frac{B^{-|\edges(D)|}}{\wabs{\Aut_f(D)}}
                 \,
                 {\uvalue}(D)
             \end{equation*}
             Here, $B$ is the batch size.
-            %We say an history is \emph{strict} if it assigns to each part
+            %We say a history is \emph{strict} if it assigns to each part
             %a different datapoint $n$.
         \end{thm*}
 
@@ -1219,7 +1221,7 @@
             \mend
         \end{exm}
 
-        An \textbf{automorphism of $D$ that preserves an history $f$ of $D$}
+        An \textbf{automorphism of $D$ that preserves a history $f$ of $D$}
         is a relabeling of $D$'s nodes that preserves the root, the graph
         structure, the equivalence relation on non-root nodes, and that at the
         same time respects $f$: $f$ must send a node to the same $(n,t)$ pair
@@ -1228,7 +1230,7 @@
         (that is, they usually contain only the the identity relabeling).
         \begin{exm}[Automorphisms]
             \emph{
-                We take as examples the diagram histories of \S\ref{sect:exampleembeds}
+                We take as examples the diagram histories of page \pageref{sect:exampleembeds}
                 (figure reproduced here).  All the histories in the \textbf{left
                 figure} have $|\Aut_f(D)|=1$.  For instance, the bottom-most
                 history (of $\sdia{c(01-2)(01-12)}$) has a non-trivial relabeling  
@@ -1299,9 +1301,9 @@
     %%            \cite{ch87}!!!}
 
     \subsection{How to solve variant problems}                      \label{appendix:solve-variants}
-        In \S\ref{appendix:future}, we briefly discuss second-order methods
+        In page \pageref{appendix:future}, we briefly discuss second-order methods
         and natural gradient descent.  Here, we briefly discuss modifications.
-        We omit proofs, which would closely follow \S\ref{appendix:math}'s
+        We omit proofs, which would closely follow page \pageref{appendix:math}'s
         proof of the expectation-of-test-loss case.
 
         \subsubsection*{Variance (instead of expectation)}
@@ -1348,7 +1350,7 @@
         demonstrate how our diagram formalism likewise streamlines analysis of
         descent by comparing direct perturbation\footnote{
             By ``direct perturbation'', we mean direct application of our Key
-            Lemma (\S\ref{appendix:key-lemma}).
+            Lemma (page \pageref{appendix:key-lemma}).
         }
         to the new formalism on two sample problems.
 
@@ -1391,15 +1393,15 @@
                 Since SGD and GD agree on noiseless landscapes, we consider only
                 diagrams with fuzzy ties.  Since we are working to second order, we
                 consider only two-edged diagrams.  There are only two such
-                diagrams, $\sdia{(01-2)(02-12)}$ and $\sdia{(01-2)(01-12)}$.  The
-                first diagram, $\sdia{(01-2)(02-12)}$, embeds in GD's space time in
+                diagrams, $\sdia{c(01-2)(02-12)}$ and $\sdia{c(01-2)(01-12)}$.  The
+                first diagram, $\sdia{c(01-2)(02-12)}$, embeds in GD's space time in
                 $N^2$ as many ways as it embeds in SGD's spacetime, due to
                 horizontal shifts.  Likewise, there are $N^2$ times as many
-                histories of $\sdia{(01-2)(02-12)}$ in distinct epochs of GD's
+                histories of $\sdia{c(01-2)(02-12)}$ in distinct epochs of GD's
                 spacetime as there are in distinct epochs of SGD's spacetime.
-                However, each same-epoch history of $\sdia{(01-2)(01-12)}$ within
+                However, each same-epoch history of $\sdia{c(01-2)(01-12)}$ within
                 any one epoch of GD's spacetime corresponds by vertical shifts to
-                an history of $\sdia{(0-1-2)(01-12)}$ in SGD.  There are
+                a history of $\sdia{c(0-1-2)(01-12)}$ in SGD.  There are
                 $MN{N\choose 2}$ many such histories in GD's spacetime, so GD's
                 testing loss exceeds SGD's by 
                 $

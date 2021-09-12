@@ -109,7 +109,7 @@
             a non-canonical choice of initialization.  We initialize
             $\lambda=0$.
 
-    \subsection{What image-classification landscapes did we use?}   \label{appendix:natural}
+    \subsection{What image-classifying landscapes did we use?}   \label{appendix:natural}
 
         \subsubsection{Architectures}
             In addition to the artificial loss landscapes
@@ -157,7 +157,7 @@
         \subsection{Measurement process}                                \label{appendix:measure}
 
             \subsubsection{Diagram evaluation on real landscapes}
-                We implemented the formulae of \S\ref{appendix:bessel} in order
+                We implemented the formulae of page \pageref{appendix:bessel} in order
                 to estimate diagram values from real data measured at
                 initialization from batch averages of products of derivatives.
 
@@ -218,7 +218,7 @@
         %
         Our code uses PyTorch 0.4.0 \citep{pa19} on Python 3.6.7; there are no
         other substantive dependencies.  The code's randomness is parameterized
-        by random seeds and hence reproducible.
+        by random seeds (in our experiments $0, 1729$) and hence reproducible.
         %
         We ran experiments on a Lenovo laptop and on our institution's
         clusters; we consumed about $100$ GPU-hours.
@@ -377,107 +377,106 @@
 
     \subsection{Additional figures}                                 \label{appendix:figures}
 
-            \begin{figure}[h!] 
-                \centering
-                \pmoo{3.85cm}{neurips-test-small} \hfill \pmoo{3.85cm}{new-big-bm-new}          \hfill \pmoo{3.85cm}{multi-fashion-logistic-0}
-                \pmoo{3.85cm}{neurips-test-large} \hfill \pmoo{3.85cm}{neurips-gen-cifar-lenet} \hfill \pmoo{3.85cm}{neurips-tak}
-                \caption{
-                    {\bf Experiments on natural and artificial landscapes.}
-                    \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
-                    predictions, approximated as in Remark \ref{rmk:integrate}.
-                    %\texttt{uvalue} indicates polynomial approximations
-                    %to Theorem \ref{thm:resum}'s result (see
-                    %\S\ref{appendix:sum-histories}).
-                    \texttt{uvalue}s are
-                    simpler but (see\protect\ofsix{4})
-                    less accurate.
-                    %%%
-                    %%%
-                    \newline
-                    {\bf Left: Perturbation models SGD for small $\eta
-                    T$.} Fashion-MNIST convnet's testing loss vs learning rate.
-                    In this small $T$ setting, we choose to use our theory's
-                    simpler un-resummed values
-                    (\ref{appendix:evaluate-histories}) instead of the more
-                    precise $\rvalue$s.
-                    %
-                    \protect\ofsix{0}: For all initializations tested ($1$
-                    shown, $11$ unshown), the order $3$ prediction agrees with
-                    experiment through $\eta T \approx 10^0$, corresponding to
-                    a decrease in $0\mbox{-}1$ error of $\approx 10^{-3}$.
-                    %
-                    \protect\ofsix{1}: For large $\eta T$, our predictions
-                    break down.  Here, the order $3$ prediction holds until the
-                    $0\mbox{-}1$ error improves by $5\cdot 10^{-3}$.  Beyond
-                    this, $2$nd order agreement with experiment is
-                    coincidental.  
-                    %%%
-                    %%%
-                    \newline
-                    {\bf Center: $C$ controls generalization gap.}%.and distinguishes GD from SGD.}
-                    %
-                    With equal-scaled axes, \protect\ofsix{2} shows that GDC
-                    matches SGD (small vertical variance) better than GD
-                    matches SGD (large horizontal variance) in testing loss for
-                    a range of $\eta$ ($\approx 10^{-3}-10^{-1}$) and initializations
-                    (zero and several Xavier-Glorot trials) for logistic
-                    regression and convnets.  Here, $T=10$. 
-                    %
-                    \protect\ofsix{3}: CIFAR-10 generalization gaps.  For all
-                    initializations tested ($1$ shown, $11$ unshown), the degree-$2$
-                    prediction agrees with experiment through $\eta T \approx
-                    5\cdot 10^{-1}$.
-                    %%%
-                    %%%
-                    \newline
-                    {\bf Right: Predictions near minima excel for
-                    large $\eta T$.} \protect\ofsix{4}: 
-                    SGD with $2, 3, 5, 8$ epochs incurs greater test
-                    loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the
-                    predicted amounts (predictions shaded) for a range of learning
-                    rates.  Here, all SGD runs have $N=10$; we scale the learning
-                    rate for $E$-epoch SGD by $1/E$ to isolate the effect of
-                    inter-epoch correlations away from the effect of larger $\eta
-                    T$.
-                    %
-                    \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and
-                    a range of $H$s, initialized at the truth, the testing
-                    losses after fixed-$T$ GD are smallest for very sharp and
-                    very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
-                    \citep{di18}.
-                    %%%
-                    %%%
-                }
-                \label{fig:vanilla}
-            \end{figure}
+            %\begin{figure}[h!] 
+            %    \centering
+            %    \pmoo{3.85cm}{neurips-test-small} \hfill \pmoo{3.85cm}{new-big-bm-new}          \hfill \pmoo{3.85cm}{multi-fashion-logistic-0}
+            %    \pmoo{3.85cm}{neurips-test-large} \hfill \pmoo{3.85cm}{neurips-gen-cifar-lenet} \hfill \pmoo{3.85cm}{neurips-tak}
+            %    \caption{
+            %        {\bf Experiments on natural and artificial landscapes.}
+            %        \texttt{rvalue} refers to Theorem \ref{thm:resum}'s
+            %        predictions, approximated as in Remark \ref{rmk:integrate}.
+            %        %\texttt{uvalue} indicates polynomial approximations
+            %        %to Theorem \ref{thm:resum}'s result (see
+            %        %\S\ref{appendix:sum-histories}).
+            %        \texttt{uvalue}s are
+            %        simpler but (see\protect\ofsix{4})
+            %        less accurate.
+            %        %%%
+            %        %%%
+            %        \newline
+            %        {\bf Left: Perturbation models SGD for small $\eta
+            %        T$.} Fashion-MNIST convnet's testing loss vs learning rate.
+            %        In this small $T$ setting, we choose to use our theory's
+            %        simpler un-resummed values
+            %        (\ref{appendix:evaluate-histories}) instead of the more
+            %        precise $\rvalue$s.
+            %        %
+            %        \protect\ofsix{0}: For all initializations tested ($1$
+            %        shown, $11$ unshown), the order $3$ prediction agrees with
+            %        experiment through $\eta T \approx 10^0$, corresponding to
+            %        a decrease in $0\mbox{-}1$ error of $\approx 10^{-3}$.
+            %        %
+            %        \protect\ofsix{1}: For large $\eta T$, our predictions
+            %        break down.  Here, the order $3$ prediction holds until the
+            %        $0\mbox{-}1$ error improves by $5\cdot 10^{-3}$.  Beyond
+            %        this, $2$nd order agreement with experiment is
+            %        coincidental.  
+            %        %%%
+            %        %%%
+            %        \newline
+            %        {\bf Center: $C$ controls generalization gap.}%.and distinguishes GD from SGD.}
+            %        %
+            %        With equal-scaled axes, \protect\ofsix{2} shows that GDC
+            %        matches SGD (small vertical variance) better than GD
+            %        matches SGD (large horizontal variance) in testing loss for
+            %        a range of $\eta$ ($\approx 10^{-3}-10^{-1}$) and initializations
+            %        (zero and several Xavier-Glorot trials) for logistic
+            %        regression and convnets.  Here, $T=10$. 
+            %        %
+            %        \protect\ofsix{3}: CIFAR-10 generalization gaps.  For all
+            %        initializations tested ($1$ shown, $11$ unshown), the degree-$2$
+            %        prediction agrees with experiment through $\eta T \approx
+            %        5\cdot 10^{-1}$.
+            %        %%%
+            %        %%%
+            %        \newline
+            %        {\bf Right: Predictions near minima excel for
+            %        large $\eta T$.} \protect\ofsix{4}: 
+            %        SGD with $2, 3, 5, 8$ epochs incurs greater test
+            %        loss on Fashiion-MNIST than one-epoch SGD (difference shown in I bars) by the
+            %        predicted amounts (predictions shaded) for a range of learning
+            %        rates.  Here, all SGD runs have $N=10$; we scale the learning
+            %        rate for $E$-epoch SGD by $1/E$ to isolate the effect of
+            %        inter-epoch correlations away from the effect of larger $\eta
+            %        T$.
+            %        %
+            %        \protect\ofsix{5}: For \MeanEstimation\, with fixed $C$ and
+            %        a range of $H$s, initialized at the truth, the testing
+            %        losses after fixed-$T$ GD are smallest for very sharp and
+            %        very flat $H$.  Near $H=0$, our predictions improve on AIC,TIC
+            %        \citep{di18}.
+            %        %%%
+            %        %%%
+            %    }
+            %    \label{fig:vanilla}
+            %\end{figure}
 
-
-        In the rightmost figure, 
-        we add Corollary \ref{cor:overfit}'s
-            generalization gap estimate to $l$.  By descending on this
-            regularized loss, we may tune smooth hyperparameters such as $l_2$
-            regularization coefficients for small datasets ($H \ll C/N$)
-            (\S\ref{appendix:figures}).  Since matrix exponentiation takes time
-            cubic in dimension, this regularizer is most useful for small
-            models.
 
 
         \begin{figure}[h] 
             \centering
             \centering
-            \pmoo{3.5cm}{multi-fashion-logistic-0}
+            %\pmoo{3.5cm}{multi-fashion-logistic-0}
+            \pmoo{3.5cm}{new-big-bm-new}          
             \pmoo{3.5cm}{vs-sde}
             \pmoo{3.5cm}{tak-reg}
             \caption{
                 \textbf{Further experimental results}.
                 %
-                \textbf{Left}: SGD with $2, 3, 5, 8$ epochs incurs greater test
-                loss than one-epoch SGD (difference shown in I bars) by the
-                predicted amounts (predictions shaded) for a range of learning
-                rates.  Here, all SGD runs have $N=10$; we scale the learning
-                rate for $E$-epoch SGD by $1/E$ to isolate the effect of
-                inter-epoch correlations away from the effect of larger $\eta
-                T$.
+                \textbf{Left}:
+                %SGD with $2, 3, 5, 8$ epochs incurs greater test
+                %loss than one-epoch SGD (difference shown in I bars) by the
+                %predicted amounts (predictions shaded) for a range of learning
+                %rates.  Here, all SGD runs have $N=10$; we scale the learning
+                %rate for $E$-epoch SGD by $1/E$ to isolate the effect of
+                %inter-epoch correlations away from the effect of larger $\eta
+                %T$.
+                With equal-scaled axes, \protect\ofsix{2} shows that GDC
+                    matches SGD (small vertical variance) better than GD
+                    matches SGD (large horizontal variance) in testing loss for
+                    a range of $\eta$ ($\approx 10^{-3}-10^{-1}$) and initializations
+                    (zero and several Xavier-Glorot trials) for logistic
+                    regression and convnets.  Here, $T=10$. 
                 %
                 \textbf{Center}: SGD's difference from SDE after $\eta T
                 \approx 10^{-1}$ with maximal coarseness on \Gauss.  Two
@@ -488,7 +487,16 @@
                 fourth order corrections would improve it further.
                 %
                 \textbf{Right}: Blue intervals show regularization using Corollary
-                \ref{cor:overfit}.  When the blue intervals fall below the
+                \ref{cor:overfit}.  Specifically, 
+                we add Corollary \ref{cor:overfit}'s
+                generalization gap estimate to $l$.  By descending on this
+                regularized loss, we may tune smooth hyperparameters such as $l_2$
+                regularization coefficients for small datasets ($H \ll C/N$)
+                (page \pageref{appendix:figures}).  Since matrix exponentiation takes time
+                cubic in dimension, this regularizer is most useful for small
+                models.
+                %
+                When the blue intervals fall below the
                 black bar, this proposed method outperforms plain GD.  For
                 \MeanEstimation\ with fixed $C$ and a range of $H$s, initialized
                 a fixed distance \emph{away} from the true minimum, descent on
@@ -496,6 +504,7 @@
                 most Hessians.  The new method does not always outperform GD,
                 because $\lambda$ is not perfectly tuned according to STIC but
                 instead descended on for finite $\eta T$.
+                %
             }
             \label{fig:takreg}
         \end{figure}

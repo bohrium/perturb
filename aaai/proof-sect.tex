@@ -42,35 +42,40 @@
 
         \begin{dfn}[Diagrams] \label{dfn:diagrams}
             A diagram is a finite rooted tree equipped with a partition of
-            non-root  nodes.  We draw the tree using thin ``edges''.  By
-            convention, we draw each node to the right of its children; the
-            root is thus always rightmost.  We draw the partition
-            by connecting the nodes within each part via fuzzy ``ties''.  For
-            example, $\sdia{c(012-3)(03-13-23)}$ has $2$ parts.
+            non-root nodes.  We adopt some drawing conventions: we draw the
+            tree using thin ``edges''.  We draw each node to the right of its
+            children; the root is thus always rightmost.  We draw the partition
+            by connecting the nodes within each part via what we'll call
+            ``fuzzy outlines'' or ``fuzzy ties''.  For example,
+            $\sdia{c(012-3)(03-13-23)}$ has $2$ parts.
             %
             We insist on using as few fuzzy ties as possible so that, if $d$
             counts edges and $c$ counts ties, then $d+1-c$ counts parts of the
             partition.
             %
-            There may be multiple ways to draw a single diagram, e.g.
-            $\sdia{c(01-23)(03-13-23)}=\sdia{(02-13)(03-13-23)}$. 
+            There may be multiple ways to draw a single diagram, e.g.\
+            $\sdia{MOOc(01-23-4)(03-13-23-34)}=\sdia{MOOc(02-13-4)(03-13-23-34)}$. 
         \end{dfn}
-        \begin{dfn}[Embedding a Diagram into a Grid]
-            An history of a diagram into a grid is an assignment of that
-            diagram's non-root nodes to pairs $(n,t)$ such that each node
-            occurs at a time $t^\prime$ strictly after each of its children and
-            such that two nodes occupy the same row $n$ if they
-            inhabit the same part of $D$'s partition.
+        \begin{dfn}[Histories]
+            A history of a diagram %within a grid
+            is an assignment of that diagram's non-root nodes to pairs $(n,t)$
+            such that each node occurs at a time $t^\prime$ strictly after each
+            of its children and such that two nodes occupy the same row $n$ if
+            they inhabit the same part of $D$'s partition.
             %
             In situations of interest, the permissible pairs $(n,t)$ are those
-            pairs such that the $n$th trainingpoint participates in the $t$th
+            pairs such that the $n$th training point participates in the $t$th
             SGD update.  We prefer to draw all such pairs by shading the
             corresponding cells in a square grid whose rows are indexed by
-            training points $n$ and whose columns aare indexed by timesteps
-            $t$.  
+            training points $n$ and whose columns are indexed by timesteps $t$.
+            We thus speak of histories of a diagram with respect to a grid. 
+            %
+            We always regard the root note as assigned to the time $T$, i.e.,
+            the successor time to the actual times $0,\cdots,T-1$ of the $T$
+            many training updates.
         \end{dfn}
-        We define $\uvalue(D)$ and $\rvalue_f(D)$ as in
-        \S\ref{appendix:evaluate-histories}.
+        We define $\uvalue(D)$ and $\rvalue_f(D)$ as was described precisely in the tutorial
+        section ``How to evaluate histories''.
 
     \subsection{A key lemma \`a la Dyson}                           \label{appendix:key-lemma}
 
@@ -323,7 +328,7 @@ as $C, S$ appear in our analysis.
                 \frac{\uvalue(D)}{(-B)^{|\edges(D)|}}
             \end{equation*}
             Here, $D$ is a diagram whose root $r$ does not participate in
-            any fuzzy edge, $f$ is an history of $D$ into a grid, and
+            any fuzzy edge, $f$ is a history of $D$ into a grid, and
             $\wabs{\Aut_f(D)}$ counts the graph-automorphisms of $D$ that
             preserve $f$'s assignment of nodes to cells.
             %
@@ -335,7 +340,7 @@ as $C, S$ appear in our analysis.
         \end{thm}
 
         Theorem \ref{thm:pathint} describe the terms that appear in the Key
-        Lemma by matching each term to an history of a diagram in a grid,
+        Lemma by matching each term to a history of a diagram in a grid,
         so that the infinite sum becomes a sum over all diagram grid 
         configurations.  The main idea is that the combinatorics of diagrams
         parallels the combinatorics of repeated applications of the product
@@ -432,7 +437,7 @@ as $C, S$ appear in our analysis.
             expands to
             $B^{d_0}(d-d_0+1)^{d_0}$ terms, each conveniently indexed
             by a pair of functions $\beta:[d_0]\to \Mm$ and $\nu:[d_0]\to
-            \tilde D$.  The $(\beta, \nu)$-term corresponds to an history
+            \tilde D$.  The $(\beta, \nu)$-term corresponds to a history
             $f$ of a larger diagram $D$ in the sense that it contributes
             $\uvalue_\pi(D, f)/B^{d_0}$ to the sum.  Here, $(f, D)$ is $(\tilde
             f, \tilde D)$ with $\wabs{\wrap{\beta \times \nu}^{-1}(n, v)}$ many
@@ -538,10 +543,10 @@ as $C, S$ appear in our analysis.
     
     \subsection{Proof of Theorem \ref{thm:resum}}    \label{appendix:resum}
 
-        (We say an history is \textbf{strict} if it assigns to each part
+        (We say a history is \textbf{strict} if it assigns to each part
         a different datapoint $n$.
         Then, by M\"obius inversion (\cite{ro64}), a sum over strict histories
-        of moment values (\S\ref{appendix:evaluate-histories}) matches 
+        of moment values (page \pageref{appendix:evaluate-histories}) matches 
         a sum over all histories of $\uvalue$s.)
 
         The diagrams summed in Theorem \ref{thm:resum} and \ref{thm:converge}
@@ -554,12 +559,13 @@ as $C, S$ appear in our analysis.
         automorphism groups might not be uniform among the class of diagrams
         with a given geometric realization.  On the other hand, that the
         histories of a specific member of that class might be hard to count.
-        The first we handle using Orbit-Stabilizer.  The second we address as
-        described by \S\ref{appendix:mobius} via M\"obius sums.
+        The first we handle using Orbit-Stabilizer.  The second we address
+        via M\"obius sums.
            
         \begin{proof}[Proof of Theorem \ref{thm:resum}]
-            We apply M\"obius inversion (\S\ref{appendix:mobius}) to Theorem
-            \ref{thm:pathint} (\S\ref{appendix:toward-diagrams}).
+            We apply M\"obius inversion %(page \pageref{appendix:mobius})
+            to Theorem
+            \ref{thm:pathint} (\pageref{appendix:toward-diagrams}).
             %The result
             %is that chains of histories  
             %{\color{red} FILL IN}
@@ -578,8 +584,8 @@ as $C, S$ appear in our analysis.
             absolutely in the interior of the disk of convergence, the
             rearrangement of terms corresponding to a grouping by geometric
             realizations preserves the convergence result of Theorem
-            \ref{thm:pathint}.  
-
+            \ref{thm:pathint}. page 
+page
             Let us then focus on those diagrams $\sigma$ with a given geometric
             realization represented by an linkless diagram $\rho$.  By
             Theorem \ref{thm:pathint}, it suffices to show that
@@ -735,6 +741,17 @@ as $C, S$ appear in our analysis.
             each term overwhelms the polynomial growth in the number of terms,
             and Theorem's first part follows.
             %More difficult is the Theorem's statement about Local Strength.
+
+            The Theorem's second part pertains to the setting of quadratic loss
+            landscapes, i.e.\ landscapes for which the hessian is positive
+            definite and constant over all weights and all data points.  Note
+            that in this case the only non-vanishing diagrams have tree
+            structures that are chains, that is, whose every node has degree
+            one or two (where the root might have degree one or two as well).
+            There are only exponentially many histories of such diagrams,
+            weighted with exponential decays as in the previous paragraph. 
+            Summing for any $T$ over all higher degree histories, 
+            one thus obtains tail bounds uniform in $T$, as claimed.
         \end{proof}
 
     %\subsection{How to modify proofs to handle variants}            \label{appendix:prove-variants}
@@ -745,8 +762,8 @@ as $C, S$ appear in our analysis.
 
             \begin{proof}
                 The relevant linkless diagram is $\sdia{c(01-2-3)(02-12-23)}$
-                {color{red} (amputated as in the previous subsubsection)}.   
-                An history of this diagram into $E=B=1$ SGD's grid 
+                %{\color{red} (amputated as in the previous subsubsection)}.   
+                A history of this diagram into $E=B=1$ SGD's grid 
                 is determined by two durations --- 
                 $t$ from {\color{moor}red} to {\color{moog}green} and
                 $\tilde t$ from {\color{moog}green} to {\color{moob}blue} ---
@@ -765,58 +782,6 @@ as $C, S$ appear in our analysis.
                 Standard calculus then gives the desired result.
             \end{proof}
 
-        \subsubsection{Corollary \ref{cor:overfit}'s first part}
-
-            \begin{proof}[Proof.]
-                The relevant linkless diagram is $\sdia{(01-2)(02-12)}$
-                (which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
-                minimum).  This diagram has one history for each pair of
-                same-row shaded cells, potentially identical, in a grid; for
-                GD, the grid has every cell shaded, so each
-                \emph{non-decreasing} pair of durations in $[0,T]^2$ is
-                represented; the symmetry factor for the case where the cells
-                is identical is $1/2$, so we lose no precision by interpreting
-                a automorphism-weighted sum over the \emph{non-decreasing}
-                pairs as half of a sum over all pairs.  Each of these may embed
-                into $N$ many rows, hence the factor below of $N$.  The two
-                integration variables (say, $t, \tilde t$) separate, and we
-                have:
-                $$
-                    \frac{N}{B^{\text{degree}}}
-                    \frac{C_{\mu\nu}}{2}
-                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
-                    \int_{\tilde t} \wrap{\exp(-\tilde t \eta H)}^\nu_\rho
-                    \eta^{\lambda\sigma}
-                    \eta^{\rho\pi}
-                    H_{\sigma\pi}
-                $$
-                Since for GD we have $N=B$ and we are working to degree $2$,
-                the prefactor is $1/N$.  Since $\int_t \exp(a t) = (I-\exp(-a
-                T))/a$, the desired result follows. 
-            \end{proof}
-
-        \subsubsection{Corollary \ref{cor:overfit}'s second part}
-
-            We apply the generalization gap modification (described in
-            \S\ref{appendix:solve-variants}) to Theorem \ref{thm:resum}'s
-            result about testing losses.
-
-            \begin{proof}[Proof]
-                The relevant linkless diagram is $\sdia{c(01)(01)}$.  This
-                diagram has one history for each shaded cell of grid;
-                for GD, the grid has every cell shaded, so each duration
-                from $0$ to $T$ is represented.  So the generalization gap is,
-                to leading order,
-                $$
-                    + \frac{C_{\mu\nu}}{N}
-                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
-                    \eta^{\lambda\nu}
-                $$
-                Here, the minus sign from the gen-gap modification canceled
-                with the minus sign from the odd power of $-\eta$.  Integration
-                finishes the proof.
-            \end{proof}
- 
         \subsubsection{Corollaries \ref{cor:epochs} and \ref{cor:batch}}
 
             Corollary \ref{cor:epochs} and Corollary \ref{cor:batch} follow
@@ -850,7 +815,7 @@ as $C, S$ appear in our analysis.
                 \begin{table}[h]
                     \centering
                     \begin{tabular}{cll}
-                        diagram                 & embed.s w/ $\wabs{\Aut_f}=1$  & embed.s w/ $\wabs{\Aut_f}=2$   \\ \hline
+                        diagram                 & \#histories w/ $\wabs{\Aut_f}=1$  & \#histories w/ $\wabs{\Aut_f}=2$   \\ \hline
                         $\sdia{(0)()}$          & $1$                           & $0$                            \\  
                         $\sdia{(0-1)(01)}$      & $MNB$                         & $0$                            \\                  
                         $\sdia{(0-1-2)(01-12)}$ & ${MN\choose 2}B^2$            & $0$                            \\
@@ -863,12 +828,132 @@ as $C, S$ appear in our analysis.
                 \end{table}
             \end{proof}
 
+        \subsubsection{Corollary \ref{cor:barret}}
+
+%\moosect{Locating \cit{Ba} in our theory}
+    \emph{Here we adopt a more pedagogical tone and develop a several related results}
+    relating to the displacement of GD, of ODE, and how those two compare.
+    In particular, we prove the Corollary, which is \cite{ba21}'s Theorem 3.1. 
+
+    \cite{ba21}'s Theorem 3.1 computes order-$\eta^2$ weight
+    displacements $\theta_T-\theta_0$ in the noiseless case $l_x=l$.  The
+    relevant diagrams are thus those with $\leq 2$ edges and that contain no
+    fuzzy outlines.
+    %
+    Indeed, noiseless $\implies$ cumulants vanish $\implies$ any diagram that
+    contains one or more fuzzy outlines has a uvalue (and rvalue) equal to
+    zero.  So a sum over diagrams is the same as a sum over fuzzless diagrams,
+    i.e., over each diagram whose partition is maximally fine. %(\pag{5}\dfn{1}) is maximally fine.
+
+    Per page \pageref{appendix:solve-variants}, we use `rootless' diagrams,
+    e.g.\ $\mdia{MOOc(0-1)(01-1)}, \mdia{MOOc(0-1-2)(01-12-2)}$.  These
+    diagrams look different from ordinary ones because we are computing weight
+    displacements $\Delta_l \triangleq \expc[\theta_T-\theta_0]$, not test
+    losses $\expc[l(\theta_T)]$.  Of course, in the noiseless case, those
+    expectation symbols are redundant.  Likewise, in the noiseless case
+    $\Delta_l$ is a function only of $\eta, T$ (and of the loss landscape $l$
+    and the initialization $\theta_0$); in particular, we may set $E,B$ as
+    convenient.  Let's set $E=B=1$.
+
+%\moosect{GD's displacement}
+
+    So, we seek rootless fuzzless diagrams width $\leq 2$ edges. 
+    $\mdia{MOOc(0)(0)}$ and
+    $\mdia{MOOc(0-1)(01-1)}$ are the only such.
+    %
+    Let's use their uvalues %as in \pag{36}\thm{3}
+    to compute $\Delta_l(T,\eta)$.
+    We read off:
+    $$
+    \text{uvalue}(\mdia{MOOc(0)(0)}) = G_\mu \eta^{\mu\nu} = h G 
+    \hspace{1cm}
+    \text{uvalue}(\mdia{MOOc(0-1)(01-1)}) = G_\mu \eta^{\mu\sigma} H_{\sigma\rho} \eta^{\rho\nu} = h^2 (H G)   
+    $$
+    The RHSs of the above concretize to the case that $\eta^{\mu\sigma}$ (in our
+    directionality-aware theory a symmetric bilinear form that takes two covectors and outputs a
+    scalar) is $h$ times the standard dot product and that $G, H$ are represented
+    in standard ways as matrices.
+    %
+    The diagrams embed (into an $E=B=1$ grid)
+    %that looks like the rightmost grid on \pag{18})
+    in $T$ and in ${T\choose 2}$ many
+    ways, respectively.
+    The ${T\choose 2}$ arises due to the
+    time-ordering condition: $\mdia{MOOc(0-1)(01-1)}$ has one embedding for
+    every pair $0\leq t<t^\prime<T$, where $t$ is the red node's column
+    and $t^\prime$ is the green node's column.
+
+    These embeddings have trivial Aut groups
+    %(as
+    %implied by the fact that no two nodes of a diagram inhabit the same cell; see
+    %(\pag{28}\exm{5}),
+    so any fixed $T$ has a grand total:
+    $$
+        \Delta_l(T,h)
+        =
+        -hTG
+        hT 
+        +
+        (h^2(T^2-T)/2)
+        HG
+        +
+        o(\eta^2)
+    $$
+
+%\moosect{\cit{Ba}'s regularizer}
+    %How does $\Delta_l$ relate to \cit{Ba}'s \thm{3.1}? 
+    Since EulerMethod (EM) (simulation time $h$, $k$ steps) 
+    is just GD with $\eta=h/k$, $T=k$, we can use $\Delta_{\tilde l}(k,h/k)$ to predict
+    EM's behavior ---and hence ODE's behavior---
+    on a loss $\tilde l$.
+    %
+    For $k$ huge and $\eta$ tiny (in a way that depends on $k$),
+    $\Delta_{\tilde l}(k,h/k)$ is close to
+    $$
+        \star(h) = -h\tilde G
+        +
+        (\tilde H \tilde G)
+        h^2/2
+    $$
+    %(I.e., $\tilde l$ analytic $\implies$
+    %$\forall\epsilon$ $\exists k_0\forall k>k_0$ $\forall A>0$ $\exists h_0>h_0\forall h<h_0$:
+    %    $\|\Delta_{\tilde l}(k,h/k) - \star(h)\| < A h^2 + \epsilon$.)
+
+    To match $\star$ with ordinary GD's one-step displacement $\Delta_l(1,h)
+    = -hG$, we just need $hG = h\tilde{G} - (\tilde H \tilde G) h^2/2 + o(h^2)$;
+    it's enough to set $G=\tilde{G}+(\tilde H \tilde G) h/2$.  Recognizing
+    the RHS as a total derivative (as $\nabla(\tilde G\cdot \tilde
+    G) = 2\tilde{H}\tilde{G}$), we see it's enough that $G = \nabla(\tilde l - (h/4) (\tilde G\cdot \tilde G))$ or:
+    \begin{align*}
+        l &= \tilde l - (h/4) (\tilde G\cdot \tilde G) \\
+          &= \tilde l - (h/4) (G\cdot G) + o(h^2)
+    \end{align*}
+
+    This shows how to turn a loss $\tilde l$ (on which we plan to run ODE),
+    into a loss $l$ such that running one GD step on $l$ matches ODE on $\tilde
+    l$ to leading non-trivial order.  Or how to turn
+    $l$ into $\tilde l$.  In either case, the key term is $(h/4) (G\cdot G)$ with
+    the appropriate sign.
+
         \subsubsection{Corollary \ref{cor:vsode}}
 
-            The corollary's first part follows immediately from 
-            Prop \ref{prop:ordtwo}.
+            \begin{proof}
+            The corollary follows from consideration of $\sdia{c(01-2)(02-12)}$
+                (c.f.\ Prop \ref{prop:ordtwo}).  This is the leading order
+                effect of $C$ because it is the smallest
+                diagram involving $C$ that has more than zero histories
+                for $E=B=1$ SGD.
+                %
+            Now note that
+            $\sdia{c(01-2)(02-12)}$ has $N{MB\choose 2}=N$ many embeddings for
+            SGD $E=B=1$ and that each embedding has a size-two automorphism
+            group.  So the diagram's effect on the testing loss is $N/2$ times
+            its uvalue.  We read off the effect $(N/2) \cdot (C\eta^2 H)$
+            claimed in the corollary statement.   
+            \end{proof}
 
-            \begin{proof}[Proof of second part]
+        \subsubsection{Corollary \ref{cor:vssde}}
+            \begin{proof}%[Proof of second part]
                 Because $\expct{\nabla l}$ vanishes at initialization, all
                 diagrams with a degree-one vertex that is a singleton vanish.
                 Because we work at order $\eta^3$, we consider $3$-edged
@@ -913,6 +998,63 @@ as $C, S$ appear in our analysis.
                 $$
             \end{proof}                     
 
+
+
+        \subsubsection{Corollary \ref{cor:overfit}}
+        \textsc{Corollary's first part}---
+
+            \begin{proof}[Proof.]
+                The relevant linkless diagram is $\sdia{c(01-2)(02-12)}$.
+                %(which equals $\sdia{c(01-2)(02-12)}$ because we are at a test
+                %minimum).
+                This diagram has one history for each pair of
+                same-row shaded cells, potentially identical, in a grid; for
+                GD, the grid has every cell shaded, so each
+                \emph{non-decreasing} pair of durations in $[0,T]^2$ is
+                represented; the symmetry factor for the case where the cells
+                is identical is $1/2$, so we lose no precision by interpreting
+                a automorphism-weighted sum over the \emph{non-decreasing}
+                pairs as half of a sum over all pairs.  Each of these may embed
+                into $N$ many rows, hence the factor below of $N$.  The two
+                integration variables (say, $t, \tilde t$) separate, and we
+                have:
+                $$
+                    \frac{N}{B^{\text{degree}}}
+                    \frac{C_{\mu\nu}}{2}
+                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
+                    \int_{\tilde t} \wrap{\exp(-\tilde t \eta H)}^\nu_\rho
+                    \eta^{\lambda\sigma}
+                    \eta^{\rho\pi}
+                    H_{\sigma\pi}
+                $$
+                Since for GD we have $N=B$ and we are working to degree $2$,
+                the prefactor is $1/N$.  Since $\int_t \exp(a t) = (I-\exp(-a
+                T))/a$, the desired result follows. 
+            \end{proof}
+
+        %\subsubsection{Corollary \ref{cor:overfit}'s second part}
+        \textsc{Corollary's second part}---
+
+            We apply the generalization gap modification (described in
+            page \pageref{appendix:solve-variants}) to Theorem \ref{thm:resum}'s
+            result about testing losses.
+
+            \begin{proof}[Proof]
+                The relevant linkless diagram is $\sdia{c(01)(01)}$.  This
+                diagram has one history for each shaded cell of grid;
+                for GD, the grid has every cell shaded, so each duration
+                from $0$ to $T$ is represented.  So the generalization gap is,
+                to leading order,
+                $$
+                    + \frac{C_{\mu\nu}}{N}
+                    \int_t \wrap{\exp(-t \eta H)}^\mu_\lambda
+                    \eta^{\lambda\nu}
+                $$
+                Here, the minus sign from the gen-gap modification canceled
+                with the minus sign from the odd power of $-\eta$.  Integration
+                finishes the proof.
+            \end{proof}
+ 
             %\newpage
     \subsection{Future topics}                                      \label{appendix:future}
 
